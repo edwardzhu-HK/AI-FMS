@@ -96,6 +96,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
       changes.
 - [x] Merge Segments and Segment Timing QA into one review list for cleaner
       demo testing.
+- [x] Merge legacy AI and pose-based AI suggestion display into one
+      pose-first card with clearer scoring rationale.
 
 ## Stretch: Selected Movement Expansion
 

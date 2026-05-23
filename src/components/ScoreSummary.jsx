@@ -34,6 +34,52 @@ function renderPoseComparison(poseSuggestion, adjudication, t) {
   return `${t("poseVsFinalDiffers")} (${poseSuggestion.totalScore} vs ${adjudication.finalScore})`;
 }
 
+function parseSuggestedReason(reason) {
+  return reason.match(
+    /^(Depth|Knee alignment|Torso control) suggested (\d): (.+?)\./,
+  );
+}
+
+function parseNotScoredReason(reason) {
+  return reason.match(
+    /^(Depth|Knee alignment|Torso control) was not scored from this camera view \((.+?)\)\./,
+  );
+}
+
+function reasonFeatureKey(featureLabel) {
+  return {
+    Depth: "depth",
+    "Knee alignment": "kneeAlignment",
+    "Torso control": "torsoControl",
+  }[featureLabel];
+}
+
+function renderDetailedReason(reason, t) {
+  const suggestedMatch = parseSuggestedReason(reason);
+  if (suggestedMatch) {
+    const [, featureLabel, score, evidence] = suggestedMatch;
+    const featureKey = reasonFeatureKey(featureLabel);
+    return `${t(`reason_${featureKey}`)}: ${t("suggestedScore")} ${score}. ${t(
+      `reason_${featureKey}_${evidence}`,
+    )}`;
+  }
+
+  const notScoredMatch = parseNotScoredReason(reason);
+  if (notScoredMatch) {
+    const [, featureLabel, viewReason] = notScoredMatch;
+    const featureKey = reasonFeatureKey(featureLabel);
+    return `${t(`reason_${featureKey}`)}: ${t("notScoredFromThisView")} ${t(
+      `reason_view_${viewReason}`,
+    )}`;
+  }
+
+  if (reason.includes("Timing QA indicates")) {
+    return t("reason_timingNeedsAdjustment");
+  }
+
+  return reason;
+}
+
 export default function ScoreSummary({
   actionType,
   aiScore,
@@ -42,58 +88,58 @@ export default function ScoreSummary({
   t = (key) => key,
 }) {
   const subscoreItems = getSubscoreItems(actionType);
+  const hasPoseSuggestion = poseSuggestion?.status === "suggested";
+  const displayedScore = hasPoseSuggestion ? poseSuggestion : aiScore;
 
   return (
-    <section className="score-summary card">
-      <h3>{t("aiSuggestion")}</h3>
+    <section
+      className={
+        hasPoseSuggestion
+          ? "score-summary score-summary-pose card"
+          : "score-summary card"
+      }
+    >
+      <h3>
+        {hasPoseSuggestion ? t("poseBasedAiSuggestion") : t("aiSuggestion")}
+      </h3>
       <p className="score-total">
-        {t("total")}: {aiScore.totalScore}
+        {t("totalScore")}: {displayedScore.totalScore}
       </p>
       <ul>
         {subscoreItems.map((item) => (
           <li key={item.key}>
             <span>{item.label}</span>
-            <strong>{aiScore.subscores[item.key]}</strong>
+            <strong>{displayedScore.subscores[item.key]}</strong>
           </li>
         ))}
       </ul>
 
-      <div className={`adjudication adjudication-${adjudication.labelStatus}`}>
-        <span>
-          {t("status")}: {adjudication.labelStatus}
-        </span>
-        <span>
-          {t("source")}: {renderSourceLabel(adjudication.labelSource, t)}
-        </span>
-      </div>
-
-      {poseSuggestion?.status === "suggested" ? (
-        <section className="pose-suggestion">
-          <header>
-            <strong>{t("poseBasedSuggestion")}</strong>
+      {hasPoseSuggestion ? (
+        <>
+          <div className="pose-suggestion-meta">
             <span>
-              {t("confidence")} {renderConfidenceLabel(poseSuggestion, t)}
+              {t("confidence")}: {renderConfidenceLabel(poseSuggestion, t)}
             </span>
-          </header>
-          <p>
-            {t("total")}: {poseSuggestion.totalScore}
-          </p>
-          <p>{renderPoseComparison(poseSuggestion, adjudication, t)}</p>
-          <ul>
-            {subscoreItems.map((item) => (
-              <li key={item.key}>
-                <span>{item.label}</span>
-                <strong>{poseSuggestion.subscores[item.key]}</strong>
-              </li>
-            ))}
-          </ul>
-          <ol>
+            <span>{renderPoseComparison(poseSuggestion, adjudication, t)}</span>
+          </div>
+          <ol className="pose-suggestion-reasons">
             {poseSuggestion.reasons.map((reason) => (
-              <li key={reason}>{reason}</li>
+              <li key={reason}>{renderDetailedReason(reason, t)}</li>
             ))}
           </ol>
-        </section>
-      ) : null}
+        </>
+      ) : (
+        <div
+          className={`adjudication adjudication-${adjudication.labelStatus}`}
+        >
+          <span>
+            {t("status")}: {adjudication.labelStatus}
+          </span>
+          <span>
+            {t("source")}: {renderSourceLabel(adjudication.labelSource, t)}
+          </span>
+        </div>
+      )}
     </section>
   );
 }

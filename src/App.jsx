@@ -181,6 +181,7 @@ const UI_TEXT = {
     aiHumanMatch: "AI-Human Match",
     none: "None",
     poseBasedSuggestion: "Pose-based suggestion",
+    poseBasedAiSuggestion: "Pose-based AI Suggestion",
     confidence: "confidence",
     confidence_high: "high",
     confidence_medium: "medium",
@@ -188,6 +189,35 @@ const UI_TEXT = {
     poseVsFinalPending: "Pose vs final: pending final label",
     poseVsFinalMatch: "Pose vs final: match",
     poseVsFinalDiffers: "Pose vs final: differs",
+    suggestedScore: "suggested score",
+    notScoredFromThisView: "not scored from this camera view.",
+    reason_depth: "Depth",
+    reason_kneeAlignment: "Knee Alignment",
+    reason_torsoControl: "Torso Control",
+    "reason_depth_hip below knee":
+      "Evidence: hip is below the knee at the lowest point, so squat depth supports a high score.",
+    "reason_depth_near parallel":
+      "Evidence: hip is near knee height at the lowest point, so depth is acceptable but should be reviewed.",
+    "reason_depth_limited depth":
+      "Evidence: hip remains above the knee at the lowest point, suggesting limited squat depth.",
+    "reason_kneeAlignment_knees track feet":
+      "Evidence: knees stay close to the ankle/foot line in the usable view, supporting good alignment.",
+    "reason_kneeAlignment_mild knee drift":
+      "Evidence: knees show mild drift from the ankle/foot line, so this subscore should be reviewed.",
+    "reason_kneeAlignment_large knee drift":
+      "Evidence: knees drift far from the ankle/foot line, suggesting limited alignment control.",
+    "reason_torsoControl_controlled trunk":
+      "Evidence: trunk lean is within the controlled range at the lowest point.",
+    "reason_torsoControl_forward lean watch":
+      "Evidence: trunk lean is somewhat high, so torso control should be reviewed.",
+    "reason_torsoControl_excessive forward lean":
+      "Evidence: trunk lean is high enough to suggest limited torso control.",
+    "reason_view_best from front view":
+      "This criterion is more reliable from a front-view video, so the current value is kept as context rather than final evidence.",
+    "reason_view_best from side view":
+      "This criterion is more reliable from a side-view video, so the current value is kept as context rather than final evidence.",
+    reason_timingNeedsAdjustment:
+      "Timing QA indicates the segment may need adjustment before final scoring; review the suggested timing first.",
     segmentMetadata: "Segment Metadata",
     suggested: "suggested",
     lowest: "lowest",
@@ -318,6 +348,7 @@ const UI_TEXT = {
     aiHumanMatch: "AI-人工匹配",
     none: "无",
     poseBasedSuggestion: "基于 pose 的建议",
+    poseBasedAiSuggestion: "基于 Pose 的 AI 建议",
     confidence: "置信度",
     confidence_high: "高",
     confidence_medium: "中",
@@ -325,6 +356,35 @@ const UI_TEXT = {
     poseVsFinalPending: "Pose vs final：等待最终标签",
     poseVsFinalMatch: "Pose vs final：一致",
     poseVsFinalDiffers: "Pose vs final：不一致",
+    suggestedScore: "建议",
+    notScoredFromThisView: "当前机位不适合直接评分。",
+    reason_depth: "Depth",
+    reason_kneeAlignment: "Knee Alignment",
+    reason_torsoControl: "Torso Control",
+    "reason_depth_hip below knee":
+      "依据是 hip below knee：最低点时髋部已经低于膝盖，深度证据支持较高评分。",
+    "reason_depth_near parallel":
+      "依据是 near parallel：最低点时髋部接近膝盖高度，深度基本可用但建议人工复核。",
+    "reason_depth_limited depth":
+      "依据是 limited depth：最低点时髋部仍高于膝盖，提示深蹲深度可能不足。",
+    "reason_kneeAlignment_knees track feet":
+      "依据是 knees track feet：膝盖相对脚踝/足部线的偏移较小，对齐表现较好。",
+    "reason_kneeAlignment_mild knee drift":
+      "依据是 mild knee drift：膝盖相对脚踝/足部线有轻微偏移，建议人工复核。",
+    "reason_kneeAlignment_large knee drift":
+      "依据是 large knee drift：膝盖偏移较明显，提示 knee alignment control 可能不足。",
+    "reason_torsoControl_controlled trunk":
+      "依据是 controlled trunk：最低点时躯干前倾仍在可控范围内。",
+    "reason_torsoControl_forward lean watch":
+      "依据是 forward lean watch：躯干前倾略高，建议人工复核 torso control。",
+    "reason_torsoControl_excessive forward lean":
+      "依据是 excessive forward lean：躯干前倾较明显，提示 torso control 可能不足。",
+    "reason_view_best from front view":
+      "这个指标更适合用正面机位判断，因此当前结果只作为参考，不作为最终证据。",
+    "reason_view_best from side view":
+      "这个指标更适合用侧面机位判断，因此当前结果只作为参考，不作为最终证据。",
+    reason_timingNeedsAdjustment:
+      "Timing QA 提示这个 segment 可能还需要调整；建议先预览并确认 suggested timing，再做最终评分。",
     segmentMetadata: "Segment 元数据",
     suggested: "建议",
     lowest: "最低点",

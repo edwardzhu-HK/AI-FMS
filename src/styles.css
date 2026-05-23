@@ -662,11 +662,17 @@ video {
 .score-summary li {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .score-total {
   margin: 4px 0 8px;
   font-weight: 600;
+}
+
+.score-summary-pose {
+  border-color: rgba(28, 129, 95, 0.32);
+  background: #f7fbf6;
 }
 
 .adjudication {
@@ -692,33 +698,24 @@ video {
   color: #5f6558;
 }
 
-.pose-suggestion {
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid rgba(28, 129, 95, 0.32);
-  border-radius: 8px;
-  background: #edf6f0;
-}
-
-.pose-suggestion header {
+.pose-suggestion-meta {
   display: grid;
-  gap: 2px;
-  margin-bottom: 6px;
-}
-
-.pose-suggestion header span,
-.pose-suggestion p {
-  margin: 0;
+  gap: 4px;
+  margin: 8px 0 10px;
   color: #4f5447;
   font-size: 0.86rem;
 }
 
-.pose-suggestion ol {
-  margin: 8px 0 0;
+.pose-suggestion-reasons {
+  margin: 10px 0 0;
   padding-left: 18px;
   color: #405046;
-  font-size: 0.84rem;
-  line-height: 1.4;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.pose-suggestion-reasons li + li {
+  margin-top: 5px;
 }
 
 .subscore-grid {
