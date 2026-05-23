@@ -97,7 +97,7 @@ Reviewer 保存和 adjudication 决定。
 
 ## 下一步
 
-1. 增加一个浏览器可验证的 ASLR demo path：加载 ASLR 主样本视频 + pose JSON 后，
-   能稳定显示 skeleton、timing、features、suggestion，并导出 dataset package。
-2. 评估是否需要把 feature snapshot 组件泛化，避免 Deep Squat/ASLR 分别维护两套
+1. 评估是否需要把 feature snapshot 组件泛化，避免 Deep Squat/ASLR 分别维护两套
    相似 UI。
+2. 继续观察 `detectPoseActivePeriods` 在 ASLR 这类动作上是否过度切分；如果要支持
+   多段 valid-period，需要单独评审 dataset schema。

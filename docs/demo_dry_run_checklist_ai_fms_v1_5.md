@@ -2,7 +2,9 @@
 
 日期：2026-05-22
 
-用途：这份 checklist 用来稳定复现 Deep Squat flagship demo。它面向开发自测、Ronnie 录屏前检查、项目页截图准备和后续用户测试。
+用途：这份 checklist 用来稳定复现 Deep Squat flagship demo，并补充验证
+V1.7 Active Straight Leg Raise demo path。它面向开发自测、Ronnie 录屏前检查、
+项目页截图准备和后续用户测试。
 
 ## Demo 入口
 
@@ -14,7 +16,7 @@ http://localhost:5173/
 
 推荐先使用内置 demo preload：
 
-1. 在 `Deep Squat Demo` 中选择 `Sample-1 mixed views`，点击 `Load Demo`。
+1. 在 `Demo Preset` 中选择 `Sample-1 mixed views`，点击 `Load Demo`。
 2. 确认 Action 为 `Deep Squat`。
 3. 确认 Start/End 为 `1` 到 `45`。
 4. 确认 Expected Reps 为 `7`。
@@ -24,15 +26,21 @@ http://localhost:5173/
 
 ## Demo Preset 快速验证
 
-当前内置 Deep Squat presets：
+当前内置 demo presets：
 
-| Preset                 | Start/End   | Expected Reps | Pose status                           |
-| ---------------------- | ----------- | ------------- | ------------------------------------- |
-| `Sample-1 mixed views` | `1` 到 `45` | `7`           | `Sample-1.pose.json · 441/441 frames` |
-| `Front only`           | `0` 到 `18` | `3`           | `front.pose.json · 179/179 frames`    |
-| `Side only`            | `0` 到 `26` | `4`           | `side.pose.json · 261/261 frames`     |
+| Preset                 | Action                      | Start/End     | Expected Reps | Pose status                                 |
+| ---------------------- | --------------------------- | ------------- | ------------- | ------------------------------------------- |
+| `Sample-1 mixed views` | `Deep Squat`                | `1` 到 `45`   | `7`           | `Sample-1.pose.json · 441/441 frames`       |
+| `Front only`           | `Deep Squat`                | `0` 到 `18`   | `3`           | `front.pose.json · 179/179 frames`          |
+| `Side only`            | `Deep Squat`                | `0` 到 `26`   | `4`           | `side.pose.json · 261/261 frames`           |
+| `ASLR score-3 sample`  | `Active Straight Leg Raise` | `0` 到 `23.8` | `2`           | `2-reps-score-3.pose.json · 237/237 frames` |
 
 2026-05-22 浏览器验证结果：三个 preset 都可以加载匹配视频和 pose JSON，并正确保留 preset 分析范围，没有被视频完整 duration 覆盖。
+
+2026-05-23 浏览器验证结果：`ASLR score-3 sample` 可以加载匹配视频和
+pose JSON，`Start Analysis` 后显示 `2 clips`、`Timing QA: 2/2 OK`、
+`Features 2/2`、`AI suggestions 2/2`，右侧 `Pose-based AI Suggestion`
+显示 ASLR 的 `Hip Flexion`、`Pelvic Stability`、`Leg Symmetry` 三项 subscore。
 
 ## 必测流程
 
@@ -128,8 +136,9 @@ http://localhost:5173/
 
 ## 已知边界
 
-- 当前内置 demo 只覆盖 Deep Squat。
-- 其他 6 个 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose features。
+- Deep Squat 仍是 flagship demo；ASLR 目前是第一条 V1.7 movement expansion
+  demo path，feature snapshot UI 尚未完全泛化。
+- 其他 5 个 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose features。
 - Angle evidence 是 reviewer-readable evidence，不是 clinical conclusion。
 - Pain flag 仍必须来自人工 reviewer。
 - AI suggestion 是辅助建议，不是最终标签。

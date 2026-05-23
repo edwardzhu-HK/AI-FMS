@@ -41,12 +41,13 @@ import KeypointOverlay from "./components/KeypointOverlay.jsx";
 
 const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
 const REVIEWER_B_DEFAULT_ID = "Coach_Ronnie";
-const DEFAULT_DEEP_SQUAT_DEMO_PRESET_ID = "sample-1";
+const DEFAULT_DEMO_PRESET_ID = "sample-1";
 const WORKFLOW_STORAGE_KEY = "ai-fms-v1-6-local-workflow";
-const DEEP_SQUAT_DEMO_PRESETS = [
+const DEMO_PRESETS = [
   {
     id: "sample-1",
     label: "Sample-1 mixed views",
+    actionType: "deep_squat",
     videoUrl: "/Eval_Videos/01-Deep%20Squat/Sample-1.mp4",
     poseUrl: "/Eval_Videos/01-Deep%20Squat/pose/Sample-1.pose.json",
     videoFileName: "Sample-1.mp4",
@@ -59,6 +60,7 @@ const DEEP_SQUAT_DEMO_PRESETS = [
   {
     id: "front",
     label: "Front only",
+    actionType: "deep_squat",
     videoUrl: "/Eval_Videos/01-Deep%20Squat/front.mp4",
     poseUrl: "/Eval_Videos/01-Deep%20Squat/pose/front.pose.json",
     videoFileName: "front.mp4",
@@ -71,6 +73,7 @@ const DEEP_SQUAT_DEMO_PRESETS = [
   {
     id: "side",
     label: "Side only",
+    actionType: "deep_squat",
     videoUrl: "/Eval_Videos/01-Deep%20Squat/side.mp4",
     poseUrl: "/Eval_Videos/01-Deep%20Squat/pose/side.pose.json",
     videoFileName: "side.mp4",
@@ -78,6 +81,20 @@ const DEEP_SQUAT_DEMO_PRESETS = [
     range: {
       startSecond: "0",
       endSecond: "26",
+    },
+  },
+  {
+    id: "aslr-score-3",
+    label: "ASLR score-3 sample",
+    actionType: "active_straight_leg_raise",
+    videoUrl: "/Eval_Videos/Sample%20videos/5-ASLR/2%20reps%20score%203.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/5-ASLR/pose/2-reps-score-3.pose.json",
+    videoFileName: "2 reps score 3.mp4",
+    poseFileName: "2-reps-score-3.pose.json",
+    range: {
+      startSecond: "0",
+      endSecond: "23.8",
     },
   },
 ];
@@ -94,6 +111,10 @@ const EVAL_VIDEO_PRESETS = {
     expectedReps: "4",
     notes: "都是侧面",
   },
+  "2 reps score 3.mp4": {
+    expectedReps: "2",
+    notes: "都是正面。两个动作，right + left。score 3 sample",
+  },
 };
 
 const UI_TEXT = {
@@ -106,7 +127,7 @@ const UI_TEXT = {
     english: "EN",
     chinese: "中文",
     inputJob: "Input & Job",
-    deepSquatDemo: "Deep Squat Demo",
+    demoPreset: "Demo Preset",
     loadDemo: "Load Demo",
     action: "Action",
     uploadVideo: "Upload Video",
@@ -347,7 +368,7 @@ const UI_TEXT = {
     english: "EN",
     chinese: "中文",
     inputJob: "输入与任务",
-    deepSquatDemo: "Deep Squat Demo",
+    demoPreset: "Demo Preset",
     loadDemo: "加载 Demo",
     action: "Action",
     uploadVideo: "上传视频",
@@ -586,10 +607,9 @@ function getEvalVideoPreset(fileName) {
   return EVAL_VIDEO_PRESETS[fileName.toLowerCase()] ?? null;
 }
 
-function getDeepSquatDemoPreset(presetId) {
+function getDemoPreset(presetId) {
   return (
-    DEEP_SQUAT_DEMO_PRESETS.find((preset) => preset.id === presetId) ??
-    DEEP_SQUAT_DEMO_PRESETS[0]
+    DEMO_PRESETS.find((preset) => preset.id === presetId) ?? DEMO_PRESETS[0]
   );
 }
 
@@ -956,7 +976,7 @@ export default function App() {
   const [poseSummary, setPoseSummary] = useState(null);
   const [poseFileName, setPoseFileName] = useState("");
   const [selectedDemoPresetId, setSelectedDemoPresetId] = useState(
-    DEFAULT_DEEP_SQUAT_DEMO_PRESET_ID,
+    DEFAULT_DEMO_PRESET_ID,
   );
   const [previewTimingRange, setPreviewTimingRange] = useState(null);
   const [playbackSecond, setPlaybackSecond] = useState(0);
@@ -1131,7 +1151,7 @@ export default function App() {
     setLanguage(snapshot.language ?? "en");
     setSelectedAction(snapshot.selectedAction ?? "deep_squat");
     setSelectedDemoPresetId(
-      snapshot.selectedDemoPresetId ?? DEFAULT_DEEP_SQUAT_DEMO_PRESET_ID,
+      snapshot.selectedDemoPresetId ?? DEFAULT_DEMO_PRESET_ID,
     );
     setStartSecond(snapshot.startSecond ?? "0");
     setEndSecond(snapshot.endSecond ?? "20");
@@ -1162,8 +1182,8 @@ export default function App() {
       }
 
       try {
-        const demoPreset = getDeepSquatDemoPreset(
-          snapshot.selectedDemoPresetId ?? DEFAULT_DEEP_SQUAT_DEMO_PRESET_ID,
+        const demoPreset = getDemoPreset(
+          snapshot.selectedDemoPresetId ?? DEFAULT_DEMO_PRESET_ID,
         );
         analysisRangeOverrideRef.current = {
           ...demoPreset.range,
@@ -1221,7 +1241,7 @@ export default function App() {
       return;
     }
 
-    const demoPreset = getDeepSquatDemoPreset(selectedDemoPresetId);
+    const demoPreset = getDemoPreset(selectedDemoPresetId);
     const videoFileName = currentVideoFileName;
 
     setLocalWorkflowSnapshot({
@@ -1237,7 +1257,7 @@ export default function App() {
       videoId,
       videoFileName,
       isDemoWorkflow:
-        selectedAction === "deep_squat" &&
+        selectedAction === demoPreset.actionType &&
         Boolean(videoFileName) &&
         videoFileName === demoPreset.videoFileName,
       segments,
@@ -1588,12 +1608,12 @@ export default function App() {
     }
   }
 
-  async function handleLoadDeepSquatDemo() {
+  async function handleLoadDemo() {
     setErrorText("");
     setIsBusy(true);
 
     try {
-      const demoPreset = getDeepSquatDemoPreset(selectedDemoPresetId);
+      const demoPreset = getDemoPreset(selectedDemoPresetId);
       const [videoAsset, poseAsset] = await Promise.all([
         fetchAssetFile(
           demoPreset.videoUrl,
@@ -1608,7 +1628,7 @@ export default function App() {
       ]);
       const posePayloadJson = JSON.parse(await poseAsset.text());
 
-      setSelectedAction("deep_squat");
+      setSelectedAction(demoPreset.actionType);
       handleVideoFileChange(videoAsset, {
         analysisRangeOverride: demoPreset.range,
       });
@@ -2065,14 +2085,14 @@ export default function App() {
 
             <div className="demo-loader">
               <label>
-                {t("deepSquatDemo")}
+                {t("demoPreset")}
                 <select
                   value={selectedDemoPresetId}
                   onChange={(event) =>
                     setSelectedDemoPresetId(event.target.value)
                   }
                 >
-                  {DEEP_SQUAT_DEMO_PRESETS.map((preset) => (
+                  {DEMO_PRESETS.map((preset) => (
                     <option key={preset.id} value={preset.id}>
                       {preset.label}
                     </option>
@@ -2083,7 +2103,7 @@ export default function App() {
               <button
                 type="button"
                 className="button-secondary demo-load-button"
-                onClick={handleLoadDeepSquatDemo}
+                onClick={handleLoadDemo}
                 disabled={isBusy}
               >
                 {t("loadDemo")}
