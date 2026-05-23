@@ -65,7 +65,7 @@ segment。
 
 ## 第一版 Feature Candidate
 
-In-Line Lunge 首轮可以先尝试 feature-only evidence：
+第一版 `inline-lunge-features.js` 已加入单元测试，可以输出 feature-only evidence：
 
 - `lungeDepth`: 前腿 knee/hip 的下降幅度或 knee angle proxy。
 - `trunkAlignment`: shoulder/hip center 是否保持在可控范围。
@@ -91,8 +91,20 @@ schema。
 
 因此 In-Line Lunge 下一步应先继续校准 timing，而不是马上接入 feature-only demo。
 
+## Feature Helper 试跑结果
+
+真实样本上的首轮 feature helper 能输出 reviewer-readable evidence，但 knee-foot
+alignment 对机位和 foot landmark 很敏感，暂不适合直接映射为 AI score。
+
+| Pose JSON                  | Usable reps | 观察                                                       |
+| -------------------------- | ----------: | ---------------------------------------------------------- |
+| `1-rep-score-3.pose.json`  |         1/1 | depth 为 watch，trunk good，knee-foot offset 偏大。        |
+| `6-reps-score-3.pose.json` |         6/6 | 5/6 depth good，trunk good；knee-foot alignment 仍需校准。 |
+
+当前 feature helper 的价值是给 reviewer 暴露 pose evidence，而不是做 certified scoring。
+
 ## 下一步
 
 1. 继续校准 In-Line Lunge timing：减少重复峰，并提升 4-reps 样本的周期召回。
-2. 新增 `inline-lunge-features.js` 和测试，输出 feature-only evidence。
+2. 继续校准 knee-foot alignment 和 side inference，避免机位造成过度提示。
 3. 等一个 In-Line Lunge demo path 稳定后，再决定是否接入 AI suggestion。

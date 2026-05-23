@@ -129,8 +129,9 @@ Current V1.7 implementation status:
   human calibration.
 - Hurdle Step has completed an initial pose probe, timing/features helpers, and
   one feature-only browser demo path. AI suggestion is not yet in scope.
-- In-Line Lunge has completed an initial pose probe and active-period
-  observation. Timing/features helpers are the next development step.
+- In-Line Lunge has completed an initial pose probe plus timing/features
+  helpers. The helper outputs evidence, but timing and knee-foot alignment need
+  more calibration before a browser demo path.
 
 ### V2: Evaluation and Application Package
 
