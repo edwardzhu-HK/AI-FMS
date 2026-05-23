@@ -89,11 +89,33 @@ export default function ScoreSummary({
   aiScore,
   adjudication,
   poseSuggestion,
+  posePipelineStatus,
   t = (key) => key,
 }) {
   const subscoreItems = getSubscoreItems(actionType);
   const hasPoseSuggestion = poseSuggestion?.status === "suggested";
+  const hasFeatureOnlyEvidence =
+    posePipelineStatus === "features_only" && !hasPoseSuggestion;
   const displayedScore = hasPoseSuggestion ? poseSuggestion : aiScore;
+
+  if (hasFeatureOnlyEvidence) {
+    return (
+      <section className="score-summary card">
+        <h3>{t("poseEvidenceOnly")}</h3>
+        <p>{t("poseEvidenceOnlyDetail")}</p>
+        <div
+          className={`adjudication adjudication-${adjudication.labelStatus}`}
+        >
+          <span>
+            {t("status")}: {adjudication.labelStatus}
+          </span>
+          <span>
+            {t("source")}: {renderSourceLabel(adjudication.labelSource, t)}
+          </span>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section

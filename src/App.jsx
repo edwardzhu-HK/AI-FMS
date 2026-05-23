@@ -281,6 +281,9 @@ const UI_TEXT = {
     none: "None",
     poseBasedSuggestion: "Pose-based suggestion",
     poseBasedAiSuggestion: "Pose-based AI Suggestion",
+    poseEvidenceOnly: "Pose Evidence Only",
+    poseEvidenceOnlyDetail:
+      "Pose features are available for review, but this movement does not have a pose-based AI suggestion yet.",
     confidence: "confidence",
     confidence_high: "high",
     confidence_medium: "medium",
@@ -532,6 +535,9 @@ const UI_TEXT = {
     none: "无",
     poseBasedSuggestion: "基于 pose 的建议",
     poseBasedAiSuggestion: "基于 Pose 的 AI 建议",
+    poseEvidenceOnly: "仅显示 Pose 证据",
+    poseEvidenceOnlyDetail:
+      "当前动作已经有 pose features 可供人工复核，但还没有接入 pose-based AI suggestion。",
     confidence: "置信度",
     confidence_high: "高",
     confidence_medium: "中",
@@ -2674,6 +2680,7 @@ export default function App() {
                 aiScore={activeSegment.aiScore}
                 adjudication={adjudicationPreview}
                 poseSuggestion={activePoseSuggestion}
+                posePipelineStatus={movementAdapter?.posePipelineStatus}
                 t={t}
               />
               <ReviewerScoreForm

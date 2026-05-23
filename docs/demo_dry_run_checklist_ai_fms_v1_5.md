@@ -43,9 +43,9 @@ pose JSON，`Start Analysis` 后显示 `2 clips`、`Timing QA: 2/2 OK`、
 `Features 2/2`、`AI suggestions 2/2`，右侧 `Pose-based AI Suggestion`
 显示 ASLR 的 `Hip Flexion`、`Pelvic Stability`、`Leg Symmetry` 三项 subscore。
 
-2026-05-23 补充：`Shoulder score-2 sample` 用于 feature evidence 测试，不显示
-pose-based AI suggestion。预期是 `2 clips`、`Timing QA: 2/2 OK`、`Features 2/2`，
-并显示 `Shoulder Mobility Features`。
+2026-05-23 补充：`Shoulder score-2 sample` 用于 feature evidence 测试，右侧会显示
+`Pose Evidence Only`，不显示 pose-based AI suggestion。预期是 `2 clips`、
+`Timing QA: 2/2 OK`、`Features 2/2`，并显示 `Shoulder Mobility Features`。
 
 ## 必测流程
 

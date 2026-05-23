@@ -67,8 +67,8 @@ dataset export 语义。
 
 第一版 feature-only demo path 已接入：`Demo Preset` 选择
 `Shoulder score-2 sample` 后，可以验证 skeleton、Timing QA、Shoulder Mobility
-Features 和 dataset export。当前不会生成 pose-based AI suggestion，右侧仍是 legacy
-mock AI panel。
+Features 和 dataset export。当前不会生成 pose-based AI suggestion，右侧会明确显示
+`Pose Evidence Only`。
 
 1. 继续校准 Shoulder Mobility feature helper。当前已能输出 reach distance、hand
    visibility、shoulder reference、side context，但还不生成 AI suggestion。
