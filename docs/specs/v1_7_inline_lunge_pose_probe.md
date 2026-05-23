@@ -74,8 +74,25 @@ In-Line Lunge 首轮可以先尝试 feature-only evidence：
 
 这些 feature 先服务 reviewer-readable evidence，不直接声称 certified FMS scoring。
 
+## Timing Helper 试跑结果
+
+第一版 `inline-lunge-timing.js` 已加入单元测试，能够在 synthetic fixture 中检测
+lunge depth candidate cycles，并沿用现有 `poseTiming` 报告形状，不改变 export
+schema。
+
+真实样本上的首轮结果说明：这个 helper 能提供 lunge depth evidence，但尚未稳定到可以
+直接驱动 demo preset。
+
+| Pose JSON                  | Expected reps | Candidate cycles | 观察                                    |
+| -------------------------- | ------------: | ---------------: | --------------------------------------- |
+| `1-rep-score-3.pose.json`  |             1 |                1 | timing 干净，适合 smoke fixture。       |
+| `4-reps-score-2.pose.json` |             4 |                2 | 只抓到 2 个明显深度周期，需要继续校准。 |
+| `6-reps-score-3.pose.json` |             6 |                7 | 有重复峰，适合作为鲁棒性样本。          |
+
+因此 In-Line Lunge 下一步应先继续校准 timing，而不是马上接入 feature-only demo。
+
 ## 下一步
 
-1. 新增 `inline-lunge-timing.js` 和测试，先检测 lunge depth candidate cycles。
+1. 继续校准 In-Line Lunge timing：减少重复峰，并提升 4-reps 样本的周期召回。
 2. 新增 `inline-lunge-features.js` 和测试，输出 feature-only evidence。
 3. 等一个 In-Line Lunge demo path 稳定后，再决定是否接入 AI suggestion。

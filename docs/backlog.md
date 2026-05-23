@@ -153,7 +153,7 @@ Current development order agreed on 2026-05-23:
   - [x] Select 3 In-Line Lunge samples for first pose extraction.
   - [x] Generate and validate In-Line Lunge pose JSON.
   - [x] Document In-Line Lunge pose probe and active-period findings.
-  - [ ] Add In-Line Lunge timing helper and tests.
+  - [x] Add In-Line Lunge timing helper and tests.
   - [ ] Add In-Line Lunge feature helper and tests.
   - [ ] Add one browser-verifiable In-Line Lunge feature-only demo path.
 
