@@ -132,6 +132,11 @@ Current development order agreed on 2026-05-23:
   - [x] Show Active Straight Leg Raise feature snapshot in the workbench.
 - [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more
       representative.
+- [ ] Start Shoulder Mobility expansion after ASLR demo path is stable.
+  - [x] Select 2-3 Shoulder Mobility samples for first pose extraction.
+  - [x] Generate and validate Shoulder Mobility pose JSON.
+  - [x] Document Shoulder Mobility pose probe and active-period findings.
+  - [ ] Add Shoulder Mobility feature helper and tests.
 
 ## Stretch: Selected Movement Expansion
 
