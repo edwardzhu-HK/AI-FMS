@@ -118,8 +118,8 @@ Current development order agreed on 2026-05-23:
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.
   - [x] Confirm movement adapter boundary before code restructure.
-  - [ ] Select 2-3 Active Straight Leg Raise samples for first pose extraction.
-  - [ ] Generate and validate Active Straight Leg Raise pose JSON.
+  - [x] Select 2-3 Active Straight Leg Raise samples for first pose extraction.
+  - [x] Generate and validate Active Straight Leg Raise pose JSON.
   - [ ] Add Active Straight Leg Raise timing/features/suggestion tests.
   - [ ] Add one browser-verifiable Active Straight Leg Raise demo path.
 - [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more
