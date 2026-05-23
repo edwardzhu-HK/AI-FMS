@@ -111,7 +111,7 @@ Current development order agreed on 2026-05-23:
 
 - [x] Add browser-side dataset package export as a ZIP containing JSON, CSV,
       dataset card, run summary, and README.
-- [ ] Redesign readiness/export quality as a human-readable checklist.
+- [x] Redesign readiness/export quality as a human-readable checklist.
 - [ ] Persist reviewer scores, segment metadata, active preset, and selected
       segment state in localStorage for local testing.
 - [ ] Start one selected movement expansion after Deep Squat export loop is

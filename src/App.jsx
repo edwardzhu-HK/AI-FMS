@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   calibrationApiMode,
   checkVideoReadiness,
@@ -132,6 +132,41 @@ const UI_TEXT = {
     aiFinalAgreement: "AI-final agreement",
     refreshConsistency: "Refresh Consistency",
     exportEvidence: "Export Evidence",
+    exportChecklist: "Export Checklist",
+    checklistReady: "Ready",
+    checklistNeedsReview: "Needs review",
+    checklistMissing: "Missing",
+    checklistSegmentRecords: "Segment records",
+    checklistSegmentRecordsReady: "segments are available for export.",
+    checklistSegmentRecordsMissing: "Run analysis to create segment records.",
+    checklistReviewerCompletion: "Reviewer completion",
+    checklistReviewerCompletionReady:
+      "all segment records have Reviewer A and Reviewer B scores.",
+    checklistReviewerCompletionPending:
+      "some segment records are still waiting for reviewer scores.",
+    checklistFinalLabels: "Final labels",
+    checklistFinalLabelsReady: "all segment records have valid final labels.",
+    checklistFinalLabelsPending:
+      "pending or invalid labels remain; export is allowed, ingest is blocked.",
+    checklistPoseEvidence: "Pose evidence",
+    checklistPoseEvidenceReady: "pose evidence is attached to the export.",
+    checklistPoseEvidenceMissing:
+      "no pose evidence is attached; export remains annotation-only.",
+    checklistTimingQa: "Timing QA",
+    checklistTimingQaReady: "all timing rows are complete.",
+    checklistTimingQaPending: "some timing rows need review.",
+    checklistTimingQaMissing: "no pose-assisted timing QA is available.",
+    checklistFeaturesReady: "pose features are available.",
+    checklistFeaturesPending: "some pose features are missing or limited.",
+    checklistFeaturesMissing: "no pose features are available.",
+    checklistAiSuggestionsReady: "pose-based AI suggestions are available.",
+    checklistAiSuggestionsPending: "some AI suggestions are missing.",
+    checklistAiSuggestionsMissing:
+      "no pose-based AI suggestions are available.",
+    checklistPackageExport: "Dataset package export",
+    checklistPackageExportReady: "ZIP export can be generated now.",
+    checklistPackageExportMissing:
+      "run analysis before generating a dataset package.",
     records: "Records",
     pending: "Pending",
     ok: "OK",
@@ -301,6 +336,38 @@ const UI_TEXT = {
     aiFinalAgreement: "AI-final 一致率",
     refreshConsistency: "刷新一致性",
     exportEvidence: "导出证据",
+    exportChecklist: "导出检查清单",
+    checklistReady: "就绪",
+    checklistNeedsReview: "需复核",
+    checklistMissing: "缺失",
+    checklistSegmentRecords: "Segment 记录",
+    checklistSegmentRecordsReady: "已有 segment records，可以导出。",
+    checklistSegmentRecordsMissing: "请先运行分析，生成 segment records。",
+    checklistReviewerCompletion: "Reviewer 完成度",
+    checklistReviewerCompletionReady:
+      "所有 segment 都已有 Reviewer A 和 Reviewer B 评分。",
+    checklistReviewerCompletionPending: "仍有 segment 等待 reviewer 评分。",
+    checklistFinalLabels: "最终标签",
+    checklistFinalLabelsReady: "所有 segment 都已有有效 final label。",
+    checklistFinalLabelsPending:
+      "仍有 pending 或 invalid label；可以导出，但不能正式入库。",
+    checklistPoseEvidence: "Pose evidence",
+    checklistPoseEvidenceReady: "导出包会包含 pose evidence。",
+    checklistPoseEvidenceMissing:
+      "当前没有 pose evidence；导出仍可用，但只是 annotation-only。",
+    checklistTimingQa: "Timing QA",
+    checklistTimingQaReady: "所有 timing rows 都完整。",
+    checklistTimingQaPending: "部分 timing rows 还需要复核。",
+    checklistTimingQaMissing: "当前没有 pose-assisted timing QA。",
+    checklistFeaturesReady: "pose features 已可用。",
+    checklistFeaturesPending: "部分 pose features 缺失或受限。",
+    checklistFeaturesMissing: "当前没有 pose features。",
+    checklistAiSuggestionsReady: "基于 pose 的 AI 建议已可用。",
+    checklistAiSuggestionsPending: "部分 AI 建议缺失。",
+    checklistAiSuggestionsMissing: "当前没有基于 pose 的 AI 建议。",
+    checklistPackageExport: "Dataset package 导出",
+    checklistPackageExportReady: "现在可以生成 ZIP 导出包。",
+    checklistPackageExportMissing: "请先运行分析，再生成 dataset package。",
     records: "记录",
     pending: "待处理",
     ok: "OK",
@@ -503,6 +570,129 @@ function getPoseStatusLabel(status, t) {
   return labels[status] ?? t("unknown");
 }
 
+function buildChecklistItem(status, title, detail) {
+  return { status, title, detail };
+}
+
+function buildExportChecklist(summary, t) {
+  const recordsTotal = summary.recordsTotal;
+  const hasRecords = recordsTotal > 0;
+  const reviewerComplete = hasRecords && summary.pendingLabels === 0;
+  const allLabelsValid =
+    hasRecords &&
+    summary.validLabels === recordsTotal &&
+    summary.invalidLabels === 0;
+  const hasTiming = summary.pose.timingTotal > 0;
+  const timingComplete =
+    hasTiming && summary.pose.timingGood === summary.pose.timingTotal;
+  const hasFeatures = summary.pose.featureTotal > 0;
+  const featuresComplete =
+    hasFeatures && summary.pose.featureUsable === summary.pose.featureTotal;
+  const hasSuggestions = summary.pose.suggestionTotal > 0;
+  const suggestionsComplete =
+    hasSuggestions &&
+    summary.pose.suggestionReady === summary.pose.suggestionTotal;
+
+  return [
+    buildChecklistItem(
+      hasRecords ? "ready" : "missing",
+      t("checklistSegmentRecords"),
+      hasRecords
+        ? `${t("records")}: ${recordsTotal} · ${t(
+            "checklistSegmentRecordsReady",
+          )}`
+        : t("checklistSegmentRecordsMissing"),
+    ),
+    buildChecklistItem(
+      reviewerComplete ? "ready" : hasRecords ? "review" : "missing",
+      t("checklistReviewerCompletion"),
+      reviewerComplete
+        ? t("checklistReviewerCompletionReady")
+        : `${t("pending")}: ${summary.pendingLabels} · ${t(
+            "checklistReviewerCompletionPending",
+          )}`,
+    ),
+    buildChecklistItem(
+      allLabelsValid
+        ? "ready"
+        : summary.invalidLabels > 0 || summary.pendingLabels > 0
+          ? "review"
+          : "missing",
+      t("checklistFinalLabels"),
+      allLabelsValid
+        ? t("checklistFinalLabelsReady")
+        : `${t("validLabels")}: ${summary.validLabels}/${recordsTotal} · ${t(
+            "checklistFinalLabelsPending",
+          )}`,
+    ),
+    buildChecklistItem(
+      summary.poseEvidenceAttached ? "ready" : "review",
+      t("checklistPoseEvidence"),
+      summary.poseEvidenceAttached
+        ? t("checklistPoseEvidenceReady")
+        : t("checklistPoseEvidenceMissing"),
+    ),
+    buildChecklistItem(
+      timingComplete ? "ready" : hasTiming ? "review" : "missing",
+      t("checklistTimingQa"),
+      timingComplete
+        ? `${summary.pose.timingGood}/${summary.pose.timingTotal} · ${t(
+            "checklistTimingQaReady",
+          )}`
+        : hasTiming
+          ? `${summary.pose.timingGood}/${summary.pose.timingTotal} · ${t(
+              "checklistTimingQaPending",
+            )}`
+          : t("checklistTimingQaMissing"),
+    ),
+    buildChecklistItem(
+      featuresComplete ? "ready" : hasFeatures ? "review" : "missing",
+      t("features"),
+      featuresComplete
+        ? `${summary.pose.featureUsable}/${summary.pose.featureTotal} · ${t(
+            "checklistFeaturesReady",
+          )}`
+        : hasFeatures
+          ? `${summary.pose.featureUsable}/${summary.pose.featureTotal} · ${t(
+              "checklistFeaturesPending",
+            )}`
+          : t("checklistFeaturesMissing"),
+    ),
+    buildChecklistItem(
+      suggestionsComplete ? "ready" : hasSuggestions ? "review" : "missing",
+      t("aiSuggestions"),
+      suggestionsComplete
+        ? `${summary.pose.suggestionReady}/${summary.pose.suggestionTotal} · ${t(
+            "checklistAiSuggestionsReady",
+          )}`
+        : hasSuggestions
+          ? `${summary.pose.suggestionReady}/${summary.pose.suggestionTotal} · ${t(
+              "checklistAiSuggestionsPending",
+            )}`
+          : t("checklistAiSuggestionsMissing"),
+    ),
+    buildChecklistItem(
+      hasRecords ? "ready" : "missing",
+      t("checklistPackageExport"),
+      hasRecords
+        ? t("checklistPackageExportReady")
+        : t("checklistPackageExportMissing"),
+    ),
+  ];
+}
+
+function checklistStatusLabel(status, t) {
+  if (status === "ready") {
+    return t("checklistReady");
+  }
+
+  if (status === "review") {
+    return t("checklistNeedsReview");
+  }
+
+  return t("checklistMissing");
+}
+
 function buildMovementSummaryRows(actions, movementBreakdown) {
   const knownActionIds = new Set(actions.map((action) => action.id));
   const rows = actions.map((action) => ({
@@ -587,7 +777,7 @@ export default function App() {
   const pollTimerRef = useRef(null);
   const videoRef = useRef(null);
   const analysisRangeOverrideRef = useRef(null);
-  const t = (key) => translate(language, key);
+  const t = useCallback((key) => translate(language, key), [language]);
 
   const activeSegment = useMemo(
     () =>
@@ -695,6 +885,11 @@ export default function App() {
       segments,
       timingReport,
     ],
+  );
+
+  const exportChecklist = useMemo(
+    () => buildExportChecklist(exportQualitySummary, t),
+    [exportQualitySummary, t],
   );
 
   const movementSummaryRows = useMemo(
@@ -1648,7 +1843,21 @@ export default function App() {
           </section>
 
           <section className="card evidence-summary-card">
-            <h2>{t("exportEvidence")}</h2>
+            <h2>{t("exportChecklist")}</h2>
+            <ul className="readiness-checklist">
+              {exportChecklist.map((item) => (
+                <li
+                  className={`readiness-checklist-item readiness-checklist-${item.status}`}
+                  key={item.title}
+                >
+                  <div>
+                    <strong>{item.title}</strong>
+                    <span>{item.detail}</span>
+                  </div>
+                  <em>{checklistStatusLabel(item.status, t)}</em>
+                </li>
+              ))}
+            </ul>
             <dl className="summary-metrics">
               <div>
                 <dt>{t("records")}</dt>
