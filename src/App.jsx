@@ -30,6 +30,7 @@ import {
   getImplementedPoseActionTypes,
   getMovementAdapter,
 } from "./lib/movement-adapters.js";
+import { detectPoseActivePeriods } from "./lib/pose-active-periods.js";
 import { summarizePoseLandmarks } from "./lib/pose-landmarks.js";
 import DeepSquatFeatureSnapshot from "./components/DeepSquatFeatureSnapshot.jsx";
 import ReviewerScoreForm from "./components/ReviewerScoreForm.jsx";
@@ -115,6 +116,12 @@ const UI_TEXT = {
     frames: "frames",
     visibility: "visibility",
     loadPoseJson: "Load generated MediaPipe JSON to replace the demo skeleton.",
+    activePeriodSuggestion: "Active period suggestion",
+    activePeriodDetected: "recommended range",
+    activePeriods: "active periods",
+    activePeriodDuration: "active duration",
+    noActivePeriodSuggestion: "No clear active period detected.",
+    applyActivePeriod: "Apply active range",
     startSecond: "Start (s)",
     endSecond: "End (s)",
     expectedReps: "Expected Reps (optional)",
@@ -320,6 +327,12 @@ const UI_TEXT = {
     frames: "帧",
     visibility: "可见度",
     loadPoseJson: "加载 MediaPipe JSON 后会替换 demo skeleton。",
+    activePeriodSuggestion: "有效动作时间建议",
+    activePeriodDetected: "建议范围",
+    activePeriods: "有效片段",
+    activePeriodDuration: "有效动作时长",
+    noActivePeriodSuggestion: "暂未检测到清晰的有效动作时间段。",
+    applyActivePeriod: "应用有效范围",
     startSecond: "开始 (s)",
     endSecond: "结束 (s)",
     expectedReps: "Expected Reps（可选）",
@@ -918,6 +931,10 @@ export default function App() {
     () => getMovementAdapter(selectedAction),
     [selectedAction],
   );
+  const activePeriodReport = useMemo(
+    () => (posePayload ? detectPoseActivePeriods(posePayload) : null),
+    [posePayload],
+  );
 
   const adjudicationPreview = useMemo(() => {
     if (!activeSegment) {
@@ -1480,6 +1497,18 @@ export default function App() {
     setPoseFileName(fileName);
     setShowKeypoints(true);
     return true;
+  }
+
+  function handleApplyActivePeriodSuggestion() {
+    const range = activePeriodReport?.recommendedRange;
+
+    if (!range) {
+      return;
+    }
+
+    analysisRangeOverrideRef.current = null;
+    setStartSecond(String(range.startSecond));
+    setEndSecond(String(range.endSecond));
   }
 
   async function handlePoseFileChange(file) {
@@ -2053,6 +2082,42 @@ export default function App() {
             ) : (
               <p className="pose-status">{t("loadPoseJson")}</p>
             )}
+
+            {activePeriodReport ? (
+              <section className="active-period-suggestion">
+                <header>
+                  <strong>{t("activePeriodSuggestion")}</strong>
+                  <span>
+                    {activePeriodReport.recommendedRange
+                      ? `${formatSecondMetric(
+                          activePeriodReport.recommendedRange.startSecond,
+                        )} - ${formatSecondMetric(
+                          activePeriodReport.recommendedRange.endSecond,
+                        )}`
+                      : t("noActivePeriodSuggestion")}
+                  </span>
+                </header>
+                {activePeriodReport.recommendedRange ? (
+                  <>
+                    <p>
+                      {t("activePeriodDetected")}:{" "}
+                      {activePeriodReport.recommendedRange.periodCount}{" "}
+                      {t("activePeriods")} · {t("activePeriodDuration")}{" "}
+                      {formatSecondMetric(
+                        activePeriodReport.metrics.activeDurationSecond,
+                      )}
+                    </p>
+                    <button
+                      type="button"
+                      className="button-secondary"
+                      onClick={handleApplyActivePeriodSuggestion}
+                    >
+                      {t("applyActivePeriod")}
+                    </button>
+                  </>
+                ) : null}
+              </section>
+            ) : null}
 
             <div className="row-inputs">
               <label>

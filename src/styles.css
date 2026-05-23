@@ -233,6 +233,36 @@ button:disabled {
   line-height: 1.35;
 }
 
+.active-period-suggestion {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 12px;
+  padding: 10px;
+  border: 1px solid rgba(28, 129, 95, 0.3);
+  border-radius: 8px;
+  background: #edf6f0;
+}
+
+.active-period-suggestion header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: start;
+  font-size: 0.88rem;
+}
+
+.active-period-suggestion header span {
+  color: #315943;
+  text-align: right;
+}
+
+.active-period-suggestion p {
+  margin: 0;
+  color: #4f5447;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
 .readiness-card {
   display: grid;
   gap: 8px;

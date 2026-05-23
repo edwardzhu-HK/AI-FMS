@@ -114,6 +114,8 @@ Current development order agreed on 2026-05-23:
 - [x] Redesign readiness/export quality as a human-readable checklist.
 - [x] Persist reviewer scores, segment metadata, active preset, and selected
       segment state in localStorage for local testing.
+- [x] Add pose-based active period suggestion so long instructional/non-action
+      lead-in or tail sections do not silently become the analysis range.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.

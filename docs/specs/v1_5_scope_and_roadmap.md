@@ -149,14 +149,22 @@ Development order agreed on 2026-05-23:
    human reviewer, not only as engineering counters.
 3. **Local State Persistence**: preserve reviewer scores, segment metadata,
    active demo preset, and selected segment during local testing.
-4. **Selected Movement Expansion**: add one movement at a time after the Deep
+4. **Active Period Suggestion**: when pose JSON is available, detect high-motion
+   periods and suggest a narrower analysis range so long instruction or waiting
+   sections do not dominate segmentation.
+5. **Selected Movement Expansion**: add one movement at a time after the Deep
    Squat dataset loop is stable.
-5. **Demo/Project Snapshot Mode**: wait until the project has enough movement
+6. **Demo/Project Snapshot Mode**: wait until the project has enough movement
    coverage and evidence to make a richer demo meaningful.
 
 This order intentionally places Demo Mode after movement expansion. The demo
 surface should summarize real capabilities rather than becoming a decorative
 shell ahead of the evidence.
+
+The active-period step is intentionally conservative: it only suggests and
+applies a single `startSecond` / `endSecond` analysis range in the existing UI.
+True multi-interval video slicing remains a later schema decision because it
+would affect segment provenance and export semantics.
 
 ## 5. Explicit Non-Goals
 

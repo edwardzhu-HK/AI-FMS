@@ -41,6 +41,7 @@ test("required files exist", () => {
     "src/lib/dataset-csv.js",
     "src/lib/dataset-package.js",
     "src/lib/export-quality.js",
+    "src/lib/pose-active-periods.js",
     "src/lib/deep-squat-features.js",
     "src/lib/deep-squat-suggestion.js",
     "src/lib/deep-squat-timing.js",
