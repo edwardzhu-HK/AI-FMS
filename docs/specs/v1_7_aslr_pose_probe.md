@@ -54,12 +54,27 @@ Eval_Videos/Sample videos/5-ASLR/pose/1-rep-score-1-right.pose.json
 2. `1 rep score 1 for right.mp4` 用于验证 side/right metadata 与低分解释是否能表达清楚。
 3. `4 reps score 2.mp4` 暂作为 robustness 样本，不作为第一版 demo 主样本。
 
+## Timing Helper 试跑结果
+
+第一版 ASLR timing helper 已接入 movement adapter，但状态是 `timing_only`。这表示
+它可以提供动作窗口建议和 Timing QA，但还不会生成 ASLR pose features 或 AI
+suggestion。
+
+| Pose JSON                       | 检测周期 | 说明                                             |
+| ------------------------------- | -------: | ------------------------------------------------ |
+| `2-reps-score-3.pose.json`      |        2 | 稳定检测到 right + left 两个 leg raise cycles。  |
+| `1-rep-score-1-right.pose.json` |        1 | 稳定检测到 right leg raise cycle。               |
+| `4-reps-score-2.pose.json`      |        2 | 原样本 missing frames 较多，暂只作为鲁棒性参考。 |
+
+当前没有改 dataset schema。ASLR cycle 会继续复用现有 `poseTiming.cycle`
+结构；其中 `lowestPointSecond` 临时映射为 ASLR 的 `peakSecond`，用于兼容现有 UI
+和导出结构。后续如果要把字段改成更通用的 `keyPoseSecond` 或 `peakSecond`，需要单独
+评审 schema version。
+
 ## 下一步
 
-1. 新增 ASLR timing helper，从 ankle/foot vertical trajectory 与 hip-to-ankle
-   angle proxy 中找 leg raise peak。
-2. 新增 ASLR feature helper，先输出 reviewer-readable evidence：
+1. 新增 ASLR feature helper，先输出 reviewer-readable evidence：
    hip flexion、pelvic stability、knee extension / leg line、side confidence。
-3. 接入 movement adapter，但保持不修改 dataset schema。
-4. 浏览器中先验证主样本：加载视频 + pose JSON 后能显示 skeleton，并能生成
+2. 接入 ASLR feature report，但保持不修改 dataset schema。
+3. 浏览器中先验证主样本：加载视频 + pose JSON 后能显示 skeleton，并能生成
    timing/features/suggestion。

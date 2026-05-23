@@ -1,3 +1,4 @@
+import { evaluateAslrSegmentsTiming } from "./aslr-timing.js";
 import { summarizeDeepSquatPoseFeatures } from "./deep-squat-features.js";
 import { buildDeepSquatExplainableSuggestion } from "./deep-squat-suggestion.js";
 import { evaluateDeepSquatSegmentsTiming } from "./deep-squat-timing.js";
@@ -38,8 +39,31 @@ const DEEP_SQUAT_ADAPTER = {
   },
 };
 
+const ASLR_ADAPTER = {
+  actionType: "active_straight_leg_raise",
+  posePipelineStatus: "timing_only",
+  featureTitleKey: "activeStraightLegRaiseFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateAslrSegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport() {
+    return null;
+  },
+  buildSuggestionReport() {
+    return null;
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
+  [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {
