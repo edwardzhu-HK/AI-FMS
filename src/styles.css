@@ -263,6 +263,10 @@ button:disabled {
   line-height: 1.4;
 }
 
+.active-period-suggestion .active-period-detail {
+  color: #6a604f;
+}
+
 .readiness-card {
   display: grid;
   gap: 8px;

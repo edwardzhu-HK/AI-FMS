@@ -139,8 +139,11 @@ const UI_TEXT = {
     loadPoseJson: "Load generated MediaPipe JSON to replace the demo skeleton.",
     activePeriodSuggestion: "Active period suggestion",
     activePeriodDetected: "recommended range",
-    activePeriods: "active periods",
+    activePeriods: "motion bursts",
     activePeriodDuration: "active duration",
+    activePeriodList: "detected periods",
+    activePeriodSingleRangeLimit:
+      "Current workflow applies one overall Start/End range; multi-period extraction needs a later schema review.",
     noActivePeriodSuggestion: "No clear active period detected.",
     applyActivePeriod: "Apply active range",
     startSecond: "Start (s)",
@@ -385,8 +388,11 @@ const UI_TEXT = {
     loadPoseJson: "加载 MediaPipe JSON 后会替换 demo skeleton。",
     activePeriodSuggestion: "有效动作时间建议",
     activePeriodDetected: "建议范围",
-    activePeriods: "有效片段",
+    activePeriods: "活跃片段",
     activePeriodDuration: "有效动作时长",
+    activePeriodList: "检测到的时间段",
+    activePeriodSingleRangeLimit:
+      "当前 workflow 只能应用一个整体 Start/End 范围；如果要真正按多个有效片段提取，需要后续评审 schema。",
     noActivePeriodSuggestion: "暂未检测到清晰的有效动作时间段。",
     applyActivePeriod: "应用有效范围",
     startSecond: "开始 (s)",
@@ -2197,6 +2203,21 @@ export default function App() {
                         activePeriodReport.metrics.activeDurationSecond,
                       )}
                     </p>
+                    {activePeriodReport.periods.length > 1 ? (
+                      <p className="active-period-detail">
+                        {t("activePeriodList")}:{" "}
+                        {activePeriodReport.periods
+                          .map(
+                            (period) =>
+                              `${formatSecondMetric(
+                                period.startSecond,
+                              )}-${formatSecondMetric(period.endSecond)}`,
+                          )
+                          .join(", ")}
+                        <br />
+                        {t("activePeriodSingleRangeLimit")}
+                      </p>
+                    ) : null}
                     <button
                       type="button"
                       className="button-secondary"
