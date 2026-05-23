@@ -161,6 +161,7 @@ const UI_TEXT = {
     activePeriods: "motion bursts",
     activePeriodDuration: "active duration",
     activePeriodList: "detected periods",
+    useActivePeriod: "Use period",
     activePeriodSingleRangeLimit:
       "Current workflow applies one overall Start/End range; multi-period extraction needs a later schema review.",
     noActivePeriodSuggestion: "No clear active period detected.",
@@ -418,6 +419,7 @@ const UI_TEXT = {
     activePeriods: "活跃片段",
     activePeriodDuration: "有效动作时长",
     activePeriodList: "检测到的时间段",
+    useActivePeriod: "使用片段",
     activePeriodSingleRangeLimit:
       "当前 workflow 只能应用一个整体 Start/End 范围；如果要真正按多个有效片段提取，需要后续评审 schema。",
     noActivePeriodSuggestion: "暂未检测到清晰的有效动作时间段。",
@@ -1630,9 +1632,7 @@ export default function App() {
     return true;
   }
 
-  function handleApplyActivePeriodSuggestion() {
-    const range = activePeriodReport?.recommendedRange;
-
+  function handleApplyActivePeriodRange(range) {
     if (!range) {
       return;
     }
@@ -1640,6 +1640,15 @@ export default function App() {
     analysisRangeOverrideRef.current = null;
     setStartSecond(String(range.startSecond));
     setEndSecond(String(range.endSecond));
+  }
+
+  function handleApplyActivePeriodSuggestion() {
+    const range = activePeriodReport?.recommendedRange;
+    if (!range) {
+      return;
+    }
+
+    handleApplyActivePeriodRange(range);
   }
 
   async function handlePoseFileChange(file) {
@@ -2252,6 +2261,20 @@ export default function App() {
                         <br />
                         {t("activePeriodSingleRangeLimit")}
                       </p>
+                    ) : null}
+                    {activePeriodReport.periods.length > 1 ? (
+                      <div className="active-period-actions">
+                        {activePeriodReport.periods.map((period, index) => (
+                          <button
+                            type="button"
+                            className="button-secondary"
+                            key={`${period.startSecond}-${period.endSecond}`}
+                            onClick={() => handleApplyActivePeriodRange(period)}
+                          >
+                            {t("useActivePeriod")} #{index + 1}
+                          </button>
+                        ))}
+                      </div>
                     ) : null}
                     <button
                       type="button"

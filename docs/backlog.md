@@ -118,6 +118,8 @@ Current development order agreed on 2026-05-23:
       lead-in or tail sections do not silently become the analysis range.
 - [x] Show detected active-period fragments and clarify that applying them still
       uses one overall Start/End range until a multi-period schema is reviewed.
+- [x] Add per-period apply buttons so reviewers can quickly focus analysis on
+      one detected valid motion fragment without changing the export schema.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.

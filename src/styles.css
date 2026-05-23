@@ -267,6 +267,12 @@ button:disabled {
   color: #6a604f;
 }
 
+.active-period-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 6px;
+}
+
 .readiness-card {
   display: grid;
   gap: 8px;

@@ -164,8 +164,9 @@ shell ahead of the evidence.
 The active-period step is intentionally conservative: it only suggests and
 applies a single `startSecond` / `endSecond` analysis range in the existing UI.
 The UI may show multiple detected motion fragments so reviewers can see where
-invalid or low-motion gaps may exist, but applying the suggestion still uses one
-overall range.
+invalid or low-motion gaps may exist. Reviewers can apply one detected fragment
+to the current Start/End controls, but the workflow still stores one overall
+range at a time.
 True multi-interval video slicing remains a later schema decision because it
 would affect segment provenance and export semantics.
 
