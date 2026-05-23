@@ -61,7 +61,7 @@ macOS GL/Metal context；在 Codex 沙盒内会报 `kGpuService` /
 
 1. 在 `Upload Video` 里选择对应视频。
 2. 在 `Pose JSON (optional)` 里选择生成出的 `*.pose.json`。
-3. 打开 `Show pose` 后，播放器 overlay 会按当前播放秒数选择最近的 sampled
+3. 打开 `Show skeleton` 后，播放器 overlay 会按当前播放秒数选择最近的 sampled
    frame，并用 normalized image coordinates 画出 MediaPipe landmarks。
 
 如果没有加载 pose JSON，播放器仍会显示显式标注的 demo skeleton；这个 fallback

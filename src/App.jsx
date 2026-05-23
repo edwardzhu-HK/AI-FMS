@@ -149,7 +149,7 @@ const UI_TEXT = {
     invalid: "Invalid",
     playback: "Playback",
     loopSegment: "Loop segment",
-    showPose: "Show pose",
+    showPose: "Show skeleton",
     demoSkeleton: "Demo skeleton",
     videoPlaceholder:
       "Upload a video and run analysis to start reviewing segments.",
@@ -317,7 +317,7 @@ const UI_TEXT = {
     invalid: "无效",
     playback: "播放",
     loopSegment: "循环 segment",
-    showPose: "显示 pose",
+    showPose: "显示骨骼",
     demoSkeleton: "Demo skeleton",
     videoPlaceholder: "上传视频并运行分析后开始 review segments。",
     realPoseOverlay:

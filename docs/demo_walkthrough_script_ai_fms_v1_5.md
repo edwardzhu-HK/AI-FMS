@@ -19,7 +19,7 @@
 - Deep Squat 示例视频：`Eval_Videos/01-Deep Squat/Sample-1.mp4`
 - 对应 pose JSON：`Eval_Videos/01-Deep Squat/pose/Sample-1.pose.json`
 - 浏览器打开本地 workbench：`http://127.0.0.1:5173/`
-- UI 中打开 `Show pose`，并确认不是 demo skeleton，而是已上传真实 pose JSON 后的 overlay。
+- UI 中打开 `Show skeleton`，并确认不是 demo skeleton，而是已上传真实 pose JSON 后的 overlay。
 - Segment list 中至少选择一个 front-view segment 和一个 side-view segment。
 - Reviewer A/B 可以提前填入示例评分，便于展示 adjudication。
 
@@ -87,7 +87,7 @@ AI-FMS 的定位不是“AI 自动打分”，而是帮助 reviewer 更稳定地
 
 ### 1:35-1:55 展示真实 pose overlay
 
-画面：上传 pose JSON 后打开 `Show pose`，播放 segment。
+画面：上传 pose JSON 后打开 `Show skeleton`，播放 segment。
 
 英文旁白建议：
 
@@ -96,7 +96,7 @@ AI-FMS 的定位不是“AI 自动打分”，而是帮助 reviewer 更稳定地
 演示动作：
 
 1. 使用 `Deep Squat Demo` preset 自动加载 pose JSON，或手动上传 pose JSON。
-2. 打开 `Show pose`。
+2. 打开 `Show skeleton`。
 3. 播放 front-view 或 side-view segment。
 
 重点说明：

@@ -20,7 +20,7 @@ http://localhost:5173/
 4. 确认 Expected Reps 为 `7`。
 5. 确认页面显示
    `Pose: Sample-1.pose.json · 441/441 frames · visibility 0.903`。
-6. 确认 playback toggle 显示 `Show pose`，不是 `Demo skeleton`。
+6. 确认 playback toggle 显示 `Show skeleton`，不是 `Demo skeleton`。
 
 ## Demo Preset 快速验证
 
