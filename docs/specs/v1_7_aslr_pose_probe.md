@@ -56,9 +56,9 @@ Eval_Videos/Sample videos/5-ASLR/pose/1-rep-score-1-right.pose.json
 
 ## Timing Helper 试跑结果
 
-第一版 ASLR timing helper 已接入 movement adapter，但状态是 `timing_only`。这表示
-它可以提供动作窗口建议和 Timing QA，但还不会生成 ASLR pose features 或 AI
-suggestion。
+第一版 ASLR timing helper 已接入 movement adapter。随后补充的 ASLR feature
+helper 会基于 timing cycle 的 peak pose 输出 reviewer-readable evidence，但暂时
+还不会生成 ASLR AI suggestion。
 
 | Pose JSON                       | 检测周期 | 说明                                             |
 | ------------------------------- | -------: | ------------------------------------------------ |
@@ -71,10 +71,22 @@ suggestion。
 和导出结构。后续如果要把字段改成更通用的 `keyPoseSecond` 或 `peakSecond`，需要单独
 评审 schema version。
 
+## Feature Helper 试跑结果
+
+第一版 ASLR feature helper 已输出以下 evidence：
+
+- `hipFlexion`: raised ankle 是否高于 hip，作为 leg raise height proxy。
+- `kneeExtension`: hip-knee-ankle angle，作为 straight leg line proxy。
+- `pelvicStability`: left/right hip height gap，作为 pelvic compensation proxy。
+- `sideConfidence`: timing cycle 检测出的 left/right side 是否可信。
+
+在 `2-reps-score-3.pose.json` 主样本上，两个 rep 都能生成可用 feature evidence：
+hip flexion 与 knee extension 均为 `good`，其中一个 rep 的 pelvic stability 为
+`watch`，可作为后续 ASLR suggestion 的解释依据。
+
 ## 下一步
 
-1. 新增 ASLR feature helper，先输出 reviewer-readable evidence：
-   hip flexion、pelvic stability、knee extension / leg line、side confidence。
-2. 接入 ASLR feature report，但保持不修改 dataset schema。
-3. 浏览器中先验证主样本：加载视频 + pose JSON 后能显示 skeleton，并能生成
+1. 新增 ASLR suggestion helper，把 feature evidence 映射为保守的 pose-based
+   suggestion。
+2. 浏览器中先验证主样本：加载视频 + pose JSON 后能显示 skeleton，并能生成
    timing/features/suggestion。

@@ -2,6 +2,7 @@ import { evaluateAslrSegmentsTiming } from "./aslr-timing.js";
 import { summarizeDeepSquatPoseFeatures } from "./deep-squat-features.js";
 import { buildDeepSquatExplainableSuggestion } from "./deep-squat-suggestion.js";
 import { evaluateDeepSquatSegmentsTiming } from "./deep-squat-timing.js";
+import { summarizeAslrPoseFeatures } from "./aslr-features.js";
 
 const DEEP_SQUAT_ADAPTER = {
   actionType: "deep_squat",
@@ -41,7 +42,7 @@ const DEEP_SQUAT_ADAPTER = {
 
 const ASLR_ADAPTER = {
   actionType: "active_straight_leg_raise",
-  posePipelineStatus: "timing_only",
+  posePipelineStatus: "features_only",
   featureTitleKey: "activeStraightLegRaiseFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -53,8 +54,15 @@ const ASLR_ADAPTER = {
       segments,
     });
   },
-  buildFeatureReport() {
-    return null;
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeAslrPoseFeatures({
+      posePayload,
+      timingReport,
+    });
   },
   buildSuggestionReport() {
     return null;

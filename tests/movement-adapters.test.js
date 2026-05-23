@@ -18,13 +18,13 @@ test("movement adapter registry exposes Deep Squat pose pipeline", () => {
   assert.deepEqual(getImplementedPoseActionTypes(), ["deep_squat"]);
 });
 
-test("movement adapter registry exposes ASLR timing-only pipeline", () => {
+test("movement adapter registry exposes ASLR features-only pipeline", () => {
   const adapter = getMovementAdapter("active_straight_leg_raise");
 
   assert.equal(adapter.actionType, "active_straight_leg_raise");
-  assert.equal(adapter.posePipelineStatus, "timing_only");
+  assert.equal(adapter.posePipelineStatus, "features_only");
   assert.equal(typeof adapter.buildTimingReport, "function");
-  assert.equal(adapter.buildFeatureReport(), null);
+  assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(adapter.buildSuggestionReport(), null);
   assert.deepEqual(getImplementedPoseActionTypes(), ["deep_squat"]);
 });

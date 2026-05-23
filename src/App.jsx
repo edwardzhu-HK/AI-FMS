@@ -2519,7 +2519,11 @@ export default function App() {
           />
 
           <DeepSquatFeatureSnapshot
-            report={featureReport}
+            report={
+              movementAdapter?.featureTitleKey === "deepSquatFeatures"
+                ? featureReport
+                : null
+            }
             activeSegmentId={activeSegmentId}
             t={t}
           />

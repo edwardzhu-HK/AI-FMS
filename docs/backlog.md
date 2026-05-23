@@ -124,7 +124,7 @@ Current development order agreed on 2026-05-23:
   - [x] Generate and validate Active Straight Leg Raise pose JSON.
   - [ ] Add Active Straight Leg Raise timing/features/suggestion tests.
     - [x] Add Active Straight Leg Raise timing helper and tests.
-    - [ ] Add Active Straight Leg Raise feature helper and tests.
+    - [x] Add Active Straight Leg Raise feature helper and tests.
     - [ ] Add Active Straight Leg Raise suggestion helper and tests.
   - [ ] Add one browser-verifiable Active Straight Leg Raise demo path.
 - [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more
