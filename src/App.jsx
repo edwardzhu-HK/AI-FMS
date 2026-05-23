@@ -341,6 +341,7 @@ const UI_TEXT = {
     applyAllSuggestedTiming: "Apply All Suggested Timing",
     noCycle: "No cycle",
     deepSquatFeatures: "Deep Squat Features",
+    activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     usable: "usable",
     depth: "Depth",
     torso: "Torso",
@@ -348,6 +349,10 @@ const UI_TEXT = {
     hipAngle: "Hip angle",
     kneeAngle: "Knee angle",
     ankleProxy: "Ankle proxy",
+    hipFlexion: "Hip Flexion",
+    kneeExtension: "Knee Extension",
+    pelvicStability: "Pelvic Stability",
+    sideConfidence: "Side Confidence",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -579,6 +584,7 @@ const UI_TEXT = {
     applyAllSuggestedTiming: "应用全部建议 timing",
     noCycle: "无 cycle",
     deepSquatFeatures: "Deep Squat Features",
+    activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     usable: "可用",
     depth: "Depth",
     torso: "Torso",
@@ -586,6 +592,10 @@ const UI_TEXT = {
     hipAngle: "Hip angle",
     kneeAngle: "Knee angle",
     ankleProxy: "Ankle proxy",
+    hipFlexion: "Hip Flexion",
+    kneeExtension: "Knee Extension",
+    pelvicStability: "Pelvic Stability",
+    sideConfidence: "Side Confidence",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -2599,11 +2609,8 @@ export default function App() {
           />
 
           <DeepSquatFeatureSnapshot
-            report={
-              movementAdapter?.featureTitleKey === "deepSquatFeatures"
-                ? featureReport
-                : null
-            }
+            report={featureReport}
+            titleKey={movementAdapter?.featureTitleKey}
             activeSegmentId={activeSegmentId}
             t={t}
           />

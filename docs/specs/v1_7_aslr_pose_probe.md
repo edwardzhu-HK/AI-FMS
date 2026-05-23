@@ -95,9 +95,13 @@ jitter，避免把 score-3 主样本中的轻微 hip-height gap 直接降为 `wa
 这仍然是 pose-based AI suggestion，不是 certified FMS scoring；最终标签仍由人工
 Reviewer 保存和 adjudication 决定。
 
+浏览器 demo path 已接入 `Demo Preset`：选择 `ASLR score-3 sample` 后会自动加载
+ASLR 视频、pose JSON、`Active Straight Leg Raise` action、2 reps 和对应备注。
+Workbench 中的 feature snapshot 已能显示 ASLR 的 `Hip Flexion`、`Knee Extension`、
+`Pelvic Stability`、`Side Confidence` evidence。
+
 ## 下一步
 
-1. 评估是否需要把 feature snapshot 组件泛化，避免 Deep Squat/ASLR 分别维护两套
-   相似 UI。
-2. 继续观察 `detectPoseActivePeriods` 在 ASLR 这类动作上是否过度切分；如果要支持
+1. 继续观察 `detectPoseActivePeriods` 在 ASLR 这类动作上是否过度切分；如果要支持
    多段 valid-period，需要单独评审 dataset schema。
+2. 继续扩大 ASLR 样本验证，尤其是 `score 1`/`score 2` 与左右侧标记是否符合人工直觉。
