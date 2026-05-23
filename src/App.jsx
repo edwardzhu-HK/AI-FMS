@@ -25,7 +25,6 @@ import ReviewerScoreForm from "./components/ReviewerScoreForm.jsx";
 import ScoreSummary from "./components/ScoreSummary.jsx";
 import SegmentEditor from "./components/SegmentEditor.jsx";
 import SegmentList from "./components/SegmentList.jsx";
-import SegmentTimingReport from "./components/SegmentTimingReport.jsx";
 import KeypointOverlay from "./components/KeypointOverlay.jsx";
 
 const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
@@ -113,6 +112,7 @@ const UI_TEXT = {
     idle: "idle",
     ingestReadiness: "Ingest Readiness",
     completed: "Completed",
+    partial: "Partial",
     ready: "Ready",
     yes: "Yes",
     no: "No",
@@ -132,6 +132,7 @@ const UI_TEXT = {
     exportEvidence: "Export Evidence",
     records: "Records",
     pending: "Pending",
+    ok: "OK",
     poseFrames: "Pose frames",
     timingQa: "Timing QA",
     timingEdits: "Timing edits",
@@ -142,6 +143,7 @@ const UI_TEXT = {
     reviewer: "Reviewer",
     movementLabels: "Movement Labels",
     movement: "Movement",
+    view: "View",
     total: "Total",
     valid: "Valid",
     invalid: "Invalid",
@@ -164,6 +166,8 @@ const UI_TEXT = {
     exitPreview: "Exit preview",
     previewSuggestedTiming: "Preview suggested timing",
     suggestedTiming: "Suggested timing",
+    timingStatus: "Timing status",
+    reviewStatus: "Review status",
     ingestResult: "Ingest Result",
     batch: "Batch",
     reviewerId: "Reviewer ID",
@@ -246,6 +250,7 @@ const UI_TEXT = {
     idle: "空闲",
     ingestReadiness: "入库准备",
     completed: "已完成",
+    partial: "部分完成",
     ready: "Ready",
     yes: "是",
     no: "否",
@@ -254,8 +259,8 @@ const UI_TEXT = {
     exportJson: "导出 JSON",
     exportCsv: "导出 CSV",
     consistencySnapshot: "一致性快照",
-    segments: "Segments",
-    clips: "clips",
+    segments: "分段",
+    clips: "段",
     validLabels: "有效标签",
     pendingLabels: "待标注",
     invalidLabels: "无效标签",
@@ -265,6 +270,7 @@ const UI_TEXT = {
     exportEvidence: "导出证据",
     records: "记录",
     pending: "待处理",
+    ok: "OK",
     poseFrames: "Pose 帧",
     timingQa: "Timing QA",
     timingEdits: "Timing 调整",
@@ -275,6 +281,7 @@ const UI_TEXT = {
     reviewer: "Reviewer",
     movementLabels: "Movement 标签",
     movement: "Movement",
+    view: "视角",
     total: "总数",
     valid: "有效",
     invalid: "无效",
@@ -296,6 +303,8 @@ const UI_TEXT = {
     exitPreview: "退出预览",
     previewSuggestedTiming: "预览建议 timing",
     suggestedTiming: "建议 timing",
+    timingStatus: "Timing 状态",
+    reviewStatus: "Review 状态",
     ingestResult: "入库结果",
     batch: "批次",
     reviewerId: "Reviewer ID",
@@ -328,7 +337,7 @@ const UI_TEXT = {
     painFlag: "Pain flag",
     saveSegmentMetadata: "保存 Segment 元数据",
     segmentTimingQa: "Segment Timing QA",
-    cycles: "cycles",
+    cycles: "动作周期",
     applyAllSuggestedTiming: "应用全部建议 timing",
     noCycle: "无 cycle",
     deepSquatFeatures: "Deep Squat Features",
@@ -1763,17 +1772,10 @@ export default function App() {
           <SegmentList
             segments={segments}
             activeSegmentId={activeSegmentId}
+            timingReport={timingReport}
+            onApplyAllTiming={handleApplyAllTimingSuggestions}
             onSelect={handleSelectSegment}
             disabled={!segments.length}
-            t={t}
-          />
-
-          <SegmentTimingReport
-            report={timingReport}
-            activeSegmentId={activeSegmentId}
-            onSelect={handleSelectSegment}
-            onApplyAll={handleApplyAllTimingSuggestions}
-            disabled={!videoId || isBusy}
             t={t}
           />
 

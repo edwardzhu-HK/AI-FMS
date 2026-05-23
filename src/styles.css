@@ -500,24 +500,10 @@ video {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.segment-timing-report header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 10px;
 }
 
-.timing-report-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.timing-report-actions .button-secondary {
+.segment-list header .button-secondary {
   padding: 7px 9px;
   font-size: 0.82rem;
 }
@@ -529,7 +515,7 @@ video {
   gap: 10px;
 }
 
-.segment-timing-report header span {
+.segment-list header span {
   color: #4f5447;
   font-size: 0.9rem;
 }
@@ -547,14 +533,6 @@ video {
   gap: 8px;
   max-height: 370px;
   overflow: auto;
-}
-
-.segment-timing-report ul {
-  list-style: none;
-  margin: 8px 0 0;
-  padding: 0;
-  display: grid;
-  gap: 8px;
 }
 
 .deep-squat-features ul {
@@ -608,7 +586,9 @@ video {
   width: 100%;
   text-align: left;
   display: grid;
-  grid-template-columns: 40px 55px 1fr auto;
+  grid-template-columns:
+    40px minmax(54px, 0.6fr) minmax(96px, 1fr) minmax(106px, 1fr)
+    64px minmax(58px, 0.7fr) auto;
   gap: 8px;
   align-items: center;
   padding: 8px 10px;
@@ -617,26 +597,24 @@ video {
   background: #fff;
 }
 
-.timing-report-item {
-  width: 100%;
-  text-align: left;
+.segment-list-grid-header {
   display: grid;
-  grid-template-columns: 38px minmax(118px, 1fr) minmax(118px, 1fr) 72px 116px;
+  grid-template-columns:
+    40px minmax(54px, 0.6fr) minmax(96px, 1fr) minmax(106px, 1fr)
+    64px minmax(58px, 0.7fr) auto;
   gap: 8px;
   align-items: center;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--ink);
-  font-size: 0.88rem;
+  padding: 0 10px;
+  color: #5e6659;
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
-.timing-report-item-good {
+.segment-item-timing-good {
   border-color: rgba(28, 129, 95, 0.28);
 }
 
-.timing-report-item-warning {
+.segment-item-timing-warning {
   border-color: rgba(197, 108, 35, 0.38);
   background: #fff9f0;
 }
@@ -646,12 +624,7 @@ video {
   box-shadow: 0 0 0 1px var(--accent);
 }
 
-.timing-report-item-active {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-
-.timing-report-item:hover {
+.segment-item:hover:not(:disabled) {
   border-color: var(--accent);
 }
 
@@ -790,7 +763,8 @@ video {
   .movement-summary-row,
   .summary-metrics,
   .subscore-grid,
-  .timing-report-item,
+  .segment-list-grid-header,
+  .segment-item,
   .deep-squat-features li {
     grid-template-columns: 1fr;
   }

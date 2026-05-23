@@ -94,6 +94,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
       in English.
 - [x] Add suggested-timing preview playback before applying segment timing
       changes.
+- [x] Merge Segments and Segment Timing QA into one review list for cleaner
+      demo testing.
 
 ## Stretch: Selected Movement Expansion
 
@@ -142,7 +144,7 @@ remain reusable:
 
 ## Current Known Limitations
 
-- This directory is not currently a Git repository.
+- Git is initialized locally, but no GitHub remote is configured yet.
 - Real backend persistence is not implemented.
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.

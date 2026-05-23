@@ -28,7 +28,7 @@ npm run dev
   - `Sample-1 mixed views`: `1-45s`, `7` reps, `Sample-1.pose.json · 441/441 frames`。
   - `Front only`: `0-18s`, `3` reps, `front.pose.json · 179/179 frames`。
   - `Side only`: `0-26s`, `4` reps, `side.pose.json · 261/261 frames`。
-- `Sample-1 mixed views` 跑 `Start Analysis` 后显示 `7 clips`，Segment Timing QA 显示 `7/7 OK · 7 cycles`。
+- `Sample-1 mixed views` 跑 `Start Analysis` 后，单一 `Segments` 列表显示 `7 clips · Timing QA: 7/7 OK · 7 cycles`。
 
 ## 推荐测试路径
 
@@ -66,9 +66,9 @@ Header 右侧有 `Language` / `语言` 切换按钮：
 1. 点击 `Load Demo`。
 2. 点击 `Start Analysis`。
 3. 等待 `Job: succeeded (100%)`。
-4. 确认 Segments 显示 `7 clips`。
-5. 确认 Segment Timing QA 显示 `7/7 OK · 7 cycles`。
-6. 在 Segment Timing QA 某一行点击 `Preview suggested timing` / `预览建议 timing`。
+4. 确认单一 `Segments` 列表显示 `7 clips`，并在同一列表中显示 `Timing QA: 7/7 OK · 7 cycles`。
+5. 确认每一行同时包含当前 segment timing、建议 timing、coverage、timing 状态和 review 状态。
+6. 在播放区按钮行点击 `Preview suggested timing` / `预览建议 timing`。
 7. 确认播放区临时跳到建议 timing，并显示 preview 状态；Segment Metadata 仍保留原始 start/end，说明还没有保存覆盖。
 8. 点击 `Apply All Suggested Timing`。
 9. 选择 `#5 side` segment。
@@ -90,7 +90,7 @@ Header 右侧有 `Language` / `语言` 切换按钮：
 2. 点击 `Load Demo`。
 3. 点击 `Start Analysis`。
 4. 确认 segment 数量分别为 3 或 4。
-5. 确认 timing rows 能显示 pose-derived suggested timing。
+5. 确认 `Segments` 列表中能显示 pose-derived suggested timing。
 
 ## 已知边界
 
