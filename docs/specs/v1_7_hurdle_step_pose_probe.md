@@ -61,7 +61,7 @@ Eval_Videos/Sample videos/2-Hurdle step/pose/7-reps-score-3.pose.json
 
 ## 第一版 Feature Candidate
 
-Hurdle Step 首轮可以先尝试 feature-only evidence：
+Hurdle Step 首轮 feature-only evidence 已加入 helper 和单元测试：
 
 - `stepClearance`: 跨栏脚 ankle / knee 是否出现明显抬升。
 - `stanceStability`: 支撑侧 hip/knee/ankle 是否相对稳定。
@@ -88,8 +88,28 @@ FMS repetition 边界。Hurdle Step 一个 rep 里可能包含跨过、落地、
 这一步的价值是证明 MediaPipe pose 轨迹能提供 Hurdle Step 的基础 timing evidence；
 下一步需要把 `candidate cycles` 转成更接近 reviewer 直觉的 segment 建议。
 
+## Feature Helper 试跑结果
+
+第一版 `hurdle-step-features.js` 会基于 timing cycle 的 peak frame 和 segment window
+输出 reviewer-readable evidence。它仍然是 feature-only，不会生成 pose-based AI
+suggestion。
+
+在 `7-reps-score-3.pose.json` 的前 4 个 candidate cycles 上试跑，feature helper 能
+输出可用 evidence：
+
+| Metric                 | 结果  | 说明                            |
+| ---------------------- | ----- | ------------------------------- |
+| usable repetitions     | 4/4   | 前 4 个 candidate cycles 可用。 |
+| average peak clearance | 0.193 | 跨栏脚抬升 proxy。              |
+| average stance drift   | 0.016 | 支撑脚稳定性 proxy。            |
+| average visibility     | 0.961 | 关键点整体可见度较好。          |
+
+首个 candidate cycle 的 ratings 均为 `good`：`stepClearance`、`stanceStability`、
+`trunkControl`、`sideConfidence`。但这仍然建立在 candidate cycle 上，不能直接等同
+最终 FMS rep。
+
 ## 下一步
 
 1. 继续校准 Hurdle Step timing：减少一个 rep 内的重复峰，并明确 side/return phase。
-2. 新增 `hurdle-step-features.js` 和测试，输出 feature-only evidence。
+2. 接入 movement adapter 和 feature snapshot UI，形成一个 feature-only demo path。
 3. 等至少一个 Hurdle Step demo path 稳定后，再决定是否接入 AI suggestion。
