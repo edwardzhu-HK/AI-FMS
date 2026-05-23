@@ -1,0 +1,4 @@
+file_name,start_second,end_second,expected_reps,notes
+sample_front_01.mp4,0,26,5,front view stable lighting
+sample_side_01.mp4,2,38,6,side view mixed speed
+sample_mixed_01.mp4,1.5,44,7,mixed front and side in one video

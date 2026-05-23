@@ -1,0 +1,8 @@
+file_name,start_second,end_second,expected_reps,notes
+2-Hurdle step/12 reps score 3.mp4,0,60.27,12,inventory_readiness=manifest_candidate; source=12 reps score 3.mp4; score_hints=3
+2-Hurdle step/2 reps score 3.mp4,0,46.24,2,inventory_readiness=manifest_candidate; source=2 reps score 3.mp4; score_hints=3
+"2-Hurdle step/6reps each side, total 12 reps, score 3 for both sides.mp4",0,153.24,12,"inventory_readiness=manifest_candidate; source=6reps each side, total 12 reps, score 3 for both sides.mp4; score_hints=3; side_hints=bilateral"
+2-Hurdle step/6reps total score 2 fo r both sides.mp4,0,230.75,6,inventory_readiness=manifest_candidate; source=6reps total score 2 fo r both sides.mp4; score_hints=2; side_hints=bilateral
+2-Hurdle step/7 reps score 3.mp4,0,59.19,7,inventory_readiness=manifest_candidate; source=7 reps score 3.mp4; score_hints=3
+"2-Hurdle step/all the reps are right side. first 3 reps score 3, then 1 rep score 1 and 2 reps score 2.mp4",0,197.18,6,"inventory_readiness=manifest_candidate; source=all the reps are right side. first 3 reps score 3, then 1 rep score 1 and 2 reps score 2.mp4; score_hints=3/1/2; side_hints=right"
+2-Hurdle step/first 4 reps all score 3.mp4,0,132,4,inventory_readiness=manifest_candidate; source=first 4 reps all score 3.mp4; score_hints=3

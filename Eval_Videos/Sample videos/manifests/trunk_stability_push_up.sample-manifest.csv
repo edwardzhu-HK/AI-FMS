@@ -1,0 +1,8 @@
+file_name,start_second,end_second,expected_reps,notes
+6-trunk stability push up/1 rep score 3.mp4,0,33.55,1,inventory_readiness=manifest_candidate; source=1 rep score 3.mp4; score_hints=3
+6-trunk stability push up/10 reps.mp4,0,244.11,10,inventory_readiness=needs_score_review; source=10 reps.mp4; flags=missing_score_hint
+6-trunk stability push up/2 reps.mp4,0,223.46,2,inventory_readiness=needs_score_review; source=2 reps.mp4; flags=missing_score_hint
+6-trunk stability push up/3 reps.mp4,0,60.95,3,inventory_readiness=needs_score_review; source=3 reps.mp4; flags=missing_score_hint
+6-trunk stability push up/4 reps first 2 score 3 and last 2 score 2.mp4,0,122.52,4,inventory_readiness=manifest_candidate; source=4 reps first 2 score 3 and last 2 score 2.mp4; score_hints=3/2
+6-trunk stability push up/4 reps first rep score 3 for man and last rep score 2 for woman.mp4,0,44.17,4,inventory_readiness=manifest_candidate; source=4 reps first rep score 3 for man and last rep score 2 for woman.mp4; score_hints=3/2
+6-trunk stability push up/9 reps.mp4,0,142.24,9,inventory_readiness=needs_score_review; source=9 reps.mp4; flags=missing_score_hint

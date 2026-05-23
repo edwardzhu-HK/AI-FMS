@@ -1,0 +1,11 @@
+file_name,start_second,end_second,expected_reps,notes
+3-Inline Lunge/1 rep score 3 for left side for the first rep.mp4,0,171.07,1,inventory_readiness=manifest_candidate; source=1 rep score 3 for left side for the first rep.mp4; score_hints=3; side_hints=left
+3-Inline Lunge/1 rep score 3.mp4,0,5.7,1,inventory_readiness=manifest_candidate; source=1 rep score 3.mp4; score_hints=3; flags=low_resolution
+3-Inline Lunge/4 reps score 2.mp4,0,16.57,4,inventory_readiness=manifest_candidate; source=4 reps score 2.mp4; score_hints=2
+3-Inline Lunge/6 reps score 2 (2).mp4,0,38.15,6,inventory_readiness=manifest_candidate; source=6 reps score 2 (2).mp4; score_hints=2; flags=low_resolution
+3-Inline Lunge/6 reps score 2.mp4,0,387.44,6,inventory_readiness=manifest_candidate; source=6 reps score 2.mp4; score_hints=2
+3-Inline Lunge/6 reps score 3.mp4,0,60.29,6,inventory_readiness=manifest_candidate; source=6 reps score 3.mp4; score_hints=3
+3-Inline Lunge/9 reps score 3.mp4,0,161.29,9,inventory_readiness=manifest_candidate; source=9 reps score 3.mp4; score_hints=3
+3-Inline Lunge/score 2 for the first 2 reps(right side only).mp4,0,63.33,2,inventory_readiness=manifest_candidate; source=score 2 for the first 2 reps(right side only).mp4; score_hints=2; side_hints=right
+3-Inline Lunge/score 3 for the first 5 reps.mp4,0,304.24,5,inventory_readiness=manifest_candidate; source=score 3 for the first 5 reps.mp4; score_hints=3
+3-Inline Lunge/total 2 reps for left side; first rep score 2 and second rep score 3.mp4,0,245.02,2,inventory_readiness=manifest_candidate; source=total 2 reps for left side; first rep score 2 and second rep score 3.mp4; score_hints=2/3; side_hints=left

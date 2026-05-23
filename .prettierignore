@@ -1,0 +1,5 @@
+node_modules
+dist
+.omx
+AI-FMS项目定位和规划.md
+Eval_Videos/**/pose/*.json

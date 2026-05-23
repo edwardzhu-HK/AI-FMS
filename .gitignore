@@ -1,0 +1,14 @@
+node_modules
+dist
+.DS_Store
+.venv
+.cache
+.omx
+models/*.task
+Eval_Videos/**/pose/*.json
+Eval_Videos/**/*.mp4
+Eval_Videos/**/*.mov
+Eval_Videos/**/*.avi
+Eval_Videos/*.mp4
+Eval_Videos/*.mov
+Eval_Videos/*.avi

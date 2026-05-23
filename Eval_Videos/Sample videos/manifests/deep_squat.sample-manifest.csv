@@ -1,0 +1,14 @@
+file_name,start_second,end_second,expected_reps,notes
+1-Squat/1 rep score 2.mp4,0,5.24,1,inventory_readiness=manifest_candidate; source=1 rep score 2.mp4; score_hints=2
+1-Squat/1rep score 2.mp4,0,5.03,1,inventory_readiness=manifest_candidate; source=1rep score 2.mp4; score_hints=2; flags=low_resolution
+1-Squat/2reps (2).mp4,0,141.7,2,inventory_readiness=needs_score_review; source=2reps (2).mp4; flags=missing_score_hint
+1-Squat/2reps score 2.mp4,0,32.1,2,inventory_readiness=manifest_candidate; source=2reps score 2.mp4; score_hints=2
+1-Squat/2reps score 3.mp4,0,11.4,2,inventory_readiness=manifest_candidate; source=2reps score 3.mp4; score_hints=3
+1-Squat/3 (2) reps score 3.mp4,0,20.28,3,inventory_readiness=manifest_candidate; source=3 (2) reps score 3.mp4; score_hints=3
+1-Squat/3 reps.mp4,0,35.8,3,inventory_readiness=needs_score_review; source=3 reps.mp4; flags=missing_score_hint
+1-Squat/3reps score 3.mp4,0,52.68,3,inventory_readiness=manifest_candidate; source=3reps score 3.mp4; score_hints=3
+1-Squat/3reps.mp4,0,24.97,3,inventory_readiness=needs_score_review; source=3reps.mp4; flags=missing_score_hint
+1-Squat/4reps score 2 (2).mp4,0,10.71,4,inventory_readiness=manifest_candidate; source=4reps score 2 (2).mp4; score_hints=2
+1-Squat/4reps score 2.mp4,0,279.28,4,inventory_readiness=manifest_candidate; source=4reps score 2.mp4; score_hints=2
+1-Squat/5reps score 2.mp4,0,59.97,5,inventory_readiness=manifest_candidate; source=5reps score 2.mp4; score_hints=2
+1-Squat/7reps score 3 for the first 6 reps and 2 for the last rep.mp4,0,127.88,13,inventory_readiness=manifest_candidate; source=7reps score 3 for the first 6 reps and 2 for the last rep.mp4; score_hints=3

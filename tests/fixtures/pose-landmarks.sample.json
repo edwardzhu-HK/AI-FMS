@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "ai_fms_pose_landmarks_v1",
+  "generatedAt": "2026-05-22T00:00:00.000Z",
+  "sourceVideo": {
+    "videoId": "sample-1",
+    "actionType": "deep_squat",
+    "path": "/tmp/Sample-1.mp4",
+    "fileName": "Sample-1.mp4",
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "frameCount": 2774,
+    "durationSecond": 46.233333333333334,
+    "processedStartSecond": 1,
+    "processedEndSecond": 45
+  },
+  "poseModel": {
+    "name": "mediapipe_pose_landmarker",
+    "modelAssetPath": "/tmp/pose_landmarker_lite.task",
+    "modelVariant": "pose_landmarker_lite",
+    "runningMode": "VIDEO",
+    "delegate": "CPU",
+    "mediapipeVersion": "0.10.26",
+    "opencvVersion": "4.12.0"
+  },
+  "sampling": {
+    "targetFps": 10,
+    "frameStep": 6,
+    "startFrame": 60,
+    "endFrame": 2700
+  },
+  "quality": {
+    "processedFrames": 3,
+    "framesWithPose": 2,
+    "missingFrames": 1,
+    "missingFramesRatio": 0.3333333333333333,
+    "poseFramesRatio": 0.6666666666666666,
+    "avgVisibility": 0.84,
+    "avgPresence": 0.92,
+    "lowVisibilityFrames": 0,
+    "minAvgVisibilityThreshold": 0.5
+  },
+  "frames": [
+    {
+      "frameIndex": 60,
+      "timestampMs": 1000,
+      "second": 1,
+      "poses": [
+        {
+          "poseIndex": 0,
+          "landmarks": [
+            {
+              "index": 0,
+              "name": "nose",
+              "x": 0.5,
+              "y": 0.2,
+              "z": -0.1,
+              "visibility": 0.9,
+              "presence": 0.95
+            }
+          ],
+          "worldLandmarks": [
+            {
+              "index": 0,
+              "name": "nose",
+              "x": 0.01,
+              "y": 0.02,
+              "z": -0.03,
+              "visibility": 0.9,
+              "presence": 0.95
+            }
+          ]
+        }
+      ],
+      "quality": {
+        "avgVisibility": 0.9,
+        "avgPresence": 0.95
+      }
+    },
+    {
+      "frameIndex": 66,
+      "timestampMs": 1100,
+      "second": 1.1,
+      "poses": [],
+      "quality": {
+        "avgVisibility": null,
+        "avgPresence": null
+      }
+    },
+    {
+      "frameIndex": 72,
+      "timestampMs": 1200,
+      "second": 1.2,
+      "poses": [
+        {
+          "poseIndex": 0,
+          "landmarks": [
+            {
+              "index": 0,
+              "name": "nose",
+              "x": 0.51,
+              "y": 0.21,
+              "z": -0.11,
+              "visibility": 0.78,
+              "presence": 0.89
+            }
+          ],
+          "worldLandmarks": []
+        }
+      ],
+      "quality": {
+        "avgVisibility": 0.78,
+        "avgPresence": 0.89
+      }
+    }
+  ]
+}

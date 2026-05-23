@@ -1,0 +1,157 @@
+# Backlog
+
+Date: 2026-05-22
+
+This backlog has been reset around the V1.5 restart plan:
+
+**Seven-movement annotation platform + Deep Squat flagship AI pipeline +
+application-ready evidence package.**
+
+See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
+
+## P0: Restart Alignment
+
+- [x] Reposition project as an AI-assisted, human-in-the-loop FMS video
+      annotation and movement-quality dataset platform.
+- [x] Review existing project implementation and legacy V1 docs.
+- [x] Review AI-FMS planning document.
+- [x] Review Ronnie application planning context.
+- [x] Create project-specific `AGENTS.md`.
+- [x] Create V1.5 scope and roadmap document.
+- [x] Create application-facing project brief.
+- [ ] Initialize or reconnect Git repository for durable change tracking.
+
+## P1: Workflow Platform Hardening
+
+- [x] Upgrade score model from 1/2/3 to 0/1/2/3.
+- [x] Add `side` support for left/right/bilateral movements.
+- [x] Add human-only `pain_flag`.
+- [x] Add `clearing_test` field.
+- [x] Add `rubric_version`.
+- [x] Add segment manual start/end adjustment controls.
+- [x] Persist suggested vs manually adjusted segment times.
+- [x] Add JSON export for current mock workflow.
+- [x] Add pose timing/features/suggestion evidence to JSON export.
+- [x] Add CSV export for reviewer/dataset records.
+- [x] Add tests for upgraded score schema and adjudication.
+- [x] Clearly label mock keypoint overlay or hide it until real pose data exists.
+
+## P2: Deep Squat Pose Pipeline
+
+- [x] Add Python pose extraction script using MediaPipe Pose Landmarker.
+- [x] Generate per-frame keypoint JSON for
+      `Eval_Videos/01-Deep Squat/Sample-1.mp4`.
+- [x] Generate pose JSON for `front.mp4` and `side.mp4` if needed for the demo.
+- [x] Store pose model name and version in analysis output.
+- [x] Compute pose quality summary: - average landmark visibility/confidence, - missing-frame ratio, - frame count processed.
+- [x] Render real keypoint overlay from uploaded pose JSON aligned to video
+      playback time.
+- [x] Add tests or fixtures for pose JSON parsing.
+
+## P3: Pose-Assisted Segmentation
+
+- [x] Extract shoulder/hip/ankle depth trajectory for Deep Squat timing.
+- [x] Estimate movement phases and lowest point.
+- [x] Generate pose-assisted segment timing suggestions.
+- [x] Compare suggested segments against current/manual timing in a batch report.
+- [x] Show selected-segment timing QA in the workbench.
+- [x] Add batch segment quality report.
+
+## P4: Explainable Deep Squat AI Suggestion
+
+- [x] Compute first-pass Deep Squat features: - trunk inclination, - squat depth proxy, - hip-vs-knee depth, - knee-vs-ankle lateral offset.
+- [x] Show selected-segment feature snapshot in the workbench.
+- [x] Add angle-based hip/knee/ankle features when view quality is sufficient.
+- [x] Generate suggested score with confidence.
+- [x] Generate reviewer-readable explanation.
+- [x] Compare AI suggestion with final adjudicated label in the AI panel.
+- [x] Add tests for feature thresholds and feature payloads.
+- [x] Add tests for suggestion payloads.
+
+## P5: Dashboard and Evaluation
+
+- [x] Add inter-rater agreement metric.
+- [x] Add AI-final agreement metric.
+- [x] Add valid/invalid/pending summary by movement.
+- [x] Add segment timing correction summary.
+- [x] Add pose-evidence export summary to dashboard.
+- [x] Add dataset card draft.
+- [x] Add sample-quality and limitation notes.
+
+## P6: Application Package
+
+- [x] Draft application-facing project brief.
+- [x] Regenerate and verify project brief PDF after final copy edits.
+- [x] Draft technical report outline.
+- [x] Draft 2-3 minute demo video script.
+- [x] Prepare project page content.
+- [x] Add screenshots after UI stabilizes.
+- [x] Finalize GitHub-ready README.
+- [x] Draft standalone project-page copy.
+- [x] Add Deep Squat demo preset selector for Sample-1/front/side assets.
+- [x] Add user testing handoff for the current V1.5 demo.
+- [x] Add English/Chinese UI language toggle while keeping all 7 movement names
+      in English.
+- [x] Add suggested-timing preview playback before applying segment timing
+      changes.
+
+## Stretch: Selected Movement Expansion
+
+Priority order:
+
+1. Active Straight Leg Raise
+2. Shoulder Mobility
+3. Hurdle Step
+4. In-Line Lunge
+
+Tasks:
+
+- [x] Inventory prepared sample videos across all 7 FMS movements.
+- [x] Generate draft sample manifests for manifest-ready collected videos.
+- [x] Validate generated sample manifests.
+- [ ] Promote selected draft rows into canonical movement manifests after human
+      review.
+- [ ] Ingest prepared sample videos for the remaining FMS movements when
+      provided.
+- [ ] Add sample manifest rows for selected movement.
+- [ ] Validate sample video quality.
+- [ ] Define movement-specific pose features.
+- [ ] Add AI suggestion as data quality allows.
+
+## Legacy Acceptance Record
+
+The following items were completed during the February 2026 prototype phase and
+remain reusable:
+
+- [x] V0/V1 specs, ADRs, and process docs.
+- [x] React/Vite workbench skeleton.
+- [x] Mock API workflow.
+- [x] Local HTTP API stub.
+- [x] Mock/real API mode switch.
+- [x] Segment list and loop playback.
+- [x] Reviewer A/B scoring forms.
+- [x] A/B/AI adjudication logic.
+- [x] Consistency snapshot endpoint and UI card.
+- [x] Manifest validation script.
+- [x] Manifest-to-stub import script.
+- [x] Deep Squat manifest validation.
+- [x] Seven FMS action entries.
+- [x] Notes/file-name assisted view inference.
+- [x] Expected Reps-assisted segmentation.
+- [x] Automated tests for key prototype modules.
+
+## Current Known Limitations
+
+- This directory is not currently a Git repository.
+- Real backend persistence is not implemented.
+- Real pose extraction is implemented as a local Deep Squat prototype, but not
+  yet integrated into backend storage or automatic job output.
+- Current AI suggestion is rules/mock-level for non-Deep-Squat movements;
+  Deep Squat has a pose-based explainable suggestion when pose JSON is loaded.
+- Keypoint overlay uses real pose JSON when uploaded, and falls back to an
+  explicitly labeled demo skeleton when no pose JSON is loaded.
+- Only Deep Squat has meaningful manifest rows; other movement manifests are
+  initialized but empty until selected draft sample rows are promoted.
+- Current sample inventory covers 64 videos across all 7 FMS movement folders.
+  Six movements have draft manifest rows; Rotary Stability currently only has
+  review-only/tutorial-like samples and needs better movement samples.

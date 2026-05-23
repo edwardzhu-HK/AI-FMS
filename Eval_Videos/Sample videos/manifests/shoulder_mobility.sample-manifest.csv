@@ -1,0 +1,12 @@
+file_name,start_second,end_second,expected_reps,notes
+4-shoulder mobility/1 rep score 3 for right side.mp4,0,14.15,1,inventory_readiness=manifest_candidate; source=1 rep score 3 for right side.mp4; score_hints=3; side_hints=right; flags=low_resolution
+4-shoulder mobility/1 rep.mp4,0,59.87,1,inventory_readiness=needs_score_review; source=1 rep.mp4; flags=missing_score_hint
+4-shoulder mobility/2 reps score 1 for both side.mp4,0,243.71,2,inventory_readiness=manifest_candidate; source=2 reps score 1 for both side.mp4; score_hints=1; side_hints=bilateral
+4-shoulder mobility/2 reps score 2.mp4,0,22.09,2,inventory_readiness=manifest_candidate; source=2 reps score 2.mp4; score_hints=2
+4-shoulder mobility/2 reps score 3 (2).mp4,0,20.47,2,inventory_readiness=manifest_candidate; source=2 reps score 3 (2).mp4; score_hints=3
+4-shoulder mobility/2 reps score 3.mp4,0,26.17,2,inventory_readiness=manifest_candidate; source=2 reps score 3.mp4; score_hints=3
+4-shoulder mobility/2 reps.mp4,0,26.17,2,inventory_readiness=needs_score_review; source=2 reps.mp4; flags=missing_score_hint
+4-shoulder mobility/3 reps score 3 for the left side.mp4,0,19.31,3,inventory_readiness=manifest_candidate; source=3 reps score 3 for the left side.mp4; score_hints=3; side_hints=left
+4-shoulder mobility/6 reps (2).mp4,0,234.25,6,inventory_readiness=needs_score_review; source=6 reps (2).mp4; flags=missing_score_hint
+4-shoulder mobility/6 reps (3).mp4,0,248.98,6,inventory_readiness=needs_score_review; source=6 reps (3).mp4; flags=missing_score_hint
+4-shoulder mobility/6 reps.mp4,0,165.5,6,inventory_readiness=needs_score_review; source=6 reps.mp4; flags=missing_score_hint

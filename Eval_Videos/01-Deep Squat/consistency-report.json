@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-02-15T15:32:41.091Z",
+  "sourceImportReport": "/Users/edwardzhu/Desktop/CodeX Projects/03-FMS-Calib/Eval_Videos/01-Deep Squat/import-report.json",
+  "apiBase": "http://127.0.0.1:4000",
+  "videoCount": 3,
+  "aggregate": {
+    "segmentsTotal": 14,
+    "validCount": 0,
+    "invalidCount": 0,
+    "pendingCount": 14,
+    "aiMatchesFinalCount": 0,
+    "aiDiffersFromFinalCount": 0,
+    "reviewerConsensusCount": 0,
+    "reviewerDisagreementCount": 0,
+    "aiMatchesFinalRate": null
+  },
+  "byVideo": [
+    {
+      "fileName": "Sample-1.mp4",
+      "videoId": "vid_0001",
+      "expectedReps": 7,
+      "generatedSegments": 7,
+      "metrics": {
+        "segmentsTotal": 7,
+        "validCount": 0,
+        "invalidCount": 0,
+        "pendingCount": 7,
+        "aiMatchesFinalCount": 0,
+        "aiDiffersFromFinalCount": 0,
+        "reviewerConsensusCount": 0,
+        "reviewerDisagreementCount": 0,
+        "aiMatchesFinalRate": null
+      }
+    },
+    {
+      "fileName": "front.mp4",
+      "videoId": "vid_0002",
+      "expectedReps": 3,
+      "generatedSegments": 3,
+      "metrics": {
+        "segmentsTotal": 3,
+        "validCount": 0,
+        "invalidCount": 0,
+        "pendingCount": 3,
+        "aiMatchesFinalCount": 0,
+        "aiDiffersFromFinalCount": 0,
+        "reviewerConsensusCount": 0,
+        "reviewerDisagreementCount": 0,
+        "aiMatchesFinalRate": null
+      }
+    },
+    {
+      "fileName": "side.mp4",
+      "videoId": "vid_0003",
+      "expectedReps": 4,
+      "generatedSegments": 4,
+      "metrics": {
+        "segmentsTotal": 4,
+        "validCount": 0,
+        "invalidCount": 0,
+        "pendingCount": 4,
+        "aiMatchesFinalCount": 0,
+        "aiDiffersFromFinalCount": 0,
+        "reviewerConsensusCount": 0,
+        "reviewerDisagreementCount": 0,
+        "aiMatchesFinalRate": null
+      }
+    }
+  ]
+}

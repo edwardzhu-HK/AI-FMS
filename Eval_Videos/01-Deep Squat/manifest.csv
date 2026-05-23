@@ -1,0 +1,4 @@
+file_name,start_second,end_second,expected_reps,notes
+Sample-1.mp4,1,45,7,前三个正面，后四个侧面。前六个3分，最后一个2分
+front.mp4,0,18,3,都是正面
+side.mp4,0,26,4,都是侧面

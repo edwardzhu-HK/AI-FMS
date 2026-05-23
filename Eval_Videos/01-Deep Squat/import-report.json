@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-02-15T15:39:09.524Z",
+  "manifest": "/Users/edwardzhu/Desktop/CodeX Projects/03-FMS-Calib/Eval_Videos/01-Deep Squat/manifest.csv",
+  "api_base": "http://127.0.0.1:4000",
+  "action_type": "deep_squat",
+  "rows": [
+    {
+      "file_name": "Sample-1.mp4",
+      "video_id": "vid_0001",
+      "analysis_job_id": "job_0001",
+      "expected_reps": 7,
+      "generated_segments": 7,
+      "notes": "前三个正面，后四个侧面。前六个3分，最后一个2分"
+    },
+    {
+      "file_name": "front.mp4",
+      "video_id": "vid_0002",
+      "analysis_job_id": "job_0002",
+      "expected_reps": 3,
+      "generated_segments": 3,
+      "notes": "都是正面"
+    },
+    {
+      "file_name": "side.mp4",
+      "video_id": "vid_0003",
+      "analysis_job_id": "job_0003",
+      "expected_reps": 4,
+      "generated_segments": 4,
+      "notes": "都是侧面"
+    }
+  ]
+}
