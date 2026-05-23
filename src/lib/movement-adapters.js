@@ -6,6 +6,8 @@ import { summarizeAslrPoseFeatures } from "./aslr-features.js";
 import { buildAslrExplainableSuggestion } from "./aslr-suggestion.js";
 import { summarizeShoulderMobilityPoseFeatures } from "./shoulder-mobility-features.js";
 import { evaluateShoulderMobilitySegmentsTiming } from "./shoulder-mobility-timing.js";
+import { summarizeHurdleStepPoseFeatures } from "./hurdle-step-features.js";
+import { evaluateHurdleStepSegmentsTiming } from "./hurdle-step-timing.js";
 
 const DEEP_SQUAT_ADAPTER = {
   actionType: "deep_squat",
@@ -108,10 +110,40 @@ const SHOULDER_MOBILITY_ADAPTER = {
   },
 };
 
+const HURDLE_STEP_ADAPTER = {
+  actionType: "hurdle_step",
+  posePipelineStatus: "features_only",
+  featureTitleKey: "hurdleStepFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateHurdleStepSegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeHurdleStepPoseFeatures({
+      posePayload,
+      timingReport,
+    });
+  },
+  buildSuggestionReport() {
+    return null;
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
   [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
   [SHOULDER_MOBILITY_ADAPTER.actionType]: SHOULDER_MOBILITY_ADAPTER,
+  [HURDLE_STEP_ADAPTER.actionType]: HURDLE_STEP_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {

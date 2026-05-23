@@ -32,8 +32,14 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
   ]);
 });
 
-test("movement adapter registry keeps unsupported movements annotation-only", () => {
-  assert.equal(getMovementAdapter("hurdle_step"), null);
+test("movement adapter registry exposes Hurdle Step features-only pipeline", () => {
+  const adapter = getMovementAdapter("hurdle_step");
+
+  assert.equal(adapter.actionType, "hurdle_step");
+  assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(typeof adapter.buildTimingReport, "function");
+  assert.equal(typeof adapter.buildFeatureReport, "function");
+  assert.equal(adapter.buildSuggestionReport(), null);
 });
 
 test("movement adapter registry exposes Shoulder Mobility features-only pipeline", () => {

@@ -28,6 +28,12 @@ npm run dev
   - `Sample-1 mixed views`: `1-45s`, `7` reps, `Sample-1.pose.json · 441/441 frames`。
   - `Front only`: `0-18s`, `3` reps, `front.pose.json · 179/179 frames`。
   - `Side only`: `0-26s`, `4` reps, `side.pose.json · 261/261 frames`。
+  - `ASLR score-3 sample`: `0-23.8s`, `2` reps,
+    `2-reps-score-3.pose.json · 237/237 frames`。
+  - `Shoulder score-2 sample`: `0-22.1s`, `2` reps,
+    `2-reps-score-2.pose.json · 220/220 frames`。
+  - `Hurdle score-3 sample`: `0-59.2s`, `7` reps,
+    `7-reps-score-3.pose.json · 556/592 frames`。
 - `Sample-1 mixed views` 跑 `Start Analysis` 后，单一 `Segments` 列表显示 `7 clips · Timing QA: 7/7 OK · 7 cycles`。
 
 ## 推荐测试路径
@@ -44,11 +50,14 @@ Header 右侧有 `Language` / `语言` 切换按钮：
 
 打开页面后，在左侧 `Deep Squat Demo` 下拉框中依次测试：
 
-| Preset                 | Start/End   | Expected Reps | Pose 状态                             |
-| ---------------------- | ----------- | ------------- | ------------------------------------- |
-| `Sample-1 mixed views` | `1` 到 `45` | `7`           | `Sample-1.pose.json · 441/441 frames` |
-| `Front only`           | `0` 到 `18` | `3`           | `front.pose.json · 179/179 frames`    |
-| `Side only`            | `0` 到 `26` | `4`           | `side.pose.json · 261/261 frames`     |
+| Preset                    | Start/End     | Expected Reps | Pose 状态                                   |
+| ------------------------- | ------------- | ------------- | ------------------------------------------- |
+| `Sample-1 mixed views`    | `1` 到 `45`   | `7`           | `Sample-1.pose.json · 441/441 frames`       |
+| `Front only`              | `0` 到 `18`   | `3`           | `front.pose.json · 179/179 frames`          |
+| `Side only`               | `0` 到 `26`   | `4`           | `side.pose.json · 261/261 frames`           |
+| `ASLR score-3 sample`     | `0` 到 `23.8` | `2`           | `2-reps-score-3.pose.json · 237/237 frames` |
+| `Shoulder score-2 sample` | `0` 到 `22.1` | `2`           | `2-reps-score-2.pose.json · 220/220 frames` |
+| `Hurdle score-3 sample`   | `0` 到 `59.2` | `7`           | `7-reps-score-3.pose.json · 556/592 frames` |
 
 每次选择 preset 后点击 `Load Demo`。
 

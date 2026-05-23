@@ -127,9 +127,8 @@ Current V1.7 implementation status:
 - Shoulder Mobility has a feature-only pose evidence path and one
   browser-verifiable demo preset; suggestion is intentionally held for more
   human calibration.
-- Hurdle Step has completed an initial pose probe plus timing/features helpers.
-  The next step is a feature-only browser demo path; AI suggestion is not yet in
-  scope.
+- Hurdle Step has completed an initial pose probe, timing/features helpers, and
+  one feature-only browser demo path. AI suggestion is not yet in scope.
 
 ### V2: Evaluation and Application Package
 

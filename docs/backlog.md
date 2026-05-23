@@ -148,7 +148,7 @@ Current development order agreed on 2026-05-23:
   - [x] Document Hurdle Step pose probe and active-period findings.
   - [x] Add Hurdle Step timing helper and tests.
   - [x] Add Hurdle Step feature helper and tests.
-  - [ ] Add one browser-verifiable Hurdle Step feature-only demo path.
+  - [x] Add one browser-verifiable Hurdle Step feature-only demo path.
 
 ## Stretch: Selected Movement Expansion
 

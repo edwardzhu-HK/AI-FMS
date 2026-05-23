@@ -35,6 +35,7 @@ http://localhost:5173/
 | `Side only`               | `Deep Squat`                | `0` 到 `26`   | `4`           | `side.pose.json · 261/261 frames`           |
 | `ASLR score-3 sample`     | `Active Straight Leg Raise` | `0` 到 `23.8` | `2`           | `2-reps-score-3.pose.json · 237/237 frames` |
 | `Shoulder score-2 sample` | `Shoulder Mobility`         | `0` 到 `22.1` | `2`           | `2-reps-score-2.pose.json · 220/220 frames` |
+| `Hurdle score-3 sample`   | `Hurdle Step`               | `0` 到 `59.2` | `7`           | `7-reps-score-3.pose.json · 556/592 frames` |
 
 2026-05-22 浏览器验证结果：三个 preset 都可以加载匹配视频和 pose JSON，并正确保留 preset 分析范围，没有被视频完整 duration 覆盖。
 

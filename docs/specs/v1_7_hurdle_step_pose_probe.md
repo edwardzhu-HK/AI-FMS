@@ -108,8 +108,21 @@ suggestion。
 `trunkControl`、`sideConfidence`。但这仍然建立在 candidate cycle 上，不能直接等同
 最终 FMS rep。
 
+## Demo Path
+
+第一版 feature-only demo path 已接入：`Demo Preset` 选择 `Hurdle score-3 sample`
+后，可以验证 skeleton、Timing QA、Hurdle Step Features 和 dataset export。当前不会
+生成 pose-based AI suggestion，右侧会明确显示 `Pose Evidence Only`。
+
+浏览器 smoke 已验证：
+
+- Action 为 `Hurdle Step`。
+- `7 clips` 可以生成。
+- `Hurdle Step Features` 显示 7/7 usable，visibility 约 95%。
+- 右侧 summary 显示 `Pose Evidence Only`，不混入自动评分承诺。
+
 ## 下一步
 
 1. 继续校准 Hurdle Step timing：减少一个 rep 内的重复峰，并明确 side/return phase。
-2. 接入 movement adapter 和 feature snapshot UI，形成一个 feature-only demo path。
-3. 等至少一个 Hurdle Step demo path 稳定后，再决定是否接入 AI suggestion。
+2. 等更多 Hurdle Step 人工样本复核后，再决定是否接入 AI suggestion。
+3. 若要把 candidate cycles 合并为正式 segment，需要先评审 schema/provenance 语义。

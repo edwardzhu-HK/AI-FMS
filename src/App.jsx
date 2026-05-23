@@ -112,6 +112,21 @@ const DEMO_PRESETS = [
       endSecond: "22.1",
     },
   },
+  {
+    id: "hurdle-score-3",
+    label: "Hurdle score-3 sample",
+    actionType: "hurdle_step",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/2-Hurdle%20step/7%20reps%20score%203.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/2-Hurdle%20step/pose/7-reps-score-3.pose.json",
+    videoFileName: "7 reps score 3.mp4",
+    poseFileName: "7-reps-score-3.pose.json",
+    range: {
+      startSecond: "0",
+      endSecond: "59.2",
+    },
+  },
 ];
 const EVAL_VIDEO_PRESETS = {
   "sample-1.mp4": {
@@ -133,6 +148,10 @@ const EVAL_VIDEO_PRESETS = {
   "2 reps score 2.mp4": {
     expectedReps: "2",
     notes: "都是正面。两个动作，score 2 sample",
+  },
+  "7 reps score 3.mp4": {
+    expectedReps: "7",
+    notes: "都是正面。Hurdle Step 7 reps，score 3 sample",
   },
 };
 
@@ -369,6 +388,7 @@ const UI_TEXT = {
     deepSquatFeatures: "Deep Squat Features",
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     shoulderMobilityFeatures: "Shoulder Mobility Features",
+    hurdleStepFeatures: "Hurdle Step Features",
     usable: "usable",
     depth: "Depth",
     torso: "Torso",
@@ -384,6 +404,9 @@ const UI_TEXT = {
     handVisibility: "Hand Visibility",
     shoulderReference: "Shoulder Reference",
     sideContext: "Side Context",
+    stepClearance: "Step Clearance",
+    stanceStability: "Stance Stability",
+    trunkControl: "Trunk Control",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -624,6 +647,7 @@ const UI_TEXT = {
     deepSquatFeatures: "Deep Squat Features",
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     shoulderMobilityFeatures: "Shoulder Mobility Features",
+    hurdleStepFeatures: "Hurdle Step Features",
     usable: "可用",
     depth: "Depth",
     torso: "Torso",
@@ -639,6 +663,9 @@ const UI_TEXT = {
     handVisibility: "Hand Visibility",
     shoulderReference: "Shoulder Reference",
     sideContext: "Side Context",
+    stepClearance: "Step Clearance",
+    stanceStability: "Stance Stability",
+    trunkControl: "Trunk Control",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
