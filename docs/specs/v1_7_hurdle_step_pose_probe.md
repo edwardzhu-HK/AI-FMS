@@ -111,8 +111,9 @@ suggestion。
 ## Demo Path
 
 第一版 feature-only demo path 已接入：`Demo Preset` 选择 `Hurdle score-3 sample`
-后，可以验证 skeleton、Timing QA、Hurdle Step Features 和 dataset export。当前不会
-生成 pose-based AI suggestion，右侧会明确显示 `Pose Evidence Only`。
+后，会默认使用 `17.0s - 55.6s` 的分析范围，避开开头准备时间。可以验证 skeleton、
+Timing QA、Hurdle Step Features 和 dataset export。当前不会生成 pose-based AI
+suggestion，右侧会明确显示 `Pose Evidence Only`。
 
 浏览器 smoke 已验证：
 
@@ -120,6 +121,8 @@ suggestion。
 - `7 clips` 可以生成。
 - `Hurdle Step Features` 显示 7/7 usable，visibility 约 95%。
 - 右侧 summary 显示 `Pose Evidence Only`，不混入自动评分承诺。
+- Timing helper 会优先选择落在当前 segment 内、离 segment 中心最近的 cycle，减少
+  准备时间或重复峰导致的错配。
 
 ## 下一步
 

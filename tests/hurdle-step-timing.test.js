@@ -126,6 +126,21 @@ test("evaluateHurdleStepSegmentTiming accepts complete segment coverage", () => 
   );
 });
 
+test("evaluateHurdleStepSegmentTiming prefers cycles inside the current segment", () => {
+  const result = evaluateHurdleStepSegmentTiming({
+    posePayload: createPayload(),
+    segment: {
+      repetitionIndex: 1,
+      startSecond: 4.8,
+      endSecond: 7.3,
+    },
+  });
+
+  assert.equal(result.status, "good");
+  assert.equal(result.cycle.side, "left");
+  assert.ok(Math.abs(result.cycle.peakSecond - 6) <= 0.2);
+});
+
 test("evaluateHurdleStepSegmentTiming flags a clipped step", () => {
   const result = evaluateHurdleStepSegmentTiming({
     posePayload: createPayload(),

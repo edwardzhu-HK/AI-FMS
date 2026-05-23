@@ -123,8 +123,8 @@ const DEMO_PRESETS = [
     videoFileName: "7 reps score 3.mp4",
     poseFileName: "7-reps-score-3.pose.json",
     range: {
-      startSecond: "0",
-      endSecond: "59.2",
+      startSecond: "17",
+      endSecond: "55.6",
     },
   },
 ];
@@ -151,7 +151,7 @@ const EVAL_VIDEO_PRESETS = {
   },
   "7 reps score 3.mp4": {
     expectedReps: "7",
-    notes: "都是正面。Hurdle Step 7 reps，score 3 sample",
+    notes: "都是正面。Hurdle Step 7 reps，默认范围已避开开头准备时间。",
   },
 };
 

@@ -449,17 +449,19 @@ function pickCycleForSegment(cycles, segment) {
     return null;
   }
 
-  const indexedCycle = cycles[segment.repetitionIndex - 1];
-  if (indexedCycle) {
-    return indexedCycle;
-  }
-
   const midpoint = (segment.startSecond + segment.endSecond) / 2;
-  return cycles.reduce((bestCycle, cycle) => {
+  const inWindowCycles = cycles.filter(
+    (cycle) =>
+      cycle.peakSecond >= segment.startSecond &&
+      cycle.peakSecond <= segment.endSecond,
+  );
+  const candidateCycles = inWindowCycles.length > 0 ? inWindowCycles : cycles;
+
+  return candidateCycles.reduce((bestCycle, cycle) => {
     const currentDistance = Math.abs(cycle.peakSecond - midpoint);
     const bestDistance = Math.abs(bestCycle.peakSecond - midpoint);
     return currentDistance < bestDistance ? cycle : bestCycle;
-  }, cycles[0]);
+  }, candidateCycles[0]);
 }
 
 function getCoverageRatio(segment, cycle) {
