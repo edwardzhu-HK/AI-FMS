@@ -70,8 +70,26 @@ Hurdle Step 首轮可以先尝试 feature-only evidence：
 
 这些 feature 先服务 reviewer-readable evidence，不直接声称 certified FMS scoring。
 
+## Timing Helper 试跑结果
+
+第一版 `hurdle-step-timing.js` 已加入单元测试，能够在 synthetic fixture 中检测左右脚
+交替抬升的 candidate cycles，并沿用现有 `poseTiming` 报告形状，不改变 export
+schema。
+
+真实样本上的首轮结果说明：当前 helper 检测的是 `step clearance peaks`，还不是最终
+FMS repetition 边界。Hurdle Step 一个 rep 里可能包含跨过、落地、返回等多个动作峰，
+所以真实视频会出现 over-detect，需要后续结合 side、stance leg 和动作阶段再收敛。
+
+| Pose JSON                  | Candidate cycles | 观察                                                        |
+| -------------------------- | ---------------: | ----------------------------------------------------------- |
+| `2-reps-score-3.pose.json` |                5 | 能抓到明显抬脚峰，但多于文件名中的 2 reps，不能直接当切片。 |
+| `7-reps-score-3.pose.json` |               13 | 能覆盖主要动作段，但一个 rep 内可能有多个 clearance peaks。 |
+
+这一步的价值是证明 MediaPipe pose 轨迹能提供 Hurdle Step 的基础 timing evidence；
+下一步需要把 `candidate cycles` 转成更接近 reviewer 直觉的 segment 建议。
+
 ## 下一步
 
-1. 新增 `hurdle-step-timing.js` 和测试，先检测每次跨栏抬脚的 candidate cycles。
+1. 继续校准 Hurdle Step timing：减少一个 rep 内的重复峰，并明确 side/return phase。
 2. 新增 `hurdle-step-features.js` 和测试，输出 feature-only evidence。
 3. 等至少一个 Hurdle Step demo path 稳定后，再决定是否接入 AI suggestion。
