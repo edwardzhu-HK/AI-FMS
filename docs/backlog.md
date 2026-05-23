@@ -142,6 +142,13 @@ Current development order agreed on 2026-05-23:
   - [x] Add one browser-verifiable Shoulder Mobility feature-only demo path.
   - [ ] Decide whether Shoulder Mobility needs pose-based suggestion now or more
         human calibration first.
+- [ ] Start Hurdle Step expansion after Shoulder feature-only path is stable.
+  - [x] Select 2 Hurdle Step samples for first pose extraction.
+  - [x] Generate and validate Hurdle Step pose JSON.
+  - [x] Document Hurdle Step pose probe and active-period findings.
+  - [ ] Add Hurdle Step timing helper and tests.
+  - [ ] Add Hurdle Step feature helper and tests.
+  - [ ] Add one browser-verifiable Hurdle Step feature-only demo path.
 
 ## Stretch: Selected Movement Expansion
 

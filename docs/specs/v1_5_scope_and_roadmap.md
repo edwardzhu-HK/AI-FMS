@@ -120,6 +120,16 @@ Support level:
   before implementation. Default strategy is backward-compatible adapters first,
   schema-version changes only after explicit review.
 
+Current V1.7 implementation status:
+
+- Active Straight Leg Raise has an implemented pose/timing/features/suggestion
+  path and one browser-verifiable demo preset.
+- Shoulder Mobility has a feature-only pose evidence path and one
+  browser-verifiable demo preset; suggestion is intentionally held for more
+  human calibration.
+- Hurdle Step has completed an initial pose probe and active-period observation.
+  Timing/features helpers are the next development step.
+
 ### V2: Evaluation and Application Package
 
 Goal: turn the project into a complete application asset.
