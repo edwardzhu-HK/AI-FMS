@@ -1738,6 +1738,16 @@ export default function App() {
                 >
                   {t("exitPreview")}
                 </button>
+              ) : activeTimingSuggestion?.cycle ? (
+                <button
+                  type="button"
+                  className="button-secondary"
+                  onClick={() =>
+                    handlePreviewTimingSuggestion(activeTimingSuggestion)
+                  }
+                >
+                  {t("previewSuggestedTiming")}
+                </button>
               ) : null}
             </div>
           </section>
@@ -1761,9 +1771,7 @@ export default function App() {
           <SegmentTimingReport
             report={timingReport}
             activeSegmentId={activeSegmentId}
-            previewSegmentId={previewTimingRange?.segmentId ?? ""}
             onSelect={handleSelectSegment}
-            onPreview={handlePreviewTimingSuggestion}
             onApplyAll={handleApplyAllTimingSuggestions}
             disabled={!videoId || isBusy}
             t={t}

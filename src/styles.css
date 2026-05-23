@@ -621,45 +621,15 @@ video {
   width: 100%;
   text-align: left;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 38px minmax(118px, 1fr) minmax(118px, 1fr) 72px 116px;
   gap: 8px;
   align-items: center;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid var(--line);
   background: #fff;
+  color: var(--ink);
   font-size: 0.88rem;
-}
-
-.timing-report-select {
-  width: 100%;
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 38px minmax(108px, 1fr) minmax(108px, 1fr) 62px 54px;
-  gap: 8px;
-  align-items: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--ink);
-  text-align: left;
-}
-
-.timing-preview-button {
-  min-width: 118px;
-  padding: 6px 8px;
-  border-radius: 7px;
-  border: 1px solid var(--line);
-  background: var(--surface-deep);
-  color: var(--ink);
-  font-size: 0.78rem;
-}
-
-.timing-preview-button-active {
-  border-color: var(--accent);
-  background: #e8f3ef;
-  color: var(--accent-strong);
-  font-weight: 700;
 }
 
 .timing-report-item-good {
@@ -821,7 +791,6 @@ video {
   .summary-metrics,
   .subscore-grid,
   .timing-report-item,
-  .timing-report-select,
   .deep-squat-features li {
     grid-template-columns: 1fr;
   }

@@ -46,9 +46,7 @@ function issueSummary(item) {
 export default function SegmentTimingReport({
   report,
   activeSegmentId,
-  previewSegmentId = "",
   onSelect,
-  onPreview,
   onApplyAll,
   disabled = false,
   t = (key) => key,
@@ -82,48 +80,29 @@ export default function SegmentTimingReport({
       <ul>
         {report.items.map((item) => (
           <li key={item.segmentId}>
-            <div
+            <button
+              type="button"
               className={itemClassName(
                 item,
                 activeSegmentId === item.segmentId,
               )}
+              onClick={() => onSelect(item.segmentId)}
             >
-              <button
-                type="button"
-                className="timing-report-select"
-                onClick={() => onSelect(item.segmentId)}
-              >
-                <span>#{item.repetitionIndex}</span>
-                <span>
-                  {formatSeconds(item.currentStartSecond)}-
-                  {formatSeconds(item.currentEndSecond)}
-                </span>
-                <span>
-                  {item.cycle
-                    ? `${formatSeconds(item.cycle.startSecond)}-${formatSeconds(
-                        item.cycle.endSecond,
-                      )}`
-                    : t("noCycle")}
-                </span>
-                <span>{formatPercent(item.metrics?.coverageRatio)}</span>
-                <span>{issueSummary(item)}</span>
-              </button>
-              <button
-                type="button"
-                className={
-                  previewSegmentId === item.segmentId
-                    ? "timing-preview-button timing-preview-button-active"
-                    : "timing-preview-button"
-                }
-                onClick={() => onPreview(item)}
-                disabled={disabled || !item.cycle}
-                title={t("previewSuggestedTiming")}
-              >
-                {previewSegmentId === item.segmentId
-                  ? t("previewingSuggestedTiming")
-                  : t("previewSuggestedTiming")}
-              </button>
-            </div>
+              <span>#{item.repetitionIndex}</span>
+              <span>
+                {formatSeconds(item.currentStartSecond)}-
+                {formatSeconds(item.currentEndSecond)}
+              </span>
+              <span>
+                {item.cycle
+                  ? `${formatSeconds(item.cycle.startSecond)}-${formatSeconds(
+                      item.cycle.endSecond,
+                    )}`
+                  : t("noCycle")}
+              </span>
+              <span>{formatPercent(item.metrics?.coverageRatio)}</span>
+              <span>{issueSummary(item)}</span>
+            </button>
           </li>
         ))}
       </ul>
