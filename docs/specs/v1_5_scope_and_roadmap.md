@@ -102,6 +102,8 @@ Acceptance demo:
 
 Goal: demonstrate that the Deep Squat pipeline can be reused.
 
+Planning reference: `docs/specs/v1_7_movement_expansion_plan.md`.
+
 Priority order:
 
 1. Active Straight Leg Raise: clearer side-view hip/leg angle analysis.
@@ -114,6 +116,9 @@ Support level:
 - These movements may begin with annotation-only support and gradually receive
   pose features and AI suggestions.
 - Do not promise equal AI depth for all 7 movements in the first delivery.
+- Any framework or schema change during movement expansion should be called out
+  before implementation. Default strategy is backward-compatible adapters first,
+  schema-version changes only after explicit review.
 
 ### V2: Evaluation and Application Package
 

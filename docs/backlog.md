@@ -114,8 +114,14 @@ Current development order agreed on 2026-05-23:
 - [x] Redesign readiness/export quality as a human-readable checklist.
 - [x] Persist reviewer scores, segment metadata, active preset, and selected
       segment state in localStorage for local testing.
+- [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.
+  - [ ] Confirm movement adapter boundary before code restructure.
+  - [ ] Select 2-3 Active Straight Leg Raise samples for first pose extraction.
+  - [ ] Generate and validate Active Straight Leg Raise pose JSON.
+  - [ ] Add Active Straight Leg Raise timing/features/suggestion tests.
+  - [ ] Add one browser-verifiable Active Straight Leg Raise demo path.
 - [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more
       representative.
 
