@@ -24,10 +24,12 @@ import {
   attachPoseEvidenceToDataset,
   buildDatasetExport,
 } from "./lib/dataset-export.js";
-import { summarizeDeepSquatPoseFeatures } from "./lib/deep-squat-features.js";
-import { buildDeepSquatExplainableSuggestion } from "./lib/deep-squat-suggestion.js";
-import { evaluateDeepSquatSegmentsTiming } from "./lib/deep-squat-timing.js";
 import { summarizeExportQuality } from "./lib/export-quality.js";
+import {
+  allSegmentsMatchAdapter,
+  getImplementedPoseActionTypes,
+  getMovementAdapter,
+} from "./lib/movement-adapters.js";
 import { summarizePoseLandmarks } from "./lib/pose-landmarks.js";
 import DeepSquatFeatureSnapshot from "./components/DeepSquatFeatureSnapshot.jsx";
 import ReviewerScoreForm from "./components/ReviewerScoreForm.jsx";
@@ -912,6 +914,10 @@ export default function App() {
     [segments, activeSegmentId],
   );
   const currentVideoFileName = videoFile?.name ?? restoredVideoFileName;
+  const movementAdapter = useMemo(
+    () => getMovementAdapter(selectedAction),
+    [selectedAction],
+  );
 
   const adjudicationPreview = useMemo(() => {
     if (!activeSegment) {
@@ -930,22 +936,18 @@ export default function App() {
   }, [activeSegment]);
 
   const timingReport = useMemo(() => {
-    if (!posePayload || segments.length === 0) {
+    if (
+      !posePayload ||
+      !allSegmentsMatchAdapter(segments, movementAdapter, selectedAction)
+    ) {
       return null;
     }
 
-    const hasOnlyDeepSquatSegments = segments.every(
-      (segment) => (segment.actionType ?? selectedAction) === "deep_squat",
-    );
-    if (!hasOnlyDeepSquatSegments) {
-      return null;
-    }
-
-    return evaluateDeepSquatSegmentsTiming({
+    return movementAdapter.buildTimingReport({
       posePayload,
       segments,
     });
-  }, [posePayload, segments, selectedAction]);
+  }, [movementAdapter, posePayload, segments, selectedAction]);
 
   const activeTimingSuggestion = useMemo(() => {
     if (!timingReport || !activeSegment) {
@@ -959,39 +961,39 @@ export default function App() {
     );
   }, [activeSegment, timingReport]);
 
-  const deepSquatFeatureReport = useMemo(() => {
-    if (!posePayload || !timingReport) {
+  const featureReport = useMemo(() => {
+    if (!movementAdapter || !posePayload || !timingReport) {
       return null;
     }
 
-    return summarizeDeepSquatPoseFeatures({
+    return movementAdapter.buildFeatureReport({
       posePayload,
       timingReport,
     });
-  }, [posePayload, timingReport]);
+  }, [movementAdapter, posePayload, timingReport]);
 
-  const deepSquatSuggestionReport = useMemo(() => {
-    if (!deepSquatFeatureReport || !timingReport) {
+  const suggestionReport = useMemo(() => {
+    if (!movementAdapter || !featureReport || !timingReport) {
       return null;
     }
 
-    return buildDeepSquatExplainableSuggestion({
-      featureReport: deepSquatFeatureReport,
+    return movementAdapter.buildSuggestionReport({
+      featureReport,
       timingReport,
     });
-  }, [deepSquatFeatureReport, timingReport]);
+  }, [featureReport, movementAdapter, timingReport]);
 
   const activePoseSuggestion = useMemo(() => {
-    if (!deepSquatSuggestionReport || !activeSegment) {
+    if (!suggestionReport || !activeSegment) {
       return null;
     }
 
     return (
-      deepSquatSuggestionReport.items.find(
+      suggestionReport.items.find(
         (item) => item.segmentId === activeSegment.segmentId,
       ) ?? null
     );
-  }, [activeSegment, deepSquatSuggestionReport]);
+  }, [activeSegment, suggestionReport]);
 
   const playbackRange = previewTimingRange ?? activeSegment;
 
@@ -1002,15 +1004,15 @@ export default function App() {
         consistencyMetrics: consistencySnapshot?.metrics ?? null,
         poseSummary,
         timingReport,
-        featureReport: deepSquatFeatureReport,
-        suggestionReport: deepSquatSuggestionReport,
+        featureReport,
+        suggestionReport,
       }),
     [
       consistencySnapshot,
-      deepSquatFeatureReport,
-      deepSquatSuggestionReport,
+      featureReport,
       poseSummary,
       segments,
+      suggestionReport,
       timingReport,
     ],
   );
@@ -1742,9 +1744,9 @@ export default function App() {
       poseFileName,
       poseSummary,
       timingReport,
-      featureReport: deepSquatFeatureReport,
-      suggestionReport: deepSquatSuggestionReport,
-      implementedPoseActionTypes: ["deep_squat"],
+      featureReport,
+      suggestionReport,
+      implementedPoseActionTypes: getImplementedPoseActionTypes(),
       plannedActionTypes: actions.map((action) => action.id),
     });
   }
@@ -2452,7 +2454,7 @@ export default function App() {
           />
 
           <DeepSquatFeatureSnapshot
-            report={deepSquatFeatureReport}
+            report={featureReport}
             activeSegmentId={activeSegmentId}
             t={t}
           />
