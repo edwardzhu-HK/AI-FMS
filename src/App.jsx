@@ -97,6 +97,21 @@ const DEMO_PRESETS = [
       endSecond: "23.8",
     },
   },
+  {
+    id: "shoulder-score-2",
+    label: "Shoulder score-2 sample",
+    actionType: "shoulder_mobility",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/4-Shoulder%20Mobility/2%20reps%20score%202.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/4-Shoulder%20Mobility/pose/2-reps-score-2.pose.json",
+    videoFileName: "2 reps score 2.mp4",
+    poseFileName: "2-reps-score-2.pose.json",
+    range: {
+      startSecond: "0",
+      endSecond: "22.1",
+    },
+  },
 ];
 const EVAL_VIDEO_PRESETS = {
   "sample-1.mp4": {
@@ -114,6 +129,10 @@ const EVAL_VIDEO_PRESETS = {
   "2 reps score 3.mp4": {
     expectedReps: "2",
     notes: "都是正面。两个动作，right + left。score 3 sample",
+  },
+  "2 reps score 2.mp4": {
+    expectedReps: "2",
+    notes: "都是正面。两个动作，score 2 sample",
   },
 };
 
@@ -345,6 +364,7 @@ const UI_TEXT = {
     noCycle: "No cycle",
     deepSquatFeatures: "Deep Squat Features",
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
+    shoulderMobilityFeatures: "Shoulder Mobility Features",
     usable: "usable",
     depth: "Depth",
     torso: "Torso",
@@ -356,6 +376,10 @@ const UI_TEXT = {
     kneeExtension: "Knee Extension",
     pelvicStability: "Pelvic Stability",
     sideConfidence: "Side Confidence",
+    reachDistance: "Reach Distance",
+    handVisibility: "Hand Visibility",
+    shoulderReference: "Shoulder Reference",
+    sideContext: "Side Context",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -591,6 +615,7 @@ const UI_TEXT = {
     noCycle: "无 cycle",
     deepSquatFeatures: "Deep Squat Features",
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
+    shoulderMobilityFeatures: "Shoulder Mobility Features",
     usable: "可用",
     depth: "Depth",
     torso: "Torso",
@@ -602,6 +627,10 @@ const UI_TEXT = {
     kneeExtension: "Knee Extension",
     pelvicStability: "Pelvic Stability",
     sideConfidence: "Side Confidence",
+    reachDistance: "Reach Distance",
+    handVisibility: "Hand Visibility",
+    shoulderReference: "Shoulder Reference",
+    sideContext: "Side Context",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",

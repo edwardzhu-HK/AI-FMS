@@ -31,6 +31,31 @@ function FeatureRow({ label, rating, detail }) {
 }
 
 function getFeatureRows(activeItem, t) {
+  if (activeItem.ratings.reachDistance) {
+    return [
+      {
+        label: t("reachDistance"),
+        rating: activeItem.ratings.reachDistance,
+        detail: `wrist ratio ${formatNumber(activeItem.metrics.wristDistanceRatio, 3)} · side ${activeItem.metrics.side ?? "N/A"}`,
+      },
+      {
+        label: t("handVisibility"),
+        rating: activeItem.ratings.handVisibility,
+        detail: formatPercent(activeItem.metrics.handVisibility),
+      },
+      {
+        label: t("shoulderReference"),
+        rating: activeItem.ratings.shoulderReference,
+        detail: `torso ${formatNumber(activeItem.metrics.torsoLength, 3)} · shoulder ${formatNumber(activeItem.metrics.shoulderWidth, 3)}`,
+      },
+      {
+        label: t("sideContext"),
+        rating: activeItem.ratings.sideContext,
+        detail: activeItem.metrics.side ?? "N/A",
+      },
+    ];
+  }
+
   if (activeItem.ratings.hipFlexion) {
     return [
       {

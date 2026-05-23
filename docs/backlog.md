@@ -136,7 +136,10 @@ Current development order agreed on 2026-05-23:
   - [x] Select 2-3 Shoulder Mobility samples for first pose extraction.
   - [x] Generate and validate Shoulder Mobility pose JSON.
   - [x] Document Shoulder Mobility pose probe and active-period findings.
-  - [ ] Add Shoulder Mobility feature helper and tests.
+  - [x] Add Shoulder Mobility feature helper and tests.
+  - [x] Add one browser-verifiable Shoulder Mobility feature-only demo path.
+  - [ ] Decide whether Shoulder Mobility needs pose-based suggestion now or more
+        human calibration first.
 
 ## Stretch: Selected Movement Expansion
 

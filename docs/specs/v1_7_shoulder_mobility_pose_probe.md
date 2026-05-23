@@ -65,8 +65,14 @@ dataset export 语义。
 
 ## 下一步
 
-1. 先为 `2-reps-score-2.pose.json` 设计 Shoulder Mobility feature helper。
-2. 重点尝试 wrist / hand / shoulder / torso 的相对距离 proxy，而不是直接宣称
-   certified FMS scoring。
-3. 对 `2-reps-score-1-both.pose.json` 做 active-period 交互测试，决定是否需要
+第一版 feature-only demo path 已接入：`Demo Preset` 选择
+`Shoulder score-2 sample` 后，可以验证 skeleton、Timing QA、Shoulder Mobility
+Features 和 dataset export。当前不会生成 pose-based AI suggestion，右侧仍是 legacy
+mock AI panel。
+
+1. 继续校准 Shoulder Mobility feature helper。当前已能输出 reach distance、hand
+   visibility、shoulder reference、side context，但还不生成 AI suggestion。
+2. 对 `2-reps-score-1-both.pose.json` 做 active-period 交互测试，决定是否需要
    “preview/apply individual active period”的 UI，但不要在未评审 schema 前自动多段切片。
+3. 在人工确认更多 Shoulder 样本后，再决定是否把 feature evidence 映射为 pose-based
+   AI suggestion。

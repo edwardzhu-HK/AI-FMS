@@ -33,7 +33,21 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
 });
 
 test("movement adapter registry keeps unsupported movements annotation-only", () => {
-  assert.equal(getMovementAdapter("shoulder_mobility"), null);
+  assert.equal(getMovementAdapter("hurdle_step"), null);
+});
+
+test("movement adapter registry exposes Shoulder Mobility features-only pipeline", () => {
+  const adapter = getMovementAdapter("shoulder_mobility");
+
+  assert.equal(adapter.actionType, "shoulder_mobility");
+  assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(typeof adapter.buildTimingReport, "function");
+  assert.equal(typeof adapter.buildFeatureReport, "function");
+  assert.equal(adapter.buildSuggestionReport(), null);
+  assert.deepEqual(getImplementedPoseActionTypes(), [
+    "deep_squat",
+    "active_straight_leg_raise",
+  ]);
 });
 
 test("allSegmentsMatchAdapter gates pose reports by action type", () => {

@@ -4,6 +4,8 @@ import { buildDeepSquatExplainableSuggestion } from "./deep-squat-suggestion.js"
 import { evaluateDeepSquatSegmentsTiming } from "./deep-squat-timing.js";
 import { summarizeAslrPoseFeatures } from "./aslr-features.js";
 import { buildAslrExplainableSuggestion } from "./aslr-suggestion.js";
+import { summarizeShoulderMobilityPoseFeatures } from "./shoulder-mobility-features.js";
+import { evaluateShoulderMobilitySegmentsTiming } from "./shoulder-mobility-timing.js";
 
 const DEEP_SQUAT_ADAPTER = {
   actionType: "deep_squat",
@@ -77,9 +79,39 @@ const ASLR_ADAPTER = {
   },
 };
 
+const SHOULDER_MOBILITY_ADAPTER = {
+  actionType: "shoulder_mobility",
+  posePipelineStatus: "features_only",
+  featureTitleKey: "shoulderMobilityFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateShoulderMobilitySegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeShoulderMobilityPoseFeatures({
+      posePayload,
+      timingReport,
+    });
+  },
+  buildSuggestionReport() {
+    return null;
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
   [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
+  [SHOULDER_MOBILITY_ADAPTER.actionType]: SHOULDER_MOBILITY_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {

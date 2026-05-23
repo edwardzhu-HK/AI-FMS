@@ -47,6 +47,8 @@ test("required files exist", () => {
     "src/lib/deep-squat-features.js",
     "src/lib/deep-squat-suggestion.js",
     "src/lib/deep-squat-timing.js",
+    "src/lib/shoulder-mobility-features.js",
+    "src/lib/shoulder-mobility-timing.js",
     "db/migrations/0001_v0_init.sql",
     "scripts/manifest-utils.js",
     "scripts/seed-stub-from-manifest.js",

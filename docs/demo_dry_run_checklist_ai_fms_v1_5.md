@@ -28,12 +28,13 @@ http://localhost:5173/
 
 当前内置 demo presets：
 
-| Preset                 | Action                      | Start/End     | Expected Reps | Pose status                                 |
-| ---------------------- | --------------------------- | ------------- | ------------- | ------------------------------------------- |
-| `Sample-1 mixed views` | `Deep Squat`                | `1` 到 `45`   | `7`           | `Sample-1.pose.json · 441/441 frames`       |
-| `Front only`           | `Deep Squat`                | `0` 到 `18`   | `3`           | `front.pose.json · 179/179 frames`          |
-| `Side only`            | `Deep Squat`                | `0` 到 `26`   | `4`           | `side.pose.json · 261/261 frames`           |
-| `ASLR score-3 sample`  | `Active Straight Leg Raise` | `0` 到 `23.8` | `2`           | `2-reps-score-3.pose.json · 237/237 frames` |
+| Preset                    | Action                      | Start/End     | Expected Reps | Pose status                                 |
+| ------------------------- | --------------------------- | ------------- | ------------- | ------------------------------------------- |
+| `Sample-1 mixed views`    | `Deep Squat`                | `1` 到 `45`   | `7`           | `Sample-1.pose.json · 441/441 frames`       |
+| `Front only`              | `Deep Squat`                | `0` 到 `18`   | `3`           | `front.pose.json · 179/179 frames`          |
+| `Side only`               | `Deep Squat`                | `0` 到 `26`   | `4`           | `side.pose.json · 261/261 frames`           |
+| `ASLR score-3 sample`     | `Active Straight Leg Raise` | `0` 到 `23.8` | `2`           | `2-reps-score-3.pose.json · 237/237 frames` |
+| `Shoulder score-2 sample` | `Shoulder Mobility`         | `0` 到 `22.1` | `2`           | `2-reps-score-2.pose.json · 220/220 frames` |
 
 2026-05-22 浏览器验证结果：三个 preset 都可以加载匹配视频和 pose JSON，并正确保留 preset 分析范围，没有被视频完整 duration 覆盖。
 
@@ -41,6 +42,10 @@ http://localhost:5173/
 pose JSON，`Start Analysis` 后显示 `2 clips`、`Timing QA: 2/2 OK`、
 `Features 2/2`、`AI suggestions 2/2`，右侧 `Pose-based AI Suggestion`
 显示 ASLR 的 `Hip Flexion`、`Pelvic Stability`、`Leg Symmetry` 三项 subscore。
+
+2026-05-23 补充：`Shoulder score-2 sample` 用于 feature evidence 测试，不显示
+pose-based AI suggestion。预期是 `2 clips`、`Timing QA: 2/2 OK`、`Features 2/2`，
+并显示 `Shoulder Mobility Features`。
 
 ## 必测流程
 
@@ -138,7 +143,9 @@ pose JSON，`Start Analysis` 后显示 `2 clips`、`Timing QA: 2/2 OK`、
 
 - Deep Squat 仍是 flagship demo；ASLR 目前是第一条 V1.7 movement expansion
   demo path，feature snapshot UI 尚未完全泛化。
-- 其他 5 个 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose features。
+- Shoulder Mobility 已有第一版 feature-only demo path，但还没有 pose-based AI
+  suggestion。
+- 其他 4 个 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose features。
 - Angle evidence 是 reviewer-readable evidence，不是 clinical conclusion。
 - Pain flag 仍必须来自人工 reviewer。
 - AI suggestion 是辅助建议，不是最终标签。
