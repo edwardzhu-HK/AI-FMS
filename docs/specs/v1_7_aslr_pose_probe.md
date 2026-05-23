@@ -54,11 +54,11 @@ Eval_Videos/Sample videos/5-ASLR/pose/1-rep-score-1-right.pose.json
 2. `1 rep score 1 for right.mp4` 用于验证 side/right metadata 与低分解释是否能表达清楚。
 3. `4 reps score 2.mp4` 暂作为 robustness 样本，不作为第一版 demo 主样本。
 
-## Timing Helper 试跑结果
+## Timing / Feature / Suggestion Helper 试跑结果
 
-第一版 ASLR timing helper 已接入 movement adapter。随后补充的 ASLR feature
-helper 会基于 timing cycle 的 peak pose 输出 reviewer-readable evidence，但暂时
-还不会生成 ASLR AI suggestion。
+第一版 ASLR timing、feature、suggestion helper 已接入 movement adapter。当前仍然
+复用现有 `poseTiming`、`poseFeatures`、`poseSuggestion` 报告形状，没有改
+dataset schema。
 
 | Pose JSON                       | 检测周期 | 说明                                             |
 | ------------------------------- | -------: | ------------------------------------------------ |
@@ -66,10 +66,9 @@ helper 会基于 timing cycle 的 peak pose 输出 reviewer-readable evidence，
 | `1-rep-score-1-right.pose.json` |        1 | 稳定检测到 right leg raise cycle。               |
 | `4-reps-score-2.pose.json`      |        2 | 原样本 missing frames 较多，暂只作为鲁棒性参考。 |
 
-当前没有改 dataset schema。ASLR cycle 会继续复用现有 `poseTiming.cycle`
-结构；其中 `lowestPointSecond` 临时映射为 ASLR 的 `peakSecond`，用于兼容现有 UI
-和导出结构。后续如果要把字段改成更通用的 `keyPoseSecond` 或 `peakSecond`，需要单独
-评审 schema version。
+ASLR cycle 会继续复用现有 `poseTiming.cycle` 结构；其中 `lowestPointSecond`
+临时映射为 ASLR 的 `peakSecond`，用于兼容现有 UI 和导出结构。后续如果要把字段
+改成更通用的 `keyPoseSecond` 或 `peakSecond`，需要单独评审 schema version。
 
 ## Feature Helper 试跑结果
 
@@ -80,13 +79,25 @@ helper 会基于 timing cycle 的 peak pose 输出 reviewer-readable evidence，
 - `pelvicStability`: left/right hip height gap，作为 pelvic compensation proxy。
 - `sideConfidence`: timing cycle 检测出的 left/right side 是否可信。
 
-在 `2-reps-score-3.pose.json` 主样本上，两个 rep 都能生成可用 feature evidence：
-hip flexion 与 knee extension 均为 `good`，其中一个 rep 的 pelvic stability 为
-`watch`，可作为后续 ASLR suggestion 的解释依据。
+在 `2-reps-score-3.pose.json` 主样本上，两个 rep 都能生成可用 feature evidence。
+根据真实样本复核，`pelvicStability` 的第一版 proxy 已放宽到允许小幅 landmark/camera
+jitter，避免把 score-3 主样本中的轻微 hip-height gap 直接降为 `watch`。
+
+第一版 ASLR suggestion 会把 movement-specific features 映射到现有三项 subscore
+槽位，方便沿用当前 Reviewer/AI panel 和 dataset export：
+
+| ASLR evidence                      | 现有 subscore key | 含义                                       |
+| ---------------------------------- | ----------------- | ------------------------------------------ |
+| `hipFlexion`                       | `depth`           | 抬腿高度是否足够。                         |
+| `pelvicStability`                  | `kneeAlignment`   | 骨盆是否稳定、是否出现明显代偿 proxy。     |
+| `kneeExtension` + `sideConfidence` | `torsoControl`    | 抬腿侧是否接近直腿，且左右侧识别是否可信。 |
+
+这仍然是 pose-based AI suggestion，不是 certified FMS scoring；最终标签仍由人工
+Reviewer 保存和 adjudication 决定。
 
 ## 下一步
 
-1. 新增 ASLR suggestion helper，把 feature evidence 映射为保守的 pose-based
-   suggestion。
-2. 浏览器中先验证主样本：加载视频 + pose JSON 后能显示 skeleton，并能生成
-   timing/features/suggestion。
+1. 增加一个浏览器可验证的 ASLR demo path：加载 ASLR 主样本视频 + pose JSON 后，
+   能稳定显示 skeleton、timing、features、suggestion，并导出 dataset package。
+2. 评估是否需要把 feature snapshot 组件泛化，避免 Deep Squat/ASLR 分别维护两套
+   相似 UI。

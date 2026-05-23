@@ -250,6 +250,10 @@ const UI_TEXT = {
     reason_depth: "Depth",
     reason_kneeAlignment: "Knee Alignment",
     reason_torsoControl: "Torso Control",
+    reason_hipFlexion: "Hip Flexion",
+    reason_pelvicStability: "Pelvic Stability",
+    reason_legLine: "Leg Line",
+    reason_sideConfidence: "Side Confidence",
     "reason_depth_hip below knee":
       "Evidence: hip is below the knee at the lowest point, so squat depth supports a high score.",
     "reason_depth_near parallel":
@@ -268,6 +272,32 @@ const UI_TEXT = {
       "Evidence: trunk lean is somewhat high, so torso control should be reviewed.",
     "reason_torsoControl_excessive forward lean":
       "Evidence: trunk lean is high enough to suggest limited torso control.",
+    "reason_hipFlexion_leg reaches high":
+      "Evidence: the raised ankle is clearly above the hip proxy at the peak of the leg raise.",
+    "reason_hipFlexion_moderate leg raise":
+      "Evidence: the leg raise is visible but the peak height is moderate, so this should be reviewed.",
+    "reason_hipFlexion_limited leg raise":
+      "Evidence: the raised ankle stays near or below the hip proxy, suggesting limited hip flexion.",
+    "reason_pelvicStability_stable pelvis proxy":
+      "Evidence: left/right hip height remains close enough for this first-pass pelvis stability proxy.",
+    "reason_pelvicStability_pelvic shift watch":
+      "Evidence: the hip-height gap suggests possible pelvic compensation and should be reviewed.",
+    "reason_pelvicStability_pelvic compensation watch":
+      "Evidence: the hip-height gap is large enough to flag possible pelvic compensation.",
+    "reason_legLine_straight leg line":
+      "Evidence: the hip-knee-ankle angle stays close to a straight leg line.",
+    "reason_legLine_mild knee bend":
+      "Evidence: the raised leg has a mild knee bend and should be reviewed.",
+    "reason_legLine_bent knee watch":
+      "Evidence: the raised leg bends enough to weaken the straight-leg evidence.",
+    "reason_sideConfidence_right side detected":
+      "Evidence: the timing cycle and landmarks consistently indicate the right side.",
+    "reason_sideConfidence_left side detected":
+      "Evidence: the timing cycle and landmarks consistently indicate the left side.",
+    "reason_sideConfidence_right side low visibility":
+      "Evidence: right-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
+    "reason_sideConfidence_left side low visibility":
+      "Evidence: left-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
     "reason_view_best from front view":
       "This criterion is more reliable from a front-view video, so the current value is kept as context rather than final evidence.",
     "reason_view_best from side view":
@@ -458,6 +488,10 @@ const UI_TEXT = {
     reason_depth: "Depth",
     reason_kneeAlignment: "Knee Alignment",
     reason_torsoControl: "Torso Control",
+    reason_hipFlexion: "Hip Flexion",
+    reason_pelvicStability: "Pelvic Stability",
+    reason_legLine: "Leg Line",
+    reason_sideConfidence: "Side Confidence",
     "reason_depth_hip below knee":
       "依据是 hip below knee：最低点时髋部已经低于膝盖，深度证据支持较高评分。",
     "reason_depth_near parallel":
@@ -476,6 +510,32 @@ const UI_TEXT = {
       "依据是 forward lean watch：躯干前倾略高，建议人工复核 torso control。",
     "reason_torsoControl_excessive forward lean":
       "依据是 excessive forward lean：躯干前倾较明显，提示 torso control 可能不足。",
+    "reason_hipFlexion_leg reaches high":
+      "依据是 leg reaches high：抬腿最高点时脚踝明显高于髋部 proxy，hip flexion 证据较好。",
+    "reason_hipFlexion_moderate leg raise":
+      "依据是 moderate leg raise：可以看到抬腿，但最高点高度中等，建议人工复核。",
+    "reason_hipFlexion_limited leg raise":
+      "依据是 limited leg raise：脚踝接近或低于髋部 proxy，提示 hip flexion 可能受限。",
+    "reason_pelvicStability_stable pelvis proxy":
+      "依据是 stable pelvis proxy：左右髋高度差在第一版 proxy 的可接受范围内。",
+    "reason_pelvicStability_pelvic shift watch":
+      "依据是 pelvic shift watch：左右髋高度差提示可能有骨盆代偿，建议人工复核。",
+    "reason_pelvicStability_pelvic compensation watch":
+      "依据是 pelvic compensation watch：左右髋高度差较大，提示可能存在骨盆代偿。",
+    "reason_legLine_straight leg line":
+      "依据是 straight leg line：hip-knee-ankle 角度接近伸直，直腿线条证据较好。",
+    "reason_legLine_mild knee bend":
+      "依据是 mild knee bend：抬腿侧膝盖有轻微弯曲，建议人工复核。",
+    "reason_legLine_bent knee watch":
+      "依据是 bent knee watch：抬腿侧膝盖弯曲较明显，会削弱 straight-leg evidence。",
+    "reason_sideConfidence_right side detected":
+      "依据是 right side detected：timing cycle 与关键点稳定指向右侧。",
+    "reason_sideConfidence_left side detected":
+      "依据是 left side detected：timing cycle 与关键点稳定指向左侧。",
+    "reason_sideConfidence_right side low visibility":
+      "依据是 right side low visibility：右侧关键点可用但置信度偏低，建议复核。",
+    "reason_sideConfidence_left side low visibility":
+      "依据是 left side low visibility：左侧关键点可用但置信度偏低，建议复核。",
     "reason_view_best from front view":
       "这个指标更适合用正面机位判断，因此当前结果只作为参考，不作为最终证据。",
     "reason_view_best from side view":

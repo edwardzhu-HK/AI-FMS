@@ -122,14 +122,14 @@ function classifyPelvicStability(hipHeightGap) {
     };
   }
 
-  if (hipHeightGap <= 0.035) {
+  if (hipHeightGap <= 0.06) {
     return {
       status: "good",
       label: "stable pelvis proxy",
     };
   }
 
-  if (hipHeightGap <= 0.07) {
+  if (hipHeightGap <= 0.1) {
     return {
       status: "watch",
       label: "pelvic shift watch",

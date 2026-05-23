@@ -43,6 +43,27 @@ function frame(second, elevations) {
   };
 }
 
+function frameWithPelvicGap(second, hipHeightGap) {
+  return {
+    second,
+    timestampMs: second * 1000,
+    poses: [
+      {
+        landmarks: [
+          landmark("left_hip", 0.42, 0.62 + hipHeightGap),
+          landmark("left_knee", 0.42, 0.5),
+          landmark("left_ankle", 0.42, 0.38),
+          landmark("left_foot_index", 0.46, 0.37),
+          landmark("right_hip", 0.58, 0.62),
+          landmark("right_knee", 0.58, 0.5),
+          landmark("right_ankle", 0.58, 0.38),
+          landmark("right_foot_index", 0.62, 0.37),
+        ],
+      },
+    ],
+  };
+}
+
 function triangularElevation(second, center, height = 0.25) {
   const distance = Math.abs(second - center);
   return Math.max(0, 1 - distance / 1.1) * height;
@@ -119,6 +140,36 @@ test("summarizeAslrPoseFeatures returns null without timing evidence", () => {
     }),
     null,
   );
+});
+
+test("summarizeAslrPoseFeatures tolerates small pelvic proxy offset", () => {
+  const report = summarizeAslrPoseFeatures({
+    posePayload: {
+      frames: [frameWithPelvicGap(1, 0.055)],
+    },
+    timingReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          repetitionIndex: 1,
+          cameraView: "side",
+          metrics: {
+            avgVisibility: 0.9,
+            coverageRatio: 1,
+          },
+          cycle: {
+            side: "right",
+            startSecond: 0.5,
+            endSecond: 1.5,
+            peakSecond: 1,
+            peakElevation: 0.2,
+          },
+        },
+      ],
+    },
+  });
+
+  assert.equal(report.items[0].ratings.pelvicStability.status, "good");
 });
 
 test("summarizeAslrPoseFeatures marks items without cycles", () => {
