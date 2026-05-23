@@ -14,6 +14,7 @@ import {
 } from "./api/calibrationApi.js";
 import { adjudicateScores } from "./lib/adjudication.js";
 import { buildDatasetCsv } from "./lib/dataset-csv.js";
+import { buildDatasetPackageZip } from "./lib/dataset-package.js";
 import { attachPoseEvidenceToDataset } from "./lib/dataset-export.js";
 import { summarizeDeepSquatPoseFeatures } from "./lib/deep-squat-features.js";
 import { buildDeepSquatExplainableSuggestion } from "./lib/deep-squat-suggestion.js";
@@ -120,6 +121,7 @@ const UI_TEXT = {
     ingest: "Ingest",
     exportJson: "Export JSON",
     exportCsv: "Export CSV",
+    exportPackage: "Export Package",
     consistencySnapshot: "Consistency Snapshot",
     segments: "Segments",
     clips: "clips",
@@ -288,6 +290,7 @@ const UI_TEXT = {
     ingest: "入库",
     exportJson: "导出 JSON",
     exportCsv: "导出 CSV",
+    exportPackage: "导出 Package",
     consistencySnapshot: "一致性快照",
     segments: "分段",
     clips: "段",
@@ -1207,6 +1210,10 @@ export default function App() {
 
   function downloadTextFile({ contents, fileName, type }) {
     const blob = new Blob([contents], { type });
+    downloadBlobFile({ blob, fileName });
+  }
+
+  function downloadBlobFile({ blob, fileName }) {
     const downloadUrl = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = downloadUrl;
@@ -1253,6 +1260,31 @@ export default function App() {
         contents: buildDatasetCsv(dataset),
         fileName: `ai-fms-${videoId}.csv`,
         type: "text/csv",
+      });
+    } catch (error) {
+      setErrorText(error.message);
+    } finally {
+      setIsBusy(false);
+    }
+  }
+
+  async function handleExportPackage() {
+    if (!videoId) {
+      return;
+    }
+
+    setErrorText("");
+    setIsBusy(true);
+
+    try {
+      const dataset = await buildCurrentDatasetExport();
+      const zipBlob = buildDatasetPackageZip({
+        dataset,
+        qualitySummary: exportQualitySummary,
+      });
+      downloadBlobFile({
+        blob: zipBlob,
+        fileName: `ai-fms-${videoId}-dataset-package.zip`,
       });
     } catch (error) {
       setErrorText(error.message);
@@ -1568,6 +1600,14 @@ export default function App() {
               disabled={!videoId || isBusy}
             >
               {t("exportCsv")}
+            </button>
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={handleExportPackage}
+              disabled={!videoId || isBusy}
+            >
+              {t("exportPackage")}
             </button>
           </section>
 

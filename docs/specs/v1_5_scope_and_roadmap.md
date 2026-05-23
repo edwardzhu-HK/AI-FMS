@@ -131,6 +131,28 @@ In scope:
 - 2-3 minute demo video outline.
 - Project page or portfolio-ready summary.
 
+### V1.6: Dataset and Expansion Track
+
+Goal: bridge the current working V1.5 demo into a stronger application-ready
+dataset workflow before spending effort on showcase-only surfaces.
+
+Development order agreed on 2026-05-23:
+
+1. **Export Dataset Package**: one-click ZIP export containing dataset JSON,
+   CSV, dataset card, run summary, and README.
+2. **Readiness Checklist**: make export/ingest readiness understandable to a
+   human reviewer, not only as engineering counters.
+3. **Local State Persistence**: preserve reviewer scores, segment metadata,
+   active demo preset, and selected segment during local testing.
+4. **Selected Movement Expansion**: add one movement at a time after the Deep
+   Squat dataset loop is stable.
+5. **Demo/Project Snapshot Mode**: wait until the project has enough movement
+   coverage and evidence to make a richer demo meaningful.
+
+This order intentionally places Demo Mode after movement expansion. The demo
+surface should summarize real capabilities rather than becoming a decorative
+shell ahead of the evidence.
+
 ## 5. Explicit Non-Goals
 
 The restarted project should not commit to:

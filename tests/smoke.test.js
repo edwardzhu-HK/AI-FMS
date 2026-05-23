@@ -39,6 +39,7 @@ test("required files exist", () => {
     "src/lib/segmenting.js",
     "src/lib/ai-scoring.js",
     "src/lib/dataset-csv.js",
+    "src/lib/dataset-package.js",
     "src/lib/export-quality.js",
     "src/lib/deep-squat-features.js",
     "src/lib/deep-squat-suggestion.js",

@@ -99,6 +99,26 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
 - [x] Merge legacy AI and pose-based AI suggestion display into one
       pose-first card with clearer scoring rationale.
 
+## P7: V1.6 Dataset and Expansion Track
+
+Current development order agreed on 2026-05-23:
+
+1. Export Dataset Package.
+2. Clearer export/readiness checklist.
+3. Local workflow state persistence.
+4. Selected movement expansion.
+5. Demo/Project Snapshot mode after more movements are useful.
+
+- [x] Add browser-side dataset package export as a ZIP containing JSON, CSV,
+      dataset card, run summary, and README.
+- [ ] Redesign readiness/export quality as a human-readable checklist.
+- [ ] Persist reviewer scores, segment metadata, active preset, and selected
+      segment state in localStorage for local testing.
+- [ ] Start one selected movement expansion after Deep Squat export loop is
+      stable.
+- [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more
+      representative.
+
 ## Stretch: Selected Movement Expansion
 
 Priority order:
