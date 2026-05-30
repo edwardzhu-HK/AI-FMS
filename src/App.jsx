@@ -160,10 +160,13 @@ const DEMO_PRESETS = [
     actionType: "trunk_stability_push_up",
     videoUrl:
       "/Eval_Videos/Sample%20videos/6-trunk%20stability%20push%20up/1%20rep%20score%203.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/6-trunk%20stability%20push%20up/pose/1-rep-score-3.pose.json",
     videoFileName: "1 rep score 3.mp4",
+    poseFileName: "1-rep-score-3.pose.json",
     expectedReps: "1",
     notes:
-      "Trunk Stability Push-Up 1 rep score-3 sample。暂无 Pose JSON，当前用于人工标注、双 reviewer、入库与导出流程测试。",
+      "Trunk Stability Push-Up 1 rep score-3 sample。当前支持 first-pass timing/features 与 pose-based AI suggestion；extension clearing/pain 仍需人工确认。",
     range: {
       startSecond: "0",
       endSecond: "33.5",

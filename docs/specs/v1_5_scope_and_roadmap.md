@@ -148,7 +148,8 @@ Rotary Stability is still annotation-only.
   before stronger AI scoring claims.
 - Trunk Stability Push-Up has a first-pass pose timing/features/suggestion
   framework for push-up lift, trunk body-line stability, arm extension, and
-  compensation proxies. It still needs real pose extraction on local samples
+  compensation proxies. The score-3 sample has a reproducible local pose
+  extraction path and browser preset, but it still needs more sample variety
   and Ronnie threshold calibration before stronger scoring claims.
 - Rotary Stability remains connected as an annotation-only workflow path. It
   can be segmented, reviewed, ingested in mock mode, and exported, but it does

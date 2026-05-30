@@ -319,6 +319,7 @@ function evaluateSegmentPushUp(features, segment, config) {
     },
     metrics: {
       usableFrames: segmentFeatures.length,
+      coverageRatio: 1,
       avgVisibility: toFixedNumber(avgVisibility, 3),
       bestPushSecond: toFixedNumber(bestFrame.second, 2),
       shoulderWristLift: toFixedNumber(bestFrame.shoulderWristLift),
@@ -340,6 +341,8 @@ function summarizeTimingItems(items) {
 
   return {
     segmentsTotal: items.length,
+    detectedCycles: okItems.length,
+    goodCount: okItems.length,
     okSegments: okItems.length,
     errorCount,
     avgVisibility: toFixedNumber(avgVisibility, 3),

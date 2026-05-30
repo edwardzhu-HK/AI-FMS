@@ -119,11 +119,13 @@ const DEMO_CASES = [
     startSecond: 0,
     endSecond: 33.5,
     notes:
-      "Trunk Stability Push-Up 1 rep score-3 sample。暂无 Pose JSON，当前用于人工标注、双 reviewer、入库与导出流程测试。",
+      "Trunk Stability Push-Up 1 rep score-3 sample。当前支持 first-pass timing/features 与 pose-based AI suggestion；extension clearing/pain 仍需人工确认。",
+    posePath:
+      "Eval_Videos/Sample videos/6-trunk stability push up/pose/1-rep-score-3.pose.json",
     expected: {
       records: 1,
-      featureUsable: 0,
-      suggestionReady: false,
+      featureUsable: 1,
+      suggestionReady: true,
     },
   },
   {

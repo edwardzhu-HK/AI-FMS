@@ -299,9 +299,9 @@ remain reusable:
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
 - Demo presets now cover all 7 FMS action slots, but Trunk Stability Push-Up
-  still needs formal pose extraction before it becomes a browser-verifiable
-  pose demo, and Rotary Stability still needs pose feasibility plus better
-  final demo sample selection.
+  still needs more sample calibration beyond the first score-3 pose demo, and
+  Rotary Stability still needs pose feasibility plus better final demo sample
+  selection.
 - Current sample inventory covers 64 videos across all 7 FMS movement folders.
   Six movements have draft manifest rows; Rotary Stability currently only has
   review-only/tutorial-like samples and needs better movement samples.

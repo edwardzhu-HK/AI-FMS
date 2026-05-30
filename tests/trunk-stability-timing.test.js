@@ -65,6 +65,9 @@ test("evaluateTrunkStabilitySegmentsTiming detects best push-up frame", () => {
 
   assert.equal(report.items[0].status, "good");
   assert.equal(report.items[0].cycle.bestPushSecond, 3);
+  assert.equal(report.items[0].metrics.coverageRatio, 1);
+  assert.equal(report.summary.detectedCycles, 1);
+  assert.equal(report.summary.goodCount, 1);
   assert.equal(report.summary.okSegments, 1);
 });
 
