@@ -214,6 +214,17 @@ textarea {
   width: 100%;
 }
 
+.manager-entry-card {
+  padding: 10px;
+}
+
+.manager-entry-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+
 button:disabled {
   cursor: not-allowed;
   opacity: 0.6;

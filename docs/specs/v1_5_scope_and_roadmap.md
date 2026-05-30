@@ -204,6 +204,13 @@ This order intentionally places Demo Mode after movement expansion. The demo
 surface should summarize real capabilities rather than becoming a decorative
 shell ahead of the evidence.
 
+Video Manager is treated as a V1.6 dataset-expansion support feature inside
+the main AI-FMS project. It opens as a separate page from the Workbench, but it
+shares the same 7-action vocabulary, sample-video inventory, candidate
+discovery scripts, and `Eval_Videos` library conventions. Its job is to help
+find, review, and stage FMS video candidates; it should not alter scoring,
+reviewer, or ingest semantics without an explicit main-workflow discussion.
+
 The active-period step has been folded into the segment-level workflow:
 reviewers may still use Start/End to limit the analysis range, but after
 analysis the primary editable `segment.startSecond` / `segment.endSecond`
@@ -615,6 +622,10 @@ Implementation status after the first P2 pass:
     active leg raise score zones, raised-leg knee extension, stationary leg
     control, pelvic stability, and side confidence instead of relying only on a
     generic hip-flexion proxy.
+33. Integrated Video Manager as a main-project sub-feature: the Workbench now
+    links to `/video-manager.html`, while the manager page and local API remain
+    isolated for video library, online candidate search, recommendation ranking,
+    gated download confirmation, and queue status.
 
 Recommended next sprint:
 

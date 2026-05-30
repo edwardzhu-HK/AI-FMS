@@ -246,6 +246,9 @@ Tasks:
       review-only registry output.
 - [x] Add gated download command that only processes candidates with reviewer
       approval and confirmed source rights.
+- [x] Add AI-FMS Video Manager sub-feature with a workbench entry, independent
+      manager page, local manager API, action-specific library view, YouTube
+      candidate recommendations, download confirmation, and queue status.
 - [ ] Promote selected draft rows into canonical movement manifests after human
       review.
 - [ ] Ingest prepared sample videos for the remaining FMS movements when

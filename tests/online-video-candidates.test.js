@@ -6,6 +6,7 @@ import {
   isDownloadAllowed,
   mergeCandidateRegistries,
   parseIsoDuration,
+  scoreCandidateRecommendation,
   selectApprovedCandidates,
 } from "../scripts/online-video-candidates.js";
 
@@ -90,6 +91,32 @@ test("download gate requires approval and confirmed rights", () => {
     }),
     false,
   );
+});
+
+test("scoreCandidateRecommendation ranks clean movement samples higher", () => {
+  const clean = scoreCandidateRecommendation({
+    actionType: "rotary_stability",
+    title: "Rotary Stability Test",
+    durationSecond: 41,
+    definition: "hd",
+    duplicateStatus: "new_candidate",
+    suitabilityFlags: [],
+  });
+  const noisy = scoreCandidateRecommendation({
+    actionType: "rotary_stability",
+    title: "Functional Movement Screen webinar",
+    durationSecond: 1200,
+    definition: "sd",
+    duplicateStatus: "likely_duplicate",
+    suitabilityFlags: [
+      "reference_or_instruction_candidate",
+      "possible_action_mismatch:deep_squat",
+    ],
+  });
+
+  assert.equal(clean.label, "high");
+  assert.ok(clean.score > noisy.score);
+  assert.equal(noisy.label, "low");
 });
 
 test("mergeCandidateRegistries preserves reviewer decisions", () => {

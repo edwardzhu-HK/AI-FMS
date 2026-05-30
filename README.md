@@ -268,6 +268,23 @@ there until a human reviewer confirms action type, quality, reps, score notes,
 and source rights before any row is promoted into a canonical movement
 manifest.
 
+Run the FMS Video Download Manager sub-feature:
+
+```bash
+npm run api:video-manager
+npm run dev:manager
+```
+
+Then open `http://127.0.0.1:5173/video-manager.html`, or use the `Video Manager`
+entry at the bottom of the workbench left column. The manager is a sub-feature
+of AI-FMS, but it runs as an independent page so video discovery/download work
+does not disturb annotation and scoring state. It lists all 7 FMS actions,
+shows downloaded raw videos and existing reference samples, searches YouTube
+candidates through the official API, ranks recommendations, requires a download
+confirmation, and keeps new downloads in the isolated Online Candidates library.
+See `docs/video_manager_subfeature.md` for the product boundary and safe
+development areas.
+
 Validate other movement manifests after adding rows:
 
 ```bash

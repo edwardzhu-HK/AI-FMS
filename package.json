@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:manager": "vite --host 127.0.0.1",
     "dev:real": "VITE_CALIB_API_MODE=real vite",
     "api:stub": "node server/api-stub.js",
+    "api:video-manager": "node server/video-manager-api.js",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint .",

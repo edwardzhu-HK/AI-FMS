@@ -236,10 +236,6 @@ function loadExistingVideoIndex({
 
   for (const filePath of walkVideoFiles(evalRoot)) {
     const relativePath = path.relative(process.cwd(), filePath);
-    if (relativePath.includes("Online Candidates")) {
-      continue;
-    }
-
     if (!itemsByPath.has(relativePath)) {
       itemsByPath.set(relativePath, {
         path: relativePath,
@@ -446,7 +442,10 @@ function scoreCandidateRecommendation(candidate) {
     if (candidate.durationSecond >= 8 && candidate.durationSecond <= 180) {
       score += 12;
       reasons.push("Duration looks suitable for a raw movement sample.");
-    } else if (candidate.durationSecond > 180 && candidate.durationSecond <= 600) {
+    } else if (
+      candidate.durationSecond > 180 &&
+      candidate.durationSecond <= 600
+    ) {
       score -= 4;
       reasons.push("Longer video; likely needs manual trimming.");
     } else {
@@ -484,11 +483,7 @@ function scoreCandidateRecommendation(candidate) {
   return {
     score: normalizedScore,
     label:
-      normalizedScore >= 75
-        ? "high"
-        : normalizedScore >= 55
-          ? "medium"
-          : "low",
+      normalizedScore >= 75 ? "high" : normalizedScore >= 55 ? "medium" : "low",
     reasons: [...new Set(reasons)].slice(0, 5),
   };
 }

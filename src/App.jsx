@@ -3416,6 +3416,17 @@ export default function App() {
               ))}
             </div>
           </section>
+
+          <section className="card manager-entry-card">
+            <a
+              className="button-secondary manager-entry-button"
+              href="/video-manager.html"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Video Manager
+            </a>
+          </section>
         </aside>
 
         <section className="center-column">
