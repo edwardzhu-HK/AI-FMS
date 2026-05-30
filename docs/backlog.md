@@ -240,6 +240,10 @@ Tasks:
 - [x] Inventory prepared sample videos across all 7 FMS movements.
 - [x] Generate draft sample manifests for manifest-ready collected videos.
 - [x] Validate generated sample manifests.
+- [x] Add online FMS video candidate discovery with local duplicate checks and
+      review-only registry output.
+- [x] Add gated download command that only processes candidates with reviewer
+      approval and confirmed source rights.
 - [ ] Promote selected draft rows into canonical movement manifests after human
       review.
 - [ ] Ingest prepared sample videos for the remaining FMS movements when

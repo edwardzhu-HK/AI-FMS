@@ -240,6 +240,33 @@ live under `Eval_Videos/Sample videos/manifests/`; they are intentionally kept
 separate from the canonical movement manifests until a reviewer chooses which
 rows should be promoted.
 
+Discover online FMS video candidates without downloading them:
+
+```bash
+YOUTUBE_API_KEY=... npm run videos:discover:web -- --action rotary_stability --max-results 10
+```
+
+The discovery command writes a review-only registry at
+`Eval_Videos/online-candidates/fms-video-candidates.json` and a Chinese review
+report at `docs/online_fms_video_candidates.md`. It compares candidate titles
+and durations against local videos so likely duplicates are visible before any
+download happens.
+
+Download is intentionally gated. A candidate must be manually changed to
+`approvedForDownload: true`, and its `rightsStatus` must be changed to a
+confirmed value such as `permission_confirmed`, `owned_by_project`,
+`creative_commons_confirmed`, `public_domain_confirmed`, or
+`platform_download_permitted` before this command will download anything:
+
+```bash
+npm run videos:download:approved
+```
+
+Downloaded files go to `Eval_Videos/Online Candidates/` first. They should stay
+there until a human reviewer confirms action type, quality, reps, score notes,
+and source rights before any row is promoted into a canonical movement
+manifest.
+
 Validate other movement manifests after adding rows:
 
 ```bash
