@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react";
-import { CLEARING_TEST_OPTIONS, SEGMENT_SIDES } from "../constants/scoring.js";
+import {
+  CLEARING_RESULT_OPTIONS,
+  deriveClearingTestFromFindings,
+  getActionRepPolicy,
+  normalizeClearingFindings,
+} from "../constants/scoring.js";
 
 function toFormValue(segment) {
+  const actionType = segment?.actionType ?? "deep_squat";
+  const repPolicy = getActionRepPolicy(actionType);
+  const rawSide = segment?.side ?? repPolicy.defaultSide;
+  const side =
+    repPolicy.expectedSideValues.length > 0 &&
+    rawSide !== "unknown" &&
+    !repPolicy.expectedSideValues.includes(rawSide)
+      ? "unknown"
+      : rawSide;
+
   return {
     startSecond: segment?.startSecond ?? 0,
     endSecond: segment?.endSecond ?? 0,
-    side: segment?.side ?? "none",
+    side,
     painFlag: Boolean(segment?.painFlag),
     clearingTest: segment?.clearingTest ?? "not_applicable",
+    clearingFindings: normalizeClearingFindings(
+      actionType,
+      segment?.clearingFindings,
+      segment?.clearingTest,
+    ),
     rubricVersion: segment?.rubricVersion ?? "fms_v1.0",
   };
 }
@@ -50,6 +70,12 @@ function getIssueLabel(issue, t) {
   return label === `timingIssue_${issue.code}` ? issue.message : label;
 }
 
+function getTranslatedLabel(key, fallback, t) {
+  const translated = t(key);
+
+  return translated === key ? fallback : translated;
+}
+
 export default function SegmentEditor({
   segment,
   disabled,
@@ -67,6 +93,12 @@ export default function SegmentEditor({
     return null;
   }
 
+  const repPolicy = getActionRepPolicy(segment.actionType);
+  const sideOptions =
+    repPolicy.expectedSideValues.length > 0
+      ? ["unknown", ...repPolicy.expectedSideValues]
+      : [];
+
   function updateField(field, value) {
     setFormValue((previous) => ({
       ...previous,
@@ -74,15 +106,31 @@ export default function SegmentEditor({
     }));
   }
 
+  function updateClearingFinding(findingKey, result) {
+    setFormValue((previous) => ({
+      ...previous,
+      clearingFindings: previous.clearingFindings.map((finding) =>
+        finding.key === findingKey ? { ...finding, result } : finding,
+      ),
+    }));
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
+    const clearingTest = deriveClearingTestFromFindings(
+      segment.actionType,
+      formValue.clearingFindings,
+      formValue.clearingTest,
+    );
+
     onSave({
       segmentId: segment.segmentId,
       startSecond: Number(formValue.startSecond),
       endSecond: Number(formValue.endSecond),
-      side: formValue.side,
+      side: sideOptions.length > 0 ? formValue.side : repPolicy.defaultSide,
       painFlag: formValue.painFlag,
-      clearingTest: formValue.clearingTest,
+      clearingTest,
+      clearingFindings: formValue.clearingFindings,
       rubricVersion: formValue.rubricVersion.trim(),
     });
   }
@@ -196,37 +244,51 @@ export default function SegmentEditor({
         ) : null}
 
         <div className="metadata-grid">
-          <label>
-            {t("side")}
-            <select
-              value={formValue.side}
-              onChange={(event) => updateField("side", event.target.value)}
-              disabled={disabled}
-            >
-              {SEGMENT_SIDES.map((side) => (
-                <option key={side} value={side}>
-                  {side}
-                </option>
-              ))}
-            </select>
-          </label>
+          {sideOptions.length > 0 ? (
+            <label>
+              {t("side")}
+              <select
+                value={formValue.side}
+                onChange={(event) => updateField("side", event.target.value)}
+                disabled={disabled}
+              >
+                {sideOptions.map((side) => (
+                  <option key={side} value={side}>
+                    {getTranslatedLabel(`sideOption_${side}`, side, t)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
 
-          <label>
-            {t("clearingTest")}
-            <select
-              value={formValue.clearingTest}
-              onChange={(event) =>
-                updateField("clearingTest", event.target.value)
-              }
-              disabled={disabled}
-            >
-              {CLEARING_TEST_OPTIONS.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+          {formValue.clearingFindings.map((finding) => (
+            <label key={finding.key}>
+              {getTranslatedLabel(
+                `clearingFinding_${finding.key}`,
+                finding.label,
+                t,
+              )}
+              <select
+                value={finding.result}
+                onChange={(event) =>
+                  updateClearingFinding(finding.key, event.target.value)
+                }
+                disabled={disabled}
+              >
+                {(CLEARING_RESULT_OPTIONS[finding.resultType] ?? []).map(
+                  (option) => (
+                    <option key={option} value={option}>
+                      {getTranslatedLabel(
+                        `clearingResult_${option}`,
+                        option,
+                        t,
+                      )}
+                    </option>
+                  ),
+                )}
+              </select>
+            </label>
+          ))}
 
           <label>
             {t("rubricVersion")}

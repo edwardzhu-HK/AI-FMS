@@ -1,6 +1,9 @@
 import * as mockApi from "./mockCalibrationApi.js";
 import * as realApi from "./realCalibrationApi.js";
-import { normalizeScoreForAction } from "../constants/scoring.js";
+import {
+  normalizeClearingFindings,
+  normalizeScoreForAction,
+} from "../constants/scoring.js";
 
 const API_MODE = import.meta.env.VITE_CALIB_API_MODE ?? "mock";
 
@@ -71,6 +74,11 @@ function toCamelSegment(rawSegment) {
     painFlag: rawSegment.pain_flag ?? rawSegment.painFlag ?? false,
     clearingTest:
       rawSegment.clearing_test ?? rawSegment.clearingTest ?? "not_applicable",
+    clearingFindings: normalizeClearingFindings(
+      actionType,
+      rawSegment.clearing_findings ?? rawSegment.clearingFindings ?? [],
+      rawSegment.clearing_test ?? rawSegment.clearingTest ?? "not_applicable",
+    ),
     rubricVersion:
       rawSegment.rubric_version ?? rawSegment.rubricVersion ?? "fms_v1.0",
     aiScore: fromSnakeScore(

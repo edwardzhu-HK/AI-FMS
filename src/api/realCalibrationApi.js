@@ -87,6 +87,7 @@ export async function updateSegmentMetadata(payload) {
       side: payload.side,
       pain_flag: payload.painFlag,
       clearing_test: payload.clearingTest,
+      clearing_findings: payload.clearingFindings,
       rubric_version: payload.rubricVersion,
       segment_source: payload.segmentSource,
     }),

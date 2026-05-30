@@ -7,6 +7,12 @@ function formatCriteriaScores(criteriaScores = []) {
     .join(";");
 }
 
+function formatClearingFindings(clearingFindings = []) {
+  return clearingFindings
+    .map((finding) => `${finding.key}:${finding.resultType}:${finding.result}`)
+    .join(";");
+}
+
 const CSV_COLUMNS = [
   ["video_id", (record) => record.videoId],
   ["segment_id", (record) => record.segmentId],
@@ -29,6 +35,10 @@ const CSV_COLUMNS = [
   ["segment_source", (record) => record.segmentSource],
   ["pain_flag", (record) => record.painFlag],
   ["clearing_test", (record) => record.clearingTest],
+  [
+    "clearing_findings",
+    (record) => formatClearingFindings(record.clearingFindings),
+  ],
   ["rubric_version", (record) => record.rubricVersion],
   [
     "rubric_criteria",

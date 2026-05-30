@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   createDefaultSegmentMetadata,
+  deriveClearingTestFromFindings,
   createScoreFromSubscores,
   createScoreFromTotal,
   getActionRepPolicy,
   getActionRubricCriteria,
   getSubscoreItems,
+  normalizeClearingFindings,
   normalizeScoreForAction,
 } from "../src/constants/scoring.js";
 
@@ -133,4 +135,66 @@ test("getActionRepPolicy describes rep-level side and clearing semantics", () =>
 test("createDefaultSegmentMetadata defaults lateralized actions to unknown side", () => {
   assert.equal(createDefaultSegmentMetadata("hurdle_step").side, "unknown");
   assert.equal(createDefaultSegmentMetadata("deep_squat").side, "none");
+  assert.deepEqual(
+    createDefaultSegmentMetadata("shoulder_mobility").clearingFindings,
+    [
+      {
+        key: "shoulder_clearing",
+        label: "Shoulder Clearing",
+        resultType: "positive_negative_pain",
+        result: "not_tested",
+        affectsRawScore: true,
+      },
+    ],
+  );
+});
+
+test("clearing findings normalize action-specific clearing details", () => {
+  assert.deepEqual(
+    normalizeClearingFindings("in_line_lunge", [
+      {
+        key: "ankle_clearing_pain",
+        result: "positive",
+      },
+      {
+        key: "ankle_clearing_mobility",
+        result: "yellow",
+      },
+    ]),
+    [
+      {
+        key: "ankle_clearing_pain",
+        label: "Ankle Clearing - Pain",
+        resultType: "positive_negative_pain",
+        result: "positive",
+        affectsRawScore: true,
+      },
+      {
+        key: "ankle_clearing_mobility",
+        label: "Ankle Clearing - Mobility",
+        resultType: "red_yellow_green",
+        result: "yellow",
+        affectsRawScore: false,
+      },
+    ],
+  );
+
+  assert.equal(
+    deriveClearingTestFromFindings("in_line_lunge", [
+      {
+        key: "ankle_clearing_pain",
+        result: "positive",
+      },
+    ]),
+    "fail",
+  );
+  assert.equal(
+    deriveClearingTestFromFindings("shoulder_mobility", [
+      {
+        key: "shoulder_clearing",
+        result: "negative",
+      },
+    ]),
+    "pass",
+  );
 });

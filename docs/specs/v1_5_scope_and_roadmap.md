@@ -309,6 +309,7 @@ Recommended record shape:
   },
   "pain_flag": false,
   "clearing_test": "not_applicable",
+  "clearing_findings": [],
   "rubric_criteria": [
     {
       "generic_key": "depth",
@@ -338,7 +339,10 @@ Required schema concepts:
 - `pain_flag`: 主要来自 human observed/reported input；AI 可提供 evidence，但不应自动
   宣称 pain。
 - `clearing_test`: not_applicable, pass, fail, unknown。需要 R/Y/G 的 ankle mobility
-  clearing 会在后续 schema 中单独展开。
+  clearing 已在 `clearing_findings` 中单独展开。
+- `clearing_findings`: action-specific clearing records。Shoulder / Extension /
+  Flexion clearing 使用 negative / positive / unknown；In-Line Lunge 同时记录
+  ankle pain clearing 和 R/Y/G ankle mobility。
 - `rubric_version`: stable scoring rubric reference.
 - `rubric_criteria`: movement-specific meaning of the compatible subscore
   fields; this keeps exports readable when a generic field such as `depth`
@@ -581,6 +585,10 @@ Implementation status after the first P2 pass:
     reviewer/metadata `side`, optional pose-derived `aiSideSuggestion`,
     `clearingTest`, and `painFlag`. Current exports do not compute
     person-level FMS FINAL SCORE.
+29. Added action-specific `clearingFindings` metadata and UI. Deep Squat hides
+    meaningless side/clearing controls; lateralized movements show left/right;
+    Shoulder, Trunk, Rotary, and In-Line Lunge expose their relevant clearing
+    fields while preserving legacy `clearingTest` summary export.
 
 Recommended next sprint:
 

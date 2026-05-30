@@ -43,6 +43,7 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
         segmentSource: "manual_adjusted",
         painFlag: false,
         clearingTest: "not_applicable",
+        clearingFindings: [],
         rubricVersion: "fms_v1.0",
         aiScore: makeScore(3),
         reviewerScores: {
@@ -62,6 +63,7 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
   assert.equal(exported.records[0].scoreAggregation, "none");
   assert.equal(exported.records[0].repPolicy.clearingPolicy, "none");
   assert.equal(exported.records[0].sideSource, "reviewer_or_metadata");
+  assert.deepEqual(exported.records[0].clearingFindings, []);
   assert.equal(exported.records[0].labelStatus, "valid");
   assert.equal(exported.records[0].adjudicationSource, "human_consensus");
   assert.equal(exported.records[0].segmentSource, "manual_adjusted");
@@ -215,4 +217,70 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
   assert.equal(augmented.records[0].sideSource, "ai_suggested");
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
   assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
+});
+
+test("dataset export includes action-specific clearing findings", () => {
+  const exported = buildDatasetExport(
+    {
+      videoId: "vid_2",
+      actionType: "in_line_lunge",
+      fileName: "inline.mp4",
+      startSecond: 0,
+      endSecond: 12,
+      expectedReps: 1,
+      notes: "",
+    },
+    [
+      {
+        segmentId: "seg_2",
+        videoId: "vid_2",
+        actionType: "in_line_lunge",
+        repetitionIndex: 1,
+        cameraView: "front",
+        side: "left",
+        startSecond: 1,
+        endSecond: 4,
+        painFlag: false,
+        clearingTest: "fail",
+        clearingFindings: [
+          {
+            key: "ankle_clearing_pain",
+            result: "positive",
+          },
+          {
+            key: "ankle_clearing_mobility",
+            result: "red",
+          },
+        ],
+        aiScore: makeScore(2),
+        reviewerScores: {
+          reviewer_a: null,
+          reviewer_b: null,
+        },
+        reviewStatus: "pending",
+      },
+    ],
+  );
+
+  assert.equal(
+    exported.video.repPolicy.clearingPolicy,
+    "ankle_pain_and_mobility",
+  );
+  assert.equal(exported.records[0].clearingTest, "fail");
+  assert.deepEqual(exported.records[0].clearingFindings, [
+    {
+      key: "ankle_clearing_pain",
+      label: "Ankle Clearing - Pain",
+      resultType: "positive_negative_pain",
+      result: "positive",
+      affectsRawScore: true,
+    },
+    {
+      key: "ankle_clearing_mobility",
+      label: "Ankle Clearing - Mobility",
+      resultType: "red_yellow_green",
+      result: "red",
+      affectsRawScore: false,
+    },
+  ]);
 });

@@ -3,6 +3,7 @@ import {
   SCORE_SCOPE_REP_RAW,
   getActionRepPolicy,
   getActionRubricCriteria,
+  normalizeClearingFindings,
   normalizeScoreForAction,
 } from "../constants/scoring.js";
 
@@ -68,6 +69,11 @@ export function buildDatasetExport(video, segments) {
         segmentSource: segment.segmentSource ?? "suggested",
         painFlag: Boolean(segment.painFlag),
         clearingTest: segment.clearingTest ?? "not_applicable",
+        clearingFindings: normalizeClearingFindings(
+          segment.actionType,
+          segment.clearingFindings,
+          segment.clearingTest,
+        ),
         rubricVersion: segment.rubricVersion ?? "fms_v1.0",
         rubricCriteria: getActionRubricCriteria(segment.actionType),
         aiSuggestion: toScoreSnapshot(aiScore, segment.actionType),

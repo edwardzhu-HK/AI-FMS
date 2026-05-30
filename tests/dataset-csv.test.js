@@ -31,6 +31,13 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         segmentSource: "manual_adjusted",
         painFlag: false,
         clearingTest: "not_applicable",
+        clearingFindings: [
+          {
+            key: "shoulder_clearing",
+            resultType: "positive_negative_pain",
+            result: "negative",
+          },
+        ],
         rubricVersion: "fms_v1.0",
         rubricCriteria: [
           {
@@ -130,11 +137,15 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[0].includes("score_scope"));
   assert.ok(lines[0].includes("side_policy"));
   assert.ok(lines[0].includes("ai_inferred_side"));
+  assert.ok(lines[0].includes("clearing_findings"));
   assert.ok(lines[0].includes("pose_suggestion_criteria_scores"));
   assert.ok(lines[1].includes("seg_1"));
   assert.ok(lines[1].includes("rep_raw_score"));
   assert.ok(lines[1].includes("not_lateralized"));
   assert.ok(lines[1].includes("right"));
+  assert.ok(
+    lines[1].includes("shoulder_clearing:positive_negative_pain:negative"),
+  );
   assert.ok(lines[1].includes("depth:deep_squat_depth:Depth"));
   assert.ok(
     lines[1].includes("torsoControl:deep_squat_torso_control:Torso Control:2"),

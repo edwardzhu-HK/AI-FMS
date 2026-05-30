@@ -1,7 +1,9 @@
 import {
   ACTIONS,
   createDefaultSegmentMetadata,
+  deriveClearingTestFromFindings,
   createEmptyScore,
+  normalizeClearingFindings,
   normalizeScoreForAction,
 } from "../constants/scoring.js";
 import {
@@ -246,6 +248,7 @@ export async function updateSegmentMetadata(payload) {
     side,
     painFlag,
     clearingTest,
+    clearingFindings,
     rubricVersion,
     segmentSource = "manual_adjusted",
   } = payload;
@@ -282,7 +285,16 @@ export async function updateSegmentMetadata(payload) {
   targetSegment.endSecond = Number(parsedEndSecond.toFixed(2));
   targetSegment.side = side;
   targetSegment.painFlag = Boolean(painFlag);
-  targetSegment.clearingTest = clearingTest;
+  targetSegment.clearingFindings = normalizeClearingFindings(
+    targetSegment.actionType,
+    clearingFindings ?? targetSegment.clearingFindings,
+    clearingTest,
+  );
+  targetSegment.clearingTest = deriveClearingTestFromFindings(
+    targetSegment.actionType,
+    targetSegment.clearingFindings,
+    clearingTest,
+  );
   targetSegment.rubricVersion = rubricVersion || "fms_v1.0";
   targetSegment.segmentSource = segmentSource;
   targetSegment.updatedAt = new Date().toISOString();

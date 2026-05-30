@@ -77,6 +77,15 @@ rep/segment，而不是一个人的 FMS FINAL SCORE。
   "sideSource": "reviewer_or_metadata",
   "painFlag": false,
   "clearingTest": "not_applicable",
+  "clearingFindings": [
+    {
+      "key": "shoulder_clearing",
+      "label": "Shoulder Clearing",
+      "resultType": "positive_negative_pain",
+      "result": "negative",
+      "affectsRawScore": true
+    }
+  ],
   "repPolicy": {
     "scoringUnit": "rep",
     "sidePolicy": "left_right",
@@ -97,6 +106,16 @@ Raise`、`Rotary Stability` 是 `left_right`，默认 `side = unknown`，后续�
 - `Shoulder Mobility`、`Trunk Stability Push-Up`、`Rotary Stability` 有
   pain clearing；`In-Line Lunge` 还预留了 ankle mobility clearing
   的 R/Y/G 结构位。当前 UI 的 `clearingTest` 仍是 pass/fail/unknown 的兼容字段。
+- `clearingFindings` 是新的细粒度结构：
+  - `Shoulder Mobility`: `shoulder_clearing`，结果为 negative/positive/unknown。
+  - `Trunk Stability Push-Up`: `extension_clearing`。
+  - `Rotary Stability`: `flexion_clearing`。
+  - `In-Line Lunge`: `ankle_clearing_pain` 和
+    `ankle_clearing_mobility`；前者影响 raw score，后者记录 R/Y/G mobility
+    evidence，不直接影响当前 raw score。
+- `clearingTest` 继续作为 legacy summary 字段保留：如果 pain clearing 为 positive，
+  summary 为 `fail`；negative 为 `pass`；没有 clearing 的动作保持
+  `not_applicable`。
 - `painFlag` 当前不由 AI 自动判定；AI 可以提供可疑证据，但最终应来自 human
   observed/reported input。
 
@@ -112,5 +131,5 @@ Raise`、`Rotary Stability` 是 `left_right`，默认 `side = unknown`，后续�
 3. 将 CSV 的 criteria score columns 明确标注为 AI/explanation evidence 或兼容快照，
    避免误读为人类 reviewer 的逐项评分。
 4. 当真实后端接入时，把 `criteriaScores` 作为 API 和数据库的一等字段。
-5. 给需要 clearing 的动作补更细的 clearing finding schema，例如
-   `ankle_mobility: green/yellow/red`。
+5. 后续如果进入真实后端，把 `clearingFindings` 作为 rep-level metadata 的一等字段，
+   并继续保留 `clearingTest` 作为兼容摘要。

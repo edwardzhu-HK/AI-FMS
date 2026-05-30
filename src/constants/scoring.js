@@ -111,6 +111,10 @@ export const CLEARING_TEST_OPTIONS = [
   "fail",
   "unknown",
 ];
+export const CLEARING_RESULT_OPTIONS = {
+  positive_negative_pain: ["not_tested", "negative", "positive", "unknown"],
+  red_yellow_green: ["not_tested", "green", "yellow", "red", "unknown"],
+};
 export const DEFAULT_RUBRIC_VERSION = "fms_v1.0";
 
 const ACTION_REP_POLICIES = {
@@ -247,6 +251,30 @@ function cloneRepPolicy(policy) {
   };
 }
 
+function getDefaultClearingResult(resultType) {
+  return CLEARING_RESULT_OPTIONS[resultType]?.[0] ?? "unknown";
+}
+
+function legacyClearingTestToResult(clearingTest, resultType) {
+  if (resultType !== "positive_negative_pain") {
+    return getDefaultClearingResult(resultType);
+  }
+
+  if (clearingTest === "pass") {
+    return "negative";
+  }
+
+  if (clearingTest === "fail") {
+    return "positive";
+  }
+
+  if (clearingTest === "unknown") {
+    return "unknown";
+  }
+
+  return "not_tested";
+}
+
 export function getActionRepPolicy(actionType) {
   const policy =
     ACTION_REP_POLICIES[actionType] ?? ACTION_REP_POLICIES.deep_squat;
@@ -258,11 +286,91 @@ export function getDefaultSideForAction(actionType) {
   return getActionRepPolicy(actionType).defaultSide;
 }
 
+export function createDefaultClearingFindings(actionType = "deep_squat") {
+  return getActionRepPolicy(actionType).clearingTests.map((test) => ({
+    key: test.key,
+    label: test.label,
+    resultType: test.resultType,
+    result: getDefaultClearingResult(test.resultType),
+    affectsRawScore: test.affectsRawScore,
+  }));
+}
+
+export function normalizeClearingFindings(
+  actionType = "deep_squat",
+  clearingFindings = [],
+  legacyClearingTest = "not_applicable",
+) {
+  const incomingByKey = new Map(
+    (clearingFindings ?? [])
+      .filter((finding) => finding?.key)
+      .map((finding) => [finding.key, finding]),
+  );
+
+  return getActionRepPolicy(actionType).clearingTests.map((test) => {
+    const incoming = incomingByKey.get(test.key);
+    const result =
+      incoming?.result ??
+      legacyClearingTestToResult(legacyClearingTest, test.resultType);
+    const allowedResults =
+      CLEARING_RESULT_OPTIONS[test.resultType] ??
+      CLEARING_RESULT_OPTIONS.positive_negative_pain;
+
+    return {
+      key: test.key,
+      label: test.label,
+      resultType: test.resultType,
+      result: allowedResults.includes(result)
+        ? result
+        : getDefaultClearingResult(test.resultType),
+      affectsRawScore: test.affectsRawScore,
+    };
+  });
+}
+
+export function deriveClearingTestFromFindings(
+  actionType = "deep_squat",
+  clearingFindings = [],
+  fallback = "not_applicable",
+) {
+  const findings = normalizeClearingFindings(
+    actionType,
+    clearingFindings,
+    fallback,
+  );
+  const painFindings = findings.filter(
+    (finding) =>
+      finding.resultType === "positive_negative_pain" &&
+      finding.affectsRawScore,
+  );
+
+  if (painFindings.length === 0) {
+    return "not_applicable";
+  }
+
+  if (painFindings.some((finding) => finding.result === "positive")) {
+    return "fail";
+  }
+
+  if (painFindings.every((finding) => finding.result === "negative")) {
+    return "pass";
+  }
+
+  if (painFindings.some((finding) => finding.result === "unknown")) {
+    return "unknown";
+  }
+
+  return fallback === "pass" || fallback === "fail" || fallback === "unknown"
+    ? fallback
+    : "not_applicable";
+}
+
 export function createDefaultSegmentMetadata(actionType = "deep_squat") {
   return {
     side: getDefaultSideForAction(actionType),
     painFlag: false,
     clearingTest: "not_applicable",
+    clearingFindings: createDefaultClearingFindings(actionType),
     rubricVersion: DEFAULT_RUBRIC_VERSION,
   };
 }

@@ -151,10 +151,48 @@ test("mock api supports manual segment metadata correction", async () => {
   assert.equal(result.segment.endSecond, 4.75);
   assert.equal(result.segment.side, "bilateral");
   assert.equal(result.segment.painFlag, true);
-  assert.equal(result.segment.clearingTest, "pass");
+  assert.equal(result.segment.clearingTest, "not_applicable");
+  assert.deepEqual(result.segment.clearingFindings, []);
   assert.equal(result.segment.rubricVersion, "fms_v1.1_test");
   assert.equal(result.segment.segmentSource, "manual_adjusted");
   assert.equal(result.segment.originalStartSecond, target.startSecond);
+});
+
+test("mock api stores action-specific clearing findings", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "shoulder_mobility",
+    fileName: "shoulder.mp4",
+    startSecond: 0,
+    endSecond: 12,
+    expectedReps: 1,
+  });
+  const segments = await getVideoSegments(created.videoId);
+
+  const result = await updateSegmentMetadata({
+    segmentId: segments.items[0].segmentId,
+    startSecond: 0.5,
+    endSecond: 4.5,
+    side: "right",
+    painFlag: true,
+    clearingFindings: [
+      {
+        key: "shoulder_clearing",
+        result: "positive",
+      },
+    ],
+    rubricVersion: "fms_v1.0",
+  });
+
+  assert.equal(result.segment.clearingTest, "fail");
+  assert.deepEqual(result.segment.clearingFindings, [
+    {
+      key: "shoulder_clearing",
+      label: "Shoulder Clearing",
+      resultType: "positive_negative_pain",
+      result: "positive",
+      affectsRawScore: true,
+    },
+  ]);
 });
 
 test("mock api preserves AI draft timing provenance", async () => {
