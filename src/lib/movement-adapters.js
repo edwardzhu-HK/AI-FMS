@@ -8,10 +8,13 @@ import { summarizeShoulderMobilityPoseFeatures } from "./shoulder-mobility-featu
 import { evaluateShoulderMobilitySegmentsTiming } from "./shoulder-mobility-timing.js";
 import { summarizeHurdleStepPoseFeatures } from "./hurdle-step-features.js";
 import { evaluateHurdleStepSegmentsTiming } from "./hurdle-step-timing.js";
+import { summarizeInlineLungePoseFeatures } from "./inline-lunge-features.js";
+import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
 
 const DEEP_SQUAT_ADAPTER = {
   actionType: "deep_squat",
   posePipelineStatus: "implemented",
+  supportsAiDraftTiming: true,
   featureTitleKey: "deepSquatFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -48,6 +51,7 @@ const DEEP_SQUAT_ADAPTER = {
 const ASLR_ADAPTER = {
   actionType: "active_straight_leg_raise",
   posePipelineStatus: "implemented",
+  supportsAiDraftTiming: true,
   featureTitleKey: "activeStraightLegRaiseFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -84,6 +88,7 @@ const ASLR_ADAPTER = {
 const SHOULDER_MOBILITY_ADAPTER = {
   actionType: "shoulder_mobility",
   posePipelineStatus: "features_only",
+  supportsAiDraftTiming: false,
   featureTitleKey: "shoulderMobilityFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -113,6 +118,7 @@ const SHOULDER_MOBILITY_ADAPTER = {
 const HURDLE_STEP_ADAPTER = {
   actionType: "hurdle_step",
   posePipelineStatus: "features_only",
+  supportsAiDraftTiming: true,
   featureTitleKey: "hurdleStepFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -139,11 +145,42 @@ const HURDLE_STEP_ADAPTER = {
   },
 };
 
+const INLINE_LUNGE_ADAPTER = {
+  actionType: "in_line_lunge",
+  posePipelineStatus: "features_only",
+  supportsAiDraftTiming: true,
+  featureTitleKey: "inlineLungeFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateInlineLungeSegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeInlineLungePoseFeatures({
+      posePayload,
+      timingReport,
+    });
+  },
+  buildSuggestionReport() {
+    return null;
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
   [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
   [SHOULDER_MOBILITY_ADAPTER.actionType]: SHOULDER_MOBILITY_ADAPTER,
   [HURDLE_STEP_ADAPTER.actionType]: HURDLE_STEP_ADAPTER,
+  [INLINE_LUNGE_ADAPTER.actionType]: INLINE_LUNGE_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {

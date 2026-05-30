@@ -1,3 +1,10 @@
+import {
+  assignUniqueCyclesToSegments,
+  buildNoUniqueCycleAssignmentItem,
+  dedupeOverlappingCycles,
+  flagDuplicateCycleAssignments,
+} from "./timing-qa.js";
+
 const SIDES = ["left", "right"];
 
 const DEFAULT_OPTIONS = {
@@ -408,10 +415,7 @@ function mergeCyclesAcrossSides(cycles, config) {
     }
   }
 
-  return mergedCycles.map((cycle, index) => ({
-    ...cycle,
-    repetitionIndex: index + 1,
-  }));
+  return dedupeOverlappingCycles(mergedCycles);
 }
 
 export function detectHurdleStepCycles(payload, options = {}) {
@@ -670,15 +674,39 @@ export function evaluateHurdleStepSegmentsTiming({
 
   const config = { ...DEFAULT_OPTIONS, ...options };
   const { cycles, quality } = detectHurdleStepCycles(posePayload, config);
-  const items = segments.map((segment) => ({
-    segmentId: segment.segmentId,
-    repetitionIndex: segment.repetitionIndex,
-    cameraView: segment.cameraView,
-    currentStartSecond: segment.startSecond,
-    currentEndSecond: segment.endSecond,
-    ...evaluateSegmentAgainstCycles(cycles, quality, segment, config),
-  }));
-  const summary = summarizeTimingItems(items, cycles);
+  const cycleAssignments = assignUniqueCyclesToSegments(segments, cycles);
+  const assignedCycles = [...cycleAssignments.values()];
+  const items = flagDuplicateCycleAssignments(
+    segments.map((segment) => {
+      const assignedCycle = cycleAssignments.get(
+        segment.segmentId ?? `rep_${segment.repetitionIndex}`,
+      );
+      const timingItem = assignedCycle
+        ? evaluateSegmentAgainstCycles(
+            [assignedCycle],
+            quality,
+            segment,
+            config,
+          )
+        : buildNoUniqueCycleAssignmentItem(cycles);
+
+      return {
+        segmentId: segment.segmentId,
+        repetitionIndex: segment.repetitionIndex,
+        cameraView: segment.cameraView,
+        currentStartSecond: segment.startSecond,
+        currentEndSecond: segment.endSecond,
+        ...timingItem,
+        metrics: timingItem.metrics
+          ? {
+              ...timingItem.metrics,
+              detectedCycles: cycles.length,
+            }
+          : timingItem.metrics,
+      };
+    }),
+  );
+  const summary = summarizeTimingItems(items, assignedCycles);
   const hasBlockingIssue = summary.needsAdjustmentCount > 0;
 
   if (cycles.length === 0) {
@@ -687,7 +715,7 @@ export function evaluateHurdleStepSegmentsTiming({
       label: "No reliable Hurdle Step cycle",
       items,
       summary,
-      cycles,
+      cycles: assignedCycles,
       quality,
     };
   }
@@ -699,7 +727,10 @@ export function evaluateHurdleStepSegmentsTiming({
       : "All segments cover detected Hurdle Step cycles",
     items,
     summary,
-    cycles,
-    quality,
+    cycles: assignedCycles,
+    quality: {
+      ...quality,
+      candidateCyclesTotal: cycles.length,
+    },
   };
 }

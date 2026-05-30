@@ -12,6 +12,7 @@ test("movement adapter registry exposes Deep Squat pose pipeline", () => {
 
   assert.equal(adapter.actionType, "deep_squat");
   assert.equal(adapter.posePipelineStatus, "implemented");
+  assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(typeof adapter.buildSuggestionReport, "function");
@@ -23,6 +24,7 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
 
   assert.equal(adapter.actionType, "active_straight_leg_raise");
   assert.equal(adapter.posePipelineStatus, "implemented");
+  assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(typeof adapter.buildSuggestionReport, "function");
@@ -37,6 +39,7 @@ test("movement adapter registry exposes Hurdle Step features-only pipeline", () 
 
   assert.equal(adapter.actionType, "hurdle_step");
   assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(adapter.buildSuggestionReport(), null);
@@ -47,6 +50,22 @@ test("movement adapter registry exposes Shoulder Mobility features-only pipeline
 
   assert.equal(adapter.actionType, "shoulder_mobility");
   assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(adapter.supportsAiDraftTiming, false);
+  assert.equal(typeof adapter.buildTimingReport, "function");
+  assert.equal(typeof adapter.buildFeatureReport, "function");
+  assert.equal(adapter.buildSuggestionReport(), null);
+  assert.deepEqual(getImplementedPoseActionTypes(), [
+    "deep_squat",
+    "active_straight_leg_raise",
+  ]);
+});
+
+test("movement adapter registry exposes In-Line Lunge features-only pipeline", () => {
+  const adapter = getMovementAdapter("in_line_lunge");
+
+  assert.equal(adapter.actionType, "in_line_lunge");
+  assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(adapter.buildSuggestionReport(), null);

@@ -1,6 +1,6 @@
 # Backlog
 
-Date: 2026-05-22
+Date: 2026-05-23
 
 This backlog has been reset around the V1.5 restart plan:
 
@@ -115,11 +115,38 @@ Current development order agreed on 2026-05-23:
 - [x] Persist reviewer scores, segment metadata, active preset, and selected
       segment state in localStorage for local testing.
 - [x] Add pose-based active period suggestion so long instructional/non-action
-      lead-in or tail sections do not silently become the analysis range.
-- [x] Show detected active-period fragments and clarify that applying them still
-      uses one overall Start/End range until a multi-period schema is reviewed.
-- [x] Add per-period apply buttons so reviewers can quickly focus analysis on
-      one detected valid motion fragment without changing the export schema.
+      lead-in or tail sections can be detected.
+- [x] Shift the main workflow from pre-analysis active-period selection to
+      post-analysis AI draft timing: Start/End defines the analysis range, while
+      detected movement cycles become the editable segment clips by default.
+- [x] Add a small AI draft timing buffer and keep raw pose-detected cycle timing
+      in export evidence for audit/review.
+- [x] Batch-test AI draft timing against existing pose samples and document
+      stability/risks in `docs/ai_draft_timing_batch_qa_2026-05-23.md`.
+- [x] Add `duplicate_cycle_assignment` as a timing QA blocker so repeated cycle
+      mapping cannot silently pass as OK.
+- [x] Add ordered one-to-one cycle-to-rep matching so a detected movement cycle
+      can only be assigned to one segment.
+- [x] Add `no_unique_cycle_assignment` for segments that cannot be matched to a
+      unique detected cycle.
+- [x] Add overlapping candidate-cycle dedupe so one movement with two nearby
+      peaks is not counted as two reps.
+- [x] Exclude Shoulder Mobility from AI draft timing auto-apply until it has a
+      true movement-cycle detector rather than feature-only reach evidence.
+- [x] Surface Timing QA blockers in the segment list/editor with reviewer-facing
+      Chinese/English explanations instead of raw internal issue codes.
+- [x] Gate formal Ingest readiness on Timing QA blockers while keeping JSON/CSV
+      export available for debugging and review.
+- [x] Add a four-movement demo readiness command and Chinese handoff covering
+      Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and Hurdle Step.
+- [x] Add a four-movement end-to-end mock workflow smoke covering analysis,
+      AI draft timing, reviewer consensus, ingest, and dataset package export.
+- [x] Add a seven-action end-to-end mock workflow smoke covering all FMS action
+      slots, with Trunk Stability Push-Up and Rotary Stability explicitly
+      marked as annotation-only.
+- [x] Add a Chinese seven-action handoff for morning human testing.
+- [ ] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
+      In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.
@@ -149,13 +176,13 @@ Current development order agreed on 2026-05-23:
   - [x] Add Hurdle Step timing helper and tests.
   - [x] Add Hurdle Step feature helper and tests.
   - [x] Add one browser-verifiable Hurdle Step feature-only demo path.
-- [ ] Start In-Line Lunge expansion after Hurdle feature-only path is stable.
+- [x] Start In-Line Lunge expansion after Hurdle feature-only path is stable.
   - [x] Select 3 In-Line Lunge samples for first pose extraction.
   - [x] Generate and validate In-Line Lunge pose JSON.
   - [x] Document In-Line Lunge pose probe and active-period findings.
   - [x] Add In-Line Lunge timing helper and tests.
   - [x] Add In-Line Lunge feature helper and tests.
-  - [ ] Add one browser-verifiable In-Line Lunge feature-only demo path.
+  - [x] Add one browser-verifiable In-Line Lunge feature-only demo path.
 
 ## Stretch: Selected Movement Expansion
 
@@ -208,12 +235,16 @@ remain reusable:
 - Real backend persistence is not implemented.
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
-- Current AI suggestion is rules/mock-level for non-Deep-Squat movements;
-  Deep Squat has a pose-based explainable suggestion when pose JSON is loaded.
+- Current AI suggestion is pose-based and explainable for Deep Squat and Active
+  Straight Leg Raise. Hurdle Step, Shoulder Mobility, and In-Line Lunge are
+  currently pose-evidence / feature-only. Trunk Stability Push-Up and Rotary
+  Stability are annotation-only until pose data and movement-specific helpers
+  are added.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
-- Only Deep Squat has meaningful manifest rows; other movement manifests are
-  initialized but empty until selected draft sample rows are promoted.
+- Demo presets now cover all 7 FMS action slots, but only the first five have
+  pose evidence. Trunk Stability Push-Up and Rotary Stability still need formal
+  pose extraction and better final demo sample selection.
 - Current sample inventory covers 64 videos across all 7 FMS movement folders.
   Six movements have draft manifest rows; Rotary Stability currently only has
   review-only/tutorial-like samples and needs better movement samples.

@@ -106,6 +106,31 @@ function getFeatureRows(activeItem, t) {
     ];
   }
 
+  if (activeItem.ratings.lungeDepth) {
+    return [
+      {
+        label: t("lungeDepth"),
+        rating: activeItem.ratings.lungeDepth,
+        detail: `peak ratio ${formatNumber(activeItem.metrics.peakDepthRatio, 3)} · side ${activeItem.metrics.frontSide ?? "N/A"}`,
+      },
+      {
+        label: t("trunkAlignment"),
+        rating: activeItem.ratings.trunkAlignment,
+        detail: `center offset ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)}`,
+      },
+      {
+        label: t("kneeFootAlignment"),
+        rating: activeItem.ratings.kneeFootAlignment,
+        detail: `knee-foot ${formatNumber(activeItem.metrics.kneeFootOffset, 3)}`,
+      },
+      {
+        label: t("sideConfidence"),
+        rating: activeItem.ratings.sideConfidence,
+        detail: `${formatPercent(activeItem.metrics.sideVisibility)} side visibility`,
+      },
+    ];
+  }
+
   return [
     {
       label: t("depth"),

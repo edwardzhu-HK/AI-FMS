@@ -40,6 +40,16 @@ function timingClassName(status) {
   return "timing-suggestion";
 }
 
+function getIssueLabel(issue, t) {
+  if (!issue) {
+    return t("ok");
+  }
+
+  const label = t(`timingIssue_${issue.code}`);
+
+  return label === `timingIssue_${issue.code}` ? issue.message : label;
+}
+
 export default function SegmentEditor({
   segment,
   disabled,
@@ -77,15 +87,17 @@ export default function SegmentEditor({
     });
   }
 
-  function applyTimingSuggestion() {
-    if (!timingSuggestion?.cycle) {
+  function restoreAiDraftTiming() {
+    const range = timingSuggestion?.aiDraftRange ?? timingSuggestion?.cycle;
+
+    if (!range) {
       return;
     }
 
     setFormValue((previous) => ({
       ...previous,
-      startSecond: timingSuggestion.cycle.startSecond,
-      endSecond: timingSuggestion.cycle.endSecond,
+      startSecond: range.startSecond,
+      endSecond: range.endSecond,
     }));
   }
 
@@ -125,41 +137,61 @@ export default function SegmentEditor({
           </label>
         </div>
 
-        {timingSuggestion?.cycle ? (
+        {timingSuggestion ? (
           <section className={timingClassName(timingSuggestion.status)}>
             <header>
-              <strong>{timingSuggestion.label}</strong>
-              <span>
-                {t("suggested")}{" "}
-                {formatSeconds(timingSuggestion.cycle.startSecond)} -{" "}
-                {formatSeconds(timingSuggestion.cycle.endSecond)}
-              </span>
+              <strong>{t("aiTimingEvidence")}</strong>
+              {timingSuggestion.cycle ? (
+                <span>
+                  {t("aiDraftTiming")}{" "}
+                  {formatSeconds(
+                    timingSuggestion.aiDraftRange?.startSecond ??
+                      timingSuggestion.cycle.startSecond,
+                  )}{" "}
+                  -{" "}
+                  {formatSeconds(
+                    timingSuggestion.aiDraftRange?.endSecond ??
+                      timingSuggestion.cycle.endSecond,
+                  )}
+                </span>
+              ) : (
+                <span>{t("noUniqueCycleForSegment")}</span>
+              )}
             </header>
-            <p>
-              {t("lowest")}{" "}
-              {formatSeconds(timingSuggestion.cycle.lowestPointSecond)} ·{" "}
-              {t("coverage")}{" "}
-              {formatPercent(timingSuggestion.metrics.coverageRatio)} ·{" "}
-              {t("visibility")}{" "}
-              {formatPercent(timingSuggestion.metrics.avgVisibility)}
-            </p>
+            {timingSuggestion.cycle ? (
+              <p>
+                {t("detectedCycle")}{" "}
+                {formatSeconds(timingSuggestion.cycle.startSecond)} -{" "}
+                {formatSeconds(timingSuggestion.cycle.endSecond)} ·{" "}
+                {t("lowest")}{" "}
+                {formatSeconds(timingSuggestion.cycle.lowestPointSecond)} ·{" "}
+                {t("coverage")}{" "}
+                {formatPercent(timingSuggestion.metrics.coverageRatio)} ·{" "}
+                {t("visibility")}{" "}
+                {formatPercent(timingSuggestion.metrics.avgVisibility)}
+              </p>
+            ) : (
+              <p>{t("noUniqueCycleForSegmentDetail")}</p>
+            )}
             {timingSuggestion.issues.length > 0 ? (
               <ul>
                 {timingSuggestion.issues.map((issue) => (
-                  <li key={issue.code}>{issue.message}</li>
+                  <li key={issue.code}>{getIssueLabel(issue, t)}</li>
                 ))}
               </ul>
             ) : (
               <p>{t("segmentCoversCycle")}</p>
             )}
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={applyTimingSuggestion}
-              disabled={disabled}
-            >
-              {t("applySuggestedTiming")}
-            </button>
+            {timingSuggestion.cycle ? (
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={restoreAiDraftTiming}
+                disabled={disabled}
+              >
+                {t("restoreAiDraftTiming")}
+              </button>
+            ) : null}
           </section>
         ) : null}
 

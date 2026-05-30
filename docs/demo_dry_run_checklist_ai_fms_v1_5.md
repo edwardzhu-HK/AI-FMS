@@ -2,9 +2,9 @@
 
 日期：2026-05-22
 
-用途：这份 checklist 用来稳定复现 Deep Squat flagship demo，并补充验证
-V1.7 Active Straight Leg Raise demo path。它面向开发自测、Ronnie 录屏前检查、
-项目页截图准备和后续用户测试。
+用途：这份 checklist 用来稳定复现 Deep Squat flagship demo，并补充验证当前
+四动作可测路径：Deep Squat、Active Straight Leg Raise、Shoulder Mobility、Hurdle
+Step。它面向开发自测、Ronnie 录屏前检查、项目页截图准备和后续用户测试。
 
 ## Demo 入口
 
@@ -47,6 +47,15 @@ pose JSON，`Start Analysis` 后显示 `2 clips`、`Timing QA: 2/2 OK`、
 2026-05-23 补充：`Shoulder score-2 sample` 用于 feature evidence 测试，右侧会显示
 `Pose Evidence Only`，不显示 pose-based AI suggestion。预期是 `2 clips`、
 `Timing QA: 2/2 OK`、`Features 2/2`，并显示 `Shoulder Mobility Features`。
+
+2026-05-23 晚间补充：新增 `npm run demo:check:four` 自动检查四动作 demo
+readiness。当前 Deep Squat、ASLR、Shoulder Mobility、Hurdle Step 四个内置 demo
+均为 `PASS`。详细人工测试路径见
+`docs/four_movement_testing_handoff_2026-05-23.md`。
+
+同晚补充：新增 `npm run demo:flow:four` 完整流程 smoke，覆盖 mock analysis、AI
+draft timing、Reviewer A/B 共识评分、readiness、Ingest、JSON/CSV/package export。
+当前四个动作完整流程均为 `PASS`。
 
 ## 必测流程
 

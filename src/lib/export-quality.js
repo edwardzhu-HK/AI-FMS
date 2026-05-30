@@ -16,6 +16,25 @@ function countSegmentIds(items = [], predicate) {
   return ids.size;
 }
 
+function countIssueCodes(items = []) {
+  const counts = {};
+
+  for (const item of items) {
+    for (const issue of item?.issues ?? []) {
+      counts[issue.code] = (counts[issue.code] ?? 0) + 1;
+    }
+  }
+
+  return counts;
+}
+
+function hasTimingBlocker(item) {
+  return (
+    item?.status === "needs_adjustment" ||
+    (item?.issues ?? []).some((issue) => issue.severity === "error")
+  );
+}
+
 function getPoseQualityStatus(poseSummary) {
   if (!poseSummary) {
     return "missing";
@@ -56,6 +75,20 @@ function buildMovementBreakdown(segments, metrics) {
 
 function roundMetric(value) {
   return Number(value.toFixed(3));
+}
+
+export function summarizeTimingReadiness(timingReport = null) {
+  const items = timingReport?.items ?? [];
+  const blockerItems = items.filter(hasTimingBlocker);
+
+  return {
+    available: items.length > 0,
+    readyForIngest: items.length === 0 || blockerItems.length === 0,
+    segmentsTotal: timingReport?.summary?.segmentsTotal ?? items.length,
+    goodCount: timingReport?.summary?.goodCount ?? 0,
+    blockerCount: blockerItems.length,
+    issueCounts: countIssueCodes(blockerItems),
+  };
 }
 
 export function summarizeSegmentTimingCorrections(segments = []) {
@@ -117,6 +150,7 @@ export function summarizePoseEvidenceForDashboard({
   const timingItems = timingReport?.items ?? [];
   const featureItems = featureReport?.items ?? [];
   const suggestionItems = suggestionReport?.items ?? [];
+  const timingReadiness = summarizeTimingReadiness(timingReport);
 
   return {
     poseStatus: getPoseQualityStatus(poseSummary),
@@ -129,6 +163,9 @@ export function summarizePoseEvidenceForDashboard({
     timingNeedsAdjustment:
       timingReport?.summary?.needsAdjustmentCount ??
       countItems(timingItems, (item) => item?.status !== "good"),
+    timingReadyForIngest: timingReadiness.readyForIngest,
+    timingBlockerCount: timingReadiness.blockerCount,
+    timingBlockerIssueCounts: timingReadiness.issueCounts,
     detectedCycles: timingReport?.summary?.detectedCycles ?? 0,
     featureTotal:
       featureReport?.summary?.repetitionsTotal ?? featureItems.length,

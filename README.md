@@ -165,21 +165,57 @@ Run the quality gate:
 npm run check
 ```
 
-## Flagship Demo Path
+Check the current four-movement demo readiness:
 
-For the current V1.5 demo:
+```bash
+npm run demo:check:four
+```
+
+Run the four-movement end-to-end mock workflow smoke:
+
+```bash
+npm run demo:flow:four
+```
+
+Run the current seven-action end-to-end mock workflow smoke:
+
+```bash
+npm run demo:flow:seven
+```
+
+## Seven-Action Demo Path
+
+For the current V1.5/V1.7 local demo:
 
 1. Run `npm run dev` and open the workbench.
-2. Choose a `Deep Squat Demo` preset and click `Load Demo` to preload the
-   video and matching pose JSON.
+2. Choose one of the built-in `Demo Preset` options and click `Load Demo` to
+   preload the video and matching pose JSON.
 3. Click `Start Analysis`.
-4. Use `Apply All Suggested Timing` in the Segment Timing QA card.
-5. Review the Deep Squat feature snapshot and AI suggestion for a selected
-   segment.
-6. Export JSON or CSV to inspect the traceable dataset record.
+4. Review the unified segment list, Timing QA, feature snapshot, and AI / pose
+   evidence panel.
+5. Export JSON, CSV, or Package to inspect the traceable dataset record.
+
+Current browser-testable presets:
+
+- `Sample-1 mixed views`: Deep Squat flagship pipeline with pose-based AI
+  suggestion.
+- `ASLR score-3 sample`: Active Straight Leg Raise implemented pose pipeline
+  with pose-based AI suggestion.
+- `Shoulder score-2 sample`: Shoulder Mobility feature-only pose evidence.
+- `Hurdle score-3 sample`: Hurdle Step feature-only pose evidence.
+- `In-Line Lunge score-3 sample`: In-Line Lunge feature-only pose evidence.
+- `Trunk Stability Push-Up score-3 sample`: annotation-only workflow path.
+- `Rotary Stability review-only sample`: annotation-only workflow path; current
+  sample is not yet a final movement-quality demo video.
 
 The reproducible dry-run checklist is
 `docs/demo_dry_run_checklist_ai_fms_v1_5.md`.
+
+The current four-movement testing handoff is
+`docs/four_movement_testing_handoff_2026-05-23.md`.
+
+The current seven-action testing handoff is
+`docs/seven_action_testing_handoff_2026-05-23.md`.
 
 ## Evaluation Video Workflow
 

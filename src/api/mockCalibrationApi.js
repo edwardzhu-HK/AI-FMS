@@ -247,6 +247,7 @@ export async function updateSegmentMetadata(payload) {
     painFlag,
     clearingTest,
     rubricVersion,
+    segmentSource = "manual_adjusted",
   } = payload;
   const parsedStartSecond = Number(startSecond);
   const parsedEndSecond = Number(endSecond);
@@ -283,7 +284,7 @@ export async function updateSegmentMetadata(payload) {
   targetSegment.painFlag = Boolean(painFlag);
   targetSegment.clearingTest = clearingTest;
   targetSegment.rubricVersion = rubricVersion || "fms_v1.0";
-  targetSegment.segmentSource = "manual_adjusted";
+  targetSegment.segmentSource = segmentSource;
   targetSegment.updatedAt = new Date().toISOString();
 
   return wait({

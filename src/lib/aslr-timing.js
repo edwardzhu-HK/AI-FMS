@@ -1,3 +1,9 @@
+import {
+  assignUniqueCyclesToSegments,
+  buildNoUniqueCycleAssignmentItem,
+  flagDuplicateCycleAssignments,
+} from "./timing-qa.js";
+
 const SIDES = ["left", "right"];
 
 const DEFAULT_OPTIONS = {
@@ -648,15 +654,39 @@ export function evaluateAslrSegmentsTiming({
 
   const config = { ...DEFAULT_OPTIONS, ...options };
   const { cycles, quality } = detectAslrCycles(posePayload, config);
-  const items = segments.map((segment) => ({
-    segmentId: segment.segmentId,
-    repetitionIndex: segment.repetitionIndex,
-    cameraView: segment.cameraView,
-    currentStartSecond: segment.startSecond,
-    currentEndSecond: segment.endSecond,
-    ...evaluateSegmentAgainstCycles(cycles, quality, segment, config),
-  }));
-  const summary = summarizeTimingItems(items, cycles);
+  const cycleAssignments = assignUniqueCyclesToSegments(segments, cycles);
+  const assignedCycles = [...cycleAssignments.values()];
+  const items = flagDuplicateCycleAssignments(
+    segments.map((segment) => {
+      const assignedCycle = cycleAssignments.get(
+        segment.segmentId ?? `rep_${segment.repetitionIndex}`,
+      );
+      const timingItem = assignedCycle
+        ? evaluateSegmentAgainstCycles(
+            [assignedCycle],
+            quality,
+            segment,
+            config,
+          )
+        : buildNoUniqueCycleAssignmentItem(cycles);
+
+      return {
+        segmentId: segment.segmentId,
+        repetitionIndex: segment.repetitionIndex,
+        cameraView: segment.cameraView,
+        currentStartSecond: segment.startSecond,
+        currentEndSecond: segment.endSecond,
+        ...timingItem,
+        metrics: timingItem.metrics
+          ? {
+              ...timingItem.metrics,
+              detectedCycles: cycles.length,
+            }
+          : timingItem.metrics,
+      };
+    }),
+  );
+  const summary = summarizeTimingItems(items, assignedCycles);
   const hasBlockingIssue = summary.needsAdjustmentCount > 0;
 
   if (cycles.length === 0) {
@@ -665,7 +695,7 @@ export function evaluateAslrSegmentsTiming({
       label: "No reliable ASLR cycle",
       items,
       summary,
-      cycles,
+      cycles: assignedCycles,
       quality,
     };
   }
@@ -677,7 +707,10 @@ export function evaluateAslrSegmentsTiming({
       : "All segments cover detected ASLR cycles",
     items,
     summary,
-    cycles,
-    quality,
+    cycles: assignedCycles,
+    quality: {
+      ...quality,
+      candidateCyclesTotal: cycles.length,
+    },
   };
 }

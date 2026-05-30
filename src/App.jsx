@@ -24,7 +24,10 @@ import {
   attachPoseEvidenceToDataset,
   buildDatasetExport,
 } from "./lib/dataset-export.js";
-import { summarizeExportQuality } from "./lib/export-quality.js";
+import {
+  summarizeExportQuality,
+  summarizeTimingReadiness,
+} from "./lib/export-quality.js";
 import {
   allSegmentsMatchAdapter,
   getImplementedPoseActionTypes,
@@ -43,6 +46,7 @@ const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
 const REVIEWER_B_DEFAULT_ID = "Coach_Ronnie";
 const DEFAULT_DEMO_PRESET_ID = "sample-1";
 const WORKFLOW_STORAGE_KEY = "ai-fms-v1-6-local-workflow";
+const AI_DRAFT_TIMING_BUFFER_SECOND = 0.2;
 const DEMO_PRESETS = [
   {
     id: "sample-1",
@@ -113,6 +117,24 @@ const DEMO_PRESETS = [
     },
   },
   {
+    id: "inline-score-3",
+    label: "In-Line Lunge score-3 sample",
+    actionType: "in_line_lunge",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/3-Inline%20Lunge/6%20reps%20score%203.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/3-Inline%20Lunge/pose/6-reps-score-3.pose.json",
+    videoFileName: "6 reps score 3.mp4",
+    poseFileName: "6-reps-score-3.pose.json",
+    expectedReps: "6",
+    notes:
+      "In-Line Lunge 6 reps score-3 sample。当前为 features-only：支持 timing/features，不生成 AI score。",
+    range: {
+      startSecond: "0",
+      endSecond: "60.3",
+    },
+  },
+  {
     id: "hurdle-score-3",
     label: "Hurdle score-3 sample",
     actionType: "hurdle_step",
@@ -125,6 +147,36 @@ const DEMO_PRESETS = [
     range: {
       startSecond: "17",
       endSecond: "55.6",
+    },
+  },
+  {
+    id: "trunk-score-3",
+    label: "Trunk Stability Push-Up score-3 sample",
+    actionType: "trunk_stability_push_up",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/6-trunk%20stability%20push%20up/1%20rep%20score%203.mp4",
+    videoFileName: "1 rep score 3.mp4",
+    expectedReps: "1",
+    notes:
+      "Trunk Stability Push-Up 1 rep score-3 sample。暂无 Pose JSON，当前用于人工标注、双 reviewer、入库与导出流程测试。",
+    range: {
+      startSecond: "0",
+      endSecond: "33.5",
+    },
+  },
+  {
+    id: "rotary-review",
+    label: "Rotary Stability review-only sample",
+    actionType: "rotary_stability",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/7-rotatory%20stability/videoplayback%20%2821%29.mp4",
+    videoFileName: "videoplayback (21).mp4",
+    expectedReps: "2",
+    notes:
+      "Rotary Stability review-only sample。暂无 Pose JSON；先截取前 40 秒用于人工标注、入库与导出流程测试，后续需要补正式 sample。",
+    range: {
+      startSecond: "0",
+      endSecond: "40",
     },
   },
 ];
@@ -153,6 +205,11 @@ const EVAL_VIDEO_PRESETS = {
     expectedReps: "7",
     notes: "都是正面。Hurdle Step 7 reps，默认范围已避开开头准备时间。",
   },
+  "6 reps score 3.mp4": {
+    expectedReps: "6",
+    notes:
+      "In-Line Lunge 6 reps score-3 sample。当前为 features-only：支持 timing/features，不生成 AI score。",
+  },
 };
 
 const UI_TEXT = {
@@ -175,14 +232,14 @@ const UI_TEXT = {
     frames: "frames",
     visibility: "visibility",
     loadPoseJson: "Load generated MediaPipe JSON to replace the demo skeleton.",
-    activePeriodSuggestion: "Active period suggestion",
+    activePeriodSuggestion: "Effective action detection",
     activePeriodDetected: "recommended range",
     activePeriods: "motion bursts",
     activePeriodDuration: "active duration",
     activePeriodList: "detected periods",
     useActivePeriod: "Use period",
     activePeriodSingleRangeLimit:
-      "Current workflow applies one overall Start/End range; multi-period extraction needs a later schema review.",
+      "Segment clips now default to detected movement cycles; multi-period storage remains a later schema review.",
     noActivePeriodSuggestion: "No clear active period detected.",
     applyActivePeriod: "Apply active range",
     startSecond: "Start (s)",
@@ -238,6 +295,8 @@ const UI_TEXT = {
     checklistTimingQaReady: "all timing rows are complete.",
     checklistTimingQaPending: "some timing rows need review.",
     checklistTimingQaMissing: "no pose-assisted timing QA is available.",
+    checklistTimingQaBlocked:
+      "timing blockers remain; formal ingest is blocked until review.",
     checklistFeaturesReady: "pose features are available.",
     checklistFeaturesPending: "some pose features are missing or limited.",
     checklistFeaturesMissing: "no pose features are available.",
@@ -282,10 +341,69 @@ const UI_TEXT = {
     runAnalysisEmpty: "Run analysis and choose a segment to start scoring.",
     previewingSuggestedTiming: "Previewing suggested timing",
     currentSegmentTiming: "Current segment timing",
+    segmentTiming: "Segment timing",
     exitPreview: "Exit preview",
-    previewSuggestedTiming: "Preview suggested timing",
+    previewSuggestedTiming: "Preview AI draft timing",
     suggestedTiming: "Suggested timing",
+    aiDraftTiming: "AI draft timing",
+    aiTimingEvidence: "AI timing evidence",
+    detectedCycle: "Detected cycle",
+    restoreAiDraftTiming: "Restore AI draft timing",
+    rebuildAiDraftTiming: "Rebuild AI draft timing",
+    aiDraftTimingFailed: "AI draft timing could not be applied",
     timingStatus: "Timing status",
+    timingNeedsReview: "Timing needs review",
+    timingAssignedCycleShortfall: "Unique cycle coverage",
+    timingAssignedCycleShortfallDetail:
+      "Some segments do not have a unique detected movement cycle; review before scoring.",
+    timingExtraCandidateCycles: "Extra candidate cycles",
+    timingExtraCandidateCyclesDetail:
+      "The detector saw additional movement-like periods; confirm the assigned clips are the true reps.",
+    candidateCycles: "candidate cycles",
+    assignedCycles: "assigned cycles",
+    segmentsNeedUniqueCycleReview:
+      "segments have no unique movement cycle and will not be auto-trimmed.",
+    segmentsNeedDuplicateCycleReview:
+      "segments share a detected movement cycle and must be reviewed.",
+    aiDraftPartialApply: "AI draft timing can only apply to part of the list",
+    aiDraftPartialApplyDetail:
+      "Blocked segments remain unchanged until a reviewer adjusts timing or rep count.",
+    noUniqueCycleForSegment: "No unique cycle assigned",
+    noUniqueCycleForSegmentDetail:
+      "This segment could not be matched to a reliable movement cycle. Check whether the video contains this rep, whether Expected Reps is correct, or whether manual timing is needed.",
+    timingIssueShort_missing_start: "missing start",
+    timingIssueShort_missing_return: "missing return",
+    timingIssueShort_too_short: "too short",
+    timingIssueShort_wide_lead: "wide lead",
+    timingIssueShort_wide_tail: "wide tail",
+    timingIssueShort_duplicate_cycle_assignment: "duplicate cycle",
+    timingIssueShort_no_unique_cycle_assignment: "no unique cycle",
+    timingIssueShort_insufficient_pose: "low pose",
+    timingIssueShort_low_motion_amplitude: "low motion",
+    timingIssueShort_insufficient_reach_frames: "low reach evidence",
+    timingIssueShort_low_visibility: "low visibility",
+    timingIssue_missing_start:
+      "Segment starts after the movement has already begun; move the start earlier.",
+    timingIssue_missing_return:
+      "Segment ends before the movement returns; move the end later.",
+    timingIssue_too_short:
+      "Segment does not cover the full movement cycle; widen or reselect timing.",
+    timingIssue_wide_lead:
+      "Segment includes a long lead-in before the movement; trimming is recommended but not blocking.",
+    timingIssue_wide_tail:
+      "Segment includes a long tail after the movement; trimming is recommended but not blocking.",
+    timingIssue_duplicate_cycle_assignment:
+      "Multiple segments map to the same detected movement cycle; review rep count or timing before scoring.",
+    timingIssue_no_unique_cycle_assignment:
+      "No unique movement cycle could be assigned to this segment; review detected reps and segment timing.",
+    timingIssue_insufficient_pose:
+      "Pose trajectory is not reliable enough to suggest timing for this segment.",
+    timingIssue_low_motion_amplitude:
+      "The movement signal is too small for a reliable timing suggestion.",
+    timingIssue_insufficient_reach_frames:
+      "Not enough usable shoulder/wrist landmarks are available in this segment.",
+    timingIssue_low_visibility:
+      "Landmarks are visible but low-confidence; review manually.",
     reviewStatus: "Review status",
     ingestResult: "Ingest Result",
     batch: "Batch",
@@ -389,6 +507,7 @@ const UI_TEXT = {
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     shoulderMobilityFeatures: "Shoulder Mobility Features",
     hurdleStepFeatures: "Hurdle Step Features",
+    inlineLungeFeatures: "In-Line Lunge Features",
     usable: "usable",
     depth: "Depth",
     torso: "Torso",
@@ -407,6 +526,9 @@ const UI_TEXT = {
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",
+    lungeDepth: "Lunge Depth",
+    trunkAlignment: "Trunk Alignment",
+    kneeFootAlignment: "Knee-Foot Alignment",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -416,6 +538,8 @@ const UI_TEXT = {
     invalidStartEnd: "Start/End second is invalid.",
     invalidExpectedReps: "Expected reps must be a positive integer.",
     reviewerIdRequired: "Reviewer ID is required before saving.",
+    timingIngestBlocked:
+      "Timing QA still has blockers. Review or adjust segment timing before ingest.",
     analysisFailed: "Analysis failed.",
   },
   zh: {
@@ -437,14 +561,14 @@ const UI_TEXT = {
     frames: "帧",
     visibility: "可见度",
     loadPoseJson: "加载 MediaPipe JSON 后会替换 demo skeleton。",
-    activePeriodSuggestion: "有效动作时间建议",
+    activePeriodSuggestion: "有效动作检测摘要",
     activePeriodDetected: "建议范围",
     activePeriods: "活跃片段",
     activePeriodDuration: "有效动作时长",
     activePeriodList: "检测到的时间段",
     useActivePeriod: "使用片段",
     activePeriodSingleRangeLimit:
-      "当前 workflow 只能应用一个整体 Start/End 范围；如果要真正按多个有效片段提取，需要后续评审 schema。",
+      "当前 segment clips 会默认使用检测到的动作周期；真正的多区间存储仍需要后续评审 schema。",
     noActivePeriodSuggestion: "暂未检测到清晰的有效动作时间段。",
     applyActivePeriod: "应用有效范围",
     startSecond: "开始 (s)",
@@ -500,6 +624,8 @@ const UI_TEXT = {
     checklistTimingQaReady: "所有 timing rows 都完整。",
     checklistTimingQaPending: "部分 timing rows 还需要复核。",
     checklistTimingQaMissing: "当前没有 pose-assisted timing QA。",
+    checklistTimingQaBlocked:
+      "仍有 timing blocker；复核前不能进入正式 ingest。",
     checklistFeaturesReady: "pose features 已可用。",
     checklistFeaturesPending: "部分 pose features 缺失或受限。",
     checklistFeaturesMissing: "当前没有 pose features。",
@@ -541,10 +667,68 @@ const UI_TEXT = {
     runAnalysisEmpty: "运行分析并选择一个 segment 后开始评分。",
     previewingSuggestedTiming: "正在预览建议 timing",
     currentSegmentTiming: "当前 segment timing",
+    segmentTiming: "Segment timing",
     exitPreview: "退出预览",
-    previewSuggestedTiming: "预览建议 timing",
+    previewSuggestedTiming: "预览 AI draft timing",
     suggestedTiming: "建议 timing",
+    aiDraftTiming: "AI draft timing",
+    aiTimingEvidence: "AI timing 证据",
+    detectedCycle: "检测到的动作周期",
+    restoreAiDraftTiming: "恢复 AI draft timing",
+    rebuildAiDraftTiming: "重新生成 AI draft timing",
+    aiDraftTimingFailed: "AI draft timing 未能自动应用",
     timingStatus: "Timing 状态",
+    timingNeedsReview: "Timing 需要复核",
+    timingAssignedCycleShortfall: "唯一动作周期覆盖",
+    timingAssignedCycleShortfallDetail:
+      "部分 segment 没有匹配到唯一动作周期，评分前需要人工复核。",
+    timingExtraCandidateCycles: "额外候选动作周期",
+    timingExtraCandidateCyclesDetail:
+      "系统看到了更多像动作的时间段，需要确认已分配的 clips 才是真正 reps。",
+    candidateCycles: "候选周期",
+    assignedCycles: "已分配周期",
+    segmentsNeedUniqueCycleReview:
+      "个 segment 没有唯一动作周期，不会被自动切片。",
+    segmentsNeedDuplicateCycleReview:
+      "个 segment 共享同一个动作周期，必须人工复核。",
+    aiDraftPartialApply: "AI draft timing 只能应用到部分 segment",
+    aiDraftPartialApplyDetail:
+      "被 blocker 拦住的 segment 会保持原 timing，直到人工调整 timing 或 rep count。",
+    noUniqueCycleForSegment: "未匹配到唯一动作周期",
+    noUniqueCycleForSegmentDetail:
+      "这个 segment 暂时无法匹配到可靠动作周期。请检查视频里是否真的包含这一 rep、Expected Reps 是否正确，或者是否需要手动调整 timing。",
+    timingIssueShort_missing_start: "缺开始",
+    timingIssueShort_missing_return: "缺回程",
+    timingIssueShort_too_short: "太短",
+    timingIssueShort_wide_lead: "前段过长",
+    timingIssueShort_wide_tail: "尾段过长",
+    timingIssueShort_duplicate_cycle_assignment: "重复 cycle",
+    timingIssueShort_no_unique_cycle_assignment: "无唯一 cycle",
+    timingIssueShort_insufficient_pose: "Pose 不足",
+    timingIssueShort_low_motion_amplitude: "动作信号弱",
+    timingIssueShort_insufficient_reach_frames: "reach 证据少",
+    timingIssueShort_low_visibility: "可见度低",
+    timingIssue_missing_start:
+      "Segment 的开始晚于动作开始，需要把开始时间往前调。",
+    timingIssue_missing_return:
+      "Segment 的结束早于动作回程结束，需要把结束时间往后调。",
+    timingIssue_too_short:
+      "Segment 没有覆盖完整动作周期，需要放宽或重新选择 timing。",
+    timingIssue_wide_lead:
+      "Segment 包含较长动作前等待时间，建议裁短，但不是强 blocker。",
+    timingIssue_wide_tail:
+      "Segment 包含较长动作后尾段，建议裁短，但不是强 blocker。",
+    timingIssue_duplicate_cycle_assignment:
+      "多个 segment 映射到了同一个检测动作周期；评分前请复核 rep count 或 timing。",
+    timingIssue_no_unique_cycle_assignment:
+      "这个 segment 没有匹配到唯一动作周期；请复核检测到的 reps 和 segment timing。",
+    timingIssue_insufficient_pose:
+      "Pose 轨迹不足以为这个 segment 可靠建议 timing。",
+    timingIssue_low_motion_amplitude:
+      "动作信号幅度太小，暂时不能生成可靠 timing 建议。",
+    timingIssue_insufficient_reach_frames:
+      "这个 segment 中可用的肩/手腕关键点帧数不足。",
+    timingIssue_low_visibility: "关键点可见度偏低，需要人工复核。",
     reviewStatus: "Review 状态",
     ingestResult: "入库结果",
     batch: "批次",
@@ -648,6 +832,7 @@ const UI_TEXT = {
     activeStraightLegRaiseFeatures: "Active Straight Leg Raise Features",
     shoulderMobilityFeatures: "Shoulder Mobility Features",
     hurdleStepFeatures: "Hurdle Step Features",
+    inlineLungeFeatures: "In-Line Lunge Features",
     usable: "可用",
     depth: "Depth",
     torso: "Torso",
@@ -666,6 +851,9 @@ const UI_TEXT = {
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",
+    lungeDepth: "Lunge Depth",
+    trunkAlignment: "Trunk Alignment",
+    kneeFootAlignment: "Knee-Foot Alignment",
     statusReady: "Ready",
     statusLimited: "Limited",
     statusInvalid: "Invalid",
@@ -675,6 +863,8 @@ const UI_TEXT = {
     invalidStartEnd: "Start/End 秒数无效。",
     invalidExpectedReps: "Expected reps 必须是正整数。",
     reviewerIdRequired: "保存前必须填写 Reviewer ID。",
+    timingIngestBlocked:
+      "Timing QA 仍有 blocker。请先复核或调整 segment timing，再入库。",
     analysisFailed: "分析失败。",
   },
 };
@@ -696,6 +886,94 @@ function getDemoPreset(presetId) {
 function formatDurationSecond(duration) {
   const rounded = Number(duration.toFixed(1));
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+}
+
+function roundTimingSecond(value) {
+  return Number(value.toFixed(2));
+}
+
+function buildAiDraftRange(cycle, options = {}) {
+  if (!cycle) {
+    return null;
+  }
+
+  const {
+    rangeStartSecond = 0,
+    rangeEndSecond = Number.POSITIVE_INFINITY,
+    bufferSecond = AI_DRAFT_TIMING_BUFFER_SECOND,
+  } = options;
+  const boundedStart = Number.isFinite(rangeStartSecond) ? rangeStartSecond : 0;
+  const boundedEnd = Number.isFinite(rangeEndSecond)
+    ? rangeEndSecond
+    : Number.POSITIVE_INFINITY;
+  const startSecond = roundTimingSecond(
+    Math.max(boundedStart, cycle.startSecond - bufferSecond),
+  );
+  const endSecond = roundTimingSecond(
+    Math.min(boundedEnd, cycle.endSecond + bufferSecond),
+  );
+
+  if (endSecond <= startSecond) {
+    return null;
+  }
+
+  return {
+    startSecond,
+    endSecond,
+  };
+}
+
+function withAiDraftRange(timingItem, options = {}) {
+  if (!timingItem) {
+    return null;
+  }
+
+  return {
+    ...timingItem,
+    aiDraftRange: buildAiDraftRange(timingItem.cycle, options),
+  };
+}
+
+function buildAiDraftTimingPayloads({
+  segments,
+  timingReport,
+  rangeStartSecond,
+  rangeEndSecond,
+}) {
+  const segmentById = new Map(
+    segments.map((segment) => [segment.segmentId, segment]),
+  );
+
+  return (timingReport?.items ?? [])
+    .map((item) => {
+      const segment = segmentById.get(item.segmentId);
+      const range = buildAiDraftRange(item.cycle, {
+        rangeStartSecond,
+        rangeEndSecond,
+      });
+
+      const hasBlockingCycleIssue = item.issues?.some((issue) =>
+        ["duplicate_cycle_assignment", "no_unique_cycle_assignment"].includes(
+          issue.code,
+        ),
+      );
+
+      if (!segment || !range || hasBlockingCycleIssue) {
+        return null;
+      }
+
+      return {
+        segmentId: segment.segmentId,
+        startSecond: range.startSecond,
+        endSecond: range.endSecond,
+        side: segment.side,
+        painFlag: segment.painFlag,
+        clearingTest: segment.clearingTest,
+        rubricVersion: segment.rubricVersion,
+        segmentSource: "ai_draft",
+      };
+    })
+    .filter(Boolean);
 }
 
 function createReviewerForm(source, fallbackReviewerId, fallbackTotalScore) {
@@ -779,6 +1057,8 @@ function buildExportChecklist(summary, segments, t) {
   const hasTiming = summary.pose.timingTotal > 0;
   const timingComplete =
     hasTiming && summary.pose.timingGood === summary.pose.timingTotal;
+  const timingBlocked =
+    hasTiming && summary.pose.timingReadyForIngest === false;
   const hasFeatures = summary.pose.featureTotal > 0;
   const featuresComplete =
     hasFeatures && summary.pose.featureUsable === summary.pose.featureTotal;
@@ -834,9 +1114,13 @@ function buildExportChecklist(summary, segments, t) {
             "checklistTimingQaReady",
           )}`
         : hasTiming
-          ? `${summary.pose.timingGood}/${summary.pose.timingTotal} · ${t(
-              "checklistTimingQaPending",
-            )}`
+          ? `${summary.pose.timingGood}/${summary.pose.timingTotal} · ${
+              timingBlocked
+                ? `${summary.pose.timingBlockerCount} ${t(
+                    "checklistNeedsReview",
+                  )} · ${t("checklistTimingQaBlocked")}`
+                : t("checklistTimingQaPending")
+            }`
           : t("checklistTimingQaMissing"),
     ),
     buildChecklistItem(
@@ -948,6 +1232,35 @@ function buildLocalReadiness(videoId, segments) {
   };
 }
 
+function applyTimingGateToReadiness(readiness, timingReport, t) {
+  if (!readiness) {
+    return null;
+  }
+
+  const timingReadiness = summarizeTimingReadiness(timingReport);
+
+  if (timingReadiness.readyForIngest) {
+    return {
+      ...readiness,
+      timingReadyForIngest: true,
+      timingBlockerCount: timingReadiness.blockerCount,
+    };
+  }
+
+  const blockingReasons = [
+    ...(readiness.blockingReasons ?? []),
+    `${t("timingIngestBlocked")} (${timingReadiness.blockerCount})`,
+  ];
+
+  return {
+    ...readiness,
+    readyForIngest: false,
+    timingReadyForIngest: false,
+    timingBlockerCount: timingReadiness.blockerCount,
+    blockingReasons: [...new Set(blockingReasons)],
+  };
+}
+
 function buildLocalConsistency(videoId, segments) {
   return {
     videoId,
@@ -1013,7 +1326,7 @@ function applyLocalMetadataToSegments(segments, payload) {
       painFlag: Boolean(payload.painFlag),
       clearingTest: payload.clearingTest,
       rubricVersion: payload.rubricVersion || "fms_v1.0",
-      segmentSource: "manual_adjusted",
+      segmentSource: payload.segmentSource ?? "manual_adjusted",
       updatedAt: new Date().toISOString(),
     };
   });
@@ -1131,12 +1444,20 @@ export default function App() {
       return null;
     }
 
-    return (
+    const timingItem =
       timingReport.items.find(
         (item) => item.segmentId === activeSegment.segmentId,
-      ) ?? null
-    );
-  }, [activeSegment, timingReport]);
+      ) ?? null;
+
+    if (!movementAdapter?.supportsAiDraftTiming) {
+      return timingItem;
+    }
+
+    return withAiDraftRange(timingItem, {
+      rangeStartSecond: Number(startSecond),
+      rangeEndSecond: Number(endSecond),
+    });
+  }, [activeSegment, endSecond, movementAdapter, startSecond, timingReport]);
 
   const featureReport = useMemo(() => {
     if (!movementAdapter || !posePayload || !timingReport) {
@@ -1192,6 +1513,11 @@ export default function App() {
       suggestionReport,
       timingReport,
     ],
+  );
+
+  const effectiveReadiness = useMemo(
+    () => applyTimingGateToReadiness(readiness, timingReport, t),
+    [readiness, t, timingReport],
   );
 
   const exportChecklist = useMemo(
@@ -1481,20 +1807,55 @@ export default function App() {
     }
   }
 
-  async function syncSegments(targetVideoId) {
+  async function syncSegments(targetVideoId, options = {}) {
     try {
       const response = await getVideoSegments(targetVideoId);
-      setSegments(response.items);
+      let nextSegments = response.items;
 
-      if (response.items.length > 0) {
+      if (
+        options.applyAiDraftTiming &&
+        posePayload &&
+        movementAdapter?.supportsAiDraftTiming &&
+        allSegmentsMatchAdapter(nextSegments, movementAdapter, selectedAction)
+      ) {
+        try {
+          const draftTimingReport = movementAdapter.buildTimingReport({
+            posePayload,
+            segments: nextSegments,
+          });
+          const updates = buildAiDraftTimingPayloads({
+            segments: nextSegments,
+            timingReport: draftTimingReport,
+            rangeStartSecond: options.rangeStartSecond,
+            rangeEndSecond: options.rangeEndSecond,
+          });
+
+          if (updates.length > 0) {
+            for (const payload of updates) {
+              await updateSegmentMetadata(payload);
+            }
+
+            const refreshedResponse = await getVideoSegments(targetVideoId);
+            nextSegments = refreshedResponse.items;
+          }
+        } catch (error) {
+          setErrorText(
+            `${t("aiDraftTimingFailed")}: ${error.message ?? t("unknown")}`,
+          );
+        }
+      }
+
+      setSegments(nextSegments);
+
+      if (nextSegments.length > 0) {
         setActiveSegmentId(
-          (currentId) => currentId || response.items[0].segmentId,
+          (currentId) => currentId || nextSegments[0].segmentId,
         );
       }
 
-      setReadiness(buildLocalReadiness(targetVideoId, response.items));
+      setReadiness(buildLocalReadiness(targetVideoId, nextSegments));
       setConsistencySnapshot(
-        buildLocalConsistency(targetVideoId, response.items),
+        buildLocalConsistency(targetVideoId, nextSegments),
       );
     } catch {
       if (segments.length > 0) {
@@ -1567,7 +1928,11 @@ export default function App() {
 
           if (latestJob.status === "succeeded") {
             stopPolling();
-            await syncSegments(jobResult.videoId);
+            await syncSegments(jobResult.videoId, {
+              applyAiDraftTiming: true,
+              rangeStartSecond: parsedStart,
+              rangeEndSecond: parsedEnd,
+            });
           }
 
           if (latestJob.status === "failed") {
@@ -1602,6 +1967,7 @@ export default function App() {
     setPosePayload(null);
     setPoseSummary(null);
     setPoseFileName("");
+    setShowKeypoints(false);
   }
 
   function handleVideoFileChange(file, options = {}) {
@@ -1659,25 +2025,6 @@ export default function App() {
     return true;
   }
 
-  function handleApplyActivePeriodRange(range) {
-    if (!range) {
-      return;
-    }
-
-    analysisRangeOverrideRef.current = null;
-    setStartSecond(String(range.startSecond));
-    setEndSecond(String(range.endSecond));
-  }
-
-  function handleApplyActivePeriodSuggestion() {
-    const range = activePeriodReport?.recommendedRange;
-    if (!range) {
-      return;
-    }
-
-    handleApplyActivePeriodRange(range);
-  }
-
   async function handlePoseFileChange(file) {
     setErrorText("");
 
@@ -1707,19 +2054,32 @@ export default function App() {
           demoPreset.videoFileName,
           "video/mp4",
         ),
-        fetchAssetFile(
-          demoPreset.poseUrl,
-          demoPreset.poseFileName,
-          "application/json",
-        ),
+        demoPreset.poseUrl
+          ? fetchAssetFile(
+              demoPreset.poseUrl,
+              demoPreset.poseFileName,
+              "application/json",
+            )
+          : Promise.resolve(null),
       ]);
-      const posePayloadJson = JSON.parse(await poseAsset.text());
 
       setSelectedAction(demoPreset.actionType);
       handleVideoFileChange(videoAsset, {
         analysisRangeOverride: demoPreset.range,
       });
-      applyPosePayload(posePayloadJson, poseAsset.name);
+      if (demoPreset.expectedReps !== undefined) {
+        setExpectedReps(demoPreset.expectedReps);
+      }
+      if (demoPreset.notes !== undefined) {
+        setAnalysisNotes(demoPreset.notes);
+      }
+
+      if (poseAsset) {
+        const posePayloadJson = JSON.parse(await poseAsset.text());
+        applyPosePayload(posePayloadJson, poseAsset.name);
+      } else {
+        resetPoseState();
+      }
     } catch (error) {
       resetPoseState();
       setErrorText(`Demo assets could not be loaded: ${error.message}`);
@@ -1861,32 +2221,20 @@ export default function App() {
   }
 
   async function handleApplyAllTimingSuggestions() {
-    if (!videoId || !timingReport?.items?.length) {
+    if (
+      !videoId ||
+      !timingReport?.items?.length ||
+      !movementAdapter?.supportsAiDraftTiming
+    ) {
       return;
     }
 
-    const updates = timingReport.items
-      .filter((item) => item.cycle)
-      .map((item) => {
-        const segment = segments.find(
-          (candidate) => candidate.segmentId === item.segmentId,
-        );
-
-        if (!segment) {
-          return null;
-        }
-
-        return {
-          segmentId: segment.segmentId,
-          startSecond: item.cycle.startSecond,
-          endSecond: item.cycle.endSecond,
-          side: segment.side,
-          painFlag: segment.painFlag,
-          clearingTest: segment.clearingTest,
-          rubricVersion: segment.rubricVersion,
-        };
-      })
-      .filter(Boolean);
+    const updates = buildAiDraftTimingPayloads({
+      segments,
+      timingReport,
+      rangeStartSecond: Number(startSecond),
+      rangeEndSecond: Number(endSecond),
+    });
 
     if (updates.length === 0) {
       return;
@@ -2034,6 +2382,14 @@ export default function App() {
 
   async function handleIngest() {
     setErrorText("");
+
+    if (!effectiveReadiness?.readyForIngest || segments.length === 0) {
+      setErrorText(
+        effectiveReadiness?.blockingReasons?.[0] ?? t("timingIngestBlocked"),
+      );
+      return;
+    }
+
     setIsBusy(true);
 
     try {
@@ -2044,7 +2400,7 @@ export default function App() {
         refreshConsistency(videoId),
       ]);
     } catch (error) {
-      if (!readiness?.readyForIngest || segments.length === 0) {
+      if (!effectiveReadiness?.readyForIngest || segments.length === 0) {
         setErrorText(error.message);
         return;
       }
@@ -2091,15 +2447,17 @@ export default function App() {
   }
 
   function handlePreviewTimingSuggestion(item) {
-    if (!item?.cycle) {
+    const draftRange = item?.aiDraftRange ?? item?.cycle;
+
+    if (!draftRange) {
       return;
     }
 
     setActiveSegmentId(item.segmentId);
     const range = {
       segmentId: item.segmentId,
-      startSecond: item.cycle.startSecond,
-      endSecond: item.cycle.endSecond,
+      startSecond: draftRange.startSecond,
+      endSecond: draftRange.endSecond,
     };
     setPreviewTimingRange(range);
 
@@ -2250,7 +2608,7 @@ export default function App() {
               <p className="pose-status">{t("loadPoseJson")}</p>
             )}
 
-            {activePeriodReport ? (
+            {analysisJob?.status === "succeeded" && activePeriodReport ? (
               <section className="active-period-suggestion">
                 <header>
                   <strong>{t("activePeriodSuggestion")}</strong>
@@ -2289,27 +2647,6 @@ export default function App() {
                         {t("activePeriodSingleRangeLimit")}
                       </p>
                     ) : null}
-                    {activePeriodReport.periods.length > 1 ? (
-                      <div className="active-period-actions">
-                        {activePeriodReport.periods.map((period, index) => (
-                          <button
-                            type="button"
-                            className="button-secondary"
-                            key={`${period.startSecond}-${period.endSecond}`}
-                            onClick={() => handleApplyActivePeriodRange(period)}
-                          >
-                            {t("useActivePeriod")} #{index + 1}
-                          </button>
-                        ))}
-                      </div>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="button-secondary"
-                      onClick={handleApplyActivePeriodSuggestion}
-                    >
-                      {t("applyActivePeriod")}
-                    </button>
                   </>
                 ) : null}
               </section>
@@ -2384,12 +2721,21 @@ export default function App() {
           <section className="card readiness-card">
             <h2>{t("ingestReadiness")}</h2>
             <p>
-              {t("completed")}: {readiness?.completedSegmentsCount ?? 0}/
-              {readiness?.allSegmentsCount ?? 0}
+              {t("completed")}:{" "}
+              {effectiveReadiness?.completedSegmentsCount ?? 0}/
+              {effectiveReadiness?.allSegmentsCount ?? 0}
             </p>
             <p>
-              {t("ready")}: {readiness?.readyForIngest ? t("yes") : t("no")}
+              {t("ready")}:{" "}
+              {effectiveReadiness?.readyForIngest ? t("yes") : t("no")}
             </p>
+            {effectiveReadiness?.blockingReasons?.length ? (
+              <ul className="readiness-blockers">
+                {effectiveReadiness.blockingReasons.map((reason) => (
+                  <li key={reason}>{reason}</li>
+                ))}
+              </ul>
+            ) : null}
             <button
               type="button"
               className="button-secondary"
@@ -2402,7 +2748,7 @@ export default function App() {
               type="button"
               className="button-primary"
               onClick={handleIngest}
-              disabled={!readiness?.readyForIngest || isBusy}
+              disabled={!effectiveReadiness?.readyForIngest || isBusy}
             >
               {t("ingest")}
             </button>
@@ -2646,7 +2992,7 @@ export default function App() {
                 <span>
                   {previewTimingRange
                     ? t("previewingSuggestedTiming")
-                    : t("currentSegmentTiming")}
+                    : t("segmentTiming")}
                   : {t("segment")} #{activeSegment.repetitionIndex} (
                   {activeSegment.cameraView})
                 </span>
@@ -2682,7 +3028,7 @@ export default function App() {
                 >
                   {t("exitPreview")}
                 </button>
-              ) : activeTimingSuggestion?.cycle ? (
+              ) : activeTimingSuggestion?.aiDraftRange ? (
                 <button
                   type="button"
                   className="button-secondary"
@@ -2708,7 +3054,11 @@ export default function App() {
             segments={segments}
             activeSegmentId={activeSegmentId}
             timingReport={timingReport}
-            onApplyAllTiming={handleApplyAllTimingSuggestions}
+            onApplyAllTiming={
+              movementAdapter?.supportsAiDraftTiming
+                ? handleApplyAllTimingSuggestions
+                : null
+            }
             onSelect={handleSelectSegment}
             disabled={!segments.length}
             t={t}

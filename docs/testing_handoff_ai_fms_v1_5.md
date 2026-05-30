@@ -2,7 +2,10 @@
 
 日期：2026-05-23
 
-用途：这份文档给 Ronnie / Edward 回来后快速测试当前 V1.5 Deep Squat flagship demo。AI-FMS 当前应被理解为 human-in-the-loop movement screening annotation platform，不是医疗诊断或全自动 FMS 评分工具。
+用途：这份文档给 Ronnie / Edward 回来后快速测试当前 V1.5/V1.7 workbench。Deep
+Squat 仍是 flagship demo；Active Straight Leg Raise、Shoulder Mobility、Hurdle
+Step 已进入四动作可测路径。AI-FMS 当前应被理解为 human-in-the-loop movement
+screening annotation platform，不是医疗诊断或全自动 FMS 评分工具。
 
 ## 测试地址
 
@@ -22,7 +25,9 @@ npm run dev
 
 ## 当前状态
 
-- `npm run check` 已通过：ESLint、Prettier、55 个 Node tests、Vite build 均成功。
+- `npm run check` 已通过：ESLint、Prettier、110 个 Node tests、Vite build 均成功。
+- `npm run demo:check:four` 已通过：Deep Squat、ASLR、Shoulder Mobility、Hurdle
+  Step 四个 demo preset 均为 `PASS`。
 - dev server 已启动在 `http://localhost:5173/`。
 - 浏览器 smoke 已通过：
   - `Sample-1 mixed views`: `1-45s`, `7` reps, `Sample-1.pose.json · 441/441 frames`。
@@ -104,7 +109,11 @@ Header 右侧有 `Language` / `语言` 切换按钮：
 ## 已知边界
 
 - 当前没有真实后端持久化，仍以 mock API / local stub workflow 为主。
-- Deep Squat 是目前唯一有真实 pose features 和 explainable suggestion 的动作。
-- 其他 6 个 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose feature pipeline。
+- Deep Squat 和 Active Straight Leg Raise 已有 pose features 和 explainable
+  suggestion。
+- Shoulder Mobility 和 Hurdle Step 当前是 feature-only evidence，不显示
+  pose-based AI scoring 承诺。
+- In-Line Lunge 已有底层 timing/features 试验，但还没有进入本轮四动作可测主线。
+- 其余 FMS movements 已有 annotation workflow 和 sample inventory，但还没有同等深度 pose feature pipeline。
 - 截图资产有一张 overview 可能略早于 preset selector UI，但不影响功能测试。
 - MediaPipe extraction 在这台 Mac 上需要沙盒外运行，因为会创建 macOS GL/Metal context。

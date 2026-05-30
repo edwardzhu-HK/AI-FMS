@@ -129,9 +129,24 @@ Current V1.7 implementation status:
   human calibration.
 - Hurdle Step has completed an initial pose probe, timing/features helpers, and
   one feature-only browser demo path. AI suggestion is not yet in scope.
-- In-Line Lunge has completed an initial pose probe plus timing/features
-  helpers. The helper outputs evidence, but timing and knee-foot alignment need
-  more calibration before a browser demo path.
+- In-Line Lunge has completed an initial pose probe, timing/features helpers,
+  and one feature-only browser demo path. The selected 6-rep sample passes
+  timing/features smoke, but knee-foot alignment and sample variety still need
+  calibration before any AI scoring claim.
+- Trunk Stability Push-Up and Rotary Stability are connected as annotation-only
+  workflow paths. They can be segmented, reviewed, ingested in mock mode, and
+  exported, but they do not yet have pose evidence or movement-specific AI
+  features.
+
+Four-movement local demo readiness is now covered by `npm run demo:check:four`.
+As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
+Hurdle Step all pass the local preset readiness check.
+
+Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
+As of 2026-05-23, all 7 FMS action slots pass the mock end-to-end workflow:
+Deep Squat and Active Straight Leg Raise as implemented pose/AI paths, Hurdle
+Step / Shoulder Mobility / In-Line Lunge as feature-only pose paths, and Trunk
+Stability Push-Up / Rotary Stability as annotation-only paths.
 
 ### V2: Evaluation and Application Package
 
@@ -162,9 +177,11 @@ Development order agreed on 2026-05-23:
    human reviewer, not only as engineering counters.
 3. **Local State Persistence**: preserve reviewer scores, segment metadata,
    active demo preset, and selected segment during local testing.
-4. **Active Period Suggestion**: when pose JSON is available, detect high-motion
-   periods and suggest a narrower analysis range so long instruction or waiting
-   sections do not dominate segmentation.
+4. **AI Draft Timing / Effective Action Discovery**: when pose JSON is
+   available, Start/End only defines the analysis range; segment boundaries
+   should default to pose-detected effective movement windows with a small
+   review buffer, so long instruction or waiting sections do not dominate the
+   actual clips.
 5. **Selected Movement Expansion**: add one movement at a time after the Deep
    Squat dataset loop is stable.
 6. **Demo/Project Snapshot Mode**: wait until the project has enough movement
@@ -174,14 +191,36 @@ This order intentionally places Demo Mode after movement expansion. The demo
 surface should summarize real capabilities rather than becoming a decorative
 shell ahead of the evidence.
 
-The active-period step is intentionally conservative: it only suggests and
-applies a single `startSecond` / `endSecond` analysis range in the existing UI.
-The UI may show multiple detected motion fragments so reviewers can see where
-invalid or low-motion gaps may exist. Reviewers can apply one detected fragment
-to the current Start/End controls, but the workflow still stores one overall
-range at a time.
+The active-period step has been folded into the segment-level workflow:
+reviewers may still use Start/End to limit the analysis range, but after
+analysis the primary editable `segment.startSecond` / `segment.endSecond`
+should become the AI draft timing. The raw pose-detected cycle remains in
+`poseTiming` for audit/export, while manual edits overwrite the segment timing
+and change provenance from `ai_draft` to manual adjustment.
+
+Batch QA on 2026-05-23 showed that this flow is stable for the current Deep
+Squat samples, simple ASLR samples, the selected Hurdle Step demo, and the
+6-rep In-Line Lunge sample after overlapping-cycle dedupe. ASLR 4-rep and
+In-Line Lunge 4-rep still only produce 2 reliable cycles and must remain
+review-blocked until human review confirms whether the issue is pose recall,
+video content, or expected-rep metadata. A new `duplicate_cycle_assignment`
+blocker prevents multiple segments from silently sharing the same detected
+cycle. Shoulder Mobility is excluded from AI draft timing auto-apply until it
+has a true movement-cycle detector instead of feature-only reach evidence.
+
+The first cycle-to-rep matching pass now uses ordered one-to-one assignment:
+candidate cycles are sorted by movement time, segments are sorted by repetition
+order, and a detected cycle can be assigned to at most one segment. Segments
+without a unique match receive `no_unique_cycle_assignment`. A second pass
+deduplicates highly overlapping candidate cycles and keeps the stronger,
+more-visible movement signal. This improves redundant-video handling, but
+Hurdle Step still needs movement-specific filtering when candidate cycles
+exceed Expected Reps.
+
 True multi-interval video slicing remains a later schema decision because it
-would affect segment provenance and export semantics.
+would affect segment provenance and export semantics. For V1.6, effective
+action discovery happens by generating one reviewed segment per detected
+movement cycle, not by storing arbitrary disjoint video intervals.
 
 ## 5. Explicit Non-Goals
 
@@ -331,7 +370,9 @@ Deliverables:
 
 - Hip/knee trajectory-based segment suggestion.
 - Start/end manual adjustment.
-- Record suggested vs adjusted segment times.
+- Default the editable segment timing to AI draft movement windows after
+  analysis, while preserving raw suggested cycle timing for audit/export.
+- Record AI draft vs manually adjusted segment times.
 - Segment quality report.
 
 ### M4: Deep Squat AI Suggestion
@@ -465,8 +506,9 @@ Implementation status after the first P2 pass:
 22. Added a `Deep Squat Demo` preset loader in the workbench so demo dry-runs
     can load `Sample-1`, `front`, or `side` video/pose pairs without manual
     file picking.
-23. Added `Apply All Suggested Timing` to batch-apply pose-assisted segment
-    boundaries from the Segment Timing QA report before reviewer scoring.
+23. Added AI draft timing so pose-assisted segment boundaries can become the
+    default editable clips after analysis, with a secondary rebuild action for
+    reviewers who want to restore those boundaries after manual edits.
 24. Added a reproducible Deep Squat demo dry-run checklist and generated three
     screenshot assets for the project/application package:
     `docs/assets/ai-fms-demo-overview.jpg`,

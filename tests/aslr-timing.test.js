@@ -130,6 +130,40 @@ test("evaluateAslrSegmentTiming accepts complete segment coverage", () => {
   );
 });
 
+test("evaluateAslrSegmentsTiming uses one-to-one cycle assignments", () => {
+  const result = evaluateAslrSegmentsTiming({
+    posePayload: createPayload(),
+    segments: [
+      {
+        segmentId: "seg_1",
+        repetitionIndex: 1,
+        startSecond: 0.7,
+        endSecond: 3.5,
+      },
+      {
+        segmentId: "seg_2",
+        repetitionIndex: 2,
+        startSecond: 0.9,
+        endSecond: 3.3,
+      },
+      {
+        segmentId: "seg_3",
+        repetitionIndex: 3,
+        startSecond: 0.9,
+        endSecond: 3.3,
+      },
+    ],
+  });
+
+  assert.equal(result.status, "needs_adjustment");
+  assert.equal(
+    result.summary.issueCounts.duplicate_cycle_assignment,
+    undefined,
+  );
+  assert.equal(result.summary.issueCounts.no_unique_cycle_assignment, 1);
+  assert.equal(result.summary.goodCount, 1);
+});
+
 test("evaluateAslrSegmentTiming flags a clipped leg raise", () => {
   const result = evaluateAslrSegmentTiming({
     posePayload: createPayload(),

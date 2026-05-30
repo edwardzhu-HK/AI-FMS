@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   summarizeExportQuality,
   summarizeSegmentTimingCorrections,
+  summarizeTimingReadiness,
 } from "../src/lib/export-quality.js";
 
 function makeScore(totalScore) {
@@ -124,6 +125,8 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
   assert.equal(summary.pose.poseStatus, "ready");
   assert.equal(summary.pose.timingGood, 1);
   assert.equal(summary.pose.timingNeedsAdjustment, 1);
+  assert.equal(summary.pose.timingReadyForIngest, false);
+  assert.equal(summary.pose.timingBlockerCount, 1);
   assert.equal(summary.recordsWithPoseTiming, 1);
   assert.equal(summary.recordsWithPoseFeatures, 1);
   assert.equal(summary.recordsWithPoseSuggestion, 1);
@@ -131,6 +134,46 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
   assert.equal(summary.timingCorrections.avgBoundaryShiftSecond, 0.2);
   assert.equal(summary.timingCorrections.maxBoundaryShiftSecond, 0.4);
   assert.equal(summary.poseEvidenceAttached, true);
+});
+
+test("summarizeTimingReadiness blocks ingest when timing needs adjustment", () => {
+  const summary = summarizeTimingReadiness({
+    summary: {
+      segmentsTotal: 2,
+      goodCount: 1,
+      needsAdjustmentCount: 1,
+    },
+    items: [
+      {
+        segmentId: "seg_1",
+        status: "good",
+        issues: [],
+      },
+      {
+        segmentId: "seg_2",
+        status: "needs_adjustment",
+        issues: [
+          {
+            code: "no_unique_cycle_assignment",
+            severity: "error",
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(summary.available, true);
+  assert.equal(summary.readyForIngest, false);
+  assert.equal(summary.blockerCount, 1);
+  assert.equal(summary.issueCounts.no_unique_cycle_assignment, 1);
+});
+
+test("summarizeTimingReadiness does not block annotation-only exports", () => {
+  const summary = summarizeTimingReadiness(null);
+
+  assert.equal(summary.available, false);
+  assert.equal(summary.readyForIngest, true);
+  assert.equal(summary.blockerCount, 0);
 });
 
 test("summarizeExportQuality reports missing pose for annotation-only state", () => {

@@ -34,7 +34,94 @@ function issueSummary(item, t) {
   const blockingIssue = item.issues.find((issue) => issue.severity === "error");
   const fallbackIssue = item.issues[0];
 
-  return blockingIssue?.code ?? fallbackIssue?.code ?? t("ok");
+  return getIssueLabel(blockingIssue ?? fallbackIssue, t, {
+    short: true,
+  });
+}
+
+function getIssueLabel(issue, t, options = {}) {
+  if (!issue) {
+    return t("ok");
+  }
+
+  const keyPrefix = options.short ? "timingIssueShort" : "timingIssue";
+  const label = t(`${keyPrefix}_${issue.code}`);
+
+  return label === `${keyPrefix}_${issue.code}` ? issue.message : label;
+}
+
+function buildTimingWarnings(timingReport, segments, canApplyTiming, t) {
+  if (!timingReport) {
+    return [];
+  }
+
+  const segmentCount = segments.length;
+  const assignedCycleCount = timingReport.summary.detectedCycles ?? 0;
+  const candidateCycleCount = timingReport.quality?.candidateCyclesTotal;
+  const issueCounts = timingReport.summary.issueCounts ?? {};
+  const warnings = [];
+
+  if (assignedCycleCount < segmentCount) {
+    warnings.push(
+      `${t("timingAssignedCycleShortfall")}: ${assignedCycleCount}/${segmentCount}. ${t(
+        "timingAssignedCycleShortfallDetail",
+      )}`,
+    );
+  }
+
+  if (
+    typeof candidateCycleCount === "number" &&
+    Number.isFinite(candidateCycleCount) &&
+    candidateCycleCount > assignedCycleCount
+  ) {
+    warnings.push(
+      `${t("timingExtraCandidateCycles")}: ${candidateCycleCount} ${t(
+        "candidateCycles",
+      )} / ${assignedCycleCount} ${t("assignedCycles")}. ${t(
+        "timingExtraCandidateCyclesDetail",
+      )}`,
+    );
+  }
+
+  if (issueCounts.no_unique_cycle_assignment > 0) {
+    warnings.push(
+      `${issueCounts.no_unique_cycle_assignment} ${t(
+        "segmentsNeedUniqueCycleReview",
+      )}`,
+    );
+  }
+
+  if (issueCounts.duplicate_cycle_assignment > 0) {
+    warnings.push(
+      `${issueCounts.duplicate_cycle_assignment} ${t(
+        "segmentsNeedDuplicateCycleReview",
+      )}`,
+    );
+  }
+
+  const autoApplicableCount = (timingReport.items ?? []).filter(
+    (item) =>
+      item.cycle &&
+      !item.issues?.some((issue) =>
+        ["duplicate_cycle_assignment", "no_unique_cycle_assignment"].includes(
+          issue.code,
+        ),
+      ),
+  ).length;
+
+  if (
+    canApplyTiming &&
+    autoApplicableCount > 0 &&
+    autoApplicableCount < segmentCount
+  ) {
+    warnings.push(
+      `${t("aiDraftPartialApply")}: ${autoApplicableCount}/${segmentCount}. ${t(
+        "aiDraftPartialApplyDetail",
+      )}`,
+    );
+  }
+
+  return warnings;
 }
 
 function reviewStatusLabel(reviewStatus, t) {
@@ -82,8 +169,15 @@ export default function SegmentList({
     (timingReport?.items ?? []).map((item) => [item.segmentId, item]),
   );
   const hasTimingReport = Boolean(timingReport?.items?.length);
-  const hasTimingSuggestions = (timingReport?.items ?? []).some(
-    (item) => item.cycle,
+  const canApplyTiming = typeof onApplyAllTiming === "function";
+  const hasTimingSuggestions = canApplyTiming
+    ? (timingReport?.items ?? []).some((item) => item.cycle)
+    : false;
+  const timingWarnings = buildTimingWarnings(
+    timingReport,
+    segments,
+    canApplyTiming,
+    t,
   );
 
   return (
@@ -103,25 +197,35 @@ export default function SegmentList({
             ) : null}
           </span>
         </div>
-        {timingReport ? (
+        {timingReport && canApplyTiming ? (
           <button
             type="button"
             className="button-secondary"
             onClick={onApplyAllTiming}
             disabled={disabled || !hasTimingSuggestions}
           >
-            {t("applyAllSuggestedTiming")}
+            {t("rebuildAiDraftTiming")}
           </button>
         ) : null}
       </header>
+
+      {timingWarnings.length > 0 ? (
+        <div className="timing-risk-panel">
+          <strong>{t("timingNeedsReview")}</strong>
+          <ul>
+            {timingWarnings.map((warning) => (
+              <li key={warning}>{warning}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       <ul>
         {hasTimingReport ? (
           <li className="segment-list-grid-header" aria-hidden="true">
             <span>#</span>
             <span>{t("view")}</span>
-            <span>{t("currentSegmentTiming")}</span>
-            <span>{t("suggestedTiming")}</span>
+            <span>{t("segmentTiming")}</span>
             <span>{t("coverage")}</span>
             <span>{t("timingStatus")}</span>
             <span>{t("reviewStatus")}</span>
@@ -151,17 +255,6 @@ export default function SegmentList({
               </span>
               {hasTimingReport ? (
                 <>
-                  <span>
-                    {timingItemsBySegmentId.get(segment.segmentId)?.cycle
-                      ? `${formatSeconds(
-                          timingItemsBySegmentId.get(segment.segmentId).cycle
-                            .startSecond,
-                        )} - ${formatSeconds(
-                          timingItemsBySegmentId.get(segment.segmentId).cycle
-                            .endSecond,
-                        )}`
-                      : t("noCycle")}
-                  </span>
                   <span>
                     {formatPercent(
                       timingItemsBySegmentId.get(segment.segmentId)?.metrics

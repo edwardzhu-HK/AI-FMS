@@ -87,6 +87,7 @@ export async function updateSegmentMetadata(payload) {
       pain_flag: payload.painFlag,
       clearing_test: payload.clearingTest,
       rubric_version: payload.rubricVersion,
+      segment_source: payload.segmentSource,
     }),
   });
 }

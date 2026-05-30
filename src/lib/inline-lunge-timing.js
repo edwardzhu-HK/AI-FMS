@@ -1,3 +1,10 @@
+import {
+  assignUniqueCyclesToSegments,
+  buildNoUniqueCycleAssignmentItem,
+  dedupeOverlappingCycles,
+  flagDuplicateCycleAssignments,
+} from "./timing-qa.js";
+
 const REQUIRED_LANDMARKS = [
   "left_shoulder",
   "right_shoulder",
@@ -307,51 +314,53 @@ export function detectInlineLungeCycles(payload, options = {}) {
     config.minPeakGapSecond,
   );
 
-  const cycles = peaks.map((peak, index) => {
-    const startIndex = findBoundaryIndex(
-      features,
-      peak.index,
-      -1,
-      boundaryThreshold,
-    );
-    const endIndex = findBoundaryIndex(
-      features,
-      peak.index,
-      1,
-      boundaryThreshold,
-    );
-    const startSecond = Number(
-      clamp(
-        features[startIndex].second - config.preBufferSecond,
-        firstSecond,
-        lastSecond,
-      ).toFixed(2),
-    );
-    const endSecond = Number(
-      clamp(
-        features[endIndex].second + config.postBufferSecond,
-        firstSecond,
-        lastSecond,
-      ).toFixed(2),
-    );
-
-    return {
-      repetitionIndex: index + 1,
-      startSecond,
-      endSecond,
-      peakSecond: toFixedNumber(peak.second),
-      // Keep the existing timing export/UI shape until a later schema review.
-      lowestPointSecond: toFixedNumber(peak.second),
-      peakDepthRatio: toFixedNumber(peak.depthRatio, 4),
-      baselineDepthRatio: toFixedNumber(uprightDepth, 4),
-      amplitude: toFixedNumber(amplitude, 4),
-      avgVisibility: getWindowAverageVisibility(
+  const cycles = dedupeOverlappingCycles(
+    peaks.map((peak, index) => {
+      const startIndex = findBoundaryIndex(
         features,
+        peak.index,
+        -1,
+        boundaryThreshold,
+      );
+      const endIndex = findBoundaryIndex(
+        features,
+        peak.index,
+        1,
+        boundaryThreshold,
+      );
+      const startSecond = Number(
+        clamp(
+          features[startIndex].second - config.preBufferSecond,
+          firstSecond,
+          lastSecond,
+        ).toFixed(2),
+      );
+      const endSecond = Number(
+        clamp(
+          features[endIndex].second + config.postBufferSecond,
+          firstSecond,
+          lastSecond,
+        ).toFixed(2),
+      );
+
+      return {
+        repetitionIndex: index + 1,
         startSecond,
         endSecond,
-      ),
-    };
-  });
+        peakSecond: toFixedNumber(peak.second),
+        // Keep the existing timing export/UI shape until a later schema review.
+        lowestPointSecond: toFixedNumber(peak.second),
+        peakDepthRatio: toFixedNumber(peak.depthRatio, 4),
+        baselineDepthRatio: toFixedNumber(uprightDepth, 4),
+        amplitude: toFixedNumber(amplitude, 4),
+        avgVisibility: getWindowAverageVisibility(
+          features,
+          startSecond,
+          endSecond,
+        ),
+      };
+    }),
+  );
 
   return {
     cycles,
@@ -592,15 +601,39 @@ export function evaluateInlineLungeSegmentsTiming({
 
   const config = { ...DEFAULT_OPTIONS, ...options };
   const { cycles, quality } = detectInlineLungeCycles(posePayload, config);
-  const items = segments.map((segment) => ({
-    segmentId: segment.segmentId,
-    repetitionIndex: segment.repetitionIndex,
-    cameraView: segment.cameraView,
-    currentStartSecond: segment.startSecond,
-    currentEndSecond: segment.endSecond,
-    ...evaluateSegmentAgainstCycles(cycles, quality, segment, config),
-  }));
-  const summary = summarizeTimingItems(items, cycles);
+  const cycleAssignments = assignUniqueCyclesToSegments(segments, cycles);
+  const assignedCycles = [...cycleAssignments.values()];
+  const items = flagDuplicateCycleAssignments(
+    segments.map((segment) => {
+      const assignedCycle = cycleAssignments.get(
+        segment.segmentId ?? `rep_${segment.repetitionIndex}`,
+      );
+      const timingItem = assignedCycle
+        ? evaluateSegmentAgainstCycles(
+            [assignedCycle],
+            quality,
+            segment,
+            config,
+          )
+        : buildNoUniqueCycleAssignmentItem(cycles);
+
+      return {
+        segmentId: segment.segmentId,
+        repetitionIndex: segment.repetitionIndex,
+        cameraView: segment.cameraView,
+        currentStartSecond: segment.startSecond,
+        currentEndSecond: segment.endSecond,
+        ...timingItem,
+        metrics: timingItem.metrics
+          ? {
+              ...timingItem.metrics,
+              detectedCycles: cycles.length,
+            }
+          : timingItem.metrics,
+      };
+    }),
+  );
+  const summary = summarizeTimingItems(items, assignedCycles);
   const hasBlockingIssue = summary.needsAdjustmentCount > 0;
 
   if (cycles.length === 0) {
@@ -609,7 +642,7 @@ export function evaluateInlineLungeSegmentsTiming({
       label: "No reliable In-Line Lunge cycle",
       items,
       summary,
-      cycles,
+      cycles: assignedCycles,
       quality,
     };
   }
@@ -621,7 +654,10 @@ export function evaluateInlineLungeSegmentsTiming({
       : "All segments cover detected In-Line Lunge cycles",
     items,
     summary,
-    cycles,
-    quality,
+    cycles: assignedCycles,
+    quality: {
+      ...quality,
+      candidateCyclesTotal: cycles.length,
+    },
   };
 }

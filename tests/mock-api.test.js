@@ -157,6 +157,35 @@ test("mock api supports manual segment metadata correction", async () => {
   assert.equal(result.segment.originalStartSecond, target.startSecond);
 });
 
+test("mock api preserves AI draft timing provenance", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "active_straight_leg_raise",
+    fileName: "2 reps score 3.mp4",
+    startSecond: 0,
+    endSecond: 23.8,
+    expectedReps: 2,
+  });
+
+  const segments = await getVideoSegments(created.videoId);
+
+  const result = await updateSegmentMetadata({
+    segmentId: segments.items[0].segmentId,
+    startSecond: 4.35,
+    endSecond: 10.85,
+    side: "right",
+    painFlag: false,
+    clearingTest: "not_applicable",
+    rubricVersion: "fms_v1.0",
+    segmentSource: "ai_draft",
+  });
+
+  assert.equal(result.segment.segmentSource, "ai_draft");
+  assert.equal(
+    result.segment.originalStartSecond,
+    segments.items[0].startSecond,
+  );
+});
+
 test("mock api exports a dataset package with segment metadata", async () => {
   const created = await uploadVideoAndCreateAnalysisJob({
     actionType: "deep_squat",
