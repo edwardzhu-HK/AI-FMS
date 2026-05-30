@@ -40,6 +40,10 @@ function fromSnakeScore(score, actionType) {
         score.criteria_scores ?? score.criteriaScores ?? [],
       ),
       comment: score.comment ?? "",
+      scoreScope: score.score_scope ?? score.scoreScope,
+      scoreBasis: score.score_basis ?? score.scoreBasis,
+      usesCriteriaScores:
+        score.uses_criteria_scores ?? score.usesCriteriaScores,
       modelVersion: score.model_version ?? score.modelVersion,
     },
     actionType,

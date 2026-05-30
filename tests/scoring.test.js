@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   createDefaultSegmentMetadata,
   deriveClearingTestFromFindings,
+  createReviewerRawScore,
   createScoreFromSubscores,
   createScoreFromTotal,
   getActionRepPolicy,
@@ -85,6 +86,19 @@ test("createScoreFromTotal supports reviewer total-only scoring during migration
     score.criteriaScores[0].criterionKey,
     "rotary_stability_diagonal_control",
   );
+});
+
+test("createReviewerRawScore marks human scores as scoresheet-like raw scores", () => {
+  const score = createReviewerRawScore("shoulder_mobility", 2, {
+    reviewerId: "coach",
+    comment: "overall movement quality",
+  });
+
+  assert.equal(score.totalScore, 2);
+  assert.equal(score.scoreScope, "rep_raw_score");
+  assert.equal(score.scoreBasis, "scoresheet_like_raw_score");
+  assert.equal(score.usesCriteriaScores, false);
+  assert.equal(score.criteriaScores.length, 3);
 });
 
 test("normalizeScoreForAction backfills criteriaScores for legacy scores", () => {

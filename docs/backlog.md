@@ -36,6 +36,9 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
       policy metadata to JSON, CSV, and package exports.
 - [x] Keep human reviewer scoring scoresheet-like: overall RAW SCORE +
       comment/reason, not forced per-criterion human scoring.
+- [x] Add reviewer score-basis metadata and Reviewer A/B context UI so human
+      scores are clearly stored as scoresheet-like rep RAW SCORE, while AI
+      criteria remain pose-based rationale.
 - [x] Add action-specific `clearingFindings` schema and Segment Metadata UI:
       Shoulder/Extension/Flexion clearing, plus In-Line Lunge ankle pain and
       R/Y/G ankle mobility.

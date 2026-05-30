@@ -11,14 +11,25 @@ function makeScore(totalScore, depth, kneeAlignment, torsoControl) {
 
 test("adjudication uses human consensus when both reviewers match", () => {
   const ai = makeScore(1, 1, 1, 2);
-  const reviewerA = makeScore(2, 2, 2, 2);
-  const reviewerB = makeScore(2, 2, 2, 2);
+  const reviewerA = {
+    ...makeScore(2, 2, 2, 2),
+    scoreScope: "rep_raw_score",
+    scoreBasis: "scoresheet_like_raw_score",
+    usesCriteriaScores: false,
+  };
+  const reviewerB = {
+    ...makeScore(2, 2, 2, 2),
+    scoreScope: "rep_raw_score",
+    scoreBasis: "scoresheet_like_raw_score",
+    usesCriteriaScores: false,
+  };
 
   const result = adjudicateScores(ai, reviewerA, reviewerB);
 
   assert.equal(result.labelStatus, "valid");
   assert.equal(result.labelSource, "human_consensus");
   assert.equal(result.finalScore.totalScore, 2);
+  assert.equal(result.finalScore.scoreBasis, "scoresheet_like_raw_score");
 });
 
 test("adjudication uses ai-human match when AI matches one reviewer", () => {

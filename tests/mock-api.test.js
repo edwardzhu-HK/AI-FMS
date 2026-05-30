@@ -3,9 +3,11 @@ import test from "node:test";
 import {
   exportVideoDataset,
   getVideoSegments,
+  saveSegmentReview,
   updateSegmentMetadata,
   uploadVideoAndCreateAnalysisJob,
 } from "../src/api/mockCalibrationApi.js";
+import { createReviewerRawScore } from "../src/constants/scoring.js";
 
 test("mock api respects expectedReps when creating segments", async () => {
   const created = await uploadVideoAndCreateAnalysisJob({
@@ -193,6 +195,38 @@ test("mock api stores action-specific clearing findings", async () => {
       affectsRawScore: true,
     },
   ]);
+});
+
+test("mock api preserves reviewer score basis metadata", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "active_straight_leg_raise",
+    fileName: "aslr.mp4",
+    startSecond: 0,
+    endSecond: 12,
+    expectedReps: 1,
+  });
+  const segments = await getVideoSegments(created.videoId);
+
+  await saveSegmentReview({
+    segmentId: segments.items[0].segmentId,
+    reviewerRole: "reviewer_a",
+    reviewerId: "coach",
+    score: createReviewerRawScore("active_straight_leg_raise", 2, {
+      reviewerId: "coach",
+      comment: "overall raw score",
+    }),
+  });
+
+  const updatedSegments = await getVideoSegments(created.videoId);
+
+  assert.equal(
+    updatedSegments.items[0].reviewerScores.reviewer_a.scoreBasis,
+    "scoresheet_like_raw_score",
+  );
+  assert.equal(
+    updatedSegments.items[0].reviewerScores.reviewer_a.usesCriteriaScores,
+    false,
+  );
 });
 
 test("mock api preserves AI draft timing provenance", async () => {

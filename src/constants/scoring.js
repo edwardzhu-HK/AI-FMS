@@ -45,6 +45,8 @@ export const ACTIONS = [
 
 const CRITERIA_KEYS = ["depth", "kneeAlignment", "torsoControl"];
 export const SCORE_SCOPE_REP_RAW = "rep_raw_score";
+export const SCORE_BASIS_SCORESHEET_RAW = "scoresheet_like_raw_score";
+export const SCORE_BASIS_POSE_CRITERIA = "pose_criteria_rationale";
 
 const ACTION_RUBRIC_CRITERIA = {
   deep_squat: [
@@ -439,6 +441,15 @@ export function createScoreFromTotal(actionType, totalScore, extra = {}) {
   );
 
   return createScoreFromSubscores(actionType, subscores, extra);
+}
+
+export function createReviewerRawScore(actionType, totalScore, extra = {}) {
+  return createScoreFromTotal(actionType, totalScore, {
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    scoreBasis: SCORE_BASIS_SCORESHEET_RAW,
+    usesCriteriaScores: false,
+    ...extra,
+  });
 }
 
 export function normalizeScoreForAction(score, actionType) {

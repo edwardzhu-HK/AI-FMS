@@ -59,6 +59,9 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         },
         reviewerA: {
           totalScore: 2,
+          scoreScope: "rep_raw_score",
+          scoreBasis: "scoresheet_like_raw_score",
+          usesCriteriaScores: false,
           criteriaScores: [
             {
               genericKey: "depth",
@@ -138,6 +141,7 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[0].includes("side_policy"));
   assert.ok(lines[0].includes("ai_inferred_side"));
   assert.ok(lines[0].includes("clearing_findings"));
+  assert.ok(lines[0].includes("reviewer_a_score_basis"));
   assert.ok(lines[0].includes("pose_suggestion_criteria_scores"));
   assert.ok(lines[1].includes("seg_1"));
   assert.ok(lines[1].includes("rep_raw_score"));
@@ -146,6 +150,7 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(
     lines[1].includes("shoulder_clearing:positive_negative_pain:negative"),
   );
+  assert.ok(lines[1].includes("scoresheet_like_raw_score"));
   assert.ok(lines[1].includes("depth:deep_squat_depth:Depth"));
   assert.ok(
     lines[1].includes("torsoControl:deep_squat_torso_control:Torso Control:2"),

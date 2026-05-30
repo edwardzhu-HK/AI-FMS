@@ -41,7 +41,7 @@ import ScoreSummary from "./components/ScoreSummary.jsx";
 import SegmentEditor from "./components/SegmentEditor.jsx";
 import SegmentList from "./components/SegmentList.jsx";
 import KeypointOverlay from "./components/KeypointOverlay.jsx";
-import { createScoreFromTotal } from "./constants/scoring.js";
+import { createReviewerRawScore } from "./constants/scoring.js";
 
 const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
 const REVIEWER_B_DEFAULT_ID = "Coach_Ronnie";
@@ -426,6 +426,11 @@ const UI_TEXT = {
     reviewerId: "Reviewer ID",
     totalScore: "Total Score",
     comment: "Comment",
+    reviewerScoreScope: "Score scope",
+    reviewerScoreScopeValue: "Rep-level RAW SCORE",
+    reviewerContextAction: "Action",
+    positiveClearingScoreWarning:
+      "Positive clearing or pain usually leads to RAW SCORE 0; please confirm before saving.",
     save: "Save",
     aiSuggestion: "AI Suggestion",
     status: "Status",
@@ -823,6 +828,11 @@ const UI_TEXT = {
     reviewerId: "Reviewer ID",
     totalScore: "总分",
     comment: "评论",
+    reviewerScoreScope: "评分范围",
+    reviewerScoreScopeValue: "当前 rep 的 RAW SCORE",
+    reviewerContextAction: "动作",
+    positiveClearingScoreWarning:
+      "Clearing 阳性或 pain flag 通常意味着 RAW SCORE 应为 0；保存前请人工确认。",
     save: "保存",
     aiSuggestion: "AI 建议",
     status: "状态",
@@ -1562,6 +1572,13 @@ export default function App() {
     () => getMovementAdapter(selectedAction),
     [selectedAction],
   );
+  const activeActionLabel = useMemo(() => {
+    const activeActionType = activeSegment?.actionType ?? selectedAction;
+    return (
+      actions.find((action) => action.id === activeActionType)?.displayName ??
+      activeActionType
+    );
+  }, [activeSegment, actions, selectedAction]);
   const activePeriodReport = useMemo(
     () => (posePayload ? detectPoseActivePeriods(posePayload) : null),
     [posePayload],
@@ -2298,7 +2315,7 @@ export default function App() {
     setIsBusy(true);
 
     try {
-      const savedScore = createScoreFromTotal(
+      const savedScore = createReviewerRawScore(
         activeSegment.actionType ?? selectedAction,
         form.totalScore,
         {
@@ -2316,6 +2333,9 @@ export default function App() {
           totalScore: savedScore.totalScore,
           subscores: savedScore.subscores,
           criteriaScores: savedScore.criteriaScores,
+          scoreScope: savedScore.scoreScope,
+          scoreBasis: savedScore.scoreBasis,
+          usesCriteriaScores: savedScore.usesCriteriaScores,
           comment: savedScore.comment,
         },
       });
@@ -2327,7 +2347,7 @@ export default function App() {
         activeSegment.segmentId,
         role,
         {
-          ...createScoreFromTotal(
+          ...createReviewerRawScore(
             activeSegment.actionType ?? selectedAction,
             form.totalScore,
             {
@@ -3258,6 +3278,13 @@ export default function App() {
                 value={reviewerForms.reviewer_a}
                 onChange={(next) => updateReviewerForm("reviewer_a", next)}
                 onSave={() => handleSaveReview("reviewer_a")}
+                context={{
+                  actionLabel: activeActionLabel,
+                  side: activeSegment.side,
+                  clearingTest: activeSegment.clearingTest,
+                  clearingFindings: activeSegment.clearingFindings,
+                  painFlag: activeSegment.painFlag,
+                }}
                 disabled={isBusy}
                 t={t}
               />
@@ -3266,6 +3293,13 @@ export default function App() {
                 value={reviewerForms.reviewer_b}
                 onChange={(next) => updateReviewerForm("reviewer_b", next)}
                 onSave={() => handleSaveReview("reviewer_b")}
+                context={{
+                  actionLabel: activeActionLabel,
+                  side: activeSegment.side,
+                  clearingTest: activeSegment.clearingTest,
+                  clearingFindings: activeSegment.clearingFindings,
+                  painFlag: activeSegment.painFlag,
+                }}
                 disabled={isBusy}
                 t={t}
               />

@@ -1,5 +1,6 @@
 import { adjudicateScores } from "./adjudication.js";
 import {
+  SCORE_BASIS_SCORESHEET_RAW,
   SCORE_SCOPE_REP_RAW,
   getActionRepPolicy,
   getActionRubricCriteria,
@@ -13,6 +14,21 @@ function clone(value) {
 
 function toScoreSnapshot(score, actionType) {
   return score ? clone(normalizeScoreForAction(score, actionType)) : null;
+}
+
+function toReviewerScoreSnapshot(score, actionType) {
+  const snapshot = toScoreSnapshot(score, actionType);
+
+  if (!snapshot) {
+    return null;
+  }
+
+  return {
+    ...snapshot,
+    scoreScope: snapshot.scoreScope ?? SCORE_SCOPE_REP_RAW,
+    scoreBasis: snapshot.scoreBasis ?? SCORE_BASIS_SCORESHEET_RAW,
+    usesCriteriaScores: snapshot.usesCriteriaScores ?? false,
+  };
 }
 
 export function buildDatasetExport(video, segments) {
@@ -78,8 +94,8 @@ export function buildDatasetExport(video, segments) {
         rubricCriteria: getActionRubricCriteria(segment.actionType),
         aiSuggestion: toScoreSnapshot(aiScore, segment.actionType),
         aiSideSuggestion: null,
-        reviewerA: toScoreSnapshot(reviewerA, segment.actionType),
-        reviewerB: toScoreSnapshot(reviewerB, segment.actionType),
+        reviewerA: toReviewerScoreSnapshot(reviewerA, segment.actionType),
+        reviewerB: toReviewerScoreSnapshot(reviewerB, segment.actionType),
         finalLabel: adjudication.finalScore,
         labelStatus: adjudication.labelStatus,
         adjudicationSource: adjudication.labelSource,

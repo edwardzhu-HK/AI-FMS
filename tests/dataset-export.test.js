@@ -85,6 +85,12 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
     exported.records[0].finalLabel.criteriaScores[0].criterionKey,
     "deep_squat_depth",
   );
+  assert.equal(exported.records[0].reviewerA.scoreScope, "rep_raw_score");
+  assert.equal(
+    exported.records[0].reviewerA.scoreBasis,
+    "scoresheet_like_raw_score",
+  );
+  assert.equal(exported.records[0].reviewerA.usesCriteriaScores, false);
 });
 
 test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () => {

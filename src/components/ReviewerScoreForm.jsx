@@ -1,16 +1,74 @@
 import { SCORE_VALUES } from "../constants/scoring.js";
 
+function formatClearingContext(context, t) {
+  const findings = context?.clearingFindings ?? [];
+
+  if (findings.length === 0) {
+    return context?.clearingTest ?? "not_applicable";
+  }
+
+  return findings
+    .map(
+      (finding) => `${finding.label}: ${t(`clearingResult_${finding.result}`)}`,
+    )
+    .join(" · ");
+}
+
+function hasPositiveClearingOrPain(context) {
+  return (
+    Boolean(context?.painFlag) ||
+    (context?.clearingFindings ?? []).some(
+      (finding) =>
+        finding.resultType === "positive_negative_pain" &&
+        finding.result === "positive",
+    )
+  );
+}
+
 export default function ReviewerScoreForm({
   title,
   value,
   onChange,
   onSave,
+  context,
   disabled,
   t = (key) => key,
 }) {
+  const shouldWarnScoreZero =
+    hasPositiveClearingOrPain(context) && Number(value.totalScore) !== 0;
+
   return (
     <section className="reviewer-form card">
       <h3>{title}</h3>
+
+      {context ? (
+        <div className="reviewer-context">
+          <div>
+            <strong>{t("reviewerScoreScope")}</strong>
+            <span>{t("reviewerScoreScopeValue")}</span>
+          </div>
+          <div>
+            <strong>{t("reviewerContextAction")}</strong>
+            <span>{context.actionLabel}</span>
+          </div>
+          <div>
+            <strong>{t("side")}</strong>
+            <span>{context.side ?? "none"}</span>
+          </div>
+          <div>
+            <strong>{t("clearingTest")}</strong>
+            <span>{formatClearingContext(context, t)}</span>
+          </div>
+          <div>
+            <strong>{t("painFlag")}</strong>
+            <span>{context.painFlag ? t("yes") : t("no")}</span>
+          </div>
+        </div>
+      ) : null}
+
+      {shouldWarnScoreZero ? (
+        <p className="reviewer-warning">{t("positiveClearingScoreWarning")}</p>
+      ) : null}
 
       <label>
         {t("reviewerId")}

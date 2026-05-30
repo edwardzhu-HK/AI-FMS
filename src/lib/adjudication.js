@@ -7,6 +7,9 @@ function normalizeScore(score) {
     totalScore: score.totalScore,
     subscores: score.subscores ?? null,
     criteriaScores: score.criteriaScores ?? [],
+    scoreScope: score.scoreScope,
+    scoreBasis: score.scoreBasis,
+    usesCriteriaScores: score.usesCriteriaScores,
   };
 }
 

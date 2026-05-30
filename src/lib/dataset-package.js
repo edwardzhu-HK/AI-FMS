@@ -189,6 +189,10 @@ annotation、movement-quality review 和后续可追溯数据集建设。它不�
 或多个动作综合成一个人的 FMS FINAL SCORE；如需 person-level 汇总，应在后续独立流程
 中根据 FMS rules 从 rep-level labels 计算。
 
+Human reviewer scores use a scoresheet-like basis: one overall RAW SCORE plus
+comment/reason and rep metadata. Reviewer criteriaScores are compatibility
+snapshots, not forced per-criterion human scoring.
+
 ## Rubric Criteria
 
 The workbench keeps three compatible subscore fields for cross-movement export,

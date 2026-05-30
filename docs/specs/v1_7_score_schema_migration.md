@@ -61,6 +61,19 @@ control。
   它不代表人类 reviewer 真的逐项打了细分分。
 - 真正的 criteria-level scoring/rationale 主要用于 AI suggestion 和 pose-based
   explanation，用来帮助 reviewer 理解模型为什么给出某个建议分。
+- Reviewer A/B 保存时会显式写入 score basis metadata，避免后续把人工总分误读成
+  AI 式逐项打分：
+
+```json
+{
+  "scoreScope": "rep_raw_score",
+  "scoreBasis": "scoresheet_like_raw_score",
+  "usesCriteriaScores": false
+}
+```
+
+与之对应，pose-based AI suggestion 使用 `scoreBasis = "pose_criteria_rationale"`：
+它可以输出 criteria-level rationale，但这属于模型解释证据，不是人工 reviewer 表单。
 
 ## Rep-level RAW SCORE 与左右 / clearing / pain
 
@@ -124,12 +137,10 @@ Raise`、`Rotary Stability` 是 `left_right`，默认 `side = unknown`，后续�
 
 ## 下一步
 
-1. 保持 Reviewer A/B 表单为 scoresheet-like RAW SCORE + comment/reason，不做强制
-   per-criterion human scoring。
-2. 让 adjudication 继续以 human RAW SCORE 为主，同时在 AI 与 human total score 不一致时
+1. 保持 adjudication 继续以 human RAW SCORE 为主，同时在 AI 与 human total score 不一致时
    展示 AI criteria-level rationale，帮助 reviewer 复核。
-3. 将 CSV 的 criteria score columns 明确标注为 AI/explanation evidence 或兼容快照，
+2. 将 CSV 的 criteria score columns 明确标注为 AI/explanation evidence 或兼容快照，
    避免误读为人类 reviewer 的逐项评分。
-4. 当真实后端接入时，把 `criteriaScores` 作为 API 和数据库的一等字段。
-5. 后续如果进入真实后端，把 `clearingFindings` 作为 rep-level metadata 的一等字段，
+3. 当真实后端接入时，把 `criteriaScores` 作为 API 和数据库的一等字段。
+4. 后续如果进入真实后端，把 `clearingFindings` 作为 rep-level metadata 的一等字段，
    并继续保留 `clearingTest` 作为兼容摘要。

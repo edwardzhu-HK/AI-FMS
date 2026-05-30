@@ -119,6 +119,10 @@ test("buildDatasetPackageFiles creates application-ready export files", () => {
     /rep\/segment 的 RAW SCORE/,
   );
   assert.match(
+    files.find((file) => file.fileName === "dataset_card.md").contents,
+    /scoresheet-like basis/,
+  );
+  assert.match(
     files.find((file) => file.fileName === "README_export.md").contents,
     /dataset\.json/,
   );

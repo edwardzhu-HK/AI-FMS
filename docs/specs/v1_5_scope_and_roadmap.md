@@ -589,6 +589,11 @@ Implementation status after the first P2 pass:
     meaningless side/clearing controls; lateralized movements show left/right;
     Shoulder, Trunk, Rotary, and In-Line Lunge expose their relevant clearing
     fields while preserving legacy `clearingTest` summary export.
+30. Clarified Reviewer A/B scoring semantics in UI and exports: human reviewers
+    still enter one scoresheet-like rep RAW SCORE plus comments, while score
+    records now carry `scoreBasis = scoresheet_like_raw_score` and
+    `usesCriteriaScores = false`. Pose-based AI suggestions remain the place
+    for criteria-level rationale.
 
 Recommended next sprint:
 

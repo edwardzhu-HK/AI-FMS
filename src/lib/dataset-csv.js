@@ -56,11 +56,23 @@ const CSV_COLUMNS = [
     (record) => formatCriteriaScores(record.aiSuggestion?.criteriaScores),
   ],
   ["reviewer_a_total", (record) => record.reviewerA?.totalScore],
+  ["reviewer_a_score_scope", (record) => record.reviewerA?.scoreScope],
+  ["reviewer_a_score_basis", (record) => record.reviewerA?.scoreBasis],
+  [
+    "reviewer_a_uses_criteria_scores",
+    (record) => record.reviewerA?.usesCriteriaScores,
+  ],
   [
     "reviewer_a_criteria_scores",
     (record) => formatCriteriaScores(record.reviewerA?.criteriaScores),
   ],
   ["reviewer_b_total", (record) => record.reviewerB?.totalScore],
+  ["reviewer_b_score_scope", (record) => record.reviewerB?.scoreScope],
+  ["reviewer_b_score_basis", (record) => record.reviewerB?.scoreBasis],
+  [
+    "reviewer_b_uses_criteria_scores",
+    (record) => record.reviewerB?.usesCriteriaScores,
+  ],
   [
     "reviewer_b_criteria_scores",
     (record) => formatCriteriaScores(record.reviewerB?.criteriaScores),
