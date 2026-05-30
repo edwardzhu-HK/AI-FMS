@@ -39,6 +39,7 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
     "active_straight_leg_raise",
     "hurdle_step",
     "in_line_lunge",
+    "shoulder_mobility",
   ]);
 });
 
@@ -53,23 +54,24 @@ test("movement adapter registry exposes Hurdle Step implemented pipeline", () =>
   assert.equal(typeof adapter.buildSuggestionReport, "function");
 });
 
-test("movement adapter registry exposes Shoulder Mobility features-only pipeline", () => {
+test("movement adapter registry exposes Shoulder Mobility implemented pipeline", () => {
   const adapter = getMovementAdapter("shoulder_mobility");
   const capability = getMovementCapability("shoulder_mobility");
 
   assert.equal(adapter.actionType, "shoulder_mobility");
-  assert.equal(adapter.posePipelineStatus, "features_only");
-  assert.equal(capability.aiScoringStatus, "pose_evidence_only");
-  assert.equal(capability.supportsPoseSuggestion, false);
+  assert.equal(adapter.posePipelineStatus, "implemented");
+  assert.equal(capability.aiScoringStatus, "pose_based_ai_suggestion");
+  assert.equal(capability.supportsPoseSuggestion, true);
   assert.equal(adapter.supportsAiDraftTiming, false);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
-  assert.equal(adapter.buildSuggestionReport(), null);
+  assert.equal(typeof adapter.buildSuggestionReport, "function");
   assert.deepEqual(getImplementedPoseActionTypes(), [
     "deep_squat",
     "active_straight_leg_raise",
     "hurdle_step",
     "in_line_lunge",
+    "shoulder_mobility",
   ]);
 });
 
@@ -128,7 +130,25 @@ test("movement evidence gate separates ready AI scoring from feature-only eviden
         items: [{ segmentId: "seg_1", status: "ok" }],
       },
     }).status,
-    "features_only",
+    "missing_timing",
+  );
+
+  assert.equal(
+    evaluateMovementEvidenceGate({
+      actionType: "shoulder_mobility",
+      segmentId: "seg_1",
+      poseSummary: { valid: true, missingFramesRatio: 0, avgVisibility: 0.9 },
+      timingReport: {
+        items: [{ segmentId: "seg_1", status: "good", issues: [] }],
+      },
+      featureReport: {
+        items: [{ segmentId: "seg_1", status: "ok" }],
+      },
+      suggestionReport: {
+        items: [{ segmentId: "seg_1", status: "suggested", totalScore: 2 }],
+      },
+    }).status,
+    "ready",
   );
 
   const readyGate = evaluateMovementEvidenceGate({
@@ -164,6 +184,7 @@ test("movement adapter registry exposes In-Line Lunge implemented pipeline", () 
     "active_straight_leg_raise",
     "hurdle_step",
     "in_line_lunge",
+    "shoulder_mobility",
   ]);
 });
 

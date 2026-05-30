@@ -203,8 +203,10 @@ Current development order agreed on 2026-05-23:
   - [x] Document Shoulder Mobility pose probe and active-period findings.
   - [x] Add Shoulder Mobility feature helper and tests.
   - [x] Add one browser-verifiable Shoulder Mobility feature-only demo path.
-  - [ ] Decide whether Shoulder Mobility needs pose-based suggestion now or more
-        human calibration first.
+  - [x] Add conservative first-pass Shoulder Mobility pose-based AI suggestion
+        with reviewer-readable pain/clearing limitation reason.
+  - [ ] Collect Ronnie calibration feedback on Shoulder Mobility thresholds and
+        score language.
 - [ ] Start Hurdle Step expansion after Shoulder feature-only path is stable.
   - [x] Select 2 Hurdle Step samples for first pose extraction.
   - [x] Generate and validate Hurdle Step pose JSON.
@@ -282,10 +284,10 @@ remain reusable:
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active
-  Straight Leg Raise, Hurdle Step, and In-Line Lunge. Shoulder Mobility is
-  currently pose-evidence / feature-only. Trunk Stability Push-Up and Rotary
-  Stability are annotation-only until pose data and movement-specific helpers
-  are added. The workbench now uses movement capability metadata and a per
+  Straight Leg Raise, Hurdle Step, In-Line Lunge, and Shoulder Mobility. Trunk
+  Stability Push-Up and Rotary Stability are annotation-only until pose data and
+  movement-specific helpers are added. The workbench now uses movement
+  capability metadata and a per
   segment evidence gate to decide whether to show pose-based AI scoring or a
   more conservative evidence/annotation state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an

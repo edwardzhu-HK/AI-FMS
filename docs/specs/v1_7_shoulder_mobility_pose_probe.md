@@ -1,12 +1,15 @@
 # V1.7 Shoulder Mobility Pose Probe
 
-本文档记录 Shoulder Mobility 第一轮 pose extraction 试跑结果。目标不是马上把
-Shoulder Mobility 做成完整 AI scoring，而是判断它是否适合作为 ASLR 之后的第二个
-movement expansion，并提前暴露样本质量和无效时间问题。
+本文档记录 Shoulder Mobility 第一轮 pose extraction 试跑结果，以及后续接入
+first-pass pose-based AI suggestion 的边界。目标不是把 Shoulder Mobility 声称为完整
+自动评分，而是提供可解释的 reviewer decision support，并提前暴露样本质量和无效时间问题。
 
 ## 结论
 
-Shoulder Mobility 可以进入下一步 feature probe，但不建议直接跳到完整 suggestion。
+Shoulder Mobility 已进入 first-pass pose-based AI suggestion：系统会基于 reach
+distance、hand visibility、shoulder reference 和 side context 给出 RAW SCORE 参考。
+但 shoulder clearing / pain 仍只能由 reviewer 确认，AI suggestion 不自动判
+positive/negative pain，也不替代人工 final score。
 
 当前最适合作为主开发样本的是 `2 reps score 2.mp4`：pose coverage 完整，时长短，
 文件名有 reps/score 线索。`1 rep score 3 for right side.mp4` 可以作为 score-3/right
@@ -65,14 +68,15 @@ dataset export 语义。
 
 ## 下一步
 
-第一版 feature-only demo path 已接入：`Demo Preset` 选择
+第一版 pose-based AI suggestion demo path 已接入：`Demo Preset` 选择
 `Shoulder score-2 sample` 后，可以验证 skeleton、Timing QA、Shoulder Mobility
-Features 和 dataset export。当前不会生成 pose-based AI suggestion，右侧会明确显示
-`Pose Evidence Only`。
+Features、右侧 AI suggestion 和 dataset export。当前 suggestion 会明确说明
+shoulder clearing pain 不从 pose 推断，需要 reviewer 单独确认。
 
-1. 继续校准 Shoulder Mobility feature helper。当前已能输出 reach distance、hand
-   visibility、shoulder reference、side context，但还不生成 AI suggestion。
+1. 继续由 Ronnie 校准 Shoulder Mobility thresholds 和解释文案。当前已能输出 reach
+   distance、hand visibility、shoulder reference、side context，并映射为保守版 AI
+   suggestion。
 2. 对 `2-reps-score-1-both.pose.json` 做 active-period 交互测试，决定是否需要
    “preview/apply individual active period”的 UI，但不要在未评审 schema 前自动多段切片。
-3. 在人工确认更多 Shoulder 样本后，再决定是否把 feature evidence 映射为 pose-based
-   AI suggestion。
+3. 继续保留 shoulder clearing / pain 的人工确认边界，后续可以增加 reviewer reminder
+   / gate，但不自动判痛。

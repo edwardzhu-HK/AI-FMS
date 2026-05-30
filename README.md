@@ -201,7 +201,8 @@ Current browser-testable presets:
   suggestion.
 - `ASLR score-3 sample`: Active Straight Leg Raise implemented pose pipeline
   with pose-based AI suggestion.
-- `Shoulder score-2 sample`: Shoulder Mobility feature-only pose evidence.
+- `Shoulder score-2 sample`: Shoulder Mobility pose pipeline with first-pass
+  pose-based AI suggestion.
 - `Hurdle score-3 sample`: Hurdle Step pose pipeline with first-pass
   pose-based AI suggestion.
 - `In-Line Lunge score-3 sample`: In-Line Lunge pose pipeline with first-pass

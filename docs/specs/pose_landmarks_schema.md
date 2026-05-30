@@ -123,8 +123,8 @@ criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路�
 
 `poseEvidence` 还会记录 `implementedPoseActionTypes`、`plannedActionTypes` 和
 `movementCapabilities`。当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge
-已有 first-pass pose-based AI suggestion；Shoulder Mobility 为 feature-only；
-Trunk Stability Push-Up 和 Rotary Stability 为 annotation-only。
+和 Shoulder Mobility 已有 first-pass pose-based AI suggestion；Trunk Stability
+Push-Up 和 Rotary Stability 为 annotation-only。
 
 7 个动作的当前 maturity、Side 策略和 Clearing / Pain 边界记录在
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`。统一

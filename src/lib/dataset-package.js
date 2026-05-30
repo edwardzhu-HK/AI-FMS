@@ -231,10 +231,9 @@ pose-based AI suggestion 的 evidence gate。
 
 ## 限制
 
-- 当前 Deep Squat、Active Straight Leg Raise、Hurdle Step 和 In-Line Lunge
-  有 first-pass pose-based AI suggestion。
-- Shoulder Mobility 目前是 feature-only；Trunk Stability Push-Up 和 Rotary
-  Stability 目前是 annotation-only。
+- 当前 Deep Squat、Active Straight Leg Raise、Hurdle Step、In-Line Lunge 和
+  Shoulder Mobility 有 first-pass pose-based AI suggestion。
+- Trunk Stability Push-Up 和 Rotary Stability 目前是 annotation-only。
 - Raw video clips 和完整 per-frame landmarks 不嵌入本包；segment 通过原视频文件名和
   start/end timestamp 追溯。
 - AI suggestion 是 reviewer decision support，不是最终自动评分。

@@ -5,6 +5,7 @@ import { evaluateDeepSquatSegmentsTiming } from "./deep-squat-timing.js";
 import { summarizeAslrPoseFeatures } from "./aslr-features.js";
 import { buildAslrExplainableSuggestion } from "./aslr-suggestion.js";
 import { summarizeShoulderMobilityPoseFeatures } from "./shoulder-mobility-features.js";
+import { buildShoulderMobilityExplainableSuggestion } from "./shoulder-mobility-suggestion.js";
 import { evaluateShoulderMobilitySegmentsTiming } from "./shoulder-mobility-timing.js";
 import { summarizeHurdleStepPoseFeatures } from "./hurdle-step-features.js";
 import { buildHurdleStepExplainableSuggestion } from "./hurdle-step-suggestion.js";
@@ -64,11 +65,11 @@ const BASE_CAPABILITIES = {
   },
   shoulder_mobility: {
     actionType: "shoulder_mobility",
-    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY,
-    aiScoringStatus: AI_SCORING_STATUS.FEATURES_ONLY,
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
     supportsPoseTiming: true,
     supportsPoseFeatures: true,
-    supportsPoseSuggestion: false,
+    supportsPoseSuggestion: true,
     supportsAiDraftTiming: false,
   },
   trunk_stability_push_up: {
@@ -249,8 +250,15 @@ const SHOULDER_MOBILITY_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport() {
-    return null;
+  buildSuggestionReport({ featureReport, timingReport } = {}) {
+    if (!featureReport || !timingReport) {
+      return null;
+    }
+
+    return buildShoulderMobilityExplainableSuggestion({
+      featureReport,
+      timingReport,
+    });
   },
 };
 
