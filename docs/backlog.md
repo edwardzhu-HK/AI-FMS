@@ -163,6 +163,9 @@ Current development order agreed on 2026-05-23:
       reviewer-readable reasons, and tests.
 - [x] Add first-pass In-Line Lunge pose-based AI suggestion with confidence,
       reviewer-readable reasons, and tests.
+- [x] Add first-pass Trunk Stability Push-Up pose-based AI suggestion with
+      push-up lift, trunk/body-line, arm extension, compensation proxies,
+      reviewer-readable reasons, and tests.
 - [x] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Add movement capability registry and evidence gate so each action is
@@ -287,17 +290,18 @@ remain reusable:
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active
-  Straight Leg Raise, Hurdle Step, In-Line Lunge, and Shoulder Mobility. Trunk
-  Stability Push-Up and Rotary Stability are annotation-only until pose data and
+  Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk
+  Stability Push-Up. Rotary Stability is annotation-only until pose data and
   movement-specific helpers are added. The workbench now uses movement
   capability metadata and a per
   segment evidence gate to decide whether to show pose-based AI scoring or a
   more conservative evidence/annotation state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
-- Demo presets now cover all 7 FMS action slots, but only the first five have
-  pose evidence. Trunk Stability Push-Up and Rotary Stability still need formal
-  pose extraction and better final demo sample selection.
+- Demo presets now cover all 7 FMS action slots, but Trunk Stability Push-Up
+  still needs formal pose extraction before it becomes a browser-verifiable
+  pose demo, and Rotary Stability still needs pose feasibility plus better
+  final demo sample selection.
 - Current sample inventory covers 64 videos across all 7 FMS movement folders.
   Six movements have draft manifest rows; Rotary Stability currently only has
   review-only/tutorial-like samples and needs better movement samples.

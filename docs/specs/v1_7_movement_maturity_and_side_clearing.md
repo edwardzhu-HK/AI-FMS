@@ -18,19 +18,22 @@
 当前方向是成立的：系统已经不再只是一个 Deep Squat demo，而是一个
 human-in-the-loop 的 FMS video annotation / pose evidence / dataset workflow。
 
-截至目前，四个动作已经进入“可测试、可解释、可人工校准”的阶段：
+截至目前，六个动作已经进入“可测试、可解释、可人工校准”的阶段：
 
 - Deep Squat
 - Active Straight Leg Raise
 - Hurdle Step
 - In-Line Lunge
+- Shoulder Mobility
+- Trunk Stability Push-Up
 
-Shoulder Mobility 已有 first-pass pose-based AI suggestion。它与 clearing / pain
-report 关系更强，而且评分逻辑不能简化成手距一个 proxy。当前 AI 只基于 reach proxy /
-visibility / side context 给 reviewer 一个 RAW SCORE 参考，不自动判 pain。
+Shoulder Mobility 与 clearing / pain report 关系更强，而且评分逻辑不能简化成手距
+一个 proxy。当前 AI 只基于 reach proxy / visibility / side context 给 reviewer
+一个 RAW SCORE 参考，不自动判 pain。
 
-Trunk Stability Push-Up 和 Rotary Stability 仍应保持 annotation-only，直到有更明确的
-样本、视角和动作 phase 设计。
+Trunk Stability Push-Up 已有 first-pass pose-based AI suggestion，但还需要正式
+pose extraction、样本复核和 Ronnie threshold 校准。Rotary Stability 仍应保持
+annotation-only，直到有更明确的样本、视角和动作 phase 设计。
 
 ## 七动作 Maturity Table
 
@@ -41,7 +44,7 @@ Trunk Stability Push-Up 和 Rotary Stability 仍应保持 annotation-only，直�
 | Hurdle Step               | implemented     | 有 Hurdle score-3 demo              | 已有 Hurdle Step cycle detector；仍会出现 extra candidate cycles | 已有 clearance zone、stance leg、pelvis/trunk、step leg alignment、side confidence         | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`                           | 无 clearing；pain 只能人工标记                         | 用 mixed-score 样本校准 thresholds                        |
 | In-Line Lunge             | implemented     | 有 In-Line Lunge score-3 demo       | 已有 lunge depth cycle detector；4-rep score-2 样本召回仍需校准  | 已有 lunge depth zone、trunk/pelvis、rear leg、front knee-foot line、side confidence       | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`，保留 front/rear evidence | 有 ankle clearing pain / mobility；AI 不应自动判定疼痛 | 优先做 clearing reminder/gate，不自动判 positive/negative |
 | Shoulder Mobility         | implemented     | 有 Shoulder score-2 demo            | 目前是 best reach frame，不是真正 movement-cycle timing          | 已有 reach distance、hand visibility、shoulder reference、side context                     | 已有保守版 pose-based AI suggestion | 已统一输出 segment-level `aiSideSuggestion`                           | 有 shoulder clearing；pain 只能人工确认                | Ronnie 校准 thresholds；后续做 clearing reminder/gate     |
-| Trunk Stability Push-Up   | annotation-only | 有 review sample，无 pose JSON      | 暂无                                                             | 暂无                                                                                       | 暂无                                | 不适用，`side=none`                                                   | 有 extension clearing；pain 只能人工确认               | 先补 pose extraction 和动作 phase 设计                    |
+| Trunk Stability Push-Up   | implemented     | 有 review sample；需补 pose JSON    | 已有 best push-up frame timing；暂不 auto-apply draft timing     | 已有 push-up lift、trunk/body-line、arm extension、hip-drift compensation proxies          | 已有保守版 pose-based AI suggestion | 不适用，`side=none`                                                   | 有 extension clearing；pain 只能人工确认               | 补 pose extraction；Ronnie 校准 thresholds                |
 | Rotary Stability          | annotation-only | 有 review-only sample，无 pose JSON | 暂无                                                             | 暂无                                                                                       | 暂无                                | 理论上 left/right，但当前只人工标注                                   | 有 flexion clearing；pain 只能人工确认                 | 先补样本与 pose feasibility probe                         |
 
 ## Pipeline 状态定义
@@ -170,4 +173,4 @@ Ronnie 后续适合修改：
 1. 增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
 2. 增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
 3. 继续校准 Shoulder Mobility suggestion thresholds，并补 clearing reminder / gate。
-4. Trunk Stability Push-Up / Rotary Stability 先做 pose feasibility probe，不直接做 score。
+4. Rotary Stability 先做 pose feasibility probe，不直接做 score。

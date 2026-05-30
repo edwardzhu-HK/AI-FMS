@@ -40,6 +40,7 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
     "hurdle_step",
     "in_line_lunge",
     "shoulder_mobility",
+    "trunk_stability_push_up",
   ]);
 });
 
@@ -72,11 +73,25 @@ test("movement adapter registry exposes Shoulder Mobility implemented pipeline",
     "hurdle_step",
     "in_line_lunge",
     "shoulder_mobility",
+    "trunk_stability_push_up",
   ]);
 });
 
+test("movement adapter registry exposes Trunk Stability Push-Up implemented pipeline", () => {
+  const adapter = getMovementAdapter("trunk_stability_push_up");
+  const capability = getMovementCapability("trunk_stability_push_up");
+
+  assert.equal(adapter.actionType, "trunk_stability_push_up");
+  assert.equal(adapter.posePipelineStatus, "implemented");
+  assert.equal(capability.aiScoringStatus, "pose_based_ai_suggestion");
+  assert.equal(capability.supportsPoseSuggestion, true);
+  assert.equal(adapter.supportsAiDraftTiming, false);
+  assert.equal(typeof adapter.buildTimingReport, "function");
+  assert.equal(typeof adapter.buildFeatureReport, "function");
+  assert.equal(typeof adapter.buildSuggestionReport, "function");
+});
+
 test("movement capability registry covers annotation-only actions", () => {
-  assert.equal(getMovementAdapter("trunk_stability_push_up"), null);
   assert.deepEqual(
     getMovementCapabilities().map((capability) => capability.actionType),
     [
@@ -98,11 +113,11 @@ test("movement capability registry covers annotation-only actions", () => {
 test("movement evidence gate separates ready AI scoring from feature-only evidence", () => {
   assert.deepEqual(
     evaluateMovementEvidenceGate({
-      actionType: "trunk_stability_push_up",
+      actionType: "rotary_stability",
       segmentId: "seg_1",
     }),
     {
-      actionType: "trunk_stability_push_up",
+      actionType: "rotary_stability",
       status: "annotation_only",
       reasonCode: "annotation_only",
       canUsePoseEvidence: false,
@@ -185,6 +200,7 @@ test("movement adapter registry exposes In-Line Lunge implemented pipeline", () 
     "hurdle_step",
     "in_line_lunge",
     "shoulder_mobility",
+    "trunk_stability_push_up",
   ]);
 });
 

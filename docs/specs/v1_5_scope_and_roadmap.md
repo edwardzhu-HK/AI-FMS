@@ -126,9 +126,9 @@ Current V1.7 implementation status:
 
 The current 7-action maturity table is maintained in
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
-Squat, Active Straight Leg Raise, Hurdle Step, and In-Line Lunge are
-pose-based AI suggestion paths; Shoulder Mobility is feature-only; Trunk
-Stability Push-Up and Rotary Stability are annotation-only.
+Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
+Mobility, and Trunk Stability Push-Up are pose-based AI suggestion paths.
+Rotary Stability is still annotation-only.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
@@ -146,20 +146,23 @@ Stability Push-Up and Rotary Stability are annotation-only.
   knee-foot line proxies. The selected 6-rep sample passes timing/features
   smoke, but knee-foot alignment and sample variety still need calibration
   before stronger AI scoring claims.
-- Trunk Stability Push-Up and Rotary Stability are connected as annotation-only
-  workflow paths. They can be segmented, reviewed, ingested in mock mode, and
-  exported, but they do not yet have pose evidence or movement-specific AI
-  features.
+- Trunk Stability Push-Up has a first-pass pose timing/features/suggestion
+  framework for push-up lift, trunk body-line stability, arm extension, and
+  compensation proxies. It still needs real pose extraction on local samples
+  and Ronnie threshold calibration before stronger scoring claims.
+- Rotary Stability remains connected as an annotation-only workflow path. It
+  can be segmented, reviewed, ingested in mock mode, and exported, but it does
+  not yet have pose evidence or movement-specific AI features.
 
 Four-movement local demo readiness is now covered by `npm run demo:check:four`.
 As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
 Hurdle Step all pass the local preset readiness check.
 
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
-As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow:
-Deep Squat, Active Straight Leg Raise, Hurdle Step, and In-Line Lunge as
-implemented pose/AI paths; Shoulder Mobility as a feature-only pose path; and
-Trunk Stability Push-Up / Rotary Stability as annotation-only paths.
+As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow.
+Deep Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
+Mobility, and Trunk Stability Push-Up are implemented pose/AI paths; Rotary
+Stability remains annotation-only.
 
 ### V2: Evaluation and Application Package
 
@@ -626,6 +629,10 @@ Implementation status after the first P2 pass:
     links to `/video-manager.html`, while the manager page and local API remain
     isolated for video library, online candidate search, recommendation ranking,
     gated download confirmation, and queue status.
+34. Added a conservative Trunk Stability Push-Up pose framework:
+    segment-level best push-up frame timing, push-up lift, trunk/body-line
+    stability, arm extension, hip-drift compensation features, and first-pass
+    pose-based AI suggestion. Extension clearing pain remains human-only.
 
 Recommended next sprint:
 

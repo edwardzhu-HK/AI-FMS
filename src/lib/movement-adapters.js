@@ -13,6 +13,9 @@ import { evaluateHurdleStepSegmentsTiming } from "./hurdle-step-timing.js";
 import { summarizeInlineLungePoseFeatures } from "./inline-lunge-features.js";
 import { buildInlineLungeExplainableSuggestion } from "./inline-lunge-suggestion.js";
 import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
+import { summarizeTrunkStabilityPoseFeatures } from "./trunk-stability-features.js";
+import { buildTrunkStabilityExplainableSuggestion } from "./trunk-stability-suggestion.js";
+import { evaluateTrunkStabilitySegmentsTiming } from "./trunk-stability-timing.js";
 
 export const MOVEMENT_CAPABILITY_STATUS = {
   IMPLEMENTED: "implemented",
@@ -74,11 +77,11 @@ const BASE_CAPABILITIES = {
   },
   trunk_stability_push_up: {
     actionType: "trunk_stability_push_up",
-    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.ANNOTATION_ONLY,
-    aiScoringStatus: AI_SCORING_STATUS.NOT_SUPPORTED,
-    supportsPoseTiming: false,
-    supportsPoseFeatures: false,
-    supportsPoseSuggestion: false,
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: true,
     supportsAiDraftTiming: false,
   },
   rotary_stability: {
@@ -334,12 +337,49 @@ const INLINE_LUNGE_ADAPTER = {
   },
 };
 
+const TRUNK_STABILITY_ADAPTER = {
+  ...BASE_CAPABILITIES.trunk_stability_push_up,
+  actionType: "trunk_stability_push_up",
+  featureTitleKey: "trunkStabilityPushUpFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateTrunkStabilitySegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeTrunkStabilityPoseFeatures({
+      posePayload,
+      timingReport,
+    });
+  },
+  buildSuggestionReport({ featureReport, timingReport } = {}) {
+    if (!featureReport || !timingReport) {
+      return null;
+    }
+
+    return buildTrunkStabilityExplainableSuggestion({
+      featureReport,
+      timingReport,
+    });
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
   [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
   [SHOULDER_MOBILITY_ADAPTER.actionType]: SHOULDER_MOBILITY_ADAPTER,
   [HURDLE_STEP_ADAPTER.actionType]: HURDLE_STEP_ADAPTER,
   [INLINE_LUNGE_ADAPTER.actionType]: INLINE_LUNGE_ADAPTER,
+  [TRUNK_STABILITY_ADAPTER.actionType]: TRUNK_STABILITY_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {
