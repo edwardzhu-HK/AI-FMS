@@ -188,7 +188,8 @@ Evaluation Package
 
 当前 suggestion 设计：
 
-- 基于 Deep Squat feature ratings 生成 subscores。
+- 基于 movement-specific feature ratings 生成 `criteriaScores`，并保留 legacy
+  `subscores` 作为兼容层。
 - 输出 suggested score、confidence 和 reviewer-readable reasons。
 - 与 final label 进行 comparison。
 

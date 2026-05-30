@@ -30,6 +30,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
 - [x] Add `rubric_version`.
 - [x] Add action-specific rubric criteria mapping to JSON/CSV/package exports
       while keeping compatible subscore fields.
+- [x] Add `criteriaScores` as the primary score shape for future per-action
+      rubric schemas, while retaining legacy `subscores` compatibility.
 - [x] Add segment manual start/end adjustment controls.
 - [x] Persist suggested vs manually adjusted segment times.
 - [x] Add JSON export for current mock workflow.

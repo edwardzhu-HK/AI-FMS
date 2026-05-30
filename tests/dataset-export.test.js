@@ -69,6 +69,14 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
     exported.records[0].rubricCriteria[1].criterionKey,
     "deep_squat_knee_alignment",
   );
+  assert.equal(
+    exported.records[0].aiSuggestion.criteriaScores[0].criterionKey,
+    "deep_squat_depth",
+  );
+  assert.equal(
+    exported.records[0].finalLabel.criteriaScores[0].criterionKey,
+    "deep_squat_depth",
+  );
 });
 
 test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () => {
@@ -191,4 +199,5 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     "forward lean watch",
   );
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
+  assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
 });

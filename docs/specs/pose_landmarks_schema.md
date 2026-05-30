@@ -98,8 +98,8 @@ Pose-based AI suggestion 会把 feature ratings 映射成 reviewer-readable
 - `not_applicable` 不扣分，但会降低 confidence，并在 reasons 中说明该视角不适合
   评价对应维度。
 
-建议结果会显示 total score、subscores、confidence、reasons，以及当前
-pose suggestion 与 final adjudicated label 是否一致。
+建议结果会显示 total score、criteriaScores、legacy-compatible subscores、
+confidence、reasons，以及当前 pose suggestion 与 final adjudicated label 是否一致。
 
 ## Dataset Export Evidence
 
@@ -108,10 +108,15 @@ JSON dataset export 不会嵌入完整 `*.pose.json` 原始帧数据。加载 po
 
 - `poseTiming`: 当前切片、建议切片、lowest point、timing issues、coverage。
 - `poseFeatures`: depth / torso control / knee alignment ratings 与 metrics。
-- `poseSuggestion`: total score、subscores、confidence、reasons、model version。
+- `poseSuggestion`: total score、criteriaScores、legacy-compatible subscores、
+  confidence、reasons、model version。
 - `rubricCriteria`: 三个兼容 subscore 字段在当前 movement 下对应的 reviewer-facing
   criterion，例如 ASLR 的 `depth` 兼容字段对应 Hip Flexion，而不是 Deep Squat
   depth。
+
+`criteriaScores` 是后续长期主结构：它是一个数组，每个元素包含 `criterionKey`、
+`label`、`genericKey` 和 `score`。这样不同 FMS movement 可以有自己的 rubric
+criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路径而保留。
 
 `poseEvidence` 还会记录 `implementedPoseActionTypes` 与 `plannedActionTypes`。
 当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge 已有 first-pass pose-based

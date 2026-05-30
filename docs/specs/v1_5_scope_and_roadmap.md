@@ -268,6 +268,20 @@ Recommended record shape:
   },
   "ai_suggestion": {
     "score": 2,
+    "criteria_scores": [
+      {
+        "criterion_key": "deep_squat_depth",
+        "generic_key": "depth",
+        "label": "Depth",
+        "score": 3
+      },
+      {
+        "criterion_key": "deep_squat_torso_control",
+        "generic_key": "torsoControl",
+        "label": "Torso Control",
+        "score": 2
+      }
+    ],
     "confidence": 0.71,
     "features": {
       "max_knee_flexion_deg": 96,
@@ -278,6 +292,14 @@ Recommended record shape:
   },
   "reviewer_a": {
     "score": 2,
+    "criteria_scores": [
+      {
+        "criterion_key": "deep_squat_depth",
+        "generic_key": "depth",
+        "label": "Depth",
+        "score": 2
+      }
+    ],
     "comment": "Good depth, slight trunk lean."
   },
   "reviewer_b": {
@@ -311,6 +333,9 @@ Required schema concepts:
 - `rubric_criteria`: movement-specific meaning of the compatible subscore
   fields; this keeps exports readable when a generic field such as `depth`
   represents Hip Flexion for ASLR or Lunge Depth for In-Line Lunge.
+- `criteria_scores`: primary long-term score shape. Each movement can define its
+  own criteria list; legacy `subscores` are retained only as a compatibility
+  layer during migration.
 - `pose_model` and `pose_model_version`.
 - `pose_confidence_summary`.
 - `features`: action-specific motion features.
@@ -484,7 +509,7 @@ Implementation status after the first P2 pass:
    torso control, and knee alignment evidence. On `Sample-1.pose.json`, the
    final side-view repetition is flagged as `forward lean watch`, matching the
    known lower-quality final repetition directionally.
-10. Added pose-based explainable Deep Squat suggestions with subscores,
+10. Added pose-based explainable Deep Squat suggestions with score criteria,
     confidence, reviewer-readable reasons, and pose-vs-final comparison in the
     AI panel. On `Sample-1.pose.json`, the first six reps suggest 3 and the
     final rep suggests 2 because torso control is `forward lean watch`.

@@ -68,6 +68,7 @@ export async function saveSegmentReview(payload) {
         reviewer_id: payload.reviewerId,
         total_score: payload.score.totalScore,
         subscores: payload.score.subscores,
+        criteria_scores: payload.score.criteriaScores,
         comment: payload.score.comment,
       }),
     },
@@ -124,6 +125,7 @@ export function buildDefaultReviewerScore() {
     reviewerId: "",
     totalScore: base.totalScore,
     subscores: base.subscores,
+    criteriaScores: base.criteriaScores,
     comment: base.comment,
   };
 }

@@ -1,4 +1,4 @@
-import { deriveTotalScore } from "../constants/scoring.js";
+import { createScoreFromSubscores } from "../constants/scoring.js";
 
 function normalize(text) {
   return (text ?? "").toLowerCase();
@@ -224,8 +224,7 @@ export function createAIScoreForSegment(actionType, context) {
   const subscores = buildSubscores(totalScore, context.cameraView);
 
   return {
-    totalScore: deriveTotalScore(subscores),
-    subscores,
+    ...createScoreFromSubscores(actionType, subscores),
     modelVersion: "calib-v1.1.0",
   };
 }

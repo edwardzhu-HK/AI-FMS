@@ -2,6 +2,7 @@ import {
   ACTIONS,
   createDefaultSegmentMetadata,
   createEmptyScore,
+  normalizeScoreForAction,
 } from "../constants/scoring.js";
 import {
   adjudicateScores,
@@ -214,8 +215,7 @@ export async function saveSegmentReview(payload) {
 
   const normalizedScore = {
     reviewerId,
-    totalScore: score.totalScore,
-    subscores: score.subscores,
+    ...normalizeScoreForAction(score, targetSegment.actionType),
     comment: score.comment,
     savedAt: new Date().toISOString(),
   };
@@ -396,6 +396,7 @@ export function buildDefaultReviewerScore() {
     reviewerId: "",
     totalScore: base.totalScore,
     subscores: base.subscores,
+    criteriaScores: base.criteriaScores,
     comment: base.comment,
   };
 }

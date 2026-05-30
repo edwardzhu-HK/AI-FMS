@@ -1,35 +1,56 @@
 import * as mockApi from "./mockCalibrationApi.js";
 import * as realApi from "./realCalibrationApi.js";
+import { normalizeScoreForAction } from "../constants/scoring.js";
 
 const API_MODE = import.meta.env.VITE_CALIB_API_MODE ?? "mock";
 
 const impl = API_MODE === "real" ? realApi : mockApi;
 
-function fromSnakeScore(score) {
+function fromSnakeCriteriaScores(criteriaScores = []) {
+  return criteriaScores.map((criterion) => ({
+    genericKey: criterion.generic_key ?? criterion.genericKey,
+    criterionKey: criterion.criterion_key ?? criterion.criterionKey,
+    label: criterion.label,
+    score: criterion.score,
+  }));
+}
+
+function fromSnakeScore(score, actionType) {
   if (!score) {
     return null;
   }
 
-  return {
-    reviewerId: score.reviewer_id ?? score.reviewerId ?? "",
-    totalScore: score.total_score ?? score.totalScore,
-    subscores: {
-      depth: score.subscores.depth,
-      kneeAlignment:
-        score.subscores.knee_alignment ?? score.subscores.kneeAlignment,
-      torsoControl:
-        score.subscores.torso_control ?? score.subscores.torsoControl,
+  return normalizeScoreForAction(
+    {
+      reviewerId: score.reviewer_id ?? score.reviewerId ?? "",
+      totalScore: score.total_score ?? score.totalScore,
+      subscores: score.subscores
+        ? {
+            depth: score.subscores.depth,
+            kneeAlignment:
+              score.subscores.knee_alignment ?? score.subscores.kneeAlignment,
+            torsoControl:
+              score.subscores.torso_control ?? score.subscores.torsoControl,
+          }
+        : null,
+      criteriaScores: fromSnakeCriteriaScores(
+        score.criteria_scores ?? score.criteriaScores ?? [],
+      ),
+      comment: score.comment ?? "",
+      modelVersion: score.model_version ?? score.modelVersion,
     },
-    comment: score.comment ?? "",
-    modelVersion: score.model_version ?? score.modelVersion,
-  };
+    actionType,
+  );
 }
 
 function toCamelSegment(rawSegment) {
+  const actionType =
+    rawSegment.action_type ?? rawSegment.actionType ?? "deep_squat";
+
   return {
     segmentId: rawSegment.segment_id ?? rawSegment.segmentId,
     videoId: rawSegment.video_id ?? rawSegment.videoId,
-    actionType: rawSegment.action_type ?? rawSegment.actionType ?? "deep_squat",
+    actionType,
     repetitionIndex: rawSegment.repetition_index ?? rawSegment.repetitionIndex,
     startSecond: rawSegment.start_second ?? rawSegment.startSecond,
     endSecond: rawSegment.end_second ?? rawSegment.endSecond,
@@ -52,13 +73,18 @@ function toCamelSegment(rawSegment) {
       rawSegment.clearing_test ?? rawSegment.clearingTest ?? "not_applicable",
     rubricVersion:
       rawSegment.rubric_version ?? rawSegment.rubricVersion ?? "fms_v1.0",
-    aiScore: fromSnakeScore(rawSegment.ai_score ?? rawSegment.aiScore),
+    aiScore: fromSnakeScore(
+      rawSegment.ai_score ?? rawSegment.aiScore,
+      actionType,
+    ),
     reviewerScores: {
       reviewer_a: fromSnakeScore(
         rawSegment.reviewer_a_score ?? rawSegment.reviewerScores?.reviewer_a,
+        actionType,
       ),
       reviewer_b: fromSnakeScore(
         rawSegment.reviewer_b_score ?? rawSegment.reviewerScores?.reviewer_b,
+        actionType,
       ),
     },
     reviewStatus:

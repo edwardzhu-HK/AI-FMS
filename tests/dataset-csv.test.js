@@ -29,15 +29,39 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         ],
         aiSuggestion: {
           totalScore: 3,
+          criteriaScores: [
+            {
+              genericKey: "depth",
+              criterionKey: "deep_squat_depth",
+              label: "Depth",
+              score: 3,
+            },
+          ],
         },
         reviewerA: {
           totalScore: 2,
+          criteriaScores: [
+            {
+              genericKey: "depth",
+              criterionKey: "deep_squat_depth",
+              label: "Depth",
+              score: 2,
+            },
+          ],
         },
         reviewerB: {
           totalScore: 2,
         },
         finalLabel: {
           totalScore: 2,
+          criteriaScores: [
+            {
+              genericKey: "depth",
+              criterionKey: "deep_squat_depth",
+              label: "Depth",
+              score: 2,
+            },
+          ],
         },
         labelStatus: "valid",
         adjudicationSource: "human_consensus",
@@ -72,6 +96,14 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         },
         poseSuggestion: {
           totalScore: 2,
+          criteriaScores: [
+            {
+              genericKey: "torsoControl",
+              criterionKey: "deep_squat_torso_control",
+              label: "Torso Control",
+              score: 2,
+            },
+          ],
           confidence: 0.88,
           reasons: ["Torso, reason", "Needs review"],
         },
@@ -82,8 +114,13 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   const lines = csv.split("\n");
   assert.ok(lines[0].includes("pose_suggestion_reasons"));
   assert.ok(lines[0].includes("rubric_criteria"));
+  assert.ok(lines[0].includes("ai_criteria_scores"));
+  assert.ok(lines[0].includes("pose_suggestion_criteria_scores"));
   assert.ok(lines[1].includes("seg_1"));
   assert.ok(lines[1].includes("depth:deep_squat_depth:Depth"));
+  assert.ok(
+    lines[1].includes("torsoControl:deep_squat_torso_control:Torso Control:2"),
+  );
   assert.ok(lines[1].includes("watch"));
   assert.ok(lines[1].includes('"Torso, reason | Needs review"'));
 });

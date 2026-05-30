@@ -103,6 +103,18 @@ export default function ScoreSummary({
   const hasFeatureOnlyEvidence =
     posePipelineStatus === "features_only" && !hasPoseSuggestion;
   const displayedScore = hasPoseSuggestion ? poseSuggestion : aiScore;
+  const displayedCriteriaScores =
+    displayedScore?.criteriaScores?.length > 0
+      ? displayedScore.criteriaScores.map((criterion) => ({
+          key: criterion.criterionKey,
+          label: criterion.label,
+          score: criterion.score,
+        }))
+      : subscoreItems.map((item) => ({
+          key: item.criterionKey ?? item.key,
+          label: item.label,
+          score: displayedScore?.subscores?.[item.key],
+        }));
 
   if (hasFeatureOnlyEvidence) {
     return (
@@ -138,10 +150,10 @@ export default function ScoreSummary({
         {t("totalScore")}: {displayedScore.totalScore}
       </p>
       <ul>
-        {subscoreItems.map((item) => (
+        {displayedCriteriaScores.map((item) => (
           <li key={item.key}>
             <span>{item.label}</span>
-            <strong>{displayedScore.subscores[item.key]}</strong>
+            <strong>{item.score ?? "N/A"}</strong>
           </li>
         ))}
       </ul>

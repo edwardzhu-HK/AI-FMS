@@ -1,12 +1,15 @@
 import { adjudicateScores } from "./adjudication.js";
-import { getActionRubricCriteria } from "../constants/scoring.js";
+import {
+  getActionRubricCriteria,
+  normalizeScoreForAction,
+} from "../constants/scoring.js";
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
-function toScoreSnapshot(score) {
-  return score ? clone(score) : null;
+function toScoreSnapshot(score, actionType) {
+  return score ? clone(normalizeScoreForAction(score, actionType)) : null;
 }
 
 export function buildDatasetExport(video, segments) {
@@ -26,11 +29,19 @@ export function buildDatasetExport(video, segments) {
       rubricCriteria: getActionRubricCriteria(video.actionType),
     },
     records: segments.map((segment) => {
-      const adjudication = adjudicateScores(
+      const aiScore = normalizeScoreForAction(
         segment.aiScore,
-        segment.reviewerScores.reviewer_a,
-        segment.reviewerScores.reviewer_b,
+        segment.actionType,
       );
+      const reviewerA = normalizeScoreForAction(
+        segment.reviewerScores.reviewer_a,
+        segment.actionType,
+      );
+      const reviewerB = normalizeScoreForAction(
+        segment.reviewerScores.reviewer_b,
+        segment.actionType,
+      );
+      const adjudication = adjudicateScores(aiScore, reviewerA, reviewerB);
 
       return {
         segmentId: segment.segmentId,
@@ -48,9 +59,9 @@ export function buildDatasetExport(video, segments) {
         clearingTest: segment.clearingTest ?? "not_applicable",
         rubricVersion: segment.rubricVersion ?? "fms_v1.0",
         rubricCriteria: getActionRubricCriteria(segment.actionType),
-        aiSuggestion: toScoreSnapshot(segment.aiScore),
-        reviewerA: toScoreSnapshot(segment.reviewerScores.reviewer_a),
-        reviewerB: toScoreSnapshot(segment.reviewerScores.reviewer_b),
+        aiSuggestion: toScoreSnapshot(aiScore, segment.actionType),
+        reviewerA: toScoreSnapshot(reviewerA, segment.actionType),
+        reviewerB: toScoreSnapshot(reviewerB, segment.actionType),
         finalLabel: adjudication.finalScore,
         labelStatus: adjudication.labelStatus,
         adjudicationSource: adjudication.labelSource,
@@ -108,6 +119,7 @@ function simplifySuggestionItem(item) {
     status: item.status,
     totalScore: item.totalScore,
     subscores: clone(item.subscores),
+    criteriaScores: clone(item.criteriaScores ?? []),
     confidence: item.confidence,
     confidenceLabel: item.confidenceLabel,
     reasons: clone(item.reasons ?? []),

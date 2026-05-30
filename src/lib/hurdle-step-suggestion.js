@@ -1,4 +1,4 @@
-import { deriveTotalScore } from "../constants/scoring.js";
+import { createScoreFromSubscores } from "../constants/scoring.js";
 
 function ratingToScore(status) {
   if (status === "limited") {
@@ -97,6 +97,7 @@ function buildSuggestionItem(featureItem, timingReport) {
       status: "insufficient_evidence",
       totalScore: null,
       subscores: null,
+      criteriaScores: [],
       confidence: 0,
       confidenceLabel: "low",
       reasons: [
@@ -106,7 +107,7 @@ function buildSuggestionItem(featureItem, timingReport) {
   }
 
   const subscores = buildSubscores(featureItem);
-  const totalScore = deriveTotalScore(subscores);
+  const score = createScoreFromSubscores("hurdle_step", subscores);
   const confidence = buildConfidence(featureItem, timingItem);
   const reasons = [
     buildReason(
@@ -141,8 +142,9 @@ function buildSuggestionItem(featureItem, timingReport) {
     segmentId: featureItem.segmentId,
     repetitionIndex: featureItem.repetitionIndex,
     status: "suggested",
-    totalScore,
-    subscores,
+    totalScore: score.totalScore,
+    subscores: score.subscores,
+    criteriaScores: score.criteriaScores,
     confidence,
     confidenceLabel: confidenceLabel(confidence),
     reasons,

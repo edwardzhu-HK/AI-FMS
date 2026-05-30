@@ -161,7 +161,8 @@
   `MovementFeatureSnapshot` 后让 Deep Squat 也走同一层。
 - Suggestion model version 从 `pose-features-v0.1` 扩展为带动作名的版本，例如
   `pose-features-v0.2-aslr`。
-- AI 建议卡继续显示 total score、subscores、confidence、reasons、Pose vs final。
+- AI 建议卡继续显示 total score、criteriaScores、legacy-compatible subscores、
+  confidence、reasons、Pose vs final。
 
 是否涉及结构变化：是，属于 UI/component 抽象变化。实施前需要确认一次。
 

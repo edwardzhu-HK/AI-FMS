@@ -41,6 +41,7 @@ import ScoreSummary from "./components/ScoreSummary.jsx";
 import SegmentEditor from "./components/SegmentEditor.jsx";
 import SegmentList from "./components/SegmentList.jsx";
 import KeypointOverlay from "./components/KeypointOverlay.jsx";
+import { createScoreFromTotal } from "./constants/scoring.js";
 
 const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
 const REVIEWER_B_DEFAULT_ID = "Coach_Ronnie";
@@ -2265,17 +2266,15 @@ export default function App() {
     setIsBusy(true);
 
     try {
-      const savedScore = {
-        reviewerId: form.reviewerId.trim(),
-        totalScore: form.totalScore,
-        subscores: {
-          depth: form.totalScore,
-          kneeAlignment: form.totalScore,
-          torsoControl: form.totalScore,
+      const savedScore = createScoreFromTotal(
+        activeSegment.actionType ?? selectedAction,
+        form.totalScore,
+        {
+          reviewerId: form.reviewerId.trim(),
+          comment: form.comment,
+          savedAt: new Date().toISOString(),
         },
-        comment: form.comment,
-        savedAt: new Date().toISOString(),
-      };
+      );
 
       await saveSegmentReview({
         segmentId: activeSegment.segmentId,
@@ -2284,6 +2283,7 @@ export default function App() {
         score: {
           totalScore: savedScore.totalScore,
           subscores: savedScore.subscores,
+          criteriaScores: savedScore.criteriaScores,
           comment: savedScore.comment,
         },
       });
@@ -2295,15 +2295,15 @@ export default function App() {
         activeSegment.segmentId,
         role,
         {
-          reviewerId: form.reviewerId.trim(),
-          totalScore: form.totalScore,
-          subscores: {
-            depth: form.totalScore,
-            kneeAlignment: form.totalScore,
-            torsoControl: form.totalScore,
-          },
-          comment: form.comment,
-          savedAt: new Date().toISOString(),
+          ...createScoreFromTotal(
+            activeSegment.actionType ?? selectedAction,
+            form.totalScore,
+            {
+              reviewerId: form.reviewerId.trim(),
+              comment: form.comment,
+              savedAt: new Date().toISOString(),
+            },
+          ),
         },
       );
       setSegments(nextSegments);

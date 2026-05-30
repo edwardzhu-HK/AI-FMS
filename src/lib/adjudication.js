@@ -6,6 +6,7 @@ function normalizeScore(score) {
   return {
     totalScore: score.totalScore,
     subscores: score.subscores ?? null,
+    criteriaScores: score.criteriaScores ?? [],
   };
 }
 

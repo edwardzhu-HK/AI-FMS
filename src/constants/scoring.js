@@ -112,18 +112,6 @@ export const CLEARING_TEST_OPTIONS = [
 ];
 export const DEFAULT_RUBRIC_VERSION = "fms_v1.0";
 
-export function createEmptyScore() {
-  return {
-    totalScore: 3,
-    subscores: {
-      depth: 3,
-      kneeAlignment: 3,
-      torsoControl: 3,
-    },
-    comment: "",
-  };
-}
-
 export function createDefaultSegmentMetadata() {
   return {
     side: "none",
@@ -134,7 +122,11 @@ export function createDefaultSegmentMetadata() {
 }
 
 export function deriveTotalScore(subscores) {
-  return Math.min(...Object.values(subscores));
+  const scores = Object.values(subscores ?? {}).filter(
+    (score) => typeof score === "number" && Number.isFinite(score),
+  );
+
+  return scores.length > 0 ? Math.min(...scores) : null;
 }
 
 export function getActionRubricCriteria(actionType) {
@@ -145,6 +137,85 @@ export function getActionRubricCriteria(actionType) {
     genericKey,
     ...criteria[index],
   }));
+}
+
+export function createCriteriaScoresFromSubscores(actionType, subscores = {}) {
+  return getActionRubricCriteria(actionType).map((criterion) => ({
+    ...criterion,
+    score: subscores?.[criterion.genericKey] ?? null,
+  }));
+}
+
+export function criteriaScoresToSubscores(criteriaScores = []) {
+  return criteriaScores.reduce((subscores, criterion) => {
+    if (criterion.genericKey) {
+      subscores[criterion.genericKey] = criterion.score;
+    }
+
+    return subscores;
+  }, {});
+}
+
+export function deriveTotalScoreFromCriteriaScores(criteriaScores = []) {
+  const scores = criteriaScores
+    .map((criterion) => criterion.score)
+    .filter((score) => typeof score === "number" && Number.isFinite(score));
+
+  return scores.length > 0 ? Math.min(...scores) : null;
+}
+
+export function createScoreFromSubscores(actionType, subscores, extra = {}) {
+  const criteriaScores = createCriteriaScoresFromSubscores(
+    actionType,
+    subscores,
+  );
+  const totalScore = deriveTotalScoreFromCriteriaScores(criteriaScores);
+
+  return {
+    ...extra,
+    totalScore,
+    subscores: criteriaScoresToSubscores(criteriaScores),
+    criteriaScores,
+  };
+}
+
+export function createScoreFromTotal(actionType, totalScore, extra = {}) {
+  const subscores = Object.fromEntries(
+    CRITERIA_KEYS.map((key) => [key, totalScore]),
+  );
+
+  return createScoreFromSubscores(actionType, subscores, extra);
+}
+
+export function normalizeScoreForAction(score, actionType) {
+  if (!score) {
+    return null;
+  }
+
+  const criteriaScores =
+    Array.isArray(score.criteriaScores) && score.criteriaScores.length > 0
+      ? score.criteriaScores
+      : createCriteriaScoresFromSubscores(actionType, score.subscores ?? {});
+  const subscores =
+    score.subscores ?? criteriaScoresToSubscores(criteriaScores);
+  const totalScore =
+    score.totalScore ??
+    deriveTotalScoreFromCriteriaScores(criteriaScores) ??
+    deriveTotalScore(subscores);
+
+  return {
+    ...score,
+    totalScore,
+    subscores,
+    criteriaScores,
+  };
+}
+
+export function createEmptyScore(actionType = "deep_squat") {
+  return {
+    ...createScoreFromTotal(actionType, 3),
+    comment: "",
+  };
 }
 
 export function getSubscoreItems(actionType) {
