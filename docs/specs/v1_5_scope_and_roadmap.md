@@ -128,7 +128,8 @@ Current V1.7 implementation status:
   browser-verifiable demo preset; suggestion is intentionally held for more
   human calibration.
 - Hurdle Step has completed an initial pose probe, timing/features helpers, and
-  one feature-only browser demo path. AI suggestion is not yet in scope.
+  one browser demo path with first-pass pose-based AI suggestion. The scoring is
+  reviewer support, not a final automatic FMS score.
 - In-Line Lunge has completed an initial pose probe, timing/features helpers,
   and one feature-only browser demo path. The selected 6-rep sample passes
   timing/features smoke, but knee-foot alignment and sample variety still need
@@ -143,9 +144,9 @@ As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
 Hurdle Step all pass the local preset readiness check.
 
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
-As of 2026-05-23, all 7 FMS action slots pass the mock end-to-end workflow:
-Deep Squat and Active Straight Leg Raise as implemented pose/AI paths, Hurdle
-Step / Shoulder Mobility / In-Line Lunge as feature-only pose paths, and Trunk
+As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow:
+Deep Squat, Active Straight Leg Raise, and Hurdle Step as implemented pose/AI
+paths; Shoulder Mobility / In-Line Lunge as feature-only pose paths; and Trunk
 Stability Push-Up / Rotary Stability as annotation-only paths.
 
 ### V2: Evaluation and Application Package

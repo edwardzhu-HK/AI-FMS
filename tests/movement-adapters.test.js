@@ -31,18 +31,19 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
   assert.deepEqual(getImplementedPoseActionTypes(), [
     "deep_squat",
     "active_straight_leg_raise",
+    "hurdle_step",
   ]);
 });
 
-test("movement adapter registry exposes Hurdle Step features-only pipeline", () => {
+test("movement adapter registry exposes Hurdle Step implemented pipeline", () => {
   const adapter = getMovementAdapter("hurdle_step");
 
   assert.equal(adapter.actionType, "hurdle_step");
-  assert.equal(adapter.posePipelineStatus, "features_only");
+  assert.equal(adapter.posePipelineStatus, "implemented");
   assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
-  assert.equal(adapter.buildSuggestionReport(), null);
+  assert.equal(typeof adapter.buildSuggestionReport, "function");
 });
 
 test("movement adapter registry exposes Shoulder Mobility features-only pipeline", () => {
@@ -57,6 +58,7 @@ test("movement adapter registry exposes Shoulder Mobility features-only pipeline
   assert.deepEqual(getImplementedPoseActionTypes(), [
     "deep_squat",
     "active_straight_leg_raise",
+    "hurdle_step",
   ]);
 });
 
@@ -72,6 +74,7 @@ test("movement adapter registry exposes In-Line Lunge features-only pipeline", (
   assert.deepEqual(getImplementedPoseActionTypes(), [
     "deep_squat",
     "active_straight_leg_raise",
+    "hurdle_step",
   ]);
 });
 

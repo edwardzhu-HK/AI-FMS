@@ -62,7 +62,7 @@ const DEMO_CASES = [
     expected: {
       timingGood: 7,
       featureUsable: 7,
-      suggestionReady: false,
+      suggestionReady: true,
     },
   },
 ];

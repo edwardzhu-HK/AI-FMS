@@ -91,7 +91,7 @@ const DEMO_CASES = [
     expected: {
       records: 7,
       featureUsable: 7,
-      suggestionReady: false,
+      suggestionReady: true,
     },
   },
 ];

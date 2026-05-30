@@ -438,6 +438,9 @@ const UI_TEXT = {
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
+    reason_stepClearance: "Step Clearance",
+    reason_stanceStability: "Stance Stability",
+    reason_trunkControl: "Trunk Control",
     "reason_depth_hip below knee":
       "Evidence: hip is below the knee at the lowest point, so squat depth supports a high score.",
     "reason_depth_near parallel":
@@ -482,6 +485,24 @@ const UI_TEXT = {
       "Evidence: right-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
     "reason_sideConfidence_left side low visibility":
       "Evidence: left-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
+    "reason_stepClearance_clear step height proxy":
+      "Evidence: the moving foot clears the obstacle-height proxy with a strong step signal.",
+    "reason_stepClearance_moderate step height":
+      "Evidence: step clearance is visible but moderate, so this criterion should be reviewed.",
+    "reason_stepClearance_low step clearance watch":
+      "Evidence: the moving foot has limited clearance, suggesting the step pattern may be limited.",
+    "reason_stanceStability_stable stance proxy":
+      "Evidence: the stance-side ankle remains stable during the step cycle.",
+    "reason_stanceStability_stance drift watch":
+      "Evidence: the stance-side ankle drifts during the step cycle and should be reviewed.",
+    "reason_stanceStability_large stance drift":
+      "Evidence: stance-side drift is large enough to suggest limited balance control.",
+    "reason_trunkControl_controlled trunk proxy":
+      "Evidence: shoulder and hip centers stay aligned enough for this first-pass trunk-control proxy.",
+    "reason_trunkControl_trunk shift watch":
+      "Evidence: trunk center shift is visible and should be reviewed.",
+    "reason_trunkControl_large trunk shift":
+      "Evidence: trunk shift is large enough to suggest limited control.",
     "reason_view_best from front view":
       "This criterion is more reliable from a front-view video, so the current value is kept as context rather than final evidence.",
     "reason_view_best from side view":
@@ -763,6 +784,9 @@ const UI_TEXT = {
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
+    reason_stepClearance: "Step Clearance",
+    reason_stanceStability: "Stance Stability",
+    reason_trunkControl: "Trunk Control",
     "reason_depth_hip below knee":
       "依据是 hip below knee：最低点时髋部已经低于膝盖，深度证据支持较高评分。",
     "reason_depth_near parallel":
@@ -807,6 +831,24 @@ const UI_TEXT = {
       "依据是 right side low visibility：右侧关键点可用但置信度偏低，建议复核。",
     "reason_sideConfidence_left side low visibility":
       "依据是 left side low visibility：左侧关键点可用但置信度偏低，建议复核。",
+    "reason_stepClearance_clear step height proxy":
+      "依据是 clear step height proxy：跨步脚在动作周期中有比较清晰的抬高/越障证据。",
+    "reason_stepClearance_moderate step height":
+      "依据是 moderate step height：可以看到跨步动作，但抬高幅度中等，建议人工复核。",
+    "reason_stepClearance_low step clearance watch":
+      "依据是 low step clearance watch：跨步脚抬高不足，提示 step pattern 可能受限。",
+    "reason_stanceStability_stable stance proxy":
+      "依据是 stable stance proxy：支撑侧脚踝在动作周期中比较稳定。",
+    "reason_stanceStability_stance drift watch":
+      "依据是 stance drift watch：支撑侧脚踝有可见漂移，建议复核 balance control。",
+    "reason_stanceStability_large stance drift":
+      "依据是 large stance drift：支撑侧漂移较明显，提示 balance control 可能受限。",
+    "reason_trunkControl_controlled trunk proxy":
+      "依据是 controlled trunk proxy：肩部中心和髋部中心相对对齐，躯干控制证据较好。",
+    "reason_trunkControl_trunk shift watch":
+      "依据是 trunk shift watch：躯干中心有可见偏移，建议人工复核。",
+    "reason_trunkControl_large trunk shift":
+      "依据是 large trunk shift：躯干偏移较明显，提示 trunk control 可能受限。",
     "reason_view_best from front view":
       "这个指标更适合用正面机位判断，因此当前结果只作为参考，不作为最终证据。",
     "reason_view_best from side view":

@@ -7,6 +7,7 @@ import { buildAslrExplainableSuggestion } from "./aslr-suggestion.js";
 import { summarizeShoulderMobilityPoseFeatures } from "./shoulder-mobility-features.js";
 import { evaluateShoulderMobilitySegmentsTiming } from "./shoulder-mobility-timing.js";
 import { summarizeHurdleStepPoseFeatures } from "./hurdle-step-features.js";
+import { buildHurdleStepExplainableSuggestion } from "./hurdle-step-suggestion.js";
 import { evaluateHurdleStepSegmentsTiming } from "./hurdle-step-timing.js";
 import { summarizeInlineLungePoseFeatures } from "./inline-lunge-features.js";
 import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
@@ -117,7 +118,7 @@ const SHOULDER_MOBILITY_ADAPTER = {
 
 const HURDLE_STEP_ADAPTER = {
   actionType: "hurdle_step",
-  posePipelineStatus: "features_only",
+  posePipelineStatus: "implemented",
   supportsAiDraftTiming: true,
   featureTitleKey: "hurdleStepFeatures",
   buildTimingReport({ posePayload, segments }) {
@@ -140,8 +141,15 @@ const HURDLE_STEP_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport() {
-    return null;
+  buildSuggestionReport({ featureReport, timingReport } = {}) {
+    if (!featureReport || !timingReport) {
+      return null;
+    }
+
+    return buildHurdleStepExplainableSuggestion({
+      featureReport,
+      timingReport,
+    });
   },
 };
 

@@ -145,6 +145,8 @@ Current development order agreed on 2026-05-23:
       slots, with Trunk Stability Push-Up and Rotary Stability explicitly
       marked as annotation-only.
 - [x] Add a Chinese seven-action handoff for morning human testing.
+- [x] Add first-pass Hurdle Step pose-based AI suggestion with confidence,
+      reviewer-readable reasons, and tests.
 - [ ] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
@@ -176,6 +178,7 @@ Current development order agreed on 2026-05-23:
   - [x] Add Hurdle Step timing helper and tests.
   - [x] Add Hurdle Step feature helper and tests.
   - [x] Add one browser-verifiable Hurdle Step feature-only demo path.
+  - [x] Add Hurdle Step first-pass pose-based AI suggestion path.
 - [x] Start In-Line Lunge expansion after Hurdle feature-only path is stable.
   - [x] Select 3 In-Line Lunge samples for first pose extraction.
   - [x] Generate and validate In-Line Lunge pose JSON.
@@ -235,8 +238,8 @@ remain reusable:
 - Real backend persistence is not implemented.
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
-- Current AI suggestion is pose-based and explainable for Deep Squat and Active
-  Straight Leg Raise. Hurdle Step, Shoulder Mobility, and In-Line Lunge are
+- Current AI suggestion is pose-based and explainable for Deep Squat, Active
+  Straight Leg Raise, and Hurdle Step. Shoulder Mobility and In-Line Lunge are
   currently pose-evidence / feature-only. Trunk Stability Push-Up and Rotary
   Stability are annotation-only until pose data and movement-specific helpers
   are added.

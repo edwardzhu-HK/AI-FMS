@@ -13,7 +13,9 @@
 
 - `implemented`：Deep Squat、Active Straight Leg Raise
   - 有 pose timing、features、基于 pose 的 AI 建议。
-- `features_only`：Shoulder Mobility、Hurdle Step
+- `implemented`：Hurdle Step
+  - 有 pose timing、features、基于 pose 的 first-pass AI 建议。
+- `features_only`：Shoulder Mobility
   - 有 pose timing / features / export evidence，但暂不宣称 pose-based AI scoring。
 
 ## 自动检查结果
@@ -31,7 +33,7 @@ npm run demo:check:four
 | Sample-1 mixed views    | Deep Squat                | implemented   | 441/441   | 7/7       | 7/7      | available      | PASS |
 | ASLR score-3 sample     | Active Straight Leg Raise | implemented   | 237/237   | 2/2       | 2/2      | available      | PASS |
 | Shoulder score-2 sample | Shoulder Mobility         | features_only | 220/220   | 2/2       | 2/2      | not_applicable | PASS |
-| Hurdle score-3 sample   | Hurdle Step               | features_only | 556/592   | 7/7       | 7/7      | not_applicable | PASS |
+| Hurdle score-3 sample   | Hurdle Step               | implemented   | 556/592   | 7/7       | 7/7      | available      | PASS |
 
 ## 完整流程自动 smoke
 
@@ -59,7 +61,7 @@ npm run demo:flow:four
 | Sample-1 mixed views    |       7 |            7 | 7/7    | 7/7      | available      | succeeded |             5 | PASS |
 | ASLR score-3 sample     |       2 |            2 | 2/2    | 2/2      | available      | succeeded |             5 | PASS |
 | Shoulder score-2 sample |       2 |            2 | 2/2    | 2/2      | not_applicable | succeeded |             5 | PASS |
-| Hurdle score-3 sample   |       7 |            7 | 7/7    | 7/7      | not_applicable | succeeded |             5 | PASS |
+| Hurdle score-3 sample   |       7 |            7 | 7/7    | 7/7      | available      | succeeded |             5 | PASS |
 
 ## 明早推荐人工测试路径
 
@@ -117,7 +119,7 @@ npm run dev
    - Expected Reps 为 `7`。
    - `Timing QA: 7/7 OK`。
    - Features 显示 Step Clearance、Stance Stability、Trunk Control、Side Confidence。
-   - Hurdle Step 是 feature-only demo path，不应显示 pose-based AI score。
+   - 右侧应显示 Hurdle Step 的基于 Pose 的 AI 建议；这是 first-pass reviewer support，不是最终自动评分。
 
 ## 入库与导出测试
 
@@ -150,6 +152,7 @@ npm run dev
 
 - Deep Squat 是 flagship pipeline。
 - ASLR 是第二个 implemented pose pipeline。
-- Shoulder Mobility 和 Hurdle Step 当前是 feature-only evidence，不做自动评分承诺。
+- Shoulder Mobility 当前是 feature-only evidence，不做自动评分承诺。
+- Hurdle Step 已接入 first-pass pose-based AI suggestion，但仍需要更多样本和人工校准。
 - In-Line Lunge 已经有底层 timing/features 试验，但还没有进入本轮四动作可测主线。
 - Trunk Stability Push-Up 和 Rotary Stability 仍属于后续扩展。
