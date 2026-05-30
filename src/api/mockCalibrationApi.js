@@ -78,7 +78,7 @@ function createSegments(
       originalEndSecond: window.endSecond,
       segmentSource: "suggested",
       cameraView: window.cameraView,
-      ...createDefaultSegmentMetadata(),
+      ...createDefaultSegmentMetadata(actionType),
       aiScore,
       reviewerScores: {
         reviewer_a: null,

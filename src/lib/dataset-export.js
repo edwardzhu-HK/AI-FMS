@@ -1,5 +1,7 @@
 import { adjudicateScores } from "./adjudication.js";
 import {
+  SCORE_SCOPE_REP_RAW,
+  getActionRepPolicy,
   getActionRubricCriteria,
   normalizeScoreForAction,
 } from "../constants/scoring.js";
@@ -26,6 +28,8 @@ export function buildDatasetExport(video, segments) {
       endSecond: video.endSecond,
       expectedReps: video.expectedReps ?? null,
       notes: video.notes ?? "",
+      scoreScope: SCORE_SCOPE_REP_RAW,
+      repPolicy: getActionRepPolicy(video.actionType),
       rubricCriteria: getActionRubricCriteria(video.actionType),
     },
     records: segments.map((segment) => {
@@ -48,8 +52,15 @@ export function buildDatasetExport(video, segments) {
         videoId: segment.videoId,
         actionType: segment.actionType,
         repetitionIndex: segment.repetitionIndex,
+        scoreScope: SCORE_SCOPE_REP_RAW,
+        scoreAggregation: "none",
+        repPolicy: getActionRepPolicy(segment.actionType),
         cameraView: segment.cameraView,
         side: segment.side ?? "none",
+        sideSource:
+          segment.side && segment.side !== "none" && segment.side !== "unknown"
+            ? "reviewer_or_metadata"
+            : "unconfirmed",
         startSecond: segment.startSecond,
         endSecond: segment.endSecond,
         originalStartSecond: segment.originalStartSecond ?? segment.startSecond,
@@ -60,6 +71,7 @@ export function buildDatasetExport(video, segments) {
         rubricVersion: segment.rubricVersion ?? "fms_v1.0",
         rubricCriteria: getActionRubricCriteria(segment.actionType),
         aiSuggestion: toScoreSnapshot(aiScore, segment.actionType),
+        aiSideSuggestion: null,
         reviewerA: toScoreSnapshot(reviewerA, segment.actionType),
         reviewerB: toScoreSnapshot(reviewerB, segment.actionType),
         finalLabel: adjudication.finalScore,
@@ -107,6 +119,27 @@ function simplifyFeatureItem(item) {
     sourceSecond: item.sourceSecond ?? null,
     ratings: clone(item.ratings ?? {}),
     metrics: clone(item.metrics ?? {}),
+  };
+}
+
+function simplifySideSuggestion(item) {
+  if (!item) {
+    return null;
+  }
+
+  const side = item.metrics?.side ?? item.metrics?.frontSide ?? null;
+  const rating = item.ratings?.sideConfidence ?? item.ratings?.sideContext;
+
+  if (!side && !rating) {
+    return null;
+  }
+
+  return {
+    source: "pose_features",
+    side,
+    status: rating?.status ?? null,
+    label: rating?.label ?? null,
+    sourceSecond: item.sourceSecond ?? null,
   };
 }
 
@@ -172,14 +205,25 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
       "Raw landmark frames are not embedded. This export stores traceable pose-derived evidence for reviewer inspection and future dataset training.",
   };
 
-  exported.records = exported.records.map((record) => ({
-    ...record,
-    poseTiming: simplifyTimingItem(timingBySegment.get(record.segmentId)),
-    poseFeatures: simplifyFeatureItem(featureBySegment.get(record.segmentId)),
-    poseSuggestion: simplifySuggestionItem(
-      suggestionBySegment.get(record.segmentId),
-    ),
-  }));
+  exported.records = exported.records.map((record) => {
+    const aiSideSuggestion = simplifySideSuggestion(
+      featureBySegment.get(record.segmentId),
+    );
+
+    return {
+      ...record,
+      sideSource:
+        record.sideSource === "unconfirmed" && aiSideSuggestion?.side
+          ? "ai_suggested"
+          : record.sideSource,
+      poseTiming: simplifyTimingItem(timingBySegment.get(record.segmentId)),
+      poseFeatures: simplifyFeatureItem(featureBySegment.get(record.segmentId)),
+      aiSideSuggestion,
+      poseSuggestion: simplifySuggestionItem(
+        suggestionBySegment.get(record.segmentId),
+      ),
+    };
+  });
 
   return exported;
 }

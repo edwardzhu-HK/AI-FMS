@@ -10,8 +10,20 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         segmentId: "seg_1",
         actionType: "deep_squat",
         repetitionIndex: 1,
+        scoreScope: "rep_raw_score",
+        scoreAggregation: "none",
+        repPolicy: {
+          sidePolicy: "not_lateralized",
+          clearingPolicy: "none",
+          painPolicy: "human_observed_or_reported",
+        },
         cameraView: "side",
         side: "bilateral",
+        sideSource: "reviewer_or_metadata",
+        aiSideSuggestion: {
+          side: "right",
+          status: "good",
+        },
         startSecond: 1,
         endSecond: 4,
         originalStartSecond: 0.8,
@@ -115,8 +127,14 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[0].includes("pose_suggestion_reasons"));
   assert.ok(lines[0].includes("rubric_criteria"));
   assert.ok(lines[0].includes("ai_criteria_scores"));
+  assert.ok(lines[0].includes("score_scope"));
+  assert.ok(lines[0].includes("side_policy"));
+  assert.ok(lines[0].includes("ai_inferred_side"));
   assert.ok(lines[0].includes("pose_suggestion_criteria_scores"));
   assert.ok(lines[1].includes("seg_1"));
+  assert.ok(lines[1].includes("rep_raw_score"));
+  assert.ok(lines[1].includes("not_lateralized"));
+  assert.ok(lines[1].includes("right"));
   assert.ok(lines[1].includes("depth:deep_squat_depth:Depth"));
   assert.ok(
     lines[1].includes("torsoControl:deep_squat_torso_control:Torso Control:2"),

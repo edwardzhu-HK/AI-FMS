@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  createDefaultSegmentMetadata,
   createScoreFromSubscores,
   createScoreFromTotal,
+  getActionRepPolicy,
   getActionRubricCriteria,
   getSubscoreItems,
   normalizeScoreForAction,
@@ -98,4 +100,37 @@ test("normalizeScoreForAction backfills criteriaScores for legacy scores", () =>
 
   assert.equal(score.criteriaScores[0].criterionKey, "aslr_hip_flexion");
   assert.equal(score.criteriaScores[0].score, 2);
+});
+
+test("getActionRepPolicy describes rep-level side and clearing semantics", () => {
+  assert.deepEqual(getActionRepPolicy("active_straight_leg_raise"), {
+    scoringUnit: "rep",
+    scoreScope: "rep_raw_score",
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "none",
+    clearingTests: [],
+    painPolicy: "human_observed_or_reported",
+  });
+
+  assert.equal(
+    getActionRepPolicy("shoulder_mobility").clearingTests[0].key,
+    "shoulder_clearing",
+  );
+  assert.equal(
+    getActionRepPolicy("in_line_lunge").clearingTests[1].resultType,
+    "red_yellow_green",
+  );
+  assert.equal(
+    getActionRepPolicy("trunk_stability_push_up").sidePolicy,
+    "not_lateralized",
+  );
+});
+
+test("createDefaultSegmentMetadata defaults lateralized actions to unknown side", () => {
+  assert.equal(createDefaultSegmentMetadata("hurdle_step").side, "unknown");
+  assert.equal(createDefaultSegmentMetadata("deep_squat").side, "none");
 });

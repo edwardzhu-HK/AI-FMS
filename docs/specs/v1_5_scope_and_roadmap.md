@@ -255,7 +255,16 @@ Recommended record shape:
   "participant_id": "anon_001",
   "action_type": "deep_squat",
   "rep_index": 1,
+  "score_scope": "rep_raw_score",
+  "score_aggregation": "none",
+  "rep_policy": {
+    "scoring_unit": "rep",
+    "side_policy": "not_lateralized",
+    "clearing_policy": "none",
+    "pain_policy": "human_observed_or_reported"
+  },
   "side": "none",
+  "side_source": "unconfirmed",
   "camera_view": "front",
   "start_ms": 1200,
   "end_ms": 5400,
@@ -324,11 +333,20 @@ Recommended record shape:
 
 Required schema concepts:
 
+- `score_scope`: 当前为 `rep_raw_score`。每条 record 表示一个视频 segment/rep 的
+  RAW SCORE，不是 person-level FINAL SCORE。
+- `score_aggregation`: 当前为 `none`。左右侧最低分、动作 final score、total screen
+  score 等 person/session-level 汇总暂不在当前数据包中计算。
+- `rep_policy`: 每个 action 对 side、clearing、pain 的解释规则。
 - `side`: none, left, right, bilateral, unknown.
+- `side_source`: reviewer_or_metadata, ai_suggested, unconfirmed.
 - `raw_score`: 0/1/2/3.
-- `final_score`: computed or reviewer-confirmed final score.
-- `pain_flag`: only from human input, not AI inference.
-- `clearing_test`: not_applicable, pass, fail, unknown.
+- `final_label`: 当前语义是 reviewer/adjudication 确认后的 rep-level raw label，不是
+  FMS scoresheet 上针对人的 FINAL SCORE。
+- `pain_flag`: 主要来自 human observed/reported input；AI 可提供 evidence，但不应自动
+  宣称 pain。
+- `clearing_test`: not_applicable, pass, fail, unknown。需要 R/Y/G 的 ankle mobility
+  clearing 会在后续 schema 中单独展开。
 - `rubric_version`: stable scoring rubric reference.
 - `rubric_criteria`: movement-specific meaning of the compatible subscore
   fields; this keeps exports readable when a generic field such as `depth`
@@ -564,6 +582,11 @@ Implementation status after the first P2 pass:
 27. Local note: MediaPipe extraction needs to run outside the Codex sandbox on
     this Mac because the graph creates a macOS GL/Metal context even with CPU
     delegate.
+28. Clarified export schema around rep-level RAW SCORE: each record now carries
+    `scoreScope`, `scoreAggregation`, action-specific `repPolicy`,
+    reviewer/metadata `side`, optional pose-derived `aiSideSuggestion`,
+    `clearingTest`, and `painFlag`. Current exports do not compute
+    person-level FMS FINAL SCORE.
 
 Recommended next sprint:
 

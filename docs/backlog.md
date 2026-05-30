@@ -19,7 +19,7 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
 - [x] Create project-specific `AGENTS.md`.
 - [x] Create V1.5 scope and roadmap document.
 - [x] Create application-facing project brief.
-- [ ] Initialize or reconnect Git repository for durable change tracking.
+- [x] Initialize or reconnect Git repository for durable change tracking.
 
 ## P1: Workflow Platform Hardening
 
@@ -32,6 +32,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
       while keeping compatible subscore fields.
 - [x] Add `criteriaScores` as the primary score shape for future per-action
       rubric schemas, while retaining legacy `subscores` compatibility.
+- [x] Add rep-level RAW SCORE scope and action-specific side / clearing / pain
+      policy metadata to JSON, CSV, and package exports.
 - [x] Add segment manual start/end adjustment controls.
 - [x] Persist suggested vs manually adjusted segment times.
 - [x] Add JSON export for current mock workflow.

@@ -44,6 +44,7 @@ export const ACTIONS = [
 ];
 
 const CRITERIA_KEYS = ["depth", "kneeAlignment", "torsoControl"];
+export const SCORE_SCOPE_REP_RAW = "rep_raw_score";
 
 const ACTION_RUBRIC_CRITERIA = {
   deep_squat: [
@@ -112,9 +113,154 @@ export const CLEARING_TEST_OPTIONS = [
 ];
 export const DEFAULT_RUBRIC_VERSION = "fms_v1.0";
 
-export function createDefaultSegmentMetadata() {
+const ACTION_REP_POLICIES = {
+  deep_squat: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "not_lateralized",
+    expectedSideValues: [],
+    defaultSide: "none",
+    aiSideInference: "not_applicable",
+    clearingPolicy: "none",
+    clearingTests: [],
+    painPolicy: "human_observed_or_reported",
+  },
+  hurdle_step: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "none",
+    clearingTests: [],
+    painPolicy: "human_observed_or_reported",
+  },
+  in_line_lunge: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "ankle_pain_and_mobility",
+    clearingTests: [
+      {
+        key: "ankle_clearing_pain",
+        label: "Ankle Clearing - Pain",
+        resultType: "positive_negative_pain",
+        currentField: "clearingTest",
+        affectsRawScore: true,
+      },
+      {
+        key: "ankle_clearing_mobility",
+        label: "Ankle Clearing - Mobility",
+        resultType: "red_yellow_green",
+        currentField: null,
+        affectsRawScore: false,
+      },
+    ],
+    painPolicy: "human_observed_or_reported",
+  },
+  shoulder_mobility: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "shoulder_pain",
+    clearingTests: [
+      {
+        key: "shoulder_clearing",
+        label: "Shoulder Clearing",
+        resultType: "positive_negative_pain",
+        currentField: "clearingTest",
+        affectsRawScore: true,
+      },
+    ],
+    painPolicy: "human_observed_or_reported",
+  },
+  active_straight_leg_raise: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "none",
+    clearingTests: [],
+    painPolicy: "human_observed_or_reported",
+  },
+  trunk_stability_push_up: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "not_lateralized",
+    expectedSideValues: [],
+    defaultSide: "none",
+    aiSideInference: "not_applicable",
+    clearingPolicy: "spinal_extension_pain",
+    clearingTests: [
+      {
+        key: "extension_clearing",
+        label: "Extension Clearing",
+        resultType: "positive_negative_pain",
+        currentField: "clearingTest",
+        affectsRawScore: true,
+      },
+    ],
+    painPolicy: "human_observed_or_reported",
+  },
+  rotary_stability: {
+    scoringUnit: "rep",
+    scoreScope: SCORE_SCOPE_REP_RAW,
+    aggregationPolicy: "none_in_current_scope",
+    sidePolicy: "left_right",
+    expectedSideValues: ["left", "right"],
+    defaultSide: "unknown",
+    aiSideInference: "pose_supported",
+    clearingPolicy: "spinal_flexion_pain",
+    clearingTests: [
+      {
+        key: "flexion_clearing",
+        label: "Flexion Clearing",
+        resultType: "positive_negative_pain",
+        currentField: "clearingTest",
+        affectsRawScore: true,
+      },
+    ],
+    painPolicy: "human_observed_or_reported",
+  },
+};
+
+function cloneRepPolicy(policy) {
   return {
-    side: "none",
+    ...policy,
+    expectedSideValues: [...policy.expectedSideValues],
+    clearingTests: policy.clearingTests.map((test) => ({ ...test })),
+  };
+}
+
+export function getActionRepPolicy(actionType) {
+  const policy =
+    ACTION_REP_POLICIES[actionType] ?? ACTION_REP_POLICIES.deep_squat;
+
+  return cloneRepPolicy(policy);
+}
+
+export function getDefaultSideForAction(actionType) {
+  return getActionRepPolicy(actionType).defaultSide;
+}
+
+export function createDefaultSegmentMetadata(actionType = "deep_squat") {
+  return {
+    side: getDefaultSideForAction(actionType),
     painFlag: false,
     clearingTest: "not_applicable",
     rubricVersion: DEFAULT_RUBRIC_VERSION,

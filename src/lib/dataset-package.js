@@ -152,6 +152,7 @@ function formatOptionalRate(rate) {
 
 function buildDatasetCard(dataset, qualitySummary) {
   const video = dataset.video;
+  const repPolicy = video.repPolicy ?? {};
   const rubricCriteria = (video.rubricCriteria ?? [])
     .map(
       (criterion) =>
@@ -174,6 +175,19 @@ annotation、movement-quality review 和后续可追溯数据集建设。它不�
 - Action type: ${video.actionType}
 - Analysis range: ${video.startSecond}s - ${video.endSecond}s
 - Expected reps: ${video.expectedReps ?? "N/A"}
+
+## Score Scope
+
+- Score scope: ${video.scoreScope ?? "rep_raw_score"}
+- Scoring unit: ${repPolicy.scoringUnit ?? "rep"}
+- Person-level final score aggregation: not included in this export
+- Side policy: ${repPolicy.sidePolicy ?? "N/A"}
+- Clearing policy: ${repPolicy.clearingPolicy ?? "N/A"}
+- Pain policy: ${repPolicy.painPolicy ?? "N/A"}
+
+每条 record 代表当前视频中的一次 rep/segment 的 RAW SCORE。当前阶段不把左右两侧
+或多个动作综合成一个人的 FMS FINAL SCORE；如需 person-level 汇总，应在后续独立流程
+中根据 FMS rules 从 rep-level labels 计算。
 
 ## Rubric Criteria
 
@@ -224,7 +238,8 @@ ${files.map((file) => `- \`${file.fileName}\``).join("\n")}
 ## How to read this package
 
 - \`dataset.json\`: 完整结构化 dataset records，包含 segment timing、reviewer
-  labels、adjudication、pose timing、pose features 和 pose suggestion。
+  labels、rep-level raw score scope、side/clearing/pain metadata、adjudication、
+  pose timing、pose features 和 pose suggestion。
 - \`dataset.csv\`: 适合 spreadsheet 快速查看的扁平表格。
 - \`dataset_card.md\`: 面向人阅读的数据集说明、用途和限制。
 - \`run_summary.json\`: 本次导出的质量摘要和覆盖率。

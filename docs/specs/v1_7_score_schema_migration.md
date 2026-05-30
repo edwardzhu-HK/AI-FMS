@@ -56,9 +56,52 @@ control。
 - Reviewer UI 当前仍是 total-only；它会把 total score 临时写入当前动作的所有
   criteria。后续可以升级成 per-criterion reviewer scoring。
 
+## Rep-level RAW SCORE 与左右 / clearing / pain
+
+2026-05-30 的结构补充明确了一点：当前 workbench 的评分对象是一个视频中的某一次
+rep/segment，而不是一个人的 FMS FINAL SCORE。
+
+因此每条 record 都写入：
+
+```json
+{
+  "scoreScope": "rep_raw_score",
+  "scoreAggregation": "none",
+  "side": "left",
+  "sideSource": "reviewer_or_metadata",
+  "painFlag": false,
+  "clearingTest": "not_applicable",
+  "repPolicy": {
+    "scoringUnit": "rep",
+    "sidePolicy": "left_right",
+    "clearingPolicy": "none",
+    "painPolicy": "human_observed_or_reported"
+  }
+}
+```
+
+这里的 `side / clearingTest / painFlag` 是该 rep 的实际标注值；`repPolicy` 是该
+action 按 FMS scoresheet 应该如何解释这些字段。
+
+- `Deep Squat` 和 `Trunk Stability Push-Up` 当前是 `not_lateralized`，默认
+  `side = none`。
+- `Hurdle Step`、`In-Line Lunge`、`Shoulder Mobility`、`Active Straight Leg
+Raise`、`Rotary Stability` 是 `left_right`，默认 `side = unknown`，后续可由
+  AI pose evidence 给出 `aiSideSuggestion`，再由 reviewer 确认。
+- `Shoulder Mobility`、`Trunk Stability Push-Up`、`Rotary Stability` 有
+  pain clearing；`In-Line Lunge` 还预留了 ankle mobility clearing
+  的 R/Y/G 结构位。当前 UI 的 `clearingTest` 仍是 pass/fail/unknown 的兼容字段。
+- `painFlag` 当前不由 AI 自动判定；AI 可以提供可疑证据，但最终应来自 human
+  observed/reported input。
+
+当前导出不计算 person-level FINAL SCORE，也不把左右侧最低分自动汇总为人的动作最终分。
+这一步应作为后续 person/session-level aggregation workflow 单独实现。
+
 ## 下一步
 
 1. 给 Reviewer A/B 表单增加 per-action criteria scoring 模式。
 2. 让 adjudication 不只比较 total score，也能比较 criteria-level disagreement。
 3. 将 CSV 的 criteria score columns 作为主要审核字段，而不是只看 legacy subscores。
 4. 当真实后端接入时，把 `criteriaScores` 作为 API 和数据库的一等字段。
+5. 给需要 clearing 的动作补更细的 clearing finding schema，例如
+   `ankle_mobility: green/yellow/red`。

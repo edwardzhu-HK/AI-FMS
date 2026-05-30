@@ -17,6 +17,13 @@ function createDataset() {
       endSecond: 45,
       expectedReps: 7,
       notes: "demo",
+      scoreScope: "rep_raw_score",
+      repPolicy: {
+        scoringUnit: "rep",
+        sidePolicy: "not_lateralized",
+        clearingPolicy: "none",
+        painPolicy: "human_observed_or_reported",
+      },
       rubricCriteria: [
         {
           genericKey: "depth",
@@ -31,6 +38,8 @@ function createDataset() {
         segmentId: "seg_0001",
         actionType: "deep_squat",
         repetitionIndex: 1,
+        scoreScope: "rep_raw_score",
+        scoreAggregation: "none",
         cameraView: "front",
         side: "none",
         startSecond: 1,
@@ -100,6 +109,14 @@ test("buildDatasetPackageFiles creates application-ready export files", () => {
   assert.match(
     files.find((file) => file.fileName === "dataset_card.md").contents,
     /Rubric Criteria/,
+  );
+  assert.match(
+    files.find((file) => file.fileName === "dataset_card.md").contents,
+    /Score Scope/,
+  );
+  assert.match(
+    files.find((file) => file.fileName === "dataset_card.md").contents,
+    /rep\/segment 的 RAW SCORE/,
   );
   assert.match(
     files.find((file) => file.fileName === "README_export.md").contents,

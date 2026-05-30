@@ -55,7 +55,13 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
   );
 
   assert.equal(exported.schemaVersion, "ai_fms_dataset_v1_5_draft");
+  assert.equal(exported.video.scoreScope, "rep_raw_score");
+  assert.equal(exported.video.repPolicy.sidePolicy, "not_lateralized");
   assert.equal(exported.records[0].finalLabel.totalScore, 2);
+  assert.equal(exported.records[0].scoreScope, "rep_raw_score");
+  assert.equal(exported.records[0].scoreAggregation, "none");
+  assert.equal(exported.records[0].repPolicy.clearingPolicy, "none");
+  assert.equal(exported.records[0].sideSource, "reviewer_or_metadata");
   assert.equal(exported.records[0].labelStatus, "valid");
   assert.equal(exported.records[0].adjudicationSource, "human_consensus");
   assert.equal(exported.records[0].segmentSource, "manual_adjusted");
@@ -154,6 +160,7 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
             },
           },
           metrics: {
+            side: "right",
             trunkLeanDegrees: 31.8,
           },
         },
@@ -198,6 +205,14 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     augmented.records[0].poseFeatures.ratings.torsoControl.label,
     "forward lean watch",
   );
+  assert.deepEqual(augmented.records[0].aiSideSuggestion, {
+    source: "pose_features",
+    side: "right",
+    status: null,
+    label: null,
+    sourceSecond: 2.4,
+  });
+  assert.equal(augmented.records[0].sideSource, "ai_suggested");
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
   assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
 });
