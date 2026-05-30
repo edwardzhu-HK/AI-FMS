@@ -1732,7 +1732,7 @@ function applyLocalMetadataToSegments(segments, payload) {
       clearingTest: payload.clearingTest,
       clearingFindings: payload.clearingFindings,
       rubricVersion: payload.rubricVersion || "fms_v1.0",
-      segmentSource: payload.segmentSource ?? "manual_adjusted",
+      segmentSource: payload.segmentSource ?? segment.segmentSource,
       updatedAt: new Date().toISOString(),
     };
   });
@@ -1798,6 +1798,7 @@ export default function App() {
   const videoRef = useRef(null);
   const analysisRangeOverrideRef = useRef(null);
   const hasHydratedWorkflowRef = useRef(false);
+  const metadataUpdateRef = useRef(Promise.resolve());
   const t = useCallback((key) => translate(language, key), [language]);
 
   const activeSegment = useMemo(
@@ -2595,6 +2596,7 @@ export default function App() {
     setIsBusy(true);
 
     try {
+      await metadataUpdateRef.current;
       const savedScore = createReviewerRawScore(
         activeSegment.actionType ?? selectedAction,
         form.totalScore,
@@ -2646,36 +2648,36 @@ export default function App() {
     }
   }
 
-  async function handleSaveSegmentMetadata(payload) {
-    if (!activeSegment || !videoId) {
-      return;
-    }
+  const handleSegmentMetadataChange = useCallback(
+    (payload) => {
+      if (!videoId) {
+        return;
+      }
 
-    setErrorText("");
+      if (
+        Number.isNaN(payload.startSecond) ||
+        Number.isNaN(payload.endSecond) ||
+        payload.endSecond <= payload.startSecond
+      ) {
+        return;
+      }
 
-    if (
-      Number.isNaN(payload.startSecond) ||
-      Number.isNaN(payload.endSecond) ||
-      payload.endSecond <= payload.startSecond
-    ) {
-      setErrorText(t("invalidStartEnd"));
-      return;
-    }
+      setSegments((currentSegments) => {
+        const nextSegments = applyLocalMetadataToSegments(
+          currentSegments,
+          payload,
+        );
+        setReadiness(buildLocalReadiness(videoId, nextSegments));
+        setConsistencySnapshot(buildLocalConsistency(videoId, nextSegments));
+        return nextSegments;
+      });
 
-    setIsBusy(true);
-
-    try {
-      await updateSegmentMetadata(payload);
-      await syncSegments(videoId);
-    } catch {
-      const nextSegments = applyLocalMetadataToSegments(segments, payload);
-      setSegments(nextSegments);
-      setReadiness(buildLocalReadiness(videoId, nextSegments));
-      setConsistencySnapshot(buildLocalConsistency(videoId, nextSegments));
-    } finally {
-      setIsBusy(false);
-    }
-  }
+      metadataUpdateRef.current = updateSegmentMetadata(payload).catch(
+        () => {},
+      );
+    },
+    [videoId],
+  );
 
   async function handleApplyAllTimingSuggestions() {
     if (
@@ -2702,6 +2704,7 @@ export default function App() {
     setIsBusy(true);
 
     try {
+      await metadataUpdateRef.current;
       for (const payload of updates) {
         await updateSegmentMetadata(payload);
       }
@@ -2723,6 +2726,8 @@ export default function App() {
 
   async function buildCurrentDatasetExport() {
     let dataset = null;
+
+    await metadataUpdateRef.current;
 
     if (segments.length > 0) {
       dataset = buildDatasetExport(
@@ -2851,6 +2856,7 @@ export default function App() {
     setIsBusy(true);
 
     try {
+      await metadataUpdateRef.current;
       const result = await ingestVideo(videoId, "reviewer_a");
       setIngestResult(result);
       await Promise.all([
@@ -3526,7 +3532,7 @@ export default function App() {
             disabled={isBusy}
             timingSuggestion={activeTimingSuggestion}
             aiSideSuggestion={activeAiSideSuggestion}
-            onSave={handleSaveSegmentMetadata}
+            onChange={handleSegmentMetadataChange}
             t={t}
           />
 

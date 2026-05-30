@@ -93,12 +93,49 @@ function getTranslatedLabel(key, fallback, t) {
   return translated === key ? fallback : translated;
 }
 
+function buildMetadataPayload({
+  segment,
+  formValue,
+  repPolicy,
+  segmentSource = "manual_adjusted",
+}) {
+  const startSecond = Number(formValue.startSecond);
+  const endSecond = Number(formValue.endSecond);
+
+  if (
+    !Number.isFinite(startSecond) ||
+    !Number.isFinite(endSecond) ||
+    endSecond <= startSecond
+  ) {
+    return null;
+  }
+
+  return {
+    segmentId: segment.segmentId,
+    startSecond,
+    endSecond,
+    side:
+      repPolicy.expectedSideValues.length > 0
+        ? formValue.side
+        : repPolicy.defaultSide,
+    painFlag: formValue.painFlag,
+    clearingTest: deriveClearingTestFromFindings(
+      segment.actionType,
+      formValue.clearingFindings,
+      formValue.clearingTest,
+    ),
+    clearingFindings: formValue.clearingFindings,
+    rubricVersion: String(formValue.rubricVersion).trim() || "fms_v1.0",
+    segmentSource,
+  };
+}
+
 export default function SegmentEditor({
   segment,
   disabled,
   timingSuggestion,
   aiSideSuggestion,
-  onSave,
+  onChange,
   t = (key) => key,
 }) {
   const [formValue, setFormValue] = useState(
@@ -106,8 +143,28 @@ export default function SegmentEditor({
   );
 
   useEffect(() => {
-    setFormValue(toFormValue(segment, aiSideSuggestion));
-  }, [segment, aiSideSuggestion]);
+    const nextValue = toFormValue(segment, aiSideSuggestion);
+    const actionType = segment?.actionType ?? "deep_squat";
+    const nextRepPolicy = getActionRepPolicy(actionType);
+
+    setFormValue(nextValue);
+
+    if (
+      segment &&
+      canApplyAiSideSuggestion(segment, aiSideSuggestion, nextRepPolicy)
+    ) {
+      const payload = buildMetadataPayload({
+        segment,
+        formValue: nextValue,
+        repPolicy: nextRepPolicy,
+        segmentSource: segment.segmentSource ?? "suggested",
+      });
+
+      if (payload) {
+        onChange?.(payload);
+      }
+    }
+  }, [segment, aiSideSuggestion, onChange]);
 
   if (!segment) {
     return null;
@@ -123,40 +180,39 @@ export default function SegmentEditor({
   const hasSideOptions = sideOptions.length > 0;
   const hasClearingFindings = formValue.clearingFindings.length > 0;
 
+  function emitMetadataChange(nextValue, segmentSource = "manual_adjusted") {
+    const payload = buildMetadataPayload({
+      segment,
+      formValue: nextValue,
+      repPolicy,
+      segmentSource,
+    });
+
+    if (payload) {
+      onChange?.(payload);
+    }
+  }
+
   function updateField(field, value) {
-    setFormValue((previous) => ({
-      ...previous,
+    const nextValue = {
+      ...formValue,
       [field]: value,
-    }));
+    };
+
+    setFormValue(nextValue);
+    emitMetadataChange(nextValue);
   }
 
   function updateClearingFinding(findingKey, result) {
-    setFormValue((previous) => ({
-      ...previous,
-      clearingFindings: previous.clearingFindings.map((finding) =>
+    const nextValue = {
+      ...formValue,
+      clearingFindings: formValue.clearingFindings.map((finding) =>
         finding.key === findingKey ? { ...finding, result } : finding,
       ),
-    }));
-  }
+    };
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const clearingTest = deriveClearingTestFromFindings(
-      segment.actionType,
-      formValue.clearingFindings,
-      formValue.clearingTest,
-    );
-
-    onSave({
-      segmentId: segment.segmentId,
-      startSecond: Number(formValue.startSecond),
-      endSecond: Number(formValue.endSecond),
-      side: sideOptions.length > 0 ? formValue.side : repPolicy.defaultSide,
-      painFlag: formValue.painFlag,
-      clearingTest,
-      clearingFindings: formValue.clearingFindings,
-      rubricVersion: formValue.rubricVersion.trim(),
-    });
+    setFormValue(nextValue);
+    emitMetadataChange(nextValue);
   }
 
   function restoreAiDraftTiming() {
@@ -166,11 +222,14 @@ export default function SegmentEditor({
       return;
     }
 
-    setFormValue((previous) => ({
-      ...previous,
+    const nextValue = {
+      ...formValue,
       startSecond: range.startSecond,
       endSecond: range.endSecond,
-    }));
+    };
+
+    setFormValue(nextValue);
+    emitMetadataChange(nextValue, "ai_draft");
   }
 
   return (
@@ -180,7 +239,7 @@ export default function SegmentEditor({
         <span>#{segment.repetitionIndex}</span>
       </header>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => event.preventDefault()}>
         <div className="row-inputs">
           <label>
             {t("startSecond")}
@@ -353,10 +412,6 @@ export default function SegmentEditor({
           />
           {t("painFlag")}
         </label>
-
-        <button type="submit" className="button-secondary" disabled={disabled}>
-          {t("saveSegmentMetadata")}
-        </button>
       </form>
     </section>
   );
