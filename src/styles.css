@@ -621,6 +621,16 @@ video {
   gap: 8px;
 }
 
+.metadata-field-disabled {
+  color: #77766e;
+}
+
+.metadata-field-disabled select,
+.metadata-field-disabled input {
+  background: #ede9df;
+  color: #77766e;
+}
+
 .timing-suggestion {
   display: grid;
   gap: 8px;

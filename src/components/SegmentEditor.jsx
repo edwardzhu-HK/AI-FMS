@@ -98,6 +98,10 @@ export default function SegmentEditor({
     repPolicy.expectedSideValues.length > 0
       ? ["unknown", ...repPolicy.expectedSideValues]
       : [];
+  const visibleSideOptions =
+    sideOptions.length > 0 ? sideOptions : [repPolicy.defaultSide];
+  const hasSideOptions = sideOptions.length > 0;
+  const hasClearingFindings = formValue.clearingFindings.length > 0;
 
   function updateField(field, value) {
     setFormValue((previous) => ({
@@ -244,51 +248,68 @@ export default function SegmentEditor({
         ) : null}
 
         <div className="metadata-grid">
-          {sideOptions.length > 0 ? (
-            <label>
-              {t("side")}
-              <select
-                value={formValue.side}
-                onChange={(event) => updateField("side", event.target.value)}
-                disabled={disabled}
-              >
-                {sideOptions.map((side) => (
-                  <option key={side} value={side}>
-                    {getTranslatedLabel(`sideOption_${side}`, side, t)}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ) : null}
+          <label className={!hasSideOptions ? "metadata-field-disabled" : ""}>
+            {t("side")}
+            <select
+              value={hasSideOptions ? formValue.side : repPolicy.defaultSide}
+              onChange={(event) => updateField("side", event.target.value)}
+              disabled={disabled || !hasSideOptions}
+            >
+              {visibleSideOptions.map((side) => (
+                <option key={side} value={side}>
+                  {getTranslatedLabel(`sideOption_${side}`, side, t)}
+                </option>
+              ))}
+            </select>
+          </label>
 
-          {formValue.clearingFindings.map((finding) => (
-            <label key={finding.key}>
-              {getTranslatedLabel(
-                `clearingFinding_${finding.key}`,
-                finding.label,
-                t,
-              )}
-              <select
-                value={finding.result}
-                onChange={(event) =>
-                  updateClearingFinding(finding.key, event.target.value)
-                }
-                disabled={disabled}
-              >
-                {(CLEARING_RESULT_OPTIONS[finding.resultType] ?? []).map(
-                  (option) => (
-                    <option key={option} value={option}>
-                      {getTranslatedLabel(
-                        `clearingResult_${option}`,
-                        option,
-                        t,
-                      )}
-                    </option>
-                  ),
+          {hasClearingFindings ? (
+            formValue.clearingFindings.map((finding) => (
+              <label key={finding.key}>
+                {getTranslatedLabel(
+                  `clearingFinding_${finding.key}`,
+                  finding.label,
+                  t,
                 )}
+                <select
+                  value={finding.result}
+                  onChange={(event) =>
+                    updateClearingFinding(finding.key, event.target.value)
+                  }
+                  disabled={disabled}
+                >
+                  {(CLEARING_RESULT_OPTIONS[finding.resultType] ?? []).map(
+                    (option) => (
+                      <option key={option} value={option}>
+                        {getTranslatedLabel(
+                          `clearingResult_${option}`,
+                          option,
+                          t,
+                        )}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </label>
+            ))
+          ) : (
+            <label className="metadata-field-disabled">
+              {t("clearingTest")}
+              <select
+                value="not_applicable"
+                disabled
+                aria-label={t("clearingTest")}
+              >
+                <option value="not_applicable">
+                  {getTranslatedLabel(
+                    "clearingResult_not_applicable",
+                    "not_applicable",
+                    t,
+                  )}
+                </option>
               </select>
             </label>
-          ))}
+          )}
 
           <label>
             {t("rubricVersion")}
