@@ -4,6 +4,7 @@ dist
 .venv
 .cache
 .omx
+.local-reference/
 models/*.task
 Eval_Videos/**/pose/*.json
 Eval_Videos/**/*.mp4
