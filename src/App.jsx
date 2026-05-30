@@ -17,6 +17,7 @@ import {
   getSegmentReviewStatus,
   summarizeIngest,
 } from "./lib/adjudication.js";
+import { buildAiSideSuggestion } from "./lib/ai-side-suggestion.js";
 import { summarizeConsistency } from "./lib/consistency.js";
 import { buildDatasetCsv } from "./lib/dataset-csv.js";
 import { buildDatasetPackageZip } from "./lib/dataset-package.js";
@@ -671,6 +672,10 @@ const UI_TEXT = {
     sideOption_unknown: "unknown",
     sideOption_left: "left",
     sideOption_right: "right",
+    aiSideSuggestionApplied:
+      "AI suggested {side}; save Segment Metadata to confirm.",
+    aiSideSuggestionConflict:
+      "AI suggested {side}; saved side is {reviewerSide}.",
     clearingFinding_ankle_clearing_pain: "Ankle Clearing - Pain",
     clearingFinding_ankle_clearing_mobility: "Ankle Clearing - Mobility",
     clearingFinding_shoulder_clearing: "Shoulder Clearing",
@@ -1188,6 +1193,8 @@ const UI_TEXT = {
     sideOption_unknown: "unknown",
     sideOption_left: "left",
     sideOption_right: "right",
+    aiSideSuggestionApplied: "AI 建议 {side}；保存 Segment 元数据后确认。",
+    aiSideSuggestionConflict: "AI 建议 {side}；当前已保存为 {reviewerSide}。",
     clearingFinding_ankle_clearing_pain: "Ankle Clearing - Pain",
     clearingFinding_ankle_clearing_mobility: "Ankle Mobility Clearing",
     clearingFinding_shoulder_clearing: "Shoulder Clearing",
@@ -1904,6 +1911,23 @@ export default function App() {
       ) ?? null
     );
   }, [activeSegment, suggestionReport]);
+
+  const activeAiSideSuggestion = useMemo(() => {
+    if (!activeSegment) {
+      return null;
+    }
+
+    const featureItem =
+      featureReport?.items?.find(
+        (item) => item.segmentId === activeSegment.segmentId,
+      ) ?? null;
+
+    return buildAiSideSuggestion({
+      actionType: activeSegment.actionType ?? selectedAction,
+      segment: activeSegment,
+      featureItem,
+    });
+  }, [activeSegment, featureReport, selectedAction]);
 
   const activeMovementCapability = useMemo(
     () => getMovementCapability(activeSegment?.actionType ?? selectedAction),
@@ -3507,6 +3531,7 @@ export default function App() {
             segment={activeSegment}
             disabled={isBusy}
             timingSuggestion={activeTimingSuggestion}
+            aiSideSuggestion={activeAiSideSuggestion}
             onSave={handleSaveSegmentMetadata}
             t={t}
           />

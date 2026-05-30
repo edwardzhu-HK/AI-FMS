@@ -6,7 +6,17 @@ import {
   normalizeClearingFindings,
 } from "../constants/scoring.js";
 
-function toFormValue(segment) {
+function canApplyAiSideSuggestion(segment, aiSideSuggestion, repPolicy) {
+  const currentSide = segment?.side ?? repPolicy.defaultSide;
+
+  return (
+    aiSideSuggestion?.status === "suggested" &&
+    repPolicy.expectedSideValues.includes(aiSideSuggestion.side) &&
+    (currentSide === "unknown" || currentSide === repPolicy.defaultSide)
+  );
+}
+
+function toFormValue(segment, aiSideSuggestion = null) {
   const actionType = segment?.actionType ?? "deep_squat";
   const repPolicy = getActionRepPolicy(actionType);
   const rawSide = segment?.side ?? repPolicy.defaultSide;
@@ -16,11 +26,18 @@ function toFormValue(segment) {
     !repPolicy.expectedSideValues.includes(rawSide)
       ? "unknown"
       : rawSide;
+  const suggestedSide = canApplyAiSideSuggestion(
+    segment,
+    aiSideSuggestion,
+    repPolicy,
+  )
+    ? aiSideSuggestion.side
+    : side;
 
   return {
     startSecond: segment?.startSecond ?? 0,
     endSecond: segment?.endSecond ?? 0,
-    side,
+    side: suggestedSide,
     painFlag: Boolean(segment?.painFlag),
     clearingTest: segment?.clearingTest ?? "not_applicable",
     clearingFindings: normalizeClearingFindings(
@@ -80,14 +97,17 @@ export default function SegmentEditor({
   segment,
   disabled,
   timingSuggestion,
+  aiSideSuggestion,
   onSave,
   t = (key) => key,
 }) {
-  const [formValue, setFormValue] = useState(toFormValue(segment));
+  const [formValue, setFormValue] = useState(
+    toFormValue(segment, aiSideSuggestion),
+  );
 
   useEffect(() => {
-    setFormValue(toFormValue(segment));
-  }, [segment]);
+    setFormValue(toFormValue(segment, aiSideSuggestion));
+  }, [segment, aiSideSuggestion]);
 
   if (!segment) {
     return null;
@@ -102,6 +122,17 @@ export default function SegmentEditor({
     sideOptions.length > 0 ? sideOptions : [repPolicy.defaultSide];
   const hasSideOptions = sideOptions.length > 0;
   const hasClearingFindings = formValue.clearingFindings.length > 0;
+  const aiSideIsApplied =
+    hasSideOptions &&
+    canApplyAiSideSuggestion(segment, aiSideSuggestion, repPolicy) &&
+    formValue.side === aiSideSuggestion.side;
+  const aiSideConflicts =
+    hasSideOptions &&
+    aiSideSuggestion?.status === "suggested" &&
+    repPolicy.expectedSideValues.includes(aiSideSuggestion.side) &&
+    segment.side !== "unknown" &&
+    segment.side !== repPolicy.defaultSide &&
+    segment.side !== aiSideSuggestion.side;
 
   function updateField(field, value) {
     setFormValue((previous) => ({
@@ -261,6 +292,21 @@ export default function SegmentEditor({
                 </option>
               ))}
             </select>
+            {aiSideIsApplied ? (
+              <span className="metadata-hint">
+                {t("aiSideSuggestionApplied").replace(
+                  "{side}",
+                  aiSideSuggestion.side,
+                )}
+              </span>
+            ) : null}
+            {aiSideConflicts ? (
+              <span className="metadata-hint metadata-hint-warning">
+                {t("aiSideSuggestionConflict")
+                  .replace("{side}", aiSideSuggestion.side)
+                  .replace("{reviewerSide}", segment.side)}
+              </span>
+            ) : null}
           </label>
 
           {hasClearingFindings ? (
