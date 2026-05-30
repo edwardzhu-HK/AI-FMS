@@ -82,12 +82,19 @@ test("summarizeInlineLungePoseFeatures reports lunge evidence", () => {
 
   assert.equal(report.summary.repetitionsTotal, 1);
   assert.equal(report.summary.usableRepetitions, 1);
+  assert.equal(report.items[0].ratings.lungeDepthZone.status, "good");
+  assert.equal(report.items[0].ratings.trunkPelvisControl.status, "good");
+  assert.equal(report.items[0].ratings.frontKneeFootLine.status, "good");
+  assert.equal(report.items[0].ratings.rearLegControl.status, "good");
   assert.equal(report.items[0].ratings.lungeDepth.status, "good");
   assert.equal(report.items[0].ratings.trunkAlignment.status, "good");
   assert.equal(report.items[0].ratings.kneeFootAlignment.status, "good");
   assert.equal(report.items[0].ratings.sideConfidence.status, "good");
   assert.equal(report.items[0].metrics.frontSide, "left");
+  assert.equal(report.items[0].metrics.rearSide, "right");
   assert.equal(typeof report.items[0].metrics.peakDepthRatio, "number");
+  assert.equal(typeof report.items[0].metrics.hipHeightGap, "number");
+  assert.equal(typeof report.items[0].metrics.rearAnkleDrift, "number");
 });
 
 test("summarizeInlineLungePoseFeatures returns null without timing evidence", () => {

@@ -31,6 +31,44 @@ function getLandmarkMap(frame) {
   );
 }
 
+function getFrameSecond(frame) {
+  if (typeof frame?.second === "number" && Number.isFinite(frame.second)) {
+    return frame.second;
+  }
+
+  if (
+    typeof frame?.timestampMs === "number" &&
+    Number.isFinite(frame.timestampMs)
+  ) {
+    return frame.timestampMs / 1000;
+  }
+
+  return null;
+}
+
+function getFramesInWindow(payload, startSecond, endSecond) {
+  if (!Array.isArray(payload?.frames)) {
+    return [];
+  }
+
+  return payload.frames.filter((frame) => {
+    const second = getFrameSecond(frame);
+    return second !== null && second >= startSecond && second <= endSecond;
+  });
+}
+
+function range(values) {
+  const validValues = values.filter(
+    (value) => typeof value === "number" && Number.isFinite(value),
+  );
+
+  if (validValues.length === 0) {
+    return null;
+  }
+
+  return Math.max(...validValues) - Math.min(...validValues);
+}
+
 function midpoint(first, second) {
   if (
     !first ||
@@ -49,6 +87,10 @@ function midpoint(first, second) {
   };
 }
 
+function oppositeSide(side) {
+  return side === "left" ? "right" : "left";
+}
+
 function inferFrontSide(landmarks) {
   const leftKnee = landmarks.left_knee;
   const rightKnee = landmarks.right_knee;
@@ -63,6 +105,34 @@ function inferFrontSide(landmarks) {
   }
 
   return leftKnee.y >= rightKnee.y ? "left" : "right";
+}
+
+function classifyLungeDepthZone(peakDepthRatio) {
+  if (peakDepthRatio === null) {
+    return {
+      status: "not_applicable",
+      label: "missing depth evidence",
+    };
+  }
+
+  if (peakDepthRatio >= 0.7) {
+    return {
+      status: "good",
+      label: "score 3 lunge depth zone",
+    };
+  }
+
+  if (peakDepthRatio >= 0.62) {
+    return {
+      status: "watch",
+      label: "score 2 lunge depth zone",
+    };
+  }
+
+  return {
+    status: "limited",
+    label: "score 1 lunge depth zone",
+  };
 }
 
 function classifyLungeDepth(peakDepthRatio) {
@@ -90,6 +160,40 @@ function classifyLungeDepth(peakDepthRatio) {
   return {
     status: "limited",
     label: "limited lunge depth",
+  };
+}
+
+function classifyTrunkPelvisControl(trunkCenterOffset, hipHeightGap) {
+  if (trunkCenterOffset === null && hipHeightGap === null) {
+    return {
+      status: "not_applicable",
+      label: "missing trunk pelvis evidence",
+    };
+  }
+
+  if (
+    (trunkCenterOffset !== null && trunkCenterOffset > 0.08) ||
+    (hipHeightGap !== null && hipHeightGap > 0.08)
+  ) {
+    return {
+      status: "limited",
+      label: "large trunk pelvis shift",
+    };
+  }
+
+  if (
+    (trunkCenterOffset !== null && trunkCenterOffset > 0.04) ||
+    (hipHeightGap !== null && hipHeightGap > 0.045)
+  ) {
+    return {
+      status: "watch",
+      label: "trunk pelvis shift watch",
+    };
+  }
+
+  return {
+    status: "good",
+    label: "controlled trunk pelvis",
   };
 }
 
@@ -121,6 +225,34 @@ function classifyTrunkAlignment(trunkCenterOffset) {
   };
 }
 
+function classifyFrontKneeFootLine(kneeFootOffset) {
+  if (kneeFootOffset === null) {
+    return {
+      status: "not_applicable",
+      label: "missing front knee-foot evidence",
+    };
+  }
+
+  if (kneeFootOffset <= 0.045) {
+    return {
+      status: "good",
+      label: "front knee tracks foot",
+    };
+  }
+
+  if (kneeFootOffset <= 0.09) {
+    return {
+      status: "watch",
+      label: "front knee-foot line watch",
+    };
+  }
+
+  return {
+    status: "limited",
+    label: "large front knee-foot offset",
+  };
+}
+
 function classifyKneeFootAlignment(kneeFootOffset) {
   if (kneeFootOffset === null) {
     return {
@@ -146,6 +278,37 @@ function classifyKneeFootAlignment(kneeFootOffset) {
   return {
     status: "limited",
     label: "large knee-foot offset",
+  };
+}
+
+function classifyRearLegControl(rearAnkleDrift, rearSideVisibility) {
+  if (rearAnkleDrift === null && rearSideVisibility === null) {
+    return {
+      status: "not_applicable",
+      label: "missing rear leg evidence",
+    };
+  }
+
+  if (
+    (rearSideVisibility !== null && rearSideVisibility < 0.45) ||
+    (rearAnkleDrift !== null && rearAnkleDrift > 0.075)
+  ) {
+    return {
+      status: "limited",
+      label: "rear leg control watch",
+    };
+  }
+
+  if (rearAnkleDrift !== null && rearAnkleDrift > 0.04) {
+    return {
+      status: "watch",
+      label: "rear foot drift watch",
+    };
+  }
+
+  return {
+    status: "good",
+    label: "stable rear leg proxy",
   };
 }
 
@@ -184,6 +347,22 @@ function calculateTrunkCenterOffset(landmarks) {
   return Math.abs(shoulderCenter.x - hipCenter.x);
 }
 
+function calculateHipHeightGap(landmarks) {
+  const leftHip = landmarks.left_hip;
+  const rightHip = landmarks.right_hip;
+
+  if (
+    !leftHip ||
+    !rightHip ||
+    typeof leftHip.y !== "number" ||
+    typeof rightHip.y !== "number"
+  ) {
+    return null;
+  }
+
+  return Math.abs(leftHip.y - rightHip.y);
+}
+
 function calculateKneeFootOffset(landmarks, side) {
   const knee = landmarks[`${side}_knee`];
   const ankle = landmarks[`${side}_ankle`];
@@ -200,6 +379,36 @@ function calculateKneeFootOffset(landmarks, side) {
   }
 
   return Math.abs(knee.x - footReference.x);
+}
+
+function calculateSideVisibility(landmarks, side) {
+  if (side !== "left" && side !== "right") {
+    return null;
+  }
+
+  return average([
+    landmarks[`${side}_hip`]?.visibility,
+    landmarks[`${side}_knee`]?.visibility,
+    landmarks[`${side}_ankle`]?.visibility,
+    landmarks[`${side}_foot_index`]?.visibility,
+  ]);
+}
+
+function calculateSideAnkleDrift({ posePayload, timingItem, side }) {
+  if (!timingItem?.cycle || (side !== "left" && side !== "right")) {
+    return null;
+  }
+
+  const frames = getFramesInWindow(
+    posePayload,
+    timingItem.cycle.startSecond,
+    timingItem.cycle.endSecond,
+  );
+  const ankleXs = frames
+    .map((frame) => getLandmarkMap(frame)[`${side}_ankle`]?.x)
+    .filter((value) => typeof value === "number" && Number.isFinite(value));
+
+  return range(ankleXs);
 }
 
 function buildFeatureItem({ posePayload, timingItem }) {
@@ -220,20 +429,23 @@ function buildFeatureItem({ posePayload, timingItem }) {
   );
   const landmarks = getLandmarkMap(frame);
   const frontSide = inferFrontSide(landmarks);
+  const rearSide =
+    frontSide === "left" || frontSide === "right"
+      ? oppositeSide(frontSide)
+      : "unknown";
   const trunkCenterOffset = calculateTrunkCenterOffset(landmarks);
+  const hipHeightGap = calculateHipHeightGap(landmarks);
   const kneeFootOffset =
     frontSide === "left" || frontSide === "right"
       ? calculateKneeFootOffset(landmarks, frontSide)
       : null;
-  const sideVisibility =
-    frontSide === "left" || frontSide === "right"
-      ? average([
-          landmarks[`${frontSide}_hip`]?.visibility,
-          landmarks[`${frontSide}_knee`]?.visibility,
-          landmarks[`${frontSide}_ankle`]?.visibility,
-          landmarks[`${frontSide}_foot_index`]?.visibility,
-        ])
-      : null;
+  const sideVisibility = calculateSideVisibility(landmarks, frontSide);
+  const rearSideVisibility = calculateSideVisibility(landmarks, rearSide);
+  const rearAnkleDrift = calculateSideAnkleDrift({
+    posePayload,
+    timingItem,
+    side: rearSide,
+  });
 
   return {
     segmentId: timingItem.segmentId,
@@ -248,6 +460,16 @@ function buildFeatureItem({ posePayload, timingItem }) {
         timingItem.cycle.peakSecond ?? timingItem.cycle.lowestPointSecond,
     },
     ratings: {
+      lungeDepthZone: classifyLungeDepthZone(timingItem.cycle.peakDepthRatio),
+      trunkPelvisControl: classifyTrunkPelvisControl(
+        trunkCenterOffset,
+        hipHeightGap,
+      ),
+      frontKneeFootLine: classifyFrontKneeFootLine(kneeFootOffset),
+      rearLegControl: classifyRearLegControl(
+        rearAnkleDrift,
+        rearSideVisibility,
+      ),
       lungeDepth: classifyLungeDepth(timingItem.cycle.peakDepthRatio),
       trunkAlignment: classifyTrunkAlignment(trunkCenterOffset),
       kneeFootAlignment: classifyKneeFootAlignment(kneeFootOffset),
@@ -255,13 +477,17 @@ function buildFeatureItem({ posePayload, timingItem }) {
     },
     metrics: {
       frontSide,
+      rearSide,
       peakDepthRatio: toFixedNumber(timingItem.cycle.peakDepthRatio),
       baselineDepthRatio: toFixedNumber(timingItem.cycle.baselineDepthRatio),
       trunkCenterOffset: toFixedNumber(trunkCenterOffset),
+      hipHeightGap: toFixedNumber(hipHeightGap),
       kneeFootOffset: toFixedNumber(kneeFootOffset),
+      rearAnkleDrift: toFixedNumber(rearAnkleDrift),
       avgVisibility: toFixedNumber(timingItem.metrics?.avgVisibility, 3),
       timingCoverageRatio: toFixedNumber(timingItem.metrics?.coverageRatio, 3),
       sideVisibility: toFixedNumber(sideVisibility, 3),
+      rearSideVisibility: toFixedNumber(rearSideVisibility, 3),
     },
   };
 }
@@ -269,6 +495,10 @@ function buildFeatureItem({ posePayload, timingItem }) {
 function summarizeFeatureItems(items) {
   const usableItems = items.filter((item) => item.status === "ok");
   const ratingKeys = [
+    "lungeDepthZone",
+    "trunkPelvisControl",
+    "frontKneeFootLine",
+    "rearLegControl",
     "lungeDepth",
     "trunkAlignment",
     "kneeFootAlignment",

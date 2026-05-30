@@ -39,12 +39,29 @@ function findTimingItem(timingReport, featureItem) {
 }
 
 function buildSubscores(featureItem) {
-  const lungeDepthScore = ratingToScore(featureItem.ratings.lungeDepth?.status);
-  const trunkStabilityScore = ratingToScore(
-    featureItem.ratings.trunkAlignment?.status,
+  const lungeDepthScore = ratingToScore(
+    (featureItem.ratings.lungeDepthZone ?? featureItem.ratings.lungeDepth)
+      ?.status,
+  );
+  const trunkStabilityScore = Math.min(
+    ratingToScore(
+      (
+        featureItem.ratings.trunkPelvisControl ??
+        featureItem.ratings.trunkAlignment
+      )?.status,
+    ),
+    ratingToScore(
+      (featureItem.ratings.rearLegControl ?? featureItem.ratings.trunkAlignment)
+        ?.status,
+    ),
   );
   const kneeFootScore = Math.min(
-    ratingToScore(featureItem.ratings.kneeFootAlignment?.status),
+    ratingToScore(
+      (
+        featureItem.ratings.frontKneeFootLine ??
+        featureItem.ratings.kneeFootAlignment
+      )?.status,
+    ),
     ratingToScore(featureItem.ratings.sideConfidence?.status),
   );
 
@@ -57,9 +74,18 @@ function buildSubscores(featureItem) {
 
 function buildConfidence(featureItem, timingItem) {
   const evidenceWeights = [
-    featureItem.ratings.lungeDepth?.status,
-    featureItem.ratings.trunkAlignment?.status,
-    featureItem.ratings.kneeFootAlignment?.status,
+    (featureItem.ratings.lungeDepthZone ?? featureItem.ratings.lungeDepth)
+      ?.status,
+    (
+      featureItem.ratings.trunkPelvisControl ??
+      featureItem.ratings.trunkAlignment
+    )?.status,
+    (featureItem.ratings.rearLegControl ?? featureItem.ratings.trunkAlignment)
+      ?.status,
+    (
+      featureItem.ratings.frontKneeFootLine ??
+      featureItem.ratings.kneeFootAlignment
+    )?.status,
     featureItem.ratings.sideConfidence?.status,
   ].map(ratingToEvidenceWeight);
   const evidenceCoverage =
@@ -108,15 +134,26 @@ function buildSuggestionItem(featureItem, timingReport) {
   const score = createScoreFromSubscores("in_line_lunge", subscores);
   const confidence = buildConfidence(featureItem, timingItem);
   const reasons = [
-    buildReason("Lunge depth", featureItem.ratings.lungeDepth, subscores.depth),
     buildReason(
-      "Trunk alignment",
-      featureItem.ratings.trunkAlignment,
+      "Lunge depth zone",
+      featureItem.ratings.lungeDepthZone ?? featureItem.ratings.lungeDepth,
+      subscores.depth,
+    ),
+    buildReason(
+      "Trunk pelvis control",
+      featureItem.ratings.trunkPelvisControl ??
+        featureItem.ratings.trunkAlignment,
       subscores.kneeAlignment,
     ),
     buildReason(
-      "Knee-foot alignment",
-      featureItem.ratings.kneeFootAlignment,
+      "Rear leg control",
+      featureItem.ratings.rearLegControl ?? featureItem.ratings.trunkAlignment,
+      subscores.kneeAlignment,
+    ),
+    buildReason(
+      "Front knee-foot line",
+      featureItem.ratings.frontKneeFootLine ??
+        featureItem.ratings.kneeFootAlignment,
       subscores.torsoControl,
     ),
     buildReason(
@@ -142,7 +179,7 @@ function buildSuggestionItem(featureItem, timingReport) {
     confidence,
     confidenceLabel: confidenceLabel(confidence),
     reasons,
-    modelVersion: "pose-features-v0.1-inline-lunge",
+    modelVersion: "pose-features-v0.2-inline-lunge",
   };
 }
 
@@ -161,7 +198,7 @@ export function buildInlineLungeExplainableSuggestion({
 
   return {
     status: "ok",
-    modelVersion: "pose-features-v0.1-inline-lunge",
+    modelVersion: "pose-features-v0.2-inline-lunge",
     items,
     summary: {
       segmentsTotal: items.length,

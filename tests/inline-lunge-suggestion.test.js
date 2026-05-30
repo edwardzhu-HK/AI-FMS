@@ -15,6 +15,10 @@ function createFeatureReport() {
         repetitionIndex: 1,
         status: "ok",
         ratings: {
+          lungeDepthZone: rating("good", "score 3 lunge depth zone"),
+          trunkPelvisControl: rating("watch", "trunk pelvis shift watch"),
+          rearLegControl: rating("good", "stable rear leg proxy"),
+          frontKneeFootLine: rating("good", "front knee tracks foot"),
           lungeDepth: rating("good", "deep lunge proxy"),
           trunkAlignment: rating("watch", "trunk shift watch"),
           kneeFootAlignment: rating("good", "knee tracks foot proxy"),
@@ -49,7 +53,7 @@ test("buildInlineLungeExplainableSuggestion maps In-Line Lunge features to compa
   });
 
   assert.equal(suggestion.status, "ok");
-  assert.equal(suggestion.modelVersion, "pose-features-v0.1-inline-lunge");
+  assert.equal(suggestion.modelVersion, "pose-features-v0.2-inline-lunge");
   assert.equal(suggestion.summary.scoredSegments, 1);
   assert.equal(suggestion.items[0].totalScore, 2);
   assert.deepEqual(suggestion.items[0].subscores, {
@@ -60,7 +64,12 @@ test("buildInlineLungeExplainableSuggestion maps In-Line Lunge features to compa
   assert.equal(suggestion.items[0].confidenceLabel, "high");
   assert.ok(
     suggestion.items[0].reasons.some((reason) =>
-      reason.includes("Lunge depth suggested 3"),
+      reason.includes("Lunge depth zone suggested 3"),
+    ),
+  );
+  assert.ok(
+    suggestion.items[0].reasons.some((reason) =>
+      reason.includes("Trunk pelvis control suggested 2"),
     ),
   );
 });

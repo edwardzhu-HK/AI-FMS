@@ -506,6 +506,10 @@ const UI_TEXT = {
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
+    reason_lungeDepthZone: "Lunge Depth Zone",
+    reason_trunkPelvisControl: "Trunk Pelvis Control",
+    reason_rearLegControl: "Rear Leg Control",
+    reason_frontKneeFootLine: "Front Knee-foot Line",
     reason_lungeDepth: "Lunge Depth",
     reason_trunkAlignment: "Trunk Alignment",
     reason_kneeFootAlignment: "Knee-foot Alignment",
@@ -607,6 +611,30 @@ const UI_TEXT = {
       "Evidence: trunk center shift is visible and should be reviewed.",
     "reason_trunkControl_large trunk shift":
       "Evidence: trunk shift is large enough to suggest limited control.",
+    "reason_lungeDepthZone_score 3 lunge depth zone":
+      "Evidence: the lunge reaches the stronger In-Line Lunge depth proxy zone, supporting a high raw-score suggestion for this criterion.",
+    "reason_lungeDepthZone_score 2 lunge depth zone":
+      "Evidence: the lunge depth is in a moderate proxy zone; the rep is usable but should be checked by the reviewer.",
+    "reason_lungeDepthZone_score 1 lunge depth zone":
+      "Evidence: the lunge remains shallow in this proxy, suggesting limited depth or an incomplete pattern.",
+    "reason_trunkPelvisControl_controlled trunk pelvis":
+      "Evidence: shoulder/hip center alignment and hip-height proxy remain controlled near the lunge peak.",
+    "reason_trunkPelvisControl_trunk pelvis shift watch":
+      "Evidence: the trunk or pelvis proxy shifts near the lunge peak and should be reviewed.",
+    "reason_trunkPelvisControl_large trunk pelvis shift":
+      "Evidence: trunk/pelvis shift is large enough to weaken this In-Line Lunge stability evidence.",
+    "reason_rearLegControl_stable rear leg proxy":
+      "Evidence: the rear-side ankle stays stable enough during the lunge cycle for this proxy.",
+    "reason_rearLegControl_rear foot drift watch":
+      "Evidence: the rear foot shows mild drift during the lunge cycle and should be reviewed.",
+    "reason_rearLegControl_rear leg control watch":
+      "Evidence: the rear leg has low visibility or enough foot drift to weaken the control evidence.",
+    "reason_frontKneeFootLine_front knee tracks foot":
+      "Evidence: the front knee stays close to the foot line in the usable view.",
+    "reason_frontKneeFootLine_front knee-foot line watch":
+      "Evidence: the front knee-foot line has visible offset and should be reviewed.",
+    "reason_frontKneeFootLine_large front knee-foot offset":
+      "Evidence: the front knee-foot offset is large enough to weaken the foot-knee alignment evidence.",
     "reason_lungeDepth_deep lunge proxy":
       "Evidence: the lunge reaches a strong depth proxy, supporting the lunge-depth criterion.",
     "reason_lungeDepth_moderate lunge depth":
@@ -690,6 +718,10 @@ const UI_TEXT = {
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",
+    lungeDepthZone: "Lunge Depth Zone",
+    trunkPelvisControl: "Trunk Pelvis Control",
+    rearLegControl: "Rear Leg Control",
+    frontKneeFootLine: "Front Knee-foot Line",
     lungeDepth: "Lunge Depth",
     trunkAlignment: "Trunk Alignment",
     kneeFootAlignment: "Knee-Foot Alignment",
@@ -989,6 +1021,10 @@ const UI_TEXT = {
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
+    reason_lungeDepthZone: "Lunge Depth Zone",
+    reason_trunkPelvisControl: "Trunk Pelvis Control",
+    reason_rearLegControl: "Rear Leg Control",
+    reason_frontKneeFootLine: "Front Knee-foot Line",
     reason_lungeDepth: "Lunge Depth",
     reason_trunkAlignment: "Trunk Alignment",
     reason_kneeFootAlignment: "Knee-foot Alignment",
@@ -1090,6 +1126,30 @@ const UI_TEXT = {
       "依据是 trunk shift watch：躯干中心有可见偏移，建议人工复核。",
     "reason_trunkControl_large trunk shift":
       "依据是 large trunk shift：躯干偏移较明显，提示 trunk control 可能受限。",
+    "reason_lungeDepthZone_score 3 lunge depth zone":
+      "依据是 score 3 lunge depth zone：弓步进入更充分的 In-Line Lunge 深度 proxy 区间，支持该项较高 raw-score 建议。",
+    "reason_lungeDepthZone_score 2 lunge depth zone":
+      "依据是 score 2 lunge depth zone：弓步深度处在中等 proxy 区间，动作可分析但建议人工复核。",
+    "reason_lungeDepthZone_score 1 lunge depth zone":
+      "依据是 score 1 lunge depth zone：弓步深度在该 proxy 中偏浅，提示 depth 或动作完整性可能受限。",
+    "reason_trunkPelvisControl_controlled trunk pelvis":
+      "依据是 controlled trunk pelvis：肩/髋中心和髋高度 proxy 在弓步峰值附近保持较稳定。",
+    "reason_trunkPelvisControl_trunk pelvis shift watch":
+      "依据是 trunk pelvis shift watch：躯干或骨盆 proxy 在弓步峰值附近有可见偏移，建议人工复核。",
+    "reason_trunkPelvisControl_large trunk pelvis shift":
+      "依据是 large trunk pelvis shift：躯干/骨盆偏移较明显，会削弱 In-Line Lunge 稳定性证据。",
+    "reason_rearLegControl_stable rear leg proxy":
+      "依据是 stable rear leg proxy：后侧脚踝在弓步周期中保持较稳定。",
+    "reason_rearLegControl_rear foot drift watch":
+      "依据是 rear foot drift watch：后侧脚有轻微漂移，建议人工复核。",
+    "reason_rearLegControl_rear leg control watch":
+      "依据是 rear leg control watch：后侧关键点可见度偏低或脚部漂移较明显，会削弱控制证据。",
+    "reason_frontKneeFootLine_front knee tracks foot":
+      "依据是 front knee tracks foot：前侧膝盖相对足部线的偏移较小，对齐证据较好。",
+    "reason_frontKneeFootLine_front knee-foot line watch":
+      "依据是 front knee-foot line watch：前膝与足部线有可见偏移，建议人工复核。",
+    "reason_frontKneeFootLine_large front knee-foot offset":
+      "依据是 large front knee-foot offset：前膝与足部线偏移较明显，会削弱 Foot-knee Alignment 证据。",
     "reason_lungeDepth_deep lunge proxy":
       "依据是 deep lunge proxy：弓步深度 proxy 比较充分，支持 Lunge Depth 这一项。",
     "reason_lungeDepth_moderate lunge depth":
@@ -1173,6 +1233,10 @@ const UI_TEXT = {
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",
+    lungeDepthZone: "Lunge Depth Zone",
+    trunkPelvisControl: "Trunk Pelvis Control",
+    rearLegControl: "Rear Leg Control",
+    frontKneeFootLine: "Front Knee-foot Line",
     lungeDepth: "Lunge Depth",
     trunkAlignment: "Trunk Alignment",
     kneeFootAlignment: "Knee-Foot Alignment",

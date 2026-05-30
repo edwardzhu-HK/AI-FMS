@@ -125,21 +125,33 @@ function getFeatureRows(activeItem, t) {
     ];
   }
 
-  if (activeItem.ratings.lungeDepth) {
+  if (activeItem.ratings.lungeDepthZone || activeItem.ratings.lungeDepth) {
     return [
       {
-        label: t("lungeDepth"),
-        rating: activeItem.ratings.lungeDepth,
+        label: t("lungeDepthZone"),
+        rating:
+          activeItem.ratings.lungeDepthZone ?? activeItem.ratings.lungeDepth,
         detail: `peak ratio ${formatNumber(activeItem.metrics.peakDepthRatio, 3)} · side ${activeItem.metrics.frontSide ?? "N/A"}`,
       },
       {
-        label: t("trunkAlignment"),
-        rating: activeItem.ratings.trunkAlignment,
-        detail: `center offset ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)}`,
+        label: t("trunkPelvisControl"),
+        rating:
+          activeItem.ratings.trunkPelvisControl ??
+          activeItem.ratings.trunkAlignment,
+        detail: `center ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)} · hip gap ${formatNumber(activeItem.metrics.hipHeightGap, 3)}`,
       },
       {
-        label: t("kneeFootAlignment"),
-        rating: activeItem.ratings.kneeFootAlignment,
+        label: t("rearLegControl"),
+        rating:
+          activeItem.ratings.rearLegControl ??
+          activeItem.ratings.trunkAlignment,
+        detail: `rear drift ${formatNumber(activeItem.metrics.rearAnkleDrift, 3)} · side ${activeItem.metrics.rearSide ?? "N/A"}`,
+      },
+      {
+        label: t("frontKneeFootLine"),
+        rating:
+          activeItem.ratings.frontKneeFootLine ??
+          activeItem.ratings.kneeFootAlignment,
         detail: `knee-foot ${formatNumber(activeItem.metrics.kneeFootOffset, 3)}`,
       },
       {

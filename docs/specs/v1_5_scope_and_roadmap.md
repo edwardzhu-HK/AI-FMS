@@ -133,9 +133,11 @@ Current V1.7 implementation status:
   stepping-leg alignment proxies. The scoring is reviewer support, not a final
   automatic FMS score.
 - In-Line Lunge has completed an initial pose probe, timing/features helpers,
-  and one browser demo path with first-pass pose-based AI suggestion. The
-  selected 6-rep sample passes timing/features smoke, but knee-foot alignment
-  and sample variety still need calibration before stronger AI scoring claims.
+  and one browser demo path with pose-based AI suggestion. Its current evidence
+  includes lunge-depth zones, trunk/pelvis control, rear-leg control, and front
+  knee-foot line proxies. The selected 6-rep sample passes timing/features
+  smoke, but knee-foot alignment and sample variety still need calibration
+  before stronger AI scoring claims.
 - Trunk Stability Push-Up and Rotary Stability are connected as annotation-only
   workflow paths. They can be segmented, reviewed, ingested in mock mode, and
   exported, but they do not yet have pose evidence or movement-specific AI

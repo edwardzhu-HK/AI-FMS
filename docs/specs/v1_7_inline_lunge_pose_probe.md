@@ -75,6 +75,29 @@ segment。
 这些 feature 服务 reviewer-readable evidence 和 first-pass AI suggestion，不直接声称
 certified FMS scoring。
 
+## 第二版 In-Line Lunge Scoring Evidence
+
+截至 2026-05-30，In-Line Lunge 已从 first-pass proxy 升级为更贴近动作本身的
+pose-based reviewer support。它仍然不是 certified FMS 自动评分，而是为 reviewer
+提供可解释的 raw-score 建议和证据理由。
+
+新增的 movement-specific evidence：
+
+- `lungeDepthZone`: 弓步深度是否进入 score 3 / score 2 / score 1 depth proxy 区间。
+- `trunkPelvisControl`: 肩/髋中心偏移与左右髋高度差，用于观察 trunk/pelvis stability。
+- `rearLegControl`: 后侧脚踝在动作周期中的漂移和关键点可见度，用于观察后侧稳定性。
+- `frontKneeFootLine`: 前侧膝盖相对足部线的水平偏移，用于观察 Foot-knee Alignment proxy。
+
+为了保持导出和旧 UI 的兼容性，`lungeDepth`、`trunkAlignment`、`kneeFootAlignment`
+仍然保留，但新版 suggestion 优先使用上面四个 In-Line-specific ratings。当前
+subscore 映射为：
+
+| In-Line Lunge rubric slot | Pose evidence                                      |
+| ------------------------- | -------------------------------------------------- |
+| `Lunge Depth`             | `lungeDepthZone`                                   |
+| `Trunk Stability`         | `trunkPelvisControl` + `rearLegControl` 中较保守者 |
+| `Foot-knee Alignment`     | `frontKneeFootLine` + `sideConfidence` 中较保守者  |
+
 ## Timing Helper 试跑结果
 
 第一版 `inline-lunge-timing.js` 已加入单元测试，能够在 synthetic fixture 中检测
@@ -105,8 +128,9 @@ first-pass AI suggestion；但 knee-foot alignment 对机位和 foot landmark �
 | `1-rep-score-3.pose.json`  |         1/1 | depth 为 watch，trunk good，knee-foot offset 偏大。        |
 | `6-reps-score-3.pose.json` |         6/6 | 5/6 depth good，trunk good；knee-foot alignment 仍需校准。 |
 
-当前 feature helper 已可支持 first-pass reviewer decision support，但不能描述为
-certified scoring。knee-foot alignment 仍需要更多样本和人工校准。
+当前 feature helper 已可支持 reviewer decision support，但不能描述为 certified
+scoring。knee-foot alignment、rear-leg control 和 side inference 仍需要更多样本和
+人工校准。
 
 ## 下一步
 

@@ -210,6 +210,8 @@ Current development order agreed on 2026-05-23:
   - [x] Add In-Line Lunge feature helper and tests.
   - [x] Add one browser-verifiable In-Line Lunge demo path.
   - [x] Add In-Line Lunge first-pass pose-based AI suggestion path.
+  - [x] Upgrade In-Line Lunge evidence to include depth zones, trunk/pelvis
+        control, rear-leg control, and front knee-foot line proxy.
 
 ## Stretch: Selected Movement Expansion
 
