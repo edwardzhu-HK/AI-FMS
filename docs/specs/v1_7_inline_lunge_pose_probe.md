@@ -1,8 +1,8 @@
 # V1.7 In-Line Lunge Pose Probe
 
-本文档记录 In-Line Lunge 第一轮 pose extraction 试跑结果。目标不是马上接入
-feature-only demo 或 AI suggestion，而是先判断样本质量、无效时间分布，以及它是否适合
-作为 Hurdle Step 之后的下一轮 movement expansion。
+本文档记录 In-Line Lunge 第一轮 pose extraction、timing/features probe 和
+first-pass pose-based AI suggestion 试跑结果。目标是判断样本质量、无效时间分布、
+当前 demo path 的可用性，以及后续还需要继续校准的风险点。
 
 ## 结论
 
@@ -72,7 +72,8 @@ segment。
 - `kneeFootAlignment`: 前膝与前脚的水平偏移 proxy。
 - `sideConfidence`: 当前 segment 是否能判断 left/right side。
 
-这些 feature 先服务 reviewer-readable evidence，不直接声称 certified FMS scoring。
+这些 feature 服务 reviewer-readable evidence 和 first-pass AI suggestion，不直接声称
+certified FMS scoring。
 
 ## Timing Helper 试跑结果
 
@@ -80,8 +81,8 @@ segment。
 lunge depth candidate cycles，并沿用现有 `poseTiming` 报告形状，不改变 export
 schema。
 
-真实样本上的首轮结果说明：这个 helper 能提供 lunge depth evidence，但尚未稳定到可以
-直接驱动 demo preset。
+真实样本上的首轮结果说明：这个 helper 能提供 lunge depth evidence，并已能支撑
+`6 reps score 3` demo preset；但 `4 reps score 2` 的周期召回仍然不足，需要继续校准。
 
 | Pose JSON                  | Expected reps | Candidate cycles | 观察                                    |
 | -------------------------- | ------------: | ---------------: | --------------------------------------- |
@@ -89,22 +90,27 @@ schema。
 | `4-reps-score-2.pose.json` |             4 |                2 | 只抓到 2 个明显深度周期，需要继续校准。 |
 | `6-reps-score-3.pose.json` |             6 |                7 | 有重复峰，适合作为鲁棒性样本。          |
 
-因此 In-Line Lunge 下一步应先继续校准 timing，而不是马上接入 feature-only demo。
+截至 2026-05-30，`6-reps-score-3.pose.json` 已经通过 6/6 timing/features
+smoke，并接入 first-pass pose-based AI suggestion；`4-reps-score-2.pose.json`
+仍然需要人工复核和 timing 召回校准。
 
 ## Feature Helper 试跑结果
 
-真实样本上的首轮 feature helper 能输出 reviewer-readable evidence，但 knee-foot
-alignment 对机位和 foot landmark 很敏感，暂不适合直接映射为 AI score。
+真实样本上的首轮 feature helper 能输出 reviewer-readable evidence，并已接入
+first-pass AI suggestion；但 knee-foot alignment 对机位和 foot landmark 很敏感，
+因此 UI 解释和后续样本校准都必须保持保守。
 
 | Pose JSON                  | Usable reps | 观察                                                       |
 | -------------------------- | ----------: | ---------------------------------------------------------- |
 | `1-rep-score-3.pose.json`  |         1/1 | depth 为 watch，trunk good，knee-foot offset 偏大。        |
 | `6-reps-score-3.pose.json` |         6/6 | 5/6 depth good，trunk good；knee-foot alignment 仍需校准。 |
 
-当前 feature helper 的价值是给 reviewer 暴露 pose evidence，而不是做 certified scoring。
+当前 feature helper 已可支持 first-pass reviewer decision support，但不能描述为
+certified scoring。knee-foot alignment 仍需要更多样本和人工校准。
 
 ## 下一步
 
 1. 继续校准 In-Line Lunge timing：减少重复峰，并提升 4-reps 样本的周期召回。
 2. 继续校准 knee-foot alignment 和 side inference，避免机位造成过度提示。
-3. 等一个 In-Line Lunge demo path 稳定后，再决定是否接入 AI suggestion。
+3. 在更多样本上验证 first-pass AI suggestion，尤其关注 knee-foot alignment 是否因视角
+   产生过度提示。

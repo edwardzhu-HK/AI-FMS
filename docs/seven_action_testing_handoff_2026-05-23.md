@@ -4,9 +4,9 @@
 
 这轮已经把 7 个 FMS actions 都接入到可测试流程，但成熟度分层不同：
 
-- `implemented`：Deep Squat、Active Straight Leg Raise、Hurdle Step
+- `implemented`：Deep Squat、Active Straight Leg Raise、Hurdle Step、In-Line Lunge
   - 有 pose timing、features、基于 pose 的 AI 建议。
-- `features_only`：In-Line Lunge、Shoulder Mobility
+- `features_only`：Shoulder Mobility
   - 有 pose timing / features / export evidence，但暂不生成 pose-based AI score。
 - `annotation_only`：Trunk Stability Push-Up、Rotary Stability
   - 暂无 pose JSON，不显示骨骼、不显示 pose features；用于测试人工标注、双 reviewer、入库与导出流程。
@@ -27,7 +27,7 @@ npm run demo:flow:seven
 | -------------------------------------- | ------------------------- | --------------- | ------: | ------ | -------- | -------------- | ------------- | --------- |
 | Sample-1 mixed views                   | Deep Squat                | implemented     |       7 | 7/7    | 7/7      | available      | yes           | succeeded |
 | Hurdle score-3 sample                  | Hurdle Step               | implemented     |       7 | 7/7    | 7/7      | available      | yes           | succeeded |
-| In-Line Lunge score-3 sample           | In-Line Lunge             | features_only   |       6 | 6/6    | 6/6      | not_applicable | yes           | succeeded |
+| In-Line Lunge score-3 sample           | In-Line Lunge             | implemented     |       6 | 6/6    | 6/6      | available      | yes           | succeeded |
 | Shoulder score-2 sample                | Shoulder Mobility         | features_only   |       2 | 2/2    | 2/2      | not_applicable | yes           | succeeded |
 | ASLR score-3 sample                    | Active Straight Leg Raise | implemented     |       2 | 2/2    | 2/2      | available      | yes           | succeeded |
 | Trunk Stability Push-Up score-3 sample | Trunk Stability Push-Up   | annotation_only |       1 | N/A    | N/A      | not_applicable | no            | succeeded |
@@ -84,7 +84,14 @@ npm run dev
 - 右侧应显示 `基于 Pose 的 AI 建议`，包含 Hip Mobility、Balance Control、Knee-ankle Line 三项分数。
 - 这是 first-pass explainable prototype，用于 reviewer support，不是最终自动评分。
 
-### Shoulder / In-Line Lunge
+### In-Line Lunge
+
+- 有真实 skeleton。
+- 有 Timing QA 和 In-Line Lunge Features。
+- 右侧应显示 `基于 Pose 的 AI 建议`，包含 Lunge Depth、Trunk Stability、Foot-knee Alignment 三项分数。
+- 这是 first-pass explainable prototype，用于 reviewer support，不是最终自动评分。
+
+### Shoulder Mobility
 
 - 有真实 skeleton。
 - 有 Timing QA 和 Features。
@@ -101,7 +108,7 @@ npm run dev
 ## 当前重要边界
 
 - 7 动作 workflow 已可测，但不是 7 动作 AI scoring 都完成。
-- Deep Squat、ASLR、Hurdle Step 已有 pose-based AI suggestion。
+- Deep Squat、ASLR、Hurdle Step、In-Line Lunge 已有 pose-based AI suggestion。
 - 现阶段正式入库仍是 mock ingest，不是后端数据库持久化。
 - Trunk Push-Up 和 Rotary 是 annotation-only，占位意义是测试平台闭环，不是动作算法已完成。
-- In-Line Lunge 已接入 timing/features demo path，但仍建议继续收集更稳定的前后视角样本。
+- In-Line Lunge 已接入 first-pass AI suggestion，但仍建议继续收集更稳定的前后视角样本。

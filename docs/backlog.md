@@ -147,6 +147,8 @@ Current development order agreed on 2026-05-23:
 - [x] Add a Chinese seven-action handoff for morning human testing.
 - [x] Add first-pass Hurdle Step pose-based AI suggestion with confidence,
       reviewer-readable reasons, and tests.
+- [x] Add first-pass In-Line Lunge pose-based AI suggestion with confidence,
+      reviewer-readable reasons, and tests.
 - [ ] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
@@ -177,15 +179,16 @@ Current development order agreed on 2026-05-23:
   - [x] Document Hurdle Step pose probe and active-period findings.
   - [x] Add Hurdle Step timing helper and tests.
   - [x] Add Hurdle Step feature helper and tests.
-  - [x] Add one browser-verifiable Hurdle Step feature-only demo path.
+  - [x] Add one browser-verifiable Hurdle Step demo path.
   - [x] Add Hurdle Step first-pass pose-based AI suggestion path.
-- [x] Start In-Line Lunge expansion after Hurdle feature-only path is stable.
+- [x] Start In-Line Lunge expansion after Hurdle demo path is stable.
   - [x] Select 3 In-Line Lunge samples for first pose extraction.
   - [x] Generate and validate In-Line Lunge pose JSON.
   - [x] Document In-Line Lunge pose probe and active-period findings.
   - [x] Add In-Line Lunge timing helper and tests.
   - [x] Add In-Line Lunge feature helper and tests.
-  - [x] Add one browser-verifiable In-Line Lunge feature-only demo path.
+  - [x] Add one browser-verifiable In-Line Lunge demo path.
+  - [x] Add In-Line Lunge first-pass pose-based AI suggestion path.
 
 ## Stretch: Selected Movement Expansion
 
@@ -239,7 +242,7 @@ remain reusable:
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active
-  Straight Leg Raise, and Hurdle Step. Shoulder Mobility and In-Line Lunge are
+  Straight Leg Raise, Hurdle Step, and In-Line Lunge. Shoulder Mobility is
   currently pose-evidence / feature-only. Trunk Stability Push-Up and Rotary
   Stability are annotation-only until pose data and movement-specific helpers
   are added.

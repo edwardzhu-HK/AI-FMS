@@ -71,13 +71,13 @@ const DEMO_CASES = [
     startSecond: 0,
     endSecond: 60.3,
     notes:
-      "In-Line Lunge 6 reps score-3 sample。当前为 features-only：支持 timing/features，不生成 AI score。",
+      "In-Line Lunge 6 reps score-3 sample。当前支持 timing/features 与 first-pass pose-based AI suggestion。",
     posePath:
       "Eval_Videos/Sample videos/3-Inline Lunge/pose/6-reps-score-3.pose.json",
     expected: {
       records: 6,
       featureUsable: 6,
-      suggestionReady: false,
+      suggestionReady: true,
     },
   },
   {

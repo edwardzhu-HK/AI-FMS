@@ -131,9 +131,9 @@ Current V1.7 implementation status:
   one browser demo path with first-pass pose-based AI suggestion. The scoring is
   reviewer support, not a final automatic FMS score.
 - In-Line Lunge has completed an initial pose probe, timing/features helpers,
-  and one feature-only browser demo path. The selected 6-rep sample passes
-  timing/features smoke, but knee-foot alignment and sample variety still need
-  calibration before any AI scoring claim.
+  and one browser demo path with first-pass pose-based AI suggestion. The
+  selected 6-rep sample passes timing/features smoke, but knee-foot alignment
+  and sample variety still need calibration before stronger AI scoring claims.
 - Trunk Stability Push-Up and Rotary Stability are connected as annotation-only
   workflow paths. They can be segmented, reviewed, ingested in mock mode, and
   exported, but they do not yet have pose evidence or movement-specific AI
@@ -145,9 +145,9 @@ Hurdle Step all pass the local preset readiness check.
 
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
 As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow:
-Deep Squat, Active Straight Leg Raise, and Hurdle Step as implemented pose/AI
-paths; Shoulder Mobility / In-Line Lunge as feature-only pose paths; and Trunk
-Stability Push-Up / Rotary Stability as annotation-only paths.
+Deep Squat, Active Straight Leg Raise, Hurdle Step, and In-Line Lunge as
+implemented pose/AI paths; Shoulder Mobility as a feature-only pose path; and
+Trunk Stability Push-Up / Rotary Stability as annotation-only paths.
 
 ### V2: Evaluation and Application Package
 

@@ -10,6 +10,7 @@ import { summarizeHurdleStepPoseFeatures } from "./hurdle-step-features.js";
 import { buildHurdleStepExplainableSuggestion } from "./hurdle-step-suggestion.js";
 import { evaluateHurdleStepSegmentsTiming } from "./hurdle-step-timing.js";
 import { summarizeInlineLungePoseFeatures } from "./inline-lunge-features.js";
+import { buildInlineLungeExplainableSuggestion } from "./inline-lunge-suggestion.js";
 import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
 
 const DEEP_SQUAT_ADAPTER = {
@@ -155,7 +156,7 @@ const HURDLE_STEP_ADAPTER = {
 
 const INLINE_LUNGE_ADAPTER = {
   actionType: "in_line_lunge",
-  posePipelineStatus: "features_only",
+  posePipelineStatus: "implemented",
   supportsAiDraftTiming: true,
   featureTitleKey: "inlineLungeFeatures",
   buildTimingReport({ posePayload, segments }) {
@@ -178,8 +179,15 @@ const INLINE_LUNGE_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport() {
-    return null;
+  buildSuggestionReport({ featureReport, timingReport } = {}) {
+    if (!featureReport || !timingReport) {
+      return null;
+    }
+
+    return buildInlineLungeExplainableSuggestion({
+      featureReport,
+      timingReport,
+    });
   },
 };
 

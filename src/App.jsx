@@ -128,7 +128,7 @@ const DEMO_PRESETS = [
     poseFileName: "6-reps-score-3.pose.json",
     expectedReps: "6",
     notes:
-      "In-Line Lunge 6 reps score-3 sample。当前为 features-only：支持 timing/features，不生成 AI score。",
+      "In-Line Lunge 6 reps score-3 sample。当前支持 timing/features 与 first-pass pose-based AI suggestion。",
     range: {
       startSecond: "0",
       endSecond: "60.3",
@@ -208,7 +208,7 @@ const EVAL_VIDEO_PRESETS = {
   "6 reps score 3.mp4": {
     expectedReps: "6",
     notes:
-      "In-Line Lunge 6 reps score-3 sample。当前为 features-only：支持 timing/features，不生成 AI score。",
+      "In-Line Lunge 6 reps score-3 sample。当前支持 timing/features 与 first-pass pose-based AI suggestion。",
   },
 };
 
@@ -441,6 +441,9 @@ const UI_TEXT = {
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
+    reason_lungeDepth: "Lunge Depth",
+    reason_trunkAlignment: "Trunk Alignment",
+    reason_kneeFootAlignment: "Knee-foot Alignment",
     "reason_depth_hip below knee":
       "Evidence: hip is below the knee at the lowest point, so squat depth supports a high score.",
     "reason_depth_near parallel":
@@ -503,6 +506,24 @@ const UI_TEXT = {
       "Evidence: trunk center shift is visible and should be reviewed.",
     "reason_trunkControl_large trunk shift":
       "Evidence: trunk shift is large enough to suggest limited control.",
+    "reason_lungeDepth_deep lunge proxy":
+      "Evidence: the lunge reaches a strong depth proxy, supporting the lunge-depth criterion.",
+    "reason_lungeDepth_moderate lunge depth":
+      "Evidence: lunge depth is visible but moderate, so this criterion should be reviewed.",
+    "reason_lungeDepth_limited lunge depth":
+      "Evidence: lunge depth appears limited in this pose window.",
+    "reason_trunkAlignment_controlled trunk proxy":
+      "Evidence: shoulder and hip centers stay aligned enough for this first-pass trunk-stability proxy.",
+    "reason_trunkAlignment_trunk shift watch":
+      "Evidence: trunk center shift is visible and should be reviewed.",
+    "reason_trunkAlignment_large trunk shift":
+      "Evidence: trunk shift is large enough to suggest limited trunk stability.",
+    "reason_kneeFootAlignment_knee tracks foot proxy":
+      "Evidence: the lead-side knee stays close to the foot line in the usable view.",
+    "reason_kneeFootAlignment_knee-foot offset watch":
+      "Evidence: the knee-foot offset is visible and should be reviewed.",
+    "reason_kneeFootAlignment_large knee-foot offset":
+      "Evidence: knee-foot offset is large enough to suggest limited alignment control.",
     "reason_view_best from front view":
       "This criterion is more reliable from a front-view video, so the current value is kept as context rather than final evidence.",
     "reason_view_best from side view":
@@ -787,6 +808,9 @@ const UI_TEXT = {
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
+    reason_lungeDepth: "Lunge Depth",
+    reason_trunkAlignment: "Trunk Alignment",
+    reason_kneeFootAlignment: "Knee-foot Alignment",
     "reason_depth_hip below knee":
       "依据是 hip below knee：最低点时髋部已经低于膝盖，深度证据支持较高评分。",
     "reason_depth_near parallel":
@@ -849,6 +873,24 @@ const UI_TEXT = {
       "依据是 trunk shift watch：躯干中心有可见偏移，建议人工复核。",
     "reason_trunkControl_large trunk shift":
       "依据是 large trunk shift：躯干偏移较明显，提示 trunk control 可能受限。",
+    "reason_lungeDepth_deep lunge proxy":
+      "依据是 deep lunge proxy：弓步深度 proxy 比较充分，支持 Lunge Depth 这一项。",
+    "reason_lungeDepth_moderate lunge depth":
+      "依据是 moderate lunge depth：可以看到弓步深度，但幅度中等，建议人工复核。",
+    "reason_lungeDepth_limited lunge depth":
+      "依据是 limited lunge depth：弓步深度看起来不足，提示这一项可能受限。",
+    "reason_trunkAlignment_controlled trunk proxy":
+      "依据是 controlled trunk proxy：肩部中心和髋部中心相对对齐，躯干稳定性证据较好。",
+    "reason_trunkAlignment_trunk shift watch":
+      "依据是 trunk shift watch：躯干中心有可见偏移，建议人工复核。",
+    "reason_trunkAlignment_large trunk shift":
+      "依据是 large trunk shift：躯干偏移较明显，提示 Trunk Stability 可能受限。",
+    "reason_kneeFootAlignment_knee tracks foot proxy":
+      "依据是 knee tracks foot proxy：前侧膝盖相对足部线的偏移较小，对齐证据较好。",
+    "reason_kneeFootAlignment_knee-foot offset watch":
+      "依据是 knee-foot offset watch：膝-足偏移可见，建议人工复核。",
+    "reason_kneeFootAlignment_large knee-foot offset":
+      "依据是 large knee-foot offset：膝-足偏移较明显，提示 Foot-knee Alignment 可能受限。",
     "reason_view_best from front view":
       "这个指标更适合用正面机位判断，因此当前结果只作为参考，不作为最终证据。",
     "reason_view_best from side view":
