@@ -30,7 +30,10 @@ import {
 } from "./lib/export-quality.js";
 import {
   allSegmentsMatchAdapter,
+  evaluateMovementEvidenceGate,
   getImplementedPoseActionTypes,
+  getMovementCapabilities,
+  getMovementCapability,
   getMovementAdapter,
 } from "./lib/movement-adapters.js";
 import { detectPoseActivePeriods } from "./lib/pose-active-periods.js";
@@ -328,6 +331,7 @@ const UI_TEXT = {
     reviewer: "Reviewer",
     movementLabels: "Movement Labels",
     movement: "Movement",
+    capability: "Capability",
     view: "View",
     total: "Total",
     valid: "Valid",
@@ -433,6 +437,15 @@ const UI_TEXT = {
       "Positive clearing or pain usually leads to RAW SCORE 0; please confirm before saving.",
     save: "Save",
     aiSuggestion: "AI Suggestion",
+    posePipeline: "Pose pipeline",
+    aiScoring: "AI scoring",
+    posePipeline_implemented: "implemented",
+    posePipeline_features_only: "features only",
+    posePipeline_annotation_only: "annotation only",
+    posePipeline_unknown: "unknown",
+    aiScoring_pose_based_ai_suggestion: "pose-based AI suggestion",
+    aiScoring_pose_evidence_only: "pose evidence only",
+    aiScoring_not_supported_yet: "not supported yet",
     status: "Status",
     source: "Source",
     humanConsensus: "Human Consensus",
@@ -443,6 +456,31 @@ const UI_TEXT = {
     poseEvidenceOnly: "Pose Evidence Only",
     poseEvidenceOnlyDetail:
       "Pose features are available for review, but this movement does not have a pose-based AI suggestion yet.",
+    annotationOnlyWorkflow: "Annotation-only Workflow",
+    annotationOnlyWorkflowDetail:
+      "This movement currently supports segment review, human RAW SCORE, adjudication, and export, but no pose-based AI scoring yet.",
+    poseAiNotReady: "Pose-based AI Not Ready",
+    poseEvidenceGate_ready: "Pose evidence is sufficient for this suggestion.",
+    poseEvidenceGate_annotation_only:
+      "This movement is currently annotation-only.",
+    poseEvidenceGate_missing_pose_evidence:
+      "Load a matching Pose JSON before using pose-based AI scoring.",
+    poseEvidenceGate_limited_pose_quality:
+      "Pose quality is limited, so the result should stay as evidence for manual review.",
+    poseEvidenceGate_features_only:
+      "Pose features are available, but AI scoring is intentionally disabled for this movement.",
+    poseEvidenceGate_limited_features:
+      "Pose features are incomplete for this segment.",
+    poseEvidenceGate_missing_timing:
+      "Pose timing evidence is not available for this segment.",
+    poseEvidenceGate_timing_needs_review:
+      "Timing QA needs review before using pose-based AI scoring.",
+    poseEvidenceGate_insufficient_features:
+      "Movement features are insufficient for a responsible AI suggestion.",
+    poseEvidenceGate_insufficient_ai_suggestion:
+      "The model did not produce a usable pose-based suggestion for this segment.",
+    poseEvidenceGate_unknown_action:
+      "This action is not registered in the movement capability schema.",
     confidence: "confidence",
     confidence_high: "high",
     confidence_medium: "medium",
@@ -732,6 +770,7 @@ const UI_TEXT = {
     reviewer: "Reviewer",
     movementLabels: "Movement 标签",
     movement: "Movement",
+    capability: "能力",
     view: "视角",
     total: "总数",
     valid: "有效",
@@ -835,6 +874,15 @@ const UI_TEXT = {
       "Clearing 阳性或 pain flag 通常意味着 RAW SCORE 应为 0；保存前请人工确认。",
     save: "保存",
     aiSuggestion: "AI 建议",
+    posePipeline: "Pose pipeline",
+    aiScoring: "AI scoring",
+    posePipeline_implemented: "已接入",
+    posePipeline_features_only: "仅 features",
+    posePipeline_annotation_only: "仅人工标注",
+    posePipeline_unknown: "unknown",
+    aiScoring_pose_based_ai_suggestion: "基于 pose 的 AI 建议",
+    aiScoring_pose_evidence_only: "仅 pose evidence",
+    aiScoring_not_supported_yet: "暂未支持",
     status: "状态",
     source: "来源",
     humanConsensus: "人工一致",
@@ -845,6 +893,29 @@ const UI_TEXT = {
     poseEvidenceOnly: "仅显示 Pose 证据",
     poseEvidenceOnlyDetail:
       "当前动作已经有 pose features 可供人工复核，但还没有接入 pose-based AI suggestion。",
+    annotationOnlyWorkflow: "仅人工标注流程",
+    annotationOnlyWorkflowDetail:
+      "当前动作支持 segment review、人工 RAW SCORE、仲裁和导出，但暂不提供基于 pose 的 AI 打分。",
+    poseAiNotReady: "基于 Pose 的 AI 暂不可用",
+    poseEvidenceGate_ready: "Pose evidence 足以支持当前建议。",
+    poseEvidenceGate_annotation_only: "当前动作仍是 annotation-only。",
+    poseEvidenceGate_missing_pose_evidence:
+      "请先加载匹配的 Pose JSON，再使用基于 pose 的 AI 打分。",
+    poseEvidenceGate_limited_pose_quality:
+      "Pose 质量有限，因此只能作为人工复核 evidence。",
+    poseEvidenceGate_features_only:
+      "当前动作已有 pose features，但有意不开放 AI 打分。",
+    poseEvidenceGate_limited_features: "当前 segment 的 pose features 不完整。",
+    poseEvidenceGate_missing_timing:
+      "当前 segment 没有可用的 pose timing evidence。",
+    poseEvidenceGate_timing_needs_review:
+      "Timing QA 需要复核后，才能使用基于 pose 的 AI 打分。",
+    poseEvidenceGate_insufficient_features:
+      "动作 features 不足，暂时不能负责任地生成 AI 建议。",
+    poseEvidenceGate_insufficient_ai_suggestion:
+      "模型没有为当前 segment 生成可用的 pose-based suggestion。",
+    poseEvidenceGate_unknown_action:
+      "当前动作还没有注册到 movement capability schema。",
     confidence: "置信度",
     confidence_high: "高",
     confidence_medium: "中",
@@ -1343,6 +1414,7 @@ function buildMovementSummaryRows(actions, movementBreakdown) {
   const rows = actions.map((action) => ({
     id: action.id,
     label: action.displayName,
+    capability: getMovementCapability(action.id),
     summary: movementBreakdown[action.id] ?? {
       segmentsTotal: 0,
       validCount: 0,
@@ -1356,6 +1428,7 @@ function buildMovementSummaryRows(actions, movementBreakdown) {
       rows.push({
         id: actionType,
         label: actionType,
+        capability: getMovementCapability(actionType),
         summary,
       });
     }
@@ -1667,6 +1740,31 @@ export default function App() {
       ) ?? null
     );
   }, [activeSegment, suggestionReport]);
+
+  const activeMovementCapability = useMemo(
+    () => getMovementCapability(activeSegment?.actionType ?? selectedAction),
+    [activeSegment, selectedAction],
+  );
+
+  const activeEvidenceGate = useMemo(
+    () =>
+      evaluateMovementEvidenceGate({
+        actionType: activeSegment?.actionType ?? selectedAction,
+        segmentId: activeSegment?.segmentId,
+        poseSummary,
+        timingReport,
+        featureReport,
+        suggestionReport,
+      }),
+    [
+      activeSegment,
+      featureReport,
+      poseSummary,
+      selectedAction,
+      suggestionReport,
+      timingReport,
+    ],
+  );
 
   const playbackRange = previewTimingRange ?? activeSegment;
 
@@ -2468,6 +2566,7 @@ export default function App() {
       featureReport,
       suggestionReport,
       implementedPoseActionTypes: getImplementedPoseActionTypes(),
+      movementCapabilities: getMovementCapabilities(),
       plannedActionTypes: actions.map((action) => action.id),
     });
   }
@@ -3105,6 +3204,7 @@ export default function App() {
               <h3>{t("movementLabels")}</h3>
               <div className="movement-summary-header" aria-hidden="true">
                 <span>{t("movement")}</span>
+                <span>{t("capability")}</span>
                 <span>{t("total")}</span>
                 <span>{t("valid")}</span>
                 <span>{t("pending")}</span>
@@ -3113,6 +3213,13 @@ export default function App() {
               {movementSummaryRows.map((row) => (
                 <div className="movement-summary-row" key={row.id}>
                   <span>{row.label}</span>
+                  <em>
+                    {t(
+                      `posePipeline_${
+                        row.capability?.posePipelineStatus ?? "unknown"
+                      }`,
+                    )}
+                  </em>
                   <strong>{row.summary.segmentsTotal}</strong>
                   <strong>{row.summary.validCount}</strong>
                   <strong>{row.summary.pendingCount}</strong>
@@ -3270,7 +3377,8 @@ export default function App() {
                 aiScore={activeSegment.aiScore}
                 adjudication={adjudicationPreview}
                 poseSuggestion={activePoseSuggestion}
-                posePipelineStatus={movementAdapter?.posePipelineStatus}
+                movementCapability={activeMovementCapability}
+                evidenceGate={activeEvidenceGate}
                 t={t}
               />
               <ReviewerScoreForm

@@ -118,11 +118,16 @@ JSON dataset export 不会嵌入完整 `*.pose.json` 原始帧数据。加载 po
 `label`、`genericKey` 和 `score`。这样不同 FMS movement 可以有自己的 rubric
 criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路径而保留。
 
-`poseEvidence` 还会记录 `implementedPoseActionTypes` 与 `plannedActionTypes`。
-当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge 已有 first-pass pose-based
-AI suggestion；Shoulder Mobility 为 feature-only；Trunk Stability Push-Up 和
-Rotary Stability 为 annotation-only。schema 明确保留 V2+ 扩展到全部 7 个 FMS
-movements 的空间。
+`poseEvidence` 还会记录 `implementedPoseActionTypes`、`plannedActionTypes` 和
+`movementCapabilities`。当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge
+已有 first-pass pose-based AI suggestion；Shoulder Mobility 为 feature-only；
+Trunk Stability Push-Up 和 Rotary Stability 为 annotation-only。
+
+每条 record 可附加 `poseEvidenceGate`，用于说明该 segment 是否真正满足展示
+pose-based AI suggestion 的条件。典型状态包括 `ready`、`missing_pose_evidence`、
+`timing_needs_review`、`insufficient_features`、`features_only` 和
+`annotation_only`。这让 schema 在扩展到全部 7 个 FMS movements 时可以明确区分
+“已能给 AI suggestion”与“只有 pose evidence / 只有人工标注”。
 
 CSV export 会展开同一批 evidence，便于 reviewer 在 spreadsheet 中扫描 segment
 timing、feature ratings、pose suggestion 和 final label。

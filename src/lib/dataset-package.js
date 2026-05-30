@@ -153,6 +153,7 @@ function formatOptionalRate(rate) {
 function buildDatasetCard(dataset, qualitySummary) {
   const video = dataset.video;
   const repPolicy = video.repPolicy ?? {};
+  const movementCapability = video.movementCapability ?? {};
   const rubricCriteria = (video.rubricCriteria ?? [])
     .map(
       (criterion) =>
@@ -175,6 +176,8 @@ annotation、movement-quality review 和后续可追溯数据集建设。它不�
 - Action type: ${video.actionType}
 - Analysis range: ${video.startSecond}s - ${video.endSecond}s
 - Expected reps: ${video.expectedReps ?? "N/A"}
+- Pose pipeline status: ${movementCapability.posePipelineStatus ?? "unknown"}
+- AI scoring status: ${movementCapability.aiScoringStatus ?? "unknown"}
 
 ## Score Scope
 
@@ -218,6 +221,14 @@ ${rubricCriteria || "- N/A"}
 - Feature coverage: ${qualitySummary.pose.featureUsable}/${qualitySummary.pose.featureTotal}
 - AI suggestion coverage: ${qualitySummary.pose.suggestionReady}/${qualitySummary.pose.suggestionTotal}
 
+## Movement Capability Framework
+
+每个 action 都有独立的 movement capability 状态。implemented 表示已有
+pose timing、features 和 pose-based AI suggestion；features_only 表示只展示
+reviewer-readable pose evidence；annotation_only 表示当前只做人工切片、评分、
+仲裁和导出。导出中的 poseEvidenceGate 会记录每个 segment 是否达到显示
+pose-based AI suggestion 的 evidence gate。
+
 ## 限制
 
 - 当前 Deep Squat、Active Straight Leg Raise、Hurdle Step 和 In-Line Lunge
@@ -243,7 +254,8 @@ ${files.map((file) => `- \`${file.fileName}\``).join("\n")}
 
 - \`dataset.json\`: 完整结构化 dataset records，包含 segment timing、reviewer
   labels、rep-level raw score scope、side/clearing/pain metadata、adjudication、
-  pose timing、pose features 和 pose suggestion。
+  movement capability、pose timing、pose features、pose evidence gate 和 pose
+  suggestion。
 - \`dataset.csv\`: 适合 spreadsheet 快速查看的扁平表格。
 - \`dataset_card.md\`: 面向人阅读的数据集说明、用途和限制。
 - \`run_summary.json\`: 本次导出的质量摘要和覆盖率。

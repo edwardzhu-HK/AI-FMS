@@ -9,6 +9,14 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         videoId: "vid_1",
         segmentId: "seg_1",
         actionType: "deep_squat",
+        movementCapability: {
+          posePipelineStatus: "implemented",
+          aiScoringStatus: "pose_based_ai_suggestion",
+        },
+        poseEvidenceGate: {
+          status: "ready",
+          reasonCode: "ready",
+        },
         repetitionIndex: 1,
         scoreScope: "rep_raw_score",
         scoreAggregation: "none",
@@ -140,6 +148,8 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[0].includes("score_scope"));
   assert.ok(lines[0].includes("side_policy"));
   assert.ok(lines[0].includes("ai_inferred_side"));
+  assert.ok(lines[0].includes("pose_pipeline_status"));
+  assert.ok(lines[0].includes("pose_evidence_gate_status"));
   assert.ok(lines[0].includes("clearing_findings"));
   assert.ok(lines[0].includes("reviewer_a_score_basis"));
   assert.ok(lines[0].includes("pose_suggestion_criteria_scores"));
@@ -147,6 +157,8 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[1].includes("rep_raw_score"));
   assert.ok(lines[1].includes("not_lateralized"));
   assert.ok(lines[1].includes("right"));
+  assert.ok(lines[1].includes("implemented"));
+  assert.ok(lines[1].includes("pose_based_ai_suggestion"));
   assert.ok(
     lines[1].includes("shoulder_clearing:positive_negative_pain:negative"),
   );

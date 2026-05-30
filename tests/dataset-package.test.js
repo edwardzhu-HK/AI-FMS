@@ -18,6 +18,10 @@ function createDataset() {
       expectedReps: 7,
       notes: "demo",
       scoreScope: "rep_raw_score",
+      movementCapability: {
+        posePipelineStatus: "implemented",
+        aiScoringStatus: "pose_based_ai_suggestion",
+      },
       repPolicy: {
         scoringUnit: "rep",
         sidePolicy: "not_lateralized",
@@ -121,6 +125,10 @@ test("buildDatasetPackageFiles creates application-ready export files", () => {
   assert.match(
     files.find((file) => file.fileName === "dataset_card.md").contents,
     /scoresheet-like basis/,
+  );
+  assert.match(
+    files.find((file) => file.fileName === "dataset_card.md").contents,
+    /Movement Capability Framework/,
   );
   assert.match(
     files.find((file) => file.fileName === "README_export.md").contents,

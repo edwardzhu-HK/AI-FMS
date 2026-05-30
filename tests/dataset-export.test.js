@@ -58,8 +58,20 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
   assert.equal(exported.schemaVersion, "ai_fms_dataset_v1_5_draft");
   assert.equal(exported.video.scoreScope, "rep_raw_score");
   assert.equal(exported.video.repPolicy.sidePolicy, "not_lateralized");
+  assert.equal(
+    exported.video.movementCapability.posePipelineStatus,
+    "implemented",
+  );
+  assert.equal(
+    exported.video.movementCapability.aiScoringStatus,
+    "pose_based_ai_suggestion",
+  );
   assert.equal(exported.records[0].finalLabel.totalScore, 2);
   assert.equal(exported.records[0].scoreScope, "rep_raw_score");
+  assert.equal(
+    exported.records[0].movementCapability.supportsPoseSuggestion,
+    true,
+  );
   assert.equal(exported.records[0].scoreAggregation, "none");
   assert.equal(exported.records[0].repPolicy.clearingPolicy, "none");
   assert.equal(exported.records[0].sideSource, "reviewer_or_metadata");
@@ -208,6 +220,10 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     "deep_squat",
     "hurdle_step",
   ]);
+  assert.equal(
+    augmented.poseEvidence.movementCapabilities[0].posePipelineStatus,
+    "implemented",
+  );
   assert.equal(augmented.records[0].poseTiming.suggestedStartSecond, 1.1);
   assert.equal(
     augmented.records[0].poseFeatures.ratings.torsoControl.label,
@@ -221,6 +237,15 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     sourceSecond: 2.4,
   });
   assert.equal(augmented.records[0].sideSource, "ai_suggested");
+  assert.deepEqual(augmented.records[0].poseEvidenceGate, {
+    status: "ready",
+    reasonCode: "ready",
+    canUsePoseEvidence: true,
+    canShowPoseSuggestion: true,
+    timingStatus: "good",
+    featureStatus: "ok",
+    suggestionStatus: "suggested",
+  });
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
   assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
 });

@@ -7,6 +7,11 @@ import {
   normalizeClearingFindings,
   normalizeScoreForAction,
 } from "../constants/scoring.js";
+import {
+  evaluateMovementEvidenceGate,
+  getMovementCapabilities,
+  getMovementCapability,
+} from "./movement-adapters.js";
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -31,6 +36,39 @@ function toReviewerScoreSnapshot(score, actionType) {
   };
 }
 
+function toCapabilitySnapshot(actionType) {
+  const capability = getMovementCapability(actionType);
+
+  if (!capability) {
+    return null;
+  }
+
+  return {
+    posePipelineStatus: capability.posePipelineStatus,
+    aiScoringStatus: capability.aiScoringStatus,
+    supportsPoseTiming: capability.supportsPoseTiming,
+    supportsPoseFeatures: capability.supportsPoseFeatures,
+    supportsPoseSuggestion: capability.supportsPoseSuggestion,
+    supportsAiDraftTiming: capability.supportsAiDraftTiming,
+  };
+}
+
+function simplifyEvidenceGate(gate) {
+  if (!gate) {
+    return null;
+  }
+
+  return {
+    status: gate.status,
+    reasonCode: gate.reasonCode,
+    canUsePoseEvidence: gate.canUsePoseEvidence,
+    canShowPoseSuggestion: gate.canShowPoseSuggestion,
+    timingStatus: gate.timingStatus,
+    featureStatus: gate.featureStatus,
+    suggestionStatus: gate.suggestionStatus,
+  };
+}
+
 export function buildDatasetExport(video, segments) {
   const generatedAt = new Date().toISOString();
 
@@ -48,6 +86,7 @@ export function buildDatasetExport(video, segments) {
       scoreScope: SCORE_SCOPE_REP_RAW,
       repPolicy: getActionRepPolicy(video.actionType),
       rubricCriteria: getActionRubricCriteria(video.actionType),
+      movementCapability: toCapabilitySnapshot(video.actionType),
     },
     records: segments.map((segment) => {
       const aiScore = normalizeScoreForAction(
@@ -72,6 +111,7 @@ export function buildDatasetExport(video, segments) {
         scoreScope: SCORE_SCOPE_REP_RAW,
         scoreAggregation: "none",
         repPolicy: getActionRepPolicy(segment.actionType),
+        movementCapability: toCapabilitySnapshot(segment.actionType),
         cameraView: segment.cameraView,
         side: segment.side ?? "none",
         sideSource:
@@ -190,6 +230,7 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
     featureReport = null,
     suggestionReport = null,
     implementedPoseActionTypes = ["deep_squat"],
+    movementCapabilities = getMovementCapabilities(),
     plannedActionTypes = [],
   } = options;
 
@@ -213,6 +254,7 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
     poseFileName,
     poseSummary: poseSummary ? clone(poseSummary) : null,
     implementedPoseActionTypes,
+    movementCapabilities: clone(movementCapabilities),
     plannedActionTypes,
     reports: {
       timingSummary: timingReport?.summary ? clone(timingReport.summary) : null,
@@ -231,6 +273,14 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
     const aiSideSuggestion = simplifySideSuggestion(
       featureBySegment.get(record.segmentId),
     );
+    const evidenceGate = evaluateMovementEvidenceGate({
+      actionType: record.actionType,
+      segmentId: record.segmentId,
+      poseSummary,
+      timingReport,
+      featureReport,
+      suggestionReport,
+    });
 
     return {
       ...record,
@@ -244,6 +294,7 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
       poseSuggestion: simplifySuggestionItem(
         suggestionBySegment.get(record.segmentId),
       ),
+      poseEvidenceGate: simplifyEvidenceGate(evidenceGate),
     };
   });
 

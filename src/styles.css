@@ -451,7 +451,9 @@ button:disabled {
 .movement-summary-header,
 .movement-summary-row {
   display: grid;
-  grid-template-columns: minmax(86px, 1fr) repeat(4, minmax(38px, 0.42fr));
+  grid-template-columns:
+    minmax(86px, 1fr) minmax(66px, 0.7fr)
+    repeat(4, minmax(38px, 0.42fr));
   gap: 6px;
   align-items: center;
   font-size: 0.76rem;
@@ -477,6 +479,13 @@ button:disabled {
 .movement-summary-row strong {
   text-align: center;
   font-size: 0.82rem;
+}
+
+.movement-summary-row em {
+  color: #497265;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .player-card header {

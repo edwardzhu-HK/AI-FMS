@@ -13,10 +13,149 @@ import { summarizeInlineLungePoseFeatures } from "./inline-lunge-features.js";
 import { buildInlineLungeExplainableSuggestion } from "./inline-lunge-suggestion.js";
 import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
 
+export const MOVEMENT_CAPABILITY_STATUS = {
+  IMPLEMENTED: "implemented",
+  FEATURES_ONLY: "features_only",
+  ANNOTATION_ONLY: "annotation_only",
+};
+
+export const AI_SCORING_STATUS = {
+  POSE_BASED: "pose_based_ai_suggestion",
+  FEATURES_ONLY: "pose_evidence_only",
+  NOT_SUPPORTED: "not_supported_yet",
+};
+
+const BASE_CAPABILITIES = {
+  deep_squat: {
+    actionType: "deep_squat",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: true,
+    supportsAiDraftTiming: true,
+  },
+  active_straight_leg_raise: {
+    actionType: "active_straight_leg_raise",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: true,
+    supportsAiDraftTiming: true,
+  },
+  hurdle_step: {
+    actionType: "hurdle_step",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: true,
+    supportsAiDraftTiming: true,
+  },
+  in_line_lunge: {
+    actionType: "in_line_lunge",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: true,
+    supportsAiDraftTiming: true,
+  },
+  shoulder_mobility: {
+    actionType: "shoulder_mobility",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY,
+    aiScoringStatus: AI_SCORING_STATUS.FEATURES_ONLY,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
+    supportsPoseSuggestion: false,
+    supportsAiDraftTiming: false,
+  },
+  trunk_stability_push_up: {
+    actionType: "trunk_stability_push_up",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.ANNOTATION_ONLY,
+    aiScoringStatus: AI_SCORING_STATUS.NOT_SUPPORTED,
+    supportsPoseTiming: false,
+    supportsPoseFeatures: false,
+    supportsPoseSuggestion: false,
+    supportsAiDraftTiming: false,
+  },
+  rotary_stability: {
+    actionType: "rotary_stability",
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.ANNOTATION_ONLY,
+    aiScoringStatus: AI_SCORING_STATUS.NOT_SUPPORTED,
+    supportsPoseTiming: false,
+    supportsPoseFeatures: false,
+    supportsPoseSuggestion: false,
+    supportsAiDraftTiming: false,
+  },
+};
+
+function cloneCapability(capability) {
+  return capability ? { ...capability } : null;
+}
+
+function findSegmentItem(report, segmentId) {
+  if (!report || !segmentId) {
+    return null;
+  }
+
+  return report.items?.find((item) => item.segmentId === segmentId) ?? null;
+}
+
+function hasPoseEvidence({ poseSummary, timingReport, featureReport }) {
+  return Boolean(
+    poseSummary || timingReport?.items?.length || featureReport?.items?.length,
+  );
+}
+
+function isPoseSummaryLimited(poseSummary) {
+  if (!poseSummary) {
+    return false;
+  }
+
+  const missingFramesRatio = poseSummary.missingFramesRatio ?? 0;
+  const avgVisibility = poseSummary.avgVisibility ?? 1;
+
+  return (
+    poseSummary.valid === false ||
+    missingFramesRatio > 0.1 ||
+    avgVisibility < 0.75
+  );
+}
+
+function isTimingBlocked(timingItem) {
+  return (
+    timingItem?.status === "needs_adjustment" ||
+    (timingItem?.issues ?? []).some((issue) => issue.severity === "error")
+  );
+}
+
+function createGate({
+  actionType,
+  status,
+  reasonCode,
+  canUsePoseEvidence = false,
+  canShowPoseSuggestion = false,
+  timingItem = null,
+  featureItem = null,
+  suggestionItem = null,
+}) {
+  return {
+    actionType,
+    status,
+    reasonCode,
+    canUsePoseEvidence,
+    canShowPoseSuggestion,
+    timingStatus: timingItem?.status ?? null,
+    featureStatus: featureItem?.status ?? null,
+    suggestionStatus: suggestionItem?.status ?? null,
+  };
+}
+
 const DEEP_SQUAT_ADAPTER = {
+  ...BASE_CAPABILITIES.deep_squat,
   actionType: "deep_squat",
-  posePipelineStatus: "implemented",
-  supportsAiDraftTiming: true,
   featureTitleKey: "deepSquatFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -51,9 +190,8 @@ const DEEP_SQUAT_ADAPTER = {
 };
 
 const ASLR_ADAPTER = {
+  ...BASE_CAPABILITIES.active_straight_leg_raise,
   actionType: "active_straight_leg_raise",
-  posePipelineStatus: "implemented",
-  supportsAiDraftTiming: true,
   featureTitleKey: "activeStraightLegRaiseFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -88,9 +226,8 @@ const ASLR_ADAPTER = {
 };
 
 const SHOULDER_MOBILITY_ADAPTER = {
+  ...BASE_CAPABILITIES.shoulder_mobility,
   actionType: "shoulder_mobility",
-  posePipelineStatus: "features_only",
-  supportsAiDraftTiming: false,
   featureTitleKey: "shoulderMobilityFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -118,9 +255,8 @@ const SHOULDER_MOBILITY_ADAPTER = {
 };
 
 const HURDLE_STEP_ADAPTER = {
+  ...BASE_CAPABILITIES.hurdle_step,
   actionType: "hurdle_step",
-  posePipelineStatus: "implemented",
-  supportsAiDraftTiming: true,
   featureTitleKey: "hurdleStepFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -155,9 +291,8 @@ const HURDLE_STEP_ADAPTER = {
 };
 
 const INLINE_LUNGE_ADAPTER = {
+  ...BASE_CAPABILITIES.in_line_lunge,
   actionType: "in_line_lunge",
-  posePipelineStatus: "implemented",
-  supportsAiDraftTiming: true,
   featureTitleKey: "inlineLungeFeatures",
   buildTimingReport({ posePayload, segments }) {
     if (!posePayload || !segments?.length) {
@@ -203,10 +338,151 @@ export function getMovementAdapter(actionType) {
   return MOVEMENT_ADAPTERS[actionType] ?? null;
 }
 
+export function getMovementCapability(actionType) {
+  return cloneCapability(BASE_CAPABILITIES[actionType]);
+}
+
+export function getMovementCapabilities() {
+  return Object.values(BASE_CAPABILITIES).map(cloneCapability);
+}
+
 export function getImplementedPoseActionTypes() {
-  return Object.values(MOVEMENT_ADAPTERS)
-    .filter((adapter) => adapter.posePipelineStatus === "implemented")
-    .map((adapter) => adapter.actionType);
+  return Object.values(BASE_CAPABILITIES)
+    .filter(
+      (capability) =>
+        capability.posePipelineStatus ===
+        MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    )
+    .map((capability) => capability.actionType);
+}
+
+export function evaluateMovementEvidenceGate({
+  actionType,
+  segmentId,
+  poseSummary = null,
+  timingReport = null,
+  featureReport = null,
+  suggestionReport = null,
+} = {}) {
+  const capability = getMovementCapability(actionType);
+  const timingItem = findSegmentItem(timingReport, segmentId);
+  const featureItem = findSegmentItem(featureReport, segmentId);
+  const suggestionItem = findSegmentItem(suggestionReport, segmentId);
+
+  if (!capability) {
+    return createGate({
+      actionType,
+      status: "unknown",
+      reasonCode: "unknown_action",
+    });
+  }
+
+  if (
+    capability.posePipelineStatus === MOVEMENT_CAPABILITY_STATUS.ANNOTATION_ONLY
+  ) {
+    return createGate({
+      actionType,
+      status: "annotation_only",
+      reasonCode: "annotation_only",
+    });
+  }
+
+  if (!hasPoseEvidence({ poseSummary, timingReport, featureReport })) {
+    return createGate({
+      actionType,
+      status: "missing_pose_evidence",
+      reasonCode: "missing_pose_evidence",
+    });
+  }
+
+  if (isPoseSummaryLimited(poseSummary)) {
+    return createGate({
+      actionType,
+      status: "limited_pose_quality",
+      reasonCode: "limited_pose_quality",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (
+    capability.posePipelineStatus === MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY
+  ) {
+    return createGate({
+      actionType,
+      status:
+        featureItem?.status === "ok" ? "features_only" : "limited_features",
+      reasonCode:
+        featureItem?.status === "ok" ? "features_only" : "limited_features",
+      canUsePoseEvidence: Boolean(featureItem),
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (!timingItem) {
+    return createGate({
+      actionType,
+      status: "missing_timing",
+      reasonCode: "missing_timing",
+      canUsePoseEvidence: true,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (isTimingBlocked(timingItem)) {
+    return createGate({
+      actionType,
+      status: "timing_needs_review",
+      reasonCode: "timing_needs_review",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (featureItem?.status !== "ok") {
+    return createGate({
+      actionType,
+      status: "insufficient_features",
+      reasonCode: "insufficient_features",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (
+    suggestionItem?.status !== "suggested" ||
+    suggestionItem.totalScore === null
+  ) {
+    return createGate({
+      actionType,
+      status: "insufficient_ai_suggestion",
+      reasonCode: "insufficient_ai_suggestion",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  return createGate({
+    actionType,
+    status: "ready",
+    reasonCode: "ready",
+    canUsePoseEvidence: true,
+    canShowPoseSuggestion: true,
+    timingItem,
+    featureItem,
+    suggestionItem,
+  });
 }
 
 export function allSegmentsMatchAdapter(segments, adapter, fallbackActionType) {

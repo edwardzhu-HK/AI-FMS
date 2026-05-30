@@ -165,6 +165,9 @@ Current development order agreed on 2026-05-23:
       reviewer-readable reasons, and tests.
 - [x] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
+- [x] Add movement capability registry and evidence gate so each action is
+      explicitly marked as implemented, features-only, or annotation-only
+      before UI/export show pose-based AI scoring.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.
@@ -251,7 +254,7 @@ remain reusable:
 
 ## Current Known Limitations
 
-- Git is initialized locally, but no GitHub remote is configured yet.
+- GitHub private remote is configured; current main branch is pushed.
 - Real backend persistence is not implemented.
 - Real pose extraction is implemented as a local Deep Squat prototype, but not
   yet integrated into backend storage or automatic job output.
@@ -259,7 +262,9 @@ remain reusable:
   Straight Leg Raise, Hurdle Step, and In-Line Lunge. Shoulder Mobility is
   currently pose-evidence / feature-only. Trunk Stability Push-Up and Rotary
   Stability are annotation-only until pose data and movement-specific helpers
-  are added.
+  are added. The workbench now uses movement capability metadata and a per
+  segment evidence gate to decide whether to show pose-based AI scoring or a
+  more conservative evidence/annotation state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
 - Demo presets now cover all 7 FMS action slots, but only the first five have

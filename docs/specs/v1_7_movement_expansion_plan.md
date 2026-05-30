@@ -92,6 +92,18 @@
 是否涉及结构变化：是，属于代码框架结构变化，但不改变数据 schema。实施前需要
 确认一次。
 
+2026-05-30 更新：这一层已经升级为 `movement capability registry + adapter`。
+registry 负责回答每个 action 当前处于哪种能力状态：
+
+- `implemented`：有 pose timing、pose features 和 pose-based AI suggestion。
+- `features_only`：有 reviewer-readable pose evidence，但暂不开放 AI scoring。
+- `annotation_only`：只做人工 segment review、RAW SCORE、adjudication 和 export。
+
+同时新增 per-segment `evidence gate`：只有 pose quality、timing、features 和
+suggestion 都达到最低条件时，UI 和导出才把该 segment 标为可展示 pose-based AI
+suggestion。否则保守显示为 missing pose、timing needs review、insufficient
+features、features-only 或 annotation-only。
+
 ### Step 2：准备 ASLR pose assets
 
 目标：为 Active Straight Leg Raise 生成并验证真实 pose JSON。
@@ -175,6 +187,9 @@
 - 不改 `ai_fms_dataset_v1_5_draft` 主 schema。
 - 更新 `implementedPoseActionTypes`，新增 `active_straight_leg_raise`。
 - `records[].poseFeatures` 和 `records[].poseSuggestion` 继续使用开放结构。
+- `records[].movementCapability` 和 `records[].poseEvidenceGate` 用于解释当前
+  action/segment 的 AI 能力状态，避免把 feature-only 或 annotation-only 误读为
+  已经完成 AI scoring。
 - 在 README / dataset card 中写清楚 ASLR 是第二个 experimental pose pipeline。
 
 是否涉及数据结构变化：默认不需要。若要升级为 `ai_fms_dataset_v1_7_draft`，

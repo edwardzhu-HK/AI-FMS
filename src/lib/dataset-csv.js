@@ -17,6 +17,16 @@ const CSV_COLUMNS = [
   ["video_id", (record) => record.videoId],
   ["segment_id", (record) => record.segmentId],
   ["action_type", (record) => record.actionType],
+  [
+    "pose_pipeline_status",
+    (record) => record.movementCapability?.posePipelineStatus,
+  ],
+  ["ai_scoring_status", (record) => record.movementCapability?.aiScoringStatus],
+  ["pose_evidence_gate_status", (record) => record.poseEvidenceGate?.status],
+  [
+    "pose_evidence_gate_reason",
+    (record) => record.poseEvidenceGate?.reasonCode,
+  ],
   ["repetition_index", (record) => record.repetitionIndex],
   ["score_scope", (record) => record.scoreScope],
   ["score_aggregation", (record) => record.scoreAggregation],

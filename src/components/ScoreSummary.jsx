@@ -95,14 +95,25 @@ export default function ScoreSummary({
   aiScore,
   adjudication,
   poseSuggestion,
-  posePipelineStatus,
+  movementCapability,
+  evidenceGate,
   t = (key) => key,
 }) {
   const subscoreItems = getSubscoreItems(actionType);
-  const hasPoseSuggestion = poseSuggestion?.status === "suggested";
+  const canShowPoseSuggestion =
+    evidenceGate?.canShowPoseSuggestion &&
+    poseSuggestion?.status === "suggested";
+  const isAnnotationOnly =
+    movementCapability?.posePipelineStatus === "annotation_only" ||
+    evidenceGate?.status === "annotation_only";
   const hasFeatureOnlyEvidence =
-    posePipelineStatus === "features_only" && !hasPoseSuggestion;
-  const displayedScore = hasPoseSuggestion ? poseSuggestion : aiScore;
+    movementCapability?.posePipelineStatus === "features_only" &&
+    !canShowPoseSuggestion;
+  const isPoseAiUnavailable =
+    movementCapability?.supportsPoseSuggestion &&
+    !canShowPoseSuggestion &&
+    evidenceGate;
+  const displayedScore = canShowPoseSuggestion ? poseSuggestion : aiScore;
   const displayedCriteriaScores =
     displayedScore?.criteriaScores?.length > 0
       ? displayedScore.criteriaScores.map((criterion) => ({
@@ -115,6 +126,25 @@ export default function ScoreSummary({
           label: item.label,
           score: displayedScore?.subscores?.[item.key],
         }));
+
+  if (isAnnotationOnly) {
+    return (
+      <section className="score-summary card">
+        <h3>{t("annotationOnlyWorkflow")}</h3>
+        <p>{t("annotationOnlyWorkflowDetail")}</p>
+        <div
+          className={`adjudication adjudication-${adjudication.labelStatus}`}
+        >
+          <span>
+            {t("status")}: {adjudication.labelStatus}
+          </span>
+          <span>
+            {t("source")}: {renderSourceLabel(adjudication.labelSource, t)}
+          </span>
+        </div>
+      </section>
+    );
+  }
 
   if (hasFeatureOnlyEvidence) {
     return (
@@ -135,16 +165,35 @@ export default function ScoreSummary({
     );
   }
 
+  if (isPoseAiUnavailable) {
+    return (
+      <section className="score-summary card">
+        <h3>{t("poseAiNotReady")}</h3>
+        <p>{t(`poseEvidenceGate_${evidenceGate.reasonCode}`)}</p>
+        <div className="pose-suggestion-meta">
+          <span>
+            {t("posePipeline")}:{" "}
+            {t(`posePipeline_${movementCapability.posePipelineStatus}`)}
+          </span>
+          <span>
+            {t("aiScoring")}:{" "}
+            {t(`aiScoring_${movementCapability.aiScoringStatus}`)}
+          </span>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       className={
-        hasPoseSuggestion
+        canShowPoseSuggestion
           ? "score-summary score-summary-pose card"
           : "score-summary card"
       }
     >
       <h3>
-        {hasPoseSuggestion ? t("poseBasedAiSuggestion") : t("aiSuggestion")}
+        {canShowPoseSuggestion ? t("poseBasedAiSuggestion") : t("aiSuggestion")}
       </h3>
       <p className="score-total">
         {t("totalScore")}: {displayedScore.totalScore}
@@ -158,7 +207,7 @@ export default function ScoreSummary({
         ))}
       </ul>
 
-      {hasPoseSuggestion ? (
+      {canShowPoseSuggestion ? (
         <>
           <div className="pose-suggestion-meta">
             <span>

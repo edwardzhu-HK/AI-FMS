@@ -594,6 +594,11 @@ Implementation status after the first P2 pass:
     records now carry `scoreBasis = scoresheet_like_raw_score` and
     `usesCriteriaScores = false`. Pose-based AI suggestions remain the place
     for criteria-level rationale.
+31. Added a movement capability registry and evidence gate. The workbench now
+    distinguishes implemented pose-based AI suggestion paths, feature-only pose
+    evidence paths, and annotation-only paths in UI, JSON/CSV export, and
+    dataset package notes. This keeps 7-action expansion explicit without
+    overclaiming AI scoring coverage.
 
 Recommended next sprint:
 
