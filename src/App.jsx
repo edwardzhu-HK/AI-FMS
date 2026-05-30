@@ -672,10 +672,6 @@ const UI_TEXT = {
     sideOption_unknown: "unknown",
     sideOption_left: "left",
     sideOption_right: "right",
-    aiSideSuggestionApplied:
-      "AI suggested {side}; save Segment Metadata to confirm.",
-    aiSideSuggestionConflict:
-      "AI suggested {side}; saved side is {reviewerSide}.",
     clearingFinding_ankle_clearing_pain: "Ankle Clearing - Pain",
     clearingFinding_ankle_clearing_mobility: "Ankle Clearing - Mobility",
     clearingFinding_shoulder_clearing: "Shoulder Clearing",
@@ -1193,8 +1189,6 @@ const UI_TEXT = {
     sideOption_unknown: "unknown",
     sideOption_left: "left",
     sideOption_right: "right",
-    aiSideSuggestionApplied: "AI 建议 {side}；保存 Segment 元数据后确认。",
-    aiSideSuggestionConflict: "AI 建议 {side}；当前已保存为 {reviewerSide}。",
     clearingFinding_ankle_clearing_pain: "Ankle Clearing - Pain",
     clearingFinding_ankle_clearing_mobility: "Ankle Mobility Clearing",
     clearingFinding_shoulder_clearing: "Shoulder Clearing",

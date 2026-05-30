@@ -122,17 +122,6 @@ export default function SegmentEditor({
     sideOptions.length > 0 ? sideOptions : [repPolicy.defaultSide];
   const hasSideOptions = sideOptions.length > 0;
   const hasClearingFindings = formValue.clearingFindings.length > 0;
-  const aiSideIsApplied =
-    hasSideOptions &&
-    canApplyAiSideSuggestion(segment, aiSideSuggestion, repPolicy) &&
-    formValue.side === aiSideSuggestion.side;
-  const aiSideConflicts =
-    hasSideOptions &&
-    aiSideSuggestion?.status === "suggested" &&
-    repPolicy.expectedSideValues.includes(aiSideSuggestion.side) &&
-    segment.side !== "unknown" &&
-    segment.side !== repPolicy.defaultSide &&
-    segment.side !== aiSideSuggestion.side;
 
   function updateField(field, value) {
     setFormValue((previous) => ({
@@ -292,21 +281,6 @@ export default function SegmentEditor({
                 </option>
               ))}
             </select>
-            {aiSideIsApplied ? (
-              <span className="metadata-hint">
-                {t("aiSideSuggestionApplied").replace(
-                  "{side}",
-                  aiSideSuggestion.side,
-                )}
-              </span>
-            ) : null}
-            {aiSideConflicts ? (
-              <span className="metadata-hint metadata-hint-warning">
-                {t("aiSideSuggestionConflict")
-                  .replace("{side}", aiSideSuggestion.side)
-                  .replace("{reviewerSide}", segment.side)}
-              </span>
-            ) : null}
           </label>
 
           {hasClearingFindings ? (
