@@ -109,7 +109,10 @@ body {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(260px, 320px) 1fr minmax(320px, 370px);
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr) minmax(
+      320px,
+      370px
+    );
   gap: 12px;
 }
 
@@ -119,6 +122,7 @@ body {
   display: grid;
   gap: 12px;
   align-content: start;
+  min-width: 0;
 }
 
 .form-card,
@@ -131,6 +135,7 @@ body {
 .empty-score-card,
 .evidence-summary-card,
 .ingest-result-card {
+  min-width: 0;
   padding: 14px;
 }
 
@@ -157,6 +162,7 @@ input,
 select,
 textarea {
   width: 100%;
+  min-width: 0;
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid var(--line);
@@ -265,7 +271,7 @@ button:disabled {
   color: #3e463b;
   font-size: 0.88rem;
   line-height: 1.35;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .pose-status {
@@ -273,6 +279,7 @@ button:disabled {
   color: #5e6659;
   font-size: 0.88rem;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .active-period-suggestion {
@@ -528,6 +535,7 @@ button:disabled {
 video,
 .video-placeholder {
   width: 100%;
+  max-width: 100%;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: #111;
@@ -927,7 +935,23 @@ video {
   margin: 6px 0;
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1360px) {
+  .workspace-grid {
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  }
+
+  .right-column {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .right-column .score-summary {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 960px) {
   .workspace-grid {
     grid-template-columns: 1fr;
   }
@@ -936,6 +960,10 @@ video {
   .center-column,
   .right-column {
     grid-template-columns: 1fr;
+  }
+
+  .right-column {
+    grid-column: auto;
   }
 
   .segment-nav {
