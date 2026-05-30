@@ -86,6 +86,34 @@ function classifyHipFlexion(ankleAboveHip) {
   };
 }
 
+function classifyActiveLegRaise(ankleAboveHip) {
+  if (ankleAboveHip === null) {
+    return {
+      status: "not_applicable",
+      label: "missing landmarks",
+    };
+  }
+
+  if (ankleAboveHip >= 0.16) {
+    return {
+      status: "good",
+      label: "score 3 raise zone",
+    };
+  }
+
+  if (ankleAboveHip >= 0.06) {
+    return {
+      status: "watch",
+      label: "score 2 raise zone",
+    };
+  }
+
+  return {
+    status: "limited",
+    label: "score 1 raise zone",
+  };
+}
+
 function classifyKneeExtension(kneeAngleDegrees) {
   if (kneeAngleDegrees === null) {
     return {
@@ -111,6 +139,40 @@ function classifyKneeExtension(kneeAngleDegrees) {
   return {
     status: "limited",
     label: "bent knee watch",
+  };
+}
+
+function classifyStationaryLegControl({ kneeAngleDegrees, ankleDrift }) {
+  if (kneeAngleDegrees === null && ankleDrift === null) {
+    return {
+      status: "not_applicable",
+      label: "missing landmarks",
+    };
+  }
+
+  if (
+    (kneeAngleDegrees === null || kneeAngleDegrees >= 160) &&
+    (ankleDrift === null || ankleDrift <= 0.05)
+  ) {
+    return {
+      status: "good",
+      label: "stable down leg",
+    };
+  }
+
+  if (
+    (kneeAngleDegrees === null || kneeAngleDegrees >= 145) &&
+    (ankleDrift === null || ankleDrift <= 0.09)
+  ) {
+    return {
+      status: "watch",
+      label: "down leg control watch",
+    };
+  }
+
+  return {
+    status: "limited",
+    label: "down leg compensation watch",
   };
 }
 
@@ -163,6 +225,26 @@ function classifySideConfidence(side, visibility) {
   };
 }
 
+function oppositeSide(side) {
+  if (side === "left") {
+    return "right";
+  }
+
+  if (side === "right") {
+    return "left";
+  }
+
+  return null;
+}
+
+function pointDistance(first, second) {
+  if (!first || !second) {
+    return null;
+  }
+
+  return Math.hypot(first.x - second.x, first.y - second.y);
+}
+
 function buildFeatureItem({ posePayload, timingItem }) {
   if (!timingItem?.cycle) {
     return {
@@ -179,16 +261,35 @@ function buildFeatureItem({ posePayload, timingItem }) {
     posePayload,
     timingItem.cycle.peakSecond ?? timingItem.cycle.lowestPointSecond,
   );
+  const startFrame = findNearestPoseFrame(
+    posePayload,
+    timingItem.cycle.startSecond,
+  );
   const landmarks = getLandmarkMap(frame);
+  const startLandmarks = getLandmarkMap(startFrame);
   const side = timingItem.cycle.side;
+  const stationarySide = oppositeSide(side);
   const hip = landmarks[`${side}_hip`];
   const knee = landmarks[`${side}_knee`];
   const ankle = landmarks[`${side}_ankle`];
   const foot = landmarks[`${side}_foot_index`];
+  const stationaryHip = landmarks[`${stationarySide}_hip`];
+  const stationaryKnee = landmarks[`${stationarySide}_knee`];
+  const stationaryAnkle = landmarks[`${stationarySide}_ankle`];
+  const stationaryStartAnkle = startLandmarks[`${stationarySide}_ankle`];
   const leftHip = landmarks.left_hip;
   const rightHip = landmarks.right_hip;
   const ankleAboveHip = hip && ankle ? hip.y - ankle.y : null;
   const kneeAngleDegrees = angleBetweenPoints(hip, knee, ankle);
+  const stationaryKneeAngleDegrees = angleBetweenPoints(
+    stationaryHip,
+    stationaryKnee,
+    stationaryAnkle,
+  );
+  const stationaryAnkleDrift = pointDistance(
+    stationaryAnkle,
+    stationaryStartAnkle,
+  );
   const footHipGap = hip && foot ? hip.y - foot.y : null;
   const hipHeightGap =
     leftHip && rightHip ? Math.abs(leftHip.y - rightHip.y) : null;
@@ -211,16 +312,24 @@ function buildFeatureItem({ posePayload, timingItem }) {
       peakSecond: timingItem.cycle.peakSecond,
     },
     ratings: {
+      activeLegRaise: classifyActiveLegRaise(ankleAboveHip),
       hipFlexion: classifyHipFlexion(ankleAboveHip),
       kneeExtension: classifyKneeExtension(kneeAngleDegrees),
+      stationaryLegControl: classifyStationaryLegControl({
+        kneeAngleDegrees: stationaryKneeAngleDegrees,
+        ankleDrift: stationaryAnkleDrift,
+      }),
       pelvicStability: classifyPelvicStability(hipHeightGap),
       sideConfidence: classifySideConfidence(side, sideVisibility),
     },
     metrics: {
       side,
+      stationarySide,
       ankleAboveHip: toFixedNumber(ankleAboveHip),
       footAboveHip: toFixedNumber(footHipGap),
       kneeAngleDegrees: toFixedNumber(kneeAngleDegrees, 1),
+      stationaryKneeAngleDegrees: toFixedNumber(stationaryKneeAngleDegrees, 1),
+      stationaryAnkleDrift: toFixedNumber(stationaryAnkleDrift, 3),
       hipHeightGap: toFixedNumber(hipHeightGap),
       peakElevation: toFixedNumber(timingItem.cycle.peakElevation),
       avgVisibility: toFixedNumber(timingItem.metrics?.avgVisibility, 3),
@@ -233,8 +342,10 @@ function buildFeatureItem({ posePayload, timingItem }) {
 function summarizeFeatureItems(items) {
   const usableItems = items.filter((item) => item.status === "ok");
   const ratingKeys = [
+    "activeLegRaise",
     "hipFlexion",
     "kneeExtension",
+    "stationaryLegControl",
     "pelvicStability",
     "sideConfidence",
   ];

@@ -11,6 +11,10 @@ function createFeatureReport() {
         repetitionIndex: 1,
         status: "ok",
         ratings: {
+          activeLegRaise: {
+            status: "good",
+            label: "score 3 raise zone",
+          },
           hipFlexion: {
             status: "good",
             label: "leg reaches high",
@@ -22,6 +26,10 @@ function createFeatureReport() {
           pelvicStability: {
             status: "watch",
             label: "pelvic shift watch",
+          },
+          stationaryLegControl: {
+            status: "good",
+            label: "stable down leg",
           },
           sideConfidence: {
             status: "good",
@@ -57,7 +65,7 @@ test("buildAslrExplainableSuggestion maps ASLR features to compatible subscores"
   });
 
   assert.equal(suggestion.status, "ok");
-  assert.equal(suggestion.modelVersion, "pose-features-v0.2-aslr");
+  assert.equal(suggestion.modelVersion, "pose-features-v0.3-aslr");
   assert.equal(suggestion.items.length, 1);
   assert.equal(suggestion.items[0].totalScore, 2);
   assert.deepEqual(suggestion.items[0].subscores, {
@@ -68,7 +76,17 @@ test("buildAslrExplainableSuggestion maps ASLR features to compatible subscores"
   assert.equal(suggestion.items[0].confidenceLabel, "high");
   assert.ok(
     suggestion.items[0].reasons.some((reason) =>
-      reason.includes("Hip flexion suggested 3"),
+      reason.includes("Active leg raise suggested 3"),
+    ),
+  );
+  assert.ok(
+    suggestion.items[0].reasons.some((reason) =>
+      reason.includes("Stationary leg control suggested 3"),
+    ),
+  );
+  assert.ok(
+    suggestion.items[0].reasons.some((reason) =>
+      reason.includes("Pelvic stability suggested 2"),
     ),
   );
 });

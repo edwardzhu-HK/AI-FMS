@@ -1,8 +1,8 @@
 import { createScoreFromSubscores } from "../constants/scoring.js";
 
 const FEATURE_TO_SUBSCORE = {
-  hipFlexion: "depth",
-  pelvicStability: "kneeAlignment",
+  activeLegRaise: "depth",
+  stationaryLegControl: "kneeAlignment",
   legLine: "torsoControl",
 };
 
@@ -39,7 +39,13 @@ function confidenceLabel(confidence) {
 }
 
 function buildSubscores(featureItem) {
-  const hipFlexionScore = ratingToScore(featureItem.ratings.hipFlexion?.status);
+  const activeLegRaiseScore = ratingToScore(
+    (featureItem.ratings.activeLegRaise ?? featureItem.ratings.hipFlexion)
+      ?.status,
+  );
+  const stationaryLegControlScore = ratingToScore(
+    featureItem.ratings.stationaryLegControl?.status,
+  );
   const pelvicStabilityScore = ratingToScore(
     featureItem.ratings.pelvicStability?.status,
   );
@@ -49,16 +55,21 @@ function buildSubscores(featureItem) {
   );
 
   return {
-    [FEATURE_TO_SUBSCORE.hipFlexion]: hipFlexionScore,
-    [FEATURE_TO_SUBSCORE.pelvicStability]: pelvicStabilityScore,
+    [FEATURE_TO_SUBSCORE.activeLegRaise]: activeLegRaiseScore,
+    [FEATURE_TO_SUBSCORE.stationaryLegControl]: Math.min(
+      stationaryLegControlScore,
+      pelvicStabilityScore,
+    ),
     [FEATURE_TO_SUBSCORE.legLine]: legLineScore,
   };
 }
 
 function buildConfidence(featureItem, timingItem) {
   const evidenceWeights = [
-    featureItem.ratings.hipFlexion?.status,
+    (featureItem.ratings.activeLegRaise ?? featureItem.ratings.hipFlexion)
+      ?.status,
     featureItem.ratings.kneeExtension?.status,
+    featureItem.ratings.stationaryLegControl?.status,
     featureItem.ratings.pelvicStability?.status,
     featureItem.ratings.sideConfidence?.status,
   ].map(ratingToEvidenceWeight);
@@ -109,27 +120,46 @@ function buildSuggestionItem(featureItem, timingReport) {
   }
 
   const subscores = buildSubscores(featureItem);
+  const activeLegRaiseScore = ratingToScore(
+    (featureItem.ratings.activeLegRaise ?? featureItem.ratings.hipFlexion)
+      ?.status,
+  );
+  const stationaryLegControlScore = ratingToScore(
+    featureItem.ratings.stationaryLegControl?.status,
+  );
+  const pelvicStabilityScore = ratingToScore(
+    featureItem.ratings.pelvicStability?.status,
+  );
+  const legLineScore = ratingToScore(featureItem.ratings.kneeExtension?.status);
+  const sideConfidenceScore = ratingToScore(
+    featureItem.ratings.sideConfidence?.status,
+  );
   const score = createScoreFromSubscores(
     "active_straight_leg_raise",
     subscores,
   );
   const confidence = buildConfidence(featureItem, timingItem);
   const reasons = [
-    buildReason("Hip flexion", featureItem.ratings.hipFlexion, subscores.depth),
+    buildReason(
+      "Active leg raise",
+      featureItem.ratings.activeLegRaise ?? featureItem.ratings.hipFlexion,
+      activeLegRaiseScore,
+    ),
+    buildReason(
+      "Stationary leg control",
+      featureItem.ratings.stationaryLegControl,
+      stationaryLegControlScore,
+    ),
     buildReason(
       "Pelvic stability",
       featureItem.ratings.pelvicStability,
-      subscores.kneeAlignment,
+      pelvicStabilityScore,
     ),
-    buildReason(
-      "Leg line",
-      featureItem.ratings.kneeExtension,
-      subscores.torsoControl,
-    ),
+    buildReason("Leg line", featureItem.ratings.kneeExtension, legLineScore),
     buildReason(
       "Side confidence",
       featureItem.ratings.sideConfidence,
-      subscores.torsoControl,
+      sideConfidenceScore,
     ),
   ];
 
@@ -149,7 +179,7 @@ function buildSuggestionItem(featureItem, timingReport) {
     confidence,
     confidenceLabel: confidenceLabel(confidence),
     reasons,
-    modelVersion: "pose-features-v0.2-aslr",
+    modelVersion: "pose-features-v0.3-aslr",
   };
 }
 
@@ -168,7 +198,7 @@ export function buildAslrExplainableSuggestion({
 
   return {
     status: "ok",
-    modelVersion: "pose-features-v0.2-aslr",
+    modelVersion: "pose-features-v0.3-aslr",
     items,
     summary: {
       segmentsTotal: items.length,

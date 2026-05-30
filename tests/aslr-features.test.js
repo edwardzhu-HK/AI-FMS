@@ -122,14 +122,23 @@ test("summarizeAslrPoseFeatures reports side-specific leg raise evidence", () =>
   assert.equal(report.summary.repetitionsTotal, 2);
   assert.equal(report.summary.usableRepetitions, 2);
   assert.equal(report.items[0].metrics.side, "right");
+  assert.equal(report.items[0].metrics.stationarySide, "left");
+  assert.equal(report.items[0].ratings.activeLegRaise.status, "good");
   assert.equal(report.items[0].ratings.hipFlexion.status, "good");
   assert.equal(report.items[0].ratings.kneeExtension.status, "good");
+  assert.equal(report.items[0].ratings.stationaryLegControl.status, "good");
   assert.equal(report.items[0].ratings.pelvicStability.status, "good");
   assert.equal(report.items[0].ratings.sideConfidence.status, "good");
   assert.equal(report.items[1].metrics.side, "left");
+  assert.equal(report.items[1].ratings.activeLegRaise.status, "watch");
   assert.equal(report.items[1].ratings.hipFlexion.status, "watch");
   assert.equal(typeof report.items[0].metrics.ankleAboveHip, "number");
   assert.equal(typeof report.items[0].metrics.kneeAngleDegrees, "number");
+  assert.equal(
+    typeof report.items[0].metrics.stationaryKneeAngleDegrees,
+    "number",
+  );
+  assert.equal(typeof report.items[0].metrics.stationaryAnkleDrift, "number");
 });
 
 test("summarizeAslrPoseFeatures returns null without timing evidence", () => {

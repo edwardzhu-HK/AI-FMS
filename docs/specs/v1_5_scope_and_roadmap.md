@@ -599,6 +599,10 @@ Implementation status after the first P2 pass:
     evidence paths, and annotation-only paths in UI, JSON/CSV export, and
     dataset package notes. This keeps 7-action expansion explicit without
     overclaiming AI scoring coverage.
+32. Upgraded Active Straight Leg Raise v0.3 evidence: the suggestion now uses
+    active leg raise score zones, raised-leg knee extension, stationary leg
+    control, pelvic stability, and side confidence instead of relying only on a
+    generic hip-flexion proxy.
 
 Recommended next sprint:
 

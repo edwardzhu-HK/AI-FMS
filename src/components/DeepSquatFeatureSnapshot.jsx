@@ -59,14 +59,20 @@ function getFeatureRows(activeItem, t) {
   if (activeItem.ratings.hipFlexion) {
     return [
       {
-        label: t("hipFlexion"),
-        rating: activeItem.ratings.hipFlexion,
+        label: t("activeLegRaise"),
+        rating:
+          activeItem.ratings.activeLegRaise ?? activeItem.ratings.hipFlexion,
         detail: `ankle-hip ${formatNumber(activeItem.metrics.ankleAboveHip, 3)} · side ${activeItem.metrics.side ?? "N/A"}`,
       },
       {
         label: t("kneeExtension"),
         rating: activeItem.ratings.kneeExtension,
         detail: `${formatNumber(activeItem.metrics.kneeAngleDegrees, 1)}deg knee`,
+      },
+      {
+        label: t("stationaryLegControl"),
+        rating: activeItem.ratings.stationaryLegControl,
+        detail: `down knee ${formatNumber(activeItem.metrics.stationaryKneeAngleDegrees, 1)}deg · drift ${formatNumber(activeItem.metrics.stationaryAnkleDrift, 3)}`,
       },
       {
         label: t("pelvicStability"),

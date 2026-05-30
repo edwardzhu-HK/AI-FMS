@@ -178,6 +178,8 @@ Current development order agreed on 2026-05-23:
     - [x] Add Active Straight Leg Raise timing helper and tests.
     - [x] Add Active Straight Leg Raise feature helper and tests.
     - [x] Add Active Straight Leg Raise suggestion helper and tests.
+    - [x] Upgrade ASLR evidence to include active leg raise zones and
+          stationary leg control proxy.
   - [x] Add one browser-verifiable Active Straight Leg Raise demo path.
   - [x] Show Active Straight Leg Raise feature snapshot in the workbench.
 - [ ] Add Demo/Project Snapshot mode after multi-movement evidence is more

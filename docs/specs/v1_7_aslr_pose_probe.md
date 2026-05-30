@@ -75,7 +75,11 @@ ASLR cycle 会继续复用现有 `poseTiming.cycle` 结构；其中 `lowestPoint
 第一版 ASLR feature helper 已输出以下 evidence：
 
 - `hipFlexion`: raised ankle 是否高于 hip，作为 leg raise height proxy。
+- `activeLegRaise`: 用更接近 ASLR raw score 直觉的 score 3 / score 2 /
+  score 1 raise zone 表达抬腿高度 proxy。
 - `kneeExtension`: hip-knee-ankle angle，作为 straight leg line proxy。
+- `stationaryLegControl`: down leg 的膝伸直与脚踝漂移 proxy，用来观察支撑腿是否
+  稳定。
 - `pelvicStability`: left/right hip height gap，作为 pelvic compensation proxy。
 - `sideConfidence`: timing cycle 检测出的 left/right side 是否可信。
 
@@ -83,22 +87,27 @@ ASLR cycle 会继续复用现有 `poseTiming.cycle` 结构；其中 `lowestPoint
 根据真实样本复核，`pelvicStability` 的第一版 proxy 已放宽到允许小幅 landmark/camera
 jitter，避免把 score-3 主样本中的轻微 hip-height gap 直接降为 `watch`。
 
-第一版 ASLR suggestion 会把 movement-specific features 映射到现有三项 subscore
-槽位，方便沿用当前 Reviewer/AI panel 和 dataset export：
+2026-05-30 的 v0.3 ASLR suggestion 会把 movement-specific features 映射到现有三项
+subscore 槽位，方便沿用当前 Reviewer/AI panel 和 dataset export：
 
-| ASLR evidence                      | 现有 subscore key | 含义                                       |
-| ---------------------------------- | ----------------- | ------------------------------------------ |
-| `hipFlexion`                       | `depth`           | 抬腿高度是否足够。                         |
-| `pelvicStability`                  | `kneeAlignment`   | 骨盆是否稳定、是否出现明显代偿 proxy。     |
-| `kneeExtension` + `sideConfidence` | `torsoControl`    | 抬腿侧是否接近直腿，且左右侧识别是否可信。 |
+| ASLR evidence                              | 现有 subscore key | 含义                                       |
+| ------------------------------------------ | ----------------- | ------------------------------------------ |
+| `activeLegRaise`                           | `depth`           | 抬腿高度是否进入 score 3/2/1 proxy 区间。  |
+| `stationaryLegControl` + `pelvicStability` | `kneeAlignment`   | 支撑腿是否稳定，同时观察骨盆代偿 proxy。   |
+| `kneeExtension` + `sideConfidence`         | `torsoControl`    | 抬腿侧是否接近直腿，且左右侧识别是否可信。 |
+
+`hipFlexion` 仍保留为兼容 evidence 字段，但 scoring rationale 优先使用
+`activeLegRaise`。这个版本也会在 feature snapshot 中显示支撑腿控制证据，方便
+reviewer 判断是否存在 down-leg compensation。
 
 这仍然是 pose-based AI suggestion，不是 certified FMS scoring；最终标签仍由人工
 Reviewer 保存和 adjudication 决定。
 
 浏览器 demo path 已接入 `Demo Preset`：选择 `ASLR score-3 sample` 后会自动加载
 ASLR 视频、pose JSON、`Active Straight Leg Raise` action、2 reps 和对应备注。
-Workbench 中的 feature snapshot 已能显示 ASLR 的 `Hip Flexion`、`Knee Extension`、
-`Pelvic Stability`、`Side Confidence` evidence。
+Workbench 中的 feature snapshot 已能显示 ASLR 的 `Active Leg Raise`、`Knee
+Extension`、`Stationary Leg Control`、`Pelvic Stability`、`Side Confidence`
+evidence。
 
 ## 下一步
 

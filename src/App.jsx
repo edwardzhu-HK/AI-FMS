@@ -494,6 +494,8 @@ const UI_TEXT = {
     reason_kneeAlignment: "Knee Alignment",
     reason_torsoControl: "Torso Control",
     reason_hipFlexion: "Hip Flexion",
+    reason_activeLegRaise: "Active Leg Raise",
+    reason_stationaryLegControl: "Stationary Leg Control",
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
@@ -527,6 +529,18 @@ const UI_TEXT = {
       "Evidence: the leg raise is visible but the peak height is moderate, so this should be reviewed.",
     "reason_hipFlexion_limited leg raise":
       "Evidence: the raised ankle stays near or below the hip proxy, suggesting limited hip flexion.",
+    "reason_activeLegRaise_score 3 raise zone":
+      "Evidence: the raised ankle reaches the high ASLR proxy zone for this first-pass model.",
+    "reason_activeLegRaise_score 2 raise zone":
+      "Evidence: the raised ankle reaches a moderate ASLR proxy zone and should be reviewed.",
+    "reason_activeLegRaise_score 1 raise zone":
+      "Evidence: the raised ankle remains low for this ASLR proxy, suggesting limited leg raise.",
+    "reason_stationaryLegControl_stable down leg":
+      "Evidence: the down leg stays straight and stable enough for this first-pass proxy.",
+    "reason_stationaryLegControl_down leg control watch":
+      "Evidence: the down leg shows mild movement or bend and should be reviewed.",
+    "reason_stationaryLegControl_down leg compensation watch":
+      "Evidence: the down leg shows enough movement or bend to suggest compensation.",
     "reason_pelvicStability_stable pelvis proxy":
       "Evidence: left/right hip height remains close enough for this first-pass pelvis stability proxy.",
     "reason_pelvicStability_pelvic shift watch":
@@ -632,7 +646,9 @@ const UI_TEXT = {
     kneeAngle: "Knee angle",
     ankleProxy: "Ankle proxy",
     hipFlexion: "Hip Flexion",
+    activeLegRaise: "Active Leg Raise",
     kneeExtension: "Knee Extension",
+    stationaryLegControl: "Stationary Leg Control",
     pelvicStability: "Pelvic Stability",
     sideConfidence: "Side Confidence",
     reachDistance: "Reach Distance",
@@ -929,6 +945,8 @@ const UI_TEXT = {
     reason_kneeAlignment: "Knee Alignment",
     reason_torsoControl: "Torso Control",
     reason_hipFlexion: "Hip Flexion",
+    reason_activeLegRaise: "Active Leg Raise",
+    reason_stationaryLegControl: "Stationary Leg Control",
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
@@ -962,6 +980,18 @@ const UI_TEXT = {
       "依据是 moderate leg raise：可以看到抬腿，但最高点高度中等，建议人工复核。",
     "reason_hipFlexion_limited leg raise":
       "依据是 limited leg raise：脚踝接近或低于髋部 proxy，提示 hip flexion 可能受限。",
+    "reason_activeLegRaise_score 3 raise zone":
+      "依据是 score 3 raise zone：抬腿脚踝进入第一版 ASLR 高位 proxy 区间。",
+    "reason_activeLegRaise_score 2 raise zone":
+      "依据是 score 2 raise zone：抬腿高度处于中等 proxy 区间，建议人工复核。",
+    "reason_activeLegRaise_score 1 raise zone":
+      "依据是 score 1 raise zone：抬腿脚踝仍偏低，提示 active leg raise 可能受限。",
+    "reason_stationaryLegControl_stable down leg":
+      "依据是 stable down leg：支撑腿在第一版 proxy 中保持伸直和稳定。",
+    "reason_stationaryLegControl_down leg control watch":
+      "依据是 down leg control watch：支撑腿有轻微移动或弯曲，建议人工复核。",
+    "reason_stationaryLegControl_down leg compensation watch":
+      "依据是 down leg compensation watch：支撑腿移动或弯曲较明显，提示可能有代偿。",
     "reason_pelvicStability_stable pelvis proxy":
       "依据是 stable pelvis proxy：左右髋高度差在第一版 proxy 的可接受范围内。",
     "reason_pelvicStability_pelvic shift watch":
@@ -1067,7 +1097,9 @@ const UI_TEXT = {
     kneeAngle: "Knee angle",
     ankleProxy: "Ankle proxy",
     hipFlexion: "Hip Flexion",
+    activeLegRaise: "Active Leg Raise",
     kneeExtension: "Knee Extension",
+    stationaryLegControl: "Stationary Leg Control",
     pelvicStability: "Pelvic Stability",
     sideConfidence: "Side Confidence",
     reachDistance: "Reach Distance",
