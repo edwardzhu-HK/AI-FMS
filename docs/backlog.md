@@ -34,6 +34,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
       rubric schemas, while retaining legacy `subscores` compatibility.
 - [x] Add rep-level RAW SCORE scope and action-specific side / clearing / pain
       policy metadata to JSON, CSV, and package exports.
+- [x] Keep human reviewer scoring scoresheet-like: overall RAW SCORE +
+      comment/reason, not forced per-criterion human scoring.
 - [x] Add segment manual start/end adjustment controls.
 - [x] Persist suggested vs manually adjusted segment times.
 - [x] Add JSON export for current mock workflow.

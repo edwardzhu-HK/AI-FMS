@@ -301,14 +301,6 @@ Recommended record shape:
   },
   "reviewer_a": {
     "score": 2,
-    "criteria_scores": [
-      {
-        "criterion_key": "deep_squat_depth",
-        "generic_key": "depth",
-        "label": "Depth",
-        "score": 2
-      }
-    ],
     "comment": "Good depth, slight trunk lean."
   },
   "reviewer_b": {
@@ -352,8 +344,10 @@ Required schema concepts:
   fields; this keeps exports readable when a generic field such as `depth`
   represents Hip Flexion for ASLR or Lunge Depth for In-Line Lunge.
 - `criteria_scores`: primary long-term score shape. Each movement can define its
-  own criteria list; legacy `subscores` are retained only as a compatibility
-  layer during migration.
+  own criteria list. For AI suggestions, this is the main explainability shape.
+  For human reviewer scores, the source-of-truth remains the scoresheet-like
+  overall RAW SCORE plus comment/reason; any reviewer `criteria_scores` in export
+  are compatibility snapshots, not forced per-criterion human scoring.
 - `pose_model` and `pose_model_version`.
 - `pose_confidence_summary`.
 - `features`: action-specific motion features.

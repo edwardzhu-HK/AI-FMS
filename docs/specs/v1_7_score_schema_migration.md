@@ -53,8 +53,14 @@ control。
 - AI suggestion helper、mock AI score、reviewer save、adjudication final label 都会
   尽量带上 `criteriaScores`。
 - `subscores` 继续保留，作为 UI、旧 API 和旧测试路径的兼容层。
-- Reviewer UI 当前仍是 total-only；它会把 total score 临时写入当前动作的所有
-  criteria。后续可以升级成 per-criterion reviewer scoring。
+- Reviewer UI 应保持接近 FMS scoresheet 的人工评分方式：reviewer 对该 rep 给出一个
+  整体 RAW SCORE，并记录 comment/reason、side、clearing、pain 等元数据。
+  不计划把人工评分表升级成强制 per-criterion scoring。
+- 当前 reviewer score 中的 `criteriaScores` 只是迁移期兼容快照：系统会把 reviewer 的
+  total score 临时写入当前动作的所有 criteria，便于导出结构统一和 adjudication 兼容。
+  它不代表人类 reviewer 真的逐项打了细分分。
+- 真正的 criteria-level scoring/rationale 主要用于 AI suggestion 和 pose-based
+  explanation，用来帮助 reviewer 理解模型为什么给出某个建议分。
 
 ## Rep-level RAW SCORE 与左右 / clearing / pain
 
@@ -99,9 +105,12 @@ Raise`、`Rotary Stability` 是 `left_right`，默认 `side = unknown`，后续�
 
 ## 下一步
 
-1. 给 Reviewer A/B 表单增加 per-action criteria scoring 模式。
-2. 让 adjudication 不只比较 total score，也能比较 criteria-level disagreement。
-3. 将 CSV 的 criteria score columns 作为主要审核字段，而不是只看 legacy subscores。
+1. 保持 Reviewer A/B 表单为 scoresheet-like RAW SCORE + comment/reason，不做强制
+   per-criterion human scoring。
+2. 让 adjudication 继续以 human RAW SCORE 为主，同时在 AI 与 human total score 不一致时
+   展示 AI criteria-level rationale，帮助 reviewer 复核。
+3. 将 CSV 的 criteria score columns 明确标注为 AI/explanation evidence 或兼容快照，
+   避免误读为人类 reviewer 的逐项评分。
 4. 当真实后端接入时，把 `criteriaScores` 作为 API 和数据库的一等字段。
 5. 给需要 clearing 的动作补更细的 clearing finding schema，例如
    `ankle_mobility: green/yellow/red`。
