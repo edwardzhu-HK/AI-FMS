@@ -30,7 +30,15 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         sideSource: "reviewer_or_metadata",
         aiSideSuggestion: {
           side: "right",
-          status: "good",
+          status: "suggested",
+          confidence: 0.91,
+          confidenceStatus: "good",
+          matchesReviewerSide: false,
+          reasonCode: "pose_side_detected",
+          evidence: {
+            metricSide: "right",
+            sideVisibility: 0.92,
+          },
         },
         startSecond: 1,
         endSecond: 4,
@@ -148,6 +156,10 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[0].includes("score_scope"));
   assert.ok(lines[0].includes("side_policy"));
   assert.ok(lines[0].includes("ai_inferred_side"));
+  assert.ok(lines[0].includes("ai_side_status"));
+  assert.ok(lines[0].includes("ai_side_confidence"));
+  assert.ok(lines[0].includes("ai_side_matches_reviewer"));
+  assert.ok(lines[0].includes("ai_side_evidence"));
   assert.ok(lines[0].includes("pose_pipeline_status"));
   assert.ok(lines[0].includes("pose_evidence_gate_status"));
   assert.ok(lines[0].includes("clearing_findings"));
@@ -157,6 +169,10 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
   assert.ok(lines[1].includes("rep_raw_score"));
   assert.ok(lines[1].includes("not_lateralized"));
   assert.ok(lines[1].includes("right"));
+  assert.ok(lines[1].includes("suggested"));
+  assert.ok(lines[1].includes("0.91"));
+  assert.ok(lines[1].includes("false"));
+  assert.ok(lines[1].includes('"{""metricSide"":""right""'));
   assert.ok(lines[1].includes("implemented"));
   assert.ok(lines[1].includes("pose_based_ai_suggestion"));
   assert.ok(

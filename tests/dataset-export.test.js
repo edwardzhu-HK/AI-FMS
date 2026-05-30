@@ -230,13 +230,21 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     "forward lean watch",
   );
   assert.deepEqual(augmented.records[0].aiSideSuggestion, {
-    source: "pose_features",
-    side: "right",
-    status: null,
-    label: null,
-    sourceSecond: 2.4,
+    status: "not_applicable",
+    source: "rep_policy",
+    side: "none",
+    confidence: null,
+    confidenceStatus: "not_applicable",
+    reviewerSide: "none",
+    matchesReviewerSide: null,
+    sourceSecond: null,
+    reasonCode: "not_lateralized",
+    evidence: {
+      sidePolicy: "not_lateralized",
+      aiSideInference: "not_applicable",
+    },
   });
-  assert.equal(augmented.records[0].sideSource, "ai_suggested");
+  assert.equal(augmented.records[0].sideSource, "unconfirmed");
   assert.deepEqual(augmented.records[0].poseEvidenceGate, {
     status: "ready",
     reasonCode: "ready",
@@ -248,6 +256,89 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
   });
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
   assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
+});
+
+test("attachPoseEvidenceToDataset keeps reviewer side separate from AI side suggestion", () => {
+  const exported = buildDatasetExport(
+    {
+      videoId: "vid_side",
+      actionType: "active_straight_leg_raise",
+      fileName: "aslr.mp4",
+      startSecond: 0,
+      endSecond: 12,
+      expectedReps: 1,
+      notes: "",
+    },
+    [
+      {
+        segmentId: "seg_side",
+        videoId: "vid_side",
+        actionType: "active_straight_leg_raise",
+        repetitionIndex: 1,
+        cameraView: "side",
+        side: "left",
+        startSecond: 1,
+        endSecond: 4,
+        aiScore: makeScore(3, "active_straight_leg_raise"),
+        reviewerScores: {
+          reviewer_a: null,
+          reviewer_b: null,
+        },
+        reviewStatus: "pending",
+      },
+    ],
+  );
+
+  const augmented = attachPoseEvidenceToDataset(exported, {
+    poseSummary: {
+      framesTotal: 42,
+      framesWithPose: 42,
+    },
+    featureReport: {
+      items: [
+        {
+          segmentId: "seg_side",
+          status: "ok",
+          sourceSecond: 2.4,
+          ratings: {
+            sideConfidence: {
+              status: "good",
+              label: "right side detected",
+            },
+          },
+          metrics: {
+            side: "right",
+            stationarySide: "left",
+            sideVisibility: 0.92,
+          },
+        },
+      ],
+    },
+  });
+
+  assert.equal(augmented.records[0].side, "left");
+  assert.equal(augmented.records[0].sideSource, "reviewer_or_metadata");
+  assert.deepEqual(augmented.records[0].aiSideSuggestion, {
+    status: "suggested",
+    source: "pose_features",
+    side: "right",
+    confidence: 0.91,
+    confidenceStatus: "good",
+    label: "right side detected",
+    reviewerSide: "left",
+    matchesReviewerSide: false,
+    sourceSecond: 2.4,
+    reasonCode: "pose_side_detected",
+    evidence: {
+      sidePolicy: "left_right",
+      aiSideInference: "pose_supported",
+      metricSide: "right",
+      stationarySide: "left",
+      sideVisibility: 0.92,
+      ratingStatus: "good",
+      ratingLabel: "right side detected",
+    },
+  });
 });
 
 test("dataset export includes action-specific clearing findings", () => {

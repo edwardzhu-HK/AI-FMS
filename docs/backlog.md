@@ -171,11 +171,11 @@ Current development order agreed on 2026-05-23:
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [x] Document the 7-action maturity table plus Side / Clearing capability
       schema in `docs/specs/v1_7_movement_maturity_and_side_clearing.md`.
-- [ ] Add unified segment-level `aiSideSuggestion` across lateralized actions.
-  - [ ] Reuse existing pose feature side evidence from ASLR, Hurdle Step,
+- [x] Add unified segment-level `aiSideSuggestion` across lateralized actions.
+  - [x] Reuse existing pose feature side evidence from ASLR, Hurdle Step,
         In-Line Lunge, and Shoulder Mobility.
-  - [ ] Preserve reviewer-saved `side` separately from AI suggestion.
-  - [ ] Include confidence, source, and evidence detail in dataset export.
+  - [x] Preserve reviewer-saved `side` separately from AI suggestion.
+  - [x] Include confidence, source, and evidence detail in dataset export.
 - [ ] Add clearing reminder / gate for actions with clearing policies.
   - [ ] Do not auto-classify pain as positive/negative.
   - [ ] Prompt reviewer confirmation for Shoulder, Trunk, Rotary, and

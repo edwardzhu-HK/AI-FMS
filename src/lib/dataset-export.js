@@ -1,4 +1,5 @@
 import { adjudicateScores } from "./adjudication.js";
+import { buildAiSideSuggestion } from "./ai-side-suggestion.js";
 import {
   SCORE_BASIS_SCORESHEET_RAW,
   SCORE_SCOPE_REP_RAW,
@@ -184,27 +185,6 @@ function simplifyFeatureItem(item) {
   };
 }
 
-function simplifySideSuggestion(item) {
-  if (!item) {
-    return null;
-  }
-
-  const side = item.metrics?.side ?? item.metrics?.frontSide ?? null;
-  const rating = item.ratings?.sideConfidence ?? item.ratings?.sideContext;
-
-  if (!side && !rating) {
-    return null;
-  }
-
-  return {
-    source: "pose_features",
-    side,
-    status: rating?.status ?? null,
-    label: rating?.label ?? null,
-    sourceSecond: item.sourceSecond ?? null,
-  };
-}
-
 function simplifySuggestionItem(item) {
   if (!item) {
     return null;
@@ -270,9 +250,11 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
   };
 
   exported.records = exported.records.map((record) => {
-    const aiSideSuggestion = simplifySideSuggestion(
-      featureBySegment.get(record.segmentId),
-    );
+    const aiSideSuggestion = buildAiSideSuggestion({
+      actionType: record.actionType,
+      segment: record,
+      featureItem: featureBySegment.get(record.segmentId),
+    });
     const evidenceGate = evaluateMovementEvidenceGate({
       actionType: record.actionType,
       segmentId: record.segmentId,
@@ -284,10 +266,6 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
 
     return {
       ...record,
-      sideSource:
-        record.sideSource === "unconfirmed" && aiSideSuggestion?.side
-          ? "ai_suggested"
-          : record.sideSource,
       poseTiming: simplifyTimingItem(timingBySegment.get(record.segmentId)),
       poseFeatures: simplifyFeatureItem(featureBySegment.get(record.segmentId)),
       aiSideSuggestion,

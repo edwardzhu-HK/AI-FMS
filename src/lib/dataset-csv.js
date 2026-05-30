@@ -13,6 +13,14 @@ function formatClearingFindings(clearingFindings = []) {
     .join(";");
 }
 
+function formatJsonObject(value) {
+  if (!value || typeof value !== "object") {
+    return "";
+  }
+
+  return JSON.stringify(value);
+}
+
 const CSV_COLUMNS = [
   ["video_id", (record) => record.videoId],
   ["segment_id", (record) => record.segmentId],
@@ -37,7 +45,21 @@ const CSV_COLUMNS = [
   ["side", (record) => record.side],
   ["side_source", (record) => record.sideSource],
   ["ai_inferred_side", (record) => record.aiSideSuggestion?.side],
-  ["ai_side_confidence_status", (record) => record.aiSideSuggestion?.status],
+  ["ai_side_status", (record) => record.aiSideSuggestion?.status],
+  ["ai_side_confidence", (record) => record.aiSideSuggestion?.confidence],
+  [
+    "ai_side_confidence_status",
+    (record) => record.aiSideSuggestion?.confidenceStatus,
+  ],
+  [
+    "ai_side_matches_reviewer",
+    (record) => record.aiSideSuggestion?.matchesReviewerSide,
+  ],
+  ["ai_side_reason", (record) => record.aiSideSuggestion?.reasonCode],
+  [
+    "ai_side_evidence",
+    (record) => formatJsonObject(record.aiSideSuggestion?.evidence),
+  ],
   ["start_second", (record) => record.startSecond],
   ["end_second", (record) => record.endSecond],
   ["original_start_second", (record) => record.originalStartSecond],

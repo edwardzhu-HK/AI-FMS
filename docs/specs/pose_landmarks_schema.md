@@ -108,6 +108,9 @@ JSON dataset export 不会嵌入完整 `*.pose.json` 原始帧数据。加载 po
 
 - `poseTiming`: 当前切片、建议切片、lowest point、timing issues、coverage。
 - `poseFeatures`: depth / torso control / knee alignment ratings 与 metrics。
+- `aiSideSuggestion`: 对当前 rep 左右侧的 pose-based 建议，包含 `side`、
+  `confidence`、`confidenceStatus`、`matchesReviewerSide`、`reasonCode` 和
+  原始 side evidence；它不会覆盖人工保存的 `side`。
 - `poseSuggestion`: total score、criteriaScores、legacy-compatible subscores、
   confidence、reasons、model version。
 - `rubricCriteria`: 三个兼容 subscore 字段在当前 movement 下对应的 reviewer-facing
@@ -124,8 +127,9 @@ criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路�
 Trunk Stability Push-Up 和 Rotary Stability 为 annotation-only。
 
 7 个动作的当前 maturity、Side 策略和 Clearing / Pain 边界记录在
-`docs/specs/v1_7_movement_maturity_and_side_clearing.md`。后续若增加统一
-`aiSideSuggestion` 或 clearing reminder / gate，应继续复用
+`docs/specs/v1_7_movement_maturity_and_side_clearing.md`。统一
+`aiSideSuggestion` 已复用 ASLR、Hurdle Step、In-Line Lunge 和 Shoulder
+Mobility 的 feature side evidence；后续若增加 clearing reminder / gate，应继续复用
 `movementCapabilities`、`getActionRepPolicy` 和 `clearingFindings`，不要另建一套
 平行 schema。
 
