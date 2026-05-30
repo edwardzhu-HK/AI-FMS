@@ -183,13 +183,16 @@ annotation、movement-quality review 和后续可追溯数据集建设。它不�
 - Pose evidence attached: ${qualitySummary.poseEvidenceAttached ? "Yes" : "No"}
 - Pose frames: ${qualitySummary.pose.framesWithPose}/${qualitySummary.pose.framesTotal}
 - Timing QA: ${qualitySummary.pose.timingGood}/${qualitySummary.pose.timingTotal}
+- Cycle count QA: ${qualitySummary.pose.cycleCountQaStatus} (${qualitySummary.pose.expectedSegments ?? "N/A"} expected / ${qualitySummary.pose.candidateCycles ?? "N/A"} candidate / ${qualitySummary.pose.assignedCycles ?? "N/A"} assigned)
 - Feature coverage: ${qualitySummary.pose.featureUsable}/${qualitySummary.pose.featureTotal}
 - AI suggestion coverage: ${qualitySummary.pose.suggestionReady}/${qualitySummary.pose.suggestionTotal}
 
 ## 限制
 
-- 当前 Deep Squat 是 pose-based AI pipeline 的重点。
-- 其他 FMS movements 目前主要保留 annotation workflow 框架。
+- 当前 Deep Squat、Active Straight Leg Raise、Hurdle Step 和 In-Line Lunge
+  有 first-pass pose-based AI suggestion。
+- Shoulder Mobility 目前是 feature-only；Trunk Stability Push-Up 和 Rotary
+  Stability 目前是 annotation-only。
 - Raw video clips 和完整 per-frame landmarks 不嵌入本包；segment 通过原视频文件名和
   start/end timestamp 追溯。
 - AI suggestion 是 reviewer decision support，不是最终自动评分。

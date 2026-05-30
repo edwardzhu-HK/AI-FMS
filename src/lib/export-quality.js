@@ -28,6 +28,23 @@ function countIssueCodes(items = []) {
   return counts;
 }
 
+function countIssues(issues = []) {
+  return issues.reduce((counts, issue) => {
+    counts[issue.code] = (counts[issue.code] ?? 0) + 1;
+    return counts;
+  }, {});
+}
+
+function mergeIssueCounts(...issueCounts) {
+  return issueCounts.reduce((merged, counts) => {
+    for (const [code, count] of Object.entries(counts ?? {})) {
+      merged[code] = (merged[code] ?? 0) + count;
+    }
+
+    return merged;
+  }, {});
+}
+
 function hasTimingBlocker(item) {
   return (
     item?.status === "needs_adjustment" ||
@@ -80,14 +97,24 @@ function roundMetric(value) {
 export function summarizeTimingReadiness(timingReport = null) {
   const items = timingReport?.items ?? [];
   const blockerItems = items.filter(hasTimingBlocker);
+  const batchBlockerIssues = (
+    timingReport?.summary?.cycleCountQa?.issues ?? []
+  ).filter((issue) => issue.severity === "error");
+  const batchBlockerCount = batchBlockerIssues.length;
 
   return {
     available: items.length > 0,
-    readyForIngest: items.length === 0 || blockerItems.length === 0,
+    readyForIngest:
+      items.length === 0 && !timingReport?.summary?.cycleCountQa
+        ? true
+        : blockerItems.length === 0 && batchBlockerCount === 0,
     segmentsTotal: timingReport?.summary?.segmentsTotal ?? items.length,
     goodCount: timingReport?.summary?.goodCount ?? 0,
-    blockerCount: blockerItems.length,
-    issueCounts: countIssueCodes(blockerItems),
+    blockerCount: blockerItems.length + batchBlockerCount,
+    issueCounts: mergeIssueCounts(
+      countIssueCodes(blockerItems),
+      countIssues(batchBlockerIssues),
+    ),
   };
 }
 
@@ -167,6 +194,12 @@ export function summarizePoseEvidenceForDashboard({
     timingBlockerCount: timingReadiness.blockerCount,
     timingBlockerIssueCounts: timingReadiness.issueCounts,
     detectedCycles: timingReport?.summary?.detectedCycles ?? 0,
+    expectedSegments: timingReport?.summary?.expectedSegments ?? null,
+    candidateCycles: timingReport?.summary?.candidateCyclesTotal ?? null,
+    assignedCycles: timingReport?.summary?.detectedCycles ?? null,
+    cycleCountQaStatus:
+      timingReport?.summary?.cycleCountQa?.status ?? "not_available",
+    cycleCountQaIssues: timingReport?.summary?.cycleCountQa?.issues ?? [],
     featureTotal:
       featureReport?.summary?.repetitionsTotal ?? featureItems.length,
     featureUsable:

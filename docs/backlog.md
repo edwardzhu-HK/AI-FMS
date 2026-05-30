@@ -149,7 +149,7 @@ Current development order agreed on 2026-05-23:
       reviewer-readable reasons, and tests.
 - [x] Add first-pass In-Line Lunge pose-based AI suggestion with confidence,
       reviewer-readable reasons, and tests.
-- [ ] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
+- [x] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Draft V1.7 movement expansion plan and schema/framework change gates.
 - [ ] Start one selected movement expansion after Deep Squat export loop is

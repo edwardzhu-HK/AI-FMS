@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   assignUniqueCyclesToSegments,
   dedupeOverlappingCycles,
+  summarizeCycleCountQa,
 } from "../src/lib/timing-qa.js";
 
 test("dedupeOverlappingCycles keeps the stronger overlapping movement cycle", () => {
@@ -70,4 +71,46 @@ test("assignUniqueCyclesToSegments does not reuse one cycle for two segments", (
   assert.equal(assignments.size, 1);
   assert.equal(assignments.has("seg_1"), true);
   assert.equal(assignments.has("seg_2"), false);
+});
+
+test("summarizeCycleCountQa flags candidate cycle shortfall as blocker", () => {
+  const summary = summarizeCycleCountQa({
+    segments: [
+      { segmentId: "seg_1", repetitionIndex: 1 },
+      { segmentId: "seg_2", repetitionIndex: 2 },
+      { segmentId: "seg_3", repetitionIndex: 3 },
+    ],
+    candidateCycles: [{ repetitionIndex: 1 }],
+    assignedCycles: [{ repetitionIndex: 1 }],
+  });
+
+  assert.equal(summary.status, "blocked");
+  assert.equal(summary.expectedSegments, 3);
+  assert.equal(summary.candidateCyclesTotal, 1);
+  assert.equal(summary.assignedCyclesTotal, 1);
+  assert.deepEqual(
+    summary.issues.map((issue) => issue.code),
+    ["detected_cycle_shortfall", "assigned_cycle_shortfall"],
+  );
+});
+
+test("summarizeCycleCountQa flags extra candidate cycles as review-only", () => {
+  const summary = summarizeCycleCountQa({
+    segments: [
+      { segmentId: "seg_1", repetitionIndex: 1 },
+      { segmentId: "seg_2", repetitionIndex: 2 },
+    ],
+    candidateCycles: [
+      { repetitionIndex: 1 },
+      { repetitionIndex: 2 },
+      { repetitionIndex: 3 },
+    ],
+    assignedCycles: [{ repetitionIndex: 1 }, { repetitionIndex: 2 }],
+  });
+
+  assert.equal(summary.status, "needs_review");
+  assert.deepEqual(
+    summary.issues.map((issue) => issue.code),
+    ["extra_candidate_cycles"],
+  );
 });

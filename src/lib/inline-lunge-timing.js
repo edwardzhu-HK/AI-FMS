@@ -3,6 +3,7 @@ import {
   buildNoUniqueCycleAssignmentItem,
   dedupeOverlappingCycles,
   flagDuplicateCycleAssignments,
+  summarizeCycleCountQa,
 } from "./timing-qa.js";
 
 const REQUIRED_LANDMARKS = [
@@ -510,22 +511,39 @@ function evaluateSegmentAgainstCycles(cycles, quality, segment, config) {
   };
 }
 
-function summarizeTimingItems(items, cycles) {
+function summarizeTimingItems(
+  items,
+  assignedCycles,
+  candidateCycles,
+  segments,
+) {
   const issueCounts = items.reduce((counts, item) => {
     item.issues.forEach((issue) => {
       counts[issue.code] = (counts[issue.code] ?? 0) + 1;
     });
     return counts;
   }, {});
+  const cycleCountQa = summarizeCycleCountQa({
+    segments,
+    candidateCycles,
+    assignedCycles,
+  });
+
+  cycleCountQa.issues.forEach((issue) => {
+    issueCounts[issue.code] = (issueCounts[issue.code] ?? 0) + 1;
+  });
 
   return {
     segmentsTotal: items.length,
-    detectedCycles: cycles.length,
+    detectedCycles: assignedCycles.length,
+    candidateCyclesTotal: candidateCycles.length,
+    expectedSegments: segments.length,
     goodCount: items.filter((item) => item.status === "good").length,
     needsAdjustmentCount: items.filter(
       (item) => item.status === "needs_adjustment",
     ).length,
     issueCounts,
+    cycleCountQa,
   };
 }
 
@@ -633,7 +651,7 @@ export function evaluateInlineLungeSegmentsTiming({
       };
     }),
   );
-  const summary = summarizeTimingItems(items, assignedCycles);
+  const summary = summarizeTimingItems(items, assignedCycles, cycles, segments);
   const hasBlockingIssue = summary.needsAdjustmentCount > 0;
 
   if (cycles.length === 0) {

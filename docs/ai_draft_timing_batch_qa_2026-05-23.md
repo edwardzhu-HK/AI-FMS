@@ -68,11 +68,17 @@
 - 正式 Ingest readiness 已接入 Timing QA blocker：如果 timing rows 仍有
   `needs_adjustment`、重复 cycle 或无法唯一分配 cycle，左侧 Ready 会保持 No，Ingest 按钮会被禁用。
   JSON/CSV/Package export 仍保留，用于调试、复核和离线讨论。
+- 截至 2026-05-30，ASLR / Hurdle Step / In-Line Lunge timing report 已加入
+  batch-level `cycleCountQa`。它会同时记录 expected segment count、candidate
+  cycle count、assigned cycle count，并输出 `detected_cycle_shortfall`、
+  `assigned_cycle_shortfall`、`extra_candidate_cycles` 等 issue code。shortfall
+  会阻断正式 ingest；extra candidate cycles 保留为 review warning，用于提醒 reviewer
+  判断检测器看到的是有效 reps、准备动作、回程动作还是噪声。
 - Shoulder Mobility 标记为不支持 `AI draft timing` 自动应用，避免把 feature-only evidence 误称为动作切片。
 
 ## 后续开发建议
 
-1. 对 ASLR / Hurdle / In-Line Lunge 增加 `detectedCycles vs expectedReps` 的显式 QA：
+1. 已完成：对 ASLR / Hurdle / In-Line Lunge 增加 `detectedCycles vs expectedReps` 的显式 QA：
    - cycle 少于 expected reps：提示可能漏检或 expected reps 错误。
    - cycle 多于 expected reps：提示可能检测到了准备动作、回程动作或噪声。
 2. 继续为 Hurdle Step 增加 movement-specific cycle filtering，减少额外候选 cycle。

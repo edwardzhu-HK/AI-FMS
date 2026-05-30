@@ -161,6 +161,12 @@ test("evaluateAslrSegmentsTiming uses one-to-one cycle assignments", () => {
     undefined,
   );
   assert.equal(result.summary.issueCounts.no_unique_cycle_assignment, 1);
+  assert.equal(result.summary.issueCounts.detected_cycle_shortfall, 1);
+  assert.equal(result.summary.issueCounts.assigned_cycle_shortfall, 1);
+  assert.equal(result.summary.cycleCountQa.status, "blocked");
+  assert.equal(result.summary.cycleCountQa.expectedSegments, 3);
+  assert.equal(result.summary.cycleCountQa.candidateCyclesTotal, 2);
+  assert.equal(result.summary.cycleCountQa.assignedCyclesTotal, 2);
   assert.equal(result.summary.goodCount, 1);
 });
 
@@ -203,6 +209,9 @@ test("evaluateAslrSegmentsTiming summarizes batch timing quality", () => {
   assert.equal(result.status, "needs_adjustment");
   assert.equal(result.summary.segmentsTotal, 2);
   assert.equal(result.summary.detectedCycles, 2);
+  assert.equal(result.summary.candidateCyclesTotal, 2);
+  assert.equal(result.summary.expectedSegments, 2);
+  assert.equal(result.summary.cycleCountQa.status, "ok");
   assert.equal(result.summary.goodCount, 1);
   assert.equal(result.summary.needsAdjustmentCount, 1);
   assert.ok(result.summary.issueCounts.too_short >= 1);

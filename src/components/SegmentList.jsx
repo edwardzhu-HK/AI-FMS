@@ -57,7 +57,9 @@ function buildTimingWarnings(timingReport, segments, canApplyTiming, t) {
 
   const segmentCount = segments.length;
   const assignedCycleCount = timingReport.summary.detectedCycles ?? 0;
-  const candidateCycleCount = timingReport.quality?.candidateCyclesTotal;
+  const candidateCycleCount =
+    timingReport.summary.candidateCyclesTotal ??
+    timingReport.quality?.candidateCyclesTotal;
   const issueCounts = timingReport.summary.issueCounts ?? {};
   const warnings = [];
 

@@ -313,6 +313,12 @@ const UI_TEXT = {
     ok: "OK",
     poseFrames: "Pose frames",
     timingQa: "Timing QA",
+    cycleCountQa: "Cycle count QA",
+    cycleCountQaOk: "OK",
+    cycleCountQaBlocked: "blocked",
+    cycleCountQaNeedsReview: "needs review",
+    cycleCountQaNotAvailable: "N/A",
+    expectedCandidateAssigned: "expected/candidate/assigned",
     timingEdits: "Timing edits",
     avgShift: "Avg shift",
     features: "Features",
@@ -378,6 +384,9 @@ const UI_TEXT = {
     timingIssueShort_wide_tail: "wide tail",
     timingIssueShort_duplicate_cycle_assignment: "duplicate cycle",
     timingIssueShort_no_unique_cycle_assignment: "no unique cycle",
+    timingIssueShort_detected_cycle_shortfall: "cycle shortfall",
+    timingIssueShort_assigned_cycle_shortfall: "assignment shortfall",
+    timingIssueShort_extra_candidate_cycles: "extra cycles",
     timingIssueShort_insufficient_pose: "low pose",
     timingIssueShort_low_motion_amplitude: "low motion",
     timingIssueShort_insufficient_reach_frames: "low reach evidence",
@@ -396,6 +405,12 @@ const UI_TEXT = {
       "Multiple segments map to the same detected movement cycle; review rep count or timing before scoring.",
     timingIssue_no_unique_cycle_assignment:
       "No unique movement cycle could be assigned to this segment; review detected reps and segment timing.",
+    timingIssue_detected_cycle_shortfall:
+      "The detector found fewer movement cycles than expected; review Expected Reps, active range, or timing.",
+    timingIssue_assigned_cycle_shortfall:
+      "Fewer unique movement cycles were assigned than expected; some clips need manual review.",
+    timingIssue_extra_candidate_cycles:
+      "The detector found extra candidate cycles; confirm the selected clips are the intended reps.",
     timingIssue_insufficient_pose:
       "Pose trajectory is not reliable enough to suggest timing for this segment.",
     timingIssue_low_motion_amplitude:
@@ -682,6 +697,12 @@ const UI_TEXT = {
     ok: "OK",
     poseFrames: "Pose 帧",
     timingQa: "Timing QA",
+    cycleCountQa: "动作周期 QA",
+    cycleCountQaOk: "OK",
+    cycleCountQaBlocked: "已阻断",
+    cycleCountQaNeedsReview: "需复核",
+    cycleCountQaNotAvailable: "N/A",
+    expectedCandidateAssigned: "预期/候选/已分配",
     timingEdits: "Timing 调整",
     avgShift: "平均偏移",
     features: "Features",
@@ -746,6 +767,9 @@ const UI_TEXT = {
     timingIssueShort_wide_tail: "尾段过长",
     timingIssueShort_duplicate_cycle_assignment: "重复 cycle",
     timingIssueShort_no_unique_cycle_assignment: "无唯一 cycle",
+    timingIssueShort_detected_cycle_shortfall: "cycle 不足",
+    timingIssueShort_assigned_cycle_shortfall: "分配不足",
+    timingIssueShort_extra_candidate_cycles: "额外 cycle",
     timingIssueShort_insufficient_pose: "Pose 不足",
     timingIssueShort_low_motion_amplitude: "动作信号弱",
     timingIssueShort_insufficient_reach_frames: "reach 证据少",
@@ -764,6 +788,12 @@ const UI_TEXT = {
       "多个 segment 映射到了同一个检测动作周期；评分前请复核 rep count 或 timing。",
     timingIssue_no_unique_cycle_assignment:
       "这个 segment 没有匹配到唯一动作周期；请复核检测到的 reps 和 segment timing。",
+    timingIssue_detected_cycle_shortfall:
+      "检测到的动作周期少于预期；请复核 Expected Reps、有效范围或 timing。",
+    timingIssue_assigned_cycle_shortfall:
+      "已分配的唯一动作周期少于预期；部分 clips 需要人工复核。",
+    timingIssue_extra_candidate_cycles:
+      "系统检测到额外候选动作周期；请确认已选 clips 是否是真正 reps。",
     timingIssue_insufficient_pose:
       "Pose 轨迹不足以为这个 segment 可靠建议 timing。",
     timingIssue_low_motion_amplitude:
@@ -1117,6 +1147,17 @@ function getPoseStatusLabel(status, t) {
   };
 
   return labels[status] ?? t("unknown");
+}
+
+function getCycleCountQaStatusLabel(status, t) {
+  const labels = {
+    ok: t("cycleCountQaOk"),
+    blocked: t("cycleCountQaBlocked"),
+    needs_review: t("cycleCountQaNeedsReview"),
+    not_available: t("cycleCountQaNotAvailable"),
+  };
+
+  return labels[status] ?? status ?? t("cycleCountQaNotAvailable");
 }
 
 function buildChecklistItem(status, title, detail) {
@@ -2954,6 +2995,19 @@ export default function App() {
                 <dd>
                   {exportQualitySummary.pose.timingGood}/
                   {exportQualitySummary.pose.timingTotal}
+                </dd>
+              </div>
+              <div>
+                <dt>{t("cycleCountQa")}</dt>
+                <dd>
+                  {getCycleCountQaStatusLabel(
+                    exportQualitySummary.pose.cycleCountQaStatus,
+                    t,
+                  )}{" "}
+                  · {t("expectedCandidateAssigned")}:{" "}
+                  {exportQualitySummary.pose.expectedSegments ?? "N/A"}/
+                  {exportQualitySummary.pose.candidateCycles ?? "N/A"}/
+                  {exportQualitySummary.pose.assignedCycles ?? "N/A"}
                 </dd>
               </div>
               <div>

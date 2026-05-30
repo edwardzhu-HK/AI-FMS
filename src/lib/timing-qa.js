@@ -266,6 +266,65 @@ export function buildNoUniqueCycleAssignmentItem(cycles) {
   };
 }
 
+function buildCycleCountIssue(code, severity, message) {
+  return { code, severity, message };
+}
+
+export function summarizeCycleCountQa({
+  segments = [],
+  candidateCycles = [],
+  assignedCycles = [],
+} = {}) {
+  const expectedSegments = segments.length;
+  const candidateCyclesTotal = candidateCycles.length;
+  const assignedCyclesTotal = assignedCycles.length;
+  const issues = [];
+
+  if (expectedSegments > 0 && candidateCyclesTotal < expectedSegments) {
+    issues.push(
+      buildCycleCountIssue(
+        "detected_cycle_shortfall",
+        "error",
+        "The detector found fewer movement cycles than expected segments; review Expected Reps, active range, or timing.",
+      ),
+    );
+  }
+
+  if (expectedSegments > 0 && assignedCyclesTotal < expectedSegments) {
+    issues.push(
+      buildCycleCountIssue(
+        "assigned_cycle_shortfall",
+        "error",
+        "Fewer unique movement cycles were assigned than expected segments; some clips need manual review.",
+      ),
+    );
+  }
+
+  if (expectedSegments > 0 && candidateCyclesTotal > expectedSegments) {
+    issues.push(
+      buildCycleCountIssue(
+        "extra_candidate_cycles",
+        "warning",
+        "The detector found more candidate movement cycles than expected segments; confirm the selected clips are the intended reps.",
+      ),
+    );
+  }
+
+  const hasBlockingIssue = issues.some((issue) => issue.severity === "error");
+
+  return {
+    status: hasBlockingIssue
+      ? "blocked"
+      : issues.length > 0
+        ? "needs_review"
+        : "ok",
+    expectedSegments,
+    candidateCyclesTotal,
+    assignedCyclesTotal,
+    issues,
+  };
+}
+
 export function flagDuplicateCycleAssignments(items) {
   const keyCounts = new Map();
 

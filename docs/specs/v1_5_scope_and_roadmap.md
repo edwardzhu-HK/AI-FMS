@@ -218,6 +218,12 @@ more-visible movement signal. This improves redundant-video handling, but
 Hurdle Step still needs movement-specific filtering when candidate cycles
 exceed Expected Reps.
 
+ASLR, Hurdle Step, and In-Line Lunge timing reports now include explicit
+batch-level `cycleCountQa`: expected segment count, candidate cycle count, and
+assigned cycle count. Cycle shortfall is treated as a formal ingest blocker;
+extra candidate cycles are surfaced as review warnings so the reviewer can
+distinguish true reps from preparation, return motion, or detector noise.
+
 True multi-interval video slicing remains a later schema decision because it
 would affect segment provenance and export semantics. For V1.6, effective
 action discovery happens by generating one reviewed segment per detected

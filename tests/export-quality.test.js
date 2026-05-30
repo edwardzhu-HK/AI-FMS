@@ -62,6 +62,20 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
         goodCount: 1,
         needsAdjustmentCount: 1,
         detectedCycles: 2,
+        candidateCyclesTotal: 3,
+        expectedSegments: 2,
+        cycleCountQa: {
+          status: "needs_review",
+          expectedSegments: 2,
+          candidateCyclesTotal: 3,
+          assignedCyclesTotal: 2,
+          issues: [
+            {
+              code: "extra_candidate_cycles",
+              severity: "warning",
+            },
+          ],
+        },
       },
       items: [
         {
@@ -127,6 +141,14 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
   assert.equal(summary.pose.timingNeedsAdjustment, 1);
   assert.equal(summary.pose.timingReadyForIngest, false);
   assert.equal(summary.pose.timingBlockerCount, 1);
+  assert.equal(summary.pose.expectedSegments, 2);
+  assert.equal(summary.pose.candidateCycles, 3);
+  assert.equal(summary.pose.assignedCycles, 2);
+  assert.equal(summary.pose.cycleCountQaStatus, "needs_review");
+  assert.equal(
+    summary.pose.cycleCountQaIssues[0].code,
+    "extra_candidate_cycles",
+  );
   assert.equal(summary.recordsWithPoseTiming, 1);
   assert.equal(summary.recordsWithPoseFeatures, 1);
   assert.equal(summary.recordsWithPoseSuggestion, 1);
@@ -166,6 +188,36 @@ test("summarizeTimingReadiness blocks ingest when timing needs adjustment", () =
   assert.equal(summary.readyForIngest, false);
   assert.equal(summary.blockerCount, 1);
   assert.equal(summary.issueCounts.no_unique_cycle_assignment, 1);
+});
+
+test("summarizeTimingReadiness includes batch-level cycle count blockers", () => {
+  const summary = summarizeTimingReadiness({
+    summary: {
+      segmentsTotal: 3,
+      goodCount: 2,
+      needsAdjustmentCount: 0,
+      cycleCountQa: {
+        status: "blocked",
+        issues: [
+          {
+            code: "detected_cycle_shortfall",
+            severity: "error",
+          },
+        ],
+      },
+    },
+    items: [
+      {
+        segmentId: "seg_1",
+        status: "good",
+        issues: [],
+      },
+    ],
+  });
+
+  assert.equal(summary.readyForIngest, false);
+  assert.equal(summary.blockerCount, 1);
+  assert.equal(summary.issueCounts.detected_cycle_shortfall, 1);
 });
 
 test("summarizeTimingReadiness does not block annotation-only exports", () => {

@@ -162,6 +162,9 @@ test("evaluateInlineLungeSegmentsTiming summarizes batch timing quality", () => 
   assert.equal(result.status, "needs_adjustment");
   assert.equal(result.summary.segmentsTotal, 2);
   assert.equal(result.summary.detectedCycles, 2);
+  assert.equal(result.summary.candidateCyclesTotal, 2);
+  assert.equal(result.summary.expectedSegments, 2);
+  assert.equal(result.summary.cycleCountQa.status, "ok");
   assert.equal(result.summary.goodCount, 1);
   assert.equal(result.summary.needsAdjustmentCount, 1);
   assert.ok(result.summary.issueCounts.too_short >= 1);
