@@ -123,6 +123,12 @@ criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路�
 已有 first-pass pose-based AI suggestion；Shoulder Mobility 为 feature-only；
 Trunk Stability Push-Up 和 Rotary Stability 为 annotation-only。
 
+7 个动作的当前 maturity、Side 策略和 Clearing / Pain 边界记录在
+`docs/specs/v1_7_movement_maturity_and_side_clearing.md`。后续若增加统一
+`aiSideSuggestion` 或 clearing reminder / gate，应继续复用
+`movementCapabilities`、`getActionRepPolicy` 和 `clearingFindings`，不要另建一套
+平行 schema。
+
 每条 record 可附加 `poseEvidenceGate`，用于说明该 segment 是否真正满足展示
 pose-based AI suggestion 的条件。典型状态包括 `ready`、`missing_pose_evidence`、
 `timing_needs_review`、`insufficient_features`、`features_only` 和

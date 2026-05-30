@@ -103,6 +103,8 @@ Acceptance demo:
 Goal: demonstrate that the Deep Squat pipeline can be reused.
 
 Planning reference: `docs/specs/v1_7_movement_expansion_plan.md`.
+Maturity / side / clearing reference:
+`docs/specs/v1_7_movement_maturity_and_side_clearing.md`.
 
 Priority order:
 
@@ -121,6 +123,12 @@ Support level:
   schema-version changes only after explicit review.
 
 Current V1.7 implementation status:
+
+The current 7-action maturity table is maintained in
+`docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
+Squat, Active Straight Leg Raise, Hurdle Step, and In-Line Lunge are
+pose-based AI suggestion paths; Shoulder Mobility is feature-only; Trunk
+Stability Push-Up and Rotary Stability are annotation-only.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
