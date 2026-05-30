@@ -28,6 +28,8 @@ See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
 - [x] Add human-only `pain_flag`.
 - [x] Add `clearing_test` field.
 - [x] Add `rubric_version`.
+- [x] Add action-specific rubric criteria mapping to JSON/CSV/package exports
+      while keeping compatible subscore fields.
 - [x] Add segment manual start/end adjustment controls.
 - [x] Persist suggested vs manually adjusted segment times.
 - [x] Add JSON export for current mock workflow.

@@ -109,10 +109,15 @@ JSON dataset export 不会嵌入完整 `*.pose.json` 原始帧数据。加载 po
 - `poseTiming`: 当前切片、建议切片、lowest point、timing issues、coverage。
 - `poseFeatures`: depth / torso control / knee alignment ratings 与 metrics。
 - `poseSuggestion`: total score、subscores、confidence、reasons、model version。
+- `rubricCriteria`: 三个兼容 subscore 字段在当前 movement 下对应的 reviewer-facing
+  criterion，例如 ASLR 的 `depth` 兼容字段对应 Hip Flexion，而不是 Deep Squat
+  depth。
 
 `poseEvidence` 还会记录 `implementedPoseActionTypes` 与 `plannedActionTypes`。
-当前 `implementedPoseActionTypes = ["deep_squat"]`，但 schema 明确保留 V2+
-扩展到全部 7 个 FMS movements 的空间。
+当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge 已有 first-pass pose-based
+AI suggestion；Shoulder Mobility 为 feature-only；Trunk Stability Push-Up 和
+Rotary Stability 为 annotation-only。schema 明确保留 V2+ 扩展到全部 7 个 FMS
+movements 的空间。
 
 CSV export 会展开同一批 evidence，便于 reviewer 在 spreadsheet 中扫描 segment
 timing、feature ratings、pose suggestion 和 final label。

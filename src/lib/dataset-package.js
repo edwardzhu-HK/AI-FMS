@@ -152,6 +152,12 @@ function formatOptionalRate(rate) {
 
 function buildDatasetCard(dataset, qualitySummary) {
   const video = dataset.video;
+  const rubricCriteria = (video.rubricCriteria ?? [])
+    .map(
+      (criterion) =>
+        `- ${criterion.genericKey}: ${criterion.label} (${criterion.criterionKey})`,
+    )
+    .join("\n");
 
   return `# AI-FMS Dataset Card
 
@@ -168,6 +174,13 @@ annotation、movement-quality review 和后续可追溯数据集建设。它不�
 - Action type: ${video.actionType}
 - Analysis range: ${video.startSecond}s - ${video.endSecond}s
 - Expected reps: ${video.expectedReps ?? "N/A"}
+
+## Rubric Criteria
+
+The workbench keeps three compatible subscore fields for cross-movement export,
+but each movement maps those fields to movement-specific reviewer criteria:
+
+${rubricCriteria || "- N/A"}
 
 ## 标注记录
 

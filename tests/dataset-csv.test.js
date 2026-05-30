@@ -20,6 +20,13 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
         painFlag: false,
         clearingTest: "not_applicable",
         rubricVersion: "fms_v1.0",
+        rubricCriteria: [
+          {
+            genericKey: "depth",
+            criterionKey: "deep_squat_depth",
+            label: "Depth",
+          },
+        ],
         aiSuggestion: {
           totalScore: 3,
         },
@@ -74,7 +81,9 @@ test("buildDatasetCsv flattens dataset records with pose evidence", () => {
 
   const lines = csv.split("\n");
   assert.ok(lines[0].includes("pose_suggestion_reasons"));
+  assert.ok(lines[0].includes("rubric_criteria"));
   assert.ok(lines[1].includes("seg_1"));
+  assert.ok(lines[1].includes("depth:deep_squat_depth:Depth"));
   assert.ok(lines[1].includes("watch"));
   assert.ok(lines[1].includes('"Torso, reason | Needs review"'));
 });

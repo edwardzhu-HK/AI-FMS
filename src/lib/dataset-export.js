@@ -1,4 +1,5 @@
 import { adjudicateScores } from "./adjudication.js";
+import { getActionRubricCriteria } from "../constants/scoring.js";
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -22,6 +23,7 @@ export function buildDatasetExport(video, segments) {
       endSecond: video.endSecond,
       expectedReps: video.expectedReps ?? null,
       notes: video.notes ?? "",
+      rubricCriteria: getActionRubricCriteria(video.actionType),
     },
     records: segments.map((segment) => {
       const adjudication = adjudicateScores(
@@ -45,6 +47,7 @@ export function buildDatasetExport(video, segments) {
         painFlag: Boolean(segment.painFlag),
         clearingTest: segment.clearingTest ?? "not_applicable",
         rubricVersion: segment.rubricVersion ?? "fms_v1.0",
+        rubricCriteria: getActionRubricCriteria(segment.actionType),
         aiSuggestion: toScoreSnapshot(segment.aiScore),
         reviewerA: toScoreSnapshot(segment.reviewerScores.reviewer_a),
         reviewerB: toScoreSnapshot(segment.reviewerScores.reviewer_b),

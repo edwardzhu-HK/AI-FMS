@@ -13,6 +13,16 @@ const CSV_COLUMNS = [
   ["pain_flag", (record) => record.painFlag],
   ["clearing_test", (record) => record.clearingTest],
   ["rubric_version", (record) => record.rubricVersion],
+  [
+    "rubric_criteria",
+    (record) =>
+      record.rubricCriteria
+        ?.map(
+          (criterion) =>
+            `${criterion.genericKey}:${criterion.criterionKey}:${criterion.label}`,
+        )
+        .join(";") ?? "",
+  ],
   ["ai_total", (record) => record.aiSuggestion?.totalScore],
   ["reviewer_a_total", (record) => record.reviewerA?.totalScore],
   ["reviewer_b_total", (record) => record.reviewerB?.totalScore],

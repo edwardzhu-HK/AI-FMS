@@ -286,6 +286,13 @@ Recommended record shape:
   },
   "pain_flag": false,
   "clearing_test": "not_applicable",
+  "rubric_criteria": [
+    {
+      "generic_key": "depth",
+      "criterion_key": "deep_squat_depth",
+      "label": "Depth"
+    }
+  ],
   "final_label": 2,
   "adjudication_source": "ai_plus_reviewer_a",
   "validity_status": "valid",
@@ -301,6 +308,9 @@ Required schema concepts:
 - `pain_flag`: only from human input, not AI inference.
 - `clearing_test`: not_applicable, pass, fail, unknown.
 - `rubric_version`: stable scoring rubric reference.
+- `rubric_criteria`: movement-specific meaning of the compatible subscore
+  fields; this keeps exports readable when a generic field such as `depth`
+  represents Hip Flexion for ASLR or Lunge Depth for In-Line Lunge.
 - `pose_model` and `pose_model_version`.
 - `pose_confidence_summary`.
 - `features`: action-specific motion features.

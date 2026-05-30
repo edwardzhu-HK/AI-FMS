@@ -60,6 +60,15 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
   assert.equal(exported.records[0].adjudicationSource, "human_consensus");
   assert.equal(exported.records[0].segmentSource, "manual_adjusted");
   assert.equal(exported.records[0].originalStartSecond, 0);
+  assert.deepEqual(exported.video.rubricCriteria[0], {
+    genericKey: "depth",
+    criterionKey: "deep_squat_depth",
+    label: "Depth",
+  });
+  assert.equal(
+    exported.records[0].rubricCriteria[1].criterionKey,
+    "deep_squat_knee_alignment",
+  );
 });
 
 test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () => {

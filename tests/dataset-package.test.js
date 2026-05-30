@@ -17,6 +17,13 @@ function createDataset() {
       endSecond: 45,
       expectedReps: 7,
       notes: "demo",
+      rubricCriteria: [
+        {
+          genericKey: "depth",
+          criterionKey: "deep_squat_depth",
+          label: "Depth",
+        },
+      ],
     },
     records: [
       {
@@ -89,6 +96,10 @@ test("buildDatasetPackageFiles creates application-ready export files", () => {
   assert.match(
     files.find((file) => file.fileName === "dataset_card.md").contents,
     /not medical diagnosis|不是医疗诊断/,
+  );
+  assert.match(
+    files.find((file) => file.fileName === "dataset_card.md").contents,
+    /Rubric Criteria/,
   );
   assert.match(
     files.find((file) => file.fileName === "README_export.md").contents,
