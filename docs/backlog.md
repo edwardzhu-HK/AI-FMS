@@ -200,6 +200,8 @@ Current development order agreed on 2026-05-23:
   - [x] Add Hurdle Step feature helper and tests.
   - [x] Add one browser-verifiable Hurdle Step demo path.
   - [x] Add Hurdle Step first-pass pose-based AI suggestion path.
+  - [x] Upgrade Hurdle Step evidence to include clearance zones, stance leg
+        control, pelvis/trunk control, and stepping-leg alignment proxy.
 - [x] Start In-Line Lunge expansion after Hurdle demo path is stable.
   - [x] Select 3 In-Line Lunge samples for first pose extraction.
   - [x] Generate and validate In-Line Lunge pose JSON.

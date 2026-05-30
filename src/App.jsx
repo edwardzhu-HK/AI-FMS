@@ -499,6 +499,10 @@ const UI_TEXT = {
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
+    reason_hurdleClearance: "Hurdle Clearance",
+    reason_stanceLegControl: "Stance Leg Control",
+    reason_pelvisTrunkControl: "Pelvis Trunk Control",
+    reason_stepLegAlignment: "Step Leg Alignment",
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
@@ -561,6 +565,30 @@ const UI_TEXT = {
       "Evidence: right-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
     "reason_sideConfidence_left side low visibility":
       "Evidence: left-side landmarks are visible but lower-confidence, so the suggestion should be reviewed.",
+    "reason_hurdleClearance_score 3 clearance zone":
+      "Evidence: the moving leg reaches the stronger Hurdle Step clearance proxy zone, supporting a high raw-score suggestion for this criterion.",
+    "reason_hurdleClearance_score 2 clearance zone":
+      "Evidence: the moving leg clears in a moderate proxy zone; the rep is usable but should be checked by the reviewer.",
+    "reason_hurdleClearance_score 1 clearance zone":
+      "Evidence: the moving leg stays low in this Hurdle Step proxy, suggesting limited clearance or an incomplete step pattern.",
+    "reason_stanceLegControl_stable stance leg":
+      "Evidence: the stance leg remains straight enough and the stance ankle stays stable during the detected step cycle.",
+    "reason_stanceLegControl_stance leg control watch":
+      "Evidence: the stance leg shows mild bend or ankle drift, so balance and control should be reviewed.",
+    "reason_stanceLegControl_stance leg compensation watch":
+      "Evidence: the stance leg shows enough bend or ankle drift to flag possible compensation.",
+    "reason_pelvisTrunkControl_controlled pelvis trunk":
+      "Evidence: the shoulder/hip centers and hip-height proxy remain controlled during the step peak.",
+    "reason_pelvisTrunkControl_pelvis trunk shift watch":
+      "Evidence: the pelvis or trunk proxy shifts during the step peak and should be reviewed.",
+    "reason_pelvisTrunkControl_large pelvis trunk shift":
+      "Evidence: pelvis/trunk shift is large enough to weaken this Hurdle Step control evidence.",
+    "reason_stepLegAlignment_aligned stepping leg":
+      "Evidence: the moving hip-knee-ankle line stays aligned enough at the step peak.",
+    "reason_stepLegAlignment_mild stepping leg drift":
+      "Evidence: the moving leg line has mild knee drift or bend and should be reviewed.",
+    "reason_stepLegAlignment_stepping leg alignment watch":
+      "Evidence: the moving leg line shows enough drift or bend to weaken the knee-ankle-line evidence.",
     "reason_stepClearance_clear step height proxy":
       "Evidence: the moving foot clears the obstacle-height proxy with a strong step signal.",
     "reason_stepClearance_moderate step height":
@@ -655,6 +683,10 @@ const UI_TEXT = {
     handVisibility: "Hand Visibility",
     shoulderReference: "Shoulder Reference",
     sideContext: "Side Context",
+    hurdleClearance: "Hurdle Clearance",
+    stanceLegControl: "Stance Leg Control",
+    pelvisTrunkControl: "Pelvis Trunk Control",
+    stepLegAlignment: "Step Leg Alignment",
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",
@@ -950,6 +982,10 @@ const UI_TEXT = {
     reason_pelvicStability: "Pelvic Stability",
     reason_legLine: "Leg Line",
     reason_sideConfidence: "Side Confidence",
+    reason_hurdleClearance: "Hurdle Clearance",
+    reason_stanceLegControl: "Stance Leg Control",
+    reason_pelvisTrunkControl: "Pelvis Trunk Control",
+    reason_stepLegAlignment: "Step Leg Alignment",
     reason_stepClearance: "Step Clearance",
     reason_stanceStability: "Stance Stability",
     reason_trunkControl: "Trunk Control",
@@ -1012,6 +1048,30 @@ const UI_TEXT = {
       "依据是 right side low visibility：右侧关键点可用但置信度偏低，建议复核。",
     "reason_sideConfidence_left side low visibility":
       "依据是 left side low visibility：左侧关键点可用但置信度偏低，建议复核。",
+    "reason_hurdleClearance_score 3 clearance zone":
+      "依据是 score 3 clearance zone：跨步腿进入更充分的 Hurdle Step clearance proxy 区间，支持该项较高 raw-score 建议。",
+    "reason_hurdleClearance_score 2 clearance zone":
+      "依据是 score 2 clearance zone：跨步腿 clearance 处在中等 proxy 区间，动作可分析但建议人工复核。",
+    "reason_hurdleClearance_score 1 clearance zone":
+      "依据是 score 1 clearance zone：跨步腿在该 proxy 中抬高不足，提示 clearance 或 step pattern 可能受限。",
+    "reason_stanceLegControl_stable stance leg":
+      "依据是 stable stance leg：支撑腿保持较直，支撑侧脚踝在动作周期中也比较稳定。",
+    "reason_stanceLegControl_stance leg control watch":
+      "依据是 stance leg control watch：支撑腿有轻微弯曲或脚踝漂移，建议复核 balance/control。",
+    "reason_stanceLegControl_stance leg compensation watch":
+      "依据是 stance leg compensation watch：支撑腿弯曲或漂移较明显，提示可能存在代偿。",
+    "reason_pelvisTrunkControl_controlled pelvis trunk":
+      "依据是 controlled pelvis trunk：肩/髋中心和髋高度 proxy 在跨步峰值附近保持较稳定。",
+    "reason_pelvisTrunkControl_pelvis trunk shift watch":
+      "依据是 pelvis trunk shift watch：骨盆或躯干 proxy 有可见偏移，建议人工复核。",
+    "reason_pelvisTrunkControl_large pelvis trunk shift":
+      "依据是 large pelvis trunk shift：骨盆/躯干偏移较明显，会削弱 Hurdle Step 控制证据。",
+    "reason_stepLegAlignment_aligned stepping leg":
+      "依据是 aligned stepping leg：跨步侧 hip-knee-ankle 线在峰值附近保持较好对齐。",
+    "reason_stepLegAlignment_mild stepping leg drift":
+      "依据是 mild stepping leg drift：跨步腿线条有轻微膝部漂移或弯曲，建议人工复核。",
+    "reason_stepLegAlignment_stepping leg alignment watch":
+      "依据是 stepping leg alignment watch：跨步腿线条漂移或弯曲较明显，会削弱 knee-ankle-line 证据。",
     "reason_stepClearance_clear step height proxy":
       "依据是 clear step height proxy：跨步脚在动作周期中有比较清晰的抬高/越障证据。",
     "reason_stepClearance_moderate step height":
@@ -1106,6 +1166,10 @@ const UI_TEXT = {
     handVisibility: "Hand Visibility",
     shoulderReference: "Shoulder Reference",
     sideContext: "Side Context",
+    hurdleClearance: "Hurdle Clearance",
+    stanceLegControl: "Stance Leg Control",
+    pelvisTrunkControl: "Pelvis Trunk Control",
+    stepLegAlignment: "Step Leg Alignment",
     stepClearance: "Step Clearance",
     stanceStability: "Stance Stability",
     trunkControl: "Trunk Control",

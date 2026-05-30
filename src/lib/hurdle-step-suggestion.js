@@ -39,29 +39,51 @@ function findTimingItem(timingReport, featureItem) {
 }
 
 function buildSubscores(featureItem) {
-  const stepClearanceScore = ratingToScore(
-    featureItem.ratings.stepClearance?.status,
+  const clearanceScore = ratingToScore(
+    (featureItem.ratings.hurdleClearance ?? featureItem.ratings.stepClearance)
+      ?.status,
   );
-  const stanceStabilityScore = ratingToScore(
-    featureItem.ratings.stanceStability?.status,
+  const balanceControlScore = Math.min(
+    ratingToScore(
+      (
+        featureItem.ratings.stanceLegControl ??
+        featureItem.ratings.stanceStability
+      )?.status,
+    ),
+    ratingToScore(
+      (
+        featureItem.ratings.pelvisTrunkControl ??
+        featureItem.ratings.trunkControl
+      )?.status,
+    ),
   );
-  const lineControlScore = Math.min(
-    ratingToScore(featureItem.ratings.trunkControl?.status),
+  const kneeAnkleLineScore = Math.min(
+    ratingToScore(
+      (featureItem.ratings.stepLegAlignment ?? featureItem.ratings.trunkControl)
+        ?.status,
+    ),
     ratingToScore(featureItem.ratings.sideConfidence?.status),
   );
 
   return {
-    depth: stepClearanceScore,
-    kneeAlignment: stanceStabilityScore,
-    torsoControl: lineControlScore,
+    depth: clearanceScore,
+    kneeAlignment: balanceControlScore,
+    torsoControl: kneeAnkleLineScore,
   };
 }
 
 function buildConfidence(featureItem, timingItem) {
   const evidenceWeights = [
-    featureItem.ratings.stepClearance?.status,
-    featureItem.ratings.stanceStability?.status,
-    featureItem.ratings.trunkControl?.status,
+    (featureItem.ratings.hurdleClearance ?? featureItem.ratings.stepClearance)
+      ?.status,
+    (
+      featureItem.ratings.stanceLegControl ??
+      featureItem.ratings.stanceStability
+    )?.status,
+    (featureItem.ratings.pelvisTrunkControl ?? featureItem.ratings.trunkControl)
+      ?.status,
+    (featureItem.ratings.stepLegAlignment ?? featureItem.ratings.trunkControl)
+      ?.status,
     featureItem.ratings.sideConfidence?.status,
   ].map(ratingToEvidenceWeight);
   const evidenceCoverage =
@@ -111,18 +133,25 @@ function buildSuggestionItem(featureItem, timingReport) {
   const confidence = buildConfidence(featureItem, timingItem);
   const reasons = [
     buildReason(
-      "Step clearance",
-      featureItem.ratings.stepClearance,
+      "Hurdle clearance",
+      featureItem.ratings.hurdleClearance ?? featureItem.ratings.stepClearance,
       subscores.depth,
     ),
     buildReason(
-      "Stance stability",
-      featureItem.ratings.stanceStability,
+      "Stance leg control",
+      featureItem.ratings.stanceLegControl ??
+        featureItem.ratings.stanceStability,
       subscores.kneeAlignment,
     ),
     buildReason(
-      "Trunk control",
-      featureItem.ratings.trunkControl,
+      "Pelvis trunk control",
+      featureItem.ratings.pelvisTrunkControl ??
+        featureItem.ratings.trunkControl,
+      subscores.kneeAlignment,
+    ),
+    buildReason(
+      "Step leg alignment",
+      featureItem.ratings.stepLegAlignment ?? featureItem.ratings.trunkControl,
       subscores.torsoControl,
     ),
     buildReason(
@@ -148,7 +177,7 @@ function buildSuggestionItem(featureItem, timingReport) {
     confidence,
     confidenceLabel: confidenceLabel(confidence),
     reasons,
-    modelVersion: "pose-features-v0.1-hurdle",
+    modelVersion: "pose-features-v0.2-hurdle",
   };
 }
 
@@ -167,7 +196,7 @@ export function buildHurdleStepExplainableSuggestion({
 
   return {
     status: "ok",
-    modelVersion: "pose-features-v0.1-hurdle",
+    modelVersion: "pose-features-v0.2-hurdle",
     items,
     summary: {
       segmentsTotal: items.length,

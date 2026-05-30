@@ -87,22 +87,35 @@ function getFeatureRows(activeItem, t) {
     ];
   }
 
-  if (activeItem.ratings.stepClearance) {
+  if (activeItem.ratings.hurdleClearance || activeItem.ratings.stepClearance) {
     return [
       {
-        label: t("stepClearance"),
-        rating: activeItem.ratings.stepClearance,
+        label: t("hurdleClearance"),
+        rating:
+          activeItem.ratings.hurdleClearance ??
+          activeItem.ratings.stepClearance,
         detail: `clearance ${formatNumber(activeItem.metrics.peakClearance, 3)} · side ${activeItem.metrics.side ?? "N/A"}`,
       },
       {
-        label: t("stanceStability"),
-        rating: activeItem.ratings.stanceStability,
-        detail: `stance drift ${formatNumber(activeItem.metrics.stanceAnkleDrift, 3)} · stance ${activeItem.metrics.stanceSide ?? "N/A"}`,
+        label: t("stanceLegControl"),
+        rating:
+          activeItem.ratings.stanceLegControl ??
+          activeItem.ratings.stanceStability,
+        detail: `knee ${formatNumber(activeItem.metrics.stanceKneeAngleDegrees, 1)}deg · drift ${formatNumber(activeItem.metrics.stanceAnkleDrift, 3)}`,
       },
       {
-        label: t("trunkControl"),
-        rating: activeItem.ratings.trunkControl,
-        detail: `center offset ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)}`,
+        label: t("pelvisTrunkControl"),
+        rating:
+          activeItem.ratings.pelvisTrunkControl ??
+          activeItem.ratings.trunkControl,
+        detail: `center ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)} · hip gap ${formatNumber(activeItem.metrics.hipHeightGap, 3)}`,
+      },
+      {
+        label: t("stepLegAlignment"),
+        rating:
+          activeItem.ratings.stepLegAlignment ??
+          activeItem.ratings.trunkControl,
+        detail: `knee-line ${formatNumber(activeItem.metrics.stepKneeLineOffset, 3)} · knee ${formatNumber(activeItem.metrics.stepKneeAngleDegrees, 1)}deg`,
       },
       {
         label: t("sideConfidence"),

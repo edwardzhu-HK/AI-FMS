@@ -15,6 +15,10 @@ function createFeatureReport() {
         repetitionIndex: 1,
         status: "ok",
         ratings: {
+          hurdleClearance: rating("good", "score 3 clearance zone"),
+          stanceLegControl: rating("good", "stable stance leg"),
+          pelvisTrunkControl: rating("watch", "pelvis trunk shift watch"),
+          stepLegAlignment: rating("good", "aligned stepping leg"),
           stepClearance: rating("good", "clear step height proxy"),
           stanceStability: rating("good", "stable stance proxy"),
           trunkControl: rating("watch", "trunk shift watch"),
@@ -49,18 +53,23 @@ test("buildHurdleStepExplainableSuggestion maps Hurdle features to compatible su
   });
 
   assert.equal(suggestion.status, "ok");
-  assert.equal(suggestion.modelVersion, "pose-features-v0.1-hurdle");
+  assert.equal(suggestion.modelVersion, "pose-features-v0.2-hurdle");
   assert.equal(suggestion.summary.scoredSegments, 1);
   assert.equal(suggestion.items[0].totalScore, 2);
   assert.deepEqual(suggestion.items[0].subscores, {
     depth: 3,
-    kneeAlignment: 3,
-    torsoControl: 2,
+    kneeAlignment: 2,
+    torsoControl: 3,
   });
   assert.equal(suggestion.items[0].confidenceLabel, "high");
   assert.ok(
     suggestion.items[0].reasons.some((reason) =>
-      reason.includes("Step clearance suggested 3"),
+      reason.includes("Hurdle clearance suggested 3"),
+    ),
+  );
+  assert.ok(
+    suggestion.items[0].reasons.some((reason) =>
+      reason.includes("Pelvis trunk control suggested 2"),
     ),
   );
 });

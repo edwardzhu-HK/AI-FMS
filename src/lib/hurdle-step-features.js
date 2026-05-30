@@ -91,6 +91,58 @@ function midpoint(first, second) {
   };
 }
 
+function angleDegrees(first, vertex, third) {
+  if (
+    !first ||
+    !vertex ||
+    !third ||
+    typeof first.x !== "number" ||
+    typeof first.y !== "number" ||
+    typeof vertex.x !== "number" ||
+    typeof vertex.y !== "number" ||
+    typeof third.x !== "number" ||
+    typeof third.y !== "number"
+  ) {
+    return null;
+  }
+
+  const firstVector = {
+    x: first.x - vertex.x,
+    y: first.y - vertex.y,
+  };
+  const thirdVector = {
+    x: third.x - vertex.x,
+    y: third.y - vertex.y,
+  };
+  const firstLength = Math.hypot(firstVector.x, firstVector.y);
+  const thirdLength = Math.hypot(thirdVector.x, thirdVector.y);
+
+  if (firstLength === 0 || thirdLength === 0) {
+    return null;
+  }
+
+  const cosine =
+    (firstVector.x * thirdVector.x + firstVector.y * thirdVector.y) /
+    (firstLength * thirdLength);
+  const clampedCosine = Math.max(-1, Math.min(1, cosine));
+  return (Math.acos(clampedCosine) * 180) / Math.PI;
+}
+
+function kneeLineOffset(hip, knee, ankle) {
+  if (
+    !hip ||
+    !knee ||
+    !ankle ||
+    typeof hip.x !== "number" ||
+    typeof knee.x !== "number" ||
+    typeof ankle.x !== "number"
+  ) {
+    return null;
+  }
+
+  return Math.abs(knee.x - (hip.x + ankle.x) / 2);
+}
+
 function classifyStepClearance(peakClearance) {
   if (peakClearance === null) {
     return {
@@ -116,6 +168,34 @@ function classifyStepClearance(peakClearance) {
   return {
     status: "limited",
     label: "low step clearance watch",
+  };
+}
+
+function classifyHurdleClearance(peakClearance) {
+  if (peakClearance === null) {
+    return {
+      status: "not_applicable",
+      label: "missing clearance evidence",
+    };
+  }
+
+  if (peakClearance >= 0.12) {
+    return {
+      status: "good",
+      label: "score 3 clearance zone",
+    };
+  }
+
+  if (peakClearance >= 0.07) {
+    return {
+      status: "watch",
+      label: "score 2 clearance zone",
+    };
+  }
+
+  return {
+    status: "limited",
+    label: "score 1 clearance zone",
   };
 }
 
@@ -147,6 +227,40 @@ function classifyStanceStability(stanceAnkleDrift) {
   };
 }
 
+function classifyStanceLegControl(stanceAnkleDrift, stanceKneeAngleDegrees) {
+  if (stanceAnkleDrift === null && stanceKneeAngleDegrees === null) {
+    return {
+      status: "not_applicable",
+      label: "missing stance leg evidence",
+    };
+  }
+
+  if (
+    (stanceAnkleDrift !== null && stanceAnkleDrift > 0.07) ||
+    (stanceKneeAngleDegrees !== null && stanceKneeAngleDegrees < 160)
+  ) {
+    return {
+      status: "limited",
+      label: "stance leg compensation watch",
+    };
+  }
+
+  if (
+    (stanceAnkleDrift !== null && stanceAnkleDrift > 0.035) ||
+    (stanceKneeAngleDegrees !== null && stanceKneeAngleDegrees < 170)
+  ) {
+    return {
+      status: "watch",
+      label: "stance leg control watch",
+    };
+  }
+
+  return {
+    status: "good",
+    label: "stable stance leg",
+  };
+}
+
 function classifyTrunkControl(trunkCenterOffset) {
   if (trunkCenterOffset === null) {
     return {
@@ -172,6 +286,68 @@ function classifyTrunkControl(trunkCenterOffset) {
   return {
     status: "limited",
     label: "large trunk shift",
+  };
+}
+
+function classifyPelvisTrunkControl(trunkCenterOffset, hipHeightGap) {
+  if (trunkCenterOffset === null && hipHeightGap === null) {
+    return {
+      status: "not_applicable",
+      label: "missing pelvis trunk evidence",
+    };
+  }
+
+  if (
+    (trunkCenterOffset !== null && trunkCenterOffset > 0.08) ||
+    (hipHeightGap !== null && hipHeightGap > 0.08)
+  ) {
+    return {
+      status: "limited",
+      label: "large pelvis trunk shift",
+    };
+  }
+
+  if (
+    (trunkCenterOffset !== null && trunkCenterOffset > 0.04) ||
+    (hipHeightGap !== null && hipHeightGap > 0.045)
+  ) {
+    return {
+      status: "watch",
+      label: "pelvis trunk shift watch",
+    };
+  }
+
+  return {
+    status: "good",
+    label: "controlled pelvis trunk",
+  };
+}
+
+function classifyStepLegAlignment(stepKneeLineOffset) {
+  if (stepKneeLineOffset === null) {
+    return {
+      status: "not_applicable",
+      label: "missing stepping leg evidence",
+    };
+  }
+
+  if (stepKneeLineOffset !== null && stepKneeLineOffset > 0.065) {
+    return {
+      status: "limited",
+      label: "stepping leg alignment watch",
+    };
+  }
+
+  if (stepKneeLineOffset !== null && stepKneeLineOffset > 0.035) {
+    return {
+      status: "watch",
+      label: "mild stepping leg drift",
+    };
+  }
+
+  return {
+    status: "good",
+    label: "aligned stepping leg",
   };
 }
 
@@ -227,6 +403,22 @@ function calculateTrunkCenterOffset(landmarks) {
   return Math.abs(shoulderCenter.x - hipCenter.x);
 }
 
+function calculateHipHeightGap(landmarks) {
+  const leftHip = landmarks.left_hip;
+  const rightHip = landmarks.right_hip;
+
+  if (
+    !leftHip ||
+    !rightHip ||
+    typeof leftHip.y !== "number" ||
+    typeof rightHip.y !== "number"
+  ) {
+    return null;
+  }
+
+  return Math.abs(leftHip.y - rightHip.y);
+}
+
 function buildFeatureItem({ posePayload, timingItem }) {
   if (!timingItem?.cycle) {
     return {
@@ -250,12 +442,23 @@ function buildFeatureItem({ posePayload, timingItem }) {
   const knee = landmarks[`${side}_knee`];
   const ankle = landmarks[`${side}_ankle`];
   const foot = landmarks[`${side}_foot_index`];
+  const stanceHip = landmarks[`${stanceSide}_hip`];
+  const stanceKnee = landmarks[`${stanceSide}_knee`];
+  const stanceAnkle = landmarks[`${stanceSide}_ankle`];
   const stanceAnkleDrift = calculateStanceAnkleDrift({
     posePayload,
     timingItem,
     stanceSide,
   });
+  const stanceKneeAngleDegrees = angleDegrees(
+    stanceHip,
+    stanceKnee,
+    stanceAnkle,
+  );
+  const stepKneeAngleDegrees = angleDegrees(hip, knee, ankle);
+  const stepKneeLineOffset = kneeLineOffset(hip, knee, ankle);
   const trunkCenterOffset = calculateTrunkCenterOffset(landmarks);
+  const hipHeightGap = calculateHipHeightGap(landmarks);
   const sideVisibility = average([
     hip?.visibility,
     knee?.visibility,
@@ -275,6 +478,16 @@ function buildFeatureItem({ posePayload, timingItem }) {
       peakSecond: timingItem.cycle.peakSecond,
     },
     ratings: {
+      hurdleClearance: classifyHurdleClearance(timingItem.cycle.peakClearance),
+      stanceLegControl: classifyStanceLegControl(
+        stanceAnkleDrift,
+        stanceKneeAngleDegrees,
+      ),
+      stepLegAlignment: classifyStepLegAlignment(stepKneeLineOffset),
+      pelvisTrunkControl: classifyPelvisTrunkControl(
+        trunkCenterOffset,
+        hipHeightGap,
+      ),
       stepClearance: classifyStepClearance(timingItem.cycle.peakClearance),
       stanceStability: classifyStanceStability(stanceAnkleDrift),
       trunkControl: classifyTrunkControl(trunkCenterOffset),
@@ -285,7 +498,11 @@ function buildFeatureItem({ posePayload, timingItem }) {
       stanceSide,
       peakClearance: toFixedNumber(timingItem.cycle.peakClearance),
       stanceAnkleDrift: toFixedNumber(stanceAnkleDrift),
+      stanceKneeAngleDegrees: toFixedNumber(stanceKneeAngleDegrees, 1),
+      stepKneeAngleDegrees: toFixedNumber(stepKneeAngleDegrees, 1),
+      stepKneeLineOffset: toFixedNumber(stepKneeLineOffset),
       trunkCenterOffset: toFixedNumber(trunkCenterOffset),
+      hipHeightGap: toFixedNumber(hipHeightGap),
       avgVisibility: toFixedNumber(timingItem.metrics?.avgVisibility, 3),
       timingCoverageRatio: toFixedNumber(timingItem.metrics?.coverageRatio, 3),
       sideVisibility: toFixedNumber(sideVisibility, 3),
@@ -296,6 +513,10 @@ function buildFeatureItem({ posePayload, timingItem }) {
 function summarizeFeatureItems(items) {
   const usableItems = items.filter((item) => item.status === "ok");
   const ratingKeys = [
+    "hurdleClearance",
+    "stanceLegControl",
+    "stepLegAlignment",
+    "pelvisTrunkControl",
     "stepClearance",
     "stanceStability",
     "trunkControl",

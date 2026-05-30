@@ -128,8 +128,10 @@ Current V1.7 implementation status:
   browser-verifiable demo preset; suggestion is intentionally held for more
   human calibration.
 - Hurdle Step has completed an initial pose probe, timing/features helpers, and
-  one browser demo path with first-pass pose-based AI suggestion. The scoring is
-  reviewer support, not a final automatic FMS score.
+  one browser demo path with pose-based AI suggestion. Its current evidence
+  includes clearance zones, stance-leg control, pelvis/trunk control, and
+  stepping-leg alignment proxies. The scoring is reviewer support, not a final
+  automatic FMS score.
 - In-Line Lunge has completed an initial pose probe, timing/features helpers,
   and one browser demo path with first-pass pose-based AI suggestion. The
   selected 6-rep sample passes timing/features smoke, but knee-foot alignment

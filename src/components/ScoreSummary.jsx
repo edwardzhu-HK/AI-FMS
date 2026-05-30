@@ -36,7 +36,7 @@ function renderPoseComparison(poseSuggestion, adjudication, t) {
 
 function parseSuggestedReason(reason) {
   return reason.match(
-    /^(Depth|Knee alignment|Torso control|Hip flexion|Active leg raise|Stationary leg control|Pelvic stability|Leg line|Side confidence|Step clearance|Stance stability|Trunk control|Lunge depth|Trunk alignment|Knee-foot alignment) suggested (\d): (.+?)\./,
+    /^(Depth|Knee alignment|Torso control|Hip flexion|Active leg raise|Stationary leg control|Pelvic stability|Leg line|Side confidence|Hurdle clearance|Stance leg control|Pelvis trunk control|Step leg alignment|Step clearance|Stance stability|Trunk control|Lunge depth|Trunk alignment|Knee-foot alignment) suggested (\d): (.+?)\./,
   );
 }
 
@@ -57,6 +57,10 @@ function reasonFeatureKey(featureLabel) {
     "Pelvic stability": "pelvicStability",
     "Leg line": "legLine",
     "Side confidence": "sideConfidence",
+    "Hurdle clearance": "hurdleClearance",
+    "Stance leg control": "stanceLegControl",
+    "Pelvis trunk control": "pelvisTrunkControl",
+    "Step leg alignment": "stepLegAlignment",
     "Step clearance": "stepClearance",
     "Stance stability": "stanceStability",
     "Trunk control": "trunkControl",

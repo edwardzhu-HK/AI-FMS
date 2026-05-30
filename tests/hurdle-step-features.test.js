@@ -106,6 +106,10 @@ test("summarizeHurdleStepPoseFeatures reports step evidence", () => {
 
   assert.equal(report.summary.repetitionsTotal, 1);
   assert.equal(report.summary.usableRepetitions, 1);
+  assert.equal(report.items[0].ratings.hurdleClearance.status, "good");
+  assert.equal(report.items[0].ratings.stanceLegControl.status, "good");
+  assert.equal(report.items[0].ratings.stepLegAlignment.status, "good");
+  assert.equal(report.items[0].ratings.pelvisTrunkControl.status, "good");
   assert.equal(report.items[0].ratings.stepClearance.status, "good");
   assert.equal(report.items[0].ratings.stanceStability.status, "good");
   assert.equal(report.items[0].ratings.trunkControl.status, "good");
@@ -113,6 +117,8 @@ test("summarizeHurdleStepPoseFeatures reports step evidence", () => {
   assert.equal(report.items[0].metrics.side, "left");
   assert.equal(report.items[0].metrics.stanceSide, "right");
   assert.equal(typeof report.items[0].metrics.peakClearance, "number");
+  assert.equal(typeof report.items[0].metrics.stanceKneeAngleDegrees, "number");
+  assert.equal(typeof report.items[0].metrics.stepKneeLineOffset, "number");
 });
 
 test("summarizeHurdleStepPoseFeatures returns null without timing evidence", () => {

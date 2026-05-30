@@ -70,6 +70,29 @@ Hurdle Step 首轮 feature-only evidence 已加入 helper 和单元测试：
 
 这些 feature 先服务 reviewer-readable evidence，不直接声称 certified FMS scoring。
 
+## 第二版 Hurdle Step Scoring Evidence
+
+截至 2026-05-30，Hurdle Step 已从 first-pass proxy 升级为更接近动作本身的
+pose-based reviewer support。它仍然不是 certified FMS 自动评分，而是给 reviewer
+提供可解释的 raw-score 建议和证据理由。
+
+新增的 movement-specific evidence：
+
+- `hurdleClearance`: 跨步腿是否进入 score 3 / score 2 / score 1 clearance proxy 区间。
+- `stanceLegControl`: 支撑腿膝角和支撑脚踝漂移，用于观察支撑腿是否稳定。
+- `pelvisTrunkControl`: 肩/髋中心偏移与左右髋高度差，用于观察骨盆和躯干控制。
+- `stepLegAlignment`: 跨步侧 hip-knee-ankle 线条和膝角，用于观察 knee-ankle-line proxy。
+
+为了保持导出和旧 UI 的兼容性，`stepClearance`、`stanceStability`、`trunkControl`
+仍然保留，但新版 suggestion 优先使用上面四个 Hurdle-specific ratings。当前 subscore
+映射为：
+
+| Hurdle Step rubric slot | Pose evidence                                        |
+| ----------------------- | ---------------------------------------------------- |
+| `Hip Mobility`          | `hurdleClearance`                                    |
+| `Balance Control`       | `stanceLegControl` + `pelvisTrunkControl` 中较保守者 |
+| `Knee-ankle Line`       | `stepLegAlignment` + `sideConfidence` 中较保守者     |
+
 ## Timing Helper 试跑结果
 
 第一版 `hurdle-step-timing.js` 已加入单元测试，能够在 synthetic fixture 中检测左右脚
@@ -90,9 +113,8 @@ FMS repetition 边界。Hurdle Step 一个 rep 里可能包含跨过、落地、
 
 ## Feature Helper 试跑结果
 
-第一版 `hurdle-step-features.js` 会基于 timing cycle 的 peak frame 和 segment window
-输出 reviewer-readable evidence。它仍然是 feature-only，不会生成 pose-based AI
-suggestion。
+新版 `hurdle-step-features.js` 会基于 timing cycle 的 peak frame 和 segment window
+输出 reviewer-readable evidence，并可生成 pose-based AI suggestion。
 
 在 `7-reps-score-3.pose.json` 的前 4 个 candidate cycles 上试跑，feature helper 能
 输出可用 evidence：
@@ -104,28 +126,27 @@ suggestion。
 | average stance drift   | 0.016 | 支撑脚稳定性 proxy。            |
 | average visibility     | 0.961 | 关键点整体可见度较好。          |
 
-首个 candidate cycle 的 ratings 均为 `good`：`stepClearance`、`stanceStability`、
-`trunkControl`、`sideConfidence`。但这仍然建立在 candidate cycle 上，不能直接等同
-最终 FMS rep。
+首个 candidate cycle 的核心 ratings 包括 `hurdleClearance`、`stanceLegControl`、
+`pelvisTrunkControl`、`stepLegAlignment`、`sideConfidence`。但这仍然建立在 pose
+cycle 和 reviewer 可复核 segment 上，不能直接等同最终 FMS person-level score。
 
 ## Demo Path
 
-第一版 feature-only demo path 已接入：`Demo Preset` 选择 `Hurdle score-3 sample`
+Hurdle demo path 已接入：`Demo Preset` 选择 `Hurdle score-3 sample`
 后，会默认使用 `17.0s - 55.6s` 的分析范围，避开开头准备时间。可以验证 skeleton、
-Timing QA、Hurdle Step Features 和 dataset export。当前不会生成 pose-based AI
-suggestion，右侧会明确显示 `Pose Evidence Only`。
+Timing QA、Hurdle Step Features、pose-based AI suggestion 和 dataset export。
 
 浏览器 smoke 已验证：
 
 - Action 为 `Hurdle Step`。
 - `7 clips` 可以生成。
 - `Hurdle Step Features` 显示 7/7 usable，visibility 约 95%。
-- 右侧 summary 显示 `Pose Evidence Only`，不混入自动评分承诺。
+- 右侧 summary 显示 `基于 Pose 的 AI 建议`，但仍定位为 reviewer support。
 - Timing helper 会优先选择落在当前 segment 内、离 segment 中心最近的 cycle，减少
   准备时间或重复峰导致的错配。
 
 ## 下一步
 
-1. 继续校准 Hurdle Step timing：减少一个 rep 内的重复峰，并明确 side/return phase。
-2. 等更多 Hurdle Step 人工样本复核后，再决定是否接入 AI suggestion。
+1. 继续用更多 Hurdle Step 样本校准 threshold，特别是 score 1/2 mixed 样本。
+2. 继续校准 timing：减少一个 rep 内的重复峰，并明确 side/return phase。
 3. 若要把 candidate cycles 合并为正式 segment，需要先评审 schema/provenance 语义。
