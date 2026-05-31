@@ -46,7 +46,7 @@ features-only：可以显示 pose evidence 与 side suggestion，但暂不显示
 | In-Line Lunge             | implemented   | 有 In-Line Lunge score-3 demo   | 已有 lunge depth cycle detector；4-rep score-2 样本召回仍需校准  | 已有 lunge depth zone、trunk/pelvis、rear leg、front knee-foot line、side confidence       | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`，保留 front/rear evidence | 有 ankle clearing pain / mobility；AI 不应自动判定疼痛 | 优先做 clearing reminder/gate，不自动判 positive/negative |
 | Shoulder Mobility         | implemented   | 有 Shoulder score-2 demo        | 目前是 best reach frame，不是真正 movement-cycle timing          | 已有 reach distance、hand visibility、shoulder reference、side context                     | 已有保守版 pose-based AI suggestion | 已统一输出 segment-level `aiSideSuggestion`                           | 有 shoulder clearing；pain 只能人工确认                | Ronnie 校准 thresholds；后续做 clearing reminder/gate     |
 | Trunk Stability Push-Up   | implemented   | 有 score-3 pose demo            | 已有 best push-up frame timing；暂不 auto-apply draft timing     | 已有 push-up lift、trunk/body-line、arm extension、hip-drift compensation proxies          | 已有保守版 pose-based AI suggestion | 不适用，`side=none`                                                   | 有 extension clearing；pain 只能人工确认               | 扩展 score 1/2 样本；Ronnie 校准 thresholds               |
-| Rotary Stability          | features-only | 有 review sample pose JSON      | 已有 best rotary frame feasibility probe                         | 已有 rotary reach、trunk rotation、balance stability、side confidence proxies              | 暂无，不显示 AI RAW SCORE           | 已统一输出 segment-level `aiSideSuggestion`，但需 Ronnie 校准语义     | 有 flexion clearing；pain 只能人工确认                 | 继续补正式 score 样本；先校准 phase/side 语义             |
+| Rotary Stability          | features-only | 有 3 个 probe pose JSON         | 已有 best rotary frame feasibility probe                         | 已有 rotary reach、trunk rotation、balance stability、side confidence proxies              | 暂无，不显示 AI RAW SCORE           | 已统一输出 segment-level `aiSideSuggestion`，但需 Ronnie 校准语义     | 有 flexion clearing；pain 只能人工确认                 | 继续补正式 score 样本；先校准 phase/side 语义             |
 
 ## Pipeline 状态定义
 
@@ -174,4 +174,5 @@ Ronnie 后续适合修改：
 1. 增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
 2. 增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
 3. 继续校准 Shoulder Mobility suggestion thresholds，并补 clearing reminder / gate。
-4. Rotary Stability 继续扩大 pose feasibility probe，不直接做 score。
+4. Rotary Stability 继续扩大 pose feasibility probe，不直接做 score。当前 3 个样本
+   的 probe 结果记录在 `docs/rotary_feature_probe_report_2026-05-31.md`。

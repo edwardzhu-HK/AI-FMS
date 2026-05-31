@@ -168,6 +168,10 @@ Current development order agreed on 2026-05-23:
       reviewer-readable reasons, and tests.
 - [x] Add first-pass Rotary Stability feature-only pose probe with rotary reach,
       trunk rotation, balance stability, side-confidence evidence, and tests.
+- [x] Add a reproducible Rotary Stability multi-sample feature probe report.
+  - [x] Generate local pose JSON for two approved online Rotary candidates.
+  - [x] Summarize pose coverage, timing/features coverage, and AI side counts.
+  - [x] Keep Rotary as feature-only; do not export pose-based AI RAW SCORE.
 - [x] Improve detectedCycles-vs-ExpectedReps QA for ASLR / Hurdle Step /
       In-Line Lunge videos where detected cycles differ from the expected count.
 - [x] Add movement capability registry and evidence gate so each action is
