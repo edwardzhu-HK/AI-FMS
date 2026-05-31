@@ -1,6 +1,6 @@
 {
   "schemaVersion": "ai_fms_online_video_candidates_v1",
-  "generatedAt": "2026-05-30T09:04:53.506Z",
+  "generatedAt": "2026-05-30T12:49:57.824Z",
   "discoveryPolicy": "Discovery stores metadata and duplicate checks only. Download requires reviewer approval and confirmed rights.",
   "candidates": [
     {
@@ -18,14 +18,65 @@
       "publishedAt": "2025-11-06T11:13:41Z",
       "thumbnail": "https://i.ytimg.com/vi/_iOv5nPrVzc/maxresdefault.jpg",
       "durationSecond": 47,
+      "definition": "hd",
       "viewCount": 14,
       "likeCount": 0,
-      "rightsStatus": "needs_rights_review",
-      "approvedForDownload": false,
-      "reviewerNotes": "",
-      "duplicateStatus": "new_candidate",
-      "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "rightsStatus": "permission_confirmed",
+      "approvedForDownload": true,
+      "reviewerNotes": "Confirmed from FMS Video Download Manager.",
+      "duplicateStatus": "possible_duplicate",
+      "duplicateMatches": [
+        {
+          "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.mp4",
+          "actionType": "rotary_stability",
+          "matchType": "title",
+          "durationSecond": null
+        }
+      ],
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 80,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "Duplicate risk: possible_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      },
+      "download": {
+        "status": "downloaded",
+        "downloadedAt": "2026-05-30T12:48:31.657Z",
+        "outputDir": "Eval_Videos/Online Candidates/07-Rotary Stability",
+        "files": [
+          {
+            "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.info.json",
+            "sizeMb": 0.49,
+            "sha256": "43cfb46f7ac08c459bc882f4c632c195839553dae15e796e04e0af847b1ac29f",
+            "metadata": null
+          },
+          {
+            "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.jpg",
+            "sizeMb": 0.05,
+            "sha256": "14fd72ad3aff5ae44e3049cfc4d1f4529555db5461f2fb524d4cc969f370192e",
+            "metadata": null
+          },
+          {
+            "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.mp4",
+            "sizeMb": 18.91,
+            "sha256": "c19e61706ec942afbffed21df11cb688261bbcfdeb35a337cf0a555f4ca073fa",
+            "metadata": {
+              "durationSecond": 46.51,
+              "width": 1920,
+              "height": 1080,
+              "codec": "h264"
+            }
+          }
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_2uSUaw5gJ_s",
@@ -42,14 +93,32 @@
       "publishedAt": "2019-05-07T05:09:42Z",
       "thumbnail": "https://i.ytimg.com/vi/2uSUaw5gJ_s/maxresdefault.jpg",
       "durationSecond": 41,
+      "definition": "hd",
       "viewCount": 340,
       "likeCount": 3,
       "rightsStatus": "permission_confirmed",
       "approvedForDownload": true,
       "reviewerNotes": "User confirmed download for local Rotary Stability test on 2026-05-30.",
-      "duplicateStatus": "new_candidate",
-      "duplicateMatches": [],
+      "duplicateStatus": "possible_duplicate",
+      "duplicateMatches": [
+        {
+          "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotatory Stability Test-2uSUaw5gJ_s.mp4",
+          "actionType": "rotary_stability",
+          "matchType": "title",
+          "durationSecond": null
+        }
+      ],
       "suitabilityFlags": [],
+      "recommendation": {
+        "score": 58,
+        "label": "medium",
+        "reasons": [
+          "Title does not exactly name the selected movement.",
+          "Duplicate risk: possible_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video."
+        ]
+      },
       "download": {
         "status": "downloaded",
         "downloadedAt": "2026-05-30T09:10:44.948Z",
@@ -124,6 +193,7 @@
       "publishedAt": "2013-02-05T02:52:12Z",
       "thumbnail": "https://i.ytimg.com/vi/8-eMbH03AbQ/sddefault.jpg",
       "durationSecond": 264,
+      "definition": "sd",
       "viewCount": 24499,
       "likeCount": 46,
       "rightsStatus": "needs_rights_review",
@@ -131,7 +201,56 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 86,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Longer video; likely needs manual trimming.",
+          "FMS-specific source/title language."
+        ]
+      }
+    },
+    {
+      "candidateId": "youtube_rotary_stability_bazlMxbwaGE",
+      "sourcePlatform": "youtube",
+      "sourceVideoId": "bazlMxbwaGE",
+      "actionType": "rotary_stability",
+      "actionDisplayName": "Rotary Stability",
+      "url": "https://www.youtube.com/watch?v=bazlMxbwaGE",
+      "title": "FMS - Rotational Stability",
+      "titleKey": "fms rotational stability",
+      "description": "Demo of the rotational stability test for the Functional Movement Screen.\r\n\r\nStart on all fours. Shifting your weight to one side, lift your hand and leg on the other side off the ground. Proceed to extend both the arm and leg that has been lifted off the ground until the are both parallel with the ground. Bring them back and touch your knee to your elbow and repeat for 3 reps before switching sides. Your arm and leg should remain in line with each other the entire rep.",
+      "channelTitle": "James Wilson",
+      "channelId": "UCHW7b6x11U2eA0KZMn_snGw",
+      "publishedAt": "2007-01-18T00:30:55Z",
+      "thumbnail": "https://i.ytimg.com/vi/bazlMxbwaGE/hqdefault.jpg",
+      "durationSecond": 32,
+      "definition": "sd",
+      "viewCount": 13727,
+      "likeCount": 17,
+      "rightsStatus": "needs_rights_review",
+      "approvedForDownload": false,
+      "reviewerNotes": "",
+      "duplicateStatus": "new_candidate",
+      "duplicateMatches": [],
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 84,
+        "label": "high",
+        "reasons": [
+          "Title does not exactly name the selected movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_Bya73QZa4so",
@@ -148,7 +267,8 @@
       "publishedAt": "2021-06-19T01:03:00Z",
       "thumbnail": "https://i.ytimg.com/vi/Bya73QZa4so/maxresdefault.jpg",
       "durationSecond": 8,
-      "viewCount": 1475,
+      "definition": "hd",
+      "viewCount": 1477,
       "likeCount": 3,
       "rightsStatus": "needs_rights_review",
       "approvedForDownload": false,
@@ -160,9 +280,25 @@
           "actionType": "rotary_stability",
           "matchType": "title",
           "durationSecond": 124.4
+        },
+        {
+          "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.mp4",
+          "actionType": "rotary_stability",
+          "matchType": "title",
+          "durationSecond": null
         }
       ],
-      "suitabilityFlags": []
+      "suitabilityFlags": [],
+      "recommendation": {
+        "score": 76,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "Duplicate risk: possible_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_c6t7CEFf6jI",
@@ -179,14 +315,28 @@
       "publishedAt": "2023-01-31T17:51:02Z",
       "thumbnail": "https://i.ytimg.com/vi/c6t7CEFf6jI/maxresdefault.jpg",
       "durationSecond": 26,
-      "viewCount": 2142,
+      "definition": "hd",
+      "viewCount": 2144,
       "likeCount": 17,
       "rightsStatus": "needs_rights_review",
       "approvedForDownload": false,
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_DN--XK_fVEU",
@@ -203,7 +353,8 @@
       "publishedAt": "2011-09-19T16:32:09Z",
       "thumbnail": "https://i.ytimg.com/vi/DN--XK_fVEU/maxresdefault.jpg",
       "durationSecond": 8,
-      "viewCount": 4088,
+      "definition": "hd",
+      "viewCount": 4090,
       "likeCount": 20,
       "rightsStatus": "needs_rights_review",
       "approvedForDownload": false,
@@ -215,9 +366,25 @@
           "actionType": "rotary_stability",
           "matchType": "title",
           "durationSecond": 124.4
+        },
+        {
+          "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.mp4",
+          "actionType": "rotary_stability",
+          "matchType": "title",
+          "durationSecond": null
         }
       ],
-      "suitabilityFlags": []
+      "suitabilityFlags": [],
+      "recommendation": {
+        "score": 76,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "Duplicate risk: possible_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_eHd7HDwGuNo",
@@ -234,6 +401,7 @@
       "publishedAt": "2018-01-29T17:06:23Z",
       "thumbnail": "https://i.ytimg.com/vi/eHd7HDwGuNo/maxresdefault.jpg",
       "durationSecond": 125,
+      "definition": "hd",
       "viewCount": 1044,
       "likeCount": 4,
       "rightsStatus": "needs_rights_review",
@@ -241,7 +409,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_F9A2TRgZYVs",
@@ -258,6 +439,7 @@
       "publishedAt": "2020-04-08T20:52:59Z",
       "thumbnail": "https://i.ytimg.com/vi/F9A2TRgZYVs/maxresdefault.jpg",
       "durationSecond": 118,
+      "definition": "hd",
       "viewCount": 474,
       "likeCount": 2,
       "rightsStatus": "needs_rights_review",
@@ -268,7 +450,18 @@
       "suitabilityFlags": [
         "fms_reference",
         "possible_action_mismatch:active_straight_leg_raise"
-      ]
+      ],
+      "recommendation": {
+        "score": 70,
+        "label": "medium",
+        "reasons": [
+          "Title does not exactly name the selected movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_fFAK04G3xFs",
@@ -292,7 +485,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_fukX0qFGj9Q",
@@ -309,6 +504,7 @@
       "publishedAt": "2015-05-28T19:34:50Z",
       "thumbnail": "https://i.ytimg.com/vi/fukX0qFGj9Q/sddefault.jpg",
       "durationSecond": 287,
+      "definition": "sd",
       "viewCount": 2462,
       "likeCount": 15,
       "rightsStatus": "needs_rights_review",
@@ -316,7 +512,19 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 86,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Longer video; likely needs manual trimming.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_gkJeU47SvpA",
@@ -333,6 +541,7 @@
       "publishedAt": "2020-12-17T17:46:25Z",
       "thumbnail": "https://i.ytimg.com/vi/gkJeU47SvpA/maxresdefault.jpg",
       "durationSecond": 259,
+      "definition": "hd",
       "viewCount": 2412,
       "likeCount": 10,
       "rightsStatus": "needs_rights_review",
@@ -340,7 +549,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 94,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Longer video; likely needs manual trimming.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_I2IxYQyce24",
@@ -364,7 +586,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_iEnOfDS0ArQ",
@@ -415,7 +639,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_J6v10TYZIKo",
@@ -439,7 +665,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_jfjSdJuxZ9Q",
@@ -463,7 +691,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_jXKzIf7XsL4",
@@ -480,6 +710,7 @@
       "publishedAt": "2021-05-04T00:06:43Z",
       "thumbnail": "https://i.ytimg.com/vi/jXKzIf7XsL4/maxresdefault.jpg",
       "durationSecond": 152,
+      "definition": "hd",
       "viewCount": 3345,
       "likeCount": null,
       "rightsStatus": "creative_commons_review",
@@ -487,7 +718,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_oplxQTOPsJk",
@@ -504,6 +748,7 @@
       "publishedAt": "2016-12-19T03:12:13Z",
       "thumbnail": "https://i.ytimg.com/vi/oplxQTOPsJk/maxresdefault.jpg",
       "durationSecond": 189,
+      "definition": "hd",
       "viewCount": 11269,
       "likeCount": 70,
       "rightsStatus": "needs_rights_review",
@@ -511,7 +756,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 76,
+        "label": "high",
+        "reasons": [
+          "Title does not exactly name the selected movement.",
+          "No local duplicate detected.",
+          "Longer video; likely needs manual trimming.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_p5yqSZaz4ms",
@@ -535,7 +793,9 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ]
     },
     {
       "candidateId": "youtube_rotary_stability_r7d1al6k-xk",
@@ -552,6 +812,7 @@
       "publishedAt": "2020-07-10T16:17:58Z",
       "thumbnail": "https://i.ytimg.com/vi/r7d1al6k-xk/maxresdefault.jpg",
       "durationSecond": 40,
+      "definition": "hd",
       "viewCount": 930,
       "likeCount": 4,
       "rightsStatus": "needs_rights_review",
@@ -559,7 +820,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_rfDZX8s0Wc8",
@@ -576,6 +850,7 @@
       "publishedAt": "2022-06-11T20:43:48Z",
       "thumbnail": "https://i.ytimg.com/vi/rfDZX8s0Wc8/maxresdefault.jpg",
       "durationSecond": 125,
+      "definition": "hd",
       "viewCount": 718,
       "likeCount": 4,
       "rightsStatus": "needs_rights_review",
@@ -590,7 +865,20 @@
           "durationSecond": 124.4
         }
       ],
-      "suitabilityFlags": ["reference_or_instruction_candidate"]
+      "suitabilityFlags": [
+        "reference_or_instruction_candidate"
+      ],
+      "recommendation": {
+        "score": 46,
+        "label": "low",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "Duplicate risk: likely_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "Looks more like instruction/reference than a raw sample."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_sUavxQwm5bk",
@@ -659,6 +947,7 @@
       "publishedAt": "2019-12-19T16:47:17Z",
       "thumbnail": "https://i.ytimg.com/vi/uFNFg6FbK6c/hqdefault.jpg",
       "durationSecond": 142,
+      "definition": "hd",
       "viewCount": 12621,
       "likeCount": 55,
       "rightsStatus": "needs_rights_review",
@@ -666,7 +955,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_uMkmQSBsAQI",
@@ -683,6 +985,7 @@
       "publishedAt": "2023-01-26T14:00:25Z",
       "thumbnail": "https://i.ytimg.com/vi/uMkmQSBsAQI/maxresdefault.jpg",
       "durationSecond": 85,
+      "definition": "hd",
       "viewCount": 542,
       "likeCount": 1,
       "rightsStatus": "needs_rights_review",
@@ -690,7 +993,58 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
+    },
+    {
+      "candidateId": "youtube_rotary_stability_VOOpsVVA6CM",
+      "sourcePlatform": "youtube",
+      "sourceVideoId": "VOOpsVVA6CM",
+      "actionType": "rotary_stability",
+      "actionDisplayName": "Rotary Stability",
+      "url": "https://www.youtube.com/watch?v=VOOpsVVA6CM",
+      "title": "FMS Screening: Rotary Stability Test #fms #shorts #tennis #sports #fitness",
+      "titleKey": "fms screening rotary stability test fms shorts tennis sports fitness",
+      "description": "",
+      "channelTitle": "Pro Fitness Rehab: Performance Unleashed",
+      "channelId": "UC9LW4D1PxDbEpWcusaEazvg",
+      "publishedAt": "2025-03-08T14:30:14Z",
+      "thumbnail": "https://i.ytimg.com/vi/VOOpsVVA6CM/maxresdefault.jpg",
+      "durationSecond": 27,
+      "definition": "hd",
+      "viewCount": 636,
+      "likeCount": 5,
+      "rightsStatus": "needs_rights_review",
+      "approvedForDownload": false,
+      "reviewerNotes": "",
+      "duplicateStatus": "new_candidate",
+      "duplicateMatches": [],
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_yCLUdq_lT3Y",
@@ -707,6 +1061,7 @@
       "publishedAt": "2022-12-07T03:21:34Z",
       "thumbnail": "https://i.ytimg.com/vi/yCLUdq_lT3Y/maxresdefault.jpg",
       "durationSecond": 30,
+      "definition": "hd",
       "viewCount": 577,
       "likeCount": 5,
       "rightsStatus": "needs_rights_review",
@@ -719,9 +1074,25 @@
           "actionType": "rotary_stability",
           "matchType": "title",
           "durationSecond": 124.4
+        },
+        {
+          "path": "Eval_Videos/Online Candidates/07-Rotary Stability/Rotary stability test (Functional movement screen)-_iOv5nPrVzc.mp4",
+          "actionType": "rotary_stability",
+          "matchType": "title",
+          "durationSecond": null
         }
       ],
-      "suitabilityFlags": []
+      "suitabilityFlags": [],
+      "recommendation": {
+        "score": 76,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "Duplicate risk: possible_duplicate.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_yIL08IuqJXY",
@@ -738,14 +1109,28 @@
       "publishedAt": "2018-12-18T21:04:45Z",
       "thumbnail": "https://i.ytimg.com/vi/yIL08IuqJXY/sddefault.jpg",
       "durationSecond": 64,
-      "viewCount": 5389,
+      "definition": "hd",
+      "viewCount": 5390,
       "likeCount": 39,
       "rightsStatus": "needs_rights_review",
       "approvedForDownload": false,
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 100,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Duration looks suitable for a raw movement sample.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     },
     {
       "candidateId": "youtube_rotary_stability_YUR2AyY63L8",
@@ -762,6 +1147,7 @@
       "publishedAt": "2020-02-26T15:10:10Z",
       "thumbnail": "https://i.ytimg.com/vi/YUR2AyY63L8/maxresdefault.jpg",
       "durationSecond": 236,
+      "definition": "hd",
       "viewCount": 12415,
       "likeCount": 132,
       "rightsStatus": "needs_rights_review",
@@ -769,7 +1155,20 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": ["fms_reference"]
+      "suitabilityFlags": [
+        "fms_reference"
+      ],
+      "recommendation": {
+        "score": 94,
+        "label": "high",
+        "reasons": [
+          "Title names the selected FMS movement.",
+          "No local duplicate detected.",
+          "Longer video; likely needs manual trimming.",
+          "YouTube metadata reports HD video.",
+          "FMS-specific source/title language."
+        ]
+      }
     }
   ]
 }
