@@ -152,10 +152,62 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
   assert.equal(summary.recordsWithPoseTiming, 1);
   assert.equal(summary.recordsWithPoseFeatures, 1);
   assert.equal(summary.recordsWithPoseSuggestion, 1);
+  assert.equal(summary.clearingReadyForIngest, true);
+  assert.equal(summary.clearingRequiredSegmentsCount, 0);
+  assert.equal(summary.clearingBlockerCount, 0);
   assert.equal(summary.timingCorrections.adjustedCount, 1);
   assert.equal(summary.timingCorrections.avgBoundaryShiftSecond, 0.2);
   assert.equal(summary.timingCorrections.maxBoundaryShiftSecond, 0.4);
   assert.equal(summary.poseEvidenceAttached, true);
+});
+
+test("summarizeExportQuality includes clearing confirmation readiness", () => {
+  const summary = summarizeExportQuality({
+    segments: [
+      {
+        segmentId: "seg_1",
+        actionType: "shoulder_mobility",
+        aiScore: makeScore(3),
+        reviewerScores: {
+          reviewer_a: makeScore(3),
+          reviewer_b: makeScore(3),
+        },
+        clearingFindings: [
+          {
+            key: "shoulder_clearing",
+            result: "not_tested",
+          },
+        ],
+      },
+      {
+        segmentId: "seg_2",
+        actionType: "in_line_lunge",
+        aiScore: makeScore(3),
+        reviewerScores: {
+          reviewer_a: makeScore(3),
+          reviewer_b: makeScore(3),
+        },
+        clearingFindings: [
+          {
+            key: "ankle_clearing_pain",
+            result: "negative",
+          },
+          {
+            key: "ankle_clearing_mobility",
+            result: "green",
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.equal(summary.clearingReadyForIngest, false);
+  assert.equal(summary.clearingRequiredSegmentsCount, 2);
+  assert.equal(summary.clearingConfirmedSegmentsCount, 1);
+  assert.equal(summary.clearingBlockerCount, 1);
+  assert.deepEqual(summary.clearingBlockerIssueCounts, {
+    clearing_not_tested: 1,
+  });
 });
 
 test("summarizeTimingReadiness blocks ingest when timing needs adjustment", () => {

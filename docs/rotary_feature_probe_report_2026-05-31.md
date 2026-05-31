@@ -8,11 +8,11 @@
 
 ## 总览
 
-| Sample | Status | Pose frames | Pose coverage | Timing | Features | AI side counts | Notes |
-| --- | --- | ---: | ---: | ---: | ---: | --- | --- |
-| Rotary review sample | ok | 386/501 | 77% | 2/2 | 2/2 | {"left":2} | 本地 review sample，仅使用前 40 秒。 |
-| Online Redefined Physiotherapy | ok | 457/465 | 98% | 1/1 | 1/1 | {"left":1} | 已批准下载的 online candidate，46.5 秒。 |
-| Online Capacity Performance | ok | 402/402 | 100% | 1/1 | 1/1 | {"right":1} | 已批准下载的 online candidate，40.2 秒。 |
+| Sample                         | Status | Pose frames | Pose coverage | Timing | Features | AI side counts | Notes                                    |
+| ------------------------------ | ------ | ----------: | ------------: | -----: | -------: | -------------- | ---------------------------------------- |
+| Rotary review sample           | ok     |     386/501 |           77% |    2/2 |      2/2 | {"left":2}     | 本地 review sample，仅使用前 40 秒。     |
+| Online Redefined Physiotherapy | ok     |     457/465 |           98% |    1/1 |      1/1 | {"left":1}     | 已批准下载的 online candidate，46.5 秒。 |
+| Online Capacity Performance    | ok     |     402/402 |          100% |    1/1 |      1/1 | {"right":1}    | 已批准下载的 online candidate，40.2 秒。 |
 
 ## 观察结论
 
@@ -30,10 +30,10 @@
 - Pose：`Eval_Videos/Sample videos/7-rotatory stability/pose/rotary-review.pose.json`
 - 状态：`ok`
 
-| Rep | Feature status | AI side status | AI side | Confidence | Pattern | Reach | Trunk twist | Balance |
-| ---: | --- | --- | --- | ---: | --- | ---: | ---: | --- |
-| 1 | ok | suggested | left | 0.73 | left_same_side | 7.738 | 78.3 | stability watch |
-| 2 | ok | suggested | left | 0.73 | left_same_side | 7.838 | 83.3 | stability watch |
+| Rep | Feature status | AI side status | AI side | Confidence | Pattern        | Reach | Trunk twist | Balance         |
+| --: | -------------- | -------------- | ------- | ---------: | -------------- | ----: | ----------: | --------------- |
+|   1 | ok             | suggested      | left    |       0.73 | left_same_side | 7.738 |        78.3 | stability watch |
+|   2 | ok             | suggested      | left    |       0.73 | left_same_side | 7.838 |        83.3 | stability watch |
 
 ### Online Redefined Physiotherapy
 
@@ -41,9 +41,9 @@
 - Pose：`Eval_Videos/Online Candidates/07-Rotary Stability/pose/redefined-functional-movement-screen.pose.json`
 - 状态：`ok`
 
-| Rep | Feature status | AI side status | AI side | Confidence | Pattern | Reach | Trunk twist | Balance |
-| ---: | --- | --- | --- | ---: | --- | ---: | ---: | --- |
-| 1 | ok | suggested | left | 0.56 | right_arm_left_leg | 8.073 | 11.2 | stable quadruped line |
+| Rep | Feature status | AI side status | AI side | Confidence | Pattern            | Reach | Trunk twist | Balance               |
+| --: | -------------- | -------------- | ------- | ---------: | ------------------ | ----: | ----------: | --------------------- |
+|   1 | ok             | suggested      | left    |       0.56 | right_arm_left_leg | 8.073 |        11.2 | stable quadruped line |
 
 ### Online Capacity Performance
 
@@ -51,7 +51,6 @@
 - Pose：`Eval_Videos/Online Candidates/07-Rotary Stability/pose/capacity-rotatory-stability-test.pose.json`
 - 状态：`ok`
 
-| Rep | Feature status | AI side status | AI side | Confidence | Pattern | Reach | Trunk twist | Balance |
-| ---: | --- | --- | --- | ---: | --- | ---: | ---: | --- |
-| 1 | ok | suggested | right | 0.72 | left_arm_right_leg | 7.132 | 13.0 | large stability shift |
-
+| Rep | Feature status | AI side status | AI side | Confidence | Pattern            | Reach | Trunk twist | Balance               |
+| --: | -------------- | -------------- | ------- | ---------: | ------------------ | ----: | ----------: | --------------------- |
+|   1 | ok             | suggested      | right   |       0.72 | left_arm_right_leg | 7.132 |        13.0 | large stability shift |

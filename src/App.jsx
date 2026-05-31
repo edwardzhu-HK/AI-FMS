@@ -18,6 +18,7 @@ import {
   summarizeIngest,
 } from "./lib/adjudication.js";
 import { buildAiSideSuggestion } from "./lib/ai-side-suggestion.js";
+import { summarizeClearingReadiness } from "./lib/clearing-readiness.js";
 import { summarizeConsistency } from "./lib/consistency.js";
 import { buildDatasetCsv } from "./lib/dataset-csv.js";
 import { buildDatasetPackageZip } from "./lib/dataset-package.js";
@@ -442,6 +443,8 @@ const UI_TEXT = {
     reviewerContextAction: "Action",
     positiveClearingScoreWarning:
       "Positive clearing or pain usually leads to RAW SCORE 0; please confirm before saving.",
+    clearingConfirmationRequired:
+      "Clearing / pain requires human confirmation before ingest.",
     save: "Save",
     aiSuggestion: "AI Suggestion",
     posePipeline: "Pose pipeline",
@@ -755,6 +758,8 @@ const UI_TEXT = {
     reviewerIdRequired: "Reviewer ID is required before saving.",
     timingIngestBlocked:
       "Timing QA still has blockers. Review or adjust segment timing before ingest.",
+    clearingIngestBlocked:
+      "Clearing / pain confirmation is required before ingest.",
     analysisFailed: "Analysis failed.",
   },
   zh: {
@@ -971,6 +976,8 @@ const UI_TEXT = {
     reviewerContextAction: "动作",
     positiveClearingScoreWarning:
       "Clearing 阳性或 pain flag 通常意味着 RAW SCORE 应为 0；保存前请人工确认。",
+    clearingConfirmationRequired:
+      "入库前需要人工确认 clearing / pain；AI 不会自动判定疼痛。",
     save: "保存",
     aiSuggestion: "AI 建议",
     posePipeline: "Pose pipeline",
@@ -1282,6 +1289,7 @@ const UI_TEXT = {
     reviewerIdRequired: "保存前必须填写 Reviewer ID。",
     timingIngestBlocked:
       "Timing QA 仍有 blocker。请先复核或调整 segment timing，再入库。",
+    clearingIngestBlocked: "入库前需要先人工确认 clearing / pain。",
     analysisFailed: "分析失败。",
   },
 };
@@ -1649,17 +1657,27 @@ function buildLocalReadiness(videoId, segments) {
   const completedSegmentsCount = segments.filter(
     (segment) => getSegmentReviewStatus(segment) === "completed",
   ).length;
+  const clearingReadiness = summarizeClearingReadiness(segments);
+  const reviewerReady =
+    segments.length > 0 && completedSegmentsCount === segments.length;
 
   return {
     videoId,
     allSegmentsCount: segments.length,
     completedSegmentsCount,
-    readyForIngest:
-      segments.length > 0 && completedSegmentsCount === segments.length,
-    blockingReasons:
-      segments.length > 0 && completedSegmentsCount === segments.length
+    clearingReadyForIngest: clearingReadiness.readyForIngest,
+    clearingBlockerCount: clearingReadiness.blockerCount,
+    clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
+    clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
+    readyForIngest: reviewerReady && clearingReadiness.readyForIngest,
+    blockingReasons: [
+      ...(reviewerReady
         ? []
-        : ["some segments are still pending reviewer scores"],
+        : ["some segments are still pending reviewer scores"]),
+      ...(clearingReadiness.readyForIngest
+        ? []
+        : ["some segments still need clearing/pain confirmation"]),
+    ],
   };
 }
 
@@ -1688,6 +1706,39 @@ function applyTimingGateToReadiness(readiness, timingReport, t) {
     readyForIngest: false,
     timingReadyForIngest: false,
     timingBlockerCount: timingReadiness.blockerCount,
+    blockingReasons: [...new Set(blockingReasons)],
+  };
+}
+
+function applyClearingGateToReadiness(readiness, segments, t) {
+  if (!readiness) {
+    return null;
+  }
+
+  const clearingReadiness = summarizeClearingReadiness(segments);
+
+  if (clearingReadiness.readyForIngest) {
+    return {
+      ...readiness,
+      clearingReadyForIngest: true,
+      clearingBlockerCount: clearingReadiness.blockerCount,
+      clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
+      clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
+    };
+  }
+
+  const blockingReasons = [
+    ...(readiness.blockingReasons ?? []),
+    `${t("clearingIngestBlocked")} (${clearingReadiness.blockerCount})`,
+  ];
+
+  return {
+    ...readiness,
+    readyForIngest: false,
+    clearingReadyForIngest: false,
+    clearingBlockerCount: clearingReadiness.blockerCount,
+    clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
+    clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
     blockingReasons: [...new Set(blockingReasons)],
   };
 }
@@ -1998,8 +2049,13 @@ export default function App() {
   );
 
   const effectiveReadiness = useMemo(
-    () => applyTimingGateToReadiness(readiness, timingReport, t),
-    [readiness, t, timingReport],
+    () =>
+      applyClearingGateToReadiness(
+        applyTimingGateToReadiness(readiness, timingReport, t),
+        segments,
+        t,
+      ),
+    [readiness, segments, t, timingReport],
   );
 
   const exportChecklist = useMemo(

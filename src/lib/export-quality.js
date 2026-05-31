@@ -1,4 +1,5 @@
 import { summarizeConsistency } from "./consistency.js";
+import { summarizeClearingReadiness } from "./clearing-readiness.js";
 
 function countItems(items = [], predicate) {
   return items.reduce((count, item) => count + (predicate(item) ? 1 : 0), 0);
@@ -226,6 +227,7 @@ export function summarizeExportQuality({
   const timingItems = timingReport?.items ?? [];
   const featureItems = featureReport?.items ?? [];
   const suggestionItems = suggestionReport?.items ?? [];
+  const clearingReadiness = summarizeClearingReadiness(segments);
   const movementBreakdown = buildMovementBreakdown(segments, metrics);
   const movementCounts = Object.fromEntries(
     Object.entries(movementBreakdown).map(([actionType, summary]) => [
@@ -246,6 +248,11 @@ export function summarizeExportQuality({
     reviewerPairCount: metrics.reviewerPairCount ?? 0,
     reviewerAgreementRate: metrics.reviewerAgreementRate ?? null,
     aiMatchesFinalRate: metrics.aiMatchesFinalRate ?? null,
+    clearingReadyForIngest: clearingReadiness.readyForIngest,
+    clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
+    clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
+    clearingBlockerCount: clearingReadiness.blockerCount,
+    clearingBlockerIssueCounts: clearingReadiness.issueCounts,
     jsonExportReady: segments.length > 0,
     csvExportReady: segments.length > 0,
     poseEvidenceAttached: Boolean(

@@ -12,7 +12,7 @@ import {
   updateSegmentMetadata,
   uploadVideoAndCreateAnalysisJob,
 } from "../src/api/mockCalibrationApi.js";
-import { ACTIONS } from "../src/constants/scoring.js";
+import { ACTIONS, getActionRepPolicy } from "../src/constants/scoring.js";
 import {
   attachPoseEvidenceToDataset,
   buildDatasetExport,
@@ -194,6 +194,13 @@ function reviewerScoreFromSegment(segment, reviewerId) {
   };
 }
 
+function confirmedClearingFindingsForAction(actionType) {
+  return getActionRepPolicy(actionType).clearingTests.map((test) => ({
+    key: test.key,
+    result: test.resultType === "red_yellow_green" ? "green" : "negative",
+  }));
+}
+
 async function waitForSucceededJob(analysisJobId) {
   for (let attempt = 0; attempt < 10; attempt += 1) {
     const job = await getAnalysisJob(analysisJobId);
@@ -257,6 +264,29 @@ async function applyAiDraftTiming({
   }
 
   return null;
+}
+
+async function confirmClearingMetadata(segments) {
+  for (const segment of segments) {
+    const clearingFindings = confirmedClearingFindingsForAction(
+      segment.actionType,
+    );
+
+    if (clearingFindings.length === 0) {
+      continue;
+    }
+
+    await updateSegmentMetadata({
+      segmentId: segment.segmentId,
+      startSecond: segment.startSecond,
+      endSecond: segment.endSecond,
+      side: segment.side,
+      painFlag: false,
+      clearingFindings,
+      rubricVersion: segment.rubricVersion,
+      segmentSource: segment.segmentSource,
+    });
+  }
 }
 
 async function saveConsensusReviews(segments) {
@@ -333,6 +363,8 @@ async function runDemoWorkflow(demoCase) {
 
   let segments = (await getVideoSegments(created.videoId)).items;
   await applyAiDraftTiming({ demoCase, adapter, posePayload, segments });
+  segments = (await getVideoSegments(created.videoId)).items;
+  await confirmClearingMetadata(segments);
   segments = (await getVideoSegments(created.videoId)).items;
 
   const {

@@ -113,6 +113,16 @@ function toCamelReadiness(payload) {
     allSegmentsCount: payload.all_segments_count ?? payload.allSegmentsCount,
     completedSegmentsCount:
       payload.completed_segments_count ?? payload.completedSegmentsCount,
+    clearingReadyForIngest:
+      payload.clearing_ready_for_ingest ?? payload.clearingReadyForIngest,
+    clearingBlockerCount:
+      payload.clearing_blocker_count ?? payload.clearingBlockerCount,
+    clearingRequiredSegmentsCount:
+      payload.clearing_required_segments_count ??
+      payload.clearingRequiredSegmentsCount,
+    clearingConfirmedSegmentsCount:
+      payload.clearing_confirmed_segments_count ??
+      payload.clearingConfirmedSegmentsCount,
     readyForIngest: payload.ready_for_ingest ?? payload.readyForIngest,
     blockingReasons: payload.blocking_reasons ?? payload.blockingReasons ?? [],
   };

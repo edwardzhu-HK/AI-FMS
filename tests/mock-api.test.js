@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+  checkVideoReadiness,
   exportVideoDataset,
   getVideoSegments,
   saveSegmentReview,
@@ -195,6 +196,60 @@ test("mock api stores action-specific clearing findings", async () => {
       affectsRawScore: true,
     },
   ]);
+});
+
+test("mock api readiness requires clearing confirmation for clearing actions", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "shoulder_mobility",
+    fileName: "shoulder.mp4",
+    startSecond: 0,
+    endSecond: 12,
+    expectedReps: 1,
+  });
+  let segments = (await getVideoSegments(created.videoId)).items;
+  const segment = segments[0];
+  const score = createReviewerRawScore("shoulder_mobility", 3, {
+    reviewerId: "coach",
+  });
+
+  await saveSegmentReview({
+    segmentId: segment.segmentId,
+    reviewerRole: "reviewer_a",
+    reviewerId: "coach_a",
+    score,
+  });
+  await saveSegmentReview({
+    segmentId: segment.segmentId,
+    reviewerRole: "reviewer_b",
+    reviewerId: "coach_b",
+    score,
+  });
+
+  const blockedReadiness = await checkVideoReadiness(created.videoId);
+
+  assert.equal(blockedReadiness.completedSegmentsCount, 1);
+  assert.equal(blockedReadiness.readyForIngest, false);
+  assert.equal(blockedReadiness.clearingReadyForIngest, false);
+  assert.equal(blockedReadiness.clearingBlockerCount, 1);
+
+  await updateSegmentMetadata({
+    segmentId: segment.segmentId,
+    startSecond: segment.startSecond,
+    endSecond: segment.endSecond,
+    side: "right",
+    painFlag: false,
+    clearingFindings: [{ key: "shoulder_clearing", result: "negative" }],
+    rubricVersion: segment.rubricVersion,
+  });
+
+  segments = (await getVideoSegments(created.videoId)).items;
+  assert.equal(segments[0].clearingTest, "pass");
+
+  const ready = await checkVideoReadiness(created.videoId);
+
+  assert.equal(ready.readyForIngest, true);
+  assert.equal(ready.clearingReadyForIngest, true);
+  assert.equal(ready.clearingBlockerCount, 0);
 });
 
 test("mock api preserves reviewer score basis metadata", async () => {

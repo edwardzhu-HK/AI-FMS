@@ -15,6 +15,7 @@ import { summarizeConsistency } from "../lib/consistency.js";
 import { createAIScoreForSegment } from "../lib/ai-scoring.js";
 import { buildSegmentsFromCycle } from "../lib/segmenting.js";
 import { buildDatasetExport } from "../lib/dataset-export.js";
+import { summarizeClearingReadiness } from "../lib/clearing-readiness.js";
 
 const MOCK_DELAY_MS = 260;
 
@@ -317,20 +318,29 @@ export async function checkVideoReadiness(videoId) {
   const completedSegmentsCount = segments.filter(
     (segment) => getSegmentReviewStatus(segment) === "completed",
   ).length;
-
-  const readyForIngest =
+  const clearingReadiness = summarizeClearingReadiness(segments);
+  const reviewerReady =
     allSegmentsCount > 0 && allSegmentsCount === completedSegmentsCount;
+
+  const readyForIngest = reviewerReady && clearingReadiness.readyForIngest;
 
   const blockingReasons = [];
 
-  if (!readyForIngest) {
+  if (!reviewerReady) {
     blockingReasons.push("some segments are still pending reviewer scores");
+  }
+  if (!clearingReadiness.readyForIngest) {
+    blockingReasons.push("some segments still need clearing/pain confirmation");
   }
 
   return wait({
     videoId,
     allSegmentsCount,
     completedSegmentsCount,
+    clearingReadyForIngest: clearingReadiness.readyForIngest,
+    clearingBlockerCount: clearingReadiness.blockerCount,
+    clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
+    clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
     readyForIngest,
     blockingReasons,
   });

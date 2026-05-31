@@ -130,9 +130,9 @@ AI 不应该自动判断“疼 / 不疼”。
 | Trunk Stability Push-Up | `spinal_extension_pain`   | `extension_clearing`                             | 不自动判 pain；可提示 reviewer 必须确认 |
 | Rotary Stability        | `spinal_flexion_pain`     | `flexion_clearing`                               | 不自动判 pain；可提示 reviewer 必须确认 |
 
-### 建议的下一步：clearing reminder / gate
+### 已接入：clearing reminder / gate
 
-推荐先做“辅助提示”，不要做自动判定：
+当前先做“辅助提示 + 入库 gate”，不做自动判定：
 
 ```json
 {
@@ -148,6 +148,8 @@ AI 不应该自动判断“疼 / 不疼”。
 
 - AI 不直接输出 `positive` / `negative pain`。
 - 有 clearing 的动作，UI 应明确提示 reviewer 必须人工确认。
+- `checkVideoReadiness` 和本地 readiness 都会阻止未确认 clearing / pain 的
+  segment 入库。
 - 如果 reviewer 标记 positive pain，raw score 规则可以由现有 `clearingFindings`
   和 `deriveClearingTestFromFindings` 进入导出与 warning。
 - 如果后续要基于视频表情、停顿、手势做 pain proxy，只能作为 `review_hint`，不能
@@ -171,8 +173,8 @@ Ronnie 后续适合修改：
 
 ## 推荐开发顺序
 
-1. 增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
-2. 增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
-3. 继续校准 Shoulder Mobility suggestion thresholds，并补 clearing reminder / gate。
+1. 已增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
+2. 已增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
+3. 继续校准 Shoulder Mobility suggestion thresholds。
 4. Rotary Stability 继续扩大 pose feasibility probe，不直接做 score。当前 3 个样本
    的 probe 结果记录在 `docs/rotary_feature_probe_report_2026-05-31.md`。

@@ -179,6 +179,9 @@ export default function SegmentEditor({
     sideOptions.length > 0 ? sideOptions : [repPolicy.defaultSide];
   const hasSideOptions = sideOptions.length > 0;
   const hasClearingFindings = formValue.clearingFindings.length > 0;
+  const hasUnconfirmedClearing = formValue.clearingFindings.some((finding) =>
+    ["not_tested", "unknown"].includes(finding.result),
+  );
 
   function emitMetadataChange(nextValue, segmentSource = "manual_adjusted") {
     const payload = buildMetadataPayload({
@@ -402,6 +405,12 @@ export default function SegmentEditor({
             />
           </label>
         </div>
+
+        {hasUnconfirmedClearing ? (
+          <p className="reviewer-warning">
+            {t("clearingConfirmationRequired")}
+          </p>
+        ) : null}
 
         <label className="inline-toggle pain-toggle">
           <input

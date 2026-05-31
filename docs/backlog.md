@@ -185,11 +185,11 @@ Current development order agreed on 2026-05-23:
         In-Line Lunge, and Shoulder Mobility.
   - [x] Preserve reviewer-saved `side` separately from AI suggestion.
   - [x] Include confidence, source, and evidence detail in dataset export.
-- [ ] Add clearing reminder / gate for actions with clearing policies.
-  - [ ] Do not auto-classify pain as positive/negative.
-  - [ ] Prompt reviewer confirmation for Shoulder, Trunk, Rotary, and
+- [x] Add clearing reminder / gate for actions with clearing policies.
+  - [x] Do not auto-classify pain as positive/negative.
+  - [x] Prompt reviewer confirmation for Shoulder, Trunk, Rotary, and
         In-Line Lunge clearing findings.
-  - [ ] Keep actions without clearing as disabled `not_applicable` fields in
+  - [x] Keep actions without clearing as disabled `not_applicable` fields in
         the metadata UI.
 - [ ] Start one selected movement expansion after Deep Squat export loop is
       stable.
