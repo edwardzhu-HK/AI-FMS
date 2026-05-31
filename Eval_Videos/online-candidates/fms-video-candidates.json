@@ -33,9 +33,7 @@
           "durationSecond": null
         }
       ],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 80,
         "label": "high",
@@ -201,9 +199,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 86,
         "label": "high",
@@ -238,9 +234,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 84,
         "label": "high",
@@ -323,9 +317,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -409,9 +401,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -485,9 +475,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_fukX0qFGj9Q",
@@ -512,9 +500,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 86,
         "label": "high",
@@ -549,9 +535,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 94,
         "label": "high",
@@ -586,9 +570,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_iEnOfDS0ArQ",
@@ -639,9 +621,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_J6v10TYZIKo",
@@ -665,9 +645,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_jfjSdJuxZ9Q",
@@ -691,9 +669,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_jXKzIf7XsL4",
@@ -718,9 +694,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -756,9 +730,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 76,
         "label": "high",
@@ -793,9 +765,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ]
+      "suitabilityFlags": ["fms_reference"]
     },
     {
       "candidateId": "youtube_rotary_stability_r7d1al6k-xk",
@@ -820,9 +790,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -865,9 +833,7 @@
           "durationSecond": 124.4
         }
       ],
-      "suitabilityFlags": [
-        "reference_or_instruction_candidate"
-      ],
+      "suitabilityFlags": ["reference_or_instruction_candidate"],
       "recommendation": {
         "score": 46,
         "label": "low",
@@ -955,9 +921,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -993,9 +957,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -1031,9 +993,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -1117,9 +1077,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 100,
         "label": "high",
@@ -1155,9 +1113,7 @@
       "reviewerNotes": "",
       "duplicateStatus": "new_candidate",
       "duplicateMatches": [],
-      "suitabilityFlags": [
-        "fms_reference"
-      ],
+      "suitabilityFlags": ["fms_reference"],
       "recommendation": {
         "score": 94,
         "label": "high",
