@@ -129,17 +129,19 @@ const DEMO_CASES = [
     },
   },
   {
-    label: "Rotary Stability review-only sample",
+    label: "Rotary Stability feature-only sample",
     actionType: "rotary_stability",
     fileName: "videoplayback (21).mp4",
     expectedReps: 2,
     startSecond: 0,
     endSecond: 40,
     notes:
-      "Rotary Stability review-only sample。暂无 Pose JSON；先截取前 40 秒用于人工标注、入库与导出流程测试，后续需要补正式 sample。",
+      "Rotary Stability feature-only sample。当前只显示 pose evidence / side suggestion，不生成 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
+    posePath:
+      "Eval_Videos/Sample videos/7-rotatory stability/pose/rotary-review.pose.json",
     expected: {
       records: 2,
-      featureUsable: 0,
+      featureUsable: 2,
       suggestionReady: false,
     },
   },

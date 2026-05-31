@@ -192,6 +192,31 @@ function getFeatureRows(activeItem, t) {
     ];
   }
 
+  if (activeItem.ratings.rotaryDiagonalControl) {
+    return [
+      {
+        label: t("rotaryDiagonalControl"),
+        rating: activeItem.ratings.rotaryDiagonalControl,
+        detail: `reach ${formatNumber(activeItem.metrics.rotaryReachScore, 3)} · side ${activeItem.metrics.side ?? "N/A"}`,
+      },
+      {
+        label: t("trunkRotationControl"),
+        rating: activeItem.ratings.trunkRotationControl,
+        detail: `${formatNumber(activeItem.metrics.trunkTwistDegrees, 1)}deg twist`,
+      },
+      {
+        label: t("balanceStability"),
+        rating: activeItem.ratings.balanceStability,
+        detail: `center ${formatNumber(activeItem.metrics.trunkCenterOffset, 3)} · hip gap ${formatNumber(activeItem.metrics.hipHeightGap, 3)}`,
+      },
+      {
+        label: t("sideConfidence"),
+        rating: activeItem.ratings.sideConfidence,
+        detail: `${formatPercent(activeItem.metrics.sideVisibility)} side visibility`,
+      },
+    ];
+  }
+
   return [
     {
       label: t("depth"),

@@ -128,7 +128,8 @@ The current 7-action maturity table is maintained in
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
 Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
 Mobility, and Trunk Stability Push-Up are pose-based AI suggestion paths.
-Rotary Stability is still annotation-only.
+Rotary Stability is feature-only: it can show pose evidence and side suggestion,
+but it does not display AI RAW SCORE.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
@@ -151,9 +152,10 @@ Rotary Stability is still annotation-only.
   compensation proxies. The score-3 sample has a reproducible local pose
   extraction path and browser preset, but it still needs more sample variety
   and Ronnie threshold calibration before stronger scoring claims.
-- Rotary Stability remains connected as an annotation-only workflow path. It
-  can be segmented, reviewed, ingested in mock mode, and exported, but it does
-  not yet have pose evidence or movement-specific AI features.
+- Rotary Stability has a first-pass feature-only pose probe for rotary reach,
+  trunk rotation, balance stability, and side-confidence evidence. It can be
+  segmented, reviewed, ingested in mock mode, and exported, but it intentionally
+  does not yet show pose-based AI scoring.
 
 Four-movement local demo readiness is now covered by `npm run demo:check:four`.
 As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and

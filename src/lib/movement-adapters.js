@@ -16,6 +16,8 @@ import { evaluateInlineLungeSegmentsTiming } from "./inline-lunge-timing.js";
 import { summarizeTrunkStabilityPoseFeatures } from "./trunk-stability-features.js";
 import { buildTrunkStabilityExplainableSuggestion } from "./trunk-stability-suggestion.js";
 import { evaluateTrunkStabilitySegmentsTiming } from "./trunk-stability-timing.js";
+import { summarizeRotaryStabilityPoseFeatures } from "./rotary-stability-features.js";
+import { evaluateRotaryStabilitySegmentsTiming } from "./rotary-stability-timing.js";
 
 export const MOVEMENT_CAPABILITY_STATUS = {
   IMPLEMENTED: "implemented",
@@ -86,10 +88,10 @@ const BASE_CAPABILITIES = {
   },
   rotary_stability: {
     actionType: "rotary_stability",
-    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.ANNOTATION_ONLY,
-    aiScoringStatus: AI_SCORING_STATUS.NOT_SUPPORTED,
-    supportsPoseTiming: false,
-    supportsPoseFeatures: false,
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY,
+    aiScoringStatus: AI_SCORING_STATUS.FEATURES_ONLY,
+    supportsPoseTiming: true,
+    supportsPoseFeatures: true,
     supportsPoseSuggestion: false,
     supportsAiDraftTiming: false,
   },
@@ -373,6 +375,35 @@ const TRUNK_STABILITY_ADAPTER = {
   },
 };
 
+const ROTARY_STABILITY_ADAPTER = {
+  ...BASE_CAPABILITIES.rotary_stability,
+  actionType: "rotary_stability",
+  featureTitleKey: "rotaryStabilityFeatures",
+  buildTimingReport({ posePayload, segments }) {
+    if (!posePayload || !segments?.length) {
+      return null;
+    }
+
+    return evaluateRotaryStabilitySegmentsTiming({
+      posePayload,
+      segments,
+    });
+  },
+  buildFeatureReport({ posePayload, timingReport } = {}) {
+    if (!posePayload || !timingReport) {
+      return null;
+    }
+
+    return summarizeRotaryStabilityPoseFeatures({
+      posePayload,
+      timingReport,
+    });
+  },
+  buildSuggestionReport() {
+    return null;
+  },
+};
+
 const MOVEMENT_ADAPTERS = {
   [DEEP_SQUAT_ADAPTER.actionType]: DEEP_SQUAT_ADAPTER,
   [ASLR_ADAPTER.actionType]: ASLR_ADAPTER,
@@ -380,6 +411,7 @@ const MOVEMENT_ADAPTERS = {
   [HURDLE_STEP_ADAPTER.actionType]: HURDLE_STEP_ADAPTER,
   [INLINE_LUNGE_ADAPTER.actionType]: INLINE_LUNGE_ADAPTER,
   [TRUNK_STABILITY_ADAPTER.actionType]: TRUNK_STABILITY_ADAPTER,
+  [ROTARY_STABILITY_ADAPTER.actionType]: ROTARY_STABILITY_ADAPTER,
 };
 
 export function getMovementAdapter(actionType) {
