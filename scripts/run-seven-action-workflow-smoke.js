@@ -143,6 +143,7 @@ const DEMO_CASES = [
       records: 2,
       featureUsable: 2,
       suggestionReady: false,
+      aiSideSuggestionReady: true,
     },
   },
 ];
@@ -418,6 +419,9 @@ async function runDemoWorkflow(demoCase) {
     qualitySummary,
   });
   const serverDataset = await exportVideoDataset(created.videoId);
+  const aiSideSuggestedCount = dataset.records.filter(
+    (record) => record.aiSideSuggestion?.status === "suggested",
+  ).length;
 
   assertCondition(
     dataset.records.length === demoCase.expected.records,
@@ -439,6 +443,18 @@ async function runDemoWorkflow(demoCase) {
     packageFiles.length >= 4,
     `${demoCase.label}: dataset package is incomplete`,
   );
+  if (demoCase.expected.aiSideSuggestionReady) {
+    assertCondition(
+      dataset.records.some(
+        (record) => record.aiSideSuggestion?.status === "suggested",
+      ),
+      `${demoCase.label}: expected at least one AI side suggestion`,
+    );
+    assertCondition(
+      dataset.records.every((record) => record.poseSuggestion === null),
+      `${demoCase.label}: feature-only workflow should not export pose score suggestion`,
+    );
+  }
 
   return {
     label: demoCase.label,
@@ -453,6 +469,7 @@ async function runDemoWorkflow(demoCase) {
       ? `${featureUsable}/${featureReport.summary.repetitionsTotal}`
       : "N/A",
     suggestion: suggestionReady ? "available" : "not_applicable",
+    aiSide: `${aiSideSuggestedCount}/${dataset.records.length}`,
     poseEvidence: qualitySummary.poseEvidenceAttached ? "yes" : "no",
     ingest: ingest.status,
     exports: packageFiles.length,

@@ -341,6 +341,116 @@ test("attachPoseEvidenceToDataset keeps reviewer side separate from AI side sugg
   });
 });
 
+test("attachPoseEvidenceToDataset exports Rotary feature-only evidence without pose score", () => {
+  const exported = buildDatasetExport(
+    {
+      videoId: "vid_rotary",
+      actionType: "rotary_stability",
+      fileName: "rotary.mp4",
+      startSecond: 0,
+      endSecond: 10,
+      expectedReps: 1,
+      notes: "",
+    },
+    [
+      {
+        segmentId: "seg_rotary",
+        videoId: "vid_rotary",
+        actionType: "rotary_stability",
+        repetitionIndex: 1,
+        cameraView: "front",
+        side: "unknown",
+        startSecond: 1,
+        endSecond: 5,
+        aiScore: makeScore(3),
+        reviewerScores: {
+          reviewer_a: null,
+          reviewer_b: null,
+        },
+        reviewStatus: "pending",
+      },
+    ],
+  );
+
+  const augmented = attachPoseEvidenceToDataset(exported, {
+    poseSummary: {
+      valid: true,
+      framesTotal: 42,
+      framesWithPose: 40,
+      missingFramesRatio: 0.04,
+      avgVisibility: 0.86,
+    },
+    timingReport: {
+      items: [
+        {
+          segmentId: "seg_rotary",
+          status: "good",
+          issues: [],
+          cycle: {
+            startSecond: 1,
+            endSecond: 5,
+            bestReachSecond: 3,
+          },
+        },
+      ],
+    },
+    featureReport: {
+      items: [
+        {
+          segmentId: "seg_rotary",
+          status: "ok",
+          sourceSecond: 3,
+          ratings: {
+            sideConfidence: {
+              status: "watch",
+              label: "rotary side tentative",
+            },
+          },
+          metrics: {
+            side: "right",
+            pattern: "left_arm_right_leg",
+            sideVisibility: 0.86,
+            sideConfidence: 0.62,
+          },
+        },
+      ],
+    },
+    suggestionReport: null,
+  });
+
+  assert.equal(
+    augmented.video.movementCapability.posePipelineStatus,
+    "features_only",
+  );
+  assert.equal(augmented.records[0].poseEvidenceGate.status, "features_only");
+  assert.equal(augmented.records[0].poseEvidenceGate.canUsePoseEvidence, true);
+  assert.equal(
+    augmented.records[0].poseEvidenceGate.canShowPoseSuggestion,
+    false,
+  );
+  assert.equal(augmented.records[0].poseSuggestion, null);
+  assert.deepEqual(augmented.records[0].aiSideSuggestion, {
+    status: "suggested",
+    source: "pose_features",
+    side: "right",
+    confidence: 0.71,
+    confidenceStatus: "watch",
+    label: "rotary side tentative",
+    reviewerSide: "unknown",
+    matchesReviewerSide: null,
+    sourceSecond: 3,
+    reasonCode: "pose_side_detected",
+    evidence: {
+      sidePolicy: "left_right",
+      aiSideInference: "pose_supported",
+      metricSide: "right",
+      sideVisibility: 0.86,
+      ratingStatus: "watch",
+      ratingLabel: "rotary side tentative",
+    },
+  });
+});
+
 test("dataset export includes action-specific clearing findings", () => {
   const exported = buildDatasetExport(
     {
