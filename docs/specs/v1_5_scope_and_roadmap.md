@@ -133,9 +133,9 @@ but it does not display AI RAW SCORE.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
-- Shoulder Mobility has a feature-only pose evidence path and one
-  browser-verifiable demo preset; suggestion is intentionally held for more
-  human calibration.
+- Shoulder Mobility has a conservative first-pass pose timing/features/
+  suggestion path and one browser-verifiable demo preset; pain / clearing
+  interpretation remains human-only.
 - Hurdle Step has completed an initial pose probe, timing/features helpers, and
   one browser demo path with pose-based AI suggestion. Its current evidence
   includes clearance zones, stance-leg control, pelvis/trunk control, and
@@ -165,7 +165,8 @@ Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
 As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow.
 Deep Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
 Mobility, and Trunk Stability Push-Up are implemented pose/AI paths; Rotary
-Stability remains annotation-only.
+Stability is feature-only with pose evidence and AI side suggestion, but no AI
+RAW SCORE.
 
 ### V2: Evaluation and Application Package
 
@@ -636,11 +637,18 @@ Implementation status after the first P2 pass:
     segment-level best push-up frame timing, push-up lift, trunk/body-line
     stability, arm extension, hip-drift compensation features, and first-pass
     pose-based AI suggestion. Extension clearing pain remains human-only.
+35. Added Rotary Stability as a feature-only pose evidence path with rotary
+    reach, trunk rotation, balance stability, side-confidence evidence, and a
+    reproducible multi-sample probe. Rotary intentionally does not display AI
+    RAW SCORE until side / phase semantics and thresholds are calibrated.
 
 Recommended next sprint:
 
-1. Promote selected draft sample rows into canonical movement manifests after
+1. Keep README/backlog/spec docs aligned with the current seven-action smoke
+   state.
+2. Calibrate one bounded movement path with Ronnie, preferably Deep Squat
+   thresholds or Rotary Stability phase / side semantics.
+3. Promote selected draft sample rows into canonical movement manifests after
    reviewer confirmation.
-2. Record the Deep Squat flagship demo using the walkthrough script.
-3. Prepare a public-facing project page from the standalone copy draft.
-4. Choose the next movement-specific pose feature target after sample review.
+4. Record the Deep Squat flagship demo using the walkthrough script.
+5. Prepare a public-facing project page from the standalone copy draft.

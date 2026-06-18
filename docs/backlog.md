@@ -156,8 +156,9 @@ Current development order agreed on 2026-05-23:
 - [x] Add a four-movement end-to-end mock workflow smoke covering analysis,
       AI draft timing, reviewer consensus, ingest, and dataset package export.
 - [x] Add a seven-action end-to-end mock workflow smoke covering all FMS action
-      slots, with Trunk Stability Push-Up and Rotary Stability explicitly
-      marked as annotation-only.
+      slots. The original smoke kept Trunk Stability Push-Up and Rotary
+      Stability annotation-only; later V1.7 work upgraded Trunk to implemented
+      and Rotary to features-only.
 - [x] Add a Chinese seven-action handoff for morning human testing.
 - [x] Add first-pass Hurdle Step pose-based AI suggestion with confidence,
       reviewer-readable reasons, and tests.
@@ -299,15 +300,17 @@ remain reusable:
   Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk
   Stability Push-Up. Rotary Stability is feature-only until movement-specific
   phase/side semantics and scoring thresholds are calibrated. The workbench now
-  uses movement capability metadata and a per
-  segment evidence gate to decide whether to show pose-based AI scoring or a
-  more conservative evidence/annotation state.
+  uses movement capability metadata and a per-segment evidence gate to decide
+  whether to show pose-based AI scoring or a more conservative
+  evidence/annotation state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
 - Demo presets now cover all 7 FMS action slots, but Trunk Stability Push-Up
   still needs more sample calibration beyond the first score-3 pose demo, and
   Rotary Stability still needs better final demo sample selection before any AI
   scoring claim.
-- Current sample inventory covers 64 videos across all 7 FMS movement folders.
-  Six movements have draft manifest rows; Rotary Stability currently only has
-  review-only/tutorial-like samples and needs better movement samples.
+- Current sample inventory covers 64 prepared videos under
+  `Eval_Videos/Sample videos/`; the wider `Eval_Videos` tree currently contains
+  77 MP4 files, 18 pose JSON files, and 7 canonical movement manifests.
+  Rotary Stability still needs better final score-labeled movement samples
+  before any AI scoring claim.

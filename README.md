@@ -48,8 +48,10 @@ The restarted project uses a layered scope:
   - pose-assisted segmentation,
   - explainable AI suggested score.
 - **V1.7: Selected multi-movement expansion**
-  - priority: Active Straight Leg Raise, Shoulder Mobility, Hurdle Step,
-    In-Line Lunge.
+  - implemented first-pass pose suggestion paths for Active Straight Leg Raise,
+    Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk Stability Push-Up,
+  - Rotary Stability remains feature-only until side / phase semantics and
+    scoring thresholds are calibrated.
 - **V2: Application and research package**
   - dataset card,
   - evaluation metrics,
@@ -90,6 +92,11 @@ The current codebase already includes:
 - Deep Squat feature snapshot for depth, torso control, knee alignment, and
   side-view hip/knee/ankle angle evidence.
 - Pose-based explainable Deep Squat suggestion with confidence and reasons.
+- First-pass pose timing, feature evidence, and reviewer-facing AI suggestions
+  for Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility,
+  and Trunk Stability Push-Up.
+- Feature-only Rotary Stability evidence with AI side suggestion, deliberately
+  without AI RAW SCORE.
 - Export Evidence dashboard card for label completion, pose coverage, timing
   QA, feature coverage, and suggestion coverage.
 - Segment timing correction summary for manual boundary edits and average
@@ -207,9 +214,11 @@ Current browser-testable presets:
   pose-based AI suggestion.
 - `In-Line Lunge score-3 sample`: In-Line Lunge pose pipeline with first-pass
   pose-based AI suggestion.
-- `Trunk Stability Push-Up score-3 sample`: annotation-only workflow path.
-- `Rotary Stability review-only sample`: annotation-only workflow path; current
-  sample is not yet a final movement-quality demo video.
+- `Trunk Stability Push-Up score-3 sample`: implemented pose pipeline with
+  first-pass pose-based AI suggestion; extension clearing / pain remains
+  human-confirmed.
+- `Rotary Stability feature-only sample`: feature-only pose evidence path with
+  AI side suggestion; it intentionally does not show AI RAW SCORE yet.
 
 The reproducible dry-run checklist is
 `docs/demo_dry_run_checklist_ai_fms_v1_5.md`.
@@ -329,13 +338,15 @@ ReportLab:
 
 Recommended next sprint:
 
-1. Promote selected draft sample-manifest rows into canonical movement
+1. Fix any docs that drift from the current seven-action smoke state.
+2. Calibrate one bounded movement path with Ronnie, preferably Deep Squat
+   thresholds or Rotary Stability phase / side semantics.
+3. Promote selected draft sample-manifest rows into canonical movement
    manifests after reviewer confirmation.
-2. Record the Deep Squat flagship demo using
+4. Record the Deep Squat flagship demo using
    `docs/demo_walkthrough_script_ai_fms_v1_5.md`.
-3. Prepare a public-facing project page from
+5. Prepare a public-facing project page from
    `docs/project_page_copy_ai_fms_v1_5.md`.
-4. Choose the next movement-specific pose feature target after sample review.
 
 ## Pose Extraction Prototype
 
@@ -441,9 +452,10 @@ The current reproducible demo checklist and screenshot set are documented in
 ## Goal Mode Delivery
 
 Current goal: make AI-FMS a demo-ready Deep Squat flagship prototype that can be
-shown, exported, and described in application materials, while keeping the
-platform open for V2+ expansion to all 7 FMS movements. The next six movement
-sample videos can be added as soon as they are provided.
+shown, exported, and described in application materials, while the wider
+workbench already carries first-pass pose evidence for six movements and a
+feature-only Rotary Stability path. The next step is calibration and stronger
+sample curation, not claiming fully automatic 7-action FMS scoring.
 
 ## Safety and Ethics
 

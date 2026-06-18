@@ -133,14 +133,14 @@ The current V1.5 demo has a reproducible Deep Squat dry run. It loads `Sample-1.
 
 英文正文：
 
-AI-FMS is an educational and research prototype. It is not a medical diagnostic tool, does not predict injury risk, and does not replace trained professionals. Pain and medical interpretation require human expertise. Current pose-based AI suggestions are most meaningful for Deep Squat. The remaining FMS movements are supported at the workflow level and need more curated samples before movement-specific pose features can be responsibly expanded.
+AI-FMS is an educational and research prototype. It is not a medical diagnostic tool, does not predict injury risk, and does not replace trained professionals. Pain and medical interpretation require human expertise. Deep Squat remains the flagship demo. Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk Stability Push-Up have first-pass pose-based reviewer-support suggestions, while Rotary Stability is limited to feature evidence and side suggestion. All non-Deep-Squat movement logic still needs more curated samples and human calibration before stronger scoring claims.
 
 中文要点：
 
 - 不宣称医疗诊断。
 - 不宣称伤病预测。
 - 不宣称替代 certified FMS professionals。
-- Deep Squat 是当前 flagship，其他动作保留扩展框架。
+- Deep Squat 是当前 flagship，其他动作已有不同层级的 first-pass evidence，但仍需校准。
 - 样本量和视频多样性仍然有限。
 
 ## Application Narrative

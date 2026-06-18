@@ -175,7 +175,7 @@ const DEMO_PRESETS = [
   },
   {
     id: "rotary-review",
-    label: "Rotary Stability review-only sample",
+    label: "Rotary Stability feature-only sample",
     actionType: "rotary_stability",
     videoUrl:
       "/Eval_Videos/Sample%20videos/7-rotatory%20stability/videoplayback%20%2821%29.mp4",

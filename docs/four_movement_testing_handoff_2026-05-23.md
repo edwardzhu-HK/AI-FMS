@@ -1,5 +1,11 @@
 # AI-FMS 四动作测试交接（2026-05-23）
 
+2026-06-18 对齐注记：本文保留 2026-05-23 四动作阶段的历史测试记录；当时
+Shoulder Mobility 仍是 features-only。当前七动作状态以 `README.md`、
+`docs/specs/v1_7_movement_maturity_and_side_clearing.md` 和
+`npm run demo:flow:seven` 为准：Shoulder Mobility 已进入 implemented，
+Rotary Stability 为 features-only。
+
 ## 今天睡前目标
 
 今晚的目标不是把 7 个 FMS actions 都做完，而是把 4 个已经进入主线的动作做到“可以人工测试、可以解释、可以导出、正式入库有质量门禁”的状态：
