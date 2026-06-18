@@ -40,3 +40,10 @@
 - 每个工作单元完成后必须执行 `npm run check`。
 - `check` 未通过时不得标记任务完成。
 - 验收记录要写入 `docs/backlog.md`。
+
+## 7. Branch Practice Workflow
+
+- 开始任务前确认当前分支，避免直接在 `main` 上试验性开发。
+- 小改动完成后先查看 diff，再运行 `npm run check`。
+- 检查通过后把改动提交到当前分支，并使用清晰的 commit message。
+- 如果需要合并到主线，先 publish 当前分支，再通过 Pull Request 合并。
