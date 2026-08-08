@@ -5,7 +5,14 @@ import reactRefresh from "eslint-plugin-react-refresh";
 
 export default [
   {
-    ignores: ["dist/**", "node_modules/**", "docs/**", ".venv/**", ".cache/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "docs/**",
+      ".venv/**",
+      ".cache/**",
+      ".tools/**",
+    ],
   },
   js.configs.recommended,
   {

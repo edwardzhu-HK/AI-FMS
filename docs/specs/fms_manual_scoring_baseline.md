@@ -99,7 +99,75 @@ FMS manual 的人工观察通常需要 front 和 side 信息。AI-FMS 应遵循�
 - 单一 side-view video 可以支持 depth / torso evidence，但 front-view knee tracking
   仍然受限。
 
-## 7. 当前实现影响
+## 7. Active Straight Leg Raise Manual Rule
+
+Active Straight Leg Raise 的一个完整 rep 必须包含：
+
+1. 仰卧起始位，双腿伸直并保持稳定；
+2. 一侧腿主动抬起到该 attempt 的最大幅度；
+3. 抬起腿回到起始位。
+
+AI-FMS 的 ASLR timing 不应把讲解过程中的脚踝小幅摆动、教练调整、或尚未回到起始位的局部波动拆成多个
+rep。只有覆盖“起始位 -> 最大抬腿 -> 回到起始位”的完整片段，才可以作为一个 scoreable
+segment。
+
+ASLR 是 bilateral movement，raw score 应分别保留 left / right side，movement-level final
+score 取较低侧。Pose proxy 可以用于 hip flexion / active leg raise zone、stationary leg
+control、pelvic stability、knee extension 和 side evidence；但如果视频视角或 setup 不能支持某项
+criterion，应标记 evidence incomplete，而不是强行输出高置信 final score。
+
+## 8. Hurdle Step Manual Rule
+
+Hurdle Step 的一个完整 rep 必须包含：
+
+1. 起始位稳定站好；
+2. moving leg 前伸 / 跨过 hurdle；
+3. heel 触地；
+4. moving leg 回到起始位。
+
+评分边界按 FMS Level 1 Manual V2.9, Nov 2021 的 Hurdle Step rubric 处理：
+
+- `3`：下肢对齐、躯干/腰椎控制、dowel 与 hurdle 的相对姿态都满足高质量动作要求。
+- `2`：没有达到 `3` 的动作质量，但仍能完成完整 movement pattern，常见 evidence 包括
+  hips / knees / ankles alignment 丢失、lumbar compensation 或 dowel / hurdle 不再平行。
+- `1`：不能清过 hurdle / cord，或出现 loss of balance。视频里能观察到 foot 与 hurdle
+  kit / cord path 发生 contact 时，应按 score-1 规则处理，而不是降级为普通 score-2
+  compensation。
+- `0`：测试中出现 pain。
+
+AI-FMS 的 Hurdle Step pose suggestion 必须优先遵循以上 manual rule。Pose proxy 可以用于
+clearance、stance control、pelvis/trunk control 和 step-leg alignment evidence；但一旦
+reviewer/AI 视觉证据确认 hurdle contact 或 loss of balance，应直接输出 score `1`
+evidence，并在 reasons 中说明这是 FMS manual score-1 rule，不得把它解释成 `2` 分。
+
+对于 bilateral Hurdle Step，raw score 应分别保留左右侧，movement-level final score 取较低侧。
+
+## 9. Rotary Stability Manual Rule
+
+Rotary Stability 的一个完整 rep 必须包含：
+
+1. 四足支撑起始位，双手、双膝/下肢稳定贴地；
+2. 手、膝和脚离地，并完成 elbow-knee touch；
+3. 对应的手臂和腿完全伸展；
+4. 再次完成 elbow-knee touch；
+5. 回到四足支撑起始位。
+
+AI-FMS 的 Rotary Stability timing 不应把单个 best reach frame、教练示范、setup 调整、或后面的静态讲解图片当成
+scoreable segment。只有覆盖“起始位 -> touch -> full extension -> touch -> 回到四足支撑位”的完整片段，
+才可以作为一个 Rotary Stability rep。
+
+评分边界必须遵循 FMS manual：
+
+- `3`：能完成同侧 arm/leg pattern，并保持 spine / board alignment 和稳定控制。
+- `2`：不能完成同侧 pattern，但能完成对侧 diagonal pattern，并保持可接受控制。
+- `1`：不能完成 diagonal pattern。
+- `0`：测试中出现 pain，或 flexion clearing test 为 positive / fail。
+
+Rotary Stability 当前在 AI-FMS 中仍是 feature-only / pose-evidence-only：pose 可以辅助 reviewer
+查看 reach、trunk rotation、balance stability 和 side evidence，但不应自动输出 AI RAW SCORE。
+Raw score 和 clearing / pain 结果必须由 human reviewer 按 FMS manual 确认。
+
+## 10. 当前实现影响
 
 已从 Ronnie 导入的第一波稳定内容：
 
@@ -111,7 +179,7 @@ FMS manual 的人工观察通常需要 front 和 side 信息。AI-FMS 应遵循�
 dataset export。下一步如果验证通过，可以再加入 Deep Squat final score panel，并在
 export 中同时保留 attempt-level records 和 movement-level final score record。
 
-## 8. 后续实现建议
+## 11. 后续实现建议
 
 1. 增加 movement-level `finalScore`，并继续与 segment-level AI/reviewer labels 分开。
 2. 增加 Deep Squat attempt grouping：floor attempts vs heel-elevated board attempts。

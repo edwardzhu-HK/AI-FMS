@@ -72,6 +72,7 @@ export async function saveSegmentReview(payload) {
         score_scope: payload.score.scoreScope,
         score_basis: payload.score.scoreBasis,
         uses_criteria_scores: payload.score.usesCriteriaScores,
+        scoring_status: payload.score.scoringStatus,
         comment: payload.score.comment,
       }),
     },
@@ -130,6 +131,7 @@ export function buildDefaultReviewerScore() {
     totalScore: base.totalScore,
     subscores: base.subscores,
     criteriaScores: base.criteriaScores,
+    scoringStatus: "scored",
     comment: base.comment,
   };
 }

@@ -1,4 +1,7 @@
-import { createScoreFromSubscores } from "../constants/scoring.js";
+import {
+  createScoreFromSubscores,
+  createScoreFromTotal,
+} from "../constants/scoring.js";
 
 const FEATURE_TO_SUBSCORE = {
   activeLegRaise: "depth",
@@ -49,9 +52,13 @@ function buildSubscores(featureItem) {
   const pelvicStabilityScore = ratingToScore(
     featureItem.ratings.pelvicStability?.status,
   );
+  const sideConfidenceScore = ratingToScore(
+    featureItem.ratings.sideConfidence?.status,
+  );
+  const kneeExtensionStatus = featureItem.ratings.kneeExtension?.status;
   const legLineScore = Math.min(
-    ratingToScore(featureItem.ratings.kneeExtension?.status),
-    ratingToScore(featureItem.ratings.sideConfidence?.status),
+    kneeExtensionStatus === "limited" ? 1 : 3,
+    sideConfidenceScore,
   );
 
   return {
@@ -102,6 +109,18 @@ function buildReason(label, rating, score) {
   return `${label} suggested ${score}: ${rating.label}.`;
 }
 
+function buildLegLineReason(rating, score) {
+  if (!rating) {
+    return "Leg line evidence is missing.";
+  }
+
+  if (rating.status === "watch") {
+    return `Leg line review note: ${rating.label}. This proxy is retained for reviewer context but does not override the ASLR manual score-3 path when active leg raise and non-moving limb evidence pass.`;
+  }
+
+  return buildReason("Leg line", rating, score);
+}
+
 function buildSuggestionItem(featureItem, timingReport) {
   const timingItem = findTimingItem(timingReport, featureItem);
 
@@ -119,6 +138,39 @@ function buildSuggestionItem(featureItem, timingReport) {
     };
   }
 
+  if (
+    Number.isInteger(featureItem.manualScoreOverride) &&
+    featureItem.manualScoreOverride >= 0 &&
+    featureItem.manualScoreOverride <= 3
+  ) {
+    const score = createScoreFromTotal(
+      "active_straight_leg_raise",
+      featureItem.manualScoreOverride,
+      {
+        scoreBasis: featureItem.manualScoreSource,
+        usesCriteriaScores: false,
+      },
+    );
+    const confidence = buildConfidence(featureItem, timingItem);
+
+    return {
+      segmentId: featureItem.segmentId,
+      repetitionIndex: featureItem.repetitionIndex,
+      status: "suggested",
+      totalScore: score.totalScore,
+      subscores: score.subscores,
+      criteriaScores: score.criteriaScores,
+      confidence,
+      confidenceLabel: confidenceLabel(confidence),
+      reasons: [
+        `ASLR manual visual review suggested ${score.totalScore}: ${featureItem.manualScoreReason}`,
+        "Pose landmarks are retained for skeleton display and supporting context, but this low-camera sample has coach occlusion and unstable side labels.",
+      ],
+      modelVersion: "pose-features-v0.3-aslr",
+      scoreBasis: featureItem.manualScoreSource,
+    };
+  }
+
   const subscores = buildSubscores(featureItem);
   const activeLegRaiseScore = ratingToScore(
     (featureItem.ratings.activeLegRaise ?? featureItem.ratings.hipFlexion)
@@ -130,7 +182,8 @@ function buildSuggestionItem(featureItem, timingReport) {
   const pelvicStabilityScore = ratingToScore(
     featureItem.ratings.pelvicStability?.status,
   );
-  const legLineScore = ratingToScore(featureItem.ratings.kneeExtension?.status);
+  const kneeExtensionStatus = featureItem.ratings.kneeExtension?.status;
+  const legLineScore = kneeExtensionStatus === "limited" ? 1 : 3;
   const sideConfidenceScore = ratingToScore(
     featureItem.ratings.sideConfidence?.status,
   );
@@ -155,7 +208,7 @@ function buildSuggestionItem(featureItem, timingReport) {
       featureItem.ratings.pelvicStability,
       pelvicStabilityScore,
     ),
-    buildReason("Leg line", featureItem.ratings.kneeExtension, legLineScore),
+    buildLegLineReason(featureItem.ratings.kneeExtension, legLineScore),
     buildReason(
       "Side confidence",
       featureItem.ratings.sideConfidence,

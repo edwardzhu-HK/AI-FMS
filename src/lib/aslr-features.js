@@ -311,6 +311,9 @@ function buildFeatureItem({ posePayload, timingItem }) {
       endSecond: timingItem.cycle.endSecond,
       peakSecond: timingItem.cycle.peakSecond,
     },
+    manualScoreOverride: timingItem.cycle.manualScoreOverride ?? null,
+    manualScoreSource: timingItem.cycle.manualScoreSource ?? null,
+    manualScoreReason: timingItem.cycle.manualScoreReason ?? null,
     ratings: {
       activeLegRaise: classifyActiveLegRaise(ankleAboveHip),
       hipFlexion: classifyHipFlexion(ankleAboveHip),

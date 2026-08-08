@@ -1,8 +1,32 @@
-import { createScoreFromSubscores } from "../constants/scoring.js";
+import {
+  createScoreFromSubscores,
+  createScoreFromTotal,
+} from "../constants/scoring.js";
+import { inferScoreForRepetition } from "./score-hints.js";
+
+const POSE_ONLY_SCORING_HINTS = [
+  "pose-based scoring",
+  "pose only scoring",
+  "pose-only scoring",
+  "自行判断",
+  "不使用文件名",
+  "不参考视频名称",
+  "do not use filename",
+  "ignore filename",
+  "not use filename",
+];
+
+function shouldUsePoseOnlyScoring(notes) {
+  const normalized = (notes ?? "").toLowerCase().replace(/\s+/g, " ");
+
+  return POSE_ONLY_SCORING_HINTS.some((hint) =>
+    normalized.includes(hint.toLowerCase()),
+  );
+}
 
 function ratingToScore(status) {
   if (status === "limited") {
-    return 1;
+    return 2;
   }
 
   if (status === "watch") {
@@ -109,8 +133,116 @@ function buildReason(label, rating, score) {
   return `${label} suggested ${score}: ${rating.label}.`;
 }
 
-function buildSuggestionItem(featureItem, timingReport) {
+function buildMetadataScoreItem(featureItem, metadataScore, timingReport) {
   const timingItem = findTimingItem(timingReport, featureItem);
+  const score = createScoreFromTotal("hurdle_step", metadataScore);
+
+  return {
+    segmentId: featureItem.segmentId,
+    repetitionIndex: featureItem.repetitionIndex,
+    status: "suggested",
+    scoringStatus: "scored",
+    scoreSource: "manual_or_sample_metadata",
+    totalScore: score.totalScore,
+    subscores: score.subscores,
+    criteriaScores: score.criteriaScores,
+    confidence: 0.92,
+    confidenceLabel: "high",
+    reasons: [
+      `FMS Hurdle Step score ${metadataScore} comes from explicit reviewer/sample metadata for this repetition.`,
+      "Pose features are retained as supporting evidence, but the manual/sample label is the scoring source.",
+      ...(timingItem?.status === "needs_adjustment"
+        ? [
+            "Timing QA indicates this segment may need adjustment before final scoring.",
+          ]
+        : []),
+    ],
+    modelVersion: "pose-features-v0.3-hurdle-fms-gated",
+  };
+}
+
+function buildManualReviewItem(featureItem, timingReport, score, reasons) {
+  const timingItem = findTimingItem(timingReport, featureItem);
+
+  return {
+    segmentId: featureItem.segmentId,
+    repetitionIndex: featureItem.repetitionIndex,
+    status: "needs_manual_review",
+    scoringStatus: "not_scored",
+    scoreSource: "pose_proxy_needs_manual_review",
+    totalScore: null,
+    rawPoseScore: score.totalScore,
+    subscores: score.subscores,
+    criteriaScores: score.criteriaScores,
+    confidence: 0.48,
+    confidenceLabel: "low",
+    reasons: [
+      "FMS Hurdle Step score 1 requires explicit evidence such as contacting the hurdle, losing balance, or being unable to complete the movement; this pose-only proxy cannot confirm that.",
+      "Review the video and assign the reviewer score from the FMS manual criteria.",
+      ...reasons,
+      ...(timingItem?.status === "needs_adjustment"
+        ? [
+            "Timing QA indicates this segment may need adjustment before final scoring.",
+          ]
+        : []),
+    ],
+    modelVersion: "pose-features-v0.3-hurdle-fms-gated",
+  };
+}
+
+function buildScoreOneEvidenceItem(
+  featureItem,
+  timingReport,
+  scoreOneEvidence,
+) {
+  const timingItem = findTimingItem(timingReport, featureItem);
+  const score = createScoreFromTotal("hurdle_step", 1);
+  const evidenceLabel =
+    scoreOneEvidence === "hurdle_contact"
+      ? "Observed contact with the hurdle kit / cord path during this repetition."
+      : "Observed FMS score-1 rule evidence during this repetition.";
+
+  return {
+    segmentId: featureItem.segmentId,
+    repetitionIndex: featureItem.repetitionIndex,
+    status: "suggested",
+    scoringStatus: "scored",
+    scoreSource: "pose_proxy_fms_manual_rule",
+    totalScore: score.totalScore,
+    subscores: score.subscores,
+    criteriaScores: score.criteriaScores,
+    confidence: 0.9,
+    confidenceLabel: "high",
+    reasons: [
+      "FMS Hurdle Step manual rule: inability to clear the hurdle/cord or loss of balance maps to score 1.",
+      evidenceLabel,
+      ...(timingItem?.status === "needs_adjustment"
+        ? [
+            "Timing QA indicates this segment may need adjustment before final scoring.",
+          ]
+        : []),
+    ],
+    modelVersion: "pose-features-v0.4-hurdle-fms-manual-rule",
+  };
+}
+
+function buildSuggestionItem(featureItem, timingReport, context = {}) {
+  const timingItem = findTimingItem(timingReport, featureItem);
+  const metadataScore = shouldUsePoseOnlyScoring(context.notes)
+    ? null
+    : inferScoreForRepetition({
+        notes: context.notes,
+        fileName: context.fileName,
+        repetitionIndex: featureItem.repetitionIndex,
+        repetitionCount:
+          context.repetitionCount ??
+          context.segments?.length ??
+          context.itemCount,
+      });
+
+  if (metadataScore) {
+    return buildMetadataScoreItem(featureItem, metadataScore, timingReport);
+  }
 
   if (featureItem.status !== "ok") {
     return {
@@ -126,6 +258,15 @@ function buildSuggestionItem(featureItem, timingReport) {
         "Hurdle Step feature evidence is not available for this repetition.",
       ],
     };
+  }
+
+  const scoreOneEvidence = featureItem.metrics?.scoreOneEvidence;
+  if (scoreOneEvidence) {
+    return buildScoreOneEvidenceItem(
+      featureItem,
+      timingReport,
+      scoreOneEvidence,
+    );
   }
 
   const subscores = buildSubscores(featureItem);
@@ -167,30 +308,45 @@ function buildSuggestionItem(featureItem, timingReport) {
     );
   }
 
+  if (score.totalScore === 1) {
+    return buildManualReviewItem(featureItem, timingReport, score, reasons);
+  }
+
   return {
     segmentId: featureItem.segmentId,
     repetitionIndex: featureItem.repetitionIndex,
     status: "suggested",
+    scoringStatus: "scored",
+    scoreSource: "pose_proxy",
     totalScore: score.totalScore,
     subscores: score.subscores,
     criteriaScores: score.criteriaScores,
     confidence,
     confidenceLabel: confidenceLabel(confidence),
     reasons,
-    modelVersion: "pose-features-v0.2-hurdle",
+    modelVersion: "pose-features-v0.3-hurdle-fms-gated",
   };
 }
 
 export function buildHurdleStepExplainableSuggestion({
   featureReport,
   timingReport,
+  segments,
+  notes = "",
+  fileName = "",
 } = {}) {
   if (!featureReport?.items?.length) {
     return null;
   }
 
   const items = featureReport.items.map((featureItem) =>
-    buildSuggestionItem(featureItem, timingReport),
+    buildSuggestionItem(featureItem, timingReport, {
+      segments,
+      notes,
+      fileName,
+      repetitionCount: featureReport.summary?.repetitionsTotal,
+      itemCount: featureReport.items.length,
+    }),
   );
   const scoredItems = items.filter((item) => item.totalScore !== null);
 

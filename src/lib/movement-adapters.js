@@ -17,6 +17,7 @@ import { summarizeTrunkStabilityPoseFeatures } from "./trunk-stability-features.
 import { buildTrunkStabilityExplainableSuggestion } from "./trunk-stability-suggestion.js";
 import { evaluateTrunkStabilitySegmentsTiming } from "./trunk-stability-timing.js";
 import { summarizeRotaryStabilityPoseFeatures } from "./rotary-stability-features.js";
+import { buildRotaryStabilityExplainableSuggestion } from "./rotary-stability-suggestion.js";
 import { evaluateRotaryStabilitySegmentsTiming } from "./rotary-stability-timing.js";
 
 export const MOVEMENT_CAPABILITY_STATUS = {
@@ -93,7 +94,7 @@ const BASE_CAPABILITIES = {
     supportsPoseTiming: true,
     supportsPoseFeatures: true,
     supportsPoseSuggestion: false,
-    supportsAiDraftTiming: false,
+    supportsAiDraftTiming: true,
   },
 };
 
@@ -127,6 +128,14 @@ function isPoseSummaryLimited(poseSummary) {
     poseSummary.valid === false ||
     missingFramesRatio > 0.1 ||
     avgVisibility < 0.75
+  );
+}
+
+function hasCuratedVisualSuggestion(suggestionItem) {
+  return (
+    suggestionItem?.status === "suggested" &&
+    suggestionItem.totalScore !== null &&
+    suggestionItem.scoreBasis === "curated_visual_fms_review"
   );
 }
 
@@ -183,7 +192,13 @@ const DEEP_SQUAT_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport({ featureReport, timingReport }) {
+  buildSuggestionReport({
+    featureReport,
+    timingReport,
+    segments,
+    notes,
+    fileName,
+  }) {
     if (!featureReport || !timingReport) {
       return null;
     }
@@ -191,6 +206,9 @@ const DEEP_SQUAT_ADAPTER = {
     return buildDeepSquatExplainableSuggestion({
       featureReport,
       timingReport,
+      segments,
+      notes,
+      fileName,
     });
   },
 };
@@ -291,7 +309,13 @@ const HURDLE_STEP_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport({ featureReport, timingReport } = {}) {
+  buildSuggestionReport({
+    featureReport,
+    timingReport,
+    segments,
+    notes,
+    fileName,
+  } = {}) {
     if (!featureReport || !timingReport) {
       return null;
     }
@@ -299,6 +323,9 @@ const HURDLE_STEP_ADAPTER = {
     return buildHurdleStepExplainableSuggestion({
       featureReport,
       timingReport,
+      segments,
+      notes,
+      fileName,
     });
   },
 };
@@ -399,8 +426,15 @@ const ROTARY_STABILITY_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport() {
-    return null;
+  buildSuggestionReport({ featureReport, timingReport } = {}) {
+    if (!featureReport || !timingReport) {
+      return null;
+    }
+
+    return buildRotaryStabilityExplainableSuggestion({
+      featureReport,
+      timingReport,
+    });
   },
 };
 
@@ -475,7 +509,10 @@ export function evaluateMovementEvidenceGate({
     });
   }
 
-  if (isPoseSummaryLimited(poseSummary)) {
+  if (
+    isPoseSummaryLimited(poseSummary) &&
+    !hasCuratedVisualSuggestion(suggestionItem)
+  ) {
     return createGate({
       actionType,
       status: "limited_pose_quality",
@@ -490,6 +527,19 @@ export function evaluateMovementEvidenceGate({
   if (
     capability.posePipelineStatus === MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY
   ) {
+    if (hasCuratedVisualSuggestion(suggestionItem)) {
+      return createGate({
+        actionType,
+        status: "ready",
+        reasonCode: "curated_visual_fms_review",
+        canUsePoseEvidence: true,
+        canShowPoseSuggestion: true,
+        timingItem,
+        featureItem,
+        suggestionItem,
+      });
+    }
+
     return createGate({
       actionType,
       status:
@@ -531,6 +581,21 @@ export function evaluateMovementEvidenceGate({
       actionType,
       status: "insufficient_features",
       reasonCode: "insufficient_features",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (
+    suggestionItem?.status === "needs_heel_elevated_attempt" ||
+    suggestionItem?.status === "needs_attempt_condition_review"
+  ) {
+    return createGate({
+      actionType,
+      status: "staged_scoring_needs_review",
+      reasonCode: "deep_squat_needs_heel_elevated_attempt",
       canUsePoseEvidence: true,
       timingItem,
       featureItem,

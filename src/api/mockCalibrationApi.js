@@ -10,12 +10,18 @@ import {
   adjudicateScores,
   getSegmentReviewStatus,
   summarizeIngest,
+  summarizeReviewerReadiness,
 } from "../lib/adjudication.js";
 import { summarizeConsistency } from "../lib/consistency.js";
 import { createAIScoreForSegment } from "../lib/ai-scoring.js";
 import { buildSegmentsFromCycle } from "../lib/segmenting.js";
 import { buildDatasetExport } from "../lib/dataset-export.js";
 import { summarizeClearingReadiness } from "../lib/clearing-readiness.js";
+import { inferDeepSquatAttemptCondition } from "../lib/deep-squat-attempt-condition.js";
+import {
+  applyDeepSquatBoardDetectionToSegment,
+  isDeepSquatBoardDetected,
+} from "../lib/deep-squat-board-detector.js";
 
 const MOCK_DELAY_MS = 260;
 
@@ -61,6 +67,29 @@ function createSegments(
     const segmentId = createId("seg", store.segmentSeq);
     store.segmentSeq += 1;
     const repetitionCount = windows.length;
+    const metadata = createDefaultSegmentMetadata(actionType);
+    const segmentBase = {
+      actionType,
+      repetitionIndex: window.repetitionIndex,
+      ...metadata,
+    };
+    const boardAwareSegment =
+      actionType === "deep_squat"
+        ? applyDeepSquatBoardDetectionToSegment(segmentBase, {
+            notes,
+            fileName,
+            repetitionCount,
+          })
+        : segmentBase;
+    const attemptCondition =
+      actionType === "deep_squat"
+        ? inferDeepSquatAttemptCondition({
+            segment: boardAwareSegment,
+            notes,
+            fileName,
+            repetitionCount,
+          })
+        : undefined;
     const aiScore = createAIScoreForSegment(actionType, {
       cameraView: window.cameraView,
       fileName,
@@ -81,7 +110,11 @@ function createSegments(
       originalEndSecond: window.endSecond,
       segmentSource: "suggested",
       cameraView: window.cameraView,
-      ...createDefaultSegmentMetadata(actionType),
+      ...metadata,
+      ...(attemptCondition ? { attemptCondition } : {}),
+      ...(boardAwareSegment.boardDetection
+        ? { boardDetection: boardAwareSegment.boardDetection }
+        : {}),
       aiScore,
       reviewerScores: {
         reviewer_a: null,
@@ -192,6 +225,10 @@ export async function getVideoSegments(videoId) {
     throw new Error("segments not found");
   }
 
+  for (const segment of segments) {
+    segment.reviewStatus = getSegmentReviewStatus(segment);
+  }
+
   return wait({
     videoId,
     actionType: segments[0]?.actionType ?? null,
@@ -250,6 +287,7 @@ export async function updateSegmentMetadata(payload) {
     painFlag,
     clearingTest,
     clearingFindings,
+    attemptCondition,
     rubricVersion,
     segmentSource = "manual_adjusted",
   } = payload;
@@ -296,6 +334,26 @@ export async function updateSegmentMetadata(payload) {
     targetSegment.clearingFindings,
     clearingTest,
   );
+  if (targetSegment.actionType === "deep_squat" && attemptCondition) {
+    targetSegment.attemptCondition = attemptCondition;
+  }
+  if (targetSegment.actionType === "deep_squat") {
+    const siblingSegments =
+      store.segmentsByVideo.get(targetVideo.videoId) ?? [];
+    const boardAwareSegment = applyDeepSquatBoardDetectionToSegment(
+      targetSegment,
+      {
+        notes: targetVideo.notes,
+        fileName: targetVideo.fileName,
+        repetitionCount: siblingSegments.length,
+      },
+    );
+    targetSegment.boardDetection = boardAwareSegment.boardDetection;
+    if (isDeepSquatBoardDetected(boardAwareSegment.boardDetection)) {
+      targetSegment.attemptCondition = boardAwareSegment.attemptCondition;
+    }
+  }
+  targetSegment.reviewStatus = getSegmentReviewStatus(targetSegment);
   targetSegment.rubricVersion = rubricVersion || "fms_v1.0";
   targetSegment.segmentSource = segmentSource;
   targetSegment.updatedAt = new Date().toISOString();
@@ -314,29 +372,25 @@ export async function checkVideoReadiness(videoId) {
     throw new Error("segments not found");
   }
 
-  const allSegmentsCount = segments.length;
-  const completedSegmentsCount = segments.filter(
-    (segment) => getSegmentReviewStatus(segment) === "completed",
-  ).length;
+  const reviewerReadiness = summarizeReviewerReadiness(segments);
   const clearingReadiness = summarizeClearingReadiness(segments);
-  const reviewerReady =
-    allSegmentsCount > 0 && allSegmentsCount === completedSegmentsCount;
 
-  const readyForIngest = reviewerReady && clearingReadiness.readyForIngest;
+  const readyForIngest =
+    reviewerReadiness.readyForIngest && clearingReadiness.readyForIngest;
 
-  const blockingReasons = [];
-
-  if (!reviewerReady) {
-    blockingReasons.push("some segments are still pending reviewer scores");
-  }
+  const blockingReasons = [...reviewerReadiness.blockingReasons];
   if (!clearingReadiness.readyForIngest) {
     blockingReasons.push("some segments still need clearing/pain confirmation");
   }
 
   return wait({
     videoId,
-    allSegmentsCount,
-    completedSegmentsCount,
+    allSegmentsCount: reviewerReadiness.allSegmentsCount,
+    completedSegmentsCount: reviewerReadiness.completedSegmentsCount,
+    scoreableCompletedSegmentsCount:
+      reviewerReadiness.scoreableCompletedSegmentsCount,
+    protocolEvidenceSegmentsCount:
+      reviewerReadiness.protocolEvidenceSegmentsCount,
     clearingReadyForIngest: clearingReadiness.readyForIngest,
     clearingBlockerCount: clearingReadiness.blockerCount,
     clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
@@ -366,6 +420,7 @@ export async function ingestVideo(videoId, requestedBy) {
     segmentsTotal: summary.segmentsTotal,
     segmentsValid: summary.segmentsValid,
     segmentsInvalid: summary.segmentsInvalid,
+    segmentsProtocolEvidence: summary.segmentsProtocolEvidence,
     status: "succeeded",
     createdAt: new Date().toISOString(),
   };
@@ -419,6 +474,7 @@ export function buildDefaultReviewerScore() {
     totalScore: base.totalScore,
     subscores: base.subscores,
     criteriaScores: base.criteriaScores,
+    scoringStatus: "scored",
     comment: base.comment,
   };
 }

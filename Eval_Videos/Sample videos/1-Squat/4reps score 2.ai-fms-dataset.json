@@ -1,0 +1,1505 @@
+{
+  "schemaVersion": "ai_fms_dataset_v1_5_draft",
+  "generatedAt": "2026-07-01T03:39:05.090Z",
+  "video": {
+    "videoId": "deep-squat-4reps-score-2",
+    "actionType": "deep_squat",
+    "fileName": "4reps score 2.mp4",
+    "startSecond": 0,
+    "endSecond": 279.276553,
+    "expectedReps": 4,
+    "notes": "Deep Squat score-2 sample. Four action clips were extracted from the long source video. Reps 1-2 are floor attempts without heel elevation and are retained as protocol evidence because they do not meet the score-3 path. Reps 3-4 use heels-elevated/FMS-board attempts and support the final score-2 path.",
+    "scoreScope": "rep_raw_score",
+    "repPolicy": {
+      "scoringUnit": "rep",
+      "scoreScope": "rep_raw_score",
+      "aggregationPolicy": "none_in_current_scope",
+      "sidePolicy": "not_lateralized",
+      "expectedSideValues": [],
+      "defaultSide": "none",
+      "aiSideInference": "not_applicable",
+      "clearingPolicy": "none",
+      "clearingTests": [],
+      "painPolicy": "human_observed_or_reported"
+    },
+    "rubricCriteria": [
+      {
+        "genericKey": "depth",
+        "criterionKey": "deep_squat_depth",
+        "label": "Depth"
+      },
+      {
+        "genericKey": "kneeAlignment",
+        "criterionKey": "deep_squat_knee_alignment",
+        "label": "Knee Alignment"
+      },
+      {
+        "genericKey": "torsoControl",
+        "criterionKey": "deep_squat_torso_control",
+        "label": "Torso Control"
+      }
+    ],
+    "movementCapability": {
+      "posePipelineStatus": "implemented",
+      "aiScoringStatus": "pose_based_ai_suggestion",
+      "supportsPoseTiming": true,
+      "supportsPoseFeatures": true,
+      "supportsPoseSuggestion": true,
+      "supportsAiDraftTiming": true
+    }
+  },
+  "records": [
+    {
+      "segmentId": "ds_4reps_score2_rep1",
+      "videoId": "deep-squat-4reps-score-2",
+      "actionType": "deep_squat",
+      "repetitionIndex": 1,
+      "scoreScope": "rep_raw_score",
+      "scoreAggregation": "none",
+      "repPolicy": {
+        "scoringUnit": "rep",
+        "scoreScope": "rep_raw_score",
+        "aggregationPolicy": "none_in_current_scope",
+        "sidePolicy": "not_lateralized",
+        "expectedSideValues": [],
+        "defaultSide": "none",
+        "aiSideInference": "not_applicable",
+        "clearingPolicy": "none",
+        "clearingTests": [],
+        "painPolicy": "human_observed_or_reported"
+      },
+      "movementCapability": {
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      "cameraView": "front",
+      "side": "none",
+      "attemptCondition": "floor",
+      "sideSource": "unconfirmed",
+      "startSecond": 125.3,
+      "endSecond": 131.35,
+      "originalStartSecond": 124.8,
+      "originalEndSecond": 134.5,
+      "segmentSource": "ai_draft_from_pose_window",
+      "painFlag": false,
+      "clearingTest": "not_applicable",
+      "clearingFindings": [],
+      "rubricVersion": "fms_v1.0",
+      "rubricCriteria": [
+        {
+          "genericKey": "depth",
+          "criterionKey": "deep_squat_depth",
+          "label": "Depth"
+        },
+        {
+          "genericKey": "kneeAlignment",
+          "criterionKey": "deep_squat_knee_alignment",
+          "label": "Knee Alignment"
+        },
+        {
+          "genericKey": "torsoControl",
+          "criterionKey": "deep_squat_torso_control",
+          "label": "Torso Control"
+        }
+      ],
+      "aiSuggestion": null,
+      "aiSideSuggestion": {
+        "status": "not_applicable",
+        "source": "rep_policy",
+        "side": "none",
+        "confidence": null,
+        "confidenceStatus": "not_applicable",
+        "reviewerSide": "none",
+        "matchesReviewerSide": null,
+        "sourceSecond": null,
+        "reasonCode": "not_lateralized",
+        "evidence": {
+          "sidePolicy": "not_lateralized",
+          "aiSideInference": "not_applicable"
+        }
+      },
+      "reviewerA": {
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "not_scored",
+        "comment": "Floor attempt below score-3 path; retained as Deep Squat protocol evidence, not final scoring.",
+        "totalScore": null,
+        "subscores": {
+          "depth": null,
+          "kneeAlignment": null,
+          "torsoControl": null
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": null
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": null
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": null
+          }
+        ],
+        "reviewerId": "Coach_in_video"
+      },
+      "reviewerB": {
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "not_scored",
+        "comment": "No heel elevation in this floor attempt; use later board attempt for final Deep Squat score.",
+        "totalScore": null,
+        "subscores": {
+          "depth": null,
+          "kneeAlignment": null,
+          "torsoControl": null
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": null
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": null
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": null
+          }
+        ],
+        "reviewerId": "Coach_Ronnie"
+      },
+      "finalLabel": null,
+      "labelStatus": "protocol_evidence",
+      "adjudicationSource": "deep_squat_floor_attempt_not_final_scoring",
+      "reviewStatus": "protocol_evidence",
+      "poseTiming": {
+        "status": "good",
+        "label": "Timing looks complete",
+        "currentStartSecond": 125.3,
+        "currentEndSecond": 131.35,
+        "suggestedStartSecond": 125.3,
+        "suggestedEndSecond": 131.35,
+        "lowestPointSecond": 129.9,
+        "issues": [],
+        "metrics": {
+          "detectedCycles": 1,
+          "coverageRatio": 1,
+          "startDelta": 0,
+          "endDelta": 0,
+          "durationRatio": 1,
+          "avgVisibility": 0.9815542435711201
+        }
+      },
+      "poseFeatures": {
+        "status": "ok",
+        "sourceSecond": 129.9,
+        "ratings": {
+          "depth": {
+            "status": "watch",
+            "label": "near parallel"
+          },
+          "torsoControl": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "kneeAlignment": {
+            "status": "good",
+            "label": "knees track feet"
+          },
+          "hipAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "kneeAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "ankleAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          }
+        },
+        "metrics": {
+          "peakDepthRatio": 0.5822,
+          "hipKneeVerticalGap": -0.0098,
+          "hipAngleDegrees": 96.3,
+          "kneeAngleDegrees": 90.4,
+          "ankleAngleDegrees": 155.6,
+          "ankleShankLeanDegrees": 11.4,
+          "trunkLeanDegrees": 1.1,
+          "leftKneeAnkleOffset": 0.0328,
+          "rightKneeAnkleOffset": -0.0206,
+          "maxKneeAnkleOffset": 0.0328,
+          "avgVisibility": 0.982,
+          "timingCoverageRatio": 1
+        }
+      },
+      "poseSuggestion": {
+        "status": "needs_heel_elevated_attempt",
+        "totalScore": null,
+        "rawAttemptScore": 2,
+        "scoringStatus": "not_scored",
+        "scoreSource": null,
+        "attemptCondition": "floor",
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 3,
+          "torsoControl": 3
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 3
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 3
+          }
+        ],
+        "confidence": 0.84,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: a floor attempt below score 3 must be followed by a heels-elevated / FMS board attempt before assigning the Deep Squat final score.",
+          "Depth suggested 2: near parallel.",
+          "Knee alignment suggested 3: knees track feet.",
+          "Torso control was not scored from this camera view (best from side view)."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged",
+        "boardDetection": {
+          "status": "unknown",
+          "source": "insufficient_visual_evidence",
+          "confidence": null,
+          "reasonCodes": ["no_board_metadata_or_visual_detector_result"],
+          "attemptCondition": null,
+          "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+          "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+        }
+      },
+      "poseEvidenceGate": {
+        "status": "staged_scoring_needs_review",
+        "reasonCode": "deep_squat_needs_heel_elevated_attempt",
+        "canUsePoseEvidence": true,
+        "canShowPoseSuggestion": false,
+        "timingStatus": "good",
+        "featureStatus": "ok",
+        "suggestionStatus": "needs_heel_elevated_attempt"
+      },
+      "boardDetection": {
+        "status": "unknown",
+        "source": "insufficient_visual_evidence",
+        "confidence": null,
+        "reasonCodes": ["no_board_metadata_or_visual_detector_result"],
+        "attemptCondition": null,
+        "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+        "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+      }
+    },
+    {
+      "segmentId": "ds_4reps_score2_rep2",
+      "videoId": "deep-squat-4reps-score-2",
+      "actionType": "deep_squat",
+      "repetitionIndex": 2,
+      "scoreScope": "rep_raw_score",
+      "scoreAggregation": "none",
+      "repPolicy": {
+        "scoringUnit": "rep",
+        "scoreScope": "rep_raw_score",
+        "aggregationPolicy": "none_in_current_scope",
+        "sidePolicy": "not_lateralized",
+        "expectedSideValues": [],
+        "defaultSide": "none",
+        "aiSideInference": "not_applicable",
+        "clearingPolicy": "none",
+        "clearingTests": [],
+        "painPolicy": "human_observed_or_reported"
+      },
+      "movementCapability": {
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      "cameraView": "front",
+      "side": "none",
+      "attemptCondition": "floor",
+      "sideSource": "unconfirmed",
+      "startSecond": 161.2,
+      "endSecond": 166.75,
+      "originalStartSecond": 160.8,
+      "originalEndSecond": 168.8,
+      "segmentSource": "ai_draft_from_pose_window",
+      "painFlag": false,
+      "clearingTest": "not_applicable",
+      "clearingFindings": [],
+      "rubricVersion": "fms_v1.0",
+      "rubricCriteria": [
+        {
+          "genericKey": "depth",
+          "criterionKey": "deep_squat_depth",
+          "label": "Depth"
+        },
+        {
+          "genericKey": "kneeAlignment",
+          "criterionKey": "deep_squat_knee_alignment",
+          "label": "Knee Alignment"
+        },
+        {
+          "genericKey": "torsoControl",
+          "criterionKey": "deep_squat_torso_control",
+          "label": "Torso Control"
+        }
+      ],
+      "aiSuggestion": null,
+      "aiSideSuggestion": {
+        "status": "not_applicable",
+        "source": "rep_policy",
+        "side": "none",
+        "confidence": null,
+        "confidenceStatus": "not_applicable",
+        "reviewerSide": "none",
+        "matchesReviewerSide": null,
+        "sourceSecond": null,
+        "reasonCode": "not_lateralized",
+        "evidence": {
+          "sidePolicy": "not_lateralized",
+          "aiSideInference": "not_applicable"
+        }
+      },
+      "reviewerA": {
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "not_scored",
+        "comment": "Floor attempt below score-3 path; retained as Deep Squat protocol evidence, not final scoring.",
+        "totalScore": null,
+        "subscores": {
+          "depth": null,
+          "kneeAlignment": null,
+          "torsoControl": null
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": null
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": null
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": null
+          }
+        ],
+        "reviewerId": "Coach_in_video"
+      },
+      "reviewerB": {
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "not_scored",
+        "comment": "No heel elevation in this floor attempt; use later board attempt for final Deep Squat score.",
+        "totalScore": null,
+        "subscores": {
+          "depth": null,
+          "kneeAlignment": null,
+          "torsoControl": null
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": null
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": null
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": null
+          }
+        ],
+        "reviewerId": "Coach_Ronnie"
+      },
+      "finalLabel": null,
+      "labelStatus": "protocol_evidence",
+      "adjudicationSource": "deep_squat_floor_attempt_not_final_scoring",
+      "reviewStatus": "protocol_evidence",
+      "poseTiming": {
+        "status": "good",
+        "label": "Timing looks complete",
+        "currentStartSecond": 161.2,
+        "currentEndSecond": 166.75,
+        "suggestedStartSecond": 161.2,
+        "suggestedEndSecond": 166.75,
+        "lowestPointSecond": 165.3,
+        "issues": [],
+        "metrics": {
+          "detectedCycles": 1,
+          "coverageRatio": 1,
+          "startDelta": 0,
+          "endDelta": 0,
+          "durationRatio": 1,
+          "avgVisibility": 0.9730021503000034
+        }
+      },
+      "poseFeatures": {
+        "status": "ok",
+        "sourceSecond": 165.3,
+        "ratings": {
+          "depth": {
+            "status": "watch",
+            "label": "near parallel"
+          },
+          "torsoControl": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "kneeAlignment": {
+            "status": "good",
+            "label": "knees track feet"
+          },
+          "hipAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "kneeAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          },
+          "ankleAngle": {
+            "status": "not_applicable",
+            "label": "best from side view"
+          }
+        },
+        "metrics": {
+          "peakDepthRatio": 0.5838,
+          "hipKneeVerticalGap": 0.0006,
+          "hipAngleDegrees": 96,
+          "kneeAngleDegrees": 91.6,
+          "ankleAngleDegrees": 152.1,
+          "ankleShankLeanDegrees": 8.6,
+          "trunkLeanDegrees": 6.7,
+          "leftKneeAnkleOffset": 0.004,
+          "rightKneeAnkleOffset": -0.0364,
+          "maxKneeAnkleOffset": 0.0364,
+          "avgVisibility": 0.973,
+          "timingCoverageRatio": 1
+        }
+      },
+      "poseSuggestion": {
+        "status": "needs_heel_elevated_attempt",
+        "totalScore": null,
+        "rawAttemptScore": 2,
+        "scoringStatus": "not_scored",
+        "scoreSource": null,
+        "attemptCondition": "floor",
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 3,
+          "torsoControl": 3
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 3
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 3
+          }
+        ],
+        "confidence": 0.84,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: a floor attempt below score 3 must be followed by a heels-elevated / FMS board attempt before assigning the Deep Squat final score.",
+          "Depth suggested 2: near parallel.",
+          "Knee alignment suggested 3: knees track feet.",
+          "Torso control was not scored from this camera view (best from side view)."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged",
+        "boardDetection": {
+          "status": "unknown",
+          "source": "insufficient_visual_evidence",
+          "confidence": null,
+          "reasonCodes": ["no_board_metadata_or_visual_detector_result"],
+          "attemptCondition": null,
+          "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+          "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+        }
+      },
+      "poseEvidenceGate": {
+        "status": "staged_scoring_needs_review",
+        "reasonCode": "deep_squat_needs_heel_elevated_attempt",
+        "canUsePoseEvidence": true,
+        "canShowPoseSuggestion": false,
+        "timingStatus": "good",
+        "featureStatus": "ok",
+        "suggestionStatus": "needs_heel_elevated_attempt"
+      },
+      "boardDetection": {
+        "status": "unknown",
+        "source": "insufficient_visual_evidence",
+        "confidence": null,
+        "reasonCodes": ["no_board_metadata_or_visual_detector_result"],
+        "attemptCondition": null,
+        "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+        "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+      }
+    },
+    {
+      "segmentId": "ds_4reps_score2_rep3",
+      "videoId": "deep-squat-4reps-score-2",
+      "actionType": "deep_squat",
+      "repetitionIndex": 3,
+      "scoreScope": "rep_raw_score",
+      "scoreAggregation": "none",
+      "repPolicy": {
+        "scoringUnit": "rep",
+        "scoreScope": "rep_raw_score",
+        "aggregationPolicy": "none_in_current_scope",
+        "sidePolicy": "not_lateralized",
+        "expectedSideValues": [],
+        "defaultSide": "none",
+        "aiSideInference": "not_applicable",
+        "clearingPolicy": "none",
+        "clearingTests": [],
+        "painPolicy": "human_observed_or_reported"
+      },
+      "movementCapability": {
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      "cameraView": "side",
+      "side": "none",
+      "attemptCondition": "heels_elevated_board",
+      "sideSource": "unconfirmed",
+      "startSecond": 218.4,
+      "endSecond": 222.75,
+      "originalStartSecond": 217.3,
+      "originalEndSecond": 226.2,
+      "segmentSource": "ai_draft_from_pose_window",
+      "painFlag": false,
+      "clearingTest": "not_applicable",
+      "clearingFindings": [],
+      "rubricVersion": "fms_v1.0",
+      "rubricCriteria": [
+        {
+          "genericKey": "depth",
+          "criterionKey": "deep_squat_depth",
+          "label": "Depth"
+        },
+        {
+          "genericKey": "kneeAlignment",
+          "criterionKey": "deep_squat_knee_alignment",
+          "label": "Knee Alignment"
+        },
+        {
+          "genericKey": "torsoControl",
+          "criterionKey": "deep_squat_torso_control",
+          "label": "Torso Control"
+        }
+      ],
+      "aiSuggestion": {
+        "segmentId": "ds_4reps_score2_rep3",
+        "repetitionIndex": 3,
+        "attemptCondition": "heels_elevated_board",
+        "status": "suggested",
+        "scoringStatus": "scored",
+        "scoreSource": "pose_features",
+        "totalScore": 2,
+        "rawAttemptScore": 3,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "confidence": 0.82,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: heels-elevated / FMS board attempts are capped at score 2.",
+          "Depth suggested 3: hip below knee.",
+          "Knee alignment was not scored from this camera view (best from front view).",
+          "Torso control suggested 3: controlled trunk."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged"
+      },
+      "aiSideSuggestion": {
+        "status": "not_applicable",
+        "source": "rep_policy",
+        "side": "none",
+        "confidence": null,
+        "confidenceStatus": "not_applicable",
+        "reviewerSide": "none",
+        "matchesReviewerSide": null,
+        "sourceSecond": null,
+        "reasonCode": "not_lateralized",
+        "evidence": {
+          "sidePolicy": "not_lateralized",
+          "aiSideInference": "not_applicable"
+        }
+      },
+      "reviewerA": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored",
+        "reviewerId": "Coach_in_video",
+        "comment": "Heels-elevated/FMS-board attempt supports Deep Squat score 2."
+      },
+      "reviewerB": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored",
+        "reviewerId": "Coach_Ronnie",
+        "comment": "Heels are elevated on board; final valid label for this rep is 2."
+      },
+      "finalLabel": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored"
+      },
+      "labelStatus": "valid",
+      "adjudicationSource": "human_consensus",
+      "reviewStatus": "completed",
+      "poseTiming": {
+        "status": "good",
+        "label": "Timing looks complete",
+        "currentStartSecond": 218.4,
+        "currentEndSecond": 222.75,
+        "suggestedStartSecond": 218.4,
+        "suggestedEndSecond": 222.75,
+        "lowestPointSecond": 221.7,
+        "issues": [],
+        "metrics": {
+          "detectedCycles": 1,
+          "coverageRatio": 1,
+          "startDelta": 0,
+          "endDelta": 0,
+          "durationRatio": 1,
+          "avgVisibility": 0.9243500542008516
+        }
+      },
+      "poseFeatures": {
+        "status": "ok",
+        "sourceSecond": 221.7,
+        "ratings": {
+          "depth": {
+            "status": "good",
+            "label": "hip below knee"
+          },
+          "torsoControl": {
+            "status": "good",
+            "label": "controlled trunk"
+          },
+          "kneeAlignment": {
+            "status": "not_applicable",
+            "label": "best from front view"
+          },
+          "hipAngle": {
+            "status": "good",
+            "label": "deep hip flexion"
+          },
+          "kneeAngle": {
+            "status": "good",
+            "label": "deep knee flexion"
+          },
+          "ankleAngle": {
+            "status": "watch",
+            "label": "ankle mobility watch"
+          }
+        },
+        "metrics": {
+          "peakDepthRatio": 0.7082,
+          "hipKneeVerticalGap": 0.0302,
+          "hipAngleDegrees": 68.3,
+          "kneeAngleDegrees": 56.9,
+          "ankleAngleDegrees": 149.2,
+          "ankleShankLeanDegrees": 17.6,
+          "trunkLeanDegrees": 6.2,
+          "leftKneeAnkleOffset": -0.0253,
+          "rightKneeAnkleOffset": -0.079,
+          "maxKneeAnkleOffset": 0.079,
+          "avgVisibility": 0.924,
+          "timingCoverageRatio": 1
+        }
+      },
+      "poseSuggestion": {
+        "status": "suggested",
+        "totalScore": 2,
+        "rawAttemptScore": 3,
+        "scoringStatus": "scored",
+        "scoreSource": "pose_features",
+        "attemptCondition": "heels_elevated_board",
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "confidence": 0.82,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: heels-elevated / FMS board attempts are capped at score 2.",
+          "Depth suggested 3: hip below knee.",
+          "Knee alignment was not scored from this camera view (best from front view).",
+          "Torso control suggested 3: controlled trunk."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged",
+        "boardDetection": {
+          "status": "detected",
+          "source": "segment_metadata",
+          "confidence": 0.96,
+          "reasonCodes": ["segment_attempt_condition_heels_elevated_board"],
+          "attemptCondition": "heels_elevated_board",
+          "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+          "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+        }
+      },
+      "poseEvidenceGate": {
+        "status": "ready",
+        "reasonCode": "ready",
+        "canUsePoseEvidence": true,
+        "canShowPoseSuggestion": true,
+        "timingStatus": "good",
+        "featureStatus": "ok",
+        "suggestionStatus": "suggested"
+      },
+      "boardDetection": {
+        "status": "detected",
+        "source": "segment_metadata",
+        "confidence": 0.96,
+        "reasonCodes": ["segment_attempt_condition_heels_elevated_board"],
+        "attemptCondition": "heels_elevated_board",
+        "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+        "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+      }
+    },
+    {
+      "segmentId": "ds_4reps_score2_rep4",
+      "videoId": "deep-squat-4reps-score-2",
+      "actionType": "deep_squat",
+      "repetitionIndex": 4,
+      "scoreScope": "rep_raw_score",
+      "scoreAggregation": "none",
+      "repPolicy": {
+        "scoringUnit": "rep",
+        "scoreScope": "rep_raw_score",
+        "aggregationPolicy": "none_in_current_scope",
+        "sidePolicy": "not_lateralized",
+        "expectedSideValues": [],
+        "defaultSide": "none",
+        "aiSideInference": "not_applicable",
+        "clearingPolicy": "none",
+        "clearingTests": [],
+        "painPolicy": "human_observed_or_reported"
+      },
+      "movementCapability": {
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      "cameraView": "side",
+      "side": "none",
+      "attemptCondition": "heels_elevated_board",
+      "sideSource": "unconfirmed",
+      "startSecond": 233.3,
+      "endSecond": 236.55,
+      "originalStartSecond": 233.3,
+      "originalEndSecond": 241,
+      "segmentSource": "ai_draft_from_pose_window",
+      "painFlag": false,
+      "clearingTest": "not_applicable",
+      "clearingFindings": [],
+      "rubricVersion": "fms_v1.0",
+      "rubricCriteria": [
+        {
+          "genericKey": "depth",
+          "criterionKey": "deep_squat_depth",
+          "label": "Depth"
+        },
+        {
+          "genericKey": "kneeAlignment",
+          "criterionKey": "deep_squat_knee_alignment",
+          "label": "Knee Alignment"
+        },
+        {
+          "genericKey": "torsoControl",
+          "criterionKey": "deep_squat_torso_control",
+          "label": "Torso Control"
+        }
+      ],
+      "aiSuggestion": {
+        "segmentId": "ds_4reps_score2_rep4",
+        "repetitionIndex": 4,
+        "attemptCondition": "heels_elevated_board",
+        "status": "suggested",
+        "scoringStatus": "scored",
+        "scoreSource": "pose_features",
+        "totalScore": 2,
+        "rawAttemptScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "confidence": 0.79,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: this is a heels-elevated / FMS board attempt, so it can support the score-2 path.",
+          "Depth suggested 2: near parallel.",
+          "Knee alignment was not scored from this camera view (best from front view).",
+          "Torso control suggested 3: controlled trunk."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged"
+      },
+      "aiSideSuggestion": {
+        "status": "not_applicable",
+        "source": "rep_policy",
+        "side": "none",
+        "confidence": null,
+        "confidenceStatus": "not_applicable",
+        "reviewerSide": "none",
+        "matchesReviewerSide": null,
+        "sourceSecond": null,
+        "reasonCode": "not_lateralized",
+        "evidence": {
+          "sidePolicy": "not_lateralized",
+          "aiSideInference": "not_applicable"
+        }
+      },
+      "reviewerA": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored",
+        "reviewerId": "Coach_in_video",
+        "comment": "Heels-elevated/FMS-board attempt supports Deep Squat score 2."
+      },
+      "reviewerB": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored",
+        "reviewerId": "Coach_Ronnie",
+        "comment": "Heels are elevated on board; final valid label for this rep is 2."
+      },
+      "finalLabel": {
+        "totalScore": 2,
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "scoreScope": "rep_raw_score",
+        "scoreBasis": "scoresheet_like_raw_score",
+        "usesCriteriaScores": false,
+        "scoringStatus": "scored"
+      },
+      "labelStatus": "valid",
+      "adjudicationSource": "human_consensus",
+      "reviewStatus": "completed",
+      "poseTiming": {
+        "status": "good",
+        "label": "Timing looks complete",
+        "currentStartSecond": 233.3,
+        "currentEndSecond": 236.55,
+        "suggestedStartSecond": 233.3,
+        "suggestedEndSecond": 236.55,
+        "lowestPointSecond": 235.6,
+        "issues": [],
+        "metrics": {
+          "detectedCycles": 2,
+          "coverageRatio": 1,
+          "startDelta": 0,
+          "endDelta": 0,
+          "durationRatio": 1,
+          "avgVisibility": 0.833180796166863
+        }
+      },
+      "poseFeatures": {
+        "status": "ok",
+        "sourceSecond": 235.6,
+        "ratings": {
+          "depth": {
+            "status": "watch",
+            "label": "near parallel"
+          },
+          "torsoControl": {
+            "status": "good",
+            "label": "controlled trunk"
+          },
+          "kneeAlignment": {
+            "status": "not_applicable",
+            "label": "best from front view"
+          },
+          "hipAngle": {
+            "status": "good",
+            "label": "deep hip flexion"
+          },
+          "kneeAngle": {
+            "status": "good",
+            "label": "deep knee flexion"
+          },
+          "ankleAngle": {
+            "status": "limited",
+            "label": "limited ankle proxy"
+          }
+        },
+        "metrics": {
+          "peakDepthRatio": 0.6163,
+          "hipKneeVerticalGap": 0.0224,
+          "hipAngleDegrees": 60.1,
+          "kneeAngleDegrees": 55.1,
+          "ankleAngleDegrees": 154.2,
+          "ankleShankLeanDegrees": 7.7,
+          "trunkLeanDegrees": 2.3,
+          "leftKneeAnkleOffset": 0.0024,
+          "rightKneeAnkleOffset": -0.0595,
+          "maxKneeAnkleOffset": 0.0595,
+          "avgVisibility": 0.833,
+          "timingCoverageRatio": 1
+        }
+      },
+      "poseSuggestion": {
+        "status": "suggested",
+        "totalScore": 2,
+        "rawAttemptScore": 2,
+        "scoringStatus": "scored",
+        "scoreSource": "pose_features",
+        "attemptCondition": "heels_elevated_board",
+        "subscores": {
+          "depth": 2,
+          "kneeAlignment": 2,
+          "torsoControl": 2
+        },
+        "criteriaScores": [
+          {
+            "genericKey": "depth",
+            "criterionKey": "deep_squat_depth",
+            "label": "Depth",
+            "score": 2
+          },
+          {
+            "genericKey": "kneeAlignment",
+            "criterionKey": "deep_squat_knee_alignment",
+            "label": "Knee Alignment",
+            "score": 2
+          },
+          {
+            "genericKey": "torsoControl",
+            "criterionKey": "deep_squat_torso_control",
+            "label": "Torso Control",
+            "score": 2
+          }
+        ],
+        "confidence": 0.79,
+        "confidenceLabel": "high",
+        "reasons": [
+          "FMS staged scoring: this is a heels-elevated / FMS board attempt, so it can support the score-2 path.",
+          "Depth suggested 2: near parallel.",
+          "Knee alignment was not scored from this camera view (best from front view).",
+          "Torso control suggested 3: controlled trunk."
+        ],
+        "modelVersion": "pose-features-v0.2-fms-staged",
+        "boardDetection": {
+          "status": "detected",
+          "source": "segment_metadata",
+          "confidence": 0.96,
+          "reasonCodes": ["segment_attempt_condition_heels_elevated_board"],
+          "attemptCondition": "heels_elevated_board",
+          "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+          "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+        }
+      },
+      "poseEvidenceGate": {
+        "status": "ready",
+        "reasonCode": "ready",
+        "canUsePoseEvidence": true,
+        "canShowPoseSuggestion": true,
+        "timingStatus": "good",
+        "featureStatus": "ok",
+        "suggestionStatus": "suggested"
+      },
+      "boardDetection": {
+        "status": "detected",
+        "source": "segment_metadata",
+        "confidence": 0.96,
+        "reasonCodes": ["segment_attempt_condition_heels_elevated_board"],
+        "attemptCondition": "heels_elevated_board",
+        "modelVersion": "deep-squat-board-detector-v0.1-protocol-metadata",
+        "limitations": "First-pass board detection uses explicit protocol metadata, notes, and curated sample patterns. It does not yet inspect raw video pixels."
+      }
+    }
+  ],
+  "poseEvidence": {
+    "schemaVersion": "ai_fms_pose_evidence_v1_draft",
+    "source": "client_uploaded_pose_json",
+    "poseFileName": "4reps score 2.pose.json",
+    "poseSummary": {
+      "valid": true,
+      "issues": [],
+      "schemaVersion": "ai_fms_pose_landmarks_v1",
+      "videoId": "deep-squat-4reps-score-2",
+      "fileName": "4reps score 2.mp4",
+      "poseModel": "mediapipe_pose_landmarker",
+      "framesTotal": 347,
+      "framesWithPose": 345,
+      "missingFrames": 2,
+      "missingFramesRatio": 0.005763688760806916,
+      "avgVisibility": 0.9121544943221785,
+      "avgPresence": null
+    },
+    "implementedPoseActionTypes": ["deep_squat"],
+    "movementCapabilities": [
+      {
+        "actionType": "deep_squat",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      {
+        "actionType": "active_straight_leg_raise",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      {
+        "actionType": "hurdle_step",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      {
+        "actionType": "in_line_lunge",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": true
+      },
+      {
+        "actionType": "shoulder_mobility",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": false
+      },
+      {
+        "actionType": "trunk_stability_push_up",
+        "posePipelineStatus": "implemented",
+        "aiScoringStatus": "pose_based_ai_suggestion",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": true,
+        "supportsAiDraftTiming": false
+      },
+      {
+        "actionType": "rotary_stability",
+        "posePipelineStatus": "features_only",
+        "aiScoringStatus": "pose_evidence_only",
+        "supportsPoseTiming": true,
+        "supportsPoseFeatures": true,
+        "supportsPoseSuggestion": false,
+        "supportsAiDraftTiming": false
+      }
+    ],
+    "plannedActionTypes": [
+      "hurdle_step",
+      "in_line_lunge",
+      "shoulder_mobility",
+      "active_straight_leg_raise",
+      "trunk_stability_push_up",
+      "rotary_stability"
+    ],
+    "reports": {
+      "timingSummary": {
+        "segmentsTotal": 4,
+        "detectedCycles": 4,
+        "goodCount": 4,
+        "needsAdjustmentCount": 0,
+        "issueCounts": {},
+        "cycleCountQa": {
+          "status": "ok",
+          "issues": []
+        },
+        "expectedSegments": 4,
+        "candidateCyclesTotal": 4
+      },
+      "featureSummary": {
+        "repetitionsTotal": 4,
+        "usableRepetitions": 4,
+        "avgPeakDepthRatio": 0.623,
+        "avgVisibility": 0.928,
+        "ratingCounts": {
+          "depth": {
+            "watch": 3,
+            "good": 1
+          },
+          "torsoControl": {
+            "not_applicable": 2,
+            "good": 2
+          },
+          "kneeAlignment": {
+            "good": 2,
+            "not_applicable": 2
+          },
+          "hipAngle": {
+            "not_applicable": 2,
+            "good": 2
+          },
+          "kneeAngle": {
+            "not_applicable": 2,
+            "good": 2
+          },
+          "ankleAngle": {
+            "not_applicable": 2,
+            "watch": 1,
+            "limited": 1
+          }
+        }
+      },
+      "suggestionSummary": {
+        "segmentsTotal": 4,
+        "scoredSegments": 2,
+        "stagedReviewCount": 2,
+        "lowConfidenceCount": 0,
+        "minSuggestedScore": 2
+      }
+    },
+    "limitations": "Raw landmark frames are not embedded. This export stores traceable pose-derived evidence for reviewer inspection and future dataset training."
+  },
+  "sourceFiles": {
+    "videoPath": "/Users/ronnie/Desktop/Codex-Projects/AI-FMS/Eval_Videos/Sample videos/1-Squat/4reps score 2.mp4",
+    "poseJsonPath": "/Users/ronnie/Desktop/Codex-Projects/AI-FMS/Eval_Videos/Sample videos/1-Squat/pose/4reps score 2.pose.json"
+  },
+  "reviewSummary": {
+    "reviewerReadiness": {
+      "allSegmentsCount": 4,
+      "completedSegmentsCount": 4,
+      "scoreableCompletedSegmentsCount": 2,
+      "protocolEvidenceSegmentsCount": 2,
+      "readyForIngest": true,
+      "blockingReasons": []
+    },
+    "ingestSummary": {
+      "segmentsTotal": 4,
+      "segmentsValid": 2,
+      "segmentsInvalid": 0,
+      "segmentsProtocolEvidence": 2
+    },
+    "consistency": {
+      "segmentsTotal": 4,
+      "validCount": 2,
+      "invalidCount": 0,
+      "pendingCount": 0,
+      "protocolEvidenceCount": 2,
+      "aiMatchesFinalCount": 2,
+      "aiDiffersFromFinalCount": 0,
+      "reviewerConsensusCount": 2,
+      "reviewerDisagreementCount": 0,
+      "reviewerPairCount": 2,
+      "reviewerAgreementRate": 1,
+      "aiMatchesFinalRate": 1,
+      "movementBreakdown": {
+        "deep_squat": {
+          "segmentsTotal": 4,
+          "validCount": 2,
+          "invalidCount": 0,
+          "pendingCount": 0,
+          "protocolEvidenceCount": 2
+        }
+      }
+    },
+    "finalDeepSquatInterpretation": {
+      "finalScore": 2,
+      "basis": "FMS staged Deep Squat rule: floor attempts did not earn 3; heels-elevated/FMS-board attempts support score 2."
+    }
+  }
+}

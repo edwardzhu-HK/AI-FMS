@@ -149,6 +149,10 @@ test("getActionRepPolicy describes rep-level side and clearing semantics", () =>
 test("createDefaultSegmentMetadata defaults lateralized actions to unknown side", () => {
   assert.equal(createDefaultSegmentMetadata("hurdle_step").side, "unknown");
   assert.equal(createDefaultSegmentMetadata("deep_squat").side, "none");
+  assert.equal(
+    createDefaultSegmentMetadata("deep_squat").attemptCondition,
+    "floor",
+  );
   assert.deepEqual(
     createDefaultSegmentMetadata("shoulder_mobility").clearingFindings,
     [

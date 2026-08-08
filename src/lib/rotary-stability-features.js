@@ -326,6 +326,9 @@ function buildFeatureItem({ posePayload, timingItem }) {
       sideConfidence: toFixedNumber(sideConfidence, 3),
       timingVisibility: toFixedNumber(timingItem.metrics?.avgVisibility, 3),
     },
+    manualScoreOverride: timingItem.cycle.manualScoreOverride ?? null,
+    manualScoreSource: timingItem.cycle.manualScoreSource ?? null,
+    manualScoreReason: timingItem.cycle.manualScoreReason ?? null,
   };
 }
 
