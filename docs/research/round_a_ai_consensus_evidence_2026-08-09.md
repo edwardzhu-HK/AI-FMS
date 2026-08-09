@@ -40,6 +40,12 @@ Round A 未进入总分比较的 10 条由两类明确边界构成：8 条 Rotar
 feature-only，以及 2 条 Deep Squat 缺少 floor / heels-elevated board
 `attemptCondition`。
 
+冻结基线之后完成了九条定向复核。补入双 reviewer 与画面共同确认的 Deep Squat
+protocol metadata 后，post-audit sensitivity 为 11/17 完全同分、15/17 相差不超过
+1 分、MAE 0.4706。该结果与基线并列保存，不回写或替代基线，也不表述为训练后的
+准确率提升。详细证据见
+`docs/research/round_a_targeted_ai_difference_audit_2026-08-09.md`。
+
 ### 按动作
 
 | 动作             | Consensus | 可比较 | 完全同分 | 相差不超过 1 分 |    MAE |
@@ -60,23 +66,23 @@ evidence，而不是自动诊断或自动替代 reviewer。
 
 ### 2. ASLR 是最高优先级规则复核点
 
-两条人工 3 分被 AI 判为 1 分，均涉及 stationary-leg control proxy。两条来自不同
-源视频，因此不能只用单一视频异常解释。应先做逐帧动作定义和阈值复核，不能直接用这
-26 条标签重新调参并报告同一批数据上的“改进准确率”。
+两条人工 3 分被 AI 判为 1 分。定向复核后，一条暴露 feature row active side 与两位
+reviewer 判断不一致，另一条存在杆放错侧、reviewer low confidence 和疑似 pose 遮挡。
+二者均不适合直接用来移动阈值，应先修复 active-side/peak selection 和 pose QA。
 
 ### 3. Hurdle Step 缺少部分人工定性扣分信息
 
 人工 2 分的 4 条中，AI 有 3 条判为 3 分；人工 3 分的 4 条中，AI 有 1 条判为 2 分。
-这说明现有几何 proxy 能描述动作，但没有完整覆盖 hurdle contact、balance、pelvis/trunk
-control 等人工判分依据。后续复核应连接视频时间段和 reviewer note，而不是只改一个
-阈值。
+这说明现有几何 proxy 能描述动作，但没有完整覆盖恢复阶段的膝踝轨迹、动态躯干控制
+和 dowel 方向。四条复核分别落在 dynamic-path、missing-dowel-feature 和 side-view
+低置信度边界，不支持只改一个阈值。
 
 ### 4. Deep Squat 首先是 metadata 问题
 
 全池 31 条 feature-ready Deep Squat 中，只有 9 条满足当前最终分生成条件，22 条因
-缺少 staged-attempt metadata 被规则门禁。Round A 中也有 2/4 因此不产生最终分。
-另有 1 条可比较 rep 比人工共识高 1 分。应建立直观的 `floor` /
-`heels_elevated_board` 标注流程，并复核该分数差异；禁止从带分数文件名反推。
+缺少 staged-attempt metadata 被规则门禁。Round A 复核确认两条 heels-elevated
+attempt：现有规则在字段补齐后均正确输出 2 分。另一条 floor attempt 的 AI raw score
+仍为 2、人工为 3，并被明确标记为需要第二阶段动作，而不是继续误报 metadata 缺失。
 
 ### 5. Rotary Stability 的保守策略正确
 
@@ -85,17 +91,17 @@ control 等人工判分依据。后续复核应连接视频时间段和 reviewer
 
 ## 下一步决策
 
-1. 逐帧复核 2 条 ASLR 大分差、4 条 Hurdle 分歧和 1 条 Deep Squat 分数差异，判断
-   是阈值、动作定义、机位还是 pose tracking 问题。
-2. 复核 2 条 Deep Squat protocol gap，并建立友好的 staged-attempt metadata
-   补录界面和可审计输出。
-3. 在上述复核前不定向采集大量新数据；复核后再决定是否优先补充独立来源的 ASLR
-   1/2 分与 Hurdle 2/3 分视频。
-4. Round B 继续使用当前冻结 evidence，不因本次对照结果临时调参，避免污染两轮比较。
+1. [x] 完成 2 条 ASLR、4 条 Hurdle 和 3 条 Deep Squat 定向逐帧复核。
+2. [x] 补齐 3 条 Deep Squat `attemptCondition` audit，并修复字段进入 staged rule
+       的分析通路。
+3. Round B 前不修改 ASLR/Hurdle 阈值；之后优先在独立视频上验证 active-side、
+   cycle-level knee/ankle path、trunk motion 和 dowel orientation。
+4. 再依据这些机制性缺口决定定向补采，而不是泛化地增加同源 rep。
 
 ## 可复现证据
 
 - 命令：`npm run study:ai-evidence:round-a`
 - 输出：`research/pilot-v1/generated/round-a-ai-evidence/`
-- 文件：analysis JSON、comparison CSV、follow-up queue CSV、中文报告和 SHA-256
+- 文件：analysis JSON、baseline/sensitivity comparison CSV、targeted audit CSV、
+  follow-up queue、中文报告和 SHA-256
 - Rule fingerprint：`74d7b5d0ef59edc5785c5b39c61d30a65149eb4e35d1e01445a17c5e319818d8`

@@ -49,6 +49,7 @@ function buildTimingReport(row) {
 }
 
 function buildSegment(row, protocolMetadata) {
+  const attemptCondition = protocolMetadata?.attemptCondition ?? null;
   return {
     segmentId: row.repetitionId,
     repetitionIndex: row.repetitionIndex,
@@ -57,13 +58,38 @@ function buildSegment(row, protocolMetadata) {
     endSecond: row.endSecond,
     cameraView: row.cameraView,
     side: row.side,
+    attemptCondition,
     metadata: {
-      attemptCondition: protocolMetadata?.attemptCondition ?? null,
+      attemptCondition,
     },
   };
 }
 
-function exclusionReason(row, suggestionItem) {
+function auditedProtocolMetadata(protocolMetadataAudit) {
+  if (!protocolMetadataAudit) return new Map();
+  if (!Array.isArray(protocolMetadataAudit.rows)) {
+    throw new Error("protocol metadata audit rows are required");
+  }
+
+  const rows = protocolMetadataAudit.rows.filter(
+    (row) => row.protocolMetadata?.attemptCondition,
+  );
+  const result = new Map();
+  for (const row of rows) {
+    if (result.has(row.repetitionId)) {
+      throw new Error(
+        `duplicate protocol metadata audit row ${row.repetitionId}`,
+      );
+    }
+    result.set(row.repetitionId, {
+      attemptCondition: row.protocolMetadata.attemptCondition,
+      source: "post_round_a_targeted_audit",
+    });
+  }
+  return result;
+}
+
+function exclusionReason(row, suggestionItem, protocolMetadata) {
   if (row.quality?.analysisReadiness !== "ready") {
     return "quality_limited";
   }
@@ -76,7 +102,9 @@ function exclusionReason(row, suggestionItem) {
     return null;
   }
   if (suggestionItem.status === "needs_heel_elevated_attempt") {
-    return "protocol_metadata_required";
+    return protocolMetadata?.attemptCondition === "floor"
+      ? "staged_followup_attempt_required"
+      : "protocol_metadata_required";
   }
   return suggestionItem.status ?? "suggestion_unavailable";
 }
@@ -112,7 +140,11 @@ function summarizeSuggestionUniverse(rows) {
   };
 }
 
-export function buildLeakageFreeAiSuggestions({ featureMatrix, canonical }) {
+export function buildLeakageFreeAiSuggestions({
+  featureMatrix,
+  canonical,
+  protocolMetadataAudit = null,
+}) {
   if (!Array.isArray(featureMatrix?.rows)) {
     throw new Error("feature matrix rows are required");
   }
@@ -123,9 +155,22 @@ export function buildLeakageFreeAiSuggestions({ featureMatrix, canonical }) {
   const protocolByRepetition = new Map(
     canonical.repetitions.map((row) => [
       row.repetitionId,
-      { attemptCondition: row.attemptCondition ?? null },
+      {
+        attemptCondition: row.attemptCondition ?? null,
+        source: row.attemptCondition ? "canonical" : "missing",
+      },
     ]),
   );
+  for (const [repetitionId, metadata] of auditedProtocolMetadata(
+    protocolMetadataAudit,
+  )) {
+    if (!protocolByRepetition.has(repetitionId)) {
+      throw new Error(
+        `protocol metadata audit references unknown repetition ${repetitionId}`,
+      );
+    }
+    protocolByRepetition.set(repetitionId, metadata);
+  }
   const rows = featureMatrix.rows.map((row) => {
     if (!protocolByRepetition.has(row.repetitionId)) {
       throw new Error(`canonical protocol row is missing ${row.repetitionId}`);
@@ -136,10 +181,8 @@ export function buildLeakageFreeAiSuggestions({ featureMatrix, canonical }) {
     }
     const featureItem = buildFeatureItem(row);
     const timingReport = buildTimingReport(row);
-    const segment = buildSegment(
-      row,
-      protocolByRepetition.get(row.repetitionId),
-    );
+    const protocolMetadata = protocolByRepetition.get(row.repetitionId);
+    const segment = buildSegment(row, protocolMetadata);
     const report = adapter.buildSuggestionReport({
       featureReport: { items: [featureItem] },
       timingReport,
@@ -148,7 +191,7 @@ export function buildLeakageFreeAiSuggestions({ featureMatrix, canonical }) {
       fileName: "",
     });
     const suggestionItem = report?.items?.[0] ?? null;
-    const reason = exclusionReason(row, suggestionItem);
+    const reason = exclusionReason(row, suggestionItem, protocolMetadata);
     return {
       repetitionId: row.repetitionId,
       ingestId: row.ingestId,
@@ -171,6 +214,8 @@ export function buildLeakageFreeAiSuggestions({ featureMatrix, canonical }) {
       confidenceLabel: suggestionItem?.confidenceLabel ?? null,
       modelVersion:
         suggestionItem?.modelVersion ?? report?.modelVersion ?? null,
+      protocolMetadataSource: protocolMetadata.source,
+      attemptCondition: protocolMetadata.attemptCondition,
       comparisonEligible: reason === null,
       exclusionReason: reason,
     };

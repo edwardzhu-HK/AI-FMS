@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "ai_fms_round_a_targeted_ai_audit_v1",
+  "pilotId": "ai-fms-four-movement-core-2026-08-09",
+  "studyRound": "round_a",
+  "auditedAt": "2026-08-09",
+  "scope": {
+    "actionableFollowUps": 9,
+    "sampleFramesPerRep": 5,
+    "reviewers": ["Ronnie", "Other Reviewer"]
+  },
+  "policy": {
+    "baselineAnalysisPreserved": true,
+    "reviewerScoresUsedToTuneThresholds": false,
+    "protocolMetadataSensitivityIsPostHoc": true,
+    "interpretation": "targeted_error_analysis_not_model_validation"
+  },
+  "rows": [
+    {
+      "repetitionId": "rep_02b493a8dd09",
+      "actionType": "hurdle_step",
+      "humanConsensusScore": 2,
+      "aiSuggestedScore": 3,
+      "reviewerConfidence": "high",
+      "cameraView": "mixed",
+      "previewImage": "01-rep_02b493a8dd09.jpg",
+      "classification": "missing_dynamic_and_dowel_features",
+      "evidence": [
+        "Both blind reviewers reported trunk instability and a dowel that was not parallel to the hurdle.",
+        "The current proxy evaluates pose geometry at a selected peak frame and does not measure dowel orientation.",
+        "The mixed camera view further limits a single-plane geometric interpretation."
+      ],
+      "decision": "keep_as_model_limitation",
+      "recommendedAction": "Add cycle-level trunk motion and dowel-orientation evidence before considering a score-rule change."
+    },
+    {
+      "repetitionId": "rep_39e05034d0ad",
+      "actionType": "hurdle_step",
+      "humanConsensusScore": 2,
+      "aiSuggestedScore": 3,
+      "reviewerConfidence": "high",
+      "cameraView": "front",
+      "previewImage": "02-rep_39e05034d0ad.jpg",
+      "classification": "missing_recovery_phase_alignment_feature",
+      "evidence": [
+        "Both blind reviewers identified inward ankle motion during recovery.",
+        "The current step-leg alignment proxy is sampled at the selected peak frame rather than across the complete return path."
+      ],
+      "decision": "keep_as_model_limitation",
+      "recommendedAction": "Measure maximum and trajectory-based knee-ankle deviation across ascent and recovery."
+    },
+    {
+      "repetitionId": "rep_489b80ba8943",
+      "actionType": "deep_squat",
+      "humanConsensusScore": 2,
+      "aiSuggestedScore": null,
+      "reviewerConfidence": "medium",
+      "cameraView": "side",
+      "previewImage": "03-rep_489b80ba8943.jpg",
+      "classification": "protocol_metadata_gap_resolved",
+      "evidence": [
+        "Both blind reviewers independently recorded that the heels were elevated on a board.",
+        "The five-frame visual audit confirms a board under the heels."
+      ],
+      "protocolMetadata": {
+        "attemptCondition": "heels_elevated_board"
+      },
+      "decision": "include_in_post_audit_protocol_sensitivity",
+      "recommendedAction": "Persist attemptCondition in the annotation and analysis path."
+    },
+    {
+      "repetitionId": "rep_6830e0689f85",
+      "actionType": "active_straight_leg_raise",
+      "humanConsensusScore": 3,
+      "aiSuggestedScore": 1,
+      "reviewerConfidence": "high",
+      "cameraView": "side",
+      "previewImage": "04-rep_6830e0689f85.jpg",
+      "classification": "active_side_or_cycle_selection_error",
+      "evidence": [
+        "Both blind reviewers marked the active side as right while the audited feature row records left.",
+        "The sampled video shows a high active-leg position that conflicts with the low ankle-above-hip proxy used for the score."
+      ],
+      "metadataObservation": {
+        "featureRowSide": "left",
+        "blindReviewerSide": "right"
+      },
+      "decision": "debug_pose_timing_before_threshold_change",
+      "recommendedAction": "Trace active-side selection and peak-frame selection; do not calibrate the ASLR thresholds from this row."
+    },
+    {
+      "repetitionId": "rep_806af9055fd6",
+      "actionType": "hurdle_step",
+      "humanConsensusScore": 3,
+      "aiSuggestedScore": 2,
+      "reviewerConfidence": "medium",
+      "cameraView": "side",
+      "previewImage": "05-rep_806af9055fd6.jpg",
+      "classification": "view_limited_marginal_threshold",
+      "evidence": [
+        "Both blind reviewers noted that true hip-knee-ankle alignment was difficult to judge from the side view.",
+        "The step-knee line offset is 0.0363, only 0.0013 above the current watch threshold."
+      ],
+      "decision": "keep_as_uncertain_model_limitation",
+      "recommendedAction": "Treat side-view frontal alignment as low-confidence or manual-review evidence; do not move the threshold from one case."
+    },
+    {
+      "repetitionId": "rep_8333424d5d28",
+      "actionType": "active_straight_leg_raise",
+      "humanConsensusScore": 3,
+      "aiSuggestedScore": 1,
+      "reviewerConfidence": "low",
+      "cameraView": "side",
+      "previewImage": "06-rep_8333424d5d28.jpg",
+      "classification": "pose_tracking_or_protocol_setup_limitation",
+      "evidence": [
+        "Both blind reviewers reported that the dowel was placed on the wrong side and assigned low confidence.",
+        "The stationary-knee angle and ankle-drift proxies conflict with the reviewers' neutral-leg observation and may reflect occlusion or left-right tracking instability."
+      ],
+      "decision": "exclude_from_threshold_calibration",
+      "recommendedAction": "Review the pose overlay and protocol setup; retain this row as a QA example rather than a threshold anchor."
+    },
+    {
+      "repetitionId": "rep_c80a95e3ac44",
+      "actionType": "deep_squat",
+      "humanConsensusScore": 3,
+      "aiSuggestedScore": null,
+      "reviewerConfidence": "medium",
+      "cameraView": "side",
+      "previewImage": "07-rep_c80a95e3ac44.jpg",
+      "classification": "depth_proxy_disagreement",
+      "evidence": [
+        "The full-resolution visual audit confirms that the feet are on the floor; the FMS board is beside the athlete, not under the heels.",
+        "The pose proxy assigns raw score 2 while both blind reviewers assign score 3."
+      ],
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "decision": "retain_as_true_post_audit_disagreement",
+      "recommendedAction": "Review depth and torso-shank feature definitions on independent floor-attempt videos before changing thresholds."
+    },
+    {
+      "repetitionId": "rep_ce280c79a07d",
+      "actionType": "deep_squat",
+      "humanConsensusScore": 2,
+      "aiSuggestedScore": 3,
+      "reviewerConfidence": "high",
+      "cameraView": "side",
+      "previewImage": "08-rep_ce280c79a07d.jpg",
+      "classification": "protocol_metadata_gap_resolved",
+      "evidence": [
+        "Both blind reviewers independently recorded that the heels were elevated on a board.",
+        "The five-frame visual audit confirms a board under the heels; the FMS staged rule caps this attempt at 2."
+      ],
+      "protocolMetadata": {
+        "attemptCondition": "heels_elevated_board"
+      },
+      "decision": "include_in_post_audit_protocol_sensitivity",
+      "recommendedAction": "Persist attemptCondition so the existing staged-attempt rule can apply."
+    },
+    {
+      "repetitionId": "rep_d13daa76b8a8",
+      "actionType": "hurdle_step",
+      "humanConsensusScore": 2,
+      "aiSuggestedScore": 3,
+      "reviewerConfidence": "high",
+      "cameraView": "front",
+      "previewImage": "09-rep_d13daa76b8a8.jpg",
+      "classification": "missing_dynamic_frontal_alignment_feature",
+      "evidence": [
+        "Both blind reviewers identified inward knee and ankle motion.",
+        "The current peak-frame offset remains below threshold and does not summarize the full movement trajectory."
+      ],
+      "decision": "keep_as_model_limitation",
+      "recommendedAction": "Add cycle-level frontal-plane knee and ankle path features before reconsidering score rules."
+    }
+  ]
+}

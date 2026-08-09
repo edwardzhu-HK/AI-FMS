@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.14                          |
+| 版本     | v1.15                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -61,14 +61,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                                 |
-| ------------------------------- | ----------- | ------------------------------------------------------------------------ |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                     |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做          |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛              |
-| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B                 |
-| G3 定量研究与结果冻结           | IN PROGRESS | leakage-free AI/consensus 对照完成；定向分歧复核中，最终冻结仍等 Round B |
-| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                           |
+| Gate                            | 状态        | 当前结论                                                        |
+| ------------------------------- | ----------- | --------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
+| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B        |
+| G3 定量研究与结果冻结           | IN PROGRESS | 九条定向分歧复核完成；最终冻结仍等待 Round B                    |
+| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
 
@@ -112,7 +112,9 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 生成独立 camera-audited feature sensitivity matrix；66/44 readiness、profile groups、score strata、source effects 和 stability 状态均保持不变。
 - [x] 对全部 110 条先独立生成 leakage-free AI evidence，再连接 26 条 Round A 共识；16 条可比较、9 条完全同分、14 条相差不超过 1 分。
 - [x] 确认当前规则式 AI 总分不具备替代人工评分的证据；ASLR、Hurdle 和 Deep Squat 分别形成阈值、定性规则与 protocol metadata 复核队列。
-- [x] 通过 lint、format、297/297 tests 和三页面 production build。
+- [x] 完成九条 AI 差异逐帧复核；定位 2 条 Deep Squat metadata 修正、2 条 ASLR pose/timing QA、4 条 Hurdle 动态证据缺口和 1 条 floor depth proxy 差异。
+- [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
+- [x] 通过 lint、format、300/300 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -269,7 +271,7 @@ G2 验收证据：
 - [x] 审计全池历史 camera-view metadata，保留 original lineage，并生成可按 `repetitionId` 连接的 `auditedCameraView`。
 - [x] 在不改变 Round A 冻结 fingerprint 的前提下重建 audited feature matrix，并验证既有 profile 结论的 camera-metadata 稳定性。
 - [x] 使用 camera-audited pose-derived 输出比较 AI evidence 与人工 consensus；按 exploratory concordance 报告，不表述为模型准确率。
-- [ ] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口，再决定是否调参或定向采集。
+- [x] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口；本轮不调阈值。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
@@ -429,8 +431,22 @@ Secondary questions：
 | 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据 |
 | 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段       | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写               |
 | 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查         |
+| 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估 |
 
 ## 12. 变更记录
+
+### v1.15 - 2026-08-09
+
+- 为九条 actionable AI/人工差异生成每条 5 帧高清审查材料，并逐条连接两位
+  reviewer comment、camera/side、pose features 和现有评分规则。
+- 确认两条 Deep Squat 为 heels-elevated board metadata 缺口；字段补齐后现有规则
+  均输出 2 分。第三条确认是 floor attempt，保留 AI raw 2 与人工 3 的真实差异。
+- 修复分析层把 `attemptCondition` 只写入兼容 metadata、未写到 staged rule 实际读取
+  字段的问题，并增加自动测试。
+- 冻结基线保持 9/16；另报 post-audit protocol sensitivity：11/17 完全同分、15/17
+  相差不超过 1 分、MAE 0.4706，不包装为模型训练提升。
+- ASLR 指向 active-side/peak selection 与 pose/protocol QA；Hurdle 指向全周期膝踝、
+  trunk 和 dowel evidence。本轮不修改阈值。
 
 ### v1.14 - 2026-08-09
 
