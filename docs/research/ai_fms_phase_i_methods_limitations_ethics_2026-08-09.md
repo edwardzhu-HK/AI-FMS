@@ -35,6 +35,10 @@ Feature quality gate 综合：
 - camera-view-dependent feature 是否适用；
 - 多人物画面中的 target subject/ROI QA。
 
+ASLR 另运行 label-free side/peak evidence gate。它在 segment 内检查连续强抬腿帧、
+dominant pose side 和左右切换率，不读取人工分数或文件名。17 条记录对应 16 个独立
+窗口：11 `good`、2 `watch`、3 `limited`；`limited` 不进入自动总分比较。
+
 不满足门槛的 rep 保留在 canonical pool，但标记为 feature-limited，不进入需要可靠
 quantitative evidence 的分析。
 
@@ -108,7 +112,8 @@ Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动
 
 - 2D pose 受视角、遮挡、透视和 landmark jitter 影响。
 - Camera metadata 曾有 45/110 错误，说明旧字段不能未经审计直接使用。
-- ASLR 暴露 active-side/peak selection 和遮挡问题。
+- ASLR 的 16 个独立窗口中有 3 个暴露 active-side/peak selection、错误主体或遮挡
+  风险；平均 visibility 不能替代 identity/trajectory QA。
 - Hurdle 当前缺少全周期膝踝轨迹、动态 trunk 与 dowel orientation。
 - Deep Squat 依赖 floor/board staged metadata，缺失时必须拒绝最终分。
 

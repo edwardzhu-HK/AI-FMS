@@ -135,6 +135,188 @@ export function buildAslrFrameFeatures(payload) {
     .filter(Boolean);
 }
 
+const DEFAULT_PEAK_EVIDENCE_OPTIONS = {
+  minVisibility: 0.45,
+  minStrongRaise: 0.04,
+  strongPeakRatio: 0.65,
+  minStrongFrameCount: 5,
+  limitedDominantSideRatio: 0.6,
+  watchDominantSideRatio: 0.85,
+  limitedSideSwitchRate: 0.25,
+  watchSideSwitchRate: 0.08,
+};
+
+function roundMetric(value, digits = 4) {
+  return typeof value === "number" && Number.isFinite(value)
+    ? Number(value.toFixed(digits))
+    : null;
+}
+
+function isKnownSide(side) {
+  return side === "left" || side === "right";
+}
+
+function groupFrameFeaturesBySecond(features) {
+  const frames = new Map();
+
+  for (const feature of features) {
+    if (!frames.has(feature.second)) {
+      frames.set(feature.second, []);
+    }
+    frames.get(feature.second).push(feature);
+  }
+
+  return frames;
+}
+
+export function summarizeAslrSegmentPeakEvidence({
+  posePayload,
+  segment,
+  options = {},
+} = {}) {
+  const config = { ...DEFAULT_PEAK_EVIDENCE_OPTIONS, ...options };
+  if (!posePayload || !segment) {
+    return {
+      status: "insufficient_pose",
+      reasons: ["missing_pose_or_segment"],
+      metrics: null,
+      thresholds: config,
+    };
+  }
+
+  const segmentFeatures = buildAslrFrameFeatures(posePayload).filter(
+    (feature) =>
+      feature.second >= segment.startSecond &&
+      feature.second <= segment.endSecond,
+  );
+  const frameWinners = [...groupFrameFeaturesBySecond(segmentFeatures)]
+    .map(([second, features]) => {
+      const candidates = features
+        .filter(
+          (feature) =>
+            typeof feature.visibility === "number" &&
+            feature.visibility >= config.minVisibility,
+        )
+        .map((feature) => ({
+          second,
+          side: feature.side,
+          ankleAboveHip: feature.hipY - feature.ankleY,
+          visibility: feature.visibility,
+        }))
+        .sort((left, right) => right.ankleAboveHip - left.ankleAboveHip);
+
+      return candidates[0] ?? null;
+    })
+    .filter(Boolean);
+
+  if (frameWinners.length === 0) {
+    return {
+      status: "insufficient_pose",
+      reasons: ["no_visible_leg_frames"],
+      metrics: {
+        framesAnalyzed: 0,
+        strongFrameCount: 0,
+      },
+      thresholds: config,
+    };
+  }
+
+  const peak = frameWinners.reduce((best, candidate) =>
+    candidate.ankleAboveHip > best.ankleAboveHip ? candidate : best,
+  );
+  const strongRaiseThreshold = Math.max(
+    config.minStrongRaise,
+    peak.ankleAboveHip * config.strongPeakRatio,
+  );
+  const strongFrames = frameWinners.filter(
+    (frame) => frame.ankleAboveHip >= strongRaiseThreshold,
+  );
+  const sideCounts = { left: 0, right: 0 };
+  for (const frame of strongFrames) {
+    sideCounts[frame.side] += 1;
+  }
+  const dominantPoseSide =
+    sideCounts.left === sideCounts.right
+      ? peak.side
+      : sideCounts.left > sideCounts.right
+        ? "left"
+        : "right";
+  const dominantSideRatio =
+    strongFrames.length > 0
+      ? sideCounts[dominantPoseSide] / strongFrames.length
+      : 0;
+  let sideSwitchCount = 0;
+  for (let index = 1; index < strongFrames.length; index += 1) {
+    if (strongFrames[index].side !== strongFrames[index - 1].side) {
+      sideSwitchCount += 1;
+    }
+  }
+  const sideSwitchRate =
+    strongFrames.length > 1 ? sideSwitchCount / (strongFrames.length - 1) : 0;
+  const segmentSide = isKnownSide(segment.side) ? segment.side : "unknown";
+  const hasStableSideEvidence =
+    strongFrames.length >= config.minStrongFrameCount &&
+    dominantSideRatio >= config.watchDominantSideRatio;
+  const segmentSideAgreement =
+    segmentSide === "unknown" || !hasStableSideEvidence
+      ? "indeterminate"
+      : segmentSide === dominantPoseSide
+        ? "match"
+        : "mismatch";
+  const limitedReasons = [];
+  const watchReasons = [];
+
+  if (strongFrames.length < config.minStrongFrameCount) {
+    limitedReasons.push("sparse_strong_raise_signal");
+  }
+  if (dominantSideRatio < config.limitedDominantSideRatio) {
+    limitedReasons.push("ambiguous_dominant_pose_side");
+  } else if (dominantSideRatio < config.watchDominantSideRatio) {
+    watchReasons.push("pose_side_dominance_watch");
+  }
+  if (sideSwitchRate > config.limitedSideSwitchRate) {
+    limitedReasons.push("unstable_pose_side_labels");
+  } else if (sideSwitchRate > config.watchSideSwitchRate) {
+    watchReasons.push("pose_side_switch_watch");
+  }
+  if (segmentSideAgreement === "mismatch") {
+    watchReasons.push("segment_side_pose_mismatch");
+  }
+
+  const status =
+    limitedReasons.length > 0
+      ? "limited"
+      : watchReasons.length > 0
+        ? "watch"
+        : "good";
+
+  return {
+    status,
+    reasons: [...limitedReasons, ...watchReasons],
+    metrics: {
+      framesAnalyzed: frameWinners.length,
+      strongFrameCount: strongFrames.length,
+      strongFrameRatio: roundMetric(
+        strongFrames.length / frameWinners.length,
+        3,
+      ),
+      strongRaiseThreshold: roundMetric(strongRaiseThreshold),
+      peakSecond: roundMetric(peak.second, 3),
+      peakPoseSide: peak.side,
+      peakAnkleAboveHip: roundMetric(peak.ankleAboveHip),
+      peakVisibility: roundMetric(peak.visibility, 3),
+      dominantPoseSide,
+      dominantSideRatio: roundMetric(dominantSideRatio, 3),
+      sideSwitchCount,
+      sideSwitchRate: roundMetric(sideSwitchRate, 3),
+      segmentSide,
+      segmentSideAgreement,
+      strongFrameSideCounts: sideCounts,
+    },
+    thresholds: config,
+  };
+}
+
 function smoothSideFeatures(features, windowSize) {
   const radius = Math.max(1, Math.floor(windowSize / 2));
 

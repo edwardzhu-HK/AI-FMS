@@ -22,7 +22,9 @@ suggestions were comparable on 16 consensus repetitions, matching exactly on 9
 and falling within one point on 14. A targeted audit showed that some Deep Squat
 differences came from missing staged-attempt metadata, while ASLR and Hurdle
 differences exposed pose-side, peak-selection, camera-view, and cycle-level
-feature limitations. The most useful contribution is therefore not automated
+feature limitations. A label-free ASLR evidence audit covered 17 records and
+16 unique windows: 11 were usable, 2 required review, and 3 were pose-limited.
+The most useful contribution is therefore not automated
 diagnosis or reviewer replacement. It is a reproducible evidence pipeline that
 adds quantitative movement profiles to ordinal FMS scores while preserving
 human judgment, provenance, and explicit uncertainty.
@@ -176,7 +178,24 @@ values 复核：
 
 本轮没有根据这九条移动 ASLR/Hurdle thresholds。
 
-## 9. 工程实现
+## 9. ASLR 侧别与峰值证据审计
+
+为避免用 Round A 分数反向优化规则，ASLR 审计不读取 source filename、历史分数或
+reviewer 结果，只使用 segment 时间窗、side metadata 和脱敏 pose landmarks。17 条记录
+对应 7 个视频和 16 个独立证据窗口；独立窗口中 11 个为 `good`、2 个为 `watch`、
+3 个为 `limited`。
+
+其中 `rep_6830e0689f85` 虽有较高平均 landmark visibility，但峰值附近只有 3 个强
+抬腿帧，左右切换率为 0.500。多人教学画面使用 single-pose `first` selection 且没有
+subject ROI，因此 visibility 不能证明跟踪了正确主体。`rep_8333424d5d28` 有清楚的
+右侧峰值，但 dominant-side 比例为 0.829，且 stationary-knee 单帧角度不稳定，保留为
+`watch`。
+
+这一审计将工程方向从“调评分阈值”收紧为两个可验证任务：多人视频 subject-aware pose
+重提取，以及 peak-window robust geometry。`limited` 窗口不进入自动总分比较，任何新
+结果只作为独立 sensitivity，不覆盖冻结 baseline。
+
+## 10. 工程实现
 
 - React 19 + Vite multi-entry frontend。
 - Mock API、local HTTP API stub 与 Video Manager API。
@@ -184,22 +203,23 @@ values 复核：
 - Movement-specific timing、features、suggestion adapters。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 303 automated tests 与三个 production entries。
+- 307 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
-## 10. Limitations
+## 11. Limitations
 
 - 110 reps 嵌套于 28 个视频，不是独立参与者样本。
 - 数据来源、机位、动作和 score distribution 不平衡。
 - 两位 reviewer 不构成 certified expert panel validation。
 - 没有人口统计、consent registry、clinical outcome 或 injury labels。
 - 2D pose 受视角、遮挡和 source-video signature 影响。
+- ASLR 的 16 个独立窗口中有 3 个因侧别切换或强峰值过稀而 pose-limited。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
 - Round B 尚未完成，不能报告 AI-assisted change 或 test-retest effect。
 - 未完成 rights/privacy audit 的媒体不能进入公开 release。
 
-## 11. 伦理与合理主张
+## 12. 伦理与合理主张
 
 可以主张：
 
@@ -215,7 +235,7 @@ values 复核：
 - 32 条正式样本证明全部 110 条历史标签有效；
 - 当前 profile groups 是经过验证的 impairment subtypes。
 
-## 12. 结论与下一步
+## 13. 结论与下一步
 
 AI-FMS Phase I 已从单一 demo 发展为包含产品、数据、盲审和研究输出的完整 pilot。
 最可信的贡献是把 ordinal FMS judgment 与 continuous pose evidence 放在同一可审计流程
@@ -224,7 +244,8 @@ AI-FMS Phase I 已从单一 demo 发展为包含产品、数据、盲审和研�
 下一步：
 
 1. 完成 Round B 和 A/B change metrics；
-2. 排查 ASLR side/peak selection；
+2. 对 ASLR `limited/watch` 窗口做 subject-aware re-extraction、人工复核和
+   peak-window robust geometry；
 3. 开发 Hurdle cycle-level path 和 dowel features；
 4. 增加独立来源和 rights/consent-clear 数据；
 5. 完成 demo video、公开素材 audit 与 final Phase I release。

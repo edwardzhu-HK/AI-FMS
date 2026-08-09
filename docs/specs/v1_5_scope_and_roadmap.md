@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 303-test quality gate
+resolve both video and pose assets, and the current full 307-test quality gate
 passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
@@ -123,11 +123,19 @@ and depth-proxy limitations. The frozen AI baseline remains 9/16 exact and
 14/16 within one; a separately labeled post-audit protocol sensitivity is
 11/17 exact and 15/17 within one. Thresholds were not tuned to Round A labels.
 
+A label-free ASLR side/peak evidence audit now covers all 17 ASLR records and
+16 unique evidence windows. Eleven windows are good, two require human review,
+and three are pose-limited because strong raise evidence is sparse or side
+labels switch around the peak. These gates use no scores, reviewer results, or
+source filenames. Limited windows are excluded from automatic score comparison;
+subject-aware re-extraction and robust peak-window geometry remain separate
+sensitivity work.
+
 G4 now has a Round A release candidate: a current README, Phase I dataset card,
 methods/limitations/ethics note, Chinese technical report with English abstract,
 application copy, and claim-control evidence table. A deterministic,
-fail-closed release generator verifies 9/9 private research artifacts, locks
-all reported evidence values, checksums seven source-controlled documents, and
+fail-closed release generator verifies 10/10 private research artifacts, locks
+all reported evidence values, checksums eight source-controlled documents, and
 audits release boundaries. Round B, demo recording, and human media
 rights/privacy review remain open.
 
@@ -772,11 +780,17 @@ Implementation status after the first P2 pass:
     boundaries.
 40. Raised the complete quality baseline to 303 tests plus lint, format, and
     three production entry builds.
+41. Added a label-free ASLR side/peak evidence gate over 17 records and 16
+    unique windows: 11 good, 2 watch, and 3 limited. The audit does not read
+    scores, reviewer outcomes, or source filenames and does not tune thresholds.
+42. Expanded the Phase I release candidate to 10/10 verified research
+    artifacts, eight checksummed documents, and a 307-test quality baseline.
 
 Recommended next sprint:
 
 1. Complete Round B after the planned interval and freeze A/B change metrics.
-2. Investigate ASLR active-side/peak selection on independent source videos.
+2. Re-extract ASLR limited windows with subject-aware pose selection, review
+   watch windows, and prototype robust peak-window stationary-leg geometry.
 3. Add Hurdle cycle-level knee/ankle, trunk, and dowel-orientation evidence.
 4. Record and verify the 2-3 minute demo against the current Phase I narrative.
 5. Complete human PII, media source-rights, and final public-release claim audit.

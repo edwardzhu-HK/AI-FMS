@@ -52,6 +52,13 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
         },
       },
     }),
+    artifact("aslr_side_peak_audit", {
+      summary: {
+        repetitions: 17,
+        uniqueEvidenceWindows: 16,
+        byUniqueWindowStatus: { good: 11, watch: 2, limited: 3 },
+      },
+    }),
   ]);
 
   assert.deepEqual(summary, {
@@ -74,6 +81,11 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     protocolSensitivityExact: 11,
     protocolSensitivityWithinOne: 15,
     protocolSensitivityMeanAbsoluteDifference: 0.4706,
+    aslrAuditRepetitions: 17,
+    aslrAuditUniqueEvidenceWindows: 16,
+    aslrAuditGoodWindows: 11,
+    aslrAuditWatchWindows: 2,
+    aslrAuditLimitedWindows: 3,
   });
 });
 

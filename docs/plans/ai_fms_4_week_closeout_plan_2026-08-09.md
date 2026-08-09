@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.16                          |
+| 版本     | v1.17                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -67,7 +67,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做                   |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛                       |
 | G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B                          |
-| G3 定量研究与结果冻结           | IN PROGRESS | 九条定向分歧复核完成；最终冻结仍等待 Round B                                      |
+| G3 定量研究与结果冻结           | IN PROGRESS | ASLR 16 个独立窗口证据审计完成；最终冻结仍等待 Round B                            |
 | G4 报告与申请发布包             | IN PROGRESS | Round A 文档与 release-candidate manifest 完成；等待 Round B、demo 与公开素材审计 |
 
 ### 3.2 已验证基线
@@ -114,9 +114,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 确认当前规则式 AI 总分不具备替代人工评分的证据；ASLR、Hurdle 和 Deep Squat 分别形成阈值、定性规则与 protocol metadata 复核队列。
 - [x] 完成九条 AI 差异逐帧复核；定位 2 条 Deep Squat metadata 修正、2 条 ASLR pose/timing QA、4 条 Hurdle 动态证据缺口和 1 条 floor depth proxy 差异。
 - [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
-- [x] 通过 lint、format、303/303 tests 和三页面 production build。
+- [x] 完成全部 17 条 ASLR 记录的 label-free side/peak evidence audit；16 个独立窗口中 11 good、2 watch、3 limited，且不调评分阈值。
+- [x] 通过 lint、format、307/307 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；9/9 研究 artifacts 通过 SHA-256，7 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；10/10 研究 artifacts 通过 SHA-256，8 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -274,6 +275,8 @@ G2 验收证据：
 - [x] 在不改变 Round A 冻结 fingerprint 的前提下重建 audited feature matrix，并验证既有 profile 结论的 camera-metadata 稳定性。
 - [x] 使用 camera-audited pose-derived 输出比较 AI evidence 与人工 consensus；按 exploratory concordance 报告，不表述为模型准确率。
 - [x] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口；本轮不调阈值。
+- [x] 对全部 17 条 ASLR 记录运行不读取分数/文件名/reviewer 结果的 side/peak evidence gate；16 个独立窗口中 11 good、2 watch、3 limited。
+- [ ] 对 3 个 ASLR `limited` 窗口做 subject-aware pose re-extraction，并人工复核 2 个 `watch` 窗口；新结果只进入 sensitivity。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
@@ -309,7 +312,7 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 303 tests 和三入口 production build。
+      并通过 307 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
 - [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
@@ -439,8 +442,20 @@ Secondary questions：
 | 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段       | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写               |
 | 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查         |
 | 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估 |
+| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity               |
 
 ## 12. 变更记录
+
+### v1.17 - 2026-08-09
+
+- 新增覆盖全部 17 条 ASLR 记录的 label-free side/peak evidence audit；按 16 个
+  独立证据窗口报告 11 good、2 watch、3 limited，避免重复 ingest 被当作独立样本。
+- 明确平均 landmark visibility 不能替代 subject identity、active side 和 trajectory
+  QA；多人教学视频进入 subject-aware re-extraction 队列。
+- `limited` 窗口退出自动总分比较，`watch` 窗口要求人工复核；冻结 baseline 和 ASLR
+  thresholds 均不修改。
+- Release candidate 扩展到 10/10 checksum-protected artifacts、8 份主文档；质量门
+  提升到 307/307 tests、lint、format 和三入口 build。
 
 ### v1.16 - 2026-08-09
 

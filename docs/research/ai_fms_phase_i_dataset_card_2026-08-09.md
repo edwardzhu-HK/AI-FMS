@@ -136,6 +136,8 @@ Sensitivity 只补入画面和双 reviewer 一致确认的 Deep Squat attempt co
 - 97 条 blindable；13 条因直接评分字幕、评分引导或构图不足排除。
 - 110/110 camera views 复核：65 条确认、45 条校正。
 - Camera correction 保存在独立 audit layer，不覆盖 canonical lineage。
+- ASLR 17 条记录完成 label-free side/peak audit：16 个独立窗口中 11 `good`、
+  2 `watch`、3 `limited`；重复 ingest window 不重复计为独立证据。
 - 正式 32 条全部同时满足 blindability 和 feature-readiness。
 - Reviewer media 使用匿名别名；界面隐藏源文件名、历史 label 和 legacy AI。
 - 所有主要生成表均配套 SHA-256。
@@ -161,6 +163,8 @@ Pilot 使用既有本地 FMS sample/reference videos，来源和使用条件不�
 - Round A consensus 很高，但 26 条可评分样本的分数结构和筛选条件会影响 kappa。
 - Pose rules 的早期开发可能接触过同一公开视频，不构成 held-out evaluation。
 - Label-free profiles 中的分组可能受 source-video signature 驱动。
+- ASLR 多人教学视频目前为 single-pose extraction；高 landmark visibility 仍可能
+  跟错主体，3 个 `limited` 窗口不得用于自动总分结论。
 - 当前不能将 feature group 命名为 impairment subtype。
 
 ## 11. 维护与版本
@@ -172,6 +176,8 @@ Source of truth：
 - Formal manifest：私有 generated artifact + SHA-256
 - Review exports：签名 JSON + SHA-256 + 本地 SQLite mirror
 - Audit decisions：`research/pilot-v1/*.json`
+- ASLR side/peak audit：私有 generated artifact + SHA-256；公开方法报告位于
+  `docs/research/aslr_side_peak_evidence_audit_2026-08-09.md`
 - 统一计划：`docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`
 
 Round B 完成后应发布 `phase-i-v1.0`，补充 test-retest/change metrics、最终 freeze
