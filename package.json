@@ -51,6 +51,7 @@
     "report:consistency:rotary_stability": "node scripts/generate-consistency-report.js --import-report \"Eval_Videos/07-Rotary Stability/import-report.json\" --api-base \"http://127.0.0.1:4000\" --output \"Eval_Videos/07-Rotary Stability/consistency-report.json\"",
     "data:pilot:build": "node scripts/build-canonical-pilot-dataset.js",
     "data:pilot:utilization": "node scripts/analyze-pilot-pool-utilization.js",
+    "data:pilot:profiles:label-free": "node scripts/analyze-label-free-profiles.js",
     "data:pilot:db:ingest": "node scripts/ingest-pilot-pool-snapshot.js",
     "data:pilot:db:status": "node scripts/ingest-pilot-pool-snapshot.js --inspect",
     "study:blindability:build": "node scripts/build-blinded-study-manifest.js",
