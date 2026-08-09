@@ -1,5 +1,10 @@
 node_modules
 dist
+.tools
+.agents
+Ingested-data
+research/pilot-v1/generated
 .omx
 AI-FMS项目定位和规划.md
 Eval_Videos/**/pose/*.json
+Eval_Videos/**/pose/*.json.bak-*

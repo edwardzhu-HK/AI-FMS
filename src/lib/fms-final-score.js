@@ -3,171 +3,20 @@ import {
   normalizeScoreForAction,
 } from "../constants/scoring.js";
 import { adjudicateScores } from "./adjudication.js";
+import {
+  DEEP_SQUAT_ATTEMPT_HEELS_ELEVATED,
+  capDeepSquatAttemptScoreForCondition,
+  inferDeepSquatAttemptCondition,
+  isHeelElevatedAttempt,
+} from "./deep-squat-attempt-condition.js";
+import {
+  detectDeepSquatBoardUsage,
+  isDeepSquatBoardDetected,
+} from "./deep-squat-board-detector.js";
 
 const DEEP_SQUAT_ACTION = "deep_squat";
-const HEELS_ELEVATED_ATTEMPT = "heels_elevated_board";
 const DEEP_SQUAT_FINAL_SCORE_MODEL_VERSION =
   "fms-level-1-manual-v2.9-deep-squat-final-v0.1";
-
-const HEEL_ELEVATED_EN =
-  "heel[- ]?elevated|heels elevated|heel lift|heel lifted|heels lifted|heel raised|heels raised|heel off floor|heels off floor|board under heels|fms board";
-const HEEL_ELEVATED_ZH =
-  "脚后跟垫高|脚跟垫高|垫脚跟|垫高脚跟|脚后跟抬起|脚跟抬起|脚后跟离地|脚跟离地|FMS板|fms板";
-
-const CHINESE_DIGITS = {
-  零: 0,
-  一: 1,
-  二: 2,
-  两: 2,
-  三: 3,
-  四: 4,
-  五: 5,
-  六: 6,
-  七: 7,
-  八: 8,
-  九: 9,
-};
-
-function parseChineseNumber(token) {
-  if (!token) {
-    return null;
-  }
-
-  if (token === "十") {
-    return 10;
-  }
-
-  if (token.includes("十")) {
-    const [leftRaw, rightRaw] = token.split("十");
-    const left = leftRaw ? CHINESE_DIGITS[leftRaw] : 1;
-    const right = rightRaw ? CHINESE_DIGITS[rightRaw] : 0;
-
-    if (left === undefined || right === undefined) {
-      return null;
-    }
-
-    return left * 10 + right;
-  }
-
-  return CHINESE_DIGITS[token] ?? null;
-}
-
-function parseNaturalNumber(token) {
-  if (!token) {
-    return null;
-  }
-
-  if (/^\d+$/.test(token)) {
-    return Number(token);
-  }
-
-  return parseChineseNumber(token);
-}
-
-function hasHeelElevatedKeyword(text) {
-  const notes = text ?? "";
-
-  return (
-    new RegExp(HEEL_ELEVATED_EN, "i").test(notes) ||
-    new RegExp(HEEL_ELEVATED_ZH, "i").test(notes)
-  );
-}
-
-function addRange(repetitions, startToken, endToken) {
-  const start = parseNaturalNumber(startToken);
-  const end = parseNaturalNumber(endToken);
-
-  if (!start || !end) {
-    return;
-  }
-
-  for (
-    let index = Math.min(start, end);
-    index <= Math.max(start, end);
-    index += 1
-  ) {
-    repetitions.add(index);
-  }
-}
-
-function addSingle(repetitions, token) {
-  const index = parseNaturalNumber(token);
-
-  if (index) {
-    repetitions.add(index);
-  }
-}
-
-function parseHeelElevatedRepetitions(notesText, repetitionCount = 0) {
-  const notes = notesText ?? "";
-  const repetitions = new Set();
-  const indexToken = "([一二三四五六七八九十两\\d]+)";
-
-  const rangePatterns = [
-    new RegExp(
-      `rep\\s*${indexToken}\\s*(?:-|–|—|~|到|至)\\s*${indexToken}[^.;；，。\\n]*?(?:${HEEL_ELEVATED_EN})`,
-      "gi",
-    ),
-    new RegExp(
-      `(?:第\\s*${indexToken}\\s*(?:-|–|—|~|到|至)\\s*${indexToken}\\s*(?:个|次|段|rep)?|${indexToken}\\s*(?:个|次|段|rep)\\s*(?:-|–|—|~|到|至)\\s*${indexToken}\\s*(?:个|次|段|rep)?|${indexToken}\\s*(?:-|–|—|~|到|至)\\s*${indexToken}\\s*(?:个|次|段|rep))[^；，。\\n]*?(?:${HEEL_ELEVATED_ZH})`,
-      "gi",
-    ),
-  ];
-
-  rangePatterns.forEach((pattern) => {
-    let match = pattern.exec(notes);
-    while (match) {
-      const [startToken, endToken] = match.slice(1).filter(Boolean);
-      addRange(repetitions, startToken, endToken);
-      match = pattern.exec(notes);
-    }
-  });
-
-  const singlePatterns = [
-    new RegExp(
-      `rep\\s*${indexToken}[^.;；，。\\n]*?(?:${HEEL_ELEVATED_EN})`,
-      "gi",
-    ),
-    new RegExp(
-      `第\\s*${indexToken}\\s*(?:个|次|段|rep)?[^；，。\\n]*?(?:${HEEL_ELEVATED_ZH})`,
-      "gi",
-    ),
-  ];
-
-  singlePatterns.forEach((pattern) => {
-    let match = pattern.exec(notes);
-    while (match) {
-      addSingle(repetitions, match[1]);
-      match = pattern.exec(notes);
-    }
-  });
-
-  if (
-    repetitionCount > 0 &&
-    (notes.includes("后两个") || notes.toLowerCase().includes("last two")) &&
-    hasHeelElevatedKeyword(notes)
-  ) {
-    addRange(repetitions, repetitionCount - 1, repetitionCount);
-  }
-
-  if (
-    repetitionCount > 1 &&
-    hasHeelElevatedKeyword(notes) &&
-    (/(?:except|besides|other than|apart from)\s+(?:the\s+)?first|all\s+but\s+(?:the\s+)?first/i.test(
-      notes,
-    ) ||
-      /除了?\s*第?\s*[一1]\s*(?:个|次|段|rep)?(?:以外|之外)?[^；，。.\n]*(?:都|其余|其他|后面)/.test(
-        notes,
-      ) ||
-      /(?:其余|其他|后面)[^；，。.\n]*(?:都)?[^；，。.\n]*(?:脚后跟垫高|脚跟垫高|垫脚跟|垫高脚跟|脚后跟抬起|脚跟抬起|脚后跟离地|脚跟离地)/.test(
-        notes,
-      ))
-  ) {
-    addRange(repetitions, 2, repetitionCount);
-  }
-
-  return repetitions;
-}
 
 function normalizeScoreValue(score, actionType = DEEP_SQUAT_ACTION) {
   if (typeof score === "number" && Number.isFinite(score)) {
@@ -183,14 +32,6 @@ function normalizeScoreValue(score, actionType = DEEP_SQUAT_ACTION) {
   }
 
   return null;
-}
-
-function normalizeAttemptCondition(value) {
-  return value || "floor";
-}
-
-function isHeelElevatedAttempt(attemptCondition) {
-  return attemptCondition === HEELS_ELEVATED_ATTEMPT;
 }
 
 function hasPainOrFailedClearing(segment) {
@@ -266,18 +107,30 @@ function getPoseSuggestionScore(segment, suggestionMap) {
   const suggestion = getPoseSuggestion(segment, suggestionMap);
   const actionType = segment.actionType ?? DEEP_SQUAT_ACTION;
 
-  if (suggestion?.status !== "suggested") {
+  if (
+    suggestion?.status !== "suggested" &&
+    suggestion?.status !== "needs_heel_elevated_attempt"
+  ) {
     return null;
   }
 
-  const score = normalizeScoreValue(suggestion, actionType);
+  const score =
+    suggestion.status === "needs_heel_elevated_attempt"
+      ? normalizeScoreValue(
+          { totalScore: suggestion.rawAttemptScore },
+          actionType,
+        )
+      : normalizeScoreValue(suggestion, actionType);
   if (score === null) {
     return null;
   }
 
   return {
     score,
-    source: "pose_suggestion",
+    source:
+      suggestion.status === "needs_heel_elevated_attempt"
+        ? "pose_floor_attempt_evidence"
+        : "pose_suggestion",
   };
 }
 
@@ -354,14 +207,6 @@ function getHeelElevatedFallbackScore(segment) {
   return null;
 }
 
-function capAttemptScoreForCondition(score, attemptCondition) {
-  if (isHeelElevatedAttempt(attemptCondition)) {
-    return Math.min(score, 2);
-  }
-
-  return score;
-}
-
 function resolveHeelElevatedSourceScore(poseScore, fallbackScore) {
   if (!fallbackScore) {
     return poseScore;
@@ -378,26 +223,28 @@ function resolveHeelElevatedSourceScore(poseScore, fallbackScore) {
   return poseScore;
 }
 
-function resolveAttemptCondition(segment, heelElevatedRepetitions) {
-  const attemptCondition = normalizeAttemptCondition(segment.attemptCondition);
-  if (heelElevatedRepetitions.has(segment.repetitionIndex)) {
-    return HEELS_ELEVATED_ATTEMPT;
-  }
-
-  return attemptCondition;
-}
-
-function buildAttempt(segment, suggestionMap, heelElevatedRepetitions) {
-  const attemptCondition = resolveAttemptCondition(
+function buildAttempt(segment, suggestionMap, context) {
+  const boardDetection = detectDeepSquatBoardUsage({
     segment,
-    heelElevatedRepetitions,
-  );
+    notes: context.notes,
+    fileName: context.fileName,
+    repetitionCount: context.repetitionCount,
+  });
+  const attemptCondition = isDeepSquatBoardDetected(boardDetection)
+    ? DEEP_SQUAT_ATTEMPT_HEELS_ELEVATED
+    : inferDeepSquatAttemptCondition({
+        segment,
+        notes: context.notes,
+        fileName: context.fileName,
+        repetitionCount: context.repetitionCount,
+      });
 
   if (hasPainOrFailedClearing(segment)) {
     return {
       segmentId: segment.segmentId,
       repetitionIndex: segment.repetitionIndex,
       attemptCondition,
+      boardDetection,
       attemptScore: 0,
       scoreSource: "pain_or_clearing",
       scorable: true,
@@ -424,6 +271,7 @@ function buildAttempt(segment, suggestionMap, heelElevatedRepetitions) {
       segmentId: segment.segmentId,
       repetitionIndex: segment.repetitionIndex,
       attemptCondition,
+      boardDetection,
       attemptScore: null,
       scoreSource: "insufficient_evidence",
       reasonCodes: buildNotScorableReasonCodes(
@@ -440,7 +288,8 @@ function buildAttempt(segment, suggestionMap, heelElevatedRepetitions) {
     segmentId: segment.segmentId,
     repetitionIndex: segment.repetitionIndex,
     attemptCondition,
-    attemptScore: capAttemptScoreForCondition(
+    boardDetection,
+    attemptScore: capDeepSquatAttemptScoreForCondition(
       sourceScore.score,
       attemptCondition,
     ),
@@ -464,6 +313,7 @@ function buildResult({ status, finalScore, attempts, reasonCodes }) {
 export function buildDeepSquatFinalScorePreview({
   segments,
   notes = "",
+  fileName = "",
   suggestionReport = null,
 } = {}) {
   const deepSquatSegments = (segments ?? []).filter(
@@ -476,12 +326,12 @@ export function buildDeepSquatFinalScorePreview({
   }
 
   const suggestionMap = buildSuggestionMap(suggestionReport);
-  const heelElevatedRepetitions = parseHeelElevatedRepetitions(
-    notes,
-    deepSquatSegments.length,
-  );
   const attempts = deepSquatSegments.map((segment) =>
-    buildAttempt(segment, suggestionMap, heelElevatedRepetitions),
+    buildAttempt(segment, suggestionMap, {
+      notes,
+      fileName,
+      repetitionCount: deepSquatSegments.length,
+    }),
   );
 
   if (attempts.some((attempt) => attempt.attemptScore === 0)) {

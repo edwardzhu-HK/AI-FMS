@@ -1,5 +1,7 @@
 import { SCORE_VALUES } from "../constants/scoring.js";
 
+const NOT_SCORED_VALUE = "not_scored";
+
 function formatClearingContext(context, t) {
   const findings = context?.clearingFindings ?? [];
 
@@ -25,6 +27,14 @@ function hasPositiveClearingOrPain(context) {
   );
 }
 
+function isNotScored(value) {
+  return (
+    value?.scoringStatus === NOT_SCORED_VALUE ||
+    value?.totalScore === null ||
+    value?.totalScore === undefined
+  );
+}
+
 export default function ReviewerScoreForm({
   title,
   value,
@@ -35,7 +45,12 @@ export default function ReviewerScoreForm({
   t = (key) => key,
 }) {
   const shouldWarnScoreZero =
-    hasPositiveClearingOrPain(context) && Number(value.totalScore) !== 0;
+    !isNotScored(value) &&
+    hasPositiveClearingOrPain(context) &&
+    Number(value.totalScore) !== 0;
+  const selectedScoreValue = isNotScored(value)
+    ? NOT_SCORED_VALUE
+    : String(value.totalScore);
 
   return (
     <section className="reviewer-form card">
@@ -89,15 +104,27 @@ export default function ReviewerScoreForm({
       <label>
         {t("totalScore")}
         <select
-          value={value.totalScore}
-          onChange={(event) =>
+          value={selectedScoreValue}
+          onChange={(event) => {
+            const nextValue = event.target.value;
+            if (nextValue === NOT_SCORED_VALUE) {
+              onChange({
+                ...value,
+                totalScore: null,
+                scoringStatus: NOT_SCORED_VALUE,
+              });
+              return;
+            }
+
             onChange({
               ...value,
-              totalScore: Number(event.target.value),
-            })
-          }
+              totalScore: Number(nextValue),
+              scoringStatus: "scored",
+            });
+          }}
           disabled={disabled}
         >
+          <option value={NOT_SCORED_VALUE}>{t("scoreNotScored")}</option>
           {SCORE_VALUES.map((score) => (
             <option key={score} value={score}>
               {score}

@@ -1,7 +1,15 @@
-import { adjudicateScores } from "./adjudication.js";
+import { adjudicateScores, isSegmentProtocolEvidence } from "./adjudication.js";
 
 export function scoreEquals(left, right) {
   if (!left || !right) {
+    return false;
+  }
+
+  if (left.totalScore === null || left.totalScore === undefined) {
+    return false;
+  }
+
+  if (right.totalScore === null || right.totalScore === undefined) {
     return false;
   }
 
@@ -22,6 +30,7 @@ function createMovementSummary() {
     validCount: 0,
     invalidCount: 0,
     pendingCount: 0,
+    protocolEvidenceCount: 0,
   };
 }
 
@@ -31,6 +40,7 @@ export function summarizeConsistency(segments) {
     validCount: 0,
     invalidCount: 0,
     pendingCount: 0,
+    protocolEvidenceCount: 0,
     aiMatchesFinalCount: 0,
     aiDiffersFromFinalCount: 0,
     reviewerConsensusCount: 0,
@@ -47,6 +57,12 @@ export function summarizeConsistency(segments) {
       metrics.movementBreakdown[actionType] ?? createMovementSummary();
     metrics.movementBreakdown[actionType] = movementSummary;
     movementSummary.segmentsTotal += 1;
+
+    if (isSegmentProtocolEvidence(segment)) {
+      metrics.protocolEvidenceCount += 1;
+      movementSummary.protocolEvidenceCount += 1;
+      continue;
+    }
 
     const reviewerA = segment.reviewerScores.reviewer_a;
     const reviewerB = segment.reviewerScores.reviewer_b;

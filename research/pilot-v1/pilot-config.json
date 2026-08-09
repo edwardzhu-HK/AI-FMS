@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "ai_fms_pilot_config_v1",
+  "pilotId": "four-movement-pilot-v1",
+  "expected": {
+    "sourceFiles": 28,
+    "uniqueIngests": 29,
+    "uniqueVideos": 28,
+    "repetitions": 110,
+    "actions": {
+      "deep_squat": 34,
+      "hurdle_step": 41,
+      "active_straight_leg_raise": 17,
+      "rotary_stability": 18
+    }
+  }
+}

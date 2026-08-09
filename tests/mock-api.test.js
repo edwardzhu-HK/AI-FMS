@@ -4,6 +4,7 @@ import {
   checkVideoReadiness,
   exportVideoDataset,
   getVideoSegments,
+  ingestVideo,
   saveSegmentReview,
   updateSegmentMetadata,
   uploadVideoAndCreateAnalysisJob,
@@ -33,6 +34,22 @@ test("mock api uses smoother default segmentation heuristic", async () => {
 
   const segments = await getVideoSegments(created.videoId);
   assert.equal(segments.items.length, 7);
+});
+
+test("mock api infers expected reps from sample file names", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "5reps score 2.mp4",
+    startSecond: 0,
+    endSecond: 59.97,
+  });
+
+  const segments = await getVideoSegments(created.videoId);
+  assert.equal(segments.items.length, 5);
+  assert.deepEqual(
+    segments.items.map((segment) => segment.attemptCondition),
+    ["floor", "floor", "floor", "floor", "floor"],
+  );
 });
 
 test("mock api creates slight overlap between adjacent segments", async () => {
@@ -77,7 +94,7 @@ test("mock api infers front/side from notes mixed pattern", async () => {
   ]);
 });
 
-test("mock api deep squat scoring follows calibration expectation", async () => {
+test("mock api does not synthesize scores from file names", async () => {
   const sideCreated = await uploadVideoAndCreateAnalysisJob({
     actionType: "deep_squat",
     fileName: "side.mp4",
@@ -89,7 +106,7 @@ test("mock api deep squat scoring follows calibration expectation", async () => 
   const sideSegments = await getVideoSegments(sideCreated.videoId);
   assert.deepEqual(
     sideSegments.items.map((segment) => segment.aiScore.totalScore),
-    [2, 2, 2, 2],
+    [null, null, null, null],
   );
 
   const mixedCreated = await uploadVideoAndCreateAnalysisJob({
@@ -102,7 +119,12 @@ test("mock api deep squat scoring follows calibration expectation", async () => 
   const mixedSegments = await getVideoSegments(mixedCreated.videoId);
   assert.deepEqual(
     mixedSegments.items.map((segment) => segment.aiScore.totalScore),
-    [3, 3, 3, 3, 3, 3, 2],
+    [null, null, null, null, null, null, null],
+  );
+  assert.ok(
+    [...sideSegments.items, ...mixedSegments.items].every(
+      (segment) => segment.aiScore.scoringStatus === "not_scored",
+    ),
   );
 });
 
@@ -123,7 +145,11 @@ test("mock api supports all FMS actions with actionType stored on segments", asy
     ),
   );
   assert.ok(
-    segments.items.every((segment) => segment.aiScore.totalScore === 3),
+    segments.items.every(
+      (segment) =>
+        segment.aiScore.totalScore === null &&
+        segment.aiScore.scoringStatus === "not_scored",
+    ),
   );
 });
 
@@ -156,9 +182,36 @@ test("mock api supports manual segment metadata correction", async () => {
   assert.equal(result.segment.painFlag, true);
   assert.equal(result.segment.clearingTest, "not_applicable");
   assert.deepEqual(result.segment.clearingFindings, []);
+  assert.equal(result.segment.attemptCondition, "floor");
   assert.equal(result.segment.rubricVersion, "fms_v1.1_test");
   assert.equal(result.segment.segmentSource, "manual_adjusted");
   assert.equal(result.segment.originalStartSecond, target.startSecond);
+});
+
+test("mock api supports manual Deep Squat attempt condition correction", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "front.mp4",
+    startSecond: 0,
+    endSecond: 18,
+    expectedReps: 3,
+  });
+
+  const segments = await getVideoSegments(created.videoId);
+  const target = segments.items[1];
+
+  const result = await updateSegmentMetadata({
+    segmentId: target.segmentId,
+    startSecond: target.startSecond,
+    endSecond: target.endSecond,
+    side: target.side,
+    painFlag: false,
+    clearingTest: "not_applicable",
+    attemptCondition: "heels_elevated_board",
+    rubricVersion: target.rubricVersion,
+  });
+
+  assert.equal(result.segment.attemptCondition, "heels_elevated_board");
 });
 
 test("mock api stores action-specific clearing findings", async () => {
@@ -282,6 +335,188 @@ test("mock api preserves reviewer score basis metadata", async () => {
     updatedSegments.items[0].reviewerScores.reviewer_a.usesCriteriaScores,
     false,
   );
+});
+
+test("mock api ignores score-bearing file names for board detection", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "4reps score 2.mp4",
+    startSecond: 0,
+    endSecond: 279.3,
+    expectedReps: 4,
+  });
+  const segments = (await getVideoSegments(created.videoId)).items;
+
+  assert.deepEqual(
+    segments.map((segment) => segment.attemptCondition),
+    ["floor", "floor", "floor", "floor"],
+  );
+  assert.deepEqual(
+    segments.map((segment) => segment.boardDetection?.status),
+    ["unknown", "unknown", "unknown", "unknown"],
+  );
+  assert.deepEqual(
+    segments.map((segment) => segment.boardDetection?.source),
+    [
+      "insufficient_visual_evidence",
+      "insufficient_visual_evidence",
+      "insufficient_visual_evidence",
+      "insufficient_visual_evidence",
+    ],
+  );
+});
+
+test("mock api keeps temporarily unscored reviews out of completed readiness", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "front.mp4",
+    startSecond: 0,
+    endSecond: 18,
+    expectedReps: 1,
+  });
+  const segment = (await getVideoSegments(created.videoId)).items[0];
+
+  await saveSegmentReview({
+    segmentId: segment.segmentId,
+    reviewerRole: "reviewer_a",
+    reviewerId: "coach_a",
+    score: createReviewerRawScore("deep_squat", null, {
+      reviewerId: "coach_a",
+      scoringStatus: "not_scored",
+      comment: "floor attempt below 3; wait for board attempt",
+    }),
+  });
+
+  await saveSegmentReview({
+    segmentId: segment.segmentId,
+    reviewerRole: "reviewer_b",
+    reviewerId: "coach_b",
+    score: createReviewerRawScore("deep_squat", 2, {
+      reviewerId: "coach_b",
+    }),
+  });
+
+  const updatedSegments = await getVideoSegments(created.videoId);
+  const readiness = await checkVideoReadiness(created.videoId);
+
+  assert.equal(updatedSegments.items[0].reviewStatus, "partial");
+  assert.equal(
+    updatedSegments.items[0].reviewerScores.reviewer_a.scoringStatus,
+    "not_scored",
+  );
+  assert.equal(readiness.completedSegmentsCount, 0);
+  assert.equal(readiness.readyForIngest, false);
+});
+
+test("mock api ingests protocol-evidence-only deep squat batches", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "3reps.mp4",
+    startSecond: 0,
+    endSecond: 24.97,
+    expectedReps: 3,
+  });
+  const segments = (await getVideoSegments(created.videoId)).items;
+
+  for (const segment of segments) {
+    for (const reviewerRole of ["reviewer_a", "reviewer_b"]) {
+      await saveSegmentReview({
+        segmentId: segment.segmentId,
+        reviewerRole,
+        reviewerId: reviewerRole,
+        score: createReviewerRawScore("deep_squat", null, {
+          reviewerId: reviewerRole,
+          scoringStatus: "not_scored",
+          comment: "floor attempt below 3; no board attempt in this clip",
+        }),
+      });
+    }
+  }
+
+  const updatedSegments = (await getVideoSegments(created.videoId)).items;
+  const readiness = await checkVideoReadiness(created.videoId);
+  const ingest = await ingestVideo(created.videoId, "coach");
+
+  assert.deepEqual(
+    updatedSegments.map((segment) => segment.reviewStatus),
+    ["protocol_evidence", "protocol_evidence", "protocol_evidence"],
+  );
+  assert.equal(readiness.completedSegmentsCount, 3);
+  assert.equal(readiness.scoreableCompletedSegmentsCount, 0);
+  assert.equal(readiness.protocolEvidenceSegmentsCount, 3);
+  assert.equal(readiness.readyForIngest, true);
+  assert.equal(ingest.segmentsValid, 0);
+  assert.equal(ingest.segmentsInvalid, 0);
+  assert.equal(ingest.segmentsProtocolEvidence, 3);
+});
+
+test("mock api allows deep squat floor attempts as protocol evidence for ingest", async () => {
+  const created = await uploadVideoAndCreateAnalysisJob({
+    actionType: "deep_squat",
+    fileName: "5reps score 2.mp4",
+    startSecond: 0,
+    endSecond: 60,
+    expectedReps: 5,
+    notes:
+      "前三个 floor attempt 不作为最终评分；后两个脚跟垫高后完成良好，可给2分。",
+  });
+  const segments = (await getVideoSegments(created.videoId)).items;
+
+  assert.equal(segments.length, 5);
+  assert.deepEqual(
+    segments.map((segment) => segment.attemptCondition),
+    ["floor", "floor", "floor", "heels_elevated_board", "heels_elevated_board"],
+  );
+
+  for (const segment of segments.slice(0, 3)) {
+    for (const reviewerRole of ["reviewer_a", "reviewer_b"]) {
+      await saveSegmentReview({
+        segmentId: segment.segmentId,
+        reviewerRole,
+        reviewerId: reviewerRole,
+        score: createReviewerRawScore("deep_squat", null, {
+          reviewerId: reviewerRole,
+          scoringStatus: "not_scored",
+          comment: "floor attempt is protocol evidence only",
+        }),
+      });
+    }
+  }
+
+  for (const segment of segments.slice(3)) {
+    for (const reviewerRole of ["reviewer_a", "reviewer_b"]) {
+      await saveSegmentReview({
+        segmentId: segment.segmentId,
+        reviewerRole,
+        reviewerId: reviewerRole,
+        score: createReviewerRawScore("deep_squat", 2, {
+          reviewerId: reviewerRole,
+        }),
+      });
+    }
+  }
+
+  const updatedSegments = (await getVideoSegments(created.videoId)).items;
+  const readiness = await checkVideoReadiness(created.videoId);
+  const ingest = await ingestVideo(created.videoId, "coach");
+
+  assert.deepEqual(
+    updatedSegments.map((segment) => segment.reviewStatus),
+    [
+      "protocol_evidence",
+      "protocol_evidence",
+      "protocol_evidence",
+      "completed",
+      "completed",
+    ],
+  );
+  assert.equal(readiness.completedSegmentsCount, 5);
+  assert.equal(readiness.scoreableCompletedSegmentsCount, 2);
+  assert.equal(readiness.protocolEvidenceSegmentsCount, 3);
+  assert.equal(readiness.readyForIngest, true);
+  assert.equal(ingest.segmentsValid, 2);
+  assert.equal(ingest.segmentsInvalid, 0);
+  assert.equal(ingest.segmentsProtocolEvidence, 3);
 });
 
 test("mock api preserves AI draft timing provenance", async () => {

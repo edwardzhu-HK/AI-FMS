@@ -1,6 +1,7 @@
 import {
   assignUniqueCyclesToSegments,
   buildNoUniqueCycleAssignmentItem,
+  dedupeOverlappingCycles,
   flagDuplicateCycleAssignments,
 } from "./timing-qa.js";
 
@@ -24,6 +25,9 @@ const DEFAULT_OPTIONS = {
   wideContextToleranceSecond: 1.4,
   minCoverageRatio: 0.85,
   smoothWindow: 5,
+  compressionBoundaryRatio: 0.16,
+  compressionHighThresholdRatio: 0.35,
+  minCompressionAmplitude: 0.035,
 };
 
 function average(values) {
@@ -113,6 +117,11 @@ export function buildDeepSquatFrameFeatures(payload) {
         ["left_ankle", "right_ankle"],
         "y",
       );
+      const kneeY = getLandmarkAverage(
+        landmarks,
+        ["left_knee", "right_knee"],
+        "y",
+      );
       const visibility = getRequiredVisibility(landmarks);
 
       if (
@@ -128,11 +137,13 @@ export function buildDeepSquatFrameFeatures(payload) {
       return {
         second,
         hipY,
+        kneeY,
         shoulderY,
         ankleY,
         visibility,
         // y grows downward in image coordinates; a larger ratio means deeper squat.
         depthRatio: (hipY - shoulderY) / (ankleY - shoulderY),
+        hipKneeVerticalGap: kneeY === null ? null : kneeY - hipY,
       };
     })
     .filter(Boolean);
@@ -149,8 +160,39 @@ function smoothFeatures(features, windowSize) {
     return {
       ...feature,
       smoothedDepthRatio: average(window.map((item) => item.depthRatio)),
+      smoothedHipKneeVerticalGap: average(
+        window.map((item) => item.hipKneeVerticalGap),
+      ),
     };
   });
+}
+
+function withCompressionSignal(features) {
+  const standingHipKneeGap = percentile(
+    features.map((feature) => feature.smoothedHipKneeVerticalGap),
+    0.8,
+  );
+
+  if (standingHipKneeGap === null) {
+    return {
+      features,
+      standingHipKneeGap: null,
+    };
+  }
+
+  return {
+    standingHipKneeGap,
+    features: features.map((feature) => ({
+      ...feature,
+      smoothedCompressionRatio:
+        feature.smoothedHipKneeVerticalGap === null
+          ? null
+          : Math.max(
+              0,
+              standingHipKneeGap - feature.smoothedHipKneeVerticalGap,
+            ),
+    })),
+  };
 }
 
 function mergeNearbyPeaks(peaks, minPeakGapSecond) {
@@ -165,7 +207,10 @@ function mergeNearbyPeaks(peaks, minPeakGapSecond) {
       return merged;
     }
 
-    if (peak.depthRatio > previousPeak.depthRatio) {
+    if (
+      (peak.depthScore ?? peak.depthRatio) >
+      (previousPeak.depthScore ?? previousPeak.depthRatio)
+    ) {
       merged[merged.length - 1] = peak;
     }
 
@@ -173,12 +218,12 @@ function mergeNearbyPeaks(peaks, minPeakGapSecond) {
   }, []);
 }
 
-function findPeakCandidates(features, highThreshold) {
+function findPeakCandidates(features, highThreshold, signalField) {
   const candidates = [];
   let regionStart = null;
 
   for (let index = 0; index < features.length; index += 1) {
-    if (features[index].smoothedDepthRatio >= highThreshold) {
+    if (features[index][signalField] >= highThreshold) {
       if (regionStart === null) {
         regionStart = index;
       }
@@ -199,10 +244,7 @@ function findPeakCandidates(features, highThreshold) {
     let peakIndex = start;
 
     for (let index = start + 1; index <= end; index += 1) {
-      if (
-        features[index].smoothedDepthRatio >
-        features[peakIndex].smoothedDepthRatio
-      ) {
+      if (features[index][signalField] > features[peakIndex][signalField]) {
         peakIndex = index;
       }
     }
@@ -210,19 +252,27 @@ function findPeakCandidates(features, highThreshold) {
     return {
       index: peakIndex,
       second: features[peakIndex].second,
+      depthScore: features[peakIndex][signalField],
       depthRatio: features[peakIndex].smoothedDepthRatio,
+      compressionRatio: features[peakIndex].smoothedCompressionRatio ?? null,
       rawDepthRatio: features[peakIndex].depthRatio,
     };
   });
 }
 
-function findBoundaryIndex(features, peakIndex, direction, boundaryThreshold) {
+function findBoundaryIndex(
+  features,
+  peakIndex,
+  direction,
+  boundaryThreshold,
+  signalField,
+) {
   let index = peakIndex;
 
   while (
     index + direction >= 0 &&
     index + direction < features.length &&
-    features[index].smoothedDepthRatio > boundaryThreshold
+    features[index][signalField] > boundaryThreshold
   ) {
     index += direction;
   }
@@ -241,60 +291,37 @@ function getWindowAverageVisibility(features, startSecond, endSecond) {
   );
 }
 
-export function detectDeepSquatCycles(payload, options = {}) {
-  const config = { ...DEFAULT_OPTIONS, ...options };
-  const rawFeatures = buildDeepSquatFrameFeatures(payload);
-
-  if (rawFeatures.length < config.smoothWindow * 2) {
-    return {
-      cycles: [],
-      quality: {
-        status: "insufficient_pose",
-        featureFrames: rawFeatures.length,
-      },
-    };
-  }
-
-  const features = smoothFeatures(rawFeatures, config.smoothWindow);
-  const depthValues = features.map((feature) => feature.smoothedDepthRatio);
-  const standingDepth = percentile(depthValues, 0.2);
-  const deepDepth = percentile(depthValues, 0.9);
-  const amplitude = deepDepth - standingDepth;
-
-  if (amplitude < config.minAmplitude) {
-    return {
-      cycles: [],
-      quality: {
-        status: "low_motion_amplitude",
-        featureFrames: features.length,
-        standingDepth,
-        deepDepth,
-        amplitude,
-      },
-    };
-  }
-
-  const highThreshold = standingDepth + amplitude * config.highThresholdRatio;
-  const boundaryThreshold = standingDepth + amplitude * config.boundaryRatio;
-  const firstSecond = features[0].second;
-  const lastSecond = features.at(-1).second;
+function buildCyclesFromSignal({
+  features,
+  config,
+  firstSecond,
+  lastSecond,
+  highThreshold,
+  boundaryThreshold,
+  baselineDepthRatio,
+  amplitude,
+  signalField,
+  source,
+}) {
   const peaks = mergeNearbyPeaks(
-    findPeakCandidates(features, highThreshold),
+    findPeakCandidates(features, highThreshold, signalField),
     config.minPeakGapSecond,
   );
 
-  const cycles = peaks.map((peak, index) => {
+  return peaks.map((peak, index) => {
     const startIndex = findBoundaryIndex(
       features,
       peak.index,
       -1,
       boundaryThreshold,
+      signalField,
     );
     const endIndex = findBoundaryIndex(
       features,
       peak.index,
       1,
       boundaryThreshold,
+      signalField,
     );
     const startSecond = Number(
       clamp(
@@ -317,8 +344,13 @@ export function detectDeepSquatCycles(payload, options = {}) {
       endSecond,
       lowestPointSecond: Number(peak.second.toFixed(2)),
       peakDepthRatio: Number(peak.depthRatio.toFixed(4)),
-      baselineDepthRatio: Number(standingDepth.toFixed(4)),
+      peakCompressionRatio:
+        peak.compressionRatio === null
+          ? null
+          : Number(peak.compressionRatio.toFixed(4)),
+      baselineDepthRatio: Number(baselineDepthRatio.toFixed(4)),
       amplitude: Number(amplitude.toFixed(4)),
+      timingSignal: source,
       avgVisibility: getWindowAverageVisibility(
         features,
         startSecond,
@@ -326,6 +358,99 @@ export function detectDeepSquatCycles(payload, options = {}) {
       ),
     };
   });
+}
+
+function detectDeepSquatCyclesFromFeatures(rawFeatures, config) {
+  if (rawFeatures.length < config.smoothWindow * 2) {
+    return {
+      cycles: [],
+      quality: {
+        status: "insufficient_pose",
+        featureFrames: rawFeatures.length,
+      },
+    };
+  }
+
+  const { features, standingHipKneeGap } = withCompressionSignal(
+    smoothFeatures(rawFeatures, config.smoothWindow),
+  );
+  const depthValues = features.map((feature) => feature.smoothedDepthRatio);
+  const standingDepth = percentile(depthValues, 0.2);
+  const deepDepth = percentile(depthValues, 0.9);
+  const amplitude = deepDepth - standingDepth;
+  const compressionValues = features.map(
+    (feature) => feature.smoothedCompressionRatio,
+  );
+  const lowCompression = percentile(compressionValues, 0.2) ?? 0;
+  const deepCompression = percentile(compressionValues, 0.9) ?? 0;
+  const compressionAmplitude = deepCompression - lowCompression;
+
+  if (
+    amplitude < config.minAmplitude &&
+    compressionAmplitude < config.minCompressionAmplitude
+  ) {
+    return {
+      cycles: [],
+      quality: {
+        status: "low_motion_amplitude",
+        featureFrames: features.length,
+        standingDepth,
+        deepDepth,
+        amplitude,
+        standingHipKneeGap,
+        lowCompression,
+        deepCompression,
+        compressionAmplitude,
+      },
+    };
+  }
+
+  const highThreshold = standingDepth + amplitude * config.highThresholdRatio;
+  const boundaryThreshold = standingDepth + amplitude * config.boundaryRatio;
+  const compressionHighThreshold =
+    lowCompression +
+    compressionAmplitude * config.compressionHighThresholdRatio;
+  const compressionBoundaryThreshold =
+    lowCompression + compressionAmplitude * config.compressionBoundaryRatio;
+  const firstSecond = features[0].second;
+  const lastSecond = features.at(-1).second;
+
+  const depthCycles =
+    amplitude >= config.minAmplitude
+      ? buildCyclesFromSignal({
+          features,
+          config,
+          firstSecond,
+          lastSecond,
+          highThreshold,
+          boundaryThreshold,
+          baselineDepthRatio: standingDepth,
+          amplitude,
+          signalField: "smoothedDepthRatio",
+          source: "depth_ratio",
+        })
+      : [];
+  const compressionCycles =
+    compressionAmplitude >= config.minCompressionAmplitude
+      ? buildCyclesFromSignal({
+          features,
+          config,
+          firstSecond,
+          lastSecond,
+          highThreshold: compressionHighThreshold,
+          boundaryThreshold: compressionBoundaryThreshold,
+          baselineDepthRatio: standingDepth,
+          amplitude: compressionAmplitude,
+          signalField: "smoothedCompressionRatio",
+          source: "hip_knee_compression",
+        })
+      : [];
+  const cycles = dedupeOverlappingCycles(
+    [...depthCycles, ...compressionCycles],
+    {
+      overlapThreshold: 0.5,
+    },
+  );
 
   return {
     cycles,
@@ -337,8 +462,136 @@ export function detectDeepSquatCycles(payload, options = {}) {
       amplitude,
       highThreshold,
       boundaryThreshold,
+      standingHipKneeGap,
+      lowCompression,
+      deepCompression,
+      compressionAmplitude,
+      compressionHighThreshold,
+      compressionBoundaryThreshold,
+      depthCycles: depthCycles.length,
+      compressionCycles: compressionCycles.length,
+      mergedCycles: cycles.length,
     },
   };
+}
+
+function normalizeProcessedWindows(windows) {
+  if (!Array.isArray(windows)) {
+    return [];
+  }
+
+  return windows
+    .map((window, index) => ({
+      index,
+      startSecond: window?.startSecond,
+      endSecond: window?.endSecond,
+    }))
+    .filter(
+      (window) =>
+        typeof window.startSecond === "number" &&
+        Number.isFinite(window.startSecond) &&
+        typeof window.endSecond === "number" &&
+        Number.isFinite(window.endSecond) &&
+        window.endSecond > window.startSecond,
+    )
+    .sort((left, right) => left.startSecond - right.startSecond);
+}
+
+function sumQualityField(windowResults, field) {
+  return windowResults.reduce(
+    (sum, result) => sum + (result.quality?.[field] ?? 0),
+    0,
+  );
+}
+
+function getWindowCycleStrength(cycle) {
+  return (
+    (cycle.peakDepthRatio ?? 0) +
+    (cycle.peakCompressionRatio ?? 0) +
+    (cycle.avgVisibility ?? 0) * 0.05
+  );
+}
+
+function pickDominantWindowCycle(cycles) {
+  if (cycles.length <= 1) {
+    return cycles;
+  }
+
+  return [
+    cycles.reduce((bestCycle, cycle) =>
+      getWindowCycleStrength(cycle) > getWindowCycleStrength(bestCycle)
+        ? cycle
+        : bestCycle,
+    ),
+  ];
+}
+
+function detectWindowedDeepSquatCycles(rawFeatures, windows, config) {
+  const windowResults = windows.map((window) => {
+    const features = rawFeatures.filter(
+      (feature) =>
+        feature.second >= window.startSecond &&
+        feature.second <= window.endSecond,
+    );
+    const result = detectDeepSquatCyclesFromFeatures(features, config);
+
+    return {
+      window,
+      ...result,
+      candidateCycles: result.cycles,
+      cycles: pickDominantWindowCycle(result.cycles),
+    };
+  });
+  const cycles = [];
+
+  for (const result of windowResults) {
+    for (const cycle of result.cycles) {
+      cycles.push({
+        ...cycle,
+        repetitionIndex: cycles.length + 1,
+        processedWindowIndex: result.window.index + 1,
+        processedWindowStartSecond: result.window.startSecond,
+        processedWindowEndSecond: result.window.endSecond,
+      });
+    }
+  }
+
+  return {
+    cycles,
+    quality: {
+      status: cycles.length > 0 ? "ok" : "insufficient_pose",
+      detectionMode: "processed_windows",
+      featureFrames: rawFeatures.length,
+      processedWindows: windows.length,
+      candidateCyclesTotal: cycles.length,
+      depthCycles: sumQualityField(windowResults, "depthCycles"),
+      compressionCycles: sumQualityField(windowResults, "compressionCycles"),
+      mergedCycles: cycles.length,
+      windowQualities: windowResults.map((result) => ({
+        windowIndex: result.window.index + 1,
+        startSecond: result.window.startSecond,
+        endSecond: result.window.endSecond,
+        status: result.quality.status,
+        featureFrames: result.quality.featureFrames,
+        candidateCycles: result.candidateCycles.length,
+        detectedCycles: result.cycles.length,
+      })),
+    },
+  };
+}
+
+export function detectDeepSquatCycles(payload, options = {}) {
+  const config = { ...DEFAULT_OPTIONS, ...options };
+  const rawFeatures = buildDeepSquatFrameFeatures(payload);
+  const processedWindows = normalizeProcessedWindows(
+    payload?.sourceVideo?.processedWindows,
+  );
+
+  if (processedWindows.length > 1) {
+    return detectWindowedDeepSquatCycles(rawFeatures, processedWindows, config);
+  }
+
+  return detectDeepSquatCyclesFromFeatures(rawFeatures, config);
 }
 
 function pickCycleForSegment(cycles, segment) {

@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   buildPoseOverlayPoints,
   findNearestPoseFrame,
+  getPrimaryPoseLandmarks,
   summarizePoseLandmarks,
   validatePoseLandmarkPayload,
 } from "../src/lib/pose-landmarks.js";
@@ -42,6 +43,17 @@ test("summarizePoseLandmarks reports schema issues", () => {
   );
 });
 
+test("validatePoseLandmarkPayload explains dataset exports are not pose JSON", () => {
+  const issues = validatePoseLandmarkPayload({
+    schemaVersion: "ai_fms_dataset_v1_5_draft",
+    records: [],
+  });
+
+  assert.deepEqual(issues, [
+    "this is a dataset export JSON, not a Pose JSON; choose the MediaPipe landmarks file with schemaVersion ai_fms_pose_landmarks_v1",
+  ]);
+});
+
 test("findNearestPoseFrame skips missing-pose frames", () => {
   const frame = findNearestPoseFrame(loadFixture(), 1.09);
 
@@ -60,4 +72,55 @@ test("buildPoseOverlayPoints maps normalized coordinates to svg space", () => {
     visibility: 0.78,
     presence: 0.89,
   });
+});
+
+test("getPrimaryPoseLandmarks uses explicit subject pose metadata", () => {
+  const frame = {
+    primaryPoseIndex: 1,
+    poses: [
+      {
+        poseIndex: 0,
+        landmarks: [{ name: "nose", x: 0.8, y: 0.2 }],
+      },
+      {
+        poseIndex: 1,
+        landmarks: [{ name: "nose", x: 0.32, y: 0.22 }],
+      },
+    ],
+  };
+
+  assert.equal(getPrimaryPoseLandmarks(frame)[0].x, 0.32);
+});
+
+test("buildPoseOverlayPoints draws the marked subject pose", () => {
+  const frame = {
+    poses: [
+      {
+        poseIndex: 0,
+        landmarks: [
+          {
+            name: "nose",
+            x: 0.8,
+            y: 0.2,
+            visibility: 0.99,
+          },
+        ],
+      },
+      {
+        poseIndex: 1,
+        primaryPose: true,
+        subjectRole: "subject",
+        landmarks: [
+          {
+            name: "nose",
+            x: 0.31,
+            y: 0.24,
+            visibility: 0.99,
+          },
+        ],
+      },
+    ],
+  };
+
+  assert.equal(buildPoseOverlayPoints(frame).nose.x, 31);
 });

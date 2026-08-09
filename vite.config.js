@@ -7,6 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
+        study: "study.html",
         videoManager: "video-manager.html",
       },
     },

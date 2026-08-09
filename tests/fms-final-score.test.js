@@ -70,6 +70,27 @@ test("deep squat final score waits for board attempt when floor attempt misses 3
   assert.equal(result.finalScore, null);
 });
 
+test("deep squat final score treats staged floor suggestion as floor evidence", () => {
+  const result = buildDeepSquatFinalScorePreview({
+    segments: [segment({ segmentId: "seg_1" })],
+    suggestionReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          status: "needs_heel_elevated_attempt",
+          totalScore: null,
+          rawAttemptScore: 2,
+        },
+      ],
+    },
+  });
+
+  assert.equal(result.status, "needs_heel_elevated_attempt");
+  assert.equal(result.finalScore, null);
+  assert.equal(result.attempts[0].attemptScore, 2);
+  assert.equal(result.attempts[0].scoreSource, "pose_floor_attempt_evidence");
+});
+
 test("deep squat final score explains not-scorable attempts", () => {
   const result = buildDeepSquatFinalScorePreview({
     segments: [segment({ segmentId: "seg_1" })],
@@ -172,6 +193,8 @@ test("deep squat final score can use heel-elevated reference when front-view pos
   assert.equal(result.status, "final_ready");
   assert.equal(result.finalScore, 2);
   assert.equal(result.attempts[1].attemptCondition, "heels_elevated_board");
+  assert.equal(result.attempts[1].boardDetection.status, "detected");
+  assert.equal(result.attempts[1].boardDetection.source, "notes");
   assert.equal(result.attempts[1].attemptScore, 2);
   assert.equal(result.attempts[1].scoreSource, "segment_ai_suggestion");
 });

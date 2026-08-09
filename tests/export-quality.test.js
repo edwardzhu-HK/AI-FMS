@@ -129,12 +129,14 @@ test("summarizeExportQuality counts labels and pose evidence coverage", () => {
     validCount: 1,
     invalidCount: 0,
     pendingCount: 0,
+    protocolEvidenceCount: 0,
   });
   assert.deepEqual(summary.movementBreakdown.hurdle_step, {
     segmentsTotal: 1,
     validCount: 0,
     invalidCount: 0,
     pendingCount: 1,
+    protocolEvidenceCount: 0,
   });
   assert.equal(summary.pose.poseStatus, "ready");
   assert.equal(summary.pose.timingGood, 1);

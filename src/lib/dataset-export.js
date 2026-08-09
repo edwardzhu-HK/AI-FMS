@@ -1,5 +1,6 @@
-import { adjudicateScores } from "./adjudication.js";
+import { adjudicateScores, isSegmentProtocolEvidence } from "./adjudication.js";
 import { buildAiSideSuggestion } from "./ai-side-suggestion.js";
+import { detectDeepSquatBoardUsage } from "./deep-squat-board-detector.js";
 import {
   SCORE_BASIS_SCORESHEET_RAW,
   SCORE_SCOPE_REP_RAW,
@@ -90,6 +91,15 @@ export function buildDatasetExport(video, segments) {
       movementCapability: toCapabilitySnapshot(video.actionType),
     },
     records: segments.map((segment) => {
+      const boardDetection =
+        segment.actionType === "deep_squat"
+          ? detectDeepSquatBoardUsage({
+              segment,
+              notes: video.notes,
+              fileName: video.fileName,
+              repetitionCount: segments.length,
+            })
+          : null;
       const aiScore = normalizeScoreForAction(
         segment.aiScore,
         segment.actionType,
@@ -102,7 +112,14 @@ export function buildDatasetExport(video, segments) {
         segment.reviewerScores.reviewer_b,
         segment.actionType,
       );
-      const adjudication = adjudicateScores(aiScore, reviewerA, reviewerB);
+      const isProtocolEvidence = isSegmentProtocolEvidence(segment);
+      const adjudication = isProtocolEvidence
+        ? {
+            finalScore: null,
+            labelStatus: "protocol_evidence",
+            labelSource: "deep_squat_floor_attempt_not_final_scoring",
+          }
+        : adjudicateScores(aiScore, reviewerA, reviewerB);
 
       return {
         segmentId: segment.segmentId,
@@ -115,6 +132,8 @@ export function buildDatasetExport(video, segments) {
         movementCapability: toCapabilitySnapshot(segment.actionType),
         cameraView: segment.cameraView,
         side: segment.side ?? "none",
+        attemptCondition: segment.attemptCondition ?? null,
+        boardDetection,
         sideSource:
           segment.side && segment.side !== "none" && segment.side !== "unknown"
             ? "reviewer_or_metadata"
@@ -193,6 +212,11 @@ function simplifySuggestionItem(item) {
   return {
     status: item.status,
     totalScore: item.totalScore,
+    rawAttemptScore: item.rawAttemptScore ?? null,
+    scoringStatus: item.scoringStatus ?? null,
+    scoreSource: item.scoreSource ?? null,
+    attemptCondition: item.attemptCondition ?? null,
+    boardDetection: clone(item.boardDetection ?? null),
     subscores: clone(item.subscores),
     criteriaScores: clone(item.criteriaScores ?? []),
     confidence: item.confidence,
@@ -250,6 +274,9 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
   };
 
   exported.records = exported.records.map((record) => {
+    const poseSuggestion = simplifySuggestionItem(
+      suggestionBySegment.get(record.segmentId),
+    );
     const aiSideSuggestion = buildAiSideSuggestion({
       actionType: record.actionType,
       segment: record,
@@ -269,9 +296,9 @@ export function attachPoseEvidenceToDataset(dataset, options = {}) {
       poseTiming: simplifyTimingItem(timingBySegment.get(record.segmentId)),
       poseFeatures: simplifyFeatureItem(featureBySegment.get(record.segmentId)),
       aiSideSuggestion,
-      poseSuggestion: simplifySuggestionItem(
-        suggestionBySegment.get(record.segmentId),
-      ),
+      boardDetection:
+        record.boardDetection ?? poseSuggestion?.boardDetection ?? null,
+      poseSuggestion,
       poseEvidenceGate: simplifyEvidenceGate(evidenceGate),
     };
   });

@@ -93,7 +93,7 @@ const BASE_CAPABILITIES = {
     supportsPoseTiming: true,
     supportsPoseFeatures: true,
     supportsPoseSuggestion: false,
-    supportsAiDraftTiming: false,
+    supportsAiDraftTiming: true,
   },
 };
 
@@ -183,7 +183,13 @@ const DEEP_SQUAT_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport({ featureReport, timingReport }) {
+  buildSuggestionReport({
+    featureReport,
+    timingReport,
+    segments,
+    notes,
+    fileName,
+  }) {
     if (!featureReport || !timingReport) {
       return null;
     }
@@ -191,6 +197,9 @@ const DEEP_SQUAT_ADAPTER = {
     return buildDeepSquatExplainableSuggestion({
       featureReport,
       timingReport,
+      segments,
+      notes,
+      fileName,
     });
   },
 };
@@ -291,7 +300,13 @@ const HURDLE_STEP_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport({ featureReport, timingReport } = {}) {
+  buildSuggestionReport({
+    featureReport,
+    timingReport,
+    segments,
+    notes,
+    fileName,
+  } = {}) {
     if (!featureReport || !timingReport) {
       return null;
     }
@@ -299,6 +314,9 @@ const HURDLE_STEP_ADAPTER = {
     return buildHurdleStepExplainableSuggestion({
       featureReport,
       timingReport,
+      segments,
+      notes,
+      fileName,
     });
   },
 };
@@ -531,6 +549,21 @@ export function evaluateMovementEvidenceGate({
       actionType,
       status: "insufficient_features",
       reasonCode: "insufficient_features",
+      canUsePoseEvidence: true,
+      timingItem,
+      featureItem,
+      suggestionItem,
+    });
+  }
+
+  if (
+    suggestionItem?.status === "needs_heel_elevated_attempt" ||
+    suggestionItem?.status === "needs_attempt_condition_review"
+  ) {
+    return createGate({
+      actionType,
+      status: "staged_scoring_needs_review",
+      reasonCode: "deep_squat_needs_heel_elevated_attempt",
       canUsePoseEvidence: true,
       timingItem,
       featureItem,

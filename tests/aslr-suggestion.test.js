@@ -91,6 +91,56 @@ test("buildAslrExplainableSuggestion maps ASLR features to compatible subscores"
   );
 });
 
+test("buildAslrExplainableSuggestion does not let mild moving-leg proxy override ASLR score-3 path", () => {
+  const featureReport = createFeatureReport();
+  featureReport.items[0].ratings.pelvicStability = {
+    status: "good",
+    label: "stable pelvis proxy",
+  };
+  featureReport.items[0].ratings.kneeExtension = {
+    status: "watch",
+    label: "mild knee bend",
+  };
+
+  const suggestion = buildAslrExplainableSuggestion({
+    featureReport,
+    timingReport: createTimingReport(),
+  });
+
+  assert.equal(suggestion.items[0].totalScore, 3);
+  assert.deepEqual(suggestion.items[0].subscores, {
+    depth: 3,
+    kneeAlignment: 3,
+    torsoControl: 3,
+  });
+});
+
+test("buildAslrExplainableSuggestion ignores curated reference labels", () => {
+  const featureReport = createFeatureReport();
+  featureReport.items[0].manualScoreOverride = 2;
+  featureReport.items[0].manualScoreSource = "curated_visual_fms_review";
+  featureReport.items[0].manualScoreReason =
+    "Valid ASLR rep in the manual score-2 zone.";
+
+  const suggestion = buildAslrExplainableSuggestion({
+    featureReport,
+    timingReport: createTimingReport(),
+  });
+
+  assert.equal(suggestion.items[0].totalScore, 2);
+  assert.deepEqual(suggestion.items[0].subscores, {
+    depth: 3,
+    kneeAlignment: 2,
+    torsoControl: 3,
+  });
+  assert.equal(suggestion.items[0].scoreBasis, undefined);
+  assert.ok(
+    suggestion.items[0].reasons.every(
+      (reason) => !reason.includes("manual visual review"),
+    ),
+  );
+});
+
 test("buildAslrExplainableSuggestion returns null without features", () => {
   assert.equal(
     buildAslrExplainableSuggestion({

@@ -24,6 +24,31 @@ python3 scripts/extract-pose-landmarks.py \
   --delegate CPU
 ```
 
+多人同框视频必须显式处理 subject pose selection，避免 skeleton 落在教练或旁边
+的人身上。例如 Hurdle Step 样本中，受试者在画面左侧、教练在右侧时：
+
+```bash
+python3 scripts/extract-pose-landmarks.py \
+  --video "Eval_Videos/Sample videos/2-Hurdle step/6reps each side, total 12 reps, score 3 for both sides.mp4" \
+  --model "models/pose_landmarker_lite.task" \
+  --output "Eval_Videos/Sample videos/2-Hurdle step/pose/6reps-each-side-total-12-reps-score-3-both-sides.pose.json" \
+  --video-id hurdle-12reps-score-3-both-sides \
+  --action-type hurdle_step \
+  --start-second 0 \
+  --end-second 127 \
+  --target-fps 10 \
+  --delegate CPU \
+  --num-poses 1 \
+  --primary-pose-selection first \
+  --inference-roi 0.10,0.08,0.70,0.98
+```
+
+多人构图应先做 visual subject QA，并优先用 `--inference-roi
+x1,y1,x2,y2` 把模型输入裁剪到受试者。若必须保留多人检测，也可以用
+`--subject-roi` 或 `--primary-pose-selection` 选择主受试者；脚本会将其标记为
+`primaryPose: true`，并保留 `originalPoseIndex` 以便追溯。Pilot 的裁剪和选择
+依据统一维护在 `research/pilot-v1/pose-extraction-overrides.json`。
+
 模型文件可通过以下脚本下载：
 
 ```bash
@@ -151,6 +176,7 @@ timing、feature ratings、pose suggestion 和 final label。
   "generatedAt": "2026-05-22T00:00:00+00:00",
   "sourceVideo": {},
   "poseModel": {},
+  "subjectSelection": {},
   "sampling": {},
   "quality": {},
   "frames": []
@@ -178,6 +204,15 @@ timing、feature ratings、pose suggestion 和 final label。
 - `delegate`: 默认 `CPU`。在 macOS 上显式使用 CPU，避免 GPU/Metal 初始化问题。
 - `mediapipeVersion`: 本机 mediapipe package 版本。
 - `opencvVersion`: 本机 OpenCV package 版本。
+- `numPoses`: 本次 MediaPipe Pose Landmarker 最多保留的人体数量。
+
+## subjectSelection
+
+- `strategy`: `first` / `left` / `right` / `center` / `largest` / `roi`。
+- `subjectRoi`: 可选 normalized ROI `[x1, y1, x2, y2]`。
+- `primaryPoseIsFirst`: 当前脚本会把选中的 subject pose 重排到 `poses[0]`，以兼容
+  旧 feature 代码；新版前端与 Hurdle Step pipeline 会优先读取 `primaryPose` /
+  `subjectRole` / `primaryPoseIndex`。
 
 ## sampling
 
@@ -204,12 +239,20 @@ timing、feature ratings、pose suggestion 和 final label。
 - `frameIndex`: 原视频帧号。
 - `timestampMs`: 传入 MediaPipe 的视频时间戳。
 - `second`: 原视频秒数。
+- `detectedPoseCount`: MediaPipe 当前帧检测到的人体数量。
+- `primaryPoseIndex`: 当前帧选中的 subject pose index。脚本默认把 subject 重排为
+  `0`。
+- `subjectSelection`: 当前帧的 subject 选择详情，包括原始 pose index 和 selection
+  score。
 - `poses`: 当前帧检测到的 pose 列表。
 - `quality`: 当前帧的平均 visibility / presence。
 
 每个 pose 保留：
 
 - `poseIndex`
+- `originalPoseIndex`: 多人同框重排前的 MediaPipe pose index。
+- `primaryPose`: 是否为本帧受试者 skeleton。
+- `subjectRole`: `subject` 或 `other`。
 - `landmarks`: normalized image coordinates。
 - `worldLandmarks`: 3D world coordinates。
 
@@ -225,7 +268,8 @@ timing、feature ratings、pose suggestion 和 final label。
 
 ## 限制
 
-- 当前只处理 single-person pose，`num_poses` 默认 1。
+- 默认仍按 single-person pose 处理，`num_poses` 默认 1；多人同框视频必须显式设置
+  `--num-poses` 和 subject selection。
 - 目前只生成 pose evidence，不做医学诊断、不做 pain detection。
 - JSON 可能较大，所以默认用 10 FPS 采样；如需更精细的 rep phase analysis，
   可以提高 `--target-fps`。

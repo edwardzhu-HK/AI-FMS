@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-fms.local/schemas/canonical-pilot-v1.json",
+  "title": "AI-FMS Canonical Four-Movement Pilot",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "pilotId",
+    "snapshotSourceDate",
+    "builderVersion",
+    "summary",
+    "provenancePolicy",
+    "sourceFiles",
+    "videos",
+    "ingests",
+    "repetitions"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ai_fms_canonical_pilot_v1"
+    },
+    "pilotId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "snapshotSourceDate": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "builderVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "object",
+      "required": ["uniqueIngests", "uniqueVideos", "repetitions", "actions"]
+    },
+    "provenancePolicy": {
+      "type": "object",
+      "required": [
+        "rawHistoryMode",
+        "legacyAiLabelLeakage",
+        "legacyAiEligibleForAccuracyAnalysis",
+        "publicReleaseStatus"
+      ]
+    },
+    "sourceFiles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "videos": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/video"
+      }
+    },
+    "ingests": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ingest"
+      }
+    },
+    "repetitions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repetition"
+      }
+    }
+  },
+  "$defs": {
+    "video": {
+      "type": "object",
+      "required": ["videoId", "actionType", "fileName", "status"],
+      "properties": {
+        "videoId": {
+          "type": "string",
+          "pattern": "^vid_[a-f0-9]{12}$"
+        },
+        "actionType": {
+          "$ref": "#/$defs/actionType"
+        },
+        "fileName": {
+          "type": ["string", "null"]
+        },
+        "relativePath": {
+          "type": ["string", "null"]
+        },
+        "status": {
+          "enum": ["found", "ambiguous", "missing", "not_referenced"]
+        },
+        "durationSecond": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "ingest": {
+      "type": "object",
+      "required": [
+        "ingestId",
+        "videoId",
+        "actionType",
+        "sourceHistoryFiles",
+        "originalIds",
+        "segmentCount"
+      ],
+      "properties": {
+        "ingestId": {
+          "type": "string",
+          "pattern": "^ing_[a-f0-9]{12}$"
+        },
+        "videoId": {
+          "type": "string",
+          "pattern": "^vid_[a-f0-9]{12}$"
+        },
+        "actionType": {
+          "$ref": "#/$defs/actionType"
+        },
+        "apiMode": {
+          "type": ["string", "null"]
+        },
+        "sourceHistoryFiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "segmentCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "repetition": {
+      "type": "object",
+      "required": [
+        "repetitionId",
+        "ingestId",
+        "videoId",
+        "actionType",
+        "repetitionIndex",
+        "startSecond",
+        "endSecond",
+        "humanReviews",
+        "humanReviewSummary",
+        "legacyAiSuggestion",
+        "originalIds"
+      ],
+      "properties": {
+        "repetitionId": {
+          "type": "string",
+          "pattern": "^rep_[a-f0-9]{12}$"
+        },
+        "ingestId": {
+          "type": "string",
+          "pattern": "^ing_[a-f0-9]{12}$"
+        },
+        "videoId": {
+          "type": "string",
+          "pattern": "^vid_[a-f0-9]{12}$"
+        },
+        "actionType": {
+          "$ref": "#/$defs/actionType"
+        },
+        "repetitionIndex": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "startSecond": {
+          "type": "number",
+          "minimum": 0
+        },
+        "endSecond": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "humanReviews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/humanReview"
+          }
+        },
+        "humanReviewSummary": {
+          "type": "object",
+          "required": [
+            "numericReviewCount",
+            "consensusScore",
+            "reviewerAgreement"
+          ]
+        },
+        "legacyAiSuggestion": {
+          "type": "object",
+          "required": [
+            "totalScore",
+            "provenanceStatus",
+            "eligibleForAccuracyAnalysis"
+          ],
+          "properties": {
+            "provenanceStatus": {
+              "const": "label_leakage_confirmed"
+            },
+            "eligibleForAccuracyAnalysis": {
+              "const": false
+            }
+          }
+        }
+      }
+    },
+    "humanReview": {
+      "type": "object",
+      "required": ["reviewerRole", "reviewerId", "totalScore", "scoringStatus"],
+      "properties": {
+        "reviewerRole": {
+          "enum": ["reviewer_a", "reviewer_b"]
+        },
+        "reviewerId": {
+          "type": "string"
+        },
+        "totalScore": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 3
+        },
+        "scoringStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "actionType": {
+      "enum": [
+        "deep_squat",
+        "hurdle_step",
+        "active_straight_leg_raise",
+        "rotary_stability"
+      ]
+    }
+  }
+}
