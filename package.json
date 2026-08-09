@@ -65,6 +65,7 @@
     "study:reviews:agreement": "node scripts/analyze-study-review-agreement.js",
     "study:profiles:round-a": "node scripts/analyze-round-a-movement-profiles.js",
     "data:pilot:features": "node scripts/build-pilot-feature-matrix.js",
+    "data:pilot:features:camera-audited": "node scripts/build-camera-audited-feature-matrix.js",
     "pose:pilot:plan": "node scripts/build-pilot-pose-extraction-plan.js",
     "pose:pilot:extract:auto": "node scripts/build-pilot-pose-extraction-plan.js --execute --actions deep_squat,active_straight_leg_raise,rotary_stability",
     "pose:pilot:extract:hurdle": "node scripts/build-pilot-pose-extraction-plan.js --execute --actions hurdle_step --include-subject-qa",

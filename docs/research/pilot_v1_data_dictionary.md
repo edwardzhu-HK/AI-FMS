@@ -60,6 +60,9 @@ npm run data:pilot:build
 - `auditedCameraView`：由 `camera-view-overrides.json` 与完整 contact-sheet QA
   生成的分析机位字段，取值为 `front`、`side` 或 `mixed`。需要机位分层时通过
   `repetitionId` 连接使用，不覆盖 canonical `cameraView`。
+- `camera-audited feature matrix`：使用 `auditedCameraView` 重建的 sensitivity
+  layer。它保留 `sourceFeatureMatrixFingerprint` 指向 Round A 冻结 matrix，不修改
+  formal manifest；新的 AI evidence 和机位分层优先使用此层。
 - `reviewStatus`：历史 workflow 中的 rep 审核状态。
 - `humanReviews`：Reviewer A/B 的原始审核记录。
 - `humanReviewSummary`：仅做机械汇总，不等于独立 adjudication。

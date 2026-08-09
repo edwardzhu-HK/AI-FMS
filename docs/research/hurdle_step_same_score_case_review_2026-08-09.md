@@ -30,7 +30,6 @@ reviewer 和 contact sheet 一致确认为 `mixed`，comparator 为 `front`。�
 | Feature              | Outlier | Comparator | 描述性差异   |
 | -------------------- | ------: | ---------: | ------------ |
 | `peakClearance`      |  0.2956 |     0.2061 | 约高 43%     |
-| `stanceAnkleDrift`   |  0.0845 |     0.0184 | 约 4.6 倍    |
 | `stepKneeLineOffset` |  0.0435 |     0.0092 | 约 4.7 倍    |
 | `hipHeightGap`       |  0.0495 |     0.0166 | 约 3.0 倍    |
 | `trunkCenterOffset`  |  0.0023 |     0.0105 | outlier 更低 |
@@ -45,12 +44,13 @@ reviewer 和 contact sheet 一致确认为 `mixed`，comparator 为 `front`。�
 未发现明显的错段、错误人物或空白 pose 证据；截图未纳入仓库，以保留源视频的权限和
 隐私边界。
 
-AI feature 与人工观察有两层关系：
+Camera-audited feature matrix 进一步确认：outlier 的 `mixed` 机位不应计算
+front-only `stanceAnkleDrift` 或 `stanceKneeAngleDegrees`，两个字段现为不适用。
+此前的“AI 认为支撑腿更不稳定、人工认为稳定”不是可靠动作差异，而是错误机位触发
+不适用指标。其余 feature 与人工观察有以下关系：
 
 1. 更大的 `stepKneeLineOffset` 和 `hipHeightGap` 与更明显的下肢/骨盆对线偏离方向一致。
-2. `stanceAnkleDrift` 把 outlier 标为更不稳定，但人工评论认为支撑腿稳定。这是需要
-   定向核查 peak-frame、recovery phase 和机位敏感性的 AI-human discrepancy，不能
-   静默解释为人工漏判。
+2. 由于 mixed 对 front 的机位混杂，差异仍不能完全归因于动作本身。
 
 ## 可报告发现
 
@@ -67,6 +67,6 @@ feature QA。现有证据不能把该 pair 的全部参数差异归因于动作�
 ## 下一步
 
 1. 将该 pair 降级为次要、view-confounded 方法学案例。
-2. 复核 `stanceAnkleDrift` 的 peak-frame 和 recovery-phase 计算，解释 AI-human 差异。
+2. [x] 将 `stanceAnkleDrift` 限制为 front-only；mixed/side view 返回不适用。
 3. 首要 same-score 案例改用两条审计后均为 `side` 的 Deep Squat pair。
 4. 最终报告如引用本 pair，必须同时显示 audited view limitation。

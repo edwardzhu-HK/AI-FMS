@@ -164,7 +164,7 @@ test("buildHurdleStepFrameFeatures reads the marked subject pose", () => {
   assert.equal(Number(subjectLeftFeature.kneeY.toFixed(3)), 0.518);
 });
 
-test("summarizeHurdleStepPoseFeatures does not penalize side-view stance x drift", () => {
+test("summarizeHurdleStepPoseFeatures only uses stance x drift from front view", () => {
   const posePayload = {
     frames: [1, 1.5, 2, 2.5, 3].map((second, index) =>
       frame(
@@ -179,39 +179,41 @@ test("summarizeHurdleStepPoseFeatures does not penalize side-view stance x drift
       ),
     ),
   };
-  const report = summarizeHurdleStepPoseFeatures({
-    posePayload,
-    timingReport: {
-      items: [
-        {
-          segmentId: "seg_1",
-          repetitionIndex: 1,
-          cameraView: "side",
-          status: "good",
-          cycle: {
-            side: "left",
-            startSecond: 1,
-            peakSecond: 2,
-            endSecond: 3,
-            peakClearance: 0.18,
+  for (const cameraView of ["side", "mixed", "unknown"]) {
+    const report = summarizeHurdleStepPoseFeatures({
+      posePayload,
+      timingReport: {
+        items: [
+          {
+            segmentId: "seg_1",
+            repetitionIndex: 1,
+            cameraView,
+            status: "good",
+            cycle: {
+              side: "left",
+              startSecond: 1,
+              peakSecond: 2,
+              endSecond: 3,
+              peakClearance: 0.18,
+            },
           },
-        },
-      ],
-    },
-  });
+        ],
+      },
+    });
 
-  assert.equal(
-    report.items[0].ratings.stanceLegControl.status,
-    "not_applicable",
-  );
-  assert.equal(
-    report.items[0].ratings.stanceStability.status,
-    "not_applicable",
-  );
-  assert.equal(report.items[0].metrics.stanceAnkleDrift, null);
-  assert.equal(report.items[0].metrics.stanceKneeAngleDegrees, null);
-  assert.ok(report.items[0].metrics.rawStanceAnkleDrift > 0.1);
-  assert.equal(report.items[0].metrics.stanceKneeAngleReliable, false);
+    assert.equal(
+      report.items[0].ratings.stanceLegControl.status,
+      "not_applicable",
+    );
+    assert.equal(
+      report.items[0].ratings.stanceStability.status,
+      "not_applicable",
+    );
+    assert.equal(report.items[0].metrics.stanceAnkleDrift, null);
+    assert.equal(report.items[0].metrics.stanceKneeAngleDegrees, null);
+    assert.ok(report.items[0].metrics.rawStanceAnkleDrift > 0.1);
+    assert.equal(report.items[0].metrics.stanceKneeAngleReliable, false);
+  }
 });
 
 test("summarizeHurdleStepPoseFeatures returns null without timing evidence", () => {

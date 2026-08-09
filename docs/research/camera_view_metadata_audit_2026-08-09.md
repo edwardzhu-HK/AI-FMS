@@ -51,3 +51,7 @@ view-confounded 方法学案例。
 4. 机位校正不会改变 FMS RAW SCORE，也不支持医疗诊断或功能障碍确诊。
 5. 已完成的 label-free profile discovery 未使用 camera view 参与聚类，因此本次校正
    不改变既有 profile 分组；以后按机位分层时必须使用审计字段。
+
+后续 sensitivity rebuild 已验证：66/44 feature readiness、profile groups、Round A
+score strata、source-effect flags 和 stability status 均保持不变；详细结果见
+`docs/research/camera_audited_feature_sensitivity_2026-08-09.md`。
