@@ -74,6 +74,14 @@ show substantially different magnitudes. This supports continuous quantitative
 detail inside one ordinal category. One stance-stability feature conflicts with
 the reviewers' comments and remains an explicit feature-audit item.
 
+A Deep Squat board-attempt pair is now the primary application-facing example.
+Both reps correctly receive score 2 because the heels are elevated, while the
+pose-derived depth, hip/knee flexion, shank lean, and knee-ankle offset show
+different completion quality. The parameter directions agree with the blinded
+reviewers' depth descriptions. A source-video check also exposed potentially
+inaccurate historical camera-view metadata, which must be audited before view
+is used as an explanatory variable.
+
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110
 canonical repetitions and feature/quality records are mirrored into the local
