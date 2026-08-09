@@ -67,6 +67,13 @@ singleton, source signature, or too few independent videos. The supported
 finding is multidimensional within-score heterogeneity, not validated discrete
 impairment classes.
 
+The first same-view, cross-video Hurdle Step case review now provides a concrete
+example: two independently agreed score-2 reps share the same broad alignment
+failure, while stance-ankle drift, step-knee line offset, and hip-height gap
+show substantially different magnitudes. This supports continuous quantitative
+detail inside one ordinal category. One stance-stability feature conflicts with
+the reviewers' comments and remains an explicit feature-audit item.
+
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110
 canonical repetitions and feature/quality records are mirrored into the local
