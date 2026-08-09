@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the full 285-test quality gate passes.
+resolve both video and pose assets, and the full 288-test quality gate passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
 provenance-only and are excluded from accuracy analysis.
@@ -49,6 +49,13 @@ outcome agreement (31/32) separate from RAW SCORE agreement on the 26 jointly
 scored reps (26/26, linear and quadratic weighted kappa 1.0000), while retaining
 one scoreability mismatch and three unscorable-reason taxonomy mismatches for
 adjudication. These are frozen-pilot reliability results, not clinical validity.
+
+G3 exploratory analysis has started without altering or waiting on Round B. A
+checksum-verified pipeline joins the 26 jointly scored Round A reps to the
+leakage-controlled quantitative feature matrix. All 26 are feature-ready and
+span 16 source videos. The generated movement-profile package reports
+action/score distributions, explicitly video-confounded contrasts, and seven
+same-score/different-feature candidate pairs for human case-study review.
 
 ## 2. Inputs Reviewed
 
@@ -436,7 +443,7 @@ Storage
   object/file storage for videos, segment clips, keypoint JSON
 
 Evaluation Package
-  manifest validator, agreement reports, dataset card, technical report
+  manifest validator, agreement and movement-profile reports, dataset card, technical report
 ```
 
 ## 8. Schedule

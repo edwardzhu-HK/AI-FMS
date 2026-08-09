@@ -308,10 +308,13 @@ Canonical execution plan:
 - [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
 - [x] Generate a checksum-protected private Round A reviewer comparison package.
 - [ ] Recompute leakage-free AI suggestions from pose evidence only.
-- [ ] Export action-specific quantitative feature tables with units and quality.
-- [ ] Analyze feature distributions and effect sizes by human consensus score.
-- [ ] Identify same-score/different-feature movement phenotype case studies.
-- [ ] Separate exploratory compensation hypotheses from validated findings.
+- [x] Export Round A consensus action-specific quantitative feature tables with
+      units and quality fields.
+- [x] Analyze Round A feature distributions and exploratory effect sizes by
+      human consensus score, with video-confounding flags.
+- [x] Identify seven same-score/different-feature movement-profile candidates.
+- [x] Separate exploratory movement-profile hypotheses from validated findings
+      in the generated report.
 - [ ] Generate reproducible figures and analysis notebook/script outputs.
 
 ### G4: Application Package and Release

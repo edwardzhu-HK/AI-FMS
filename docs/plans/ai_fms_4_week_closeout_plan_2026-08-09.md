@@ -67,7 +67,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
 | G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B        |
-| G3 定量研究与结果冻结           | PENDING     | Round A agreement package 已生成；完整 G3 等 Round B            |
+| G3 定量研究与结果冻结           | IN PROGRESS | Round A 26-rep movement profiles 已生成；最终冻结仍等 Round B   |
 | G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
@@ -98,7 +98,9 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] Other Reviewer Round A 完成：32 reviewed、26 scored、6 unscorable，32 个 event 已入库。
 - [x] 两份 Round A 导出均通过 SHA-256、manifest 和 schema 校验；数据库共保存 78 个 event。
 - [x] 生成 Round A agreement package：outcome agreement 31/32，jointly scored RAW SCORE agreement 26/26。
-- [x] 通过 lint、format、285/285 tests 和三页面 production build。
+- [x] 将 26 条双方同分 rep 关联到 quantitative feature matrix；全部 feature-ready，覆盖 16 个源视频。
+- [x] 生成 Round A movement-profile 数据表、描述统计、7 组同分异质性候选、中文报告和 checksums。
+- [x] 通过 lint、format、288/288 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -248,11 +250,11 @@ G2 验收证据：
 - [ ] Round B 完成后计算 Round B agreement 及 Round A/B change metrics。
 - [ ] 计算 score-change rate、confidence delta 和 review-time delta。
 - [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
-- [ ] 分析相同 FMS score 内部的 quantitative profile 异质性。
+- [x] 完成 Round A 26 条 consensus rep 的 quantitative profile 异质性分析。
 - [ ] 使用新 pose-derived 输出比较 AI evidence 与人工 consensus。
-- [ ] 旧 AI 字段不进入 accuracy、agreement 或 validation。
-- [ ] 制作 4-6 个可审阅 case studies。
-- [ ] 通过脚本重新生成全部结果表和图。
+- [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
+- [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
+- [ ] 通过脚本重新生成全部结果表和图；表格与报告已完成，图仍待制作。
 - [ ] 在 G3 结束时冻结主要数字和结论。
 
 建议 case studies：
@@ -387,23 +389,32 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                  | 原因                                                               |
-| ---------- | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                           |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                    |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                     |
-| 2026-08-09 | Rotary Stability 保持 feature-only                    | 当前证据不足以支持可信 AI RAW SCORE                                |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                               |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                            |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量      |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始 |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                 |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                     |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                      |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口         |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告        |
+| 日期       | 决策                                                  | 原因                                                                 |
+| ---------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
+| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                             |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                      |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                       |
+| 2026-08-09 | Rotary Stability 保持 feature-only                    | 当前证据不足以支持可信 AI RAW SCORE                                  |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                 |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                              |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量        |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始   |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                   |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                       |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                        |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口           |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告          |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测 |
 
 ## 12. 变更记录
+
+### v1.7 - 2026-08-09
+
+- G3 转为 IN PROGRESS，不等待 Round B 即启动 Round A exploratory analysis。
+- 26 条双方同分 rep 全部成功连接至 feature matrix，覆盖 16 个源视频且全部 feature-ready。
+- 新增 checksum-verified movement-profile CLI、consensus CSV、feature summary、
+  7 组 case-study candidates、中文报告和 checksums。
+- 明确 Deep Squat 与 Rotary Stability 的跨分数比较受源视频混杂，只作探索性描述。
 
 ### v1.6 - 2026-08-09
 

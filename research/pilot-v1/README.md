@@ -98,3 +98,17 @@ Outputs are written to the ignored
 agreement is reported across all frozen reps; RAW SCORE agreement, weighted
 Cohen's kappa, and the confusion matrix use only reps scored by both reviewers.
 Unscorable outcomes remain nonnumeric and are analyzed separately.
+
+Generate the Round A quantitative movement-profile package from the verified
+agreement output and feature matrix:
+
+```bash
+npm run study:profiles:round-a
+```
+
+The command keeps only the 26 reps with identical blinded human RAW SCORE,
+joins them by stable repetition ID, and writes feature tables, exploratory
+score contrasts, same-score profile candidates, a Chinese report, and
+checksums under the ignored `round-a-movement-profiles/` directory. Round B,
+legacy AI scores, reviewer comments, and label-bearing source metadata are not
+used.
