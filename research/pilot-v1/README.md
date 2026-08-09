@@ -127,3 +127,17 @@ reports label-free quantitative summaries for all 66 feature-ready rows, and
 tracks the 32 formal / 26 gold-consensus subset without discarding the other
 evidence. The database import mirrors all 110 repetitions and all 110 feature
 rows idempotently; canonical JSON/CSV and checksums remain the source of truth.
+
+Discover action-specific quantitative structure across all 66 feature-ready
+reps without using historical or Round A scores during grouping:
+
+```bash
+npm run data:pilot:profiles:label-free
+```
+
+The command writes deterministic profile assignments, source-video and
+leave-one-video-out diagnostics, four robust-z heatmaps, outlier candidates,
+and checksums under the ignored `label-free-profiles/` directory. It overlays
+the 26 Round A consensus rows only after the label-free groups are frozen and
+produces a video/time-coded review queue. The groups are exploratory data
+descriptions, not validated impairment or diagnostic classes.

@@ -313,6 +313,11 @@ Canonical execution plan:
       quantitative feature/quality rows into the local SQLite research database.
 - [x] Generate label-free descriptive feature summaries for all 66 feature-ready
       reps, with source-video counts and sampling-unit limitations.
+- [x] Generate deterministic label-free k-medoids profiles, robust-z heatmaps,
+      source-video distance diagnostics, and leave-one-video-out stability for
+      all 66 feature-ready reps.
+- [x] Overlay the 26 Round A gold-consensus rows only after label-free groups
+      are frozen, and export a video/time-coded human review queue.
 - [x] Classify 26 unused blindable + feature-ready reps as future review
       candidates while keeping historical scores weak-label-only.
 - [ ] Recompute leakage-free AI suggestions from pose evidence only.
@@ -323,7 +328,7 @@ Canonical execution plan:
 - [x] Identify seven same-score/different-feature movement-profile candidates.
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
-- [ ] Generate reproducible figures and analysis notebook/script outputs.
+- [x] Generate reproducible figures and script outputs with SHA-256 checksums.
 - [ ] After Round B, audit historical labels against blind gold consensus before
       promoting any legacy labels to audited weak labels.
 

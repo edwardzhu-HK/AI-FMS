@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.6                           |
+| 版本     | v1.9                           |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -103,7 +103,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 建立 110/66/58/32/26 evidence tiers，确保完整 pilot pool 不被缩减为 gold subset。
 - [x] 将 110 条 canonical repetitions 和 110 条 quantitative feature rows 幂等镜像至本地 SQLite。
 - [x] 生成 110-rep tier table、66-rep label-free feature summary、28-video summary、中文报告和 checksums。
-- [x] 通过 lint、format、291/291 tests 和三页面 production build。
+- [x] 对 66 条 feature-ready rep 完成 label-free robust-z、deterministic k-medoids、source-video effect 和 leave-one-video-out stability 分析。
+- [x] 在冻结 label-free groups 后 post-hoc 叠加 26 条 Round A gold consensus，并生成视频/时间段复核队列。
+- [x] 初步发现：3/7 个 action-score strata 跨 group，但均受 singleton、来源效应或独立视频不足限制；当前结论是同分内存在连续多维异质性，不是已验证的障碍亚型。
+- [x] 通过 lint、format、294/294 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -255,16 +258,18 @@ G2 验收证据：
 - [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
 - [x] 完成 Round A 26 条 consensus rep 的 quantitative profile 异质性分析。
 - [x] 使用全部 110 条进行 evidence-tier/quality 分析，并使用全部 66 条 feature-ready rep 生成 label-free feature distribution。
+- [x] 对 66 条 feature-ready rep 完成无标签分组、来源效应和留一来源稳定性分析。
+- [x] 分组冻结后叠加 Round A score，输出 7 个 action-score strata 和优先视频复核队列。
 - [ ] 使用新 pose-derived 输出比较 AI evidence 与人工 consensus。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
-- [ ] 通过脚本重新生成全部结果表和图；表格与报告已完成，图仍待制作。
+- [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
 - [ ] 在 G3 结束时冻结主要数字和结论。
 
 建议 case studies：
 
-- Deep Squat：同为 2 分但 profile 不同。
-- Hurdle Step：人工分歧与定量证据如何对应。
+- Deep Squat：同分 case-pair 在同一主 group 内仍呈现连续参数差异。
+- Hurdle Step：同为 2 分的 singleton outlier 是否为真实动作策略或 pose/机位问题。
 - ASLR：历史高一致性为何不能解释为模型准确。
 - Rotary Stability：为什么当前采取 feature-only 策略。
 
@@ -393,26 +398,41 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                  | 原因                                                                 |
-| ---------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
-| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                             |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                      |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                       |
-| 2026-08-09 | Rotary Stability 保持 feature-only                    | 当前证据不足以支持可信 AI RAW SCORE                                  |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                 |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                              |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量        |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始   |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                   |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                       |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                        |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口           |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告          |
-| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测 |
-| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels  |
-| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection          |
+| 日期       | 决策                                                  | 原因                                                                      |
+| ---------- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                                  |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                           |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                            |
+| 2026-08-09 | Rotary Stability 保持 feature-only                    | 当前证据不足以支持可信 AI RAW SCORE                                       |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                      |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                                   |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量             |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始        |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                        |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                            |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                             |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告               |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测      |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels       |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection               |
+| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数   | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                     |
+| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据 |
 
 ## 12. 变更记录
+
+### v1.9 - 2026-08-09
+
+- 新增 66-rep label-free profile discovery：movement-only robust z-score、
+  deterministic k-medoids、silhouette、source-video distance ratio 和
+  leave-one-video-out stability。
+- 生成四动作热图、assignments/groups/outliers/source-effects 表、中文报告、
+  review queue 和 SHA-256；所有结果均可由单一命令重建。
+- 分组冻结后才 post-hoc 叠加 26 条 Round A gold consensus；7 个 action-score
+  strata 中 3 个跨 group，但没有一个足以命名为稳定功能障碍亚型。
+- Deep Squat 的同分差异更接近主 group 内的连续参数变化；Hurdle 的跨组结果由
+  单个高杠杆 outlier 驱动；Rotary 只有 2 个独立源视频。
+- 下一步先人工复核优先案例，再按独立来源和动作缺口决定定向补采。
 
 ### v1.8 - 2026-08-09
 

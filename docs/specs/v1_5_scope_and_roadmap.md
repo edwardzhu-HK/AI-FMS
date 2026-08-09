@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the full 291-test quality gate passes.
+resolve both video and pose assets, and the full 294-test quality gate passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
 provenance-only and are excluded from accuracy analysis.
@@ -56,6 +56,16 @@ leakage-controlled quantitative feature matrix. All 26 are feature-ready and
 span 16 source videos. The generated movement-profile package reports
 action/score distributions, explicitly video-confounded contrasts, and seven
 same-score/different-feature candidate pairs for human case-study review.
+
+A second checksum-protected pipeline now uses all 66 feature-ready reps for
+label-free profile discovery. It excludes scores and quality fields from
+distance, reports robust-z heatmaps, source-video effects, and
+leave-one-video-out stability, then overlays the 26 Round A consensus labels
+only after groups are frozen. Three of seven action-score strata cross more
+than one exploratory group, but every such result remains limited by a
+singleton, source signature, or too few independent videos. The supported
+finding is multidimensional within-score heterogeneity, not validated discrete
+impairment classes.
 
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110

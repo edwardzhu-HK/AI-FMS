@@ -215,6 +215,29 @@ validation label。
 `npm run data:pilot:db:status` 查询最新 snapshot。相同 source hashes 重复执行不会
 生成第二份数据。
 
+### 8.5 66-Rep Label-Free Profile Discovery
+
+`npm run data:pilot:profiles:label-free` 从已校验的 full-pool sources 重建 66 条
+feature-ready rep 的动作内 quantitative map。距离只使用 movement features；
+historical score、Round A score、reviewer comment、visibility 和 timing quality
+fields 均不参与标准化或分组。方法包括 median/MAD robust z-score、deterministic
+k-medoids、silhouette、同视频/跨视频距离比和 leave-one-video-out 稳定性。
+Group count 按动作内样本量预设为 2 或 3，仅用于探索性描述，不表示通过模型选择
+确认了自然类别数。
+
+输出位于被 Git 忽略的 `research/pilot-v1/generated/label-free-profiles/`，包括：
+
+- 66-rep assignment、group、outlier 和 source-effect CSV；
+- 四动作 robust-z SVG heatmap；
+- 分组冻结后才叠加的 26-rep Round A consensus crosswalk；
+- 带视频相对路径和时间段的人工复核优先队列；
+- JSON、中文报告和 SHA-256。
+
+探索性 group 不是功能障碍、临床表型或诊断类别。当前 3/7 个 action-score strata
+跨越多个 group，但分别受到 singleton outlier、source-video signature 或独立来源
+不足限制；可报告结论是 ordinal score 内存在多维定量异质性，而不是已经验证出离散
+障碍类型。
+
 ## 9. 公开边界
 
 当前生成物标记为 `private_research_snapshot`。公开申请包只应包含获授权样本、聚合统计、schema、方法、限制和脱敏图表。是否公开原视频、逐 rep 标签或 reviewer identity，必须另行确认。
