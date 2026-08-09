@@ -63,6 +63,9 @@ npm run data:pilot:build
 - `camera-audited feature matrix`：使用 `auditedCameraView` 重建的 sensitivity
   layer。它保留 `sourceFeatureMatrixFingerprint` 指向 Round A 冻结 matrix，不修改
   formal manifest；新的 AI evidence 和机位分层优先使用此层。
+- `round-a-ai-evidence`：先对 110 条审计后 feature rows 独立运行现有规则，再连接
+  Round A 人工共识的 exploratory concordance 层。只有 feature-ready 且规则实际给出
+  总分的 row 进入比较；Rotary feature-only 和 Deep Squat protocol gate 单独记录。
 - `reviewStatus`：历史 workflow 中的 rep 审核状态。
 - `humanReviews`：Reviewer A/B 的原始审核记录。
 - `humanReviewSummary`：仅做机械汇总，不等于独立 adjudication。

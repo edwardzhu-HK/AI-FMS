@@ -95,6 +95,18 @@ stability status changed; only eight Hurdle outlier ranks shifted. This supports
 the robustness of the current high-level exploratory findings while preserving
 the original review lineage.
 
+The first leakage-free AI/consensus comparison now generates suggestions for
+all 110 audited feature rows before joining any human score. Of the 26 jointly
+scored Round A reps, 16 are eligible for a current rule-based total score: 9/16
+match exactly and 14/16 are within one point, while weighted kappa is negative.
+Eight Rotary Stability rows remain feature-only and two Deep Squat rows are
+correctly gated because staged-attempt metadata is missing. These results
+support quantitative AI evidence as a reviewer aid, not autonomous FMS scoring,
+and create a focused ASLR/Hurdle/protocol-metadata audit queue before any rule
+change or targeted collection. Runtime labels are isolated, but this is not an
+independent held-out validation because rule-development overlap with the pilot
+corpus remains possible.
+
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110
 canonical repetitions and feature/quality records are mirrored into the local

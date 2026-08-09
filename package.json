@@ -64,6 +64,7 @@
     "study:reviews:db:status": "node scripts/inspect-study-review-database.js",
     "study:reviews:agreement": "node scripts/analyze-study-review-agreement.js",
     "study:profiles:round-a": "node scripts/analyze-round-a-movement-profiles.js",
+    "study:ai-evidence:round-a": "node scripts/analyze-round-a-ai-consensus-evidence.js",
     "data:pilot:features": "node scripts/build-pilot-feature-matrix.js",
     "data:pilot:features:camera-audited": "node scripts/build-camera-audited-feature-matrix.js",
     "pose:pilot:plan": "node scripts/build-pilot-pose-extraction-plan.js",
