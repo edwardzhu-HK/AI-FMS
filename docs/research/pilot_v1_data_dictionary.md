@@ -155,17 +155,16 @@ fingerprints、完整 event log 和 `completion`。只有 `completion.complete=t
 SQLite 用于本地查询与后续分析，不取代成对 JSON/SHA-256 的冻结交付物。相同
 export hash 重复导入是幂等操作；同一 `eventId` 内容冲突时事务回滚。
 
-截至 2026-08-09，数据库为一个 344 KB、UTF-8、4 KB page 的 SQLite 3 文件，
-包含 2 个完整 export、78 个不可变 event、78 条 export-event 顺序关联和 1 条
-schema migration。两个 export 合计形成 64 个 reviewer-repetition 最终状态：
-53 个 `scored`、11 个 `unscorable`。数据库会保留 superseded event、comment、
-quality flags、blind-review metadata 和原始 event/export JSON，因此属于私有研究
-数据，不进入 Git。
+截至 2026-08-09，数据库为约 1.3 MB、UTF-8、4 KB page 的 SQLite 3 文件。审核层
+包含 2 个完整 export、78 个不可变 event 和 78 条 export-event 顺序关联。两个
+export 合计形成 64 个 reviewer-repetition 最终状态：53 个 `scored`、11 个
+`unscorable`。数据库会保留 superseded event、comment、quality flags、
+blind-review metadata 和原始 event/export JSON，因此属于私有研究数据，不进入 Git。
 
-该 SQLite 当前是 **study-review database**，不是全项目数据仓库。110-rep
-quantitative feature matrix 仍以 checksum 保护的 JSON/CSV 保存；pose、视频和
-manifest 也各自保留为文件型 canonical artifacts。冻结 JSON/SHA-256 是交付证据，
-SQLite 是查询副本，二者职责不同。
+Full-pool 层包含 1 个 fingerprint-traceable snapshot、110 条
+`pilot_repetitions` 和 110 条 `pilot_quantitative_features`。冻结 JSON/SHA-256
+继续作为 source of truth；SQLite 是幂等、可查询的镜像，不取代 canonical
+JSON/CSV、pose、视频或 manifest。
 
 ### 8.2 双 Reviewer Agreement
 
@@ -193,6 +192,28 @@ reviewer comment 不进入定量计算。
 输出位于被 Git 忽略的
 `research/pilot-v1/generated/round-a-movement-profiles/`。Round B 不属于该输入，
 因此后续可以扩展分析而不改写冻结的 Round A 证据。
+
+### 8.4 110-Rep Full-Pool Utilization
+
+`npm run data:pilot:utilization` 会校验 canonical、feature matrix、formal
+manifest 和 Round A agreement 的 checksum/fingerprint，并强制保留全部 110 个
+canonical repetition ID。输出包括：
+
+- 110-rep evidence-tier CSV；
+- 66 条 feature-ready rep 的 label-free quantitative summary；
+- 28 个源视频的聚类/重复计数表；
+- 中文 full-pool utilization report 和 SHA-256。
+
+六个研究层级分别为：26 条 `gold_consensus`、6 条
+`formal_non_consensus`、26 条 `expansion_candidate`、8 条
+`feature_ready_not_blindable`、39 条 `blindable_feature_limited` 和 5 条
+`not_blindable_feature_limited`。历史分数统一保留为
+`legacy_weak_label_pending_gold_audit`，Round B 后完成 gold audit 之前不能作为正式
+validation label。
+
+`npm run data:pilot:db:ingest` 将同一 snapshot 幂等写入本地 SQLite；
+`npm run data:pilot:db:status` 查询最新 snapshot。相同 source hashes 重复执行不会
+生成第二份数据。
 
 ## 9. 公开边界
 

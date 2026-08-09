@@ -67,7 +67,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
 | G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B        |
-| G3 定量研究与结果冻结           | IN PROGRESS | Round A 26-rep movement profiles 已生成；最终冻结仍等 Round B   |
+| G3 定量研究与结果冻结           | IN PROGRESS | 110/66 full-pool 与 32/26 gold 分层已建立；最终冻结仍等 Round B |
 | G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
@@ -100,7 +100,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 生成 Round A agreement package：outcome agreement 31/32，jointly scored RAW SCORE agreement 26/26。
 - [x] 将 26 条双方同分 rep 关联到 quantitative feature matrix；全部 feature-ready，覆盖 16 个源视频。
 - [x] 生成 Round A movement-profile 数据表、描述统计、7 组同分异质性候选、中文报告和 checksums。
-- [x] 通过 lint、format、288/288 tests 和三页面 production build。
+- [x] 建立 110/66/58/32/26 evidence tiers，确保完整 pilot pool 不被缩减为 gold subset。
+- [x] 将 110 条 canonical repetitions 和 110 条 quantitative feature rows 幂等镜像至本地 SQLite。
+- [x] 生成 110-rep tier table、66-rep label-free feature summary、28-video summary、中文报告和 checksums。
+- [x] 通过 lint、format、291/291 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -251,6 +254,7 @@ G2 验收证据：
 - [ ] 计算 score-change rate、confidence delta 和 review-time delta。
 - [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
 - [x] 完成 Round A 26 条 consensus rep 的 quantitative profile 异质性分析。
+- [x] 使用全部 110 条进行 evidence-tier/quality 分析，并使用全部 66 条 feature-ready rep 生成 label-free feature distribution。
 - [ ] 使用新 pose-derived 输出比较 AI evidence 与人工 consensus。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
@@ -405,8 +409,21 @@ Secondary questions：
 | 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口           |
 | 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告          |
 | 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测 |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels  |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection          |
 
 ## 12. 变更记录
+
+### v1.8 - 2026-08-09
+
+- 明确完整研究规模为 110-rep pilot pool、66-rep feature-ready quantitative
+  pool、32-rep formal audit sample 和 26-rep Round A gold consensus subset。
+- 新增 full-pool utilization CLI、六层 evidence tier、66-rep label-free feature
+  summary、source-video summary、中文报告和 checksums。
+- 将 110 repetitions 与 110 feature/quality rows 幂等写入现有 SQLite，保留原有
+  reviewer exports/events，canonical 文件继续作为 source of truth。
+- 定向采集仍未冻结：Deep Squat 优先利用现有候选，ASLR/Hurdle 优先修 timing，
+  Rotary 优先修 pose，残余缺口才进入采集计划。
 
 ### v1.7 - 2026-08-09
 
