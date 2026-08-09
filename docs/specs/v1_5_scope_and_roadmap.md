@@ -67,20 +67,24 @@ singleton, source signature, or too few independent videos. The supported
 finding is multidimensional within-score heterogeneity, not validated discrete
 impairment classes.
 
-The first same-view, cross-video Hurdle Step case review now provides a concrete
-example: two independently agreed score-2 reps share the same broad alignment
-failure, while stance-ankle drift, step-knee line offset, and hip-height gap
-show substantially different magnitudes. This supports continuous quantitative
-detail inside one ordinal category. One stance-stability feature conflicts with
-the reviewers' comments and remains an explicit feature-audit item.
+The first cross-video Hurdle Step case review found two independently agreed
+score-2 reps with different stance-ankle drift, step-knee line offset, and
+hip-height gap. The camera audit subsequently changed the outlier from
+historical `front` to `mixed`, while the comparator remains `front`. The pair is
+therefore retained as a view-confounded metadata/feature-audit example, not as
+clean evidence of movement-only heterogeneity. One stance-stability feature
+also conflicts with reviewer comments and remains an explicit audit item.
 
 A Deep Squat board-attempt pair is now the primary application-facing example.
 Both reps correctly receive score 2 because the heels are elevated, while the
 pose-derived depth, hip/knee flexion, shank lean, and knee-ankle offset show
 different completion quality. The parameter directions agree with the blinded
-reviewers' depth descriptions. A source-video check also exposed potentially
-inaccurate historical camera-view metadata, which must be audited before view
-is used as an explanatory variable.
+reviewers' depth descriptions. A source-video check also exposed inaccurate
+historical camera-view metadata. The subsequent 110-rep contact-sheet audit
+preserved the original field for lineage and produced `auditedCameraView`: 65
+rows were confirmed and 45 were corrected, with all 29 two-reviewer Round A
+camera-view agreements matching the audited result. Future view-stratified
+analysis must use the audited layer.
 
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110

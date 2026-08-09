@@ -326,12 +326,14 @@ Canonical execution plan:
 - [x] Analyze Round A feature distributions and exploratory effect sizes by
       human consensus score, with video-confounding flags.
 - [x] Identify seven same-score/different-feature movement-profile candidates.
-- [x] Complete the first same-view, cross-video Hurdle Step score-2 case review
-      and retain it as a provisional continuous-heterogeneity case study.
+- [x] Complete the first cross-video Hurdle Step score-2 case review, then
+      downgrade it to a view-confounded methodological example after the
+      camera audit changed one rep from historical `front` to `mixed`.
 - [x] Complete a cross-video Deep Squat score-2 board-attempt case review and
       promote it as the primary application-facing same-score example.
-- [ ] Audit historical `cameraView` metadata against source-video orientation
-      before using view as an explanatory variable.
+- [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
+      original field for lineage, and generate checksum-protected
+      `auditedCameraView` outputs before using view as an explanatory variable.
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
 - [x] Generate reproducible figures and script outputs with SHA-256 checksums.
@@ -408,8 +410,9 @@ remain reusable:
 - The four-movement canonical pilot contains 110 repetitions from 28 videos.
   Repetitions from one video are correlated and do not represent 110 independent
   participants.
-- All 29 pilot ingest references resolve to real pose JSON, but pose quality,
-  camera view, crop choice, and feature validity still require per-action QA.
+- All 29 pilot ingest references resolve to real pose JSON. Camera view has now
+  been audited for all 110 reps; pose quality, crop choice, and feature validity
+  still require per-action QA.
 - Historical Reviewer A/B records are not independent blind ratings. The new
   two-reviewer Round A is complete, but its 26 jointly scored reps remain a
   small frozen pilot and do not establish clinical validity or generalization.
