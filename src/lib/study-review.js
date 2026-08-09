@@ -1,9 +1,28 @@
 const SCORE_VALUES = new Set([0, 1, 2, 3]);
 const STUDY_ROUNDS = new Set(["round_a", "round_b", "dry_run"]);
-const REVIEW_STATUSES = new Set(["scored", "deferred"]);
+const REVIEW_STATUSES = new Set(["scored", "deferred", "unscorable"]);
 const CONFIDENCE_VALUES = new Set(["low", "medium", "high"]);
 const CAMERA_VIEWS = new Set(["unknown", "front", "side", "mixed"]);
 const SIDES = new Set(["unknown", "none", "left", "right", "bilateral"]);
+const UNSCORABLE_REASONS = new Set([
+  "movement_not_visible",
+  "missing_required_reference",
+  "missing_required_protocol_condition",
+  "timing_invalid",
+  "other",
+]);
+const ZERO_SCORE_REASONS = new Set(["pain_observed_or_reported"]);
+const LEGACY_COMPLETION_FIELDS = [
+  "status",
+  "complete",
+  "expectedCount",
+  "latestReviewCount",
+  "scoredCount",
+  "deferredCount",
+  "analysisExcludedCount",
+  "missingRepetitionIds",
+  "unexpectedRepetitionIds",
+];
 
 function stableHash(value) {
   let hash = 2166136261;
@@ -51,10 +70,15 @@ function completionMatches(reported, computed) {
   if (!reported || typeof reported !== "object") {
     return false;
   }
-  return Object.entries(computed).every(([key, value]) =>
-    Array.isArray(value)
-      ? sameStringArray(reported[key], value)
-      : reported[key] === value,
+  if (LEGACY_COMPLETION_FIELDS.some((field) => !(field in reported))) {
+    return false;
+  }
+  return Object.entries(reported).every(
+    ([key, value]) =>
+      key in computed &&
+      (Array.isArray(value)
+        ? sameStringArray(value, computed[key])
+        : value === computed[key]),
   );
 }
 
@@ -76,17 +100,21 @@ function summarizeCompletion({ pilot, reviewerId, studyRound, events }) {
   const scoredCount = latest.filter(
     (event) => event.status === "scored",
   ).length;
+  const unscorableCount = latest.filter(
+    (event) => event.status === "unscorable",
+  ).length;
+  const resolvedCount = scoredCount + unscorableCount;
   const deferredCount = latest.filter(
     (event) => event.status === "deferred",
   ).length;
   const analysisExcludedCount = latest.filter(
     (event) =>
-      event.status === "scored" &&
+      event.status === "unscorable" ||
       event.blindReview?.eligibleForBlindAnalysis === false,
   ).length;
   const complete =
     expectedIds.length > 0 &&
-    scoredCount === expectedIds.length &&
+    resolvedCount === expectedIds.length &&
     deferredCount === 0 &&
     missingRepetitionIds.length === 0 &&
     unexpectedRepetitionIds.length === 0;
@@ -96,7 +124,9 @@ function summarizeCompletion({ pilot, reviewerId, studyRound, events }) {
     complete,
     expectedCount: expectedIds.length,
     latestReviewCount: latest.length,
+    resolvedCount,
     scoredCount,
+    unscorableCount,
     deferredCount,
     analysisExcludedCount,
     missingRepetitionIds,
@@ -222,6 +252,8 @@ export function createStudyReviewEvent({
   now = new Date(),
   reviewStartedAt = now.toISOString(),
   reviewDurationMs = 0,
+  unscorableReason = null,
+  scoreZeroReason = null,
   supersedesEventId = null,
   eventId = crypto.randomUUID(),
 }) {
@@ -231,13 +263,29 @@ export function createStudyReviewEvent({
   assertStudyRound(studyRound);
 
   if (!REVIEW_STATUSES.has(status)) {
-    throw new Error("status must be scored or deferred.");
+    throw new Error("status must be scored, deferred, or unscorable.");
   }
   if (status === "scored" && !SCORE_VALUES.has(score)) {
     throw new Error("score must be 0, 1, 2, or 3.");
   }
   if (status === "scored" && !CONFIDENCE_VALUES.has(confidence)) {
     throw new Error("confidence must be low, medium, or high.");
+  }
+  if (
+    status === "scored" &&
+    score === 0 &&
+    !ZERO_SCORE_REASONS.has(scoreZeroReason)
+  ) {
+    throw new Error("score 0 requires confirmed pain evidence.");
+  }
+  if (status === "unscorable" && !UNSCORABLE_REASONS.has(unscorableReason)) {
+    throw new Error("unscorableReason is required for unscorable reviews.");
+  }
+  if (status === "unscorable" && !CONFIDENCE_VALUES.has(confidence)) {
+    throw new Error("confidence must be low, medium, or high.");
+  }
+  if (status === "unscorable" && !comment.trim()) {
+    throw new Error("comment is required for unscorable reviews.");
   }
   if (!isIsoDate(reviewStartedAt)) {
     throw new Error("reviewStartedAt must be an ISO date-time.");
@@ -248,6 +296,7 @@ export function createStudyReviewEvent({
 
   const normalizedFlags = [...new Set(qualityFlags)].sort();
   const labelCueDetected = normalizedFlags.includes("label_cue_visible");
+  const hasScore = status === "scored";
 
   return {
     schemaVersion: "ai_fms_study_review_event_v2",
@@ -259,8 +308,10 @@ export function createStudyReviewEvent({
     actionType: repetition.actionType,
     reviewerId: reviewerId.trim(),
     status,
-    score: status === "scored" ? score : null,
-    confidence: status === "scored" ? confidence : null,
+    score: hasScore ? score : null,
+    confidence: status === "deferred" ? null : confidence,
+    unscorableReason: status === "unscorable" ? unscorableReason : null,
+    scoreZeroReason: hasScore && score === 0 ? scoreZeroReason : null,
     cameraView,
     side,
     comment: comment.trim(),
@@ -271,7 +322,7 @@ export function createStudyReviewEvent({
       sourceFileNameHidden: true,
       audioMuted: true,
       labelCueDetected,
-      eligibleForBlindAnalysis: !labelCueDetected,
+      eligibleForBlindAnalysis: status !== "unscorable" && !labelCueDetected,
     },
     rubricVersion: "fms_v1.0",
     reviewStartedAt,
@@ -291,11 +342,16 @@ export function buildStudyReviewExport({
   assertNonEmpty(pilot?.pilotId, "pilotId");
   assertNonEmpty(reviewerId, "reviewerId");
   assertStudyRound(studyRound);
+  const normalizedEvents = (events ?? []).map((event) => ({
+    ...event,
+    unscorableReason: event.unscorableReason ?? null,
+    scoreZeroReason: event.scoreZeroReason ?? null,
+  }));
   const completion = summarizeCompletion({
     pilot,
     reviewerId,
     studyRound,
-    events,
+    events: normalizedEvents,
   });
   return {
     schemaVersion: "ai_fms_study_review_export_v2",
@@ -309,9 +365,9 @@ export function buildStudyReviewExport({
     sourceFeatureMatrixFingerprint:
       pilot.sourceFeatureMatrixFingerprint ?? null,
     expectedRepetitionIds: expectedRepetitionIds(pilot),
-    eventCount: events?.length ?? 0,
+    eventCount: normalizedEvents.length,
     completion,
-    events: events ?? [],
+    events: normalizedEvents,
   };
 }
 
@@ -385,6 +441,40 @@ export function validateStudyReviewExport(
     ) {
       errors.push(`${prefix}.confidence is invalid.`);
     }
+    if (
+      event?.status === "unscorable" &&
+      !CONFIDENCE_VALUES.has(event?.confidence)
+    ) {
+      errors.push(`${prefix}.confidence is invalid.`);
+    }
+    if (
+      event?.unscorableReason != null &&
+      !UNSCORABLE_REASONS.has(event.unscorableReason)
+    ) {
+      errors.push(`${prefix}.unscorableReason is invalid.`);
+    }
+    if (
+      event?.scoreZeroReason != null &&
+      !ZERO_SCORE_REASONS.has(event.scoreZeroReason)
+    ) {
+      errors.push(`${prefix}.scoreZeroReason is invalid.`);
+    }
+    if (event?.status === "unscorable") {
+      if (!UNSCORABLE_REASONS.has(event?.unscorableReason)) {
+        errors.push(`${prefix}.unscorableReason is required.`);
+      }
+      if (event?.score !== null) {
+        errors.push(`${prefix}.score must be null when unscorable.`);
+      }
+      if (!event?.comment?.trim()) {
+        errors.push(`${prefix}.comment is required when unscorable.`);
+      }
+      if (event?.blindReview?.eligibleForBlindAnalysis !== false) {
+        errors.push(
+          `${prefix}.unscorable review must be excluded from analysis.`,
+        );
+      }
+    }
     if (!isIsoDate(event?.reviewStartedAt)) {
       errors.push(`${prefix}.reviewStartedAt is invalid.`);
     }
@@ -430,6 +520,26 @@ export function validateStudyReviewExport(
     } else if (superseded.repetitionId !== event.repetitionId) {
       errors.push(
         `events[${index}].supersedesEventId points to another repetition.`,
+      );
+    }
+  }
+
+  for (const event of latestStudyReviews(payload?.events ?? []).values()) {
+    if (
+      event.status === "scored" &&
+      event.score === 0 &&
+      !ZERO_SCORE_REASONS.has(event.scoreZeroReason)
+    ) {
+      errors.push(
+        `latest event for ${event.repetitionId} uses score 0 without confirmed pain evidence.`,
+      );
+    }
+    if (
+      event.status === "scored" &&
+      event.qualityFlags?.includes("movement_not_visible")
+    ) {
+      errors.push(
+        `latest event for ${event.repetitionId} cannot be scored when movement is not visible.`,
       );
     }
   }
@@ -492,11 +602,11 @@ export function validateStudyReviewExport(
   }
   if (requireComplete && !completion.complete) {
     errors.push(
-      `review is incomplete (${completion.scoredCount}/${completion.expectedCount} scored).`,
+      `review is incomplete (${completion.resolvedCount}/${completion.expectedCount} resolved; ${completion.scoredCount} scored).`,
     );
   } else if (!completion.complete) {
     warnings.push(
-      `partial review (${completion.scoredCount}/${completion.expectedCount} scored).`,
+      `partial review (${completion.resolvedCount}/${completion.expectedCount} resolved; ${completion.scoredCount} scored).`,
     );
   }
 

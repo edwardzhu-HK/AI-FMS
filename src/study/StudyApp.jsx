@@ -43,13 +43,24 @@ const QUALITY_FLAGS = [
   ["label_cue_visible", "画面出现分数提示"],
 ];
 
+const UNSCORABLE_REASONS = [
+  ["movement_not_visible", "动作不可见"],
+  ["missing_required_reference", "缺少评分所需参照物"],
+  ["missing_required_protocol_condition", "缺少后续测试条件"],
+  ["timing_invalid", "片段边界无法支持评分"],
+  ["other", "其他"],
+];
+
 function encodeVideoPath(relativePath) {
   return `/${relativePath.split("/").map(encodeURIComponent).join("/")}`;
 }
 
 function emptyDraft(item) {
   return {
+    outcome: "scored",
     score: null,
+    scoreZeroConfirmed: false,
+    unscorableReason: null,
     confidence: "medium",
     cameraView: item?.cameraView ?? "unknown",
     side: item?.side ?? "unknown",
@@ -59,11 +70,14 @@ function emptyDraft(item) {
 }
 
 function draftFromEvent(item, event) {
-  if (!event || event.status !== "scored") {
+  if (!event || event.status === "deferred") {
     return emptyDraft(item);
   }
   return {
+    outcome: event.status === "unscorable" ? "unscorable" : "scored",
     score: event.score,
+    scoreZeroConfirmed: event.scoreZeroReason === "pain_observed_or_reported",
+    unscorableReason: event.unscorableReason ?? null,
     confidence: event.confidence ?? "medium",
     cameraView: event.cameraView ?? item.cameraView ?? "unknown",
     side: event.side ?? item.side ?? "unknown",
@@ -157,16 +171,24 @@ export default function StudyApp() {
   const activeReview = activeItem
     ? latestByRepetition.get(activeItem.repetitionId)
     : null;
-  const completedCount = [...latestByRepetition.values()].filter(
+  const scoredCount = [...latestByRepetition.values()].filter(
     (event) => event.status === "scored",
   ).length;
+  const unscorableCount = [...latestByRepetition.values()].filter(
+    (event) => event.status === "unscorable",
+  ).length;
+  const resolvedCount = scoredCount + unscorableCount;
   const deferredCount = [...latestByRepetition.values()].filter(
     (event) => event.status === "deferred",
   ).length;
   const progressPercent = queue.length
-    ? Math.round((completedCount / queue.length) * 100)
+    ? Math.round((resolvedCount / queue.length) * 100)
     : 0;
   const activeRepetitionId = activeItem?.repetitionId ?? null;
+  const canSaveReview =
+    draft.outcome === "unscorable"
+      ? Boolean(draft.unscorableReason && draft.comment.trim())
+      : draft.score !== null && (draft.score !== 0 || draft.scoreZeroConfirmed);
 
   useEffect(() => {
     if (!pilot || !reviewerId) {
@@ -343,6 +365,11 @@ export default function StudyApp() {
       reviewStartedAt:
         reviewTimerRef.current?.startedAtIso ?? new Date().toISOString(),
       reviewDurationMs: readTimerDuration(reviewTimerRef.current),
+      unscorableReason: status === "unscorable" ? draft.unscorableReason : null,
+      scoreZeroReason:
+        status === "scored" && draft.score === 0
+          ? "pain_observed_or_reported"
+          : null,
       supersedesEventId: activeReview?.eventId ?? null,
     });
     setEvents((current) => [...current, event]);
@@ -356,6 +383,24 @@ export default function StudyApp() {
       qualityFlags: current.qualityFlags.includes(flag)
         ? current.qualityFlags.filter((item) => item !== flag)
         : [...current.qualityFlags, flag],
+    }));
+  }
+
+  function selectUnscorableReason(reason) {
+    setDraft((current) => ({
+      ...current,
+      outcome: "unscorable",
+      score: null,
+      scoreZeroConfirmed: false,
+      unscorableReason: reason,
+      qualityFlags:
+        reason === "movement_not_visible"
+          ? current.qualityFlags.includes("movement_not_visible")
+            ? current.qualityFlags
+            : [...current.qualityFlags, "movement_not_visible"]
+          : current.qualityFlags.filter(
+              (flag) => flag !== "movement_not_visible",
+            ),
     }));
   }
 
@@ -418,7 +463,10 @@ export default function StudyApp() {
               ? "Round B · Locked"
               : "Round A · Blind"}
         </div>
-        <div className="reviewer-switch" aria-label="Reviewer">
+        <div
+          className={`reviewer-switch${IS_DRY_RUN ? " single" : ""}`}
+          aria-label="Reviewer"
+        >
           {IS_DRY_RUN ? (
             <button
               className={reviewerId === "Test Reviewer" ? "active" : ""}
@@ -454,8 +502,10 @@ export default function StudyApp() {
         <div className="progress-copy">
           <strong>{reviewerId || "选择 Reviewer"}</strong>
           <span>
-            {completedCount}/{queue.length} 已评分
+            {resolvedCount}/{queue.length} 已处理
           </span>
+          <span>{scoredCount} 已评分</span>
+          <span>{unscorableCount} 无法评分</span>
           <span>{deferredCount} 稍后处理</span>
         </div>
         <div className="progress-track" aria-hidden="true">
@@ -477,8 +527,8 @@ export default function StudyApp() {
             >
               <span>
                 {exportBundle.completion.complete
-                  ? "32/32 Complete"
-                  : `${exportBundle.completion.scoredCount}/${exportBundle.completion.expectedCount} Partial`}
+                  ? `${exportBundle.completion.resolvedCount}/${exportBundle.completion.expectedCount} Complete · ${exportBundle.completion.scoredCount} scored · ${exportBundle.completion.unscorableCount} unscorable`
+                  : `${exportBundle.completion.resolvedCount}/${exportBundle.completion.expectedCount} Partial`}
               </span>
               <a
                 download={exportBundle.jsonFileName}
@@ -528,9 +578,11 @@ export default function StudyApp() {
                     <em data-status={review?.status ?? "pending"}>
                       {review?.status === "scored"
                         ? review.score
-                        : review?.status === "deferred"
-                          ? "Later"
-                          : "Pending"}
+                        : review?.status === "unscorable"
+                          ? "N/A"
+                          : review?.status === "deferred"
+                            ? "Later"
+                            : "Pending"}
                     </em>
                   </button>
                 );
@@ -548,7 +600,11 @@ export default function StudyApp() {
                 <time>{formatDuration(reviewDurationMs)}</time>
                 {activeReview ? (
                   <mark>
-                    {activeReview.status === "scored" ? "已记录" : "稍后处理"}
+                    {activeReview.status === "scored"
+                      ? "已评分"
+                      : activeReview.status === "unscorable"
+                        ? "无法评分"
+                        : "稍后处理"}
                   </mark>
                 ) : null}
               </div>
@@ -606,14 +662,81 @@ export default function StudyApp() {
               {[0, 1, 2, 3].map((score) => (
                 <button
                   type="button"
-                  className={draft.score === score ? "active" : ""}
+                  className={
+                    draft.outcome === "scored" && draft.score === score
+                      ? "active"
+                      : ""
+                  }
                   key={score}
-                  onClick={() => setDraft((current) => ({ ...current, score }))}
+                  onClick={() =>
+                    setDraft((current) => ({
+                      ...current,
+                      outcome: "scored",
+                      score,
+                      scoreZeroConfirmed:
+                        score === 0 ? current.scoreZeroConfirmed : false,
+                      unscorableReason: null,
+                    }))
+                  }
                 >
                   {score}
                 </button>
               ))}
             </div>
+
+            {draft.outcome === "scored" && draft.score === 0 ? (
+              <label className="pain-confirmation">
+                <input
+                  type="checkbox"
+                  checked={draft.scoreZeroConfirmed}
+                  onChange={(event) =>
+                    setDraft((current) => ({
+                      ...current,
+                      scoreZeroConfirmed: event.target.checked,
+                    }))
+                  }
+                />
+                疼痛已观察或报告
+              </label>
+            ) : null}
+
+            <div className="outcome-divider" aria-hidden="true">
+              <span>OR</span>
+            </div>
+
+            <button
+              type="button"
+              className={
+                draft.outcome === "unscorable"
+                  ? "unscorable-button active"
+                  : "unscorable-button"
+              }
+              onClick={() =>
+                selectUnscorableReason(
+                  draft.unscorableReason ?? "movement_not_visible",
+                )
+              }
+            >
+              无法独立评分
+            </button>
+
+            {draft.outcome === "unscorable" ? (
+              <label className="field-block unscorable-reason">
+                原因
+                <select
+                  value={draft.unscorableReason ?? ""}
+                  onChange={(event) =>
+                    selectUnscorableReason(event.target.value)
+                  }
+                >
+                  {UNSCORABLE_REASONS.map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
 
             <div className="field-block">
               <span>Confidence</span>
@@ -714,10 +837,14 @@ export default function StudyApp() {
               <button
                 type="button"
                 className="save-button"
-                disabled={draft.score === null}
-                onClick={() => appendEvent("scored")}
+                disabled={!canSaveReview}
+                onClick={() =>
+                  appendEvent(
+                    draft.outcome === "unscorable" ? "unscorable" : "scored",
+                  )
+                }
               >
-                保存并继续
+                {draft.outcome === "unscorable" ? "记录并继续" : "保存并继续"}
               </button>
             </div>
           </aside>

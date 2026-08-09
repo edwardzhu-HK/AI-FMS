@@ -126,11 +126,32 @@ Blindability 将两类视觉线索分开记录：
 - `reviewDurationMs`：页面处于前台时累计的审核时间；不把后台停留计入 review time。
 - `supersedesEventId`：修改评分时指向被替代事件，旧事件仍保留。
 - `blindReview`：保存 Round A 的隐藏边界和 label-cue QA。
+- `status`：`scored`、`unscorable` 或 `deferred`。`scored` 和
+  `unscorable` 都属于已处理，只有 `scored` 进入分数分析。
+- `scoreZeroReason`：RAW SCORE 为 `0` 时必须是
+  `pain_observed_or_reported`；不能用 `0` 代替视频条件不足。
+- `unscorableReason`：无法独立评分时记录动作不可见、缺少参照物、缺少必要
+  protocol condition、片段时间无效或其他原因。
+- `eligibleForBlindAnalysis`：`unscorable` event 固定为 `false`。
 
 `ai_fms_study_review_export_v2` 同时保存 frozen repetition IDs、source
 fingerprints、完整 event log 和 `completion`。只有 `completion.complete=true`
-且 CLI validator 通过的 32/32 文件可以冻结为正式 reviewer 输出。JSON
-必须与页面生成的 `.sha256` 文件成对保存。
+且 CLI validator 通过的 32/32 文件可以冻结为正式 reviewer 输出。32/32
+表示 32 条均已处理，可以由 `scored` 与 `unscorable` 共同组成；统计分析必须
+另行报告 scored 与 excluded 数。JSON 必须与页面生成的 `.sha256` 文件成对保存。
+
+### 8.1 本地研究数据库
+
+完整导出通过 `npm run study:reviews:ingest -- <review.json>` 写入被 Git 忽略的
+`Ingested-data/ai-fms-study-reviews.sqlite`。数据库使用 Node 内置 SQLite，包含：
+
+- `study_review_exports`：签名导出的 hash、来源、完成统计和原始 JSON；
+- `study_review_events`：按 `eventId` 不可变保存全部 append-only events；
+- `study_review_export_events`：导出与 event 的顺序关联；
+- `study_review_schema_migrations`：本地 schema 版本。
+
+SQLite 用于本地查询与后续分析，不取代成对 JSON/SHA-256 的冻结交付物。相同
+export hash 重复导入是幂等操作；同一 `eventId` 内容冲突时事务回滚。
 
 ## 9. 公开边界
 

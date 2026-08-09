@@ -55,6 +55,8 @@
     "study:formal:freeze": "node scripts/freeze-formal-study-manifest.js",
     "study:formal:previews": "node scripts/generate-blindability-previews.js --manifest research/pilot-v1/generated/formal-study-manifest.json --output-dir research/pilot-v1/generated/formal-study-previews --force",
     "study:reviews:validate": "node scripts/validate-study-review-export.js",
+    "study:reviews:ingest": "node scripts/ingest-study-review-export.js",
+    "study:reviews:db:status": "node scripts/inspect-study-review-database.js",
     "data:pilot:features": "node scripts/build-pilot-feature-matrix.js",
     "pose:pilot:plan": "node scripts/build-pilot-pose-extraction-plan.js",
     "pose:pilot:extract:auto": "node scripts/build-pilot-pose-extraction-plan.js --execute --actions deep_squat,active_straight_leg_raise,rotary_stability",

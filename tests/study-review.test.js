@@ -275,3 +275,95 @@ test("review export validator requires valid supersession lineage", () => {
   assert.equal(result.valid, false);
   assert.match(result.errors.join(" "), /supersedesEventId was not found/);
 });
+
+test("unscorable is a completed review outcome excluded from score analysis", () => {
+  const twoRepPilot = {
+    ...pilot,
+    repetitions: [
+      ...pilot.repetitions,
+      {
+        ...pilot.repetitions[0],
+        repetitionId: "rep_2",
+        ingestId: "ing_2",
+      },
+    ],
+  };
+  const queue = buildStudyQueue(twoRepPilot, "Ronnie", "round_a");
+  const scored = createStudyReviewEvent({
+    pilotId: twoRepPilot.pilotId,
+    reviewerId: "Ronnie",
+    repetition: queue[0],
+    score: 2,
+    eventId: "scored_event",
+  });
+  const unscorable = createStudyReviewEvent({
+    pilotId: twoRepPilot.pilotId,
+    reviewerId: "Ronnie",
+    repetition: queue[1],
+    status: "unscorable",
+    confidence: "high",
+    unscorableReason: "missing_required_reference",
+    comment: "Required measurement reference is not visible.",
+    eventId: "unscorable_event",
+  });
+  const payload = buildStudyReviewExport({
+    pilot: twoRepPilot,
+    reviewerId: "Ronnie",
+    events: [scored, unscorable],
+  });
+  const result = validateStudyReviewExport(payload, { pilot: twoRepPilot });
+
+  assert.equal(result.valid, true);
+  assert.equal(payload.completion.complete, true);
+  assert.equal(payload.completion.resolvedCount, 2);
+  assert.equal(payload.completion.scoredCount, 1);
+  assert.equal(payload.completion.unscorableCount, 1);
+  assert.equal(payload.completion.analysisExcludedCount, 1);
+  assert.equal(unscorable.score, null);
+  assert.equal(unscorable.blindReview.eligibleForBlindAnalysis, false);
+});
+
+test("score zero requires explicit pain evidence", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_a")[0];
+
+  assert.throws(
+    () =>
+      createStudyReviewEvent({
+        pilotId: pilot.pilotId,
+        reviewerId: "Ronnie",
+        repetition,
+        score: 0,
+      }),
+    /confirmed pain evidence/,
+  );
+
+  const event = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    repetition,
+    score: 0,
+    scoreZeroReason: "pain_observed_or_reported",
+  });
+  assert.equal(event.scoreZeroReason, "pain_observed_or_reported");
+});
+
+test("validator rejects a latest scored event when movement is not visible", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_a")[0];
+  const event = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    repetition,
+    score: 2,
+    qualityFlags: ["movement_not_visible"],
+    eventId: "invisible_scored_event",
+  });
+  const payload = buildStudyReviewExport({
+    pilot,
+    reviewerId: "Ronnie",
+    events: [event],
+  });
+  const result = validateStudyReviewExport(payload, { pilot });
+
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join(" "), /cannot be scored/);
+});
