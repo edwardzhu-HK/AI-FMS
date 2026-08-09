@@ -31,7 +31,8 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the full 294-test quality gate passes.
+resolve both video and pose assets, and the current full 295-test quality gate
+passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
 provenance-only and are excluded from accuracy analysis.
@@ -68,12 +69,12 @@ finding is multidimensional within-score heterogeneity, not validated discrete
 impairment classes.
 
 The first cross-video Hurdle Step case review found two independently agreed
-score-2 reps with different stance-ankle drift, step-knee line offset, and
-hip-height gap. The camera audit subsequently changed the outlier from
-historical `front` to `mixed`, while the comparator remains `front`. The pair is
-therefore retained as a view-confounded metadata/feature-audit example, not as
-clean evidence of movement-only heterogeneity. One stance-stability feature
-also conflicts with reviewer comments and remains an explicit audit item.
+score-2 reps with different step-knee line offset and hip-height gap. The camera
+audit subsequently changed the outlier from historical `front` to `mixed`,
+while the comparator remains `front`. The pair is therefore retained as a
+view-confounded metadata/feature-audit example, not as clean evidence of
+movement-only heterogeneity. The former stance-stability discrepancy was
+resolved by making the front-only feature unavailable for mixed/side views.
 
 A Deep Squat board-attempt pair is now the primary application-facing example.
 Both reps correctly receive score 2 because the heels are elevated, while the
@@ -85,6 +86,14 @@ preserved the original field for lineage and produced `auditedCameraView`: 65
 rows were confirmed and 45 were corrected, with all 29 two-reviewer Round A
 camera-view agreements matching the audited result. Future view-stratified
 analysis must use the audited layer.
+
+A separate camera-audited feature sensitivity matrix now preserves the frozen
+Round A fingerprint while rebuilding all 110 rows with corrected views. Four
+Hurdle numeric rows and 17 view-aware rating rows changed, but readiness stayed
+66/44. No label-free profile group, score stratum, source-effect flag, or
+stability status changed; only eight Hurdle outlier ranks shifted. This supports
+the robustness of the current high-level exploratory findings while preserving
+the original review lineage.
 
 The research evidence model now explicitly preserves the full 110-rep pilot
 pool instead of shrinking the project to the 26 gold-consensus rows. All 110

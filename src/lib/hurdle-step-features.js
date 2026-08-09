@@ -450,15 +450,16 @@ function buildFeatureItem({ posePayload, timingItem }) {
     timingItem,
     stanceSide,
   });
-  const stanceAnkleDrift =
-    timingItem.cameraView === "side" ? null : rawStanceAnkleDrift;
+  const frontViewEvidence = timingItem.cameraView === "front";
+  const stanceAnkleDrift = frontViewEvidence ? rawStanceAnkleDrift : null;
   const rawStanceKneeAngleDegrees = angleDegrees(
     stanceHip,
     stanceKnee,
     stanceAnkle,
   );
-  const stanceKneeAngleDegrees =
-    timingItem.cameraView === "side" ? null : rawStanceKneeAngleDegrees;
+  const stanceKneeAngleDegrees = frontViewEvidence
+    ? rawStanceKneeAngleDegrees
+    : null;
   const stepKneeAngleDegrees = angleDegrees(hip, knee, ankle);
   const stepKneeLineOffset = kneeLineOffset(hip, knee, ankle);
   const trunkCenterOffset = calculateTrunkCenterOffset(landmarks);
@@ -503,10 +504,10 @@ function buildFeatureItem({ posePayload, timingItem }) {
       peakClearance: toFixedNumber(timingItem.cycle.peakClearance),
       stanceAnkleDrift: toFixedNumber(stanceAnkleDrift),
       rawStanceAnkleDrift: toFixedNumber(rawStanceAnkleDrift),
-      stanceAnkleDriftReliable: timingItem.cameraView !== "side",
+      stanceAnkleDriftReliable: frontViewEvidence,
       stanceKneeAngleDegrees: toFixedNumber(stanceKneeAngleDegrees, 1),
       rawStanceKneeAngleDegrees: toFixedNumber(rawStanceKneeAngleDegrees, 1),
-      stanceKneeAngleReliable: timingItem.cameraView !== "side",
+      stanceKneeAngleReliable: frontViewEvidence,
       stepKneeAngleDegrees: toFixedNumber(stepKneeAngleDegrees, 1),
       stepKneeLineOffset: toFixedNumber(stepKneeLineOffset),
       trunkCenterOffset: toFixedNumber(trunkCenterOffset),

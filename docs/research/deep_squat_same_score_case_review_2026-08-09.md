@@ -41,6 +41,10 @@ reviewer 对第一条是否达到股骨低于水平面保持谨慎，对第二�
 数值来自冻结的 `pilot-four-movement-features-v1.0.0`，均是视频 pose-derived proxy，
 不是临床量角器测量。
 
+Camera-audited sensitivity matrix 保持上述全部数值不变，并将两条 rep 的侧面
+ratings 纠正为可使用 torso、hip、knee 和 ankle evidence；front-only knee alignment
+改为不适用。该变化增强了同机位解释，但不改变人工 RAW SCORE。
+
 ## 可报告发现
 
 这个案例把 AI-FMS 的增量价值表达得很直接：

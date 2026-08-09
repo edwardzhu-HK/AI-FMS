@@ -328,12 +328,17 @@ Canonical execution plan:
 - [x] Identify seven same-score/different-feature movement-profile candidates.
 - [x] Complete the first cross-video Hurdle Step score-2 case review, then
       downgrade it to a view-confounded methodological example after the
-      camera audit changed one rep from historical `front` to `mixed`.
+      camera audit changed one rep from historical `front` to `mixed`; resolve
+      the stance-stability discrepancy as an inapplicable front-only feature.
 - [x] Complete a cross-video Deep Squat score-2 board-attempt case review and
       promote it as the primary application-facing same-score example.
 - [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
       original field for lineage, and generate checksum-protected
       `auditedCameraView` outputs before using view as an explanatory variable.
+- [x] Rebuild a separate camera-audited feature sensitivity matrix without
+      changing the frozen Round A fingerprint; confirm 66/44 readiness, profile
+      groups, score strata, source effects, and stability conclusions remain
+      unchanged.
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
 - [x] Generate reproducible figures and script outputs with SHA-256 checksums.
