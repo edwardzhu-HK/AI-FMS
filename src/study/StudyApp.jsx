@@ -5,10 +5,27 @@ import {
   createStudyReviewEvent,
   latestStudyReviews,
   studyStorageKey,
+  validateStudyReviewExport,
 } from "../lib/study-review.js";
 
-const IS_DRY_RUN =
-  new URLSearchParams(window.location.search).get("mode") === "dry-run";
+const SEARCH_PARAMS = new URLSearchParams(window.location.search);
+const IS_DRY_RUN = SEARCH_PARAMS.get("mode") === "dry-run";
+const ROUND_PARAM = SEARCH_PARAMS.get("round");
+const STUDY_ROUND = IS_DRY_RUN
+  ? "dry_run"
+  : ROUND_PARAM === "b" || ROUND_PARAM === "round_b"
+    ? "round_b"
+    : "round_a";
+const ROUND_B_REQUESTED = !IS_DRY_RUN && STUDY_ROUND === "round_b";
+const ROUND_LABEL = IS_DRY_RUN
+  ? "Dry Run"
+  : STUDY_ROUND === "round_b"
+    ? "Round B"
+    : "Round A";
+const INVALID_ROUND_PARAM =
+  !IS_DRY_RUN &&
+  ROUND_PARAM !== null &&
+  !["a", "round_a", "b", "round_b"].includes(ROUND_PARAM);
 const PILOT_URL = IS_DRY_RUN
   ? "/research/pilot-v1/generated/dry-run-study-manifest.json"
   : "/research/pilot-v1/generated/formal-study-manifest.json";
@@ -55,20 +72,39 @@ function draftFromEvent(item, event) {
   };
 }
 
-function downloadJson(fileName, payload) {
-  const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = fileName;
-  anchor.click();
-  URL.revokeObjectURL(url);
+function readTimerDuration(timer) {
+  if (!timer) {
+    return 0;
+  }
+  const activeDuration =
+    timer.activeSinceMs === null ? 0 : performance.now() - timer.activeSinceMs;
+  return Math.max(0, Math.round(timer.elapsedMs + activeDuration));
+}
+
+function formatDuration(milliseconds) {
+  const totalSeconds = Math.floor(milliseconds / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+async function sha256Text(value) {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(value),
+  );
+  return [...new Uint8Array(digest)]
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function dataUrl(text, mimeType) {
+  return `data:${mimeType};charset=utf-8,${encodeURIComponent(text)}`;
 }
 
 export default function StudyApp() {
   const videoRef = useRef(null);
+  const reviewTimerRef = useRef(null);
   const [pilot, setPilot] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [reviewerId, setReviewerId] = useState("");
@@ -77,8 +113,20 @@ export default function StudyApp() {
   const [draft, setDraft] = useState(emptyDraft(null));
   const [playing, setPlaying] = useState(false);
   const [savedPulse, setSavedPulse] = useState(false);
+  const [reviewDurationMs, setReviewDurationMs] = useState(0);
+  const [exportBundle, setExportBundle] = useState(null);
+  const [exportPreparing, setExportPreparing] = useState(false);
+  const [exportError, setExportError] = useState("");
 
   useEffect(() => {
+    if (ROUND_B_REQUESTED) {
+      setLoadError("Round B 尚未开放。请使用 Round A 完成独立盲评。");
+      return;
+    }
+    if (INVALID_ROUND_PARAM) {
+      setLoadError("Study round 参数无效。");
+      return;
+    }
     fetch(PILOT_URL)
       .then((response) => {
         if (!response.ok) {
@@ -95,7 +143,10 @@ export default function StudyApp() {
   }, []);
 
   const queue = useMemo(
-    () => (pilot && reviewerId ? buildStudyQueue(pilot, reviewerId) : []),
+    () =>
+      pilot && reviewerId
+        ? buildStudyQueue(pilot, reviewerId, STUDY_ROUND)
+        : [],
     [pilot, reviewerId],
   );
   const latestByRepetition = useMemo(
@@ -115,6 +166,7 @@ export default function StudyApp() {
   const progressPercent = queue.length
     ? Math.round((completedCount / queue.length) * 100)
     : 0;
+  const activeRepetitionId = activeItem?.repetitionId ?? null;
 
   useEffect(() => {
     if (!pilot || !reviewerId) {
@@ -122,7 +174,7 @@ export default function StudyApp() {
       return;
     }
     const stored = localStorage.getItem(
-      studyStorageKey(pilot.pilotId, reviewerId),
+      studyStorageKey(pilot.pilotId, reviewerId, STUDY_ROUND),
     );
     setEvents(stored ? JSON.parse(stored) : []);
     setActiveIndex(0);
@@ -133,9 +185,11 @@ export default function StudyApp() {
       return;
     }
     localStorage.setItem(
-      studyStorageKey(pilot.pilotId, reviewerId),
+      studyStorageKey(pilot.pilotId, reviewerId, STUDY_ROUND),
       JSON.stringify(events),
     );
+    setExportBundle(null);
+    setExportError("");
   }, [events, pilot, reviewerId]);
 
   useEffect(() => {
@@ -148,6 +202,43 @@ export default function StudyApp() {
       video.muted = true;
     }
   }, [activeItem, activeReview]);
+
+  useEffect(() => {
+    if (!activeRepetitionId) {
+      reviewTimerRef.current = null;
+      setReviewDurationMs(0);
+      return undefined;
+    }
+
+    const timer = {
+      startedAtIso: new Date().toISOString(),
+      elapsedMs: 0,
+      activeSinceMs: document.hidden ? null : performance.now(),
+    };
+    reviewTimerRef.current = timer;
+    setReviewDurationMs(0);
+
+    function updateDuration() {
+      setReviewDurationMs(readTimerDuration(timer));
+    }
+
+    function handleVisibilityChange() {
+      if (document.hidden && timer.activeSinceMs !== null) {
+        timer.elapsedMs += performance.now() - timer.activeSinceMs;
+        timer.activeSinceMs = null;
+      } else if (!document.hidden && timer.activeSinceMs === null) {
+        timer.activeSinceMs = performance.now();
+      }
+      updateDuration();
+    }
+
+    const interval = window.setInterval(updateDuration, 1000);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [activeRepetitionId, reviewerId]);
 
   useEffect(() => {
     if (!savedPulse) {
@@ -240,6 +331,7 @@ export default function StudyApp() {
     const event = createStudyReviewEvent({
       pilotId: pilot.pilotId,
       reviewerId,
+      studyRound: STUDY_ROUND,
       repetition: activeItem,
       status,
       score: draft.score,
@@ -248,6 +340,9 @@ export default function StudyApp() {
       side: draft.side,
       comment: draft.comment,
       qualityFlags: draft.qualityFlags,
+      reviewStartedAt:
+        reviewTimerRef.current?.startedAtIso ?? new Date().toISOString(),
+      reviewDurationMs: readTimerDuration(reviewTimerRef.current),
       supersedesEventId: activeReview?.eventId ?? null,
     });
     setEvents((current) => [...current, event]);
@@ -264,16 +359,46 @@ export default function StudyApp() {
     }));
   }
 
-  function exportReviews() {
+  async function prepareExport() {
     if (!pilot || !reviewerId) {
       return;
     }
-    const payload = buildStudyReviewExport({ pilot, reviewerId, events });
-    const safeReviewer = reviewerId.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    downloadJson(
-      `ai-fms-study-${safeReviewer || "reviewer"}-${new Date().toISOString().slice(0, 10)}.json`,
-      payload,
-    );
+    setExportPreparing(true);
+    setExportError("");
+    try {
+      const payload = buildStudyReviewExport({
+        pilot,
+        reviewerId,
+        studyRound: STUDY_ROUND,
+        events,
+      });
+      const validation = validateStudyReviewExport(payload, {
+        pilot,
+        requireComplete: false,
+      });
+      if (!validation.valid) {
+        throw new Error("Review export validation failed.");
+      }
+      const jsonText = `${JSON.stringify(payload, null, 2)}\n`;
+      const checksum = await sha256Text(jsonText);
+      const safeReviewer = reviewerId.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const safeRound = STUDY_ROUND.replaceAll("_", "-");
+      const jsonFileName = `ai-fms-${safeRound}-${safeReviewer || "reviewer"}-${new Date().toISOString().slice(0, 10)}.json`;
+      const checksumFileName = `${jsonFileName}.sha256`;
+      const checksumText = `${checksum}  ${jsonFileName}\n`;
+      setExportBundle({
+        checksumFileName,
+        checksumText,
+        completion: validation.completion,
+        jsonFileName,
+        jsonText,
+      });
+    } catch {
+      setExportBundle(null);
+      setExportError("导出校验失败");
+    } finally {
+      setExportPreparing(false);
+    }
   }
 
   return (
@@ -283,11 +408,15 @@ export default function StudyApp() {
           <a className="study-brand" href="/">
             AI-FMS
           </a>
-          <h1>Study Mode</h1>
+          <h1>Study Mode · {ROUND_LABEL}</h1>
         </div>
         <div className="blind-state">
           <span aria-hidden="true" />
-          {IS_DRY_RUN ? "Dry run" : "Blind review"}
+          {IS_DRY_RUN
+            ? "Dry run"
+            : ROUND_B_REQUESTED
+              ? "Round B · Locked"
+              : "Round A · Blind"}
         </div>
         <div className="reviewer-switch" aria-label="Reviewer">
           {IS_DRY_RUN ? (
@@ -332,14 +461,43 @@ export default function StudyApp() {
         <div className="progress-track" aria-hidden="true">
           <span style={{ width: `${progressPercent}%` }} />
         </div>
-        <button
-          type="button"
-          className="export-button"
-          disabled={!reviewerId || events.length === 0}
-          onClick={exportReviews}
-        >
-          导出记录
-        </button>
+        <div className="export-area">
+          <button
+            type="button"
+            className="export-button"
+            disabled={!reviewerId || events.length === 0 || exportPreparing}
+            onClick={prepareExport}
+          >
+            {exportPreparing ? "生成中" : "生成导出包"}
+          </button>
+          {exportBundle ? (
+            <div
+              className="export-links"
+              data-complete={exportBundle.completion.complete}
+            >
+              <span>
+                {exportBundle.completion.complete
+                  ? "32/32 Complete"
+                  : `${exportBundle.completion.scoredCount}/${exportBundle.completion.expectedCount} Partial`}
+              </span>
+              <a
+                download={exportBundle.jsonFileName}
+                href={dataUrl(exportBundle.jsonText, "application/json")}
+              >
+                JSON
+              </a>
+              <a
+                download={exportBundle.checksumFileName}
+                href={dataUrl(exportBundle.checksumText, "text/plain")}
+              >
+                SHA-256
+              </a>
+            </div>
+          ) : null}
+          {exportError ? (
+            <span className="export-error">{exportError}</span>
+          ) : null}
+        </div>
       </section>
 
       {!reviewerId ? (
@@ -386,11 +544,14 @@ export default function StudyApp() {
                 <span>CASE {String(activeIndex + 1).padStart(3, "0")}</span>
                 <h2>{ACTION_LABELS[activeItem.actionType]}</h2>
               </div>
-              {activeReview ? (
-                <mark>
-                  {activeReview.status === "scored" ? "已记录" : "稍后处理"}
-                </mark>
-              ) : null}
+              <div className="case-state">
+                <time>{formatDuration(reviewDurationMs)}</time>
+                {activeReview ? (
+                  <mark>
+                    {activeReview.status === "scored" ? "已记录" : "稍后处理"}
+                  </mark>
+                ) : null}
+              </div>
             </div>
             <div className="study-video-shell">
               <video

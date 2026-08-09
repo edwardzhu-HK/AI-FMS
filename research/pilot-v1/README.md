@@ -54,3 +54,19 @@ keeps limited rows with explicit quality reasons.
 Open `/study.html?mode=dry-run` for the isolated four-case workflow check. Its
 pilot ID, review events, media aliases, manifest, and checksum are separate from
 the frozen formal study.
+
+Formal Round A uses `/study.html?round=a`. Review events and browser storage are
+isolated by `pilotId`, `studyRound`, and reviewer. Each V2 event records
+foreground review duration plus an explicit `round_a`, `round_b`, or `dry_run`
+identifier. The export builder reports complete versus partial status against
+the frozen manifest.
+
+Use the paired JSON and SHA-256 downloads for handoff. Validate a complete
+formal export with:
+
+```bash
+npm run study:reviews:validate -- /absolute/path/to/review.json
+```
+
+Pass `--allow-partial` only for session backups. Reviewer instructions are in
+`docs/research/round_a_reviewer_protocol.md`.

@@ -107,6 +107,7 @@ Canonical ID 使用 SHA-256 派生的 12 位十六进制前缀：
 - `feature-matrix-qa-report.md`：按动作汇总 ready 和 limited，并保留质量原因。
 - `feature-matrix-SHA256SUMS`：JSON/CSV feature matrix checksum。
 - `dry-run-study-manifest.json`：与正式事件隔离的四动作 workflow 测试队列。
+- `study-review-export.schema.json`：Round A/B review export V2 的结构契约。
 
 Blindability 将两类视觉线索分开记录：
 
@@ -116,6 +117,21 @@ Blindability 将两类视觉线索分开记录：
 画面 QA 使用每个 rep 的起始、中间、结束帧 contact sheet。正式 reviewer
 仍可在 Study Mode 中标记未被抽帧捕获的边界、可见性或 label-cue 问题。
 
-## 8. 公开边界
+## 8. Study Review Event V2
+
+正式审核使用 append-only `ai_fms_study_review_event_v2`：
+
+- `studyRound`：`round_a`、`round_b` 或 `dry_run`，同时参与随机队列和浏览器存储隔离。
+- `reviewStartedAt`：当前 rep 审核 session 的 UTC 开始时间。
+- `reviewDurationMs`：页面处于前台时累计的审核时间；不把后台停留计入 review time。
+- `supersedesEventId`：修改评分时指向被替代事件，旧事件仍保留。
+- `blindReview`：保存 Round A 的隐藏边界和 label-cue QA。
+
+`ai_fms_study_review_export_v2` 同时保存 frozen repetition IDs、source
+fingerprints、完整 event log 和 `completion`。只有 `completion.complete=true`
+且 CLI validator 通过的 32/32 文件可以冻结为正式 reviewer 输出。JSON
+必须与页面生成的 `.sha256` 文件成对保存。
+
+## 9. 公开边界
 
 当前生成物标记为 `private_research_snapshot`。公开申请包只应包含获授权样本、聚合统计、schema、方法、限制和脱敏图表。是否公开原视频、逐 rep 标签或 reviewer identity，必须另行确认。

@@ -283,6 +283,12 @@ Canonical execution plan:
       gates.
 - [x] Complete an isolated four-case Dry Run with save/refresh recovery and a
       separate Test Reviewer namespace.
+- [x] Lock Review Event/Export V2 with explicit round identity, foreground
+      review duration, supersession lineage, and round-specific storage.
+- [x] Add frozen-manifest completion checks, paired JSON/SHA-256 export, and a
+      CLI validator for complete or partial reviewer handoff files.
+- [x] Publish a Chinese Round A reviewer protocol with field definitions and
+      independence rules.
 - [ ] Run independent Ronnie and Other Reviewer review on the eligible formal
       rep set.
 - [ ] Generate disagreement/adjudication queue only after both reviews close.
