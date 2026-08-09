@@ -1,5 +1,8 @@
 # AI-FMS V1.5 Project Page Copy
 
+> 历史文件：本文件保留 2026-05-22 的 Deep Squat demo 文案。当前 Phase I
+> application copy 为 `docs/ai_fms_phase_i_application_copy_2026-08-09.md`。
+
 日期：2026-05-22
 
 用途：这份文档是 project page / portfolio page 的可直接改写版本。中文用于内部理解和申请叙事梳理，英文段落可以直接用于网页、GitHub README 摘要、简历项目描述或 demo video 旁白。

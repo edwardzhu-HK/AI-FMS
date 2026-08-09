@@ -1,5 +1,9 @@
 # AI-FMS V1.5 Application Package Notes
 
+> 历史文件：本文件保留 2026-05-22 的申请材料规划。当前可用文案与 evidence
+> 分别为 `docs/ai_fms_phase_i_application_copy_2026-08-09.md` 和
+> `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md`。
+
 日期：2026-05-22
 
 用途：这份文档面向 Ronnie 的申请材料准备。它不是代码 spec，而是把 AI-FMS 如何被“展示、解释、验证、包装”说清楚，方便后续写项目页、简历条目、申请文书段落、老师推荐材料和 demo 视频。

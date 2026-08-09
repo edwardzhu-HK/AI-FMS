@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 295-test quality gate
+resolve both video and pose assets, and the current full 303-test quality gate
 passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
@@ -115,6 +115,21 @@ feature-ready reps; the formal 32-rep sample provides blinded reliability and
 protocol evidence; 26 jointly scored reps provide the current gold labels. The
 formal sample was a deterministic balanced selection from 58 blindable and
 feature-ready reps, not a simple random proof that all 110 labels are valid.
+
+The nine AI/human score differences have now received frame-level review. Two
+Deep Squat differences were resolved as missing staged-attempt metadata; the
+remaining cases identify bounded ASLR side/peak, Hurdle trajectory/dowel, view,
+and depth-proxy limitations. The frozen AI baseline remains 9/16 exact and
+14/16 within one; a separately labeled post-audit protocol sensitivity is
+11/17 exact and 15/17 within one. Thresholds were not tuned to Round A labels.
+
+G4 now has a Round A release candidate: a current README, Phase I dataset card,
+methods/limitations/ethics note, Chinese technical report with English abstract,
+application copy, and claim-control evidence table. A deterministic,
+fail-closed release generator verifies 9/9 private research artifacts, locks
+all reported evidence values, checksums seven source-controlled documents, and
+audits release boundaries. Round B, demo recording, and human media
+rights/privacy review remain open.
 
 ## 2. Inputs Reviewed
 
@@ -748,14 +763,20 @@ Implementation status after the first P2 pass:
     agreement pipeline with scoreability agreement, raw agreement, weighted
     Cohen's kappa, confusion matrix, and a private adjudication queue. Numeric
     metrics exclude unscorable cases and all legacy AI labels.
+38. Completed a nine-case frame-level AI difference audit and preserved the
+    frozen 9/16 baseline alongside an explicitly post-audit 11/17 protocol
+    sensitivity result.
+39. Finalized the Round A Phase I documentation package and added a deterministic
+    release-candidate manifest that verifies 9/9 evidence artifacts, checksums
+    seven current documents, and fails on evidence drift or missing claim
+    boundaries.
+40. Raised the complete quality baseline to 303 tests plus lint, format, and
+    three production entry builds.
 
 Recommended next sprint:
 
-1. Keep README/backlog/spec docs aligned with the current seven-action smoke
-   state.
-2. Calibrate one bounded movement path with Ronnie, preferably Deep Squat
-   thresholds or Rotary Stability phase / side semantics.
-3. Promote selected draft sample rows into canonical movement manifests after
-   reviewer confirmation.
-4. Record the Deep Squat flagship demo using the walkthrough script.
-5. Prepare a public-facing project page from the standalone copy draft.
+1. Complete Round B after the planned interval and freeze A/B change metrics.
+2. Investigate ASLR active-side/peak selection on independent source videos.
+3. Add Hurdle cycle-level knee/ankle, trunk, and dowel-orientation evidence.
+4. Record and verify the 2-3 minute demo against the current Phase I narrative.
+5. Complete human PII, media source-rights, and final public-release claim audit.

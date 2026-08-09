@@ -360,13 +360,20 @@ Canonical execution plan:
 
 ### G4: Application Package and Release
 
-- [ ] Update README to the final four-movement research narrative.
-- [ ] Finalize dataset card, methods, limitations, and ethics/publication notes.
-- [ ] Produce Chinese technical report with English abstract.
-- [ ] Produce application project-page copy and a concise evidence table.
+- [x] Update README to the current four-movement research narrative and remove
+      single-video/mock-prototype onboarding drift.
+- [x] Finalize the Phase I dataset card, methods, limitations, and
+      ethics/publication notes for the Round A release candidate.
+- [x] Produce the Chinese Phase I technical report with an English abstract.
+- [x] Produce application project-page copy and a concise claim-control
+      evidence table.
 - [ ] Record and verify a 2-3 minute demo video.
-- [ ] Create a release manifest with checksums and reproduction commands.
-- [ ] Run final stale-claim, privacy, source-rights, tests, and build audit.
+- [x] Create a fail-closed Phase I release-candidate manifest that verifies 9/9
+      research artifacts, checksums 7 documents, and pins reproduction commands.
+- [x] Run release-document preflight for local absolute paths and required
+      study/claim boundaries, plus the full 303-test and three-entry build gate.
+- [ ] Complete the human PII, media source-rights, demo visual, and final
+      stale-claim audit after Round B.
 
 ## Stretch: Selected Movement Expansion
 

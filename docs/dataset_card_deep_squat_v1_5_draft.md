@@ -1,5 +1,8 @@
 # AI-FMS Deep Squat Dataset Card Draft
 
+> 历史文件：本草案记录 2026-05-22 的单视频 V1.5 状态，不再作为当前数据说明。
+> Canonical 文件为 `docs/research/ai_fms_phase_i_dataset_card_2026-08-09.md`。
+
 Date: 2026-05-22
 
 ## 1. 数据集定位

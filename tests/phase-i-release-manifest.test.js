@@ -1,0 +1,104 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import {
+  auditReleaseDocuments,
+  summarizePhaseIEvidence,
+  validateExpectedEvidence,
+} from "../scripts/build-phase-i-release-manifest.js";
+
+function artifact(id, payload) {
+  return { id, payload };
+}
+
+test("Phase I release summary keeps study and AI evidence counts separate", () => {
+  const summary = summarizePhaseIEvidence([
+    artifact("canonical_pilot", {
+      summary: { uniqueVideos: 28, repetitions: 110 },
+    }),
+    artifact("camera_audited_features", { summary: { ready: 66 } }),
+    artifact("formal_study_manifest", { formalSampleSize: 32 }),
+    artifact("round_a_agreement", {
+      analysis: {
+        overall: {
+          statusAgreementCount: 31,
+          bothScoredCount: 26,
+          bothUnscorableCount: 5,
+          scoreabilityMismatchCount: 1,
+          exactScoreAgreementCount: 26,
+          linearWeightedKappa: 1,
+        },
+      },
+    }),
+    artifact("round_a_movement_profiles", {
+      analysis: { consensusCount: 26 },
+    }),
+    artifact("round_a_ai_evidence", {
+      analysis: {
+        comparisonEligibleCount: 16,
+        metrics: {
+          exactCount: 9,
+          withinOneCount: 14,
+          meanAbsoluteDifference: 0.5625,
+        },
+      },
+      protocolSensitivity: {
+        analysis: {
+          comparisonEligibleCount: 17,
+          metrics: {
+            exactCount: 11,
+            withinOneCount: 15,
+            meanAbsoluteDifference: 0.4706,
+          },
+        },
+      },
+    }),
+  ]);
+
+  assert.deepEqual(summary, {
+    uniqueVideos: 28,
+    canonicalRepetitions: 110,
+    featureReady: 66,
+    formalSampleSize: 32,
+    roundAConsensus: 26,
+    roundAStatusAgreement: 31,
+    roundABothScored: 26,
+    roundABothUnscorable: 5,
+    roundAScoreabilityMismatch: 1,
+    roundARawScoreExact: 26,
+    roundAHumanLinearWeightedKappa: 1,
+    roundAAiComparable: 16,
+    roundAAiExact: 9,
+    roundAAiWithinOne: 14,
+    roundAAiMeanAbsoluteDifference: 0.5625,
+    protocolSensitivityComparable: 17,
+    protocolSensitivityExact: 11,
+    protocolSensitivityWithinOne: 15,
+    protocolSensitivityMeanAbsoluteDifference: 0.4706,
+  });
+});
+
+test("release document audit blocks local absolute paths", () => {
+  assert.throws(
+    () =>
+      auditReleaseDocuments([
+        {
+          path: "README.md",
+          text: "Round B pending. Not a medical diagnosis. Does not replace reviewers. Rights/privacy review. /Users/example/private",
+        },
+      ]),
+    /absolutePaths=1/,
+  );
+});
+
+test("Phase I release validation fails closed on stale evidence", () => {
+  assert.throws(
+    () =>
+      validateExpectedEvidence(
+        { canonicalRepetitions: 109 },
+        {
+          canonicalRepetitions: 110,
+        },
+      ),
+    /evidence drift/,
+  );
+});
