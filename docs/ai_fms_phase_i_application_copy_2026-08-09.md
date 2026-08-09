@@ -55,18 +55,21 @@ movement profiles to an ordinal screening score.
 另一个重要结果是负面的：当前规则式 AI 只能在 16 条可比较 consensus reps 中与人工
 完全同分 9 条，因此不能说它已经是可靠的自动评分器。Error audit 进一步说明，ASLR
 需要更稳健的 active-side/peak detection，Hurdle 需要完整动作轨迹和 dowel evidence。
+随后覆盖全部 17 条 ASLR 记录的无标签审计把 16 个独立窗口分为 11 good、2 watch、
+3 limited，说明 landmark visibility 高并不自动代表跟踪了正确主体或正确侧别。
 
 ## Evidence Snapshot
 
-| Evidence                       |                          Result |
-| ------------------------------ | ------------------------------: |
-| Canonical pilot                |            28 videos / 110 reps |
-| Feature-ready                  |                         66 reps |
-| Formal blind sample            |          32 reps，4 actions x 8 |
-| Round A scoreability agreement |                           31/32 |
-| Jointly scored human agreement |                     26/26 exact |
-| Leakage-controlled AI baseline |    9/16 exact；14/16 within one |
-| Automated quality gate         | 303 tests + 3 production builds |
+| Evidence                       |                                    Result |
+| ------------------------------ | ----------------------------------------: |
+| Canonical pilot                |                      28 videos / 110 reps |
+| Feature-ready                  |                                   66 reps |
+| Formal blind sample            |                    32 reps，4 actions x 8 |
+| Round A scoreability agreement |                                     31/32 |
+| Jointly scored human agreement |                               26/26 exact |
+| Leakage-controlled AI baseline |              9/16 exact；14/16 within one |
+| ASLR side/peak evidence audit  | 16 windows：11 good / 2 watch / 3 limited |
+| Automated quality gate         |           307 tests + 3 production builds |
 
 ## 我的角色
 

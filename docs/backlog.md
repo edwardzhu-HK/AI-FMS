@@ -331,9 +331,14 @@ Canonical execution plan:
 - [x] Preserve the frozen 9/16 baseline, then report a separate post-audit
       Deep Squat protocol sensitivity: 11/17 exact, 15/17 within one, with no
       ASLR or Hurdle threshold tuning.
-- [ ] After Round B, debug ASLR active-side/peak selection and prototype
-      cycle-level Hurdle knee/ankle, trunk, and dowel-orientation features on
-      independent videos.
+- [x] Audit all 17 ASLR records with a label-free side/peak evidence gate:
+      16 unique windows, including 11 good, 2 watch, and 3 limited.
+- [ ] Re-extract the three limited ASLR windows with subject-aware multi-pose or
+      ROI selection, manually review the two watch windows, and keep the result
+      as a separate sensitivity layer.
+- [ ] After Round B, prototype robust peak-window ASLR stationary-leg geometry
+      and cycle-level Hurdle knee/ankle, trunk, and dowel-orientation features
+      on independent videos.
 - [x] Export Round A consensus action-specific quantitative feature tables with
       units and quality fields.
 - [x] Analyze Round A feature distributions and exploratory effect sizes by
@@ -368,10 +373,11 @@ Canonical execution plan:
 - [x] Produce application project-page copy and a concise claim-control
       evidence table.
 - [ ] Record and verify a 2-3 minute demo video.
-- [x] Create a fail-closed Phase I release-candidate manifest that verifies 9/9
-      research artifacts, checksums 7 documents, and pins reproduction commands.
+- [x] Create a fail-closed Phase I release-candidate manifest that verifies
+      10/10 research artifacts, checksums 8 documents, and pins reproduction
+      commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 303-test and three-entry build gate.
+      study/claim boundaries, plus the full 307-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

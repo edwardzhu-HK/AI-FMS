@@ -66,6 +66,7 @@
     "study:profiles:round-a": "node scripts/analyze-round-a-movement-profiles.js",
     "study:ai-evidence:round-a": "node scripts/analyze-round-a-ai-consensus-evidence.js",
     "study:ai-evidence:audit-previews": "node scripts/generate-round-a-ai-audit-previews.js --force",
+    "study:aslr:side-peak-audit": "node scripts/audit-aslr-side-peak-evidence.js",
     "release:phase-i:manifest": "node scripts/build-phase-i-release-manifest.js",
     "data:pilot:features": "node scripts/build-pilot-feature-matrix.js",
     "data:pilot:features:camera-audited": "node scripts/build-camera-audited-feature-matrix.js",
