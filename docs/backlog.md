@@ -326,6 +326,8 @@ Canonical execution plan:
 - [x] Analyze Round A feature distributions and exploratory effect sizes by
       human consensus score, with video-confounding flags.
 - [x] Identify seven same-score/different-feature movement-profile candidates.
+- [x] Complete the first same-view, cross-video Hurdle Step score-2 case review
+      and retain it as a provisional continuous-heterogeneity case study.
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
 - [x] Generate reproducible figures and script outputs with SHA-256 checksums.

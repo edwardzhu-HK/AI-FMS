@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.9                           |
+| 版本     | v1.10                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -106,6 +106,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 对 66 条 feature-ready rep 完成 label-free robust-z、deterministic k-medoids、source-video effect 和 leave-one-video-out stability 分析。
 - [x] 在冻结 label-free groups 后 post-hoc 叠加 26 条 Round A gold consensus，并生成视频/时间段复核队列。
 - [x] 初步发现：3/7 个 action-score strata 跨 group，但均受 singleton、来源效应或独立视频不足限制；当前结论是同分内存在连续多维异质性，不是已验证的障碍亚型。
+- [x] 完成首个 Hurdle Step 同机位、跨视频、同为 2 分的人工 case review；支持“同一规则失败内的连续程度/参数组合差异”。
 - [x] 通过 lint、format、294/294 tests 和三页面 production build。
 
 对应检查点 commits：
@@ -269,7 +270,7 @@ G2 验收证据：
 建议 case studies：
 
 - Deep Squat：同分 case-pair 在同一主 group 内仍呈现连续参数差异。
-- Hurdle Step：同为 2 分的 singleton outlier 是否为真实动作策略或 pose/机位问题。
+- Hurdle Step：同为 2 分、同一对线失败家族内的连续参数差异，以及 stance-stability AI-human discrepancy。
 - ASLR：历史高一致性为何不能解释为模型准确。
 - Rotary Stability：为什么当前采取 feature-only 策略。
 
@@ -420,6 +421,18 @@ Secondary questions：
 | 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据 |
 
 ## 12. 变更记录
+
+### v1.10 - 2026-08-09
+
+- 对最高优先级 Hurdle Step outlier 进行源视频 contact-sheet、Round A comment 和
+  feature cross-check。
+- 改用另一条 front/right、不同源视频、同为 Round A 2 分的 rep 作为主要对照，
+  避免把 front/side feature availability 差异误写成动作 profile。
+- 两条 rep 的人工规则失败家族相近，但 outlier 的 stance ankle drift、step-knee
+  line offset 和 hip-height gap 分别约为对照的 4.6、4.7 和 3.0 倍。
+- 将核心发现收紧为“同一 ordinal score 内的连续多维异质性”；保留 AI 对支撑腿
+  稳定性的判断与人工评论不一致，列为 feature audit 项。
+- 新增 `docs/research/hurdle_step_same_score_case_review_2026-08-09.md`。
 
 ### v1.9 - 2026-08-09
 
