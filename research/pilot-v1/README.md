@@ -59,7 +59,10 @@ Formal Round A uses `/study.html?round=a`. Review events and browser storage are
 isolated by `pilotId`, `studyRound`, and reviewer. Each V2 event records
 foreground review duration plus an explicit `round_a`, `round_b`, or `dry_run`
 identifier. The export builder reports complete versus partial status against
-the frozen manifest.
+the frozen manifest. A rep is resolved by either a scored result or an explicit
+unscorable result. Score 0 is reserved for observed or reported pain;
+unscorable records require a protocol reason and are excluded from score
+analysis.
 
 Use the paired JSON and SHA-256 downloads for handoff. Validate a complete
 formal export with:
@@ -70,3 +73,15 @@ npm run study:reviews:validate -- /absolute/path/to/review.json
 
 Pass `--allow-partial` only for session backups. Reviewer instructions are in
 `docs/research/round_a_reviewer_protocol.md`.
+
+After validation, ingest a complete signed export into the ignored local
+research database and inspect its latest-event summary:
+
+```bash
+npm run study:reviews:ingest -- /absolute/path/to/review.json
+npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-09 --round round_a --reviewer Ronnie
+```
+
+The default database is `Ingested-data/ai-fms-study-reviews.sqlite`. Import is
+idempotent by export SHA-256 and rejects reused event IDs with different
+content. The paired JSON/SHA-256 remains the frozen handoff artifact.

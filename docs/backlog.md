@@ -264,7 +264,7 @@ Canonical execution plan:
 - [x] Resolve 29/29 video assets and generate 29/29 real MediaPipe pose assets.
 - [x] Record human visual subject selection for multi-person Hurdle videos.
 - [x] Mark all 92 legacy numeric AI suggestions as label-leakage-ineligible.
-- [x] Pass lint, format, 249/249 tests, and production build.
+- [x] Pass lint, format, 283/283 tests, and production build.
 
 ### G2: Independent Review
 
@@ -289,8 +289,14 @@ Canonical execution plan:
       CLI validator for complete or partial reviewer handoff files.
 - [x] Publish a Chinese Round A reviewer protocol with field definitions and
       independence rules.
-- [ ] Run independent Ronnie and Other Reviewer review on the eligible formal
-      rep set.
+- [x] Distinguish FMS score 0 for observed/reported pain from protocol-based
+      `unscorable` outcomes, with required reason and note.
+- [x] Add checksum-verified, immutable, idempotent SQLite ingestion for complete
+      Study Review exports.
+- [x] Complete Ronnie Round A: 32 reviewed, 27 scored, 5 unscorable, with all 46
+      append-only events preserved in the local research database.
+- [ ] Complete Other Reviewer Round A independently on the eligible formal rep
+      set without viewing Ronnie's results.
 - [ ] Generate disagreement/adjudication queue only after both reviews close.
 - [ ] Report raw agreement, weighted Cohen's kappa, and confusion matrix.
 
@@ -368,18 +374,17 @@ remain reusable:
 
 ## Current Known Limitations
 
-- The active closeout work is isolated on `codex/application-closeout-v1` and
-  has not yet been merged into `main`.
-- The local API stub now round-trips the required review and protocol fields,
-  but it is still a local JSON-backed research service rather than a deployed
-  production database.
+- Study Review exports now persist in an ignored local SQLite research database,
+  but the application remains a local research workflow rather than a deployed
+  multi-user production service.
 - The four-movement canonical pilot contains 110 repetitions from 28 videos.
   Repetitions from one video are correlated and do not represent 110 independent
   participants.
 - All 29 pilot ingest references resolve to real pose JSON, but pose quality,
   camera view, crop choice, and feature validity still require per-action QA.
-- Historical Reviewer A/B records are not independent blind ratings. A new
-  Study Mode review round is required before inter-rater claims.
+- Historical Reviewer A/B records are not independent blind ratings. Ronnie's
+  new Round A is complete, but Other Reviewer Round A is still required before
+  inter-rater claims.
 - All 92 historical numeric AI suggestions are excluded from accuracy analysis
   because the legacy workflow could read score-bearing file names or notes.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active

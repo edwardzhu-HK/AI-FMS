@@ -77,7 +77,9 @@
         "complete",
         "expectedCount",
         "latestReviewCount",
+        "resolvedCount",
         "scoredCount",
+        "unscorableCount",
         "deferredCount",
         "analysisExcludedCount",
         "missingRepetitionIds",
@@ -98,7 +100,15 @@
           "type": "integer",
           "minimum": 0
         },
+        "resolvedCount": {
+          "type": "integer",
+          "minimum": 0
+        },
         "scoredCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unscorableCount": {
           "type": "integer",
           "minimum": 0
         },
@@ -139,6 +149,8 @@
         "status",
         "score",
         "confidence",
+        "unscorableReason",
+        "scoreZeroReason",
         "cameraView",
         "side",
         "comment",
@@ -182,7 +194,7 @@
           "minLength": 1
         },
         "status": {
-          "enum": ["scored", "deferred"]
+          "enum": ["scored", "deferred", "unscorable"]
         },
         "score": {
           "type": ["integer", "null"],
@@ -192,6 +204,21 @@
         "confidence": {
           "type": ["string", "null"],
           "enum": ["low", "medium", "high", null]
+        },
+        "unscorableReason": {
+          "type": ["string", "null"],
+          "enum": [
+            "movement_not_visible",
+            "missing_required_reference",
+            "missing_required_protocol_condition",
+            "timing_invalid",
+            "other",
+            null
+          ]
+        },
+        "scoreZeroReason": {
+          "type": ["string", "null"],
+          "enum": ["pain_observed_or_reported", null]
         },
         "cameraView": {
           "type": "string"

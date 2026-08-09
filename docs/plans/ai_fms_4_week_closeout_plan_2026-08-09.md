@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.4                           |
+| 版本     | v1.5                           |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -53,7 +53,9 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 8. 技术报告、中文摘要、dataset card、README、项目页和演示视频完成。
 9. 公开包不包含绝对本地路径、个人敏感信息、无授权视频或诊断性表述。
 
-数据库不是本轮收尾的硬依赖。Canonical JSON/CSV、schema、manifest、checksum 和可复现脚本足以支持 Phase I；生产数据库列入后续工程路线。
+生产数据库不是本轮收尾的硬依赖。Canonical JSON/CSV、schema、manifest、
+checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export 另写入被 Git
+忽略的本地 SQLite 研究数据库，便于可靠查询与后续分析。部署型多用户数据库列入后续工程路线。
 
 ## 3. 当前状态
 
@@ -64,7 +66,7 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 | G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
-| G2C 双轮独立审核                | IN PROGRESS | Round A 协议已锁定，等待两位 reviewer 完成 32/32                |
+| G2C 双轮独立审核                | IN PROGRESS | Ronnie Round A 已完成 32/32；Other Reviewer Round A 待完成      |
 | G3 定量研究与结果冻结           | PENDING     | 等人工 review events 完成                                       |
 | G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
@@ -90,7 +92,10 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 - [x] 完成 4 例隔离 Dry Run；保存/刷新恢复不污染正式 review events。
 - [x] 锁定 Review Event/Export V2、round 隔离、前台计时和 32/32 validator。
 - [x] 建立 JSON 与 SHA-256 成对导出及中文 Round A reviewer protocol。
-- [x] 通过 lint、format、278/278 tests 和三页面 production build。
+- [x] 明确 `0=已观察或报告疼痛`，并为无法独立评分建立终态、原因和分析排除规则。
+- [x] 建立 checksum 校验、不可变 event 和幂等导入的本地 SQLite 研究数据库。
+- [x] Ronnie Round A 完成：32 reviewed、27 scored、5 unscorable，46 个累计 event 已入库。
+- [x] 通过 lint、format、283/283 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -108,19 +113,20 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 
 ### 4.2 候选规模
 
-| 层级              |  建议规模 |     双轮事件量 | 适用条件                             |
+| 层级              |  建议规模 | 最少最终状态数 | 适用条件                             |
 | ----------------- | --------: | -------------: | ------------------------------------ |
 | 最低可接受        |    24 rep |      96 events | 每动作至少 6 个，时间明显受限        |
 | Core              |    32 rep |     128 events | 每动作约 8 个，平衡质量与工作量      |
 | Expanded          |    64 rep |     256 events | 盲审样本充足，两位 reviewer 时间允许 |
 | Full eligible set | QA 后决定 | `4 x N` events | 仅在样本独立性和工作量都合理时使用   |
 
-事件量公式：`2 reviewers x N reps x 2 rounds = 4N events`。
+最少最终状态数公式：`2 reviewers x N reps x 2 rounds = 4N`。实际
+append-only event 总数会因 reviewer 修改和 supersession 而高于 `4N`。
 
 ### 4.3 当前冻结决定
 
-正式 study 采用 **Core N=32**，四动作各 8 个，总计 128 个 review
-events。入选 rep 来自 21 个源视频：Deep Squat 8 个、Hurdle Step 7 个、
+正式 study 采用 **Core N=32**，四动作各 8 个，双轮设计至少形成 128 个最终
+review 状态。入选 rep 来自 21 个源视频：Deep Squat 8 个、Hurdle Step 7 个、
 ASLR 4 个、Rotary Stability 2 个。选择器先要求 blindability eligible 和
 feature ready，再优先覆盖源视频和历史 score bucket；历史标签只存在于
 internal manifest，不进入 Reviewer manifest。
@@ -204,9 +210,11 @@ Round A：
 - [x] 锁定 `round_a` 随机队列、独立浏览器 namespace 和 V2 event schema。
 - [x] 记录 score、confidence、reason/notes、QA flags 和前台 review time。
 - [x] 建立 partial/complete 状态、JSON + SHA-256 导出和 CLI validator。
-- [ ] Ronnie 独立完成正式样本盲评。
+- [x] 建立 `unscorable` 终态；它计入完成度但不进入分数分析。
+- [x] 将验证通过的完整导出幂等写入本地 SQLite 研究数据库。
+- [x] Ronnie 独立完成正式样本盲评：32 reviewed、27 scored、5 unscorable。
 - [ ] Other Reviewer 独立完成正式样本盲评。
-- [ ] 不显示参考标签、AI evidence 或另一位 reviewer 的结果。
+- [x] Round A 页面不显示参考标签、AI evidence 或另一位 reviewer 的结果。
 
 Round B：
 
@@ -221,7 +229,8 @@ G2 验收证据：
 - 正式样本均能加载、循环、保存、刷新恢复和导出。
 - Round A 不暴露任何已知人工或 AI 答案。
 - Round B 每个数值可追溯到 pose、算法版本和质量标志。
-- 两位 reviewer 的完整 event log 均通过 schema 校验。
+- Ronnie 完整 event log 已通过 checksum、manifest 和 schema 校验并入库；
+  Other Reviewer 完成后执行同一验收。
 
 ### G3：分析、Case Studies 与结果冻结
 
@@ -370,20 +379,29 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                             | 原因                                                               |
-| ---------- | ------------------------------------------------ | ------------------------------------------------------------------ |
-| 2026-08-09 | 四周硬截止为 2026-09-06                          | 保证申请输出有明确结束点                                           |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定 | 样本量应服从 blindability、动作平衡和审核工作量                    |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析           | 已确认存在 score hint 标签泄漏                                     |
-| 2026-08-09 | Rotary Stability 保持 feature-only               | 当前证据不足以支持可信 AI RAW SCORE                                |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`      | 保持研究界面角色通用，不绑定个人姓名                               |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                  | 避免 Downloads 草案与仓库执行版并行分叉                            |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个       | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量      |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                 | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始 |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound` | 避免后续事件覆盖或仅凭时间推断轮次                                 |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时           | 降低短期记忆对第二轮评分的影响                                     |
+| 日期       | 决策                                                  | 原因                                                               |
+| ---------- | ----------------------------------------------------- | ------------------------------------------------------------------ |
+| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                           |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                    |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                     |
+| 2026-08-09 | Rotary Stability 保持 feature-only                    | 当前证据不足以支持可信 AI RAW SCORE                                |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                               |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                            |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量      |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始 |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                 |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                     |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                      |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口         |
 
 ## 12. 变更记录
+
+### v1.5 - 2026-08-09
+
+- 新增无法独立评分终态、原因字段、score-0 疼痛确认和完成度/分析数分离。
+- Ronnie Round A 完成 32/32：27 scored、5 unscorable、46 个累计 event。
+- 最终 JSON/SHA-256 已通过 manifest validator 并幂等写入本地 SQLite。
+- G2C 保持 IN PROGRESS，下一项是 Other Reviewer 独立完成 Round A。
 
 ### v1.4 - 2026-08-09
 

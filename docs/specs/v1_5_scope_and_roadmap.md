@@ -31,10 +31,17 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the full 249-test quality gate passes.
+resolve both video and pose assets, and the full 283-test quality gate passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
 provenance-only and are excluded from accuracy analysis.
+
+The current Study Mode keeps reviewer/round browser state only as a resume
+cache, exports an append-only JSON/SHA-256 evidence pair, and ingests validated
+complete exports into an ignored local SQLite research database. The review
+contract separates a true FMS score of 0 (observed or reported pain) from an
+unscorable protocol case; unscorable reps count as reviewed but remain excluded
+from score analysis.
 
 ## 2. Inputs Reviewed
 
@@ -417,7 +424,8 @@ Pose Service
   frame sampling, landmarks, feature extraction, segment suggestions
 
 Storage
-  Postgres or SQLite during prototype
+  ignored local SQLite for signed study-review exports during prototype
+  Postgres remains a later deployment option
   object/file storage for videos, segment clips, keypoint JSON
 
 Evaluation Package
@@ -659,6 +667,10 @@ Implementation status after the first P2 pass:
     reach, trunk rotation, balance stability, side-confidence evidence, and a
     reproducible multi-sample probe. Rotary intentionally does not display AI
     RAW SCORE until side / phase semantics and thresholds are calibrated.
+36. Added explicit unscorable Study Mode outcomes, score-0 pain confirmation,
+    signed export validation, and idempotent local SQLite ingestion. Ronnie's
+    first formal Round A export now resolves all 32 reps as 27 scored and 5
+    protocol-based analysis exclusions.
 
 Recommended next sprint:
 
