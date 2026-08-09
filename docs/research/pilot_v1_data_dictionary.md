@@ -155,6 +155,18 @@ fingerprints、完整 event log 和 `completion`。只有 `completion.complete=t
 SQLite 用于本地查询与后续分析，不取代成对 JSON/SHA-256 的冻结交付物。相同
 export hash 重复导入是幂等操作；同一 `eventId` 内容冲突时事务回滚。
 
+截至 2026-08-09，数据库为一个 344 KB、UTF-8、4 KB page 的 SQLite 3 文件，
+包含 2 个完整 export、78 个不可变 event、78 条 export-event 顺序关联和 1 条
+schema migration。两个 export 合计形成 64 个 reviewer-repetition 最终状态：
+53 个 `scored`、11 个 `unscorable`。数据库会保留 superseded event、comment、
+quality flags、blind-review metadata 和原始 event/export JSON，因此属于私有研究
+数据，不进入 Git。
+
+该 SQLite 当前是 **study-review database**，不是全项目数据仓库。110-rep
+quantitative feature matrix 仍以 checksum 保护的 JSON/CSV 保存；pose、视频和
+manifest 也各自保留为文件型 canonical artifacts。冻结 JSON/SHA-256 是交付证据，
+SQLite 是查询副本，二者职责不同。
+
 ### 8.2 双 Reviewer Agreement
 
 `npm run study:reviews:agreement -- <review-a.json> <review-b.json>` 会再次验证
@@ -168,6 +180,19 @@ export hash 重复导入是幂等操作；同一 `eventId` 内容冲突时事务
 
 `unscorable` 不转换成数值分数。某动作的共同评分样本没有分数边际变化时，
 action-level kappa 记为 `N/A`，但 exact agreement 仍可报告。
+
+### 8.3 Round A Quantitative Movement Profiles
+
+`npm run study:profiles:round-a` 会校验 agreement package 与 quantitative
+feature matrix 的 SHA-256，再以 `repetitionId` 关联双方同分的 26 条 rep。脚本
+输出 consensus feature table、按动作/分数的描述统计、探索性 Hedges' g、同分
+不同 profile 候选、中文报告和 checksums。Visibility 与 timing coverage 等
+quality feature 不进入 profile distance；legacy AI score、历史 score hint 和
+reviewer comment 不进入定量计算。
+
+输出位于被 Git 忽略的
+`research/pilot-v1/generated/round-a-movement-profiles/`。Round B 不属于该输入，
+因此后续可以扩展分析而不改写冻结的 Round A 证据。
 
 ## 9. 公开边界
 
