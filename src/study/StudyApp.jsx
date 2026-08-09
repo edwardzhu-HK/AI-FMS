@@ -294,11 +294,11 @@ export default function StudyApp() {
             Ronnie
           </button>
           <button
-            className={reviewerId === "Edward" ? "active" : ""}
-            onClick={() => setReviewerId("Edward")}
+            className={reviewerId === "Other Reviewer" ? "active" : ""}
+            onClick={() => setReviewerId("Other Reviewer")}
             type="button"
           >
-            Edward
+            Other Reviewer
           </button>
         </div>
       </header>
