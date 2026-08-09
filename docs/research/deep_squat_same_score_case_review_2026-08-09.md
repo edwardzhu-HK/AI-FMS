@@ -13,18 +13,19 @@
 
 ## 对照设计
 
-| 角色                           | Repetition         | Round A | Camera metadata | Source relation |
-| ------------------------------ | ------------------ | ------: | --------------- | --------------- |
-| Shallower/uncertain-depth case | `rep_489b80ba8943` |       2 | front           | different video |
-| Deeper case                    | `rep_ce280c79a07d` |       2 | front           | different video |
+| 角色                           | Repetition         | Round A | Audited view | Source relation |
+| ------------------------------ | ------------------ | ------: | ------------ | --------------- |
+| Shallower/uncertain-depth case | `rep_489b80ba8943` |       2 | side         | different video |
+| Deeper case                    | `rep_ce280c79a07d` |       2 | side         | different video |
 
 两条 rep 均由 Ronnie 和 Other Reviewer 在独立 blind Round A 中判为 2 分。两位
 reviewer 对第一条是否达到股骨低于水平面保持谨慎，对第二条则明确认为达到足够深度；
 两条最终都因为脚跟垫高而按 FMS 规则得到 2 分。
 
 源视频逐帧检查显示两条动作都完整、人物正确、垫板可见，未发现明显错段或空白 pose。
-画面实际更接近侧面或斜侧面，而 canonical `cameraView` 均记录为 `front`；因此该字段
-需要后续统一 QA，本案例不依赖它证明前后机位差异。
+画面实际为侧面证据，而 canonical `cameraView` 均记录为 `front`。全池 camera-view
+审计已将两条 rep 的 `auditedCameraView` 校正为 `side`；本案例仍不使用机位差异解释
+两条动作，因为二者现在属于同一审计机位。
 
 ## 定量对比
 
@@ -57,5 +58,5 @@ rep的2分来源清晰，因此更适合作为最终报告中的首要说明案�
 
 1. 将该 pair 设为首要 application-facing case study。
 2. 对两条rep截取同一动作阶段的脱敏帧，并添加简明参数对比图。
-3. 审核Deep Squat及其他动作的`cameraView`元数据，不直接相信历史字段。
+3. [x] 完成全池 `cameraView` 审计；本 pair 的审计机位均为 `side`。
 4. 不把角度差异解释为具体功能障碍，除非后续获得专家或外部标签支持。

@@ -55,7 +55,11 @@ npm run data:pilot:build
 - `repetitionId`：由 ingest、原 segment、顺序和时间范围生成的稳定 ID。
 - `startSecond` / `endSecond`：最终审核片段范围。
 - `originalStartSecond` / `originalEndSecond`：初始建议范围。
-- `cameraView`、`side`、`attemptCondition`：动作与协议 metadata。
+- `cameraView`、`side`、`attemptCondition`：历史动作与协议 metadata；其中
+  `cameraView` 保留原始 lineage，不直接作为分析真值。
+- `auditedCameraView`：由 `camera-view-overrides.json` 与完整 contact-sheet QA
+  生成的分析机位字段，取值为 `front`、`side` 或 `mixed`。需要机位分层时通过
+  `repetitionId` 连接使用，不覆盖 canonical `cameraView`。
 - `reviewStatus`：历史 workflow 中的 rep 审核状态。
 - `humanReviews`：Reviewer A/B 的原始审核记录。
 - `humanReviewSummary`：仅做机械汇总，不等于独立 adjudication。

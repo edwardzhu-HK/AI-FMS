@@ -52,6 +52,7 @@
     "data:pilot:build": "node scripts/build-canonical-pilot-dataset.js",
     "data:pilot:utilization": "node scripts/analyze-pilot-pool-utilization.js",
     "data:pilot:profiles:label-free": "node scripts/analyze-label-free-profiles.js",
+    "data:pilot:camera-views": "node scripts/audit-pilot-camera-views.js",
     "data:pilot:db:ingest": "node scripts/ingest-pilot-pool-snapshot.js",
     "data:pilot:db:status": "node scripts/ingest-pilot-pool-snapshot.js --inspect",
     "study:blindability:build": "node scripts/build-blinded-study-manifest.js",

@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "ai_fms_camera_view_overrides_v1",
+  "auditedAt": "2026-08-09",
+  "scope": {
+    "repetitions": 110,
+    "sourceVideos": 28,
+    "previewPages": 14,
+    "sampleFramesPerRep": ["start", "middle", "end"]
+  },
+  "defaultDecision": {
+    "status": "confirmed",
+    "evidence": "three_frame_contact_sheet_visual_audit"
+  },
+  "decisionPolicy": {
+    "front": "The athlete is predominantly viewed from the front or rear plane for the scored repetition.",
+    "side": "The athlete is predominantly viewed from the sagittal side plane for the scored repetition.",
+    "mixed": "The repetition contains a material view switch or an oblique composition that should not be treated as a single front or side view."
+  },
+  "corrections": {
+    "rep_4cd3d58d8c42": {
+      "cameraView": "side",
+      "previewPage": 2
+    },
+    "rep_489b80ba8943": {
+      "cameraView": "side",
+      "previewPage": 2
+    },
+    "rep_1b4651489276": {
+      "cameraView": "mixed",
+      "previewPage": 2
+    },
+    "rep_6de959dba57f": {
+      "cameraView": "mixed",
+      "previewPage": 2
+    },
+    "rep_35ee72443636": {
+      "cameraView": "side",
+      "previewPage": 3
+    },
+    "rep_18b8567a982c": {
+      "cameraView": "side",
+      "previewPage": 3
+    },
+    "rep_ce280c79a07d": {
+      "cameraView": "side",
+      "previewPage": 3
+    },
+    "rep_c80a95e3ac44": {
+      "cameraView": "side",
+      "previewPage": 4
+    },
+    "rep_95314595d62a": {
+      "cameraView": "side",
+      "previewPage": 4
+    },
+    "rep_0e6f22d293cc": {
+      "cameraView": "side",
+      "previewPage": 4
+    },
+    "rep_e08d32cfb1ef": {
+      "cameraView": "side",
+      "previewPage": 4
+    },
+    "rep_ca0dc50a7d43": {
+      "cameraView": "side",
+      "previewPage": 4
+    },
+    "rep_088a670f0e91": {
+      "cameraView": "side",
+      "previewPage": 5,
+      "evidence": "round_a_disagreement_resolved_by_visual_audit"
+    },
+    "rep_2635f03fee6e": {
+      "cameraView": "side",
+      "previewPage": 5
+    },
+    "rep_4e510c9c2eae": {
+      "cameraView": "mixed",
+      "previewPage": 5
+    },
+    "rep_bd6444d79109": {
+      "cameraView": "mixed",
+      "previewPage": 5
+    },
+    "rep_02b493a8dd09": {
+      "cameraView": "mixed",
+      "previewPage": 6,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_40850b8084c3": {
+      "cameraView": "mixed",
+      "previewPage": 9,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_eb4ca878c343": {
+      "cameraView": "side",
+      "previewPage": 10,
+      "evidence": "round_a_disagreement_resolved_by_visual_audit"
+    },
+    "rep_829a9df9c851": {
+      "cameraView": "side",
+      "previewPage": 10,
+      "evidence": "round_a_disagreement_resolved_by_visual_audit"
+    },
+    "rep_6830e0689f85": {
+      "cameraView": "side",
+      "previewPage": 10
+    },
+    "rep_d75bd7759a3e": {
+      "cameraView": "side",
+      "previewPage": 10
+    },
+    "rep_2881d183b3eb": {
+      "cameraView": "side",
+      "previewPage": 10
+    },
+    "rep_02eb75d9d8cd": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_fba72f13a0cb": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_f455548e040f": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_36c1b75c9fcf": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_d7a697f7dad0": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_63fb86ee032d": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_0530b54ac660": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_4dabbcb062d4": {
+      "cameraView": "side",
+      "previewPage": 11
+    },
+    "rep_52952511a3e6": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_85bbffe0dc67": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_8333424d5d28": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_eb9dea037226": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_1dbd178edabe": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_657b4b461a5b": {
+      "cameraView": "side",
+      "previewPage": 12
+    },
+    "rep_f50edcd936eb": {
+      "cameraView": "side",
+      "previewPage": 12,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_37ba2a32f5a4": {
+      "cameraView": "side",
+      "previewPage": 12,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_31643e8b8230": {
+      "cameraView": "side",
+      "previewPage": 13,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_fbeb40aff62f": {
+      "cameraView": "side",
+      "previewPage": 13,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_e3e98cb9bd02": {
+      "cameraView": "mixed",
+      "previewPage": 14,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_d838cc49ae41": {
+      "cameraView": "side",
+      "previewPage": 14,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_20d395710323": {
+      "cameraView": "side",
+      "previewPage": 14,
+      "evidence": "round_a_two_reviewer_consensus"
+    },
+    "rep_954843723413": {
+      "cameraView": "mixed",
+      "previewPage": 14,
+      "evidence": "round_a_two_reviewer_consensus"
+    }
+  }
+}
