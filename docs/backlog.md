@@ -320,7 +320,14 @@ Canonical execution plan:
       are frozen, and export a video/time-coded human review queue.
 - [x] Classify 26 unused blindable + feature-ready reps as future review
       candidates while keeping historical scores weak-label-only.
-- [ ] Recompute leakage-free AI suggestions from pose evidence only.
+- [x] Recompute leakage-free AI suggestions for all 110 camera-audited feature
+      rows before joining human labels; compare 16 eligible suggestions with
+      the 26 Round A consensus rows and preserve 10 protocol/feature-only
+      exclusions.
+- [ ] Visually audit the two ASLR two-point under-scores, four Hurdle score
+      disagreements, one Deep Squat score disagreement, and two Deep Squat
+      protocol-metadata gaps before changing thresholds or requesting targeted
+      collection.
 - [x] Export Round A consensus action-specific quantitative feature tables with
       units and quality fields.
 - [x] Analyze Round A feature distributions and exploratory effect sizes by

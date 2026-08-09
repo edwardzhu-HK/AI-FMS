@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.13                          |
+| 版本     | v1.14                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -61,14 +61,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                            |
-| ------------------------------- | ----------- | ------------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做     |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛         |
-| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B            |
-| G3 定量研究与结果冻结           | IN PROGRESS | 机位审计与 feature sensitivity 稳定性验证完成；最终冻结仍等 Round B |
-| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                      |
+| Gate                            | 状态        | 当前结论                                                                 |
+| ------------------------------- | ----------- | ------------------------------------------------------------------------ |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                     |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做          |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛              |
+| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B                 |
+| G3 定量研究与结果冻结           | IN PROGRESS | leakage-free AI/consensus 对照完成；定向分歧复核中，最终冻结仍等 Round B |
+| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                           |
 
 ### 3.2 已验证基线
 
@@ -110,7 +110,9 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 完成 Deep Squat 跨视频、同为垫板 2 分的 case review；人工深度判断与AI角度/深度参数方向一致，升级为首要说明案例。
 - [x] 完成 110/110 rep camera-view contact-sheet 审计：65 条确认、45 条校正；Round A 29 条双人一致机位全部通过交叉检查。
 - [x] 生成独立 camera-audited feature sensitivity matrix；66/44 readiness、profile groups、score strata、source effects 和 stability 状态均保持不变。
-- [x] 通过 lint、format、295/295 tests 和三页面 production build。
+- [x] 对全部 110 条先独立生成 leakage-free AI evidence，再连接 26 条 Round A 共识；16 条可比较、9 条完全同分、14 条相差不超过 1 分。
+- [x] 确认当前规则式 AI 总分不具备替代人工评分的证据；ASLR、Hurdle 和 Deep Squat 分别形成阈值、定性规则与 protocol metadata 复核队列。
+- [x] 通过 lint、format、297/297 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -266,7 +268,8 @@ G2 验收证据：
 - [x] 分组冻结后叠加 Round A score，输出 7 个 action-score strata 和优先视频复核队列。
 - [x] 审计全池历史 camera-view metadata，保留 original lineage，并生成可按 `repetitionId` 连接的 `auditedCameraView`。
 - [x] 在不改变 Round A 冻结 fingerprint 的前提下重建 audited feature matrix，并验证既有 profile 结论的 camera-metadata 稳定性。
-- [ ] 使用新 pose-derived 输出比较 AI evidence 与人工 consensus。
+- [x] 使用 camera-audited pose-derived 输出比较 AI evidence 与人工 consensus；按 exploratory concordance 报告，不表述为模型准确率。
+- [ ] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口，再决定是否调参或定向采集。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
@@ -428,6 +431,19 @@ Secondary questions：
 | 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查         |
 
 ## 12. 变更记录
+
+### v1.14 - 2026-08-09
+
+- 对 110 条 camera-audited feature rows 先独立运行现有 suggestion rules，之后才
+  连接 26 条 Round A 双方同分共识，从数据流上隔离人工标签。
+- 26 条中 16 条可比较 AI 总分：9/16 完全同分、14/16 相差不超过 1 分、MAE
+  0.5625；linear/quadratic weighted kappa 为 -0.0588/-0.1556。
+- 10 条不比较由 8 条 Rotary feature-only 和 2 条 Deep Squat staged-attempt
+  metadata 缺口构成，不把缺失结果当作错误分数。
+- 形成 ASLR 两条 2 分级低估、Hurdle 四条分歧、Deep Squat 一条分数差异和两条
+  metadata 缺口的 9 条定向复核队列；另保留 8 条 Rotary feature-only 预期边界。
+- 新增 `npm run study:ai-evidence:round-a`、JSON/CSV/中文报告、rule fingerprint 和
+  SHA-256 输出。
 
 ### v1.13 - 2026-08-09
 
