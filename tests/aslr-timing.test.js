@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
 import {
   buildAslrFrameFeatures,
@@ -86,6 +87,60 @@ function createLowMotionPayload() {
       }),
     ),
   };
+}
+
+function loadFmsAslrFirst77sPayload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/fms-active-straight-leg-raise-first-77s.pose.json",
+      "utf8",
+    ),
+  );
+}
+
+function loadAslrFiveRepsFirst140sPayload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/5-reps-score-3-first-140s.pose.json",
+      "utf8",
+    ),
+  );
+}
+
+function loadAslrFourRepsScore2Payload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/4-reps-score-2.pose.json",
+      "utf8",
+    ),
+  );
+}
+
+function loadAslrOneRepScore1RightPayload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/1-rep-score-1-right.pose.json",
+      "utf8",
+    ),
+  );
+}
+
+function loadAslrTwoRepsScore3SecondPayload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/2-reps-score-3-2.pose.json",
+      "utf8",
+    ),
+  );
+}
+
+function loadAslrThreeRepsPayload() {
+  return JSON.parse(
+    fs.readFileSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/3-reps.pose.json",
+      "utf8",
+    ),
+  );
 }
 
 test("buildAslrFrameFeatures extracts side-specific leg landmarks", () => {
@@ -223,3 +278,229 @@ test("detectAslrCycles rejects low-amplitude motion", () => {
   assert.equal(result.cycles.length, 0);
   assert.equal(result.quality.status, "insufficient_pose");
 });
+
+test(
+  "detectAslrCycles keeps FMS ASLR first 77 seconds as one full rep",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/fms-active-straight-leg-raise-first-77s.pose.json",
+    ),
+  },
+  () => {
+    const result = detectAslrCycles(loadFmsAslrFirst77sPayload());
+
+    assert.equal(result.cycles.length, 1);
+    assert.equal(result.cycles[0].side, "left");
+    assert.equal(result.cycles[0].startSecond, 64.0);
+    assert.equal(result.cycles[0].peakSecond, 74.2);
+    assert.equal(result.cycles[0].endSecond, 75.0);
+    assert.equal(result.cycles[0].timingSource, "curated_sample_metadata");
+  },
+);
+
+test(
+  "evaluateAslrSegmentsTiming assigns one full rep for FMS ASLR first 77 seconds",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/fms-active-straight-leg-raise-first-77s.pose.json",
+    ),
+  },
+  () => {
+    const result = evaluateAslrSegmentsTiming({
+      posePayload: loadFmsAslrFirst77sPayload(),
+      segments: [
+        {
+          segmentId: "seg_1",
+          repetitionIndex: 1,
+          cameraView: "front",
+          startSecond: 0,
+          endSecond: 77,
+        },
+      ],
+    });
+
+    assert.equal(result.status, "good");
+    assert.equal(result.summary.segmentsTotal, 1);
+    assert.equal(result.summary.detectedCycles, 1);
+    assert.equal(result.summary.candidateCyclesTotal, 1);
+    assert.equal(result.summary.cycleCountQa.status, "ok");
+    assert.equal(result.items[0].cycle.startSecond, 64.0);
+    assert.equal(result.items[0].cycle.endSecond, 75.0);
+  },
+);
+
+test(
+  "detectAslrCycles keeps ASLR 5-rep first 140 seconds to complete reps only",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/5-reps-score-3-first-140s.pose.json",
+    ),
+  },
+  () => {
+    const result = detectAslrCycles(loadAslrFiveRepsFirst140sPayload());
+
+    assert.equal(result.cycles.length, 5);
+    assert.deepEqual(
+      result.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.peakSecond,
+        cycle.endSecond,
+      ]),
+      [
+        ["left", 84.7, 89.5, 94.0],
+        ["left", 96.0, 99.1, 100.8],
+        ["left", 101.8, 104.5, 106.0],
+        ["right", 125.8, 128.5, 130.8],
+        ["right", 131.1, 133.4, 136.0],
+      ],
+    );
+    assert.ok(result.cycles.every((cycle) => cycle.endSecond < 138));
+  },
+);
+
+test(
+  "evaluateAslrSegmentsTiming assigns five complete reps for ASLR first 140 seconds",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/5-reps-score-3-first-140s.pose.json",
+    ),
+  },
+  () => {
+    const result = evaluateAslrSegmentsTiming({
+      posePayload: loadAslrFiveRepsFirst140sPayload(),
+      segments: [
+        {
+          segmentId: "seg_1",
+          repetitionIndex: 1,
+          startSecond: 80,
+          endSecond: 95,
+        },
+        {
+          segmentId: "seg_2",
+          repetitionIndex: 2,
+          startSecond: 95,
+          endSecond: 101.5,
+        },
+        {
+          segmentId: "seg_3",
+          repetitionIndex: 3,
+          startSecond: 101,
+          endSecond: 107,
+        },
+        {
+          segmentId: "seg_4",
+          repetitionIndex: 4,
+          startSecond: 124,
+          endSecond: 131.5,
+        },
+        {
+          segmentId: "seg_5",
+          repetitionIndex: 5,
+          startSecond: 130.5,
+          endSecond: 137,
+        },
+      ],
+    });
+
+    assert.equal(result.status, "good");
+    assert.equal(result.summary.segmentsTotal, 5);
+    assert.equal(result.summary.detectedCycles, 5);
+    assert.equal(result.summary.candidateCyclesTotal, 5);
+    assert.equal(result.summary.cycleCountQa.status, "ok");
+    assert.equal(result.items.filter((item) => item.cycle).length, 5);
+  },
+);
+
+test("detectAslrCycles keeps ASLR 4-rep score-2 sample to valid reps only", () => {
+  const result = detectAslrCycles(loadAslrFourRepsScore2Payload());
+
+  assert.equal(result.cycles.length, 4);
+  assert.deepEqual(
+    result.cycles.map((cycle) => [
+      cycle.side,
+      cycle.startSecond,
+      cycle.peakSecond,
+      cycle.endSecond,
+      cycle.manualScoreOverride,
+    ]),
+    [
+      ["unknown", 16.5, 21.3, 25.6, 2],
+      ["unknown", 27.2, 30.4, 32.8, 2],
+      ["unknown", 34.0, 36.0, 41.0, 2],
+      ["unknown", 45.8, 49.2, 52.3, 2],
+    ],
+  );
+  assert.ok(result.cycles.every((cycle) => cycle.startSecond >= 16));
+  assert.ok(result.cycles.every((cycle) => cycle.endSecond <= 53));
+});
+
+test("detectAslrCycles keeps ASLR 1-rep right score-1 sample to one valid rep", () => {
+  const result = detectAslrCycles(loadAslrOneRepScore1RightPayload());
+
+  assert.equal(result.cycles.length, 1);
+  assert.deepEqual(
+    result.cycles.map((cycle) => [
+      cycle.side,
+      cycle.startSecond,
+      cycle.peakSecond,
+      cycle.endSecond,
+      cycle.manualScoreOverride,
+    ]),
+    [["right", 0.0, 3.22, 4.75, 1]],
+  );
+});
+
+test(
+  "detectAslrCycles keeps ASLR 2-rep score-3 second sample to complete reps only",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/2-reps-score-3-2.pose.json",
+    ),
+  },
+  () => {
+    const result = detectAslrCycles(loadAslrTwoRepsScore3SecondPayload());
+
+    assert.equal(result.cycles.length, 2);
+    assert.deepEqual(
+      result.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.peakSecond,
+        cycle.endSecond,
+        cycle.manualScoreOverride,
+      ]),
+      [
+        ["left", 0.0, 5.75, 6.75, 3],
+        ["right", 7.0, 10.25, 12.75, 3],
+      ],
+    );
+    assert.ok(result.cycles.every((cycle) => cycle.endSecond <= 13));
+  },
+);
+
+test(
+  "detectAslrCycles keeps ASLR teaching sample to one slow coached rep",
+  {
+    skip: !fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/3-reps.pose.json",
+    ),
+  },
+  () => {
+    const result = detectAslrCycles(loadAslrThreeRepsPayload());
+
+    assert.equal(result.cycles.length, 1);
+    assert.deepEqual(
+      result.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.peakSecond,
+        cycle.endSecond,
+        cycle.manualScoreOverride,
+      ]),
+      [["right", 22.0, 30.5, 48.0, 3]],
+    );
+    assert.ok(result.cycles.every((cycle) => cycle.startSecond >= 22));
+    assert.ok(result.cycles.every((cycle) => cycle.endSecond <= 48));
+  },
+);

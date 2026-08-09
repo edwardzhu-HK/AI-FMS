@@ -7,6 +7,10 @@ function statusClassName(reviewStatus) {
     return "status-partial";
   }
 
+  if (reviewStatus === "protocol_evidence") {
+    return "status-protocol-evidence";
+  }
+
   return "status-pending";
 }
 
@@ -133,6 +137,10 @@ function reviewStatusLabel(reviewStatus, t) {
 
   if (reviewStatus === "partial") {
     return t("partial");
+  }
+
+  if (reviewStatus === "protocol_evidence") {
+    return t("protocolEvidence");
   }
 
   if (reviewStatus === "pending") {

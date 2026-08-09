@@ -5,6 +5,11 @@ import {
   getActionRepPolicy,
   normalizeClearingFindings,
 } from "../constants/scoring.js";
+import {
+  DEEP_SQUAT_ATTEMPT_CONDITIONS,
+  DEEP_SQUAT_ATTEMPT_FLOOR,
+  normalizeDeepSquatAttemptCondition,
+} from "../lib/deep-squat-attempt-condition.js";
 
 function canApplyAiSideSuggestion(segment, aiSideSuggestion, repPolicy) {
   const currentSide = segment?.side ?? repPolicy.defaultSide;
@@ -45,6 +50,10 @@ function toFormValue(segment, aiSideSuggestion = null) {
       segment?.clearingFindings,
       segment?.clearingTest,
     ),
+    attemptCondition:
+      actionType === "deep_squat"
+        ? normalizeDeepSquatAttemptCondition(segment?.attemptCondition)
+        : DEEP_SQUAT_ATTEMPT_FLOOR,
     rubricVersion: segment?.rubricVersion ?? "fms_v1.0",
   };
 }
@@ -125,6 +134,10 @@ function buildMetadataPayload({
       formValue.clearingTest,
     ),
     clearingFindings: formValue.clearingFindings,
+    attemptCondition:
+      segment.actionType === "deep_squat"
+        ? normalizeDeepSquatAttemptCondition(formValue.attemptCondition)
+        : undefined,
     rubricVersion: String(formValue.rubricVersion).trim() || "fms_v1.0",
     segmentSource,
   };
@@ -178,6 +191,7 @@ export default function SegmentEditor({
   const visibleSideOptions =
     sideOptions.length > 0 ? sideOptions : [repPolicy.defaultSide];
   const hasSideOptions = sideOptions.length > 0;
+  const isDeepSquat = segment.actionType === "deep_squat";
   const hasClearingFindings = formValue.clearingFindings.length > 0;
   const hasUnconfirmedClearing = formValue.clearingFindings.some((finding) =>
     ["not_tested", "unknown"].includes(finding.result),
@@ -330,6 +344,29 @@ export default function SegmentEditor({
         ) : null}
 
         <div className="metadata-grid">
+          {isDeepSquat ? (
+            <label>
+              {t("attemptCondition")}
+              <select
+                value={formValue.attemptCondition}
+                onChange={(event) =>
+                  updateField("attemptCondition", event.target.value)
+                }
+                disabled={disabled}
+              >
+                {DEEP_SQUAT_ATTEMPT_CONDITIONS.map((condition) => (
+                  <option key={condition} value={condition}>
+                    {getTranslatedLabel(
+                      `attemptCondition_${condition}`,
+                      condition,
+                      t,
+                    )}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
           <label className={!hasSideOptions ? "metadata-field-disabled" : ""}>
             {t("side")}
             <select

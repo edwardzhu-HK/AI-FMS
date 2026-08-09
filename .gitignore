@@ -1,5 +1,9 @@
 node_modules
 dist
+.tools
+.agents/
+Ingested-data/
+research/pilot-v1/generated/
 .DS_Store
 .venv
 .cache
@@ -7,6 +11,7 @@ dist
 .local-reference/
 models/*.task
 Eval_Videos/**/pose/*.json
+Eval_Videos/**/pose/*.json.bak-*
 Eval_Videos/**/*.mp4
 Eval_Videos/**/*.mov
 Eval_Videos/**/*.avi

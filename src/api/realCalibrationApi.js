@@ -72,6 +72,7 @@ export async function saveSegmentReview(payload) {
         score_scope: payload.score.scoreScope,
         score_basis: payload.score.scoreBasis,
         uses_criteria_scores: payload.score.usesCriteriaScores,
+        scoring_status: payload.score.scoringStatus,
         comment: payload.score.comment,
       }),
     },
@@ -91,6 +92,7 @@ export async function updateSegmentMetadata(payload) {
       pain_flag: payload.painFlag,
       clearing_test: payload.clearingTest,
       clearing_findings: payload.clearingFindings,
+      attempt_condition: payload.attemptCondition,
       rubric_version: payload.rubricVersion,
       segment_source: payload.segmentSource,
     }),
@@ -130,6 +132,7 @@ export function buildDefaultReviewerScore() {
     totalScore: base.totalScore,
     subscores: base.subscores,
     criteriaScores: base.criteriaScores,
+    scoringStatus: "scored",
     comment: base.comment,
   };
 }

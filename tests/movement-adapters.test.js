@@ -207,6 +207,91 @@ test("movement evidence gate separates ready AI scoring from feature-only eviden
 
   assert.equal(readyGate.status, "ready");
   assert.equal(readyGate.canShowPoseSuggestion, true);
+
+  const stagedGate = evaluateMovementEvidenceGate({
+    actionType: "deep_squat",
+    segmentId: "seg_1",
+    poseSummary: { valid: true, missingFramesRatio: 0, avgVisibility: 0.9 },
+    timingReport: {
+      items: [{ segmentId: "seg_1", status: "good", issues: [] }],
+    },
+    featureReport: {
+      items: [{ segmentId: "seg_1", status: "ok" }],
+    },
+    suggestionReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          status: "needs_heel_elevated_attempt",
+          totalScore: null,
+          rawAttemptScore: 2,
+        },
+      ],
+    },
+  });
+
+  assert.equal(stagedGate.status, "staged_scoring_needs_review");
+  assert.equal(stagedGate.reasonCode, "deep_squat_needs_heel_elevated_attempt");
+  assert.equal(stagedGate.canShowPoseSuggestion, false);
+});
+
+test("movement evidence gate keeps Rotary Stability feature-only", () => {
+  const gate = evaluateMovementEvidenceGate({
+    actionType: "rotary_stability",
+    segmentId: "seg_1",
+    poseSummary: { valid: true, missingFramesRatio: 0, avgVisibility: 0.9 },
+    timingReport: {
+      items: [{ segmentId: "seg_1", status: "good", issues: [] }],
+    },
+    featureReport: {
+      items: [{ segmentId: "seg_1", status: "ok" }],
+    },
+    suggestionReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          status: "suggested",
+          totalScore: 3,
+          scoreBasis: "curated_visual_fms_review",
+        },
+      ],
+    },
+  });
+
+  assert.equal(gate.status, "features_only");
+  assert.equal(gate.reasonCode, "features_only");
+  assert.equal(gate.canShowPoseSuggestion, false);
+});
+
+test("movement evidence gate does not let curated labels bypass pose quality", () => {
+  const gate = evaluateMovementEvidenceGate({
+    actionType: "active_straight_leg_raise",
+    segmentId: "seg_1",
+    poseSummary: {
+      valid: true,
+      missingFramesRatio: 0.12,
+      avgVisibility: 0.86,
+    },
+    timingReport: {
+      items: [{ segmentId: "seg_1", status: "good", issues: [] }],
+    },
+    featureReport: {
+      items: [{ segmentId: "seg_1", status: "ok" }],
+    },
+    suggestionReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          status: "suggested",
+          totalScore: 2,
+          scoreBasis: "curated_visual_fms_review",
+        },
+      ],
+    },
+  });
+
+  assert.equal(gate.status, "limited_pose_quality");
+  assert.equal(gate.canShowPoseSuggestion, false);
 });
 
 test("movement adapter registry exposes In-Line Lunge implemented pipeline", () => {
@@ -236,7 +321,7 @@ test("movement adapter registry exposes Rotary Stability feature-only pipeline",
   assert.equal(adapter.posePipelineStatus, "features_only");
   assert.equal(capability.aiScoringStatus, "pose_evidence_only");
   assert.equal(capability.supportsPoseSuggestion, false);
-  assert.equal(adapter.supportsAiDraftTiming, false);
+  assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");
   assert.equal(adapter.buildSuggestionReport(), null);

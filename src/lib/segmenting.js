@@ -235,6 +235,19 @@ function parseRepCountFromNotes(notesText) {
   return count;
 }
 
+function parseRepCountFromFileName(fileNameText) {
+  const fileName = normalizeText(fileNameText);
+  const match = fileName.match(
+    /(?:^|[^a-z0-9])([1-9]\d?)\s*[-_ ]?\s*reps?(?:[^a-z0-9]|$)/i,
+  );
+
+  if (!match) {
+    return null;
+  }
+
+  return parseNaturalNumber(match[1]);
+}
+
 function estimateRepCount(
   durationSecond,
   expectedReps,
@@ -248,6 +261,11 @@ function estimateRepCount(
   const notesCount = parseRepCountFromNotes(notesText);
   if (notesCount) {
     return clamp(notesCount, 1, MAX_REPS);
+  }
+
+  const fileNameCount = parseRepCountFromFileName(fileNameText);
+  if (fileNameCount) {
+    return clamp(fileNameCount, 1, MAX_REPS);
   }
 
   const fileName = normalizeText(fileNameText);

@@ -47,6 +47,7 @@ test("summarizeConsistency calculates pending and labeled metrics", () => {
   assert.equal(metrics.validCount, 1);
   assert.equal(metrics.invalidCount, 1);
   assert.equal(metrics.pendingCount, 1);
+  assert.equal(metrics.protocolEvidenceCount, 0);
   assert.equal(metrics.aiMatchesFinalCount, 1);
   assert.equal(metrics.aiDiffersFromFinalCount, 0);
   assert.equal(metrics.reviewerConsensusCount, 1);
@@ -59,12 +60,46 @@ test("summarizeConsistency calculates pending and labeled metrics", () => {
     validCount: 1,
     invalidCount: 1,
     pendingCount: 0,
+    protocolEvidenceCount: 0,
   });
   assert.deepEqual(metrics.movementBreakdown.hurdle_step, {
     segmentsTotal: 1,
     validCount: 0,
     invalidCount: 0,
     pendingCount: 1,
+    protocolEvidenceCount: 0,
+  });
+});
+
+test("summarizeConsistency keeps protocol evidence out of agreement rates", () => {
+  const notScored = {
+    totalScore: null,
+    scoringStatus: "not_scored",
+  };
+  const segments = [
+    {
+      actionType: "deep_squat",
+      attemptCondition: "floor",
+      aiScore: makeScore(1, 1, 1, 1),
+      reviewerScores: {
+        reviewer_a: notScored,
+        reviewer_b: notScored,
+      },
+    },
+  ];
+
+  const metrics = summarizeConsistency(segments);
+
+  assert.equal(metrics.protocolEvidenceCount, 1);
+  assert.equal(metrics.pendingCount, 0);
+  assert.equal(metrics.reviewerPairCount, 0);
+  assert.equal(metrics.reviewerAgreementRate, null);
+  assert.deepEqual(metrics.movementBreakdown.deep_squat, {
+    segmentsTotal: 1,
+    validCount: 0,
+    invalidCount: 0,
+    pendingCount: 0,
+    protocolEvidenceCount: 1,
   });
 });
 

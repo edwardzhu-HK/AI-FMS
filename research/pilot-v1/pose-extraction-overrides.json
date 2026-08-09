@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "ai_fms_pose_extraction_overrides_v1",
+  "defaults": {
+    "targetFps": 10,
+    "delegate": "CPU",
+    "numPoses": 1,
+    "primaryPoseSelection": "first"
+  },
+  "actionDefaults": {
+    "hurdle_step": {
+      "numPoses": 2,
+      "primaryPoseSelection": "largest",
+      "subjectQaRequired": true
+    }
+  },
+  "poseFileOverrides": {
+    "fms-active-straight-leg-raise-first-77s.pose.json": {
+      "endSecond": 77
+    },
+    "5-reps-score-3-first-140s.pose.json": {
+      "endSecond": 140
+    },
+    "3-reps.pose.json": {
+      "endSecond": 60
+    },
+    "12-reps-score-3.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "subjectQaRequired": false,
+      "subjectQaNote": "Visual QA at 30 seconds confirms a single athlete in frame."
+    },
+    "6reps-each-side-total-12-reps-score-3-both-sides.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "inferenceRoi": "0.10,0.08,0.70,0.98",
+      "subjectQaRequired": false,
+      "subjectQaNote": "Visual QA at 70 seconds confirms the athlete is left of the coach; inference is cropped to the athlete."
+    },
+    "6reps-total-score-2-for-both-sides.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "subjectQaRequired": false,
+      "subjectQaNote": "Visual QA at 145 seconds confirms a single athlete in frame."
+    },
+    "all-right-side-first-3-score-3-then-1-score-1-and-2-score-2.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "inferenceRoi": "0.05,0.10,0.62,0.98",
+      "subjectQaRequired": false,
+      "subjectQaNote": "Visual QA at 80 seconds confirms the athlete is left of the coach; inference is cropped to the athlete."
+    },
+    "first-4-reps-all-score-3.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "inferenceRoi": "0.32,0.05,0.78,0.98",
+      "subjectQaRequired": false,
+      "subjectQaNote": "Visual QA at 70 seconds confirms the athlete is centered to the right of the coach; inference is cropped to the athlete."
+    },
+    "rotary-stability-test-instructions.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "inferenceRoi": "0.08,0.28,0.94,0.98"
+    },
+    "videoplayback-22.pose.json": {
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "inferenceRoi": "0.02,0.18,0.98,0.98"
+    }
+  }
+}

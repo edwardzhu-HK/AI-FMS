@@ -16,7 +16,13 @@ import {
   adjudicateScores,
   getSegmentReviewStatus,
   summarizeIngest,
+  summarizeReviewerReadiness,
 } from "./lib/adjudication.js";
+import {
+  buildAiDraftTimingPayloads,
+  filterSegmentsWithDetectedCycles,
+  withAiDraftRange,
+} from "./lib/ai-draft-timing.js";
 import { buildAiSideSuggestion } from "./lib/ai-side-suggestion.js";
 import { summarizeClearingReadiness } from "./lib/clearing-readiness.js";
 import { summarizeConsistency } from "./lib/consistency.js";
@@ -52,7 +58,8 @@ const REVIEWER_A_DEFAULT_ID = "Coach_in_video";
 const REVIEWER_B_DEFAULT_ID = "Coach_Ronnie";
 const DEFAULT_DEMO_PRESET_ID = "sample-1";
 const WORKFLOW_STORAGE_KEY = "ai-fms-v1-6-local-workflow";
-const AI_DRAFT_TIMING_BUFFER_SECOND = 0.2;
+const INGEST_HISTORY_STORAGE_KEY = "ai-fms-v1-6-ingest-history";
+const MAX_INGEST_HISTORY_ENTRIES = 30;
 const DEMO_PRESETS = [
   {
     id: "sample-1",
@@ -185,10 +192,46 @@ const DEMO_PRESETS = [
     poseFileName: "rotary-review.pose.json",
     expectedReps: "2",
     notes:
-      "Rotary Stability feature-only sample。当前只显示 pose evidence / side suggestion，不生成 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
+      "Rotary Stability feature-only sample。只保留两个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原；后面的图片/clearing 讲解不纳入 segment。当前只显示 pose evidence / side suggestion，不生成 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
     range: {
-      startSecond: "0",
-      endSecond: "40",
+      startSecond: "46",
+      endSecond: "112",
+    },
+  },
+  {
+    id: "rotary-instructions-score-3",
+    label: "Rotary Stability instructions score-3 sample",
+    actionType: "rotary_stability",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/7-rotatory%20stability/Rotary%20stability%20test%20instructions.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/7-rotatory%20stability/pose/rotary-stability-test-instructions.pose.json",
+    videoFileName: "Rotary stability test instructions.mp4",
+    poseFileName: "rotary-stability-test-instructions.pose.json",
+    expectedReps: "12",
+    notes:
+      "Rotary Stability instructions sample。保留12个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原。结构为前2个侧面、接着4个正面、再2个侧面、最后4个正面；正面段可用于 timing/score，但 side 先保留 unknown，避免误判 left/right。视频里未见单独 clearing test；clearing negative 作为 reviewer metadata 记录。按 FMS manual，同侧模式完成，curated visual suggestion 为 score 3。",
+    range: {
+      startSecond: "6",
+      endSecond: "124",
+    },
+  },
+  {
+    id: "rotary-videoplayback-22-score-1",
+    label: "Rotary Stability score-1 sample",
+    actionType: "rotary_stability",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/7-rotatory%20stability/videoplayback%20%2822%29.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/7-rotatory%20stability/pose/videoplayback-22.pose.json",
+    videoFileName: "videoplayback (22).mp4",
+    poseFileName: "videoplayback-22.pose.json",
+    expectedReps: "4",
+    notes:
+      "Rotary Stability score-1 sample。只取2分钟前内容；0-48秒讲解/摆位不作为 segment。保留4个完整 rep：从四足支撑位开始，触碰、伸展、再次触碰并复原。按 FMS manual，若出现失去平衡、手未触及 lateral malleolus、膝/肘未完全伸展或无法进入起始位，任一条满足即为 score 1；该样本的 curated visual suggestion 为 score 1。",
+    range: {
+      startSecond: "48",
+      endSecond: "120",
     },
   },
 ];
@@ -205,6 +248,11 @@ const EVAL_VIDEO_PRESETS = {
     expectedReps: "4",
     notes: "都是侧面",
   },
+  "5reps score 2.mp4": {
+    expectedReps: "5",
+    notes:
+      "Deep Squat 5 reps：前3个floor attempt未达到3分路径；后两个脚跟垫高 / FMS board attempt，完成效果良好，final score 2 sample。",
+  },
   "2 reps score 3.mp4": {
     expectedReps: "2",
     notes: "都是正面。两个动作，right + left。score 3 sample",
@@ -216,6 +264,66 @@ const EVAL_VIDEO_PRESETS = {
   "7 reps score 3.mp4": {
     expectedReps: "7",
     notes: "都是正面。Hurdle Step 7 reps，默认范围已避开开头准备时间。",
+  },
+  "12 reps score 3.mp4": {
+    expectedReps: "4",
+    notes:
+      "Hurdle Step 12 reps score 3 source video；clean subset for pose-based scoring。只保留纯视角 clean reps：rep 1 front 21.3-28.5, rep 2 side 34.0-38.5, rep 3 side 39.0-43.5, rep 4 front 48.8-52.5。中间 front/side 切镜头的 reps 不入库；AI suggestion 应基于 pose features 自行判断，不使用文件名分数作为 scoring source。",
+    range: {
+      startSecond: "20",
+      endSecond: "53",
+    },
+  },
+  "first 4 reps all score 3.mp4": {
+    expectedReps: "4",
+    notes:
+      "Hurdle Step clean subset for pose-based scoring。红衣服受试者是 primary subject，绿衣服旁观者/coach 不作为 skeleton。只保留前4个完整动作：rep 1 front 62.0-68.5 right, rep 2 front 70.0-77.0 left, rep 3 front 78.0-83.0 right, rep 4 front 84.0-90.5 left。96秒后的额外示范/重新站位不入库；AI suggestion 应基于 pose features 自行判断，不使用文件名分数作为 scoring source。",
+    range: {
+      startSecond: "60",
+      endSecond: "92",
+    },
+  },
+  "6reps total score 2 fo r both sides.mp4": {
+    expectedReps: "6",
+    notes:
+      "Hurdle Step 6 full-cycle reps；pose-based scoring。红衣服受试者是 primary subject，黑衣服 coach 不作为 skeleton。只保留 clean 动作段：rep 1 front 126.5-134.0 right, rep 2 front 139.5-145.0 left, rep 3 front 147.5-155.0 right, rep 4 front 159.5-166.5 left, rep 5 front 171.0-179.0 left, rep 6 front 181.0-190.0 left。每个 rep 必须从起始姿势开始，脚前伸/跨过障碍后再复原到起始姿势才算一个完整 rep。rep 4 观察到 foot/hurdle kit contact，按 FMS manual score-1 rule 处理。AI suggestion 应基于 pose features 和 FMS manual rule 自行判断，不使用文件名分数作为 scoring source。",
+    range: {
+      startSecond: "126",
+      endSecond: "190",
+    },
+  },
+  "Rotary stability test instructions.mp4": {
+    expectedReps: "12",
+    notes:
+      "Rotary Stability instructions sample。保留12个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原。结构为前2个侧面、接着4个正面、再2个侧面、最后4个正面；正面段可用于 timing/score，但 side 先保留 unknown，避免误判 left/right。视频里未见单独 clearing test；clearing negative 作为 reviewer metadata 记录。按 FMS manual，同侧模式完成，curated visual suggestion 为 score 3。",
+    range: {
+      startSecond: "6",
+      endSecond: "124",
+    },
+  },
+  "videoplayback (22).mp4": {
+    expectedReps: "4",
+    notes:
+      "Rotary Stability score-1 sample。只取2分钟前内容；0-48秒讲解/摆位不作为 segment。保留4个完整 rep：rep 1 side 59.5-66.0, rep 2 side 76.5-86.0, rep 3 side 91.5-106.0, rep 4 front/angled 108.0-116.5。按 FMS manual，若出现失去平衡、手未触及 lateral malleolus、膝/肘未完全伸展或无法进入起始位，任一条满足即为 score 1；该样本 curated visual suggestion 为 score 1。",
+    range: {
+      startSecond: "48",
+      endSecond: "120",
+    },
+  },
+  "all the reps are right side. first 3 reps score 3, then 1 rep score 1 and 2 reps score 2.mp4":
+    {
+      expectedReps: "6",
+      notes:
+        "全部 right side。Hurdle Step 6 reps：前3个 score 3，第4个 score 1，最后2个 score 2。",
+    },
+  "6reps each side, total 12 reps, score 3 for both sides.mp4": {
+    expectedReps: "12",
+    notes:
+      "Hurdle Step 12 reps score 3：前6个正面，后6个侧面。顺序为正面 right 3 reps、正面 left 3 reps、侧面 right 3 reps、侧面 left 3 reps。只分析 0-127 秒；127 秒后的图片/分屏不作为 segment。",
+    range: {
+      startSecond: "0",
+      endSecond: "127",
+    },
   },
   "6 reps score 3.mp4": {
     expectedReps: "6",
@@ -262,8 +370,16 @@ const UI_TEXT = {
     job: "Job",
     idle: "idle",
     ingestReadiness: "Ingest Readiness",
+    ingestHistory: "Ingest History",
+    ingestHistoryEmpty: "No saved ingest batches yet.",
+    ingestHistorySaved:
+      "Saved locally in this browser. Export JSON for a durable file copy.",
+    exportIngestHistory: "Export Ingest History JSON",
+    latestIngest: "Latest ingest",
+    savedAt: "Saved at",
     completed: "Completed",
     partial: "Partial",
+    protocolEvidence: "Protocol evidence",
     ready: "Ready",
     yes: "Yes",
     no: "No",
@@ -344,6 +460,7 @@ const UI_TEXT = {
     total: "Total",
     valid: "Valid",
     invalid: "Invalid",
+    protocolEvidenceShort: "protocol evidence",
     playback: "Playback",
     loopSegment: "Loop segment",
     showPose: "Show skeleton",
@@ -437,6 +554,7 @@ const UI_TEXT = {
     batch: "Batch",
     reviewerId: "Reviewer ID",
     totalScore: "Total Score",
+    scoreNotScored: "Temporarily unable to score",
     comment: "Comment",
     reviewerScoreScope: "Score scope",
     reviewerScoreScopeValue: "Rep-level RAW SCORE",
@@ -463,6 +581,10 @@ const UI_TEXT = {
     none: "None",
     poseBasedSuggestion: "Pose-based suggestion",
     poseBasedAiSuggestion: "Pose-based AI Suggestion",
+    deepSquatStagedScoring: "Deep Squat staged scoring",
+    deepSquatNeedsBoardAttemptDetail:
+      "This floor attempt did not meet the score-3 path. Review the heels-elevated / FMS board attempts before assigning a Deep Squat final score.",
+    rawAttemptEvidence: "Raw attempt evidence",
     poseEvidenceOnly: "Pose Evidence Only",
     poseEvidenceOnlyDetail:
       "Pose features are available for review, but this movement does not have a pose-based AI suggestion yet.",
@@ -489,6 +611,8 @@ const UI_TEXT = {
       "Movement features are insufficient for a responsible AI suggestion.",
     poseEvidenceGate_insufficient_ai_suggestion:
       "The model did not produce a usable pose-based suggestion for this segment.",
+    poseEvidenceGate_deep_squat_needs_heel_elevated_attempt:
+      "Deep Squat staged scoring requires a heels-elevated / FMS board attempt before assigning the final score.",
     poseEvidenceGate_unknown_action:
       "This action is not registered in the movement capability schema.",
     confidence: "confidence",
@@ -670,6 +794,10 @@ const UI_TEXT = {
     reason_timingNeedsAdjustment:
       "Timing QA indicates the segment may need adjustment before final scoring; review the suggested timing first.",
     segmentMetadata: "Segment Metadata",
+    attemptCondition: "Attempt condition",
+    attemptCondition_floor: "floor",
+    attemptCondition_heels_elevated_board: "heels elevated / FMS board",
+    attemptCondition_unknown: "unknown",
     suggested: "suggested",
     lowest: "lowest",
     coverage: "coverage",
@@ -799,8 +927,16 @@ const UI_TEXT = {
     job: "任务",
     idle: "空闲",
     ingestReadiness: "入库准备",
+    ingestHistory: "入库历史",
+    ingestHistoryEmpty: "还没有保存过入库批次。",
+    ingestHistorySaved:
+      "已保存在当前浏览器本地。请导出 JSON，作为真正长期保存的文件副本。",
+    exportIngestHistory: "导出入库历史 JSON",
+    latestIngest: "最近入库",
+    savedAt: "保存时间",
     completed: "已完成",
     partial: "部分完成",
+    protocolEvidence: "流程证据",
     ready: "Ready",
     yes: "是",
     no: "否",
@@ -879,6 +1015,7 @@ const UI_TEXT = {
     total: "总数",
     valid: "有效",
     invalid: "无效",
+    protocolEvidenceShort: "流程证据",
     playback: "播放",
     loopSegment: "循环 segment",
     showPose: "显示骨骼",
@@ -970,6 +1107,7 @@ const UI_TEXT = {
     batch: "批次",
     reviewerId: "Reviewer ID",
     totalScore: "总分",
+    scoreNotScored: "暂时无法打分",
     comment: "评论",
     reviewerScoreScope: "评分范围",
     reviewerScoreScopeValue: "当前 rep 的 RAW SCORE",
@@ -996,6 +1134,10 @@ const UI_TEXT = {
     none: "无",
     poseBasedSuggestion: "基于 pose 的建议",
     poseBasedAiSuggestion: "基于 Pose 的 AI 建议",
+    deepSquatStagedScoring: "Deep Squat 分阶段评分",
+    deepSquatNeedsBoardAttemptDetail:
+      "这个 floor attempt 没有达到 3 分路径；需要复核脚跟垫高 / FMS board attempts 后，才能给 Deep Squat 最终分。",
+    rawAttemptEvidence: "Attempt evidence 原始判断",
     poseEvidenceOnly: "仅显示 Pose 证据",
     poseEvidenceOnlyDetail:
       "当前动作已经有 pose features 可供人工复核，但还没有接入 pose-based AI suggestion。",
@@ -1020,6 +1162,8 @@ const UI_TEXT = {
       "动作 features 不足，暂时不能负责任地生成 AI 建议。",
     poseEvidenceGate_insufficient_ai_suggestion:
       "模型没有为当前 segment 生成可用的 pose-based suggestion。",
+    poseEvidenceGate_deep_squat_needs_heel_elevated_attempt:
+      "Deep Squat 的 staged scoring 需要先复核脚跟垫高 / FMS board attempt，再给最终分。",
     poseEvidenceGate_unknown_action:
       "当前动作还没有注册到 movement capability schema。",
     confidence: "置信度",
@@ -1201,6 +1345,10 @@ const UI_TEXT = {
     reason_timingNeedsAdjustment:
       "Timing QA 提示这个 segment 可能还需要调整；建议先预览并确认 suggested timing，再做最终评分。",
     segmentMetadata: "Segment 元数据",
+    attemptCondition: "Attempt condition",
+    attemptCondition_floor: "脚跟着地 / floor",
+    attemptCondition_heels_elevated_board: "脚跟垫高 / FMS board",
+    attemptCondition_unknown: "unknown",
     suggested: "建议",
     lowest: "最低点",
     coverage: "覆盖率",
@@ -1313,109 +1461,53 @@ function formatDurationSecond(duration) {
   return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
-function roundTimingSecond(value) {
-  return Number(value.toFixed(2));
-}
-
-function buildAiDraftRange(cycle, options = {}) {
-  if (!cycle) {
-    return null;
-  }
-
-  const {
-    rangeStartSecond = 0,
-    rangeEndSecond = Number.POSITIVE_INFINITY,
-    bufferSecond = AI_DRAFT_TIMING_BUFFER_SECOND,
-  } = options;
-  const boundedStart = Number.isFinite(rangeStartSecond) ? rangeStartSecond : 0;
-  const boundedEnd = Number.isFinite(rangeEndSecond)
-    ? rangeEndSecond
-    : Number.POSITIVE_INFINITY;
-  const startSecond = roundTimingSecond(
-    Math.max(boundedStart, cycle.startSecond - bufferSecond),
-  );
-  const endSecond = roundTimingSecond(
-    Math.min(boundedEnd, cycle.endSecond + bufferSecond),
-  );
-
-  if (endSecond <= startSecond) {
-    return null;
-  }
-
-  return {
-    startSecond,
-    endSecond,
-  };
-}
-
-function withAiDraftRange(timingItem, options = {}) {
-  if (!timingItem) {
-    return null;
-  }
-
-  return {
-    ...timingItem,
-    aiDraftRange: buildAiDraftRange(timingItem.cycle, options),
-  };
-}
-
-function buildAiDraftTimingPayloads({
-  segments,
-  timingReport,
-  rangeStartSecond,
-  rangeEndSecond,
-}) {
-  const segmentById = new Map(
-    segments.map((segment) => [segment.segmentId, segment]),
-  );
-
-  return (timingReport?.items ?? [])
-    .map((item) => {
-      const segment = segmentById.get(item.segmentId);
-      const range = buildAiDraftRange(item.cycle, {
-        rangeStartSecond,
-        rangeEndSecond,
-      });
-
-      const hasBlockingCycleIssue = item.issues?.some((issue) =>
-        ["duplicate_cycle_assignment", "no_unique_cycle_assignment"].includes(
-          issue.code,
-        ),
-      );
-
-      if (!segment || !range || hasBlockingCycleIssue) {
-        return null;
-      }
-
-      return {
-        segmentId: segment.segmentId,
-        startSecond: range.startSecond,
-        endSecond: range.endSecond,
-        side: segment.side,
-        painFlag: segment.painFlag,
-        clearingTest: segment.clearingTest,
-        clearingFindings: segment.clearingFindings,
-        rubricVersion: segment.rubricVersion,
-        segmentSource: "ai_draft",
-      };
-    })
-    .filter(Boolean);
-}
-
 function createReviewerForm(source, fallbackReviewerId, fallbackTotalScore) {
   if (!source) {
     return {
       reviewerId: fallbackReviewerId,
       totalScore: fallbackTotalScore,
+      scoringStatus: "scored",
       comment: "",
+    };
+  }
+
+  if (
+    source.scoringStatus === "not_scored" ||
+    source.totalScore === null ||
+    source.totalScore === undefined
+  ) {
+    return {
+      reviewerId: source.reviewerId || fallbackReviewerId,
+      totalScore: null,
+      scoringStatus: "not_scored",
+      comment: source.comment ?? "",
     };
   }
 
   return {
     reviewerId: source.reviewerId || fallbackReviewerId,
     totalScore: source.totalScore ?? fallbackTotalScore,
+    scoringStatus: source.scoringStatus ?? "scored",
     comment: source.comment ?? "",
   };
+}
+
+function createReviewerScoreFromForm(actionType, form) {
+  const scoringStatus =
+    form.scoringStatus === "not_scored" || form.totalScore === null
+      ? "not_scored"
+      : "scored";
+
+  return createReviewerRawScore(
+    actionType,
+    scoringStatus === "not_scored" ? null : form.totalScore,
+    {
+      reviewerId: form.reviewerId.trim(),
+      comment: form.comment,
+      scoringStatus,
+      savedAt: new Date().toISOString(),
+    },
+  );
 }
 
 function formatProgressText(job, t) {
@@ -1448,6 +1540,14 @@ function formatSecondMetric(value) {
   }
 
   return `${value.toFixed(1)}s`;
+}
+
+function formatDateTime(value) {
+  if (!value) {
+    return "N/A";
+  }
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
 }
 
 function getPoseStatusLabel(status, t) {
@@ -1638,6 +1738,9 @@ function buildMovementSummaryRows(actions, movementBreakdown) {
 
 function getLocalWorkflowSnapshot() {
   try {
+    if (typeof window === "undefined") {
+      return null;
+    }
     const rawSnapshot = window.localStorage.getItem(WORKFLOW_STORAGE_KEY);
     return rawSnapshot ? JSON.parse(rawSnapshot) : null;
   } catch {
@@ -1647,33 +1750,62 @@ function getLocalWorkflowSnapshot() {
 
 function setLocalWorkflowSnapshot(snapshot) {
   try {
+    if (typeof window === "undefined") {
+      return;
+    }
     window.localStorage.setItem(WORKFLOW_STORAGE_KEY, JSON.stringify(snapshot));
   } catch {
     // Local persistence is a convenience for the workbench, not a hard blocker.
   }
 }
 
+function getLocalIngestHistory() {
+  try {
+    if (typeof window === "undefined") {
+      return [];
+    }
+    const rawHistory = window.localStorage.getItem(INGEST_HISTORY_STORAGE_KEY);
+    const parsed = rawHistory ? JSON.parse(rawHistory) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function setLocalIngestHistory(history) {
+  try {
+    if (typeof window === "undefined") {
+      return;
+    }
+    window.localStorage.setItem(
+      INGEST_HISTORY_STORAGE_KEY,
+      JSON.stringify(history),
+    );
+  } catch {
+    // Ingest history is a convenience cache; JSON export remains the durable copy.
+  }
+}
+
 function buildLocalReadiness(videoId, segments) {
-  const completedSegmentsCount = segments.filter(
-    (segment) => getSegmentReviewStatus(segment) === "completed",
-  ).length;
+  const reviewerReadiness = summarizeReviewerReadiness(segments);
   const clearingReadiness = summarizeClearingReadiness(segments);
-  const reviewerReady =
-    segments.length > 0 && completedSegmentsCount === segments.length;
 
   return {
     videoId,
-    allSegmentsCount: segments.length,
-    completedSegmentsCount,
+    allSegmentsCount: reviewerReadiness.allSegmentsCount,
+    completedSegmentsCount: reviewerReadiness.completedSegmentsCount,
+    scoreableCompletedSegmentsCount:
+      reviewerReadiness.scoreableCompletedSegmentsCount,
+    protocolEvidenceSegmentsCount:
+      reviewerReadiness.protocolEvidenceSegmentsCount,
     clearingReadyForIngest: clearingReadiness.readyForIngest,
     clearingBlockerCount: clearingReadiness.blockerCount,
     clearingRequiredSegmentsCount: clearingReadiness.requiredSegmentsCount,
     clearingConfirmedSegmentsCount: clearingReadiness.confirmedSegmentsCount,
-    readyForIngest: reviewerReady && clearingReadiness.readyForIngest,
+    readyForIngest:
+      reviewerReadiness.readyForIngest && clearingReadiness.readyForIngest,
     blockingReasons: [
-      ...(reviewerReady
-        ? []
-        : ["some segments are still pending reviewer scores"]),
+      ...reviewerReadiness.blockingReasons,
       ...(clearingReadiness.readyForIngest
         ? []
         : ["some segments still need clearing/pain confirmation"]),
@@ -1808,6 +1940,7 @@ function applyLocalMetadataToSegments(segments, payload) {
       painFlag: Boolean(payload.painFlag),
       clearingTest: payload.clearingTest,
       clearingFindings: payload.clearingFindings,
+      attemptCondition: payload.attemptCondition ?? segment.attemptCondition,
       rubricVersion: payload.rubricVersion || "fms_v1.0",
       segmentSource: payload.segmentSource ?? segment.segmentSource,
       updatedAt: new Date().toISOString(),
@@ -1846,6 +1979,7 @@ export default function App() {
   const [readiness, setReadiness] = useState(null);
   const [consistencySnapshot, setConsistencySnapshot] = useState(null);
   const [ingestResult, setIngestResult] = useState(null);
+  const [ingestHistory, setIngestHistory] = useState(getLocalIngestHistory);
   const [loopPlayback, setLoopPlayback] = useState(true);
   const [showKeypoints, setShowKeypoints] = useState(false);
   const [posePayload, setPosePayload] = useState(null);
@@ -1969,8 +2103,18 @@ export default function App() {
     return movementAdapter.buildSuggestionReport({
       featureReport,
       timingReport,
+      segments,
+      notes: analysisNotes,
+      fileName: currentVideoFileName,
     });
-  }, [featureReport, movementAdapter, timingReport]);
+  }, [
+    analysisNotes,
+    currentVideoFileName,
+    featureReport,
+    movementAdapter,
+    segments,
+    timingReport,
+  ]);
 
   const activePoseSuggestion = useMemo(() => {
     if (!suggestionReport || !activeSegment) {
@@ -2349,12 +2493,15 @@ export default function App() {
     try {
       const response = await getVideoSegments(targetVideoId);
       let nextSegments = response.items;
+      const canUsePoseTiming =
+        posePayload &&
+        movementAdapter?.supportsPoseTiming &&
+        allSegmentsMatchAdapter(nextSegments, movementAdapter, selectedAction);
 
       if (
         options.applyAiDraftTiming &&
-        posePayload &&
         movementAdapter?.supportsAiDraftTiming &&
-        allSegmentsMatchAdapter(nextSegments, movementAdapter, selectedAction)
+        canUsePoseTiming
       ) {
         try {
           const draftTimingReport = movementAdapter.buildTimingReport({
@@ -2383,13 +2530,25 @@ export default function App() {
         }
       }
 
+      if (canUsePoseTiming && nextSegments.length > 0) {
+        const latestTimingReport = movementAdapter.buildTimingReport({
+          posePayload,
+          segments: nextSegments,
+        });
+
+        nextSegments = filterSegmentsWithDetectedCycles({
+          segments: nextSegments,
+          timingReport: latestTimingReport,
+        });
+      }
+
       setSegments(nextSegments);
 
-      if (nextSegments.length > 0) {
-        setActiveSegmentId(
-          (currentId) => currentId || nextSegments[0].segmentId,
-        );
-      }
+      setActiveSegmentId((currentId) =>
+        nextSegments.some((segment) => segment.segmentId === currentId)
+          ? currentId
+          : (nextSegments[0]?.segmentId ?? ""),
+      );
 
       setReadiness(buildLocalReadiness(targetVideoId, nextSegments));
       setConsistencySnapshot(
@@ -2538,6 +2697,14 @@ export default function App() {
 
     const preset = getEvalVideoPreset(file.name);
     if (preset) {
+      if (preset.range) {
+        analysisRangeOverrideRef.current = {
+          ...preset.range,
+          fileName: file.name,
+        };
+        setStartSecond(preset.range.startSecond);
+        setEndSecond(preset.range.endSecond);
+      }
       setExpectedReps(preset.expectedReps);
       setAnalysisNotes(preset.notes);
       return;
@@ -2679,14 +2846,9 @@ export default function App() {
 
     try {
       await metadataUpdateRef.current;
-      const savedScore = createReviewerRawScore(
+      const savedScore = createReviewerScoreFromForm(
         activeSegment.actionType ?? selectedAction,
-        form.totalScore,
-        {
-          reviewerId: form.reviewerId.trim(),
-          comment: form.comment,
-          savedAt: new Date().toISOString(),
-        },
+        form,
       );
 
       await saveSegmentReview({
@@ -2700,6 +2862,7 @@ export default function App() {
           scoreScope: savedScore.scoreScope,
           scoreBasis: savedScore.scoreBasis,
           usesCriteriaScores: savedScore.usesCriteriaScores,
+          scoringStatus: savedScore.scoringStatus,
           comment: savedScore.comment,
         },
       });
@@ -2710,17 +2873,10 @@ export default function App() {
         segments,
         activeSegment.segmentId,
         role,
-        {
-          ...createReviewerRawScore(
-            activeSegment.actionType ?? selectedAction,
-            form.totalScore,
-            {
-              reviewerId: form.reviewerId.trim(),
-              comment: form.comment,
-              savedAt: new Date().toISOString(),
-            },
-          ),
-        },
+        createReviewerScoreFromForm(
+          activeSegment.actionType ?? selectedAction,
+          form,
+        ),
       );
       setSegments(nextSegments);
       setReadiness(buildLocalReadiness(videoId, nextSegments));
@@ -2793,12 +2949,29 @@ export default function App() {
 
       await syncSegments(videoId);
     } catch {
-      const nextSegments = updates.reduce(
+      let nextSegments = updates.reduce(
         (currentSegments, payload) =>
           applyLocalMetadataToSegments(currentSegments, payload),
         segments,
       );
+
+      if (movementAdapter?.supportsPoseTiming && posePayload) {
+        const latestTimingReport = movementAdapter.buildTimingReport({
+          posePayload,
+          segments: nextSegments,
+        });
+        nextSegments = filterSegmentsWithDetectedCycles({
+          segments: nextSegments,
+          timingReport: latestTimingReport,
+        });
+      }
+
       setSegments(nextSegments);
+      setActiveSegmentId((currentId) =>
+        nextSegments.some((segment) => segment.segmentId === currentId)
+          ? currentId
+          : (nextSegments[0]?.segmentId ?? ""),
+      );
       setReadiness(buildLocalReadiness(videoId, nextSegments));
       setConsistencySnapshot(buildLocalConsistency(videoId, nextSegments));
     } finally {
@@ -2925,6 +3098,75 @@ export default function App() {
     }
   }
 
+  function saveIngestHistoryEntry(result) {
+    const savedAt = new Date().toISOString();
+    const demoPreset = getDemoPreset(selectedDemoPresetId);
+    const entry = {
+      schemaVersion: "ai_fms_ingest_history_entry_v1",
+      id: `${result.ingestBatchId}-${savedAt}`,
+      savedAt,
+      ingest: result,
+      workflow: {
+        apiMode: calibrationApiMode,
+        selectedAction,
+        selectedDemoPresetId,
+        demoPresetLabel: demoPreset.label,
+        videoId,
+        videoFileName: currentVideoFileName,
+        poseFileName,
+        startSecond,
+        endSecond,
+        expectedReps,
+        analysisNotes,
+      },
+      readiness: effectiveReadiness
+        ? {
+            completedSegmentsCount: effectiveReadiness.completedSegmentsCount,
+            allSegmentsCount: effectiveReadiness.allSegmentsCount,
+            scoreableCompletedSegmentsCount:
+              effectiveReadiness.scoreableCompletedSegmentsCount,
+            protocolEvidenceSegmentsCount:
+              effectiveReadiness.protocolEvidenceSegmentsCount,
+            readyForIngest: effectiveReadiness.readyForIngest,
+            blockingReasons: effectiveReadiness.blockingReasons ?? [],
+          }
+        : null,
+      consistency: consistencySnapshot?.metrics ?? null,
+      segments,
+    };
+
+    setIngestHistory((currentHistory) => {
+      const nextHistory = [
+        entry,
+        ...currentHistory.filter(
+          (item) => item.ingest?.ingestBatchId !== result.ingestBatchId,
+        ),
+      ].slice(0, MAX_INGEST_HISTORY_ENTRIES);
+      setLocalIngestHistory(nextHistory);
+      return nextHistory;
+    });
+  }
+
+  function handleExportIngestHistory() {
+    if (ingestHistory.length === 0) {
+      return;
+    }
+
+    downloadTextFile({
+      contents: JSON.stringify(
+        {
+          schemaVersion: "ai_fms_ingest_history_v1",
+          exportedAt: new Date().toISOString(),
+          entries: ingestHistory,
+        },
+        null,
+        2,
+      ),
+      fileName: "ai-fms-ingest-history.json",
+      type: "application/json",
+    });
+  }
+
   async function handleIngest() {
     setErrorText("");
 
@@ -2941,6 +3183,7 @@ export default function App() {
       await metadataUpdateRef.current;
       const result = await ingestVideo(videoId, "reviewer_a");
       setIngestResult(result);
+      saveIngestHistoryEntry(result);
       await Promise.all([
         refreshReadiness(videoId),
         refreshConsistency(videoId),
@@ -2952,16 +3195,21 @@ export default function App() {
       }
 
       const summary = summarizeIngest(segments);
-      setIngestResult({
+      const result = {
         ingestBatchId: `local_${Date.now()}`,
         videoId,
         requestedBy: "reviewer_a",
         segmentsTotal: summary.segmentsTotal,
         segmentsValid: summary.segmentsValid,
         segmentsInvalid: summary.segmentsInvalid,
-        status: "succeeded",
+        segmentsProtocolEvidence: summary.segmentsProtocolEvidence,
+        status: "local_only",
+        persistenceStatus: "not_persisted",
+        persistenceError: error.message,
         createdAt: new Date().toISOString(),
-      });
+      };
+      setIngestResult(result);
+      saveIngestHistoryEntry(result);
       setReadiness(buildLocalReadiness(videoId, segments));
       setConsistencySnapshot(buildLocalConsistency(videoId, segments));
     } finally {
@@ -3502,6 +3750,14 @@ export default function App() {
           <section className="card manager-entry-card">
             <a
               className="button-secondary manager-entry-button"
+              href="/study.html"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Study Mode
+            </a>
+            <a
+              className="button-secondary manager-entry-button"
               href="/video-manager.html"
               rel="noreferrer"
               target="_blank"
@@ -3712,9 +3968,65 @@ export default function App() {
             {t("total")}: {ingestResult.segmentsTotal} | {t("valid")}:{" "}
             {ingestResult.segmentsValid} | {t("invalid")}:{" "}
             {ingestResult.segmentsInvalid}
+            {ingestResult.segmentsProtocolEvidence ? (
+              <>
+                {" "}
+                | {t("protocolEvidenceShort")}:{" "}
+                {ingestResult.segmentsProtocolEvidence}
+              </>
+            ) : null}
           </p>
         </section>
       ) : null}
+
+      <section className="card ingest-history-card">
+        <div className="ingest-history-header">
+          <div>
+            <h2>{t("ingestHistory")}</h2>
+            <p>{t("ingestHistorySaved")}</p>
+          </div>
+          <button
+            type="button"
+            className="button-secondary"
+            onClick={handleExportIngestHistory}
+            disabled={ingestHistory.length === 0}
+          >
+            {t("exportIngestHistory")}
+          </button>
+        </div>
+        {ingestHistory.length > 0 ? (
+          <ol className="ingest-history-list">
+            {ingestHistory.slice(0, 5).map((entry, index) => (
+              <li key={entry.id}>
+                <strong>
+                  {index === 0 ? `${t("latestIngest")} · ` : ""}
+                  {entry.workflow?.videoFileName || entry.ingest.videoId}
+                </strong>
+                <span>
+                  {t("batch")}: {entry.ingest.ingestBatchId}
+                </span>
+                <span>
+                  {t("savedAt")}: {formatDateTime(entry.savedAt)}
+                </span>
+                <span>
+                  {t("total")}: {entry.ingest.segmentsTotal} | {t("valid")}:{" "}
+                  {entry.ingest.segmentsValid} | {t("invalid")}:{" "}
+                  {entry.ingest.segmentsInvalid}
+                  {entry.ingest.segmentsProtocolEvidence ? (
+                    <>
+                      {" "}
+                      | {t("protocolEvidenceShort")}:{" "}
+                      {entry.ingest.segmentsProtocolEvidence}
+                    </>
+                  ) : null}
+                </span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p>{t("ingestHistoryEmpty")}</p>
+        )}
+      </section>
     </main>
   );
 }

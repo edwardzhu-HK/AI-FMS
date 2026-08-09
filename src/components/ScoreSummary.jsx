@@ -119,6 +119,8 @@ export default function ScoreSummary({
   const hasFeatureOnlyEvidence =
     movementCapability?.posePipelineStatus === "features_only" &&
     !canShowPoseSuggestion;
+  const needsDeepSquatStagedReview =
+    poseSuggestion?.status === "needs_heel_elevated_attempt";
   const isPoseAiUnavailable =
     movementCapability?.supportsPoseSuggestion &&
     !canShowPoseSuggestion &&
@@ -171,6 +173,32 @@ export default function ScoreSummary({
             {t("source")}: {renderSourceLabel(adjudication.labelSource, t)}
           </span>
         </div>
+      </section>
+    );
+  }
+
+  if (needsDeepSquatStagedReview) {
+    return (
+      <section className="score-summary card">
+        <h3>{t("deepSquatStagedScoring")}</h3>
+        <p>{t("deepSquatNeedsBoardAttemptDetail")}</p>
+        <div className="pose-suggestion-meta">
+          <span>
+            {t("attemptCondition")}:{" "}
+            {t(`attemptCondition_${poseSuggestion.attemptCondition}`)}
+          </span>
+          <span>
+            {t("rawAttemptEvidence")}: {poseSuggestion.rawAttemptScore ?? "N/A"}
+          </span>
+          <span>
+            {t("confidence")}: {renderConfidenceLabel(poseSuggestion, t)}
+          </span>
+        </div>
+        <ol className="pose-suggestion-reasons">
+          {poseSuggestion.reasons.map((reason) => (
+            <li key={reason}>{renderDetailedReason(reason, t)}</li>
+          ))}
+        </ol>
       </section>
     );
   }

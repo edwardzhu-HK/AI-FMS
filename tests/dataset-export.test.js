@@ -36,6 +36,7 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
         repetitionIndex: 1,
         cameraView: "front",
         side: "bilateral",
+        attemptCondition: "heels_elevated_board",
         startSecond: 0.2,
         endSecond: 4.8,
         originalStartSecond: 0,
@@ -73,6 +74,9 @@ test("dataset export preserves reviewer consensus and traceability fields", () =
     true,
   );
   assert.equal(exported.records[0].scoreAggregation, "none");
+  assert.equal(exported.records[0].attemptCondition, "heels_elevated_board");
+  assert.equal(exported.records[0].boardDetection.status, "detected");
+  assert.equal(exported.records[0].boardDetection.source, "segment_metadata");
   assert.equal(exported.records[0].repPolicy.clearingPolicy, "none");
   assert.equal(exported.records[0].sideSource, "reviewer_or_metadata");
   assert.deepEqual(exported.records[0].clearingFindings, []);
@@ -204,6 +208,9 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
           confidenceLabel: "high",
           reasons: ["Torso control suggested 2: forward lean watch."],
           modelVersion: "pose-features-v0.1",
+          rawAttemptScore: 2,
+          scoringStatus: "scored",
+          attemptCondition: "heels_elevated_board",
         },
       ],
     },
@@ -255,6 +262,11 @@ test("attachPoseEvidenceToDataset adds lightweight pose-derived evidence", () =>
     suggestionStatus: "suggested",
   });
   assert.equal(augmented.records[0].poseSuggestion.totalScore, 2);
+  assert.equal(
+    augmented.records[0].poseSuggestion.attemptCondition,
+    "heels_elevated_board",
+  );
+  assert.equal(augmented.records[0].poseSuggestion.rawAttemptScore, 2);
   assert.deepEqual(augmented.records[0].poseSuggestion.criteriaScores, []);
 });
 

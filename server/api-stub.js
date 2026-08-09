@@ -3,15 +3,21 @@ import { URL } from "node:url";
 import {
   getSegmentReviewStatus,
   summarizeIngest,
+  summarizeReviewerReadiness,
 } from "../src/lib/adjudication.js";
 import {
   ACTIONS,
   createDefaultSegmentMetadata,
+  normalizeClearingFindings,
+  normalizeScoreForAction,
 } from "../src/constants/scoring.js";
 import { summarizeConsistency } from "../src/lib/consistency.js";
+import { summarizeClearingReadiness } from "../src/lib/clearing-readiness.js";
 import { createAIScoreForSegment } from "../src/lib/ai-scoring.js";
 import { buildSegmentsFromCycle } from "../src/lib/segmenting.js";
 import { buildDatasetExport } from "../src/lib/dataset-export.js";
+import { inferDeepSquatAttemptCondition } from "../src/lib/deep-squat-attempt-condition.js";
+import { applyDeepSquatBoardDetectionToSegment } from "../src/lib/deep-squat-board-detector.js";
 
 const HOST = process.env.CALIB_API_HOST ?? "127.0.0.1";
 const PORT = Number(process.env.CALIB_API_PORT ?? 4000);
@@ -159,6 +165,27 @@ function createSegments(
     const segmentId = createId("seg", store.segmentSeq);
     store.segmentSeq += 1;
     const repetitionCount = windows.length;
+    const metadata = createDefaultSegmentMetadata(actionType);
+    const segmentBase = {
+      actionType,
+      repetitionIndex: window.repetitionIndex,
+      ...metadata,
+    };
+    const boardAwareSegment =
+      actionType === "deep_squat"
+        ? applyDeepSquatBoardDetectionToSegment(segmentBase, {
+            notes,
+            repetitionCount,
+          })
+        : segmentBase;
+    const attemptCondition =
+      actionType === "deep_squat"
+        ? inferDeepSquatAttemptCondition({
+            segment: boardAwareSegment,
+            notes,
+            repetitionCount,
+          })
+        : undefined;
     const aiScore = createAIScoreForSegment(actionType, {
       cameraView: window.cameraView,
       fileName,
@@ -179,7 +206,11 @@ function createSegments(
       originalEndSecond: window.endSecond,
       segmentSource: "suggested",
       cameraView: window.cameraView,
-      ...createDefaultSegmentMetadata(),
+      ...metadata,
+      ...(attemptCondition ? { attemptCondition } : {}),
+      ...(boardAwareSegment.boardDetection
+        ? { boardDetection: boardAwareSegment.boardDetection }
+        : {}),
       aiScore,
       reviewerScores: {
         reviewer_a: null,
@@ -198,6 +229,15 @@ function toApiSubscores(subscores) {
   };
 }
 
+function toApiCriteriaScores(criteriaScores = []) {
+  return criteriaScores.map((criterion) => ({
+    generic_key: criterion.genericKey,
+    criterion_key: criterion.criterionKey,
+    label: criterion.label,
+    score: criterion.score,
+  }));
+}
+
 function toApiScore(score) {
   if (!score) {
     return null;
@@ -207,6 +247,11 @@ function toApiScore(score) {
     reviewer_id: score.reviewerId,
     total_score: score.totalScore,
     subscores: toApiSubscores(score.subscores),
+    criteria_scores: toApiCriteriaScores(score.criteriaScores),
+    score_scope: score.scoreScope,
+    score_basis: score.scoreBasis,
+    uses_criteria_scores: score.usesCriteriaScores,
+    scoring_status: score.scoringStatus,
     comment: score.comment ?? "",
     model_version: score.modelVersion,
   };
@@ -224,9 +269,12 @@ function toApiSegment(segment) {
     original_end_second: segment.originalEndSecond ?? segment.endSecond,
     segment_source: segment.segmentSource ?? "suggested",
     camera_view: segment.cameraView,
+    attempt_condition: segment.attemptCondition,
+    board_detection: segment.boardDetection ?? null,
     side: segment.side ?? "none",
     pain_flag: Boolean(segment.painFlag),
     clearing_test: segment.clearingTest ?? "not_applicable",
+    clearing_findings: segment.clearingFindings ?? [],
     rubric_version: segment.rubricVersion ?? "fms_v1.0",
     segment_review_status: segment.reviewStatus,
     ai_score: toApiScore(segment.aiScore),
@@ -462,15 +510,29 @@ async function handleRequest(request, response) {
       ),
     };
 
-    const reviewerScore = {
-      reviewerId: payload.fields.reviewer_id ?? payload.fields.reviewerId,
-      totalScore: Number(
-        payload.fields.total_score ?? payload.fields.totalScore,
-      ),
-      subscores: normalizedSubscores,
-      comment: payload.fields.comment ?? "",
-      savedAt: new Date().toISOString(),
-    };
+    const reviewerScore = normalizeScoreForAction(
+      {
+        reviewerId: payload.fields.reviewer_id ?? payload.fields.reviewerId,
+        totalScore: Number(
+          payload.fields.total_score ?? payload.fields.totalScore,
+        ),
+        subscores: normalizedSubscores,
+        criteriaScores:
+          payload.fields.criteria_scores ?? payload.fields.criteriaScores ?? [],
+        scoreScope: payload.fields.score_scope ?? payload.fields.scoreScope,
+        scoreBasis: payload.fields.score_basis ?? payload.fields.scoreBasis,
+        usesCriteriaScores:
+          payload.fields.uses_criteria_scores ??
+          payload.fields.usesCriteriaScores,
+        scoringStatus:
+          payload.fields.scoring_status ??
+          payload.fields.scoringStatus ??
+          "scored",
+        comment: payload.fields.comment ?? "",
+        savedAt: new Date().toISOString(),
+      },
+      targetSegment.actionType,
+    );
 
     targetSegment.reviewerScores[reviewerRole] = reviewerScore;
     targetSegment.reviewStatus = getSegmentReviewStatus(targetSegment);
@@ -537,12 +599,30 @@ async function handleRequest(request, response) {
       payload.fields.clearingTest ??
       targetSegment.clearingTest ??
       "not_applicable";
+    targetSegment.clearingFindings = normalizeClearingFindings(
+      targetSegment.actionType,
+      payload.fields.clearing_findings ??
+        payload.fields.clearingFindings ??
+        targetSegment.clearingFindings ??
+        [],
+      targetSegment.clearingTest,
+    );
+    if (targetSegment.actionType === "deep_squat") {
+      targetSegment.attemptCondition =
+        payload.fields.attempt_condition ??
+        payload.fields.attemptCondition ??
+        targetSegment.attemptCondition ??
+        "unknown";
+    }
     targetSegment.rubricVersion =
       payload.fields.rubric_version ??
       payload.fields.rubricVersion ??
       targetSegment.rubricVersion ??
       "fms_v1.0";
-    targetSegment.segmentSource = "manual_adjusted";
+    targetSegment.segmentSource =
+      payload.fields.segment_source ??
+      payload.fields.segmentSource ??
+      "manual_adjusted";
     targetSegment.updatedAt = new Date().toISOString();
 
     sendJson(response, 200, {
@@ -565,22 +645,31 @@ async function handleRequest(request, response) {
       return;
     }
 
-    const allSegmentsCount = segments.length;
-    const completedSegmentsCount = segments.filter(
-      (segment) => getSegmentReviewStatus(segment) === "completed",
-    ).length;
-
+    const reviewerReadiness = summarizeReviewerReadiness(segments);
+    const clearingReadiness = summarizeClearingReadiness(segments);
     const readyForIngest =
-      allSegmentsCount > 0 && allSegmentsCount === completedSegmentsCount;
+      reviewerReadiness.readyForIngest && clearingReadiness.readyForIngest;
 
     sendJson(response, 200, {
       video_id: videoId,
-      all_segments_count: allSegmentsCount,
-      completed_segments_count: completedSegmentsCount,
+      all_segments_count: reviewerReadiness.allSegmentsCount,
+      completed_segments_count: reviewerReadiness.completedSegmentsCount,
+      scoreable_completed_segments_count:
+        reviewerReadiness.scoreableCompletedSegmentsCount,
+      protocol_evidence_segments_count:
+        reviewerReadiness.protocolEvidenceSegmentsCount,
+      clearing_ready_for_ingest: clearingReadiness.readyForIngest,
+      clearing_blocker_count: clearingReadiness.blockerCount,
+      clearing_required_segments_count: clearingReadiness.requiredSegmentsCount,
+      clearing_confirmed_segments_count:
+        clearingReadiness.confirmedSegmentsCount,
       ready_for_ingest: readyForIngest,
-      blocking_reasons: readyForIngest
-        ? []
-        : ["some segments are still pending reviewer scores"],
+      blocking_reasons: [
+        ...reviewerReadiness.blockingReasons,
+        ...(clearingReadiness.readyForIngest
+          ? []
+          : ["some segments still need clearing/pain confirmation"]),
+      ],
     });
     return;
   }
@@ -638,9 +727,10 @@ async function handleRequest(request, response) {
       return;
     }
 
-    const hasPending = segments.some(
-      (segment) => getSegmentReviewStatus(segment) !== "completed",
-    );
+    const reviewerReadiness = summarizeReviewerReadiness(segments);
+    const clearingReadiness = summarizeClearingReadiness(segments);
+    const hasPending =
+      !reviewerReadiness.readyForIngest || !clearingReadiness.readyForIngest;
 
     if (hasPending) {
       sendError(
@@ -665,6 +755,7 @@ async function handleRequest(request, response) {
       segmentsTotal: summary.segmentsTotal,
       segmentsValid: summary.segmentsValid,
       segmentsInvalid: summary.segmentsInvalid,
+      segmentsProtocolEvidence: summary.segmentsProtocolEvidence,
       status: "succeeded",
       createdAt: new Date().toISOString(),
     };
@@ -678,6 +769,7 @@ async function handleRequest(request, response) {
       segments_total: record.segmentsTotal,
       segments_valid: record.segmentsValid,
       segments_invalid: record.segmentsInvalid,
+      segments_protocol_evidence: record.segmentsProtocolEvidence,
       status: record.status,
       created_at: record.createdAt,
     });
@@ -698,6 +790,7 @@ async function handleRequest(request, response) {
       segments_total: record.segmentsTotal,
       segments_valid: record.segmentsValid,
       segments_invalid: record.segmentsInvalid,
+      segments_protocol_evidence: record.segmentsProtocolEvidence,
       status: record.status,
       created_at: record.createdAt,
     });

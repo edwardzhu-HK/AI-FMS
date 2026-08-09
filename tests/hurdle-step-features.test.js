@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { summarizeHurdleStepPoseFeatures } from "../src/lib/hurdle-step-features.js";
-import { evaluateHurdleStepSegmentsTiming } from "../src/lib/hurdle-step-timing.js";
+import {
+  buildHurdleStepFrameFeatures,
+  evaluateHurdleStepSegmentsTiming,
+} from "../src/lib/hurdle-step-timing.js";
 
 function landmark(name, x, y, visibility = 0.95) {
   return {
@@ -47,6 +50,18 @@ function frame(second, lifts, options = {}) {
       },
     ],
   };
+}
+
+function poseLandmarks(lifts, options = {}) {
+  const rightStanceDrift = options.rightStanceDrift ?? 0;
+  const trunkShift = options.trunkShift ?? 0;
+
+  return [
+    landmark("left_shoulder", 0.42 + trunkShift, 0.32),
+    landmark("right_shoulder", 0.58 + trunkShift, 0.32),
+    ...legLandmarks("left", lifts.left ?? 0),
+    ...legLandmarks("right", lifts.right ?? 0, rightStanceDrift),
+  ];
 }
 
 function triangularLift(second, center, height = 0.18) {
@@ -119,6 +134,84 @@ test("summarizeHurdleStepPoseFeatures reports step evidence", () => {
   assert.equal(typeof report.items[0].metrics.peakClearance, "number");
   assert.equal(typeof report.items[0].metrics.stanceKneeAngleDegrees, "number");
   assert.equal(typeof report.items[0].metrics.stepKneeLineOffset, "number");
+});
+
+test("buildHurdleStepFrameFeatures reads the marked subject pose", () => {
+  const features = buildHurdleStepFrameFeatures({
+    frames: [
+      {
+        second: 1,
+        primaryPoseIndex: 1,
+        poses: [
+          {
+            poseIndex: 0,
+            landmarks: poseLandmarks({ left: 0, right: 0 }),
+          },
+          {
+            poseIndex: 1,
+            primaryPose: true,
+            subjectRole: "subject",
+            landmarks: poseLandmarks({ left: 0.18, right: 0 }),
+          },
+        ],
+      },
+    ],
+  });
+  const subjectLeftFeature = features.find(
+    (feature) => feature.side === "left",
+  );
+
+  assert.equal(Number(subjectLeftFeature.kneeY.toFixed(3)), 0.518);
+});
+
+test("summarizeHurdleStepPoseFeatures does not penalize side-view stance x drift", () => {
+  const posePayload = {
+    frames: [1, 1.5, 2, 2.5, 3].map((second, index) =>
+      frame(
+        second,
+        {
+          left: triangularLift(second, 2),
+          right: 0,
+        },
+        {
+          rightStanceDrift: index * 0.04,
+        },
+      ),
+    ),
+  };
+  const report = summarizeHurdleStepPoseFeatures({
+    posePayload,
+    timingReport: {
+      items: [
+        {
+          segmentId: "seg_1",
+          repetitionIndex: 1,
+          cameraView: "side",
+          status: "good",
+          cycle: {
+            side: "left",
+            startSecond: 1,
+            peakSecond: 2,
+            endSecond: 3,
+            peakClearance: 0.18,
+          },
+        },
+      ],
+    },
+  });
+
+  assert.equal(
+    report.items[0].ratings.stanceLegControl.status,
+    "not_applicable",
+  );
+  assert.equal(
+    report.items[0].ratings.stanceStability.status,
+    "not_applicable",
+  );
+  assert.equal(report.items[0].metrics.stanceAnkleDrift, null);
+  assert.equal(report.items[0].metrics.stanceKneeAngleDegrees, null);
+  assert.ok(report.items[0].metrics.rawStanceAnkleDrift > 0.1);
+  assert.equal(report.items[0].metrics.stanceKneeAngleReliable, false);
 });
 
 test("summarizeHurdleStepPoseFeatures returns null without timing evidence", () => {

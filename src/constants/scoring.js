@@ -47,6 +47,8 @@ const CRITERIA_KEYS = ["depth", "kneeAlignment", "torsoControl"];
 export const SCORE_SCOPE_REP_RAW = "rep_raw_score";
 export const SCORE_BASIS_SCORESHEET_RAW = "scoresheet_like_raw_score";
 export const SCORE_BASIS_POSE_CRITERIA = "pose_criteria_rationale";
+export const DEEP_SQUAT_ATTEMPT_FLOOR = "floor";
+export const DEEP_SQUAT_ATTEMPT_HEELS_ELEVATED = "heels_elevated_board";
 
 const ACTION_RUBRIC_CRITERIA = {
   deep_squat: [
@@ -368,13 +370,19 @@ export function deriveClearingTestFromFindings(
 }
 
 export function createDefaultSegmentMetadata(actionType = "deep_squat") {
-  return {
+  const metadata = {
     side: getDefaultSideForAction(actionType),
     painFlag: false,
     clearingTest: "not_applicable",
     clearingFindings: createDefaultClearingFindings(actionType),
     rubricVersion: DEFAULT_RUBRIC_VERSION,
   };
+
+  if (actionType === "deep_squat") {
+    metadata.attemptCondition = DEEP_SQUAT_ATTEMPT_FLOOR;
+  }
+
+  return metadata;
 }
 
 export function deriveTotalScore(subscores) {

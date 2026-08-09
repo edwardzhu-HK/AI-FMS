@@ -1,6 +1,6 @@
 # AI-FMS V1.5 Scope and Roadmap
 
-Date: 2026-05-22
+Date: 2026-08-09
 
 ## 1. Executive Decision
 
@@ -17,6 +17,24 @@ This positioning is technically safer, easier to finish on schedule, and more
 valuable for Ronnie's college application narrative: long-term student-athlete
 experience, Human Movement Science, FMS learning, and AI-assisted movement
 screening.
+
+## August 2026 Closeout Reset
+
+The active execution plan is now
+`docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`. Work is organized by
+four evidence gates rather than continuous daily scheduling:
+
+1. canonical data and real pose asset baseline;
+2. independent blinded human review;
+3. leakage-free quantitative feature analysis;
+4. application-facing report, dataset card, demo, and release bundle.
+
+The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
+integrated, score-label leakage paths have been removed, 29/29 pilot ingests
+resolve both video and pose assets, and the full 249-test quality gate passes.
+The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
+Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
+provenance-only and are excluded from accuracy analysis.
 
 ## 2. Inputs Reviewed
 

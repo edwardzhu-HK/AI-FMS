@@ -1,6 +1,6 @@
 # Backlog
 
-Date: 2026-05-23
+Date: 2026-08-09
 
 This backlog has been reset around the V1.5 restart plan:
 
@@ -238,6 +238,76 @@ Current development order agreed on 2026-05-23:
   - [x] Upgrade In-Line Lunge evidence to include depth zones, trunk/pelvis
         control, rear-leg control, and front knee-foot line proxy.
 
+## P8: Four-Week Closeout and Research Output
+
+Canonical execution plan:
+`docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`.
+
+- [x] Consolidate the detailed application closeout draft and the concise
+      execution plan into one versioned canonical plan.
+
+### G1: Credible Data Baseline
+
+- [x] Create `codex/application-closeout-v1` from the current main baseline.
+- [x] Selectively integrate Ronnie's branch without pose backups or deleted
+      candidate registries.
+- [x] Remove AI score inference from score-bearing file names, notes, and
+      curated human reference labels.
+- [x] Make Rotary Stability feature-only until its movement-specific scoring
+      evidence is calibrated.
+- [x] Fix real API/stub round-trip fields and distinguish `local_only` from
+      successfully persisted ingests.
+- [x] Build a canonical four-movement pilot from the ignored history exports.
+- [x] Deduplicate cumulative history entries with content-conflict detection.
+- [x] Generate stable IDs, video/pose resolution, checksums, CSV, QA report,
+      JSON Schema, and data dictionary.
+- [x] Resolve 29/29 video assets and generate 29/29 real MediaPipe pose assets.
+- [x] Record human visual subject selection for multi-person Hurdle videos.
+- [x] Mark all 92 legacy numeric AI suggestions as label-leakage-ineligible.
+- [x] Pass lint, format, 249/249 tests, and production build.
+
+### G2: Independent Review
+
+- [x] Add a reviewer-friendly Study Mode backed by the canonical pilot queue.
+- [x] Hide file names, historical scores, AI suggestions, and other label cues.
+- [x] Add reviewer identity, append-only review events, progress, skip, and
+      resume support.
+- [x] Add blindability and visible/audio label-cue QA per source video.
+- [x] Freeze the formal study sample size after blindability, action balance,
+      video-source independence, and reviewer workload QA.
+- [x] Define a versioned four-movement feature contract with units,
+      interpretive direction, and quality fields.
+- [x] Generate a leakage-controlled 110-rep quantitative feature matrix with
+      explicit ready/limited status.
+- [x] Require all 32 formal reps to pass both blindability and feature-readiness
+      gates.
+- [x] Complete an isolated four-case Dry Run with save/refresh recovery and a
+      separate Test Reviewer namespace.
+- [ ] Run independent Ronnie and Other Reviewer review on the eligible formal
+      rep set.
+- [ ] Generate disagreement/adjudication queue only after both reviews close.
+- [ ] Report raw agreement, weighted Cohen's kappa, and confusion matrix.
+
+### G3: Quantitative Feature Study
+
+- [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
+- [ ] Recompute leakage-free AI suggestions from pose evidence only.
+- [ ] Export action-specific quantitative feature tables with units and quality.
+- [ ] Analyze feature distributions and effect sizes by human consensus score.
+- [ ] Identify same-score/different-feature movement phenotype case studies.
+- [ ] Separate exploratory compensation hypotheses from validated findings.
+- [ ] Generate reproducible figures and analysis notebook/script outputs.
+
+### G4: Application Package and Release
+
+- [ ] Update README to the final four-movement research narrative.
+- [ ] Finalize dataset card, methods, limitations, and ethics/publication notes.
+- [ ] Produce Chinese technical report with English abstract.
+- [ ] Produce application project-page copy and a concise evidence table.
+- [ ] Record and verify a 2-3 minute demo video.
+- [ ] Create a release manifest with checksums and reproduction commands.
+- [ ] Run final stale-claim, privacy, source-rights, tests, and build audit.
+
 ## Stretch: Selected Movement Expansion
 
 Priority order:
@@ -292,10 +362,20 @@ remain reusable:
 
 ## Current Known Limitations
 
-- GitHub private remote is configured; current main branch is pushed.
-- Real backend persistence is not implemented.
-- Real pose extraction is implemented as a local Deep Squat prototype, but not
-  yet integrated into backend storage or automatic job output.
+- The active closeout work is isolated on `codex/application-closeout-v1` and
+  has not yet been merged into `main`.
+- The local API stub now round-trips the required review and protocol fields,
+  but it is still a local JSON-backed research service rather than a deployed
+  production database.
+- The four-movement canonical pilot contains 110 repetitions from 28 videos.
+  Repetitions from one video are correlated and do not represent 110 independent
+  participants.
+- All 29 pilot ingest references resolve to real pose JSON, but pose quality,
+  camera view, crop choice, and feature validity still require per-action QA.
+- Historical Reviewer A/B records are not independent blind ratings. A new
+  Study Mode review round is required before inter-rater claims.
+- All 92 historical numeric AI suggestions are excluded from accuracy analysis
+  because the legacy workflow could read score-bearing file names or notes.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active
   Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk
   Stability Push-Up. Rotary Stability is feature-only until movement-specific
@@ -309,8 +389,6 @@ remain reusable:
   still needs more sample calibration beyond the first score-3 pose demo, and
   Rotary Stability still needs better final demo sample selection before any AI
   scoring claim.
-- Current sample inventory covers 64 prepared videos under
-  `Eval_Videos/Sample videos/`; the wider `Eval_Videos` tree currently contains
-  77 MP4 files, 18 pose JSON files, and 7 canonical movement manifests.
-  Rotary Stability still needs better final score-labeled movement samples
-  before any AI scoring claim.
+- The pilot can support movement-quality phenotype hypotheses, but it has no
+  external clinical diagnosis, impairment, injury, or outcome labels. It must
+  not be presented as evidence of diagnosis or injury-risk prediction.

@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "ai_fms_feature_contract_v1",
+  "contractVersion": "pilot-four-movement-features-v1.0.0",
+  "poseInput": {
+    "modelFamily": "MediaPipe Pose Landmarker",
+    "modelVariant": "pose_landmarker_lite",
+    "coordinateSystem": "normalized image coordinates; x increases right and y increases down",
+    "labelLeakagePolicy": "source file name, notes, historical human scores, and legacy AI suggestions are unavailable to feature extraction"
+  },
+  "qualityPolicy": {
+    "minimumPoseAverageVisibility": 0.5,
+    "maximumPoseMissingFramesRatio": 0.2,
+    "requireFeatureStatusOk": true,
+    "requireTimingStatusGood": true
+  },
+  "actions": {
+    "deep_squat": {
+      "implementation": "src/lib/deep-squat-features.js",
+      "timingImplementation": "src/lib/deep-squat-timing.js",
+      "features": [
+        {
+          "name": "peakDepthRatio",
+          "unit": "normalized_ratio",
+          "direction": "higher indicates a deeper vertical descent proxy"
+        },
+        {
+          "name": "hipKneeVerticalGap",
+          "unit": "normalized_image_height",
+          "direction": "higher indicates the hip is lower relative to the knee"
+        },
+        {
+          "name": "hipAngleDegrees",
+          "unit": "degrees",
+          "direction": "lower indicates more hip flexion in a usable side view"
+        },
+        {
+          "name": "kneeAngleDegrees",
+          "unit": "degrees",
+          "direction": "lower indicates more knee flexion in a usable side view"
+        },
+        {
+          "name": "ankleShankLeanDegrees",
+          "unit": "degrees",
+          "direction": "higher indicates greater forward shank lean"
+        },
+        {
+          "name": "trunkLeanDegrees",
+          "unit": "degrees",
+          "direction": "lower indicates a more upright trunk proxy"
+        },
+        {
+          "name": "maxKneeAnkleOffset",
+          "unit": "normalized_image_width",
+          "direction": "lower indicates less frontal-plane knee-to-ankle offset"
+        },
+        {
+          "name": "avgVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger landmark visibility"
+        },
+        {
+          "name": "timingCoverageRatio",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates more complete detected-cycle coverage"
+        }
+      ]
+    },
+    "active_straight_leg_raise": {
+      "implementation": "src/lib/aslr-features.js",
+      "timingImplementation": "src/lib/aslr-timing.js",
+      "features": [
+        {
+          "name": "ankleAboveHip",
+          "unit": "normalized_image_height",
+          "direction": "higher indicates a higher active ankle position relative to the hip"
+        },
+        {
+          "name": "footAboveHip",
+          "unit": "normalized_image_height",
+          "direction": "higher indicates a higher active foot position relative to the hip"
+        },
+        {
+          "name": "kneeAngleDegrees",
+          "unit": "degrees",
+          "direction": "higher indicates a straighter active knee"
+        },
+        {
+          "name": "stationaryKneeAngleDegrees",
+          "unit": "degrees",
+          "direction": "higher indicates a straighter stationary knee"
+        },
+        {
+          "name": "stationaryAnkleDrift",
+          "unit": "normalized_distance",
+          "direction": "lower indicates less stationary-leg movement"
+        },
+        {
+          "name": "hipHeightGap",
+          "unit": "normalized_image_height",
+          "direction": "lower indicates less left-right pelvic height difference"
+        },
+        {
+          "name": "peakElevation",
+          "unit": "normalized_image_height",
+          "direction": "higher indicates greater detected leg elevation"
+        },
+        {
+          "name": "avgVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger landmark visibility"
+        },
+        {
+          "name": "timingCoverageRatio",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates more complete detected-cycle coverage"
+        },
+        {
+          "name": "sideVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger active-side landmark visibility"
+        }
+      ]
+    },
+    "hurdle_step": {
+      "implementation": "src/lib/hurdle-step-features.js",
+      "timingImplementation": "src/lib/hurdle-step-timing.js",
+      "features": [
+        {
+          "name": "peakClearance",
+          "unit": "normalized_image_height",
+          "direction": "higher indicates greater stepping-foot clearance"
+        },
+        {
+          "name": "stanceAnkleDrift",
+          "unit": "normalized_distance",
+          "direction": "lower indicates less stance-foot movement when view-reliable"
+        },
+        {
+          "name": "stanceKneeAngleDegrees",
+          "unit": "degrees",
+          "direction": "higher indicates a straighter stance knee when view-reliable"
+        },
+        {
+          "name": "stepKneeAngleDegrees",
+          "unit": "degrees",
+          "direction": "higher indicates a straighter stepping knee"
+        },
+        {
+          "name": "stepKneeLineOffset",
+          "unit": "normalized_image_width",
+          "direction": "lower indicates less stepping-knee line offset"
+        },
+        {
+          "name": "trunkCenterOffset",
+          "unit": "normalized_image_width",
+          "direction": "lower indicates less shoulder-to-hip center shift"
+        },
+        {
+          "name": "hipHeightGap",
+          "unit": "normalized_image_height",
+          "direction": "lower indicates less left-right pelvic height difference"
+        },
+        {
+          "name": "avgVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger landmark visibility"
+        },
+        {
+          "name": "timingCoverageRatio",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates more complete detected-cycle coverage"
+        },
+        {
+          "name": "sideVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger stepping-side landmark visibility"
+        }
+      ],
+      "qualifiers": ["stanceAnkleDriftReliable", "stanceKneeAngleReliable"]
+    },
+    "rotary_stability": {
+      "implementation": "src/lib/rotary-stability-features.js",
+      "timingImplementation": "src/lib/rotary-stability-timing.js",
+      "capability": "features_only_no_ai_raw_score",
+      "features": [
+        {
+          "name": "rotaryReachScore",
+          "unit": "normalized_reach_proxy",
+          "direction": "higher indicates greater combined limb reach; this is not an FMS RAW SCORE"
+        },
+        {
+          "name": "trunkTwistDegrees",
+          "unit": "degrees",
+          "direction": "lower indicates less shoulder-to-pelvis rotation"
+        },
+        {
+          "name": "trunkCenterOffset",
+          "unit": "normalized_image_width",
+          "direction": "lower indicates less shoulder-to-hip center shift"
+        },
+        {
+          "name": "hipHeightGap",
+          "unit": "normalized_image_height",
+          "direction": "lower indicates less left-right pelvic height difference"
+        },
+        {
+          "name": "sideVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger required-landmark visibility"
+        },
+        {
+          "name": "sideConfidence",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger separation of the inferred movement-side pattern"
+        },
+        {
+          "name": "timingVisibility",
+          "unit": "ratio_0_1",
+          "direction": "higher indicates stronger landmark visibility during timing"
+        }
+      ]
+    }
+  }
+}

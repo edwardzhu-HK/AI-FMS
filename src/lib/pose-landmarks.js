@@ -5,6 +5,12 @@ export function validatePoseLandmarkPayload(payload) {
     return ["payload must be an object"];
   }
 
+  if (payload.schemaVersion === "ai_fms_dataset_v1_5_draft") {
+    return [
+      "this is a dataset export JSON, not a Pose JSON; choose the MediaPipe landmarks file with schemaVersion ai_fms_pose_landmarks_v1",
+    ];
+  }
+
   if (payload.schemaVersion !== "ai_fms_pose_landmarks_v1") {
     issues.push("schemaVersion must be ai_fms_pose_landmarks_v1");
   }
@@ -108,8 +114,40 @@ export function findNearestPoseFrame(payload, second) {
   );
 }
 
+export function getPrimaryPose(frame) {
+  const poses = frame?.poses ?? [];
+  if (!Array.isArray(poses) || poses.length === 0) {
+    return null;
+  }
+
+  const markedPrimaryPose = poses.find(
+    (pose) => pose?.primaryPose === true || pose?.subjectRole === "subject",
+  );
+  if (markedPrimaryPose) {
+    return markedPrimaryPose;
+  }
+
+  if (
+    Number.isInteger(frame?.primaryPoseIndex) &&
+    frame.primaryPoseIndex >= 0
+  ) {
+    const poseByOriginalIndex = poses.find(
+      (pose) => pose?.poseIndex === frame.primaryPoseIndex,
+    );
+    if (poseByOriginalIndex) {
+      return poseByOriginalIndex;
+    }
+
+    if (poses[frame.primaryPoseIndex]) {
+      return poses[frame.primaryPoseIndex];
+    }
+  }
+
+  return poses[0];
+}
+
 export function getPrimaryPoseLandmarks(frame) {
-  return frame?.poses?.[0]?.landmarks ?? [];
+  return getPrimaryPose(frame)?.landmarks ?? [];
 }
 
 export function getPoseLandmarkSide(name) {

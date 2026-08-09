@@ -134,7 +134,8 @@ body {
 .reviewer-form,
 .empty-score-card,
 .evidence-summary-card,
-.ingest-result-card {
+.ingest-result-card,
+.ingest-history-card {
   min-width: 0;
   padding: 14px;
 }
@@ -846,6 +847,7 @@ video {
 
 .status-completed,
 .status-partial,
+.status-protocol-evidence,
 .status-pending {
   border-radius: 999px;
   padding: 2px 8px;
@@ -860,6 +862,11 @@ video {
 .status-partial {
   background: #f4e6ca;
   color: var(--warn);
+}
+
+.status-protocol-evidence {
+  background: #dfebef;
+  color: #3f6977;
 }
 
 .status-pending {
@@ -954,6 +961,45 @@ video {
 
 .ingest-result-card p {
   margin: 6px 0;
+}
+
+.ingest-history-card {
+  margin-top: 12px;
+}
+
+.ingest-history-header {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.ingest-history-header p {
+  margin: 0;
+  color: #5a5e53;
+  line-height: 1.45;
+}
+
+.ingest-history-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ingest-history-list li {
+  display: grid;
+  gap: 3px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.ingest-history-list span {
+  color: #4f5447;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 1360px) {

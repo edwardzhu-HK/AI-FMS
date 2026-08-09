@@ -2,68 +2,40 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createAIScoreForSegment } from "../src/lib/ai-scoring.js";
 
-function score(actionType, context) {
-  return createAIScoreForSegment(actionType, {
-    cameraView: "front",
-    fileName: "sample.mp4",
-    notes: "",
-    repetitionIndex: 1,
-    repetitionCount: 3,
-    ...context,
-  }).totalScore;
-}
+test("segment bootstrap never infers AI scores from labels in file names or notes", () => {
+  const contexts = [
+    {
+      actionType: "deep_squat",
+      fileName: "5reps score 2.mp4",
+      notes: "最后两个2分",
+    },
+    {
+      actionType: "hurdle_step",
+      fileName: "first 3 score 3 then 1 score 1.mp4",
+      notes: "reference score 3",
+    },
+    {
+      actionType: "active_straight_leg_raise",
+      fileName: "1 rep score 1.mp4",
+      notes: "人工复核为1分",
+    },
+  ];
 
-test("deep squat side file defaults to 2", () => {
-  assert.equal(
-    score("deep_squat", {
-      fileName: "side.mp4",
-      cameraView: "side",
-    }),
-    2,
-  );
+  for (const { actionType, ...context } of contexts) {
+    const score = createAIScoreForSegment(actionType, context);
+
+    assert.equal(score.totalScore, null);
+    assert.equal(score.scoringStatus, "not_scored");
+    assert.equal(score.scoreBasis, "pose_evidence_required");
+    assert.equal(score.modelVersion, "unscored-segment-v1");
+  }
 });
 
-test("deep squat sample-1 last repetition defaults to 2", () => {
-  assert.equal(
-    score("deep_squat", {
-      fileName: "Sample-1.mp4",
-      repetitionIndex: 6,
-      repetitionCount: 7,
-    }),
-    3,
-  );
+test("Rotary Stability starts feature-only without a synthetic score", () => {
+  const score = createAIScoreForSegment("rotary_stability", {
+    fileName: "score 3.mp4",
+  });
 
-  assert.equal(
-    score("deep_squat", {
-      fileName: "Sample-1.mp4",
-      repetitionIndex: 7,
-      repetitionCount: 7,
-    }),
-    2,
-  );
-});
-
-test("notes can explicitly override per-repetition scores", () => {
-  assert.equal(
-    score("deep_squat", {
-      fileName: "front.mp4",
-      notes: "前六个3分，最后一个2分",
-      repetitionIndex: 7,
-      repetitionCount: 7,
-    }),
-    2,
-  );
-});
-
-test("other actions default to 3 but respect explicit notes", () => {
-  assert.equal(score("hurdle_step", {}), 3);
-
-  assert.equal(
-    score("hurdle_step", {
-      notes: "第2个动作是2分",
-      repetitionIndex: 2,
-      repetitionCount: 4,
-    }),
-    2,
-  );
+  assert.equal(score.totalScore, null);
+  assert.equal(score.scoringStatus, "not_scored");
 });

@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { adjudicateScores, summarizeIngest } from "../src/lib/adjudication.js";
+import {
+  adjudicateScores,
+  getSegmentReviewStatus,
+  summarizeIngest,
+  summarizeReviewerReadiness,
+} from "../src/lib/adjudication.js";
 
 function makeScore(totalScore, depth, kneeAlignment, torsoControl) {
   return {
@@ -66,6 +71,122 @@ test("adjudication treats zero as a valid FMS pain score", () => {
   assert.equal(result.labelStatus, "valid");
   assert.equal(result.labelSource, "ai_human_match");
   assert.equal(result.finalScore.totalScore, 0);
+});
+
+test("adjudication keeps temporarily unscored reviews pending", () => {
+  const ai = makeScore(2, 2, 2, 2);
+  const notScored = {
+    totalScore: null,
+    subscores: {
+      depth: null,
+      kneeAlignment: null,
+      torsoControl: null,
+    },
+    scoringStatus: "not_scored",
+  };
+  const reviewerB = makeScore(2, 2, 2, 2);
+
+  const result = adjudicateScores(ai, notScored, reviewerB);
+
+  assert.equal(result.labelStatus, "pending");
+  assert.equal(result.finalScore, null);
+  assert.equal(
+    getSegmentReviewStatus({
+      reviewerScores: {
+        reviewer_a: notScored,
+        reviewer_b: reviewerB,
+      },
+    }),
+    "partial",
+  );
+});
+
+test("deep squat floor attempts can be retained as protocol evidence", () => {
+  const notScored = {
+    totalScore: null,
+    scoringStatus: "not_scored",
+  };
+  const segment = {
+    actionType: "deep_squat",
+    attemptCondition: "floor",
+    reviewerScores: {
+      reviewer_a: notScored,
+      reviewer_b: notScored,
+    },
+  };
+
+  assert.equal(getSegmentReviewStatus(segment), "protocol_evidence");
+
+  const summary = summarizeIngest([segment]);
+  assert.equal(summary.segmentsValid, 0);
+  assert.equal(summary.segmentsInvalid, 0);
+  assert.equal(summary.segmentsProtocolEvidence, 1);
+});
+
+test("reviewer readiness allows protocol evidence when scoreable labels exist", () => {
+  const notScored = {
+    totalScore: null,
+    scoringStatus: "not_scored",
+  };
+  const completedScore = makeScore(2, 2, 2, 2);
+  const segments = [
+    {
+      actionType: "deep_squat",
+      attemptCondition: "floor",
+      reviewerScores: {
+        reviewer_a: notScored,
+        reviewer_b: notScored,
+      },
+    },
+    {
+      actionType: "deep_squat",
+      attemptCondition: "heels_elevated_board",
+      reviewerScores: {
+        reviewer_a: completedScore,
+        reviewer_b: completedScore,
+      },
+    },
+  ];
+
+  const readiness = summarizeReviewerReadiness(segments);
+
+  assert.equal(readiness.completedSegmentsCount, 2);
+  assert.equal(readiness.scoreableCompletedSegmentsCount, 1);
+  assert.equal(readiness.protocolEvidenceSegmentsCount, 1);
+  assert.equal(readiness.readyForIngest, true);
+});
+
+test("reviewer readiness allows protocol-evidence-only ingest", () => {
+  const notScored = {
+    totalScore: null,
+    scoringStatus: "not_scored",
+  };
+  const segments = [
+    {
+      actionType: "deep_squat",
+      attemptCondition: "floor",
+      reviewerScores: {
+        reviewer_a: notScored,
+        reviewer_b: notScored,
+      },
+    },
+    {
+      actionType: "deep_squat",
+      attemptCondition: "floor",
+      reviewerScores: {
+        reviewer_a: notScored,
+        reviewer_b: notScored,
+      },
+    },
+  ];
+
+  const readiness = summarizeReviewerReadiness(segments);
+
+  assert.equal(readiness.completedSegmentsCount, 2);
+  assert.equal(readiness.scoreableCompletedSegmentsCount, 0);
+  assert.equal(readiness.protocolEvidenceSegmentsCount, 2);
+  assert.equal(readiness.readyForIngest, true);
+  assert.deepEqual(readiness.blockingReasons, []);
 });
 
 test("summarizeIngest reports valid and invalid counts", () => {

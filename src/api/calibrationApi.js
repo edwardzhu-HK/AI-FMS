@@ -44,6 +44,7 @@ function fromSnakeScore(score, actionType) {
       scoreBasis: score.score_basis ?? score.scoreBasis,
       usesCriteriaScores:
         score.uses_criteria_scores ?? score.usesCriteriaScores,
+      scoringStatus: score.scoring_status ?? score.scoringStatus,
       modelVersion: score.model_version ?? score.modelVersion,
     },
     actionType,
@@ -74,6 +75,10 @@ function toCamelSegment(rawSegment) {
     segmentSource:
       rawSegment.segment_source ?? rawSegment.segmentSource ?? "suggested",
     cameraView: rawSegment.camera_view ?? rawSegment.cameraView,
+    attemptCondition:
+      rawSegment.attempt_condition ?? rawSegment.attemptCondition,
+    boardDetection:
+      rawSegment.board_detection ?? rawSegment.boardDetection ?? null,
     side: rawSegment.side ?? "none",
     painFlag: rawSegment.pain_flag ?? rawSegment.painFlag ?? false,
     clearingTest:
@@ -113,6 +118,12 @@ function toCamelReadiness(payload) {
     allSegmentsCount: payload.all_segments_count ?? payload.allSegmentsCount,
     completedSegmentsCount:
       payload.completed_segments_count ?? payload.completedSegmentsCount,
+    scoreableCompletedSegmentsCount:
+      payload.scoreable_completed_segments_count ??
+      payload.scoreableCompletedSegmentsCount,
+    protocolEvidenceSegmentsCount:
+      payload.protocol_evidence_segments_count ??
+      payload.protocolEvidenceSegmentsCount,
     clearingReadyForIngest:
       payload.clearing_ready_for_ingest ?? payload.clearingReadyForIngest,
     clearingBlockerCount:
@@ -136,6 +147,8 @@ function toCamelIngest(payload) {
     segmentsTotal: payload.segments_total ?? payload.segmentsTotal,
     segmentsValid: payload.segments_valid ?? payload.segmentsValid,
     segmentsInvalid: payload.segments_invalid ?? payload.segmentsInvalid,
+    segmentsProtocolEvidence:
+      payload.segments_protocol_evidence ?? payload.segmentsProtocolEvidence,
     status: payload.status,
     createdAt: payload.created_at ?? payload.createdAt,
   };

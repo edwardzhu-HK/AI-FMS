@@ -1,4 +1,7 @@
-import { findNearestPoseFrame } from "./pose-landmarks.js";
+import {
+  findNearestPoseFrame,
+  getPrimaryPoseLandmarks,
+} from "./pose-landmarks.js";
 
 function average(values) {
   const validValues = values.filter(
@@ -39,10 +42,7 @@ function getFrameSecond(frame) {
 
 function getLandmarkMap(frame) {
   return Object.fromEntries(
-    (frame?.poses?.[0]?.landmarks ?? []).map((landmark) => [
-      landmark.name,
-      landmark,
-    ]),
+    getPrimaryPoseLandmarks(frame).map((landmark) => [landmark.name, landmark]),
   );
 }
 
@@ -195,7 +195,7 @@ function classifyHurdleClearance(peakClearance) {
 
   return {
     status: "limited",
-    label: "score 1 clearance zone",
+    label: "low clearance proxy; review hurdle contact or balance loss",
   };
 }
 
@@ -445,16 +445,20 @@ function buildFeatureItem({ posePayload, timingItem }) {
   const stanceHip = landmarks[`${stanceSide}_hip`];
   const stanceKnee = landmarks[`${stanceSide}_knee`];
   const stanceAnkle = landmarks[`${stanceSide}_ankle`];
-  const stanceAnkleDrift = calculateStanceAnkleDrift({
+  const rawStanceAnkleDrift = calculateStanceAnkleDrift({
     posePayload,
     timingItem,
     stanceSide,
   });
-  const stanceKneeAngleDegrees = angleDegrees(
+  const stanceAnkleDrift =
+    timingItem.cameraView === "side" ? null : rawStanceAnkleDrift;
+  const rawStanceKneeAngleDegrees = angleDegrees(
     stanceHip,
     stanceKnee,
     stanceAnkle,
   );
+  const stanceKneeAngleDegrees =
+    timingItem.cameraView === "side" ? null : rawStanceKneeAngleDegrees;
   const stepKneeAngleDegrees = angleDegrees(hip, knee, ankle);
   const stepKneeLineOffset = kneeLineOffset(hip, knee, ankle);
   const trunkCenterOffset = calculateTrunkCenterOffset(landmarks);
@@ -498,7 +502,11 @@ function buildFeatureItem({ posePayload, timingItem }) {
       stanceSide,
       peakClearance: toFixedNumber(timingItem.cycle.peakClearance),
       stanceAnkleDrift: toFixedNumber(stanceAnkleDrift),
+      rawStanceAnkleDrift: toFixedNumber(rawStanceAnkleDrift),
+      stanceAnkleDriftReliable: timingItem.cameraView !== "side",
       stanceKneeAngleDegrees: toFixedNumber(stanceKneeAngleDegrees, 1),
+      rawStanceKneeAngleDegrees: toFixedNumber(rawStanceKneeAngleDegrees, 1),
+      stanceKneeAngleReliable: timingItem.cameraView !== "side",
       stepKneeAngleDegrees: toFixedNumber(stepKneeAngleDegrees, 1),
       stepKneeLineOffset: toFixedNumber(stepKneeLineOffset),
       trunkCenterOffset: toFixedNumber(trunkCenterOffset),
@@ -506,6 +514,7 @@ function buildFeatureItem({ posePayload, timingItem }) {
       avgVisibility: toFixedNumber(timingItem.metrics?.avgVisibility, 3),
       timingCoverageRatio: toFixedNumber(timingItem.metrics?.coverageRatio, 3),
       sideVisibility: toFixedNumber(sideVisibility, 3),
+      scoreOneEvidence: timingItem.cycle.scoreOneEvidence ?? null,
     },
   };
 }
