@@ -112,3 +112,18 @@ score contrasts, same-score profile candidates, a Chinese report, and
 checksums under the ignored `round-a-movement-profiles/` directory. Round B,
 legacy AI scores, reviewer comments, and label-bearing source metadata are not
 used.
+
+Preserve and analyze the complete 110-rep pool without treating every historic
+label as gold evidence:
+
+```bash
+npm run data:pilot:utilization
+npm run data:pilot:db:ingest
+npm run data:pilot:db:status
+```
+
+The utilization package keeps all canonical reps in explicit research tiers,
+reports label-free quantitative summaries for all 66 feature-ready rows, and
+tracks the 32 formal / 26 gold-consensus subset without discarding the other
+evidence. The database import mirrors all 110 repetitions and all 110 feature
+rows idempotently; canonical JSON/CSV and checksums remain the source of truth.

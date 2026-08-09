@@ -1,16 +1,13 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { DatabaseSync } from "node:sqlite";
-import { fileURLToPath } from "node:url";
 import { validateStudyReviewExport } from "../../src/lib/study-review.js";
+import {
+  DEFAULT_RESEARCH_DB,
+  openResearchDatabase,
+} from "./research-database.js";
 
-const SCHEMA_PATH = fileURLToPath(
-  new URL("../../db/sqlite/0001_study_reviews.sql", import.meta.url),
-);
-
-export const DEFAULT_STUDY_REVIEW_DB =
-  "Ingested-data/ai-fms-study-reviews.sqlite";
+export const DEFAULT_STUDY_REVIEW_DB = DEFAULT_RESEARCH_DB;
 
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
@@ -23,15 +20,6 @@ function readExpectedChecksum(checksumPath) {
     throw new Error(`Invalid SHA-256 file: ${checksumPath}`);
   }
   return match[1].toLowerCase();
-}
-
-function openDatabase(dbPath) {
-  const resolvedPath = path.resolve(dbPath);
-  fs.mkdirSync(path.dirname(resolvedPath), { recursive: true });
-  const database = new DatabaseSync(resolvedPath);
-  database.exec("pragma foreign_keys = on;");
-  database.exec(fs.readFileSync(SCHEMA_PATH, "utf8"));
-  return { database, resolvedPath };
 }
 
 function eventValues(event, eventHash) {
@@ -94,7 +82,7 @@ export function ingestStudyReviewExport({
     );
   }
 
-  const { database, resolvedPath } = openDatabase(dbPath);
+  const { database, resolvedPath } = openResearchDatabase(dbPath);
   try {
     const existingExport = database
       .prepare("select export_id from study_review_exports where export_id = ?")
@@ -202,7 +190,7 @@ export function inspectStudyReviewDatabase({
   if (!fs.existsSync(resolvedPath)) {
     throw new Error(`Study review database not found: ${resolvedPath}`);
   }
-  const { database } = openDatabase(resolvedPath);
+  const { database } = openResearchDatabase(resolvedPath);
   try {
     const filters = [];
     const values = [];

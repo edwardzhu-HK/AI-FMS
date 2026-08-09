@@ -307,6 +307,14 @@ Canonical execution plan:
 
 - [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
 - [x] Generate a checksum-protected private Round A reviewer comparison package.
+- [x] Preserve all 110 canonical reps in an explicit evidence-tier analysis
+      instead of reducing the research pool to the 26 gold-consensus rows.
+- [x] Mirror one checksum/fingerprint-traceable 110-rep snapshot and all 110
+      quantitative feature/quality rows into the local SQLite research database.
+- [x] Generate label-free descriptive feature summaries for all 66 feature-ready
+      reps, with source-video counts and sampling-unit limitations.
+- [x] Classify 26 unused blindable + feature-ready reps as future review
+      candidates while keeping historical scores weak-label-only.
 - [ ] Recompute leakage-free AI suggestions from pose evidence only.
 - [x] Export Round A consensus action-specific quantitative feature tables with
       units and quality fields.
@@ -316,6 +324,8 @@ Canonical execution plan:
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
 - [ ] Generate reproducible figures and analysis notebook/script outputs.
+- [ ] After Round B, audit historical labels against blind gold consensus before
+      promoting any legacy labels to audited weak labels.
 
 ### G4: Application Package and Release
 
