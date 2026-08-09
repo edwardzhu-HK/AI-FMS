@@ -243,6 +243,9 @@ Current development order agreed on 2026-05-23:
 Canonical execution plan:
 `docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`.
 
+- [x] Consolidate the detailed application closeout draft and the concise
+      execution plan into one versioned canonical plan.
+
 ### G1: Credible Data Baseline
 
 - [x] Create `codex/application-closeout-v1` from the current main baseline.
@@ -270,7 +273,10 @@ Canonical execution plan:
 - [x] Add reviewer identity, append-only review events, progress, skip, and
       resume support.
 - [ ] Add blindability and visible/audio label-cue QA per source video.
-- [ ] Run independent Ronnie and Edward review on the eligible rep set.
+- [ ] Freeze the formal study sample size after blindability, action balance,
+      video-source independence, and reviewer workload QA.
+- [ ] Run independent Ronnie and Other Reviewer review on the eligible formal
+      rep set.
 - [ ] Generate disagreement/adjudication queue only after both reviews close.
 - [ ] Report raw agreement, weighted Cohen's kappa, and confusion matrix.
 
