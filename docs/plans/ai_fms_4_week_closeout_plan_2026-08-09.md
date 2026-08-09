@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.10                          |
+| 版本     | v1.11                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -107,6 +107,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 在冻结 label-free groups 后 post-hoc 叠加 26 条 Round A gold consensus，并生成视频/时间段复核队列。
 - [x] 初步发现：3/7 个 action-score strata 跨 group，但均受 singleton、来源效应或独立视频不足限制；当前结论是同分内存在连续多维异质性，不是已验证的障碍亚型。
 - [x] 完成首个 Hurdle Step 同机位、跨视频、同为 2 分的人工 case review；支持“同一规则失败内的连续程度/参数组合差异”。
+- [x] 完成 Deep Squat 跨视频、同为垫板 2 分的 case review；人工深度判断与AI角度/深度参数方向一致，升级为首要说明案例。
 - [x] 通过 lint、format、294/294 tests 和三页面 production build。
 
 对应检查点 commits：
@@ -421,6 +422,17 @@ Secondary questions：
 | 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据 |
 
 ## 12. 变更记录
+
+### v1.11 - 2026-08-09
+
+- 复核 Deep Squat 两条不同源视频、Round A 同为 2 分的脚跟垫板动作。
+- 两条动作因相同 protocol 条件得到相同分数，但 peak depth、hip/knee angle、
+  ankle-shank lean 和 knee-ankle offset 明显不同。
+- AI定量方向与两位reviewer对深度的描述一致；该pair升级为首要
+  application-facing same-score case study。
+- 逐帧检查发现历史 `cameraView=front` 与视觉上的侧/斜侧构图可能不一致，新增全池
+  camera metadata QA，不在完成前使用该字段解释profile。
+- 新增 `docs/research/deep_squat_same_score_case_review_2026-08-09.md`。
 
 ### v1.10 - 2026-08-09
 
