@@ -77,7 +77,7 @@ Canonical ID 使用 SHA-256 派生的 12 位十六进制前缀：
 - `reviewer_b` 是 Ronnie 的历史复核。
 - 历史两名 reviewer 的 criteria fields 常由 total score 展开，不能解释为三个维度都经过独立判断。
 - `humanReviewSummary.consensusScore` 只表示两个现有数值相同，不表示经过独立、盲法或专业 adjudication。
-- 新 Study Mode 的 Ronnie/Edward 双轮审核必须保存为独立 review events，不能覆盖本历史快照。
+- 新 Study Mode 的 Ronnie/Other Reviewer 双轮审核必须保存为独立 review events，不能覆盖本历史快照。
 
 ## 6. 旧 AI 分数边界
 
@@ -95,6 +95,26 @@ Canonical ID 使用 SHA-256 派生的 12 位十六进制前缀：
 - `asset-manifest.json`：29 个 ingest entry 的视频与 pose 解析结果。
 - `qa-report.md`：数量、review coverage、缺失 pose 和解释边界。
 - `SHA256SUMS`：上述生成物的 checksum。
+- `blindability-manifest.json`：每个 rep 的盲审资格、pending fields 和排除原因。
+- `blindability-candidates.csv`：供内部 QA 和样本策展使用的扁平清单。
+- `blindability-qa-report.md`：按动作汇总 eligible、pending 和 excluded。
+- `blindability-previews/`：每个 rep 起始、中间、结束帧组成的私有 QA contact sheets。
+- `formal-study-manifest.json`：Study Mode 使用的 32-rep Reviewer-safe 冻结清单。
+- `formal-study-internal-manifest.json`：保留 source correlation 和历史分层摘要的私有 lineage 清单。
+- `formal-study-SHA256SUMS`：两份正式 study manifest 的 checksum。
+- `formal-study-previews/`：32 个正式 rep 的最终 contact-sheet 检查。
+- `quantitative-feature-matrix.json/.csv`：110 个 rep 的无标签定量 feature 矩阵。
+- `feature-matrix-qa-report.md`：按动作汇总 ready 和 limited，并保留质量原因。
+- `feature-matrix-SHA256SUMS`：JSON/CSV feature matrix checksum。
+- `dry-run-study-manifest.json`：与正式事件隔离的四动作 workflow 测试队列。
+
+Blindability 将两类视觉线索分开记录：
+
+- `visualLabelCue`：画面中直接出现 0-3 分或等价答案；出现即排除。
+- `instructionalVisualCue`：区分无提示、仅动作名称和评分教学字幕；评分教学字幕即使没有直接给出答案，也从正式盲评中排除。
+
+画面 QA 使用每个 rep 的起始、中间、结束帧 contact sheet。正式 reviewer
+仍可在 Study Mode 中标记未被抽帧捕获的边界、可见性或 label-cue 问题。
 
 ## 8. 公开边界
 

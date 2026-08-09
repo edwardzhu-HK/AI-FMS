@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.1                           |
+| 版本     | v1.3                           |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -59,14 +59,14 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                        |
-| ------------------------------- | ----------- | --------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
-| G2A Study Mode 基础             | COMPLETE    | 110-rep 队列、盲法字段隔离、append-only events 和本地续做已完成 |
-| G2B Blindability 与正式样本冻结 | IN PROGRESS | 待完成视频线索、目标人物、时间边界和样本量决策                  |
-| G2C 双轮独立审核                | PENDING     | 等 G2B 冻结后开始                                               |
-| G3 定量研究与结果冻结           | PENDING     | 等人工 review events 完成                                       |
-| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
+| Gate                            | 状态     | 当前结论                                                        |
+| ------------------------------- | -------- | --------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
+| G2A Study Mode 基础             | COMPLETE | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
+| G2B Blindability 与正式样本冻结 | COMPLETE | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
+| G2C 双轮独立审核                | PENDING  | 前置门已完成，下一步开始 Round A                                |
+| G3 定量研究与结果冻结           | PENDING  | 等人工 review events 完成                                       |
+| G4 报告与申请发布包             | PENDING  | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
 
@@ -81,7 +81,14 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 - [x] 将 92 个 legacy numeric AI suggestions 标记为 label-leakage-ineligible。
 - [x] 生成 canonical JSON、CSV、JSON Schema、data dictionary、QA 和 checksums。
 - [x] 完成 Study Mode V1 和桌面、手机真实浏览器检查。
-- [x] 通过 lint、format、254/254 tests 和三页面 production build。
+- [x] 完成 28 个源视频、110 个 rep 的 blindability contact-sheet QA。
+- [x] 将 13 个存在评分字幕、直接分数提示或构图不足的 rep 排除，97 个通过。
+- [x] 冻结四动作各 8 个的 Core study N=32，并锁定 pool fingerprint 和 rep ID。
+- [x] 生成 110-rep quantitative feature matrix：66 ready、44 limited。
+- [x] 正式 32 例全部同时满足 blindability eligible 和 feature ready。
+- [x] 为 21 个入选源视频生成匿名媒体别名，Reviewer manifest 不含源文件名和历史标签。
+- [x] 完成 4 例隔离 Dry Run；保存/刷新恢复不污染正式 review events。
+- [x] 通过 lint、format、271/271 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -107,7 +114,24 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 
 事件量公式：`2 reviewers x N reps x 2 rounds = 4N events`。
 
-### 4.3 冻结标准
+### 4.3 当前冻结决定
+
+正式 study 采用 **Core N=32**，四动作各 8 个，总计 128 个 review
+events。入选 rep 来自 21 个源视频：Deep Squat 8 个、Hurdle Step 7 个、
+ASLR 4 个、Rotary Stability 2 个。选择器先要求 blindability eligible 和
+feature ready，再优先覆盖源视频和历史 score bucket；历史标签只存在于
+internal manifest，不进入 Reviewer manifest。
+
+冻结证据：
+
+- 选择策略：`research/pilot-v1/formal-study-selection.json`
+- Reviewer manifest：`research/pilot-v1/generated/formal-study-manifest.json`
+- Internal lineage：`research/pilot-v1/generated/formal-study-internal-manifest.json`
+- Checksums：`research/pilot-v1/generated/formal-study-SHA256SUMS`
+- Pool fingerprint：`931bbc428b7190117ccea69bd885e92e12bb5888d3da94771269c0292379bc8f`
+- Feature matrix fingerprint：`1c8953cede2dd19af6510d5acb2004948a87c9971207c46e5f8d1dc88d152097`
+
+### 4.4 冻结标准
 
 G2B 完成时，根据以下证据确定正式样本量：
 
@@ -161,14 +185,14 @@ G1 验收证据：
 
 #### G2B Blindability、Feature Contract 与样本冻结
 
-- [ ] 检查全部候选视频的画面、字幕、标题卡和可见分数线索。
-- [ ] 检查目标人物、动作完整性和 rep 时间边界。
-- [ ] 为每个候选 rep 写入 blindability 和 exclusion reason。
-- [ ] 定义四动作统一 feature contract：算法版本、单位、方向和质量字段。
-- [ ] 生成 110-rep quantitative feature matrix。
-- [ ] 根据第 4 节规则决定正式 study N。
-- [ ] 生成冻结的 blinded study manifest 和 checksum。
-- [ ] 用非正式样本完成 dry run，不污染正式 review events。
+- [x] 检查全部候选视频的画面、字幕、标题卡和可见分数线索。
+- [x] 检查目标人物、动作完整性和 rep 时间边界。
+- [x] 为每个候选 rep 写入 blindability 和 exclusion reason。
+- [x] 定义四动作统一 feature contract：算法版本、单位、方向和质量字段。
+- [x] 生成 110-rep quantitative feature matrix。
+- [x] 根据第 4 节规则决定正式 study N。
+- [x] 生成冻结的 blinded study manifest 和 checksum。
+- [x] 用非正式样本完成 dry run，不污染正式 review events。
 
 #### G2C Round A 与 Round B
 
@@ -341,16 +365,34 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                             | 原因                                            |
-| ---------- | ------------------------------------------------ | ----------------------------------------------- |
-| 2026-08-09 | 四周硬截止为 2026-09-06                          | 保证申请输出有明确结束点                        |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定 | 样本量应服从 blindability、动作平衡和审核工作量 |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析           | 已确认存在 score hint 标签泄漏                  |
-| 2026-08-09 | Rotary Stability 保持 feature-only               | 当前证据不足以支持可信 AI RAW SCORE             |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`      | 保持研究界面角色通用，不绑定个人姓名            |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                  | 避免 Downloads 草案与仓库执行版并行分叉         |
+| 日期       | 决策                                             | 原因                                                               |
+| ---------- | ------------------------------------------------ | ------------------------------------------------------------------ |
+| 2026-08-09 | 四周硬截止为 2026-09-06                          | 保证申请输出有明确结束点                                           |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定 | 样本量应服从 blindability、动作平衡和审核工作量                    |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析           | 已确认存在 score hint 标签泄漏                                     |
+| 2026-08-09 | Rotary Stability 保持 feature-only               | 当前证据不足以支持可信 AI RAW SCORE                                |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`      | 保持研究界面角色通用，不绑定个人姓名                               |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                  | 避免 Downloads 草案与仓库执行版并行分叉                            |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个       | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量      |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                 | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始 |
 
 ## 12. 变更记录
+
+### v1.3 - 2026-08-09
+
+- 定义四动作 feature contract，并生成 110-rep feature matrix。
+- 记录 66 ready、44 limited；Hurdle 和 Rotary 限制保留为质量结果。
+- 将正式选择升级为 blindability + feature-readiness 双门槛，冻结 32/32 ready。
+- 建立 4 例 Dry Run、`Test Reviewer` 和独立事件 namespace。
+- G2B 标记 COMPLETE，G2C Round A 成为下一执行项。
+
+### v1.2 - 2026-08-09
+
+- 完成 110-rep blindability QA：97 eligible、13 excluded、0 pending。
+- 区分直接分数提示、评分教学字幕和仅动作名称三类视觉线索。
+- 冻结 Core N=32、32 个 rep ID 和 pool fingerprint。
+- Study Mode 改读 Reviewer-safe manifest 和匿名媒体路径。
+- 保持 G2B 为 IN PROGRESS，等待 feature contract、feature matrix 和 dry run。
 
 ### v1.1 - 2026-08-09
 

@@ -1,0 +1,245 @@
+{
+  "schemaVersion": "ai_fms_blindability_overrides_v1",
+  "defaults": {
+    "visualLabelCue": "pending",
+    "instructionalVisualCue": "pending",
+    "targetSubject": "pending",
+    "timing": "pending",
+    "movementVisibility": "pending",
+    "audioPolicy": "forced_muted"
+  },
+  "videoOverrides": {
+    "vid_0d04652e9ce7": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_2c70d61afac8": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_ccc2e5675f8b": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_846738888a71": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_b93a2900a437": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_39a38c079ee2": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_c99b0bc829d9": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_99fd3179ed7d": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_82a25ca1421e": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "scoring_guidance",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "Instructional captions are visible during the scored clip."
+    },
+    "vid_f17500117da4": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "movement_title_only",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_f7eb2a89922c": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_624f7f9812f5": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_288bcd9a507b": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "A coach is present, but the athlete on the hurdle board is unambiguous."
+    },
+    "vid_82ad6608d5f9": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_0f659cbff216": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "A coach is present, but the athlete on the hurdle board is unambiguous."
+    },
+    "vid_d35f5d19c305": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_5df4331144ab": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "A coach is present, but the athlete on the hurdle board is unambiguous."
+    },
+    "vid_b89674fb7c28": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_e8f454eef2bc": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_ba915a5240bc": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_125a01002e26": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_82cbc2bf0503": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "inadequate",
+      "note": "The athlete is too small and low in the vertical frame for reliable formal scoring."
+    },
+    "vid_90c88785617a": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "inadequate",
+      "note": "The athlete is too small in the vertical frame for reliable formal scoring."
+    },
+    "vid_518b11da3f0d": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_8e180159acee": {
+      "visualLabelCue": "present",
+      "instructionalVisualCue": "scoring_guidance",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "The clip visibly displays Score 3 and Score 1 guidance."
+    },
+    "vid_1305e15753dc": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate",
+      "note": "A coach is present, but the athlete on the board is unambiguous."
+    },
+    "vid_1950d0927fa2": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    },
+    "vid_0cebc9a709b6": {
+      "visualLabelCue": "none",
+      "instructionalVisualCue": "none",
+      "targetSubject": "clear",
+      "timing": "complete",
+      "movementVisibility": "adequate"
+    }
+  },
+  "repetitionOverrides": {
+    "rep_8cfd12a692c9": {
+      "instructionalVisualCue": "scoring_guidance",
+      "note": "A heels-elevated modification caption is visible in the clip."
+    },
+    "rep_2635f03fee6e": {
+      "instructionalVisualCue": "scoring_guidance",
+      "note": "Scoring guidance captions are visible in the clip."
+    },
+    "rep_4e510c9c2eae": {
+      "instructionalVisualCue": "scoring_guidance",
+      "note": "Scoring guidance captions are visible in the clip."
+    },
+    "rep_bd6444d79109": {
+      "instructionalVisualCue": "scoring_guidance",
+      "note": "Scoring guidance captions are visible in the clip."
+    },
+    "rep_bf7220418252": {
+      "instructionalVisualCue": "scoring_guidance",
+      "note": "Scoring guidance captions are visible in the clip."
+    }
+  },
+  "review": {
+    "reviewedBy": "Codex visual QA",
+    "reviewedAt": "2026-08-09",
+    "qaMethod": "three_frame_contact_sheet_start_middle_end",
+    "scope": "28 source videos and 110 repetition clips"
+  }
+}

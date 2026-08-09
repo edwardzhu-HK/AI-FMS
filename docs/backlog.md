@@ -272,9 +272,17 @@ Canonical execution plan:
 - [x] Hide file names, historical scores, AI suggestions, and other label cues.
 - [x] Add reviewer identity, append-only review events, progress, skip, and
       resume support.
-- [ ] Add blindability and visible/audio label-cue QA per source video.
-- [ ] Freeze the formal study sample size after blindability, action balance,
+- [x] Add blindability and visible/audio label-cue QA per source video.
+- [x] Freeze the formal study sample size after blindability, action balance,
       video-source independence, and reviewer workload QA.
+- [x] Define a versioned four-movement feature contract with units,
+      interpretive direction, and quality fields.
+- [x] Generate a leakage-controlled 110-rep quantitative feature matrix with
+      explicit ready/limited status.
+- [x] Require all 32 formal reps to pass both blindability and feature-readiness
+      gates.
+- [x] Complete an isolated four-case Dry Run with save/refresh recovery and a
+      separate Test Reviewer namespace.
 - [ ] Run independent Ronnie and Other Reviewer review on the eligible formal
       rep set.
 - [ ] Generate disagreement/adjudication queue only after both reviews close.

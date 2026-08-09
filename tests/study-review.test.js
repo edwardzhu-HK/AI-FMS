@@ -44,6 +44,30 @@ test("buildStudyQueue exposes playback fields without historical labels or file 
   assert.equal("legacyAiSuggestion" in queue[0], false);
 });
 
+test("buildStudyQueue accepts a frozen manifest with anonymized media paths", () => {
+  const queue = buildStudyQueue(
+    {
+      pilotId: "formal_test",
+      items: [
+        {
+          repetitionId: "rep_2",
+          ingestId: "ing_2",
+          actionType: "hurdle_step",
+          startSecond: 2,
+          endSecond: 6,
+          cameraView: "front",
+          side: "right",
+          videoPath: "research/pilot-v1/generated/study-media/media_abcd.mp4",
+        },
+      ],
+    },
+    "Ronnie",
+  );
+  assert.equal(queue.length, 1);
+  assert.match(queue[0].videoPath, /media_abcd\.mp4$/);
+  assert.equal("sourceCorrelationGroup" in queue[0], false);
+});
+
 test("createStudyReviewEvent records blind-review boundaries", () => {
   const event = createStudyReviewEvent({
     pilotId: pilot.pilotId,

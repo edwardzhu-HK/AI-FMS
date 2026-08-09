@@ -19,6 +19,37 @@ export function buildStudyQueue(canonicalPilot, reviewerId) {
   assertNonEmpty(canonicalPilot?.pilotId, "pilotId");
   assertNonEmpty(reviewerId, "reviewerId");
 
+  if (Array.isArray(canonicalPilot.items)) {
+    return canonicalPilot.items
+      .map((item) => ({
+        repetitionId: item.repetitionId,
+        ingestId: item.ingestId,
+        actionType: item.actionType,
+        startSecond: item.startSecond,
+        endSecond: item.endSecond,
+        cameraView: item.cameraView ?? "unknown",
+        side: item.side ?? "unknown",
+        videoPath: item.videoPath,
+        orderKey: stableHash(`${reviewerId}:${item.repetitionId}`),
+      }))
+      .sort(
+        (left, right) =>
+          left.orderKey - right.orderKey ||
+          left.repetitionId.localeCompare(right.repetitionId),
+      )
+      .map((item, index) => ({
+        repetitionId: item.repetitionId,
+        ingestId: item.ingestId,
+        actionType: item.actionType,
+        startSecond: item.startSecond,
+        endSecond: item.endSecond,
+        cameraView: item.cameraView,
+        side: item.side,
+        videoPath: item.videoPath,
+        studyIndex: index + 1,
+      }));
+  }
+
   const videosById = new Map(
     (canonicalPilot.videos ?? []).map((video) => [video.videoId, video]),
   );

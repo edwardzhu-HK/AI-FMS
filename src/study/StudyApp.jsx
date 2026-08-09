@@ -7,7 +7,11 @@ import {
   studyStorageKey,
 } from "../lib/study-review.js";
 
-const PILOT_URL = "/research/pilot-v1/generated/canonical-pilot.json";
+const IS_DRY_RUN =
+  new URLSearchParams(window.location.search).get("mode") === "dry-run";
+const PILOT_URL = IS_DRY_RUN
+  ? "/research/pilot-v1/generated/dry-run-study-manifest.json"
+  : "/research/pilot-v1/generated/formal-study-manifest.json";
 
 const ACTION_LABELS = {
   deep_squat: "Deep Squat",
@@ -85,7 +89,7 @@ export default function StudyApp() {
       .then(setPilot)
       .catch(() => {
         setLoadError(
-          "未找到 canonical pilot。请先运行 npm run data:pilot:build。",
+          "未找到正式 Study manifest。请先运行 npm run study:formal:freeze。",
         );
       });
   }, []);
@@ -283,23 +287,35 @@ export default function StudyApp() {
         </div>
         <div className="blind-state">
           <span aria-hidden="true" />
-          Blind review
+          {IS_DRY_RUN ? "Dry run" : "Blind review"}
         </div>
         <div className="reviewer-switch" aria-label="Reviewer">
-          <button
-            className={reviewerId === "Ronnie" ? "active" : ""}
-            onClick={() => setReviewerId("Ronnie")}
-            type="button"
-          >
-            Ronnie
-          </button>
-          <button
-            className={reviewerId === "Other Reviewer" ? "active" : ""}
-            onClick={() => setReviewerId("Other Reviewer")}
-            type="button"
-          >
-            Other Reviewer
-          </button>
+          {IS_DRY_RUN ? (
+            <button
+              className={reviewerId === "Test Reviewer" ? "active" : ""}
+              onClick={() => setReviewerId("Test Reviewer")}
+              type="button"
+            >
+              Test Reviewer
+            </button>
+          ) : (
+            <>
+              <button
+                className={reviewerId === "Ronnie" ? "active" : ""}
+                onClick={() => setReviewerId("Ronnie")}
+                type="button"
+              >
+                Ronnie
+              </button>
+              <button
+                className={reviewerId === "Other Reviewer" ? "active" : ""}
+                onClick={() => setReviewerId("Other Reviewer")}
+                type="button"
+              >
+                Other Reviewer
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -309,7 +325,7 @@ export default function StudyApp() {
         <div className="progress-copy">
           <strong>{reviewerId || "选择 Reviewer"}</strong>
           <span>
-            {completedCount}/{queue.length || 110} 已评分
+            {completedCount}/{queue.length} 已评分
           </span>
           <span>{deferredCount} 稍后处理</span>
         </div>
