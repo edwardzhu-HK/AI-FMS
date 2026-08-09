@@ -90,3 +90,12 @@ RAW SCORE：
 - 无法确认动作侧别或 camera view，且该信息是当前评分的必要条件。
 
 Round A 完成后不向 reviewer 展示双方差异。两份完整导出冻结并校验后，保留至少 48–72 小时间隔，再进入重新随机的 Round B。
+
+两份导出均冻结后，由 Codex 运行以下命令生成私有 agreement package：
+
+```bash
+npm run study:reviews:agreement -- /absolute/path/to/reviewer-a.json /absolute/path/to/reviewer-b.json
+```
+
+可评分性、RAW SCORE 和 unscorable 原因分别统计；不得把 unscorable 转成 0
+或其他数值。分析完成不缩短 Round A 与 Round B 之间的 48–72 小时间隔。

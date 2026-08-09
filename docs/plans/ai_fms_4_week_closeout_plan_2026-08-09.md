@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.5                           |
+| 版本     | v1.6                           |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -66,8 +66,8 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
-| G2C 双轮独立审核                | IN PROGRESS | Ronnie Round A 已完成 32/32；Other Reviewer Round A 待完成      |
-| G3 定量研究与结果冻结           | PENDING     | 等人工 review events 完成                                       |
+| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B        |
+| G3 定量研究与结果冻结           | PENDING     | Round A agreement package 已生成；完整 G3 等 Round B            |
 | G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
@@ -95,7 +95,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 明确 `0=已观察或报告疼痛`，并为无法独立评分建立终态、原因和分析排除规则。
 - [x] 建立 checksum 校验、不可变 event 和幂等导入的本地 SQLite 研究数据库。
 - [x] Ronnie Round A 完成：32 reviewed、27 scored、5 unscorable，46 个累计 event 已入库。
-- [x] 通过 lint、format、283/283 tests 和三页面 production build。
+- [x] Other Reviewer Round A 完成：32 reviewed、26 scored、6 unscorable，32 个 event 已入库。
+- [x] 两份 Round A 导出均通过 SHA-256、manifest 和 schema 校验；数据库共保存 78 个 event。
+- [x] 生成 Round A agreement package：outcome agreement 31/32，jointly scored RAW SCORE agreement 26/26。
+- [x] 通过 lint、format、285/285 tests 和三页面 production build。
 
 对应检查点 commits：
 
@@ -213,8 +216,9 @@ Round A：
 - [x] 建立 `unscorable` 终态；它计入完成度但不进入分数分析。
 - [x] 将验证通过的完整导出幂等写入本地 SQLite 研究数据库。
 - [x] Ronnie 独立完成正式样本盲评：32 reviewed、27 scored、5 unscorable。
-- [ ] Other Reviewer 独立完成正式样本盲评。
+- [x] Other Reviewer 独立完成正式样本盲评：32 reviewed、26 scored、6 unscorable。
 - [x] Round A 页面不显示参考标签、AI evidence 或另一位 reviewer 的结果。
+- [x] 生成 reviewer comparison、confusion matrix、weighted kappa 和 adjudication queue。
 
 Round B：
 
@@ -229,15 +233,19 @@ G2 验收证据：
 - 正式样本均能加载、循环、保存、刷新恢复和导出。
 - Round A 不暴露任何已知人工或 AI 答案。
 - Round B 每个数值可追溯到 pose、算法版本和质量标志。
-- Ronnie 完整 event log 已通过 checksum、manifest 和 schema 校验并入库；
-  Other Reviewer 完成后执行同一验收。
+- 两位 reviewer 的完整 event log 均通过 checksum、manifest 和 schema 校验并入库。
+- Round A outcome agreement 为 31/32；共同评分的 26 条 RAW SCORE agreement
+  为 26/26，linear 与 quadratic weighted kappa 均为 1.0000。
+- 1 条 scoreability mismatch 与 3 条 reason taxonomy mismatch 保留在私有
+  adjudication queue，不静默改写 reviewer 原始记录。
 
 ### G3：分析、Case Studies 与结果冻结
 
 目标窗口：Week 3
 
 - [ ] 冻结 canonical snapshot、study manifest、pose、feature 和 rule version。
-- [ ] 计算 Round A/B raw agreement 和 weighted Cohen's kappa。
+- [x] 计算 Round A raw agreement、weighted Cohen's kappa 和 confusion matrix。
+- [ ] Round B 完成后计算 Round B agreement 及 Round A/B change metrics。
 - [ ] 计算 score-change rate、confidence delta 和 review-time delta。
 - [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
 - [ ] 分析相同 FMS score 内部的 quantitative profile 异质性。
@@ -393,8 +401,18 @@ Secondary questions：
 | 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                     |
 | 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                      |
 | 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口         |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告        |
 
 ## 12. 变更记录
+
+### v1.6 - 2026-08-09
+
+- Other Reviewer Round A 完成并入库：32 reviewed、26 scored、6 unscorable。
+- 两位 reviewer 共形成 64 个最终状态和 78 个 append-only events。
+- Round A outcome agreement 为 31/32；共同评分 26 条全部同分，weighted
+  kappa 为 1.0000；另保留 1 条可评分性分歧和 3 条原因分类分歧。
+- 新增可重复 agreement CLI、comparison CSV、adjudication queue、报告和 checksums。
+- G2C 保持 IN PROGRESS，执行 48–72 小时间隔后再开始 Round B。
 
 ### v1.5 - 2026-08-09
 
