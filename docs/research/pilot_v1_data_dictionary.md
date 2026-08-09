@@ -108,6 +108,8 @@ Canonical ID 使用 SHA-256 派生的 12 位十六进制前缀：
 - `feature-matrix-SHA256SUMS`：JSON/CSV feature matrix checksum。
 - `dry-run-study-manifest.json`：与正式事件隔离的四动作 workflow 测试队列。
 - `study-review-export.schema.json`：Round A/B review export V2 的结构契约。
+- `round-a-agreement/`：两份签名 Round A export 生成的私有 reviewer
+  comparison、agreement report、adjudication queue 和 checksums。
 
 Blindability 将两类视觉线索分开记录：
 
@@ -152,6 +154,20 @@ fingerprints、完整 event log 和 `completion`。只有 `completion.complete=t
 
 SQLite 用于本地查询与后续分析，不取代成对 JSON/SHA-256 的冻结交付物。相同
 export hash 重复导入是幂等操作；同一 `eventId` 内容冲突时事务回滚。
+
+### 8.2 双 Reviewer Agreement
+
+`npm run study:reviews:agreement -- <review-a.json> <review-b.json>` 会再次验证
+两份相邻 SHA-256、完整 manifest 和 event contract，再生成：
+
+- 32 条上的 `scored`/`unscorable` outcome agreement；
+- 仅在双方都 scored 的 rep 上计算 RAW SCORE agreement、linear/quadratic
+  weighted Cohen's kappa、mean absolute difference 和 0-3 confusion matrix；
+- 双方都 unscorable 时的原因分类一致率；
+- scoreability、RAW SCORE 和 unscorable reason 的私有 adjudication queue。
+
+`unscorable` 不转换成数值分数。某动作的共同评分样本没有分数边际变化时，
+action-level kappa 记为 `N/A`，但 exact agreement 仍可报告。
 
 ## 9. 公开边界
 

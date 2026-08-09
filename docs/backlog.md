@@ -295,14 +295,18 @@ Canonical execution plan:
       Study Review exports.
 - [x] Complete Ronnie Round A: 32 reviewed, 27 scored, 5 unscorable, with all 46
       append-only events preserved in the local research database.
-- [ ] Complete Other Reviewer Round A independently on the eligible formal rep
-      set without viewing Ronnie's results.
-- [ ] Generate disagreement/adjudication queue only after both reviews close.
-- [ ] Report raw agreement, weighted Cohen's kappa, and confusion matrix.
+- [x] Complete Other Reviewer Round A: 32 reviewed, 26 scored, 6 unscorable,
+      with all 32 events preserved in the local research database.
+- [x] Generate the Round A disagreement/adjudication queue after both reviews
+      closed: 1 scoreability mismatch, 0 RAW SCORE disagreements, and 3
+      unscorable-reason taxonomy disagreements.
+- [x] Report Round A outcome agreement, raw score agreement, linear/quadratic
+      weighted Cohen's kappa, and the 0-3 confusion matrix from signed exports.
 
 ### G3: Quantitative Feature Study
 
 - [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
+- [x] Generate a checksum-protected private Round A reviewer comparison package.
 - [ ] Recompute leakage-free AI suggestions from pose evidence only.
 - [ ] Export action-specific quantitative feature tables with units and quality.
 - [ ] Analyze feature distributions and effect sizes by human consensus score.
@@ -382,9 +386,9 @@ remain reusable:
   participants.
 - All 29 pilot ingest references resolve to real pose JSON, but pose quality,
   camera view, crop choice, and feature validity still require per-action QA.
-- Historical Reviewer A/B records are not independent blind ratings. Ronnie's
-  new Round A is complete, but Other Reviewer Round A is still required before
-  inter-rater claims.
+- Historical Reviewer A/B records are not independent blind ratings. The new
+  two-reviewer Round A is complete, but its 26 jointly scored reps remain a
+  small frozen pilot and do not establish clinical validity or generalization.
 - All 92 historical numeric AI suggestions are excluded from accuracy analysis
   because the legacy workflow could read score-bearing file names or notes.
 - Current AI suggestion is pose-based and explainable for Deep Squat, Active

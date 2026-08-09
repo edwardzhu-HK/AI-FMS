@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the full 283-test quality gate passes.
+resolve both video and pose assets, and the full 285-test quality gate passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
 provenance-only and are excluded from accuracy analysis.
@@ -42,6 +42,13 @@ complete exports into an ignored local SQLite research database. The review
 contract separates a true FMS score of 0 (observed or reported pain) from an
 unscorable protocol case; unscorable reps count as reviewed but remain excluded
 from score analysis.
+
+Both Round A reviewer exports are now complete, signed, validated, and stored in
+the local research database. The reproducible agreement package keeps review
+outcome agreement (31/32) separate from RAW SCORE agreement on the 26 jointly
+scored reps (26/26, linear and quadratic weighted kappa 1.0000), while retaining
+one scoreability mismatch and three unscorable-reason taxonomy mismatches for
+adjudication. These are frozen-pilot reliability results, not clinical validity.
 
 ## 2. Inputs Reviewed
 
@@ -671,6 +678,10 @@ Implementation status after the first P2 pass:
     signed export validation, and idempotent local SQLite ingestion. Ronnie's
     first formal Round A export now resolves all 32 reps as 27 scored and 5
     protocol-based analysis exclusions.
+37. Completed both independent Round A exports and added a signed-input
+    agreement pipeline with scoreability agreement, raw agreement, weighted
+    Cohen's kappa, confusion matrix, and a private adjudication queue. Numeric
+    metrics exclude unscorable cases and all legacy AI labels.
 
 Recommended next sprint:
 

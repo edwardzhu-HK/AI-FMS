@@ -85,3 +85,16 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 The default database is `Ingested-data/ai-fms-study-reviews.sqlite`. Import is
 idempotent by export SHA-256 and rejects reused event IDs with different
 content. The paired JSON/SHA-256 remains the frozen handoff artifact.
+
+After both reviewer exports are complete, generate the private Round A
+agreement package from the signed source files:
+
+```bash
+npm run study:reviews:agreement -- /absolute/path/to/reviewer-a.json /absolute/path/to/reviewer-b.json
+```
+
+Outputs are written to the ignored
+`research/pilot-v1/generated/round-a-agreement/` directory. Scoreability
+agreement is reported across all frozen reps; RAW SCORE agreement, weighted
+Cohen's kappa, and the confusion matrix use only reps scored by both reviewers.
+Unscorable outcomes remain nonnumeric and are analyzed separately.
