@@ -1,5 +1,8 @@
 # AI-FMS V1.5 Technical Report Outline
 
+> 历史文件：本文件是 2026-05-22 的报告大纲。当前 Phase I 主稿为
+> `docs/reports/ai_fms_phase_i_technical_report_2026-08-09.md`。
+
 日期：2026-05-22
 
 用途：这是一份 technical report 的中文大纲。它可以作为后续英文 technical report、项目页、申请材料附件或面试讲解提纲的基础。

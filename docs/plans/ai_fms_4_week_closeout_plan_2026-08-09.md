@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.15                          |
+| 版本     | v1.16                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -61,14 +61,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                        |
-| ------------------------------- | ----------- | --------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
-| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B        |
-| G3 定量研究与结果冻结           | IN PROGRESS | 九条定向分歧复核完成；最终冻结仍等待 Round B                    |
-| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
+| Gate                            | 状态        | 当前结论                                                                          |
+| ------------------------------- | ----------- | --------------------------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                              |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做                   |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛                       |
+| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B                          |
+| G3 定量研究与结果冻结           | IN PROGRESS | 九条定向分歧复核完成；最终冻结仍等待 Round B                                      |
+| G4 报告与申请发布包             | IN PROGRESS | Round A 文档与 release-candidate manifest 完成；等待 Round B、demo 与公开素材审计 |
 
 ### 3.2 已验证基线
 
@@ -114,7 +114,9 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 确认当前规则式 AI 总分不具备替代人工评分的证据；ASLR、Hurdle 和 Deep Squat 分别形成阈值、定性规则与 protocol metadata 复核队列。
 - [x] 完成九条 AI 差异逐帧复核；定位 2 条 Deep Squat metadata 修正、2 条 ASLR pose/timing QA、4 条 Hurdle 动态证据缺口和 1 条 floor depth proxy 差异。
 - [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
-- [x] 通过 lint、format、300/300 tests 和三页面 production build。
+- [x] 通过 lint、format、303/303 tests 和三页面 production build。
+- [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
+- [x] 建立 Phase I release-candidate spec 与生成器；9/9 研究 artifacts 通过 SHA-256，7 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -295,16 +297,21 @@ G2 验收证据：
 
 目标窗口：Week 4
 
-- [ ] 完成英文技术报告和中文执行摘要。
+- [x] 完成中文 Phase I 技术报告和 English abstract；full English adaptation 在
+      Round B 后按最终数字生成。
 - [ ] 制作系统、数据 lineage、动作分布、study 结果和 profile 对比图。
-- [ ] 更新 dataset card、README、方法和 limitations。
+- [x] 更新 dataset card、README、methods、limitations、ethics 和 publication
+      boundaries。
 - [ ] 完成 3 分钟英文 demo video 和字幕。
-- [ ] 完成 Ronnie 第一人称 contribution/learning statement。
-- [ ] 完成项目页和申请用项目摘要。
-- [ ] 生成 public/private manifests 和 checksums。
+- [x] 完成 Ronnie 第一人称 contribution/learning statement 初稿。
+- [x] 完成项目页文案、申请摘要、resume bullets 和 60-second interview version。
+- [x] 生成 private release-candidate manifest 和 checksums；public manifest 等
+      rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
-- [ ] 完成绝对路径、PII、素材授权和夸大表述检查。
-- [ ] 标记 release candidate，并保留最终缓冲时间。
+- [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
+      并通过 303 tests 和三入口 production build。
+- [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
+- [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
 建议英文报告标题：
 
@@ -434,6 +441,22 @@ Secondary questions：
 | 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估 |
 
 ## 12. 变更记录
+
+### v1.16 - 2026-08-09
+
+- 将 README 从 5 月单视频/mock prototype 叙事更新为四动作、110-rep、32-rep
+  formal study 和 Round A 当前状态；旧 V1.5 文档明确标为历史参考。
+- 新增 Phase I dataset card 与独立 methods/limitations/ethics 文档，明确 evidence
+  tiers、source dependence、rights/privacy 和 no-diagnosis boundary。
+- 新增中文 Phase I technical report（含 English abstract）、application copy 和
+  claim-control evidence table。
+- 新增 release-candidate spec 与 `npm run release:phase-i:manifest`；自动验证 9/9
+  checksum-protected artifacts、7 份文档和 28/110/66/32/26/16 关键数字。
+- release generator 新增 document preflight，阻止本机绝对路径并要求 Round B、
+  no-diagnosis、human-review 和 rights/privacy 边界完整出现；完整质量门为
+  303/303 tests、lint、format 和三入口 build。
+- G4 进入 IN PROGRESS；Round B、demo video、公开素材 rights/privacy audit 和最终
+  stale-claim pass 继续保持未完成。
 
 ### v1.15 - 2026-08-09
 

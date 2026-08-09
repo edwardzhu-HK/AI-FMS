@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "ai_fms_phase_i_release_candidate_spec_v1",
+  "releaseId": "ai-fms-phase-i-rc1-2026-08-09",
+  "releaseDate": "2026-08-09",
+  "status": "round_a_complete_round_b_pending",
+  "artifactPolicy": {
+    "generatedArtifactsArePrivate": true,
+    "rawMediaIncluded": false,
+    "rawPoseIncluded": false,
+    "reviewerEventExportsIncluded": false,
+    "publicReleaseRequiresRightsAndPrivacyAudit": true
+  },
+  "expectedEvidence": {
+    "uniqueVideos": 28,
+    "canonicalRepetitions": 110,
+    "featureReady": 66,
+    "formalSampleSize": 32,
+    "roundAConsensus": 26,
+    "roundAStatusAgreement": 31,
+    "roundABothScored": 26,
+    "roundABothUnscorable": 5,
+    "roundAScoreabilityMismatch": 1,
+    "roundARawScoreExact": 26,
+    "roundAHumanLinearWeightedKappa": 1,
+    "roundAAiComparable": 16,
+    "roundAAiExact": 9,
+    "roundAAiWithinOne": 14,
+    "roundAAiMeanAbsoluteDifference": 0.5625,
+    "protocolSensitivityComparable": 17,
+    "protocolSensitivityExact": 11,
+    "protocolSensitivityWithinOne": 15,
+    "protocolSensitivityMeanAbsoluteDifference": 0.4706
+  },
+  "artifacts": [
+    {
+      "id": "canonical_pilot",
+      "path": "research/pilot-v1/generated/canonical-pilot.json",
+      "checksumManifest": "research/pilot-v1/generated/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "camera_view_audit",
+      "path": "research/pilot-v1/generated/camera-view-audit/camera-view-audit.json",
+      "checksumManifest": "research/pilot-v1/generated/camera-view-audit/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "camera_audited_features",
+      "path": "research/pilot-v1/generated/camera-audited-features/camera-audited-feature-matrix.json",
+      "checksumManifest": "research/pilot-v1/generated/camera-audited-features/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "formal_study_manifest",
+      "path": "research/pilot-v1/generated/formal-study-manifest.json",
+      "checksumManifest": "research/pilot-v1/generated/formal-study-SHA256SUMS",
+      "access": "reviewer_safe_private"
+    },
+    {
+      "id": "full_pool_utilization",
+      "path": "research/pilot-v1/generated/full-pool-utilization/full-pool-utilization.json",
+      "checksumManifest": "research/pilot-v1/generated/full-pool-utilization/full-pool-utilization-SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "round_a_agreement",
+      "path": "research/pilot-v1/generated/round-a-agreement/round-a-agreement.json",
+      "checksumManifest": "research/pilot-v1/generated/round-a-agreement/round-a-agreement-SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "round_a_movement_profiles",
+      "path": "research/pilot-v1/generated/round-a-movement-profiles/round-a-movement-profiles.json",
+      "checksumManifest": "research/pilot-v1/generated/round-a-movement-profiles/round-a-movement-profiles-SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "label_free_profiles",
+      "path": "research/pilot-v1/generated/label-free-profiles/label-free-profile-analysis.json",
+      "checksumManifest": "research/pilot-v1/generated/label-free-profiles/label-free-profile-SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "round_a_ai_evidence",
+      "path": "research/pilot-v1/generated/round-a-ai-evidence/round-a-ai-consensus-analysis.json",
+      "checksumManifest": "research/pilot-v1/generated/round-a-ai-evidence/round-a-ai-consensus-SHA256SUMS",
+      "access": "private_research"
+    }
+  ],
+  "documents": [
+    "README.md",
+    "docs/research/ai_fms_phase_i_dataset_card_2026-08-09.md",
+    "docs/research/ai_fms_phase_i_methods_limitations_ethics_2026-08-09.md",
+    "docs/reports/ai_fms_phase_i_technical_report_2026-08-09.md",
+    "docs/ai_fms_phase_i_application_copy_2026-08-09.md",
+    "docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md",
+    "docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md"
+  ],
+  "reproductionCommands": [
+    "npm run data:pilot:build",
+    "npm run data:pilot:features",
+    "npm run data:pilot:camera-views",
+    "npm run data:pilot:features:camera-audited",
+    "npm run data:pilot:utilization",
+    "npm run data:pilot:profiles:label-free",
+    "npm run study:profiles:round-a",
+    "npm run study:ai-evidence:round-a",
+    "npm run release:phase-i:manifest",
+    "npm run check"
+  ]
+}
