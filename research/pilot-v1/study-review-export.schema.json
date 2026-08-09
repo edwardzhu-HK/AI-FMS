@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-fms.local/schemas/study-review-export-v2.json",
+  "title": "AI-FMS Study Review Export V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "pilotId",
+    "studyRound",
+    "reviewerId",
+    "exportedAt",
+    "sourceSnapshotDate",
+    "sourcePoolFingerprint",
+    "sourceFeatureMatrixFingerprint",
+    "expectedRepetitionIds",
+    "eventCount",
+    "completion",
+    "events"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "ai_fms_study_review_export_v2"
+    },
+    "pilotId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "studyRound": {
+      "enum": ["round_a", "round_b", "dry_run"]
+    },
+    "reviewerId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "exportedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceSnapshotDate": {
+      "type": ["string", "null"]
+    },
+    "sourcePoolFingerprint": {
+      "type": ["string", "null"]
+    },
+    "sourceFeatureMatrixFingerprint": {
+      "type": ["string", "null"]
+    },
+    "expectedRepetitionIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "eventCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "completion": {
+      "$ref": "#/$defs/completion"
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    }
+  },
+  "$defs": {
+    "completion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "complete",
+        "expectedCount",
+        "latestReviewCount",
+        "scoredCount",
+        "deferredCount",
+        "analysisExcludedCount",
+        "missingRepetitionIds",
+        "unexpectedRepetitionIds"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["complete", "partial"]
+        },
+        "complete": {
+          "type": "boolean"
+        },
+        "expectedCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "latestReviewCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scoredCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "deferredCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "analysisExcludedCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missingRepetitionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unexpectedRepetitionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "eventId",
+        "pilotId",
+        "studyRound",
+        "repetitionId",
+        "ingestId",
+        "actionType",
+        "reviewerId",
+        "status",
+        "score",
+        "confidence",
+        "cameraView",
+        "side",
+        "comment",
+        "qualityFlags",
+        "blindReview",
+        "rubricVersion",
+        "reviewStartedAt",
+        "reviewDurationMs",
+        "supersedesEventId",
+        "createdAt"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": "ai_fms_study_review_event_v2"
+        },
+        "eventId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pilotId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "studyRound": {
+          "enum": ["round_a", "round_b", "dry_run"]
+        },
+        "repetitionId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ingestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "actionType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": ["scored", "deferred"]
+        },
+        "score": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 3
+        },
+        "confidence": {
+          "type": ["string", "null"],
+          "enum": ["low", "medium", "high", null]
+        },
+        "cameraView": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "qualityFlags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "blindReview": {
+          "type": "object"
+        },
+        "rubricVersion": {
+          "type": "string"
+        },
+        "reviewStartedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reviewDurationMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "supersedesEventId": {
+          "type": ["string", "null"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

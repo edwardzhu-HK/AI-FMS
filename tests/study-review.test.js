@@ -5,6 +5,8 @@ import {
   buildStudyReviewExport,
   createStudyReviewEvent,
   latestStudyReviews,
+  studyStorageKey,
+  validateStudyReviewExport,
 } from "../src/lib/study-review.js";
 
 const pilot = {
@@ -73,12 +75,18 @@ test("createStudyReviewEvent records blind-review boundaries", () => {
     pilotId: pilot.pilotId,
     reviewerId: "Ronnie",
     repetition: buildStudyQueue(pilot, "Ronnie")[0],
+    studyRound: "round_a",
     score: 2,
+    reviewStartedAt: "2026-08-08T23:59:45.000Z",
+    reviewDurationMs: 15000,
     eventId: "event_1",
     now: new Date("2026-08-09T00:00:00.000Z"),
   });
 
   assert.equal(event.score, 2);
+  assert.equal(event.schemaVersion, "ai_fms_study_review_event_v2");
+  assert.equal(event.studyRound, "round_a");
+  assert.equal(event.reviewDurationMs, 15000);
   assert.equal(event.blindReview.legacyAiSuggestionHidden, true);
   assert.equal(event.blindReview.eligibleForBlindAnalysis, true);
 });
@@ -88,6 +96,7 @@ test("visible score cues make an event ineligible for blind analysis", () => {
     pilotId: pilot.pilotId,
     reviewerId: "Edward",
     repetition: buildStudyQueue(pilot, "Edward")[0],
+    studyRound: "round_a",
     score: 1,
     qualityFlags: ["label_cue_visible"],
     eventId: "event_2",
@@ -116,28 +125,153 @@ test("latestStudyReviews keeps the newest append-only event", () => {
 });
 
 test("buildStudyReviewExport summarizes scored and deferred latest events", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_a")[0];
+  const deferred = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    repetition,
+    status: "deferred",
+    eventId: "event_1",
+    now: new Date("2026-08-09T00:00:00.000Z"),
+    reviewDurationMs: 8000,
+  });
+  const scored = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    repetition,
+    score: 3,
+    eventId: "event_2",
+    now: new Date("2026-08-09T00:01:00.000Z"),
+    reviewDurationMs: 12000,
+    supersedesEventId: "event_1",
+  });
   const payload = buildStudyReviewExport({
     pilot,
     reviewerId: "Ronnie",
-    events: [
-      {
-        eventId: "event_1",
-        repetitionId: "rep_1",
-        status: "deferred",
-        createdAt: "2026-08-09T00:00:00.000Z",
-      },
-      {
-        eventId: "event_2",
-        repetitionId: "rep_1",
-        status: "scored",
-        score: 3,
-        createdAt: "2026-08-09T00:01:00.000Z",
-      },
-    ],
+    studyRound: "round_a",
+    events: [deferred, scored],
+    exportedAt: new Date("2026-08-09T00:02:00.000Z"),
   });
 
   assert.equal(payload.eventCount, 2);
-  assert.equal(payload.latestReviewCount, 1);
-  assert.equal(payload.scoredCount, 1);
-  assert.equal(payload.deferredCount, 0);
+  assert.equal(payload.schemaVersion, "ai_fms_study_review_export_v2");
+  assert.equal(payload.studyRound, "round_a");
+  assert.equal(payload.completion.latestReviewCount, 1);
+  assert.equal(payload.completion.scoredCount, 1);
+  assert.equal(payload.completion.deferredCount, 0);
+  assert.equal(payload.completion.complete, true);
+  assert.deepEqual(payload.expectedRepetitionIds, ["rep_1"]);
+});
+
+test("review export validator rejects incomplete or cross-round events", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_a")[0];
+  const payload = buildStudyReviewExport({
+    pilot,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    events: [
+      createStudyReviewEvent({
+        pilotId: pilot.pilotId,
+        reviewerId: "Ronnie",
+        studyRound: "round_b",
+        repetition,
+        score: 2,
+        eventId: "wrong_round",
+      }),
+    ],
+  });
+  const result = validateStudyReviewExport(payload, { pilot });
+
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join(" "), /studyRound/);
+  assert.match(result.errors.join(" "), /incomplete/);
+});
+
+test("partial exports remain valid backups when completion is not required", () => {
+  const twoRepPilot = {
+    ...pilot,
+    repetitions: [
+      ...pilot.repetitions,
+      {
+        ...pilot.repetitions[0],
+        repetitionId: "rep_2",
+        ingestId: "ing_2",
+      },
+    ],
+  };
+  const repetition = buildStudyQueue(twoRepPilot, "Ronnie", "round_a")[0];
+  const payload = buildStudyReviewExport({
+    pilot: twoRepPilot,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    events: [
+      createStudyReviewEvent({
+        pilotId: twoRepPilot.pilotId,
+        reviewerId: "Ronnie",
+        studyRound: "round_a",
+        repetition,
+        score: 3,
+        eventId: "partial_event",
+      }),
+    ],
+  });
+  const result = validateStudyReviewExport(payload, {
+    pilot: twoRepPilot,
+    requireComplete: false,
+  });
+
+  assert.equal(result.valid, true);
+  assert.equal(result.completion.complete, false);
+  assert.equal(result.completion.scoredCount, 1);
+  assert.equal(result.warnings.length, 1);
+});
+
+test("storage and queue order are isolated by study round", () => {
+  assert.notEqual(
+    studyStorageKey("pilot", "Ronnie", "round_a"),
+    studyStorageKey("pilot", "Ronnie", "round_b"),
+  );
+
+  const manyRepPilot = {
+    ...pilot,
+    repetitions: Array.from({ length: 12 }, (_, index) => ({
+      ...pilot.repetitions[0],
+      repetitionId: `rep_${index}`,
+      ingestId: `ing_${index}`,
+      startSecond: index * 5,
+      endSecond: index * 5 + 4,
+    })),
+  };
+  const roundA = buildStudyQueue(manyRepPilot, "Ronnie", "round_a").map(
+    (item) => item.repetitionId,
+  );
+  const roundB = buildStudyQueue(manyRepPilot, "Ronnie", "round_b").map(
+    (item) => item.repetitionId,
+  );
+  assert.notDeepEqual(roundA, roundB);
+});
+
+test("review export validator requires valid supersession lineage", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_a")[0];
+  const event = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    repetition,
+    score: 2,
+    eventId: "event_2",
+    supersedesEventId: "missing_event",
+  });
+  const payload = buildStudyReviewExport({
+    pilot,
+    reviewerId: "Ronnie",
+    studyRound: "round_a",
+    events: [event],
+  });
+  const result = validateStudyReviewExport(payload, { pilot });
+
+  assert.equal(result.valid, false);
+  assert.match(result.errors.join(" "), /supersedesEventId was not found/);
 });

@@ -156,6 +156,60 @@ button:disabled {
   color: #2e342d;
 }
 
+.export-area {
+  position: relative;
+  justify-self: end;
+}
+
+.export-links {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + 7px);
+  right: 0;
+  width: max-content;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 7px;
+  padding: 7px;
+  border: 1px solid #bfc6bd;
+  border-radius: 5px;
+  box-shadow: 0 5px 14px rgb(23 31 25 / 12%);
+  background: #ffffff;
+  font-size: 0.72rem;
+}
+
+.export-links span {
+  color: #9b651d;
+  font-weight: 700;
+}
+
+.export-links[data-complete="true"] span {
+  color: #246448;
+}
+
+.export-links a {
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid #bfc6bd;
+  border-radius: 4px;
+  color: #245c4a;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.export-error {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: max-content;
+  color: #9b332b;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
 .study-error {
   margin: 0;
   padding: 12px 18px;
@@ -307,6 +361,20 @@ button:disabled {
   background: #d9ece2;
   color: #1f5f40;
   font-size: 0.72rem;
+}
+
+.case-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.case-state time {
+  min-width: 46px;
+  color: #c4ccc6;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .study-video-shell {
@@ -517,6 +585,12 @@ textarea {
   .progress-track {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+
+  .export-links {
+    position: fixed;
+    top: 116px;
+    right: 10px;
   }
 
   .study-workspace {

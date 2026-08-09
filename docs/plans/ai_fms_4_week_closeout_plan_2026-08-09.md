@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.3                           |
+| 版本     | v1.4                           |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-09                     |
@@ -59,14 +59,14 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态     | 当前结论                                                        |
-| ------------------------------- | -------- | --------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
-| G2A Study Mode 基础             | COMPLETE | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
-| G2B Blindability 与正式样本冻结 | COMPLETE | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
-| G2C 双轮独立审核                | PENDING  | 前置门已完成，下一步开始 Round A                                |
-| G3 定量研究与结果冻结           | PENDING  | 等人工 review events 完成                                       |
-| G4 报告与申请发布包             | PENDING  | 等 G3 结果冻结                                                  |
+| Gate                            | 状态        | 当前结论                                                        |
+| ------------------------------- | ----------- | --------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
+| G2C 双轮独立审核                | IN PROGRESS | Round A 协议已锁定，等待两位 reviewer 完成 32/32                |
+| G3 定量研究与结果冻结           | PENDING     | 等人工 review events 完成                                       |
+| G4 报告与申请发布包             | PENDING     | 等 G3 结果冻结                                                  |
 
 ### 3.2 已验证基线
 
@@ -88,12 +88,15 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 - [x] 正式 32 例全部同时满足 blindability eligible 和 feature ready。
 - [x] 为 21 个入选源视频生成匿名媒体别名，Reviewer manifest 不含源文件名和历史标签。
 - [x] 完成 4 例隔离 Dry Run；保存/刷新恢复不污染正式 review events。
-- [x] 通过 lint、format、271/271 tests 和三页面 production build。
+- [x] 锁定 Review Event/Export V2、round 隔离、前台计时和 32/32 validator。
+- [x] 建立 JSON 与 SHA-256 成对导出及中文 Round A reviewer protocol。
+- [x] 通过 lint、format、278/278 tests 和三页面 production build。
 
 对应检查点 commits：
 
 - `4a7f1c6`：G1 数据基线和 Study Mode V1。
 - `faff513`：第二 reviewer 身份改为 `Other Reviewer`。
+- `fb2decd`：PR #1 合并 application closeout、G2B 和正式 study 基线。
 
 ## 4. 正式 Study 样本量决策门
 
@@ -198,10 +201,12 @@ G1 验收证据：
 
 Round A：
 
+- [x] 锁定 `round_a` 随机队列、独立浏览器 namespace 和 V2 event schema。
+- [x] 记录 score、confidence、reason/notes、QA flags 和前台 review time。
+- [x] 建立 partial/complete 状态、JSON + SHA-256 导出和 CLI validator。
 - [ ] Ronnie 独立完成正式样本盲评。
 - [ ] Other Reviewer 独立完成正式样本盲评。
 - [ ] 不显示参考标签、AI evidence 或另一位 reviewer 的结果。
-- [ ] 记录 score、confidence、reason/notes、QA flags 和 review time。
 
 Round B：
 
@@ -375,8 +380,18 @@ Secondary questions：
 | 2026-08-09 | 本文件为唯一 canonical 四周计划                  | 避免 Downloads 草案与仓库执行版并行分叉                            |
 | 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个       | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量      |
 | 2026-08-09 | 正式 32 例必须同时 feature-ready                 | Round B 需要每例都有可追溯 quantitative evidence；正式审核尚未开始 |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound` | 避免后续事件覆盖或仅凭时间推断轮次                                 |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时           | 降低短期记忆对第二轮评分的影响                                     |
 
 ## 12. 变更记录
+
+### v1.4 - 2026-08-09
+
+- 将 G2C 标记为 IN PROGRESS，先完成正式评分前的数据协议封口。
+- 升级 Review Event/Export V2，保存 `studyRound`、前台 review time 和 supersession lineage。
+- Round A/B/Dry Run 使用不同随机种子和 localStorage namespace。
+- 增加 32/32 completion gate、JSON + SHA-256 成对导出和 CLI validator。
+- 新增中文 Round A reviewer protocol；正式 reviewer 评分仍未开始。
 
 ### v1.3 - 2026-08-09
 
