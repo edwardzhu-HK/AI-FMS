@@ -66,6 +66,9 @@ npm run data:pilot:build
 - `round-a-ai-evidence`：先对 110 条审计后 feature rows 独立运行现有规则，再连接
   Round A 人工共识的 exploratory concordance 层。只有 feature-ready 且规则实际给出
   总分的 row 进入比较；Rotary feature-only 和 Deep Squat protocol gate 单独记录。
+- `round-a-targeted-ai-audit`：对九条 actionable follow-up 的 5 帧视觉、双 reviewer
+  描述、pose feature 和规则路径复核。确认的 Deep Squat `attemptCondition` 只进入
+  单独 post-audit sensitivity，不覆盖冻结 baseline，也不用于调整 ASLR/Hurdle 阈值。
 - `reviewStatus`：历史 workflow 中的 rep 审核状态。
 - `humanReviews`：Reviewer A/B 的原始审核记录。
 - `humanReviewSummary`：仅做机械汇总，不等于独立 adjudication。

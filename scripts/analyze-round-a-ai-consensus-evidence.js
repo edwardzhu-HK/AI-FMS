@@ -18,6 +18,7 @@ const DEFAULTS = {
     "research/pilot-v1/generated/camera-audited-features/SHA256SUMS",
   canonicalPath: "research/pilot-v1/generated/canonical-pilot.json",
   canonicalChecksumsPath: "research/pilot-v1/generated/SHA256SUMS",
+  targetedAuditPath: "research/pilot-v1/round-a-targeted-ai-audit.json",
   outputDir: "research/pilot-v1/generated/round-a-ai-evidence",
 };
 
@@ -40,6 +41,7 @@ function parseArgs(argv) {
     "--feature-checksums": "featureChecksumsPath",
     "--canonical": "canonicalPath",
     "--canonical-checksums": "canonicalChecksumsPath",
+    "--targeted-audit": "targetedAuditPath",
     "--output-dir": "outputDir",
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -112,6 +114,8 @@ function actionSummaryRows(analysis) {
 function buildReport(payload) {
   const analysis = payload.analysis;
   const metrics = analysis.metrics;
+  const sensitivity = payload.protocolSensitivity.analysis;
+  const sensitivityMetrics = sensitivity.metrics;
   return `# Round A AI Evidence 与人工共识比较
 
 ## 一句话结论
@@ -138,11 +142,20 @@ function buildReport(payload) {
 | --- | ---: | ---: | ---: | ---: | ---: |
 ${actionSummaryRows(analysis)}
 
+## 九条定向复核后的敏感性结果
+
+- 原始基线保持不变：${metrics.exactCount}/${metrics.comparedCount} 完全同分，不用复核结果反向改写已冻结数字。
+- 补入视觉与双 reviewer 一致确认的 Deep Squat protocol metadata 后，可比较条目为 ${sensitivity.comparisonEligibleCount} 条；完全同分 ${sensitivityMetrics.exactCount}/${sensitivityMetrics.comparedCount}（${formatRate(sensitivityMetrics.exactRate)}），相差不超过 1 分 ${sensitivityMetrics.withinOneCount}/${sensitivityMetrics.comparedCount}（${formatRate(sensitivityMetrics.withinOneRate)}）。
+- 两条 heels-elevated/FMS board 条目由现有 staged-attempt 规则正确得到 2 分；一条 floor attempt 保留为人工 3、AI raw 2 的真实待研究差异。
+- 这一段属于 post-audit protocol sensitivity，不是独立模型验证，也不用于宣称准确率。
+
+九条复核可归成四类：2 条 Deep Squat protocol metadata 已解决；2 条 ASLR 暴露 active-side/pose tracking 或器材摆放问题；4 条 Hurdle 主要缺少全动作轨迹、dowel 方向和可靠机位信息；1 条 Deep Squat floor attempt 保留为 depth proxy 差异。本轮没有据此修改任何评分阈值。
+
 ## 最有价值的发现
 
-1. **ASLR 出现两条 2 分级低估。**人工均为 3 分，但 AI 给出 1 分，主要由 stationary-leg control proxy 触发。这是最高优先级的阈值/动作定义复核项。
-2. **Hurdle Step 对人工 2 分有偏高倾向。**4 条人工 2 分中只有 1 条完全一致，3 条被 AI 判为 3；说明现有几何 proxy 尚未覆盖人工看到的全部定性扣分依据。
-3. **Deep Squat 的主要障碍是 protocol metadata。**两条共识 rep 因系统不知道它属于 floor 还是 heels-elevated/FMS board attempt 而主动拒绝给最终分；另有 1 条可比较 rep 比人工高 1 分。这些都应进入复核，metadata 不应靠文件名补回。
+1. **ASLR 两条低估不是同一种阈值问题。**一条存在 active-side/peak evidence 冲突；另一条同时存在器材摆放错误、reviewer low confidence 和 pose tracking 疑点。它们应先进入 timing/pose QA。
+2. **Hurdle Step 缺的是全周期证据。**人工扣分主要来自恢复阶段的膝踝轨迹、动态躯干控制和 dowel 方向；当前 peak-frame proxy 没有完整表达这些信息。
+3. **Deep Squat protocol metadata 可以解释两条差异。**两条 heels-elevated/FMS board attempt 在字段补齐后由现有 staged rule 正确得到 2 分；floor attempt 的 raw pose 2 与人工 3 继续保留为研究差异。
 4. **Rotary Stability 保持 feature-only 是正确的边界。**8 条共识 rep 均没有生成未经验证的 AI 总分。
 
 ## 解释边界
@@ -154,6 +167,7 @@ AI 建议先对全部 110 条审计后 feature rows 独立生成，再连接 Rou
 ## 复现
 
 - 命令：\`npm run study:ai-evidence:round-a\`
+- 视觉复核：\`npm run study:ai-evidence:audit-previews\`
 - Rule fingerprint：\`${payload.ruleFingerprint}\`
 - Audited feature matrix fingerprint：\`${payload.sources.featureMatrix.matrixFingerprint}\`
 `;
@@ -181,8 +195,129 @@ function comparisonCsv(rows) {
     "confidence",
     "confidenceLabel",
     "modelVersion",
+    "protocolMetadataSource",
+    "attemptCondition",
   ];
   return toCsv(rows, columns);
+}
+
+function targetedAuditCsv(rows) {
+  return toCsv(
+    rows.map((row) => ({
+      repetitionId: row.repetitionId,
+      actionType: row.actionType,
+      humanConsensusScore: row.humanConsensusScore,
+      aiSuggestedScore: row.aiSuggestedScore,
+      reviewerConfidence: row.reviewerConfidence,
+      cameraView: row.cameraView,
+      classification: row.classification,
+      decision: row.decision,
+      attemptCondition: row.protocolMetadata?.attemptCondition ?? null,
+      recommendedAction: row.recommendedAction,
+    })),
+    [
+      "repetitionId",
+      "actionType",
+      "humanConsensusScore",
+      "aiSuggestedScore",
+      "reviewerConfidence",
+      "cameraView",
+      "classification",
+      "decision",
+      "attemptCondition",
+      "recommendedAction",
+    ],
+  );
+}
+
+function protocolSensitivitySummary({ baseline, audited }) {
+  const baselineRows = new Map(
+    baseline.analysis.rows.map((row) => [row.repetitionId, row]),
+  );
+  const changedRows = audited.analysis.rows
+    .map((row) => {
+      const before = baselineRows.get(row.repetitionId);
+      if (!before) throw new Error(`Missing baseline row ${row.repetitionId}`);
+      const changedFields = [
+        "aiSuggestedScore",
+        "rawPoseScore",
+        "suggestionStatus",
+        "comparisonEligible",
+        "exclusionReason",
+        "attemptCondition",
+        "protocolMetadataSource",
+      ].filter((key) => before[key] !== row[key]);
+      return changedFields.length
+        ? {
+            repetitionId: row.repetitionId,
+            actionType: row.actionType,
+            changedFields,
+            baselineAiSuggestedScore: before.aiSuggestedScore,
+            auditedAiSuggestedScore: row.aiSuggestedScore,
+            baselineExclusionReason: before.exclusionReason,
+            auditedExclusionReason: row.exclusionReason,
+            auditedAttemptCondition: row.attemptCondition,
+          }
+        : null;
+    })
+    .filter(Boolean);
+  return {
+    policy: {
+      postRoundAAudit: true,
+      reviewerProtocolObservationsUsed: true,
+      reviewerScoresUsedToTuneThresholds: false,
+      baselineAnalysisPreserved: true,
+      interpretation: "protocol_metadata_sensitivity_not_validation",
+    },
+    changedRows,
+    suggestionUniverse: audited.suggestionUniverse,
+    analysis: audited.analysis,
+  };
+}
+
+function validateTargetedAudit(targetedAudit, analysis) {
+  if (
+    targetedAudit.schemaVersion !== "ai_fms_round_a_targeted_ai_audit_v1" ||
+    !Array.isArray(targetedAudit.rows)
+  ) {
+    throw new Error("targeted AI audit schema or rows are invalid");
+  }
+  const expectedRows = analysis.followUpQueue.filter(
+    (row) => row.priority !== "expected_boundary",
+  );
+  const expected = new Map(expectedRows.map((row) => [row.repetitionId, row]));
+  const seen = new Set();
+  for (const row of targetedAudit.rows) {
+    if (seen.has(row.repetitionId)) {
+      throw new Error(`duplicate targeted audit row ${row.repetitionId}`);
+    }
+    seen.add(row.repetitionId);
+    const baseline = expected.get(row.repetitionId);
+    if (!baseline) {
+      throw new Error(`unexpected targeted audit row ${row.repetitionId}`);
+    }
+    if (
+      row.actionType !== baseline.actionType ||
+      row.humanConsensusScore !== baseline.humanConsensusScore ||
+      row.aiSuggestedScore !== baseline.aiSuggestedScore
+    ) {
+      throw new Error(`targeted audit baseline drift ${row.repetitionId}`);
+    }
+    const attemptCondition = row.protocolMetadata?.attemptCondition;
+    if (
+      attemptCondition &&
+      !["floor", "heels_elevated_board"].includes(attemptCondition)
+    ) {
+      throw new Error(
+        `invalid audited attempt condition ${row.repetitionId}: ${attemptCondition}`,
+      );
+    }
+  }
+  if (seen.size !== expected.size) {
+    throw new Error(
+      `targeted AI audit coverage mismatch: ${seen.size}/${expected.size}`,
+    );
+  }
 }
 
 function followUpCsv(rows) {
@@ -217,6 +352,8 @@ export function main(argv = process.argv.slice(2)) {
     resolve(options.canonicalPath),
     resolve(options.canonicalChecksumsPath),
   );
+  const targetedAuditRaw = fs.readFileSync(resolve(options.targetedAuditPath));
+  const targetedAudit = JSON.parse(targetedAuditRaw.toString("utf8"));
   const ruleFiles = RULE_FILES.map((rulePath) => ({
     path: rulePath,
     sha256: sha256(fs.readFileSync(resolve(rulePath))),
@@ -232,6 +369,23 @@ export function main(argv = process.argv.slice(2)) {
     agreement: agreement.payload,
     suggestions: suggestionUniverse,
   });
+  validateTargetedAudit(targetedAudit, analysis);
+  const auditedSuggestionUniverse = buildLeakageFreeAiSuggestions({
+    featureMatrix: featureMatrix.payload,
+    canonical: canonical.payload,
+    protocolMetadataAudit: targetedAudit,
+  });
+  const auditedAnalysis = summarizeAiConsensusEvidence({
+    agreement: agreement.payload,
+    suggestions: auditedSuggestionUniverse,
+  });
+  const protocolSensitivity = protocolSensitivitySummary({
+    baseline: { suggestionUniverse, analysis },
+    audited: {
+      suggestionUniverse: auditedSuggestionUniverse,
+      analysis: auditedAnalysis,
+    },
+  });
   const payload = {
     schemaVersion: "ai_fms_round_a_ai_consensus_evidence_v1",
     generatedAt: new Date().toISOString(),
@@ -245,6 +399,11 @@ export function main(argv = process.argv.slice(2)) {
           featureMatrix.payload.sourceFeatureMatrixFingerprint,
       },
       canonical: { path: options.canonicalPath, sha256: canonical.sha256 },
+      targetedAudit: {
+        path: options.targetedAuditPath,
+        sha256: sha256(targetedAuditRaw),
+        schemaVersion: targetedAudit.schemaVersion,
+      },
       ruleFiles,
     },
     ruleFingerprint,
@@ -265,6 +424,7 @@ export function main(argv = process.argv.slice(2)) {
     },
     suggestionUniverse,
     analysis,
+    protocolSensitivity,
   };
   const outputDir = resolve(options.outputDir);
   fs.mkdirSync(outputDir, { recursive: true });
@@ -272,6 +432,10 @@ export function main(argv = process.argv.slice(2)) {
     "round-a-ai-consensus-analysis.json": `${JSON.stringify(payload, null, 2)}\n`,
     "round-a-ai-consensus-comparison.csv": comparisonCsv(analysis.rows),
     "round-a-ai-follow-up-queue.csv": followUpCsv(analysis.followUpQueue),
+    "round-a-ai-targeted-audit.csv": targetedAuditCsv(targetedAudit.rows),
+    "round-a-ai-protocol-sensitivity-comparison.csv": comparisonCsv(
+      auditedAnalysis.rows,
+    ),
     "round-a-ai-consensus-report.md": buildReport(payload),
   };
   for (const [name, content] of Object.entries(outputs)) {
@@ -296,6 +460,14 @@ export function main(argv = process.argv.slice(2)) {
         quadraticWeightedKappa: analysis.metrics.quadraticWeightedKappa,
         actionableFollowUpCount: analysis.actionableFollowUpCount,
         followUpCount: analysis.followUpQueue.length,
+        protocolSensitivity: {
+          changedRows: protocolSensitivity.changedRows.length,
+          comparisonEligibleCount: auditedAnalysis.comparisonEligibleCount,
+          exactRate: auditedAnalysis.metrics.exactRate,
+          withinOneRate: auditedAnalysis.metrics.withinOneRate,
+          meanAbsoluteDifference:
+            auditedAnalysis.metrics.meanAbsoluteDifference,
+        },
       },
       null,
       2,

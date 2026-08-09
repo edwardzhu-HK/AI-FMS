@@ -324,10 +324,16 @@ Canonical execution plan:
       rows before joining human labels; compare 16 eligible suggestions with
       the 26 Round A consensus rows and preserve 10 protocol/feature-only
       exclusions.
-- [ ] Visually audit the two ASLR two-point under-scores, four Hurdle score
+- [x] Visually audit the two ASLR two-point under-scores, four Hurdle score
       disagreements, one Deep Squat score disagreement, and two Deep Squat
       protocol-metadata gaps before changing thresholds or requesting targeted
       collection.
+- [x] Preserve the frozen 9/16 baseline, then report a separate post-audit
+      Deep Squat protocol sensitivity: 11/17 exact, 15/17 within one, with no
+      ASLR or Hurdle threshold tuning.
+- [ ] After Round B, debug ASLR active-side/peak selection and prototype
+      cycle-level Hurdle knee/ankle, trunk, and dowel-orientation features on
+      independent videos.
 - [x] Export Round A consensus action-specific quantitative feature tables with
       units and quality fields.
 - [x] Analyze Round A feature distributions and exploratory effect sizes by

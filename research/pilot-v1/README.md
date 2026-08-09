@@ -141,3 +141,17 @@ and checksums under the ignored `label-free-profiles/` directory. It overlays
 the 26 Round A consensus rows only after the label-free groups are frozen and
 produces a video/time-coded review queue. The groups are exploratory data
 descriptions, not validated impairment or diagnostic classes.
+
+Compare leakage-controlled AI suggestions with the frozen Round A consensus,
+then rebuild the nine-item visual audit and post-audit protocol sensitivity:
+
+```bash
+npm run study:ai-evidence:round-a
+npm run study:ai-evidence:audit-previews
+```
+
+The baseline comparison is preserved. Source-controlled decisions in
+`round-a-targeted-ai-audit.json` may supply non-score protocol metadata only to
+a separately labeled post-audit sensitivity layer. Reviewer scores are not
+used to tune ASLR or Hurdle thresholds. Private five-frame previews and all
+analysis outputs remain under the ignored `generated/` directory.
