@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">ASLR subject-aware extraction evidence quality</title>
+  <desc id="desc">Three ASLR windows changed from baseline limited to one good and two watch after target-subject ROI or crop, without changing scoring thresholds or frozen evidence.</desc>
+  <rect width="1200" height="720" fill="#ffffff"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#172033"/>
+  <text x="42" y="60" font-size="34" font-weight="750" fill="#172033">When AI Watches the Wrong Person</text>
+  <text x="42" y="91" font-size="16" fill="#526074">ASLR measurement reliability · same model and quality gate · target-subject ROI sensitivity</text>
+  <rect x="42" y="116" width="1116" height="48" rx="4" fill="#eef6f5"/>
+  <text x="64" y="146" font-size="19" font-weight="700" fill="#172033">3 limited windows → 1 good + 2 watch · 0 remain limited</text>
+  
+  <text x="42" y="190" font-size="15" font-weight="700" fill="#172033">Window 1</text>
+  <text x="42" y="215" font-size="12" fill="#64748b">rep_6830e0689f85</text>
+  <text x="190" y="194" font-size="12" font-weight="700" fill="#b42318">BASELINE · LIMITED</text>
+  <rect x="190" y="206" width="660" height="18" rx="3" fill="#f4d8d5"/>
+  <rect x="190" y="206" width="18.5" height="18" rx="3" fill="#b42318"/>
+  <text x="866" y="221" font-size="14" font-weight="700" fill="#172033">3 strong frames</text>
+  <text x="190" y="259" font-size="12" font-weight="700" fill="#d97706">SUBJECT-AWARE · WATCH</text>
+  <rect x="190" y="271" width="660" height="18" rx="3" fill="#e4e8ed"/>
+  <rect x="190" y="271" width="660.0" height="18" rx="3" fill="#d97706"/>
+  <text x="866" y="286" font-size="14" font-weight="700" fill="#172033">107 strong frames</text>
+  <text x="866" y="309" font-size="12" fill="#526074">dominance 0.757 · switch 0.038</text>
+  
+  <text x="42" y="332" font-size="15" font-weight="700" fill="#172033">Window 2</text>
+  <text x="42" y="357" font-size="12" fill="#64748b">rep_d7a697f7dad0</text>
+  <text x="190" y="336" font-size="12" font-weight="700" fill="#b42318">BASELINE · LIMITED</text>
+  <rect x="190" y="348" width="660" height="18" rx="3" fill="#f4d8d5"/>
+  <rect x="190" y="348" width="166.5" height="18" rx="3" fill="#b42318"/>
+  <text x="866" y="363" font-size="14" font-weight="700" fill="#172033">27 strong frames</text>
+  <text x="190" y="401" font-size="12" font-weight="700" fill="#d97706">SUBJECT-AWARE · WATCH</text>
+  <rect x="190" y="413" width="660" height="18" rx="3" fill="#e4e8ed"/>
+  <rect x="190" y="413" width="629.2" height="18" rx="3" fill="#d97706"/>
+  <text x="866" y="428" font-size="14" font-weight="700" fill="#172033">102 strong frames</text>
+  <text x="866" y="451" font-size="12" fill="#526074">dominance 0.951 · switch 0.099</text>
+  
+  <text x="42" y="474" font-size="15" font-weight="700" fill="#172033">Window 3</text>
+  <text x="42" y="499" font-size="12" fill="#64748b">rep_63fb86ee032d</text>
+  <text x="190" y="478" font-size="12" font-weight="700" fill="#b42318">BASELINE · LIMITED</text>
+  <rect x="190" y="490" width="660" height="18" rx="3" fill="#f4d8d5"/>
+  <rect x="190" y="490" width="185.0" height="18" rx="3" fill="#b42318"/>
+  <text x="866" y="505" font-size="14" font-weight="700" fill="#172033">30 strong frames</text>
+  <text x="190" y="543" font-size="12" font-weight="700" fill="#0f766e">SUBJECT-AWARE · GOOD</text>
+  <rect x="190" y="555" width="660" height="18" rx="3" fill="#e4e8ed"/>
+  <rect x="190" y="555" width="289.9" height="18" rx="3" fill="#0f766e"/>
+  <text x="866" y="570" font-size="14" font-weight="700" fill="#172033">47 strong frames</text>
+  <text x="866" y="593" font-size="12" fill="#526074">dominance 0.957 · switch 0.043</text>
+  <rect x="0" y="656" width="1200" height="64" fill="#f7f2e9"/>
+  <text x="42" y="684" font-size="17" font-weight="700" fill="#172033">Human-in-the-loop also means checking subject identity, framing, and protocol quality.</text>
+  <text x="42" y="707" font-size="12" fill="#526074">Sensitivity only: frozen Round A / Round B evidence and ASLR scoring thresholds were not changed.</text>
+</svg>

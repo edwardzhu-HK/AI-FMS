@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_config_v1",
+  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-10",
+  "outputDir": "docs/assets/phase-i-case-studies",
+  "reportPath": "docs/research/phase_i_case_study_portfolio_2026-08-10.md",
+  "sources": {
+    "featureMatrixPath": "research/pilot-v1/generated/camera-audited-features/camera-audited-feature-matrix.json",
+    "featureMatrixFingerprint": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
+    "aslrSensitivityPath": "research/pilot-v1/generated/aslr-subject-sensitivity/aslr-subject-sensitivity.json",
+    "aslrSensitivityFingerprint": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
+    "roundBEvidencePath": "research/pilot-v1/generated/round-b-evidence-manifest.json",
+    "roundBEvidenceFingerprint": "63eaa7d992b9b32f0b87ad71d987457edf1241283a56b23df00cc8f3dd9e8f82"
+  },
+  "cases": {
+    "deepSquat": {
+      "caseId": "deep-squat-same-score-profile",
+      "status": "exploratory_case_supported",
+      "humanRawScore": 2,
+      "auditedCameraView": "side",
+      "leftRepetitionId": "rep_489b80ba8943",
+      "rightRepetitionId": "rep_ce280c79a07d",
+      "features": [
+        {
+          "name": "peakDepthRatio",
+          "label": "Peak depth ratio",
+          "unit": "normalized ratio",
+          "decimals": 4
+        },
+        {
+          "name": "hipKneeVerticalGap",
+          "label": "Hip-knee vertical gap",
+          "unit": "normalized height",
+          "decimals": 4
+        },
+        {
+          "name": "hipAngleDegrees",
+          "label": "Hip angle",
+          "unit": "degrees",
+          "decimals": 1
+        },
+        {
+          "name": "kneeAngleDegrees",
+          "label": "Knee angle",
+          "unit": "degrees",
+          "decimals": 1
+        },
+        {
+          "name": "ankleShankLeanDegrees",
+          "label": "Ankle-shank lean",
+          "unit": "degrees",
+          "decimals": 1
+        },
+        {
+          "name": "maxKneeAnkleOffset",
+          "label": "Knee-ankle offset",
+          "unit": "normalized width",
+          "decimals": 4
+        }
+      ]
+    },
+    "aslr": {
+      "caseId": "aslr-subject-selection-reliability",
+      "status": "measurement_reliability_sensitivity",
+      "repetitionIds": [
+        "rep_6830e0689f85",
+        "rep_d7a697f7dad0",
+        "rep_63fb86ee032d"
+      ]
+    },
+    "hurdle": {
+      "caseId": "hurdle-view-metadata-gate",
+      "status": "exploratory_case_view_confounded",
+      "humanRawScore": 2,
+      "leftRepetitionId": "rep_40850b8084c3",
+      "rightRepetitionId": "rep_d13daa76b8a8",
+      "expectedViews": ["mixed", "front"]
+    },
+    "rotary": {
+      "caseId": "rotary-feature-only-boundary",
+      "status": "feature_only_boundary",
+      "expectedFormalItems": 8,
+      "expectedAiScoreAvailable": 0
+    }
+  },
+  "publicationBoundary": {
+    "rawMediaIncluded": false,
+    "personImagesIncluded": false,
+    "diagnosticClaimsAllowed": false,
+    "validatedImpairmentSubtypeClaimsAllowed": false,
+    "exploratoryHumanInTheLoopFramingRequired": true
+  }
+}

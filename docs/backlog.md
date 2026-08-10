@@ -372,6 +372,9 @@ Canonical execution plan:
       the stance-stability discrepancy as an inapplicable front-only feature.
 - [x] Complete a cross-video Deep Squat score-2 board-attempt case review and
       promote it as the primary application-facing same-score example.
+- [x] Select a four-case application portfolio: Deep Squat as the primary
+      movement-profile case, ASLR as a measurement-reliability case, Hurdle as
+      a view-metadata method case, and Rotary as a feature-only boundary case.
 - [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
       original field for lineage, and generate checksum-protected
       `auditedCameraView` outputs before using view as an explanatory variable.
@@ -394,12 +397,15 @@ Canonical execution plan:
 - [x] Produce the Chinese Phase I technical report with an English abstract.
 - [x] Produce application project-page copy and a concise claim-control
       evidence table.
+- [x] Generate two public-safe, data-driven application figures for the Deep
+      Squat same-score profile and ASLR subject-aware sensitivity, with no raw
+      media, person images, source filenames, or local paths.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      12/12 research artifacts, checksums 10 documents, and pins reproduction
+      13/13 research/application artifacts, checksums 11 documents, and pins reproduction
       commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 317-test and three-entry build gate.
+      study/claim boundaries, plus the full 319-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

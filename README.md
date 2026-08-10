@@ -19,6 +19,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率 |
 | ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited   |
 | ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited |
+| 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图           |
 | 当前等待项           | Round B 与最终结果冻结                       |
 
 四个 pilot actions：
@@ -43,6 +44,14 @@ suggestion；Rotary Stability 目前坚持 feature-only，不生成未经验证�
 首要案例是两条不同源视频的 Deep Squat：两条均因脚跟垫板得到人工 2 分，但
 `peakDepthRatio`、hip/knee angle、ankle-shank lean 和 knee-ankle offset 明显不同。
 这些参数是视频 pose-derived proxy，不是临床量角器测量，也不能直接命名为功能障碍。
+
+申请案例组合同时保留不同类型的证据：Deep Squat 是同分异型主案例，ASLR 展示
+subject selection 对测量可靠性的影响，Hurdle Step 说明 camera-view metadata gate，
+Rotary Stability 说明证据不足时保留 features、拒绝硬给总分。
+
+![Deep Squat same-score movement profile](docs/assets/phase-i-case-studies/deep-squat-same-score.svg)
+
+![ASLR subject-aware evidence quality](docs/assets/phase-i-case-studies/aslr-subject-aware-qa.svg)
 
 ## 系统组成
 
@@ -134,7 +143,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、317 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、319 tests 和三个 Vite entry builds。
 
 ## 研究复现
 
@@ -167,6 +176,12 @@ npm run study:ai-evidence:audit-previews
 npm run study:aslr:side-peak-audit
 ```
 
+重建申请案例组合与无人物图表：
+
+```bash
+npm run release:phase-i:figures
+```
+
 研究数据库：
 
 ```bash
@@ -195,6 +210,8 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   `docs/research/aslr_side_peak_evidence_audit_2026-08-09.md`
 - ASLR subject-aware sensitivity：
   `docs/research/aslr_subject_aware_sensitivity_2026-08-10.md`
+- Phase I 案例组合与申请图：
+  `docs/research/phase_i_case_study_portfolio_2026-08-10.md`
 
 ## Repository Layout
 
@@ -223,5 +240,5 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 
 1. 完成间隔后的 Round B，并冻结 Round A/B change metrics。
 2. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
-3. 将 Deep Squat movement-profile 与 ASLR measurement-reliability 案例制作成申请图。
+3. 按申请平台尺寸复核已生成的 Deep Squat 与 ASLR 图，并完成替代文本定稿。
 4. 完成公开素材 rights/privacy audit、demo video 和最终 release manifest。

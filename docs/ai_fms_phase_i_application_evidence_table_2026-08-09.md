@@ -17,7 +17,8 @@
 | Error analysis           | 9 条逐帧 audit                                          | Identified protocol, pose/timing, view, and trajectory limitations          | 不说所有错误已解决                                   |
 | ASLR 证据质量门          | 16 独立窗口：11 good、2 watch、3 limited                | Added a label-free gate for pose-side and peak reliability                  | 不把 high visibility 当作正确主体跟踪证明            |
 | ASLR subject sensitivity | 原 3 limited 经 ROI 后为 1 good、2 watch、0 limited     | Re-extracted target-subject windows without changing the scoring thresholds | 独立 sensitivity，不回写冻结 AI 或声称 accuracy 提升 |
-| 工程质量                 | 317 tests、lint、format、3-entry build                  | Maintained automated tests and reproducible data/report scripts             | 不把 test count 当研究 validity                      |
+| 申请案例组合             | 4 个受控案例；2 张无人物、数据驱动图                    | Presented value, measurement QA, metadata limits, and fail-closed behavior  | 不把四个案例包装成模型 validation                    |
+| 工程质量                 | 319 tests、lint、format、3-entry build                  | Maintained automated tests and reproducible data/report scripts             | 不把 test count 当研究 validity                      |
 | 数据治理                 | Stable IDs、SHA-256、signed exports、SQLite idempotency | Built traceable, checksum-verified research data flows                      | 不说 production multi-user database                  |
 | 伦理边界                 | Dataset card、methods/limitations、rights/privacy gate  | Designed the prototype around human oversight and explicit limitations      | 不说 medical diagnosis、pain AI 或 injury prediction |
 
