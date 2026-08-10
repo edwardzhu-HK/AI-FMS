@@ -12,6 +12,18 @@ const UNSCORABLE_REASONS = new Set([
   "other",
 ]);
 const ZERO_SCORE_REASONS = new Set(["pain_observed_or_reported"]);
+const EVIDENCE_USEFULNESS_VALUES = new Set([
+  "helpful",
+  "no_change",
+  "insufficient",
+]);
+const EVIDENCE_STATUSES = new Set([
+  "ai_score_available",
+  "features_only",
+  "protocol_metadata_required",
+  "quality_limited",
+  "suggestion_unavailable",
+]);
 const LEGACY_COMPLETION_FIELDS = [
   "status",
   "complete",
@@ -107,11 +119,18 @@ function summarizeCompletion({ pilot, reviewerId, studyRound, events }) {
   const deferredCount = latest.filter(
     (event) => event.status === "deferred",
   ).length;
-  const analysisExcludedCount = latest.filter(
-    (event) =>
+  const analysisExcludedCount = latest.filter((event) => {
+    if (event.studyRound === "round_b") {
+      return (
+        event.status === "unscorable" ||
+        event.blindReview?.labelCueDetected === true
+      );
+    }
+    return (
       event.status === "unscorable" ||
-      event.blindReview?.eligibleForBlindAnalysis === false,
-  ).length;
+      event.blindReview?.eligibleForBlindAnalysis === false
+    );
+  }).length;
   const complete =
     expectedIds.length > 0 &&
     resolvedCount === expectedIds.length &&
@@ -254,6 +273,7 @@ export function createStudyReviewEvent({
   reviewDurationMs = 0,
   unscorableReason = null,
   scoreZeroReason = null,
+  evidenceReview = null,
   supersedesEventId = null,
   eventId = crypto.randomUUID(),
 }) {
@@ -293,11 +313,49 @@ export function createStudyReviewEvent({
   if (!Number.isFinite(reviewDurationMs) || reviewDurationMs < 0) {
     throw new Error("reviewDurationMs must be a non-negative number.");
   }
+  if (studyRound === "round_b") {
+    if (!evidenceReview || typeof evidenceReview !== "object") {
+      throw new Error("evidenceReview is required for Round B reviews.");
+    }
+    if (
+      status !== "deferred" &&
+      !EVIDENCE_USEFULNESS_VALUES.has(evidenceReview.usefulness)
+    ) {
+      throw new Error("Round B evidence usefulness is required.");
+    }
+  }
+  if (evidenceReview != null) {
+    assertNonEmpty(
+      evidenceReview.manifestFingerprint,
+      "evidenceReview.manifestFingerprint",
+    );
+    assertNonEmpty(
+      evidenceReview.itemFingerprint,
+      "evidenceReview.itemFingerprint",
+    );
+    assertNonEmpty(
+      evidenceReview.evidenceStatus,
+      "evidenceReview.evidenceStatus",
+    );
+    if (!EVIDENCE_STATUSES.has(evidenceReview.evidenceStatus)) {
+      throw new Error("evidenceReview.evidenceStatus is invalid.");
+    }
+    if (typeof evidenceReview.aiSuggestionShown !== "boolean") {
+      throw new Error("evidenceReview.aiSuggestionShown must be boolean.");
+    }
+    if (
+      evidenceReview.usefulness != null &&
+      !EVIDENCE_USEFULNESS_VALUES.has(evidenceReview.usefulness)
+    ) {
+      throw new Error("evidenceReview.usefulness is invalid.");
+    }
+  }
 
   const normalizedFlags = [...new Set(qualityFlags)].sort();
   const labelCueDetected = normalizedFlags.includes("label_cue_visible");
   const hasScore = status === "scored";
 
+  const isEvidenceAssisted = studyRound === "round_b";
   return {
     schemaVersion: "ai_fms_study_review_event_v2",
     eventId,
@@ -316,13 +374,19 @@ export function createStudyReviewEvent({
     side,
     comment: comment.trim(),
     qualityFlags: normalizedFlags,
+    evidenceReview,
     blindReview: {
       historicalHumanScoresHidden: true,
       legacyAiSuggestionHidden: true,
       sourceFileNameHidden: true,
       audioMuted: true,
       labelCueDetected,
-      eligibleForBlindAnalysis: status !== "unscorable" && !labelCueDetected,
+      reviewMode: isEvidenceAssisted ? "evidence_assisted" : "blind",
+      currentPoseEvidenceShown: isEvidenceAssisted,
+      currentAiSuggestionShown:
+        isEvidenceAssisted && evidenceReview?.aiSuggestionShown === true,
+      eligibleForBlindAnalysis:
+        !isEvidenceAssisted && status !== "unscorable" && !labelCueDetected,
     },
     rubricVersion: "fms_v1.0",
     reviewStartedAt,
@@ -346,6 +410,7 @@ export function buildStudyReviewExport({
     ...event,
     unscorableReason: event.unscorableReason ?? null,
     scoreZeroReason: event.scoreZeroReason ?? null,
+    evidenceReview: event.evidenceReview ?? null,
   }));
   const completion = summarizeCompletion({
     pilot,
@@ -373,7 +438,7 @@ export function buildStudyReviewExport({
 
 export function validateStudyReviewExport(
   payload,
-  { pilot = null, requireComplete = true } = {},
+  { pilot = null, requireComplete = true, evidenceManifest = null } = {},
 ) {
   const errors = [];
   const warnings = [];
@@ -405,6 +470,18 @@ export function validateStudyReviewExport(
   const expectedSet = new Set(expectedIds);
   const eventIds = new Set();
   const eventsById = new Map();
+  const evidenceByRepetition = new Map(
+    (evidenceManifest?.items ?? []).map((item) => [item.repetitionId, item]),
+  );
+
+  if (payload?.studyRound === "round_b" && evidenceManifest) {
+    if (evidenceManifest.pilotId !== payload.pilotId) {
+      errors.push("Round B evidence pilotId does not match the export.");
+    }
+    if (!evidenceManifest.manifestFingerprint) {
+      errors.push("Round B evidence manifestFingerprint is required.");
+    }
+  }
 
   for (const [index, event] of (payload?.events ?? []).entries()) {
     const prefix = `events[${index}]`;
@@ -508,6 +585,83 @@ export function validateStudyReviewExport(
     ) {
       errors.push(`${prefix}.blindReview label-cue status is inconsistent.`);
     }
+    if (event?.studyRound === "round_b") {
+      if (!event?.evidenceReview || typeof event.evidenceReview !== "object") {
+        errors.push(`${prefix}.evidenceReview is required for Round B.`);
+      } else {
+        if (
+          event.status !== "deferred" &&
+          !EVIDENCE_USEFULNESS_VALUES.has(event.evidenceReview.usefulness)
+        ) {
+          errors.push(`${prefix}.evidenceReview.usefulness is invalid.`);
+        }
+        if (!event.evidenceReview.manifestFingerprint) {
+          errors.push(
+            `${prefix}.evidenceReview.manifestFingerprint is required.`,
+          );
+        }
+        if (!event.evidenceReview.itemFingerprint) {
+          errors.push(`${prefix}.evidenceReview.itemFingerprint is required.`);
+        }
+        if (!EVIDENCE_STATUSES.has(event.evidenceReview.evidenceStatus)) {
+          errors.push(`${prefix}.evidenceReview.evidenceStatus is invalid.`);
+        }
+        if (typeof event.evidenceReview.aiSuggestionShown !== "boolean") {
+          errors.push(`${prefix}.evidenceReview.aiSuggestionShown is invalid.`);
+        }
+        if (evidenceManifest) {
+          const expectedEvidence = evidenceByRepetition.get(event.repetitionId);
+          if (!expectedEvidence) {
+            errors.push(`${prefix} has no frozen Round B evidence item.`);
+          } else {
+            if (
+              event.evidenceReview.manifestFingerprint !==
+              evidenceManifest.manifestFingerprint
+            ) {
+              errors.push(
+                `${prefix}.evidenceReview.manifestFingerprint does not match.`,
+              );
+            }
+            if (
+              event.evidenceReview.itemFingerprint !==
+              expectedEvidence.itemFingerprint
+            ) {
+              errors.push(
+                `${prefix}.evidenceReview.itemFingerprint does not match.`,
+              );
+            }
+            if (
+              event.evidenceReview.evidenceStatus !==
+              expectedEvidence.evidenceStatus
+            ) {
+              errors.push(
+                `${prefix}.evidenceReview.evidenceStatus does not match.`,
+              );
+            }
+            if (
+              event.evidenceReview.aiSuggestionShown !==
+              Boolean(expectedEvidence.aiSuggestion)
+            ) {
+              errors.push(
+                `${prefix}.evidenceReview.aiSuggestionShown does not match.`,
+              );
+            }
+          }
+        }
+      }
+      if (event?.blindReview?.reviewMode !== "evidence_assisted") {
+        errors.push(`${prefix}.blindReview.reviewMode is invalid for Round B.`);
+      }
+      if (event?.blindReview?.eligibleForBlindAnalysis !== false) {
+        errors.push(`${prefix}.Round B event cannot be marked blind.`);
+      }
+    }
+  }
+
+  if (payload?.studyRound === "round_b" && !evidenceManifest) {
+    warnings.push(
+      "Round B evidence fingerprints were not cross-checked against a manifest.",
+    );
   }
 
   for (const [index, event] of (payload?.events ?? []).entries()) {

@@ -144,5 +144,12 @@ Round B 前允许修复：数据读取 bug、checksum/schema validation、明确
 Round B 前不允许：依据 Round A 分数移动 ASLR/Hurdle thresholds、删除不利样本、改变
 formal rep IDs 或把 post-hoc sensitivity 替代冻结 baseline。
 
+当前 Round B evidence package 已在人评前冻结：全部 32 条显示定量特征，18 条通过
+AI v1.0 总分 gate，8 条 Rotary 保持 feature-only，6 条 Deep Squat 因缺少完整
+attempt-condition metadata 不显示总分。每个事件必须记录 evidence/item fingerprint、
+AI 分数是否展示和 evidence usefulness。两位 reviewer 完成前不重新生成阈值或用
+Round B 结果修改 AI v1.0；完成后才计算 A/B change 和 AI-vs-human exploratory
+concordance。
+
 最终报告应同时保留 negative/null findings。当前最可信的贡献是可解释证据和研究流程，
 不是自动评分性能。

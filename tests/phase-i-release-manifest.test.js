@@ -59,6 +59,18 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
         byUniqueWindowStatus: { good: 11, watch: 2, limited: 3 },
       },
     }),
+    artifact("round_b_evidence", {
+      summary: {
+        totalItems: 32,
+        featureReady: 32,
+        aiScoreAvailable: 18,
+        byEvidenceStatus: { protocol_metadata_required: 6 },
+        byAction: {
+          rotary_stability: { byEvidenceStatus: { features_only: 8 } },
+        },
+      },
+      modelFreeze: { ruleFingerprint: "rule-fingerprint" },
+    }),
   ]);
 
   assert.deepEqual(summary, {
@@ -86,6 +98,12 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     aslrAuditGoodWindows: 11,
     aslrAuditWatchWindows: 2,
     aslrAuditLimitedWindows: 3,
+    roundBEvidenceItems: 32,
+    roundBFeatureReady: 32,
+    roundBAiScoreAvailable: 18,
+    roundBRotaryFeaturesOnly: 8,
+    roundBProtocolMetadataRequired: 6,
+    roundBAiRuleFingerprint: "rule-fingerprint",
   });
 });
 

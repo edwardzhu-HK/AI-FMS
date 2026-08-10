@@ -16,7 +16,7 @@
 | Protocol sensitivity   | 11/17 exact、15/17 within one                           | Correct protocol metadata improved coverage in a post-audit sensitivity     | 不包装成模型训练提升                                 |
 | Error analysis         | 9 条逐帧 audit                                          | Identified protocol, pose/timing, view, and trajectory limitations          | 不说所有错误已解决                                   |
 | ASLR 证据质量门        | 16 独立窗口：11 good、2 watch、3 limited                | Added a label-free gate for pose-side and peak reliability                  | 不把 high visibility 当作正确主体跟踪证明            |
-| 工程质量               | 307 tests、lint、format、3-entry build                  | Maintained automated tests and reproducible data/report scripts             | 不把 test count 当研究 validity                      |
+| 工程质量               | 315 tests、lint、format、3-entry build                  | Maintained automated tests and reproducible data/report scripts             | 不把 test count 当研究 validity                      |
 | 数据治理               | Stable IDs、SHA-256、signed exports、SQLite idempotency | Built traceable, checksum-verified research data flows                      | 不说 production multi-user database                  |
 | 伦理边界               | Dataset card、methods/limitations、rights/privacy gate  | Designed the prototype around human oversight and explicit limitations      | 不说 medical diagnosis、pain AI 或 injury prediction |
 

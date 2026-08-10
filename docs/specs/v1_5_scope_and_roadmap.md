@@ -1,6 +1,6 @@
 # AI-FMS V1.5 Scope and Roadmap
 
-Date: 2026-08-09
+Date: 2026-08-10
 
 ## 1. Executive Decision
 
@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 307-test quality gate
+resolve both video and pose assets, and the current full 315-test quality gate
 passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
@@ -43,6 +43,17 @@ complete exports into an ignored local SQLite research database. The review
 contract separates a true FMS score of 0 (observed or reported pain) from an
 unscorable protocol case; unscorable reps count as reviewed but remain excluded
 from score analysis.
+
+Round B is now implemented as a separate evidence-assisted workflow. A
+checksum-protected reviewer-safe manifest joins the frozen 32-rep queue to the
+camera-audited feature matrix and the pre-human-join AI suggestion universe.
+All 32 reps expose quantitative pose evidence; frozen AI v1.0 exposes a RAW
+SCORE suggestion for 18, keeps all eight Rotary Stability reps feature-only,
+and withholds a total score for six Deep Squat reps lacking verified staged
+attempt metadata. Each resolved Round B event records the exact evidence/item
+fingerprints, whether an AI score was shown, and reviewer-rated usefulness.
+The AI rules are frozen before Round B and will be compared with Round A and
+Round B human consensus only after both second-round exports close.
 
 Both Round A reviewer exports are now complete, signed, validated, and stored in
 the local research database. The reproducible agreement package keeps review
@@ -134,8 +145,8 @@ sensitivity work.
 G4 now has a Round A release candidate: a current README, Phase I dataset card,
 methods/limitations/ethics note, Chinese technical report with English abstract,
 application copy, and claim-control evidence table. A deterministic,
-fail-closed release generator verifies 10/10 private research artifacts, locks
-all reported evidence values, checksums eight source-controlled documents, and
+fail-closed release generator verifies 11/11 private research artifacts, locks
+all reported evidence values, checksums nine source-controlled documents, and
 audits release boundaries. Round B, demo recording, and human media
 rights/privacy review remain open.
 
@@ -785,10 +796,20 @@ Implementation status after the first P2 pass:
     scores, reviewer outcomes, or source filenames and does not tune thresholds.
 42. Expanded the Phase I release candidate to 10/10 verified research
     artifacts, eight checksummed documents, and a 307-test quality baseline.
+43. Opened Round B as an evidence-assisted Study Mode, froze a reviewer-safe
+    32-item evidence manifest and AI v1.0 rule fingerprint, and added explicit
+    evidence-exposure/usefulness fields to append-only review events. Rotary
+    Stability remains feature-only and protocol-limited Deep Squat rows do not
+    display an AI RAW SCORE.
+44. Added a checksum-verified post-Round-B closeout analyzer for reviewer
+    agreement, per-reviewer A/B changes, evidence-usefulness distributions, and
+    frozen AI v1.0 comparisons against Round A and Round B consensus. The full
+    quality baseline is now 315 tests plus lint, format, and three builds.
 
 Recommended next sprint:
 
-1. Complete Round B after the planned interval and freeze A/B change metrics.
+1. Complete both independent Round B reviews after the planned interval, then
+   freeze A/B change metrics and AI-vs-human exploratory concordance.
 2. Re-extract ASLR limited windows with subject-aware pose selection, review
    watch windows, and prototype robust peak-window stationary-leg geometry.
 3. Add Hurdle cycle-level knee/ankle, trunk, and dowel-orientation evidence.

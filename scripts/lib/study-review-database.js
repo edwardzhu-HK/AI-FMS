@@ -58,6 +58,7 @@ export function ingestStudyReviewExport({
   manifest,
   reviewPath,
   checksumPath = `${reviewPath}.sha256`,
+  evidenceManifest = null,
   importedAt = new Date(),
 }) {
   const resolvedReviewPath = path.resolve(reviewPath);
@@ -72,9 +73,13 @@ export function ingestStudyReviewExport({
   }
 
   const payload = JSON.parse(raw.toString("utf8"));
+  if (payload.studyRound === "round_b" && !evidenceManifest) {
+    throw new Error("A verified Round B evidence manifest is required.");
+  }
   const validation = validateStudyReviewExport(payload, {
     pilot: manifest,
     requireComplete: true,
+    evidenceManifest,
   });
   if (!validation.valid) {
     throw new Error(
@@ -120,6 +125,12 @@ export function ingestStudyReviewExport({
       insert into study_review_export_events (export_id, event_id, event_ordinal)
       values (?, ?, ?)
     `);
+    const insertEvidenceReview = database.prepare(`
+      insert or ignore into study_review_evidence_reviews (
+        event_id, manifest_fingerprint, item_fingerprint, evidence_status,
+        ai_suggestion_shown, usefulness
+      ) values (?, ?, ?, ?, ?, ?)
+    `);
     const findEvent = database.prepare(
       "select event_sha256 from study_review_events where event_id = ?",
     );
@@ -160,6 +171,16 @@ export function ingestStudyReviewExport({
         }
         if (!existingEvent) {
           insertEvent.run(...eventValues(event, eventHash));
+        }
+        if (event.evidenceReview) {
+          insertEvidenceReview.run(
+            event.eventId,
+            event.evidenceReview.manifestFingerprint,
+            event.evidenceReview.itemFingerprint,
+            event.evidenceReview.evidenceStatus,
+            event.evidenceReview.aiSuggestionShown ? 1 : 0,
+            event.evidenceReview.usefulness,
+          );
         }
         insertExportEvent.run(sourceSha256, event.eventId, index);
       });
@@ -224,8 +245,22 @@ export function inspectStudyReviewDatabase({
           sum(case when status = 'scored' then 1 else 0 end) as scored_count,
           sum(case when status = 'unscorable' then 1 else 0 end) as unscorable_count,
           sum(case when status = 'deferred' then 1 else 0 end) as deferred_count,
-          sum(case when eligible_for_blind_analysis = 0 then 1 else 0 end) as analysis_excluded_count
-        from ranked where event_rank = 1
+          sum(case
+            when study_round = 'round_b' and (
+              status = 'unscorable' or
+              json_extract(blind_review_json, '$.labelCueDetected') = 1
+            ) then 1
+            when study_round != 'round_b' and eligible_for_blind_analysis = 0 then 1
+            else 0
+          end) as analysis_excluded_count,
+          sum(case when evidence.event_id is not null then 1 else 0 end) as evidence_review_count,
+          sum(case when evidence.ai_suggestion_shown = 1 then 1 else 0 end) as ai_suggestion_shown_count,
+          sum(case when evidence.usefulness = 'helpful' then 1 else 0 end) as evidence_helpful_count,
+          sum(case when evidence.usefulness = 'no_change' then 1 else 0 end) as evidence_no_change_count,
+          sum(case when evidence.usefulness = 'insufficient' then 1 else 0 end) as evidence_insufficient_count
+        from ranked
+        left join study_review_evidence_reviews evidence using (event_id)
+        where event_rank = 1
       `,
       )
       .get(...values);
@@ -236,6 +271,20 @@ export function inspectStudyReviewDatabase({
         from ranked where event_rank = 1
         group by action_type, status
         order by action_type, status
+      `,
+      )
+      .all(...values);
+    const evidence = database
+      .prepare(
+        `${latestCte}
+        select evidence.evidence_status, evidence.usefulness,
+          evidence.ai_suggestion_shown, count(*) as count
+        from ranked
+        join study_review_evidence_reviews evidence using (event_id)
+        where event_rank = 1
+        group by evidence.evidence_status, evidence.usefulness,
+          evidence.ai_suggestion_shown
+        order by evidence.evidence_status, evidence.usefulness
       `,
       )
       .all(...values);
@@ -261,6 +310,7 @@ export function inspectStudyReviewDatabase({
       totalEvents,
       latest: summary,
       actions,
+      evidence,
     };
   } finally {
     database.close();

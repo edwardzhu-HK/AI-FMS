@@ -10,6 +10,12 @@ const MIGRATION_PATHS = [
   fileURLToPath(
     new URL("../../db/sqlite/0002_pilot_pool.sql", import.meta.url),
   ),
+  fileURLToPath(
+    new URL(
+      "../../db/sqlite/0003_round_b_evidence_reviews.sql",
+      import.meta.url,
+    ),
+  ),
 ];
 
 export const DEFAULT_RESEARCH_DB = "Ingested-data/ai-fms-study-reviews.sqlite";
