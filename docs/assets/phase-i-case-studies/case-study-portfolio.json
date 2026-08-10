@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_v1",
+  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-10",
+  "summary": {
+    "selectedCases": 4,
+    "applicationFigures": 2,
+    "rawMediaIncluded": false,
+    "personImagesIncluded": false
+  },
+  "sourceFingerprints": {
+    "featureMatrix": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
+    "aslrSensitivity": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
+    "roundBEvidence": "63eaa7d992b9b32f0b87ad71d987457edf1241283a56b23df00cc8f3dd9e8f82"
+  },
+  "cases": {
+    "deepSquat": {
+      "caseId": "deep-squat-same-score-profile",
+      "status": "exploratory_case_supported",
+      "humanRawScore": 2,
+      "sourceRelation": "different_video",
+      "left": {
+        "repetitionId": "rep_489b80ba8943",
+        "videoId": "vid_2c70d61afac8",
+        "auditedCameraView": "side"
+      },
+      "right": {
+        "repetitionId": "rep_ce280c79a07d",
+        "videoId": "vid_b93a2900a437",
+        "auditedCameraView": "side"
+      },
+      "role": "primary_movement_profile_case",
+      "features": [
+        {
+          "name": "peakDepthRatio",
+          "label": "Peak depth ratio",
+          "unit": "normalized ratio",
+          "decimals": 4,
+          "leftValue": 0.66,
+          "rightValue": 0.7542
+        },
+        {
+          "name": "hipKneeVerticalGap",
+          "label": "Hip-knee vertical gap",
+          "unit": "normalized height",
+          "decimals": 4,
+          "leftValue": -0.0121,
+          "rightValue": 0.0673
+        },
+        {
+          "name": "hipAngleDegrees",
+          "label": "Hip angle",
+          "unit": "degrees",
+          "decimals": 1,
+          "leftValue": 86.3,
+          "rightValue": 42.8
+        },
+        {
+          "name": "kneeAngleDegrees",
+          "label": "Knee angle",
+          "unit": "degrees",
+          "decimals": 1,
+          "leftValue": 64.9,
+          "rightValue": 35
+        },
+        {
+          "name": "ankleShankLeanDegrees",
+          "label": "Ankle-shank lean",
+          "unit": "degrees",
+          "decimals": 1,
+          "leftValue": 32.4,
+          "rightValue": 15.1
+        },
+        {
+          "name": "maxKneeAnkleOffset",
+          "label": "Knee-ankle offset",
+          "unit": "normalized width",
+          "decimals": 4,
+          "leftValue": 0.0709,
+          "rightValue": 0.0403
+        }
+      ],
+      "interpretation": "The same ordinal score preserves different movement depth and joint-strategy profiles."
+    },
+    "aslr": {
+      "caseId": "aslr-subject-selection-reliability",
+      "status": "measurement_reliability_sensitivity",
+      "role": "supporting_measurement_reliability_case",
+      "rows": [
+        {
+          "repetitionId": "rep_6830e0689f85",
+          "baselineStatus": "limited",
+          "sensitivityStatus": "watch",
+          "baselineStrongFrames": 3,
+          "sensitivityStrongFrames": 107,
+          "dominantSideRatio": 0.757,
+          "sideSwitchRate": 0.038,
+          "segmentSideAgreement": "indeterminate"
+        },
+        {
+          "repetitionId": "rep_d7a697f7dad0",
+          "baselineStatus": "limited",
+          "sensitivityStatus": "watch",
+          "baselineStrongFrames": 27,
+          "sensitivityStrongFrames": 102,
+          "dominantSideRatio": 0.951,
+          "sideSwitchRate": 0.099,
+          "segmentSideAgreement": "match"
+        },
+        {
+          "repetitionId": "rep_63fb86ee032d",
+          "baselineStatus": "limited",
+          "sensitivityStatus": "good",
+          "baselineStrongFrames": 30,
+          "sensitivityStrongFrames": 47,
+          "dominantSideRatio": 0.957,
+          "sideSwitchRate": 0.043,
+          "segmentSideAgreement": "match"
+        }
+      ],
+      "interpretation": "Subject-aware extraction recovers continuous evidence without changing the frozen scoring result."
+    },
+    "hurdle": {
+      "caseId": "hurdle-view-metadata-gate",
+      "status": "exploratory_case_view_confounded",
+      "humanRawScore": 2,
+      "sourceRelation": "different_video",
+      "left": {
+        "repetitionId": "rep_40850b8084c3",
+        "videoId": "vid_b89674fb7c28",
+        "auditedCameraView": "mixed"
+      },
+      "right": {
+        "repetitionId": "rep_d13daa76b8a8",
+        "videoId": "vid_624f7f9812f5",
+        "auditedCameraView": "front"
+      },
+      "role": "methodological_view_metadata_case",
+      "interpretation": "A mixed-versus-front view prevents a movement-only interpretation and demonstrates the metadata gate."
+    },
+    "rotary": {
+      "caseId": "rotary-feature-only-boundary",
+      "status": "feature_only_boundary",
+      "role": "conservative_feature_only_boundary",
+      "formalItems": 8,
+      "featureOnlyItems": 8,
+      "aiScoreAvailable": 0,
+      "interpretation": "Quantitative features are retained while an unsupported AI total score is withheld."
+    }
+  },
+  "publicationBoundary": {
+    "rawMediaIncluded": false,
+    "personImagesIncluded": false,
+    "diagnosticClaimsAllowed": false,
+    "validatedImpairmentSubtypeClaimsAllowed": false,
+    "exploratoryHumanInTheLoopFramingRequired": true
+  },
+  "portfolioFingerprint": "148b7d65dee05e266e66b61dbb9a1f528d7885bf184de5f20e0255230503dfc6",
+  "inputs": {
+    "config": {
+      "path": "research/pilot-v1/phase-i-case-study-portfolio.json",
+      "sha256": "7bfc738b6f2ecb2a186fb4a3a722da46f8b6ce0c5ddcd2d52153f03ba8414f49"
+    }
+  }
+}

@@ -42,6 +42,8 @@ movement profiles to an ordinal screening score.
 - 对 66 条 feature-ready reps 做 label-free movement profiles 和 source-effect audit。
 - 逐条复核 AI/人工差异，区分 protocol metadata、pose tracking、camera view 和动态
   feature 缺口。
+- 选定四案例申请组合，并把 Deep Squat 同分异型与 ASLR 主体选择生成两张无人物、
+  可由冻结数据重建的图表。
 
 ## 最有意义的发现
 
@@ -73,7 +75,8 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 | Leakage-controlled AI baseline |              9/16 exact；14/16 within one |
 | ASLR side/peak evidence audit  | 16 windows：11 good / 2 watch / 3 limited |
 | ASLR subject-aware sensitivity |              3 limited → 1 good / 2 watch |
-| Automated quality gate         |           317 tests + 3 production builds |
+| Application case portfolio     |                       4 cases / 2 figures |
+| Automated quality gate         |           319 tests + 3 production builds |
 
 ## 我的角色
 

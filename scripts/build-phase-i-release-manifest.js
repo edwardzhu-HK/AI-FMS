@@ -74,6 +74,7 @@ export function summarizePhaseIEvidence(artifacts) {
   const aslrAudit = byId.get("aslr_side_peak_audit")?.payload;
   const aslrSensitivity = byId.get("aslr_subject_sensitivity")?.payload;
   const roundBEvidence = byId.get("round_b_evidence")?.payload;
+  const casePortfolio = byId.get("phase_i_case_study_portfolio")?.payload;
   if (
     !canonical ||
     !features ||
@@ -83,7 +84,8 @@ export function summarizePhaseIEvidence(artifacts) {
     !aiEvidence ||
     !aslrAudit ||
     !aslrSensitivity ||
-    !roundBEvidence
+    !roundBEvidence ||
+    !casePortfolio
   ) {
     throw new Error("Phase I release evidence is incomplete");
   }
@@ -141,6 +143,8 @@ export function summarizePhaseIEvidence(artifacts) {
     roundBProtocolMetadataRequired:
       roundBEvidence.summary.byEvidenceStatus.protocol_metadata_required ?? 0,
     roundBAiRuleFingerprint: roundBEvidence.modelFreeze.ruleFingerprint,
+    selectedCaseStudies: casePortfolio.summary.selectedCases,
+    applicationFigures: casePortfolio.summary.applicationFigures,
   };
 }
 

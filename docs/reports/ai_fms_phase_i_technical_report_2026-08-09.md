@@ -150,6 +150,20 @@ Round A labels 在 groups 冻结后才 overlay。7 个 action-score strata 中�
 FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是进一步描述两条动作的
 完成程度和 movement strategy，而不是推翻人工分数。
 
+### 四案例申请组合
+
+正式 application candidate 不是四个只展示“AI 成功”的案例，而是一个受控组合：
+
+1. Deep Squat：同分背后的连续 movement-profile 差异。
+2. ASLR：subject-aware extraction 如何改变 pose evidence reliability。
+3. Hurdle Step：mixed/front 机位差异为什么阻止 movement-only 解释。
+4. Rotary Stability：8 条正式样本保留 features，但证据不足时不输出 AI 总分。
+
+其中 Deep Squat 和 ASLR 已生成不含人物图像、源文件名或本机路径的数据驱动图，完整
+数字与发布边界见
+`docs/research/phase_i_case_study_portfolio_2026-08-10.md`。该组合同时展示项目的
+科学价值、human-in-the-loop 质量控制和 fail-closed 边界。
+
 ## 7. AI Evidence 与人工共识
 
 运行顺序先生成 110 条 AI suggestions，再连接 26 条人工 consensus。Files、notes、
@@ -215,7 +229,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - Movement-specific timing、features、suggestion adapters。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 317 automated tests 与三个 production entries。
+- 319 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 

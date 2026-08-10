@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.19                          |
+| 版本     | v1.20                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-10                     |
@@ -61,14 +61,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                                          |
-| ------------------------------- | ----------- | --------------------------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                              |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做                   |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛                       |
-| G2C 双轮独立审核                | IN PROGRESS | Round B 界面与 AI v1.0 证据已冻结；等待间隔后由双 reviewer 独立完成               |
-| G3 定量研究与结果冻结           | IN PROGRESS | ASLR 16 个独立窗口证据审计完成；最终冻结仍等待 Round B                            |
-| G4 报告与申请发布包             | IN PROGRESS | Round A 文档与 release-candidate manifest 完成；等待 Round B、demo 与公开素材审计 |
+| Gate                            | 状态        | 当前结论                                                            |
+| ------------------------------- | ----------- | ------------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做     |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛         |
+| G2C 双轮独立审核                | IN PROGRESS | Round B 界面与 AI v1.0 证据已冻结；等待间隔后由双 reviewer 独立完成 |
+| G3 定量研究与结果冻结           | IN PROGRESS | ASLR 16 个独立窗口证据审计完成；最终冻结仍等待 Round B              |
+| G4 报告与申请发布包             | IN PROGRESS | 四案例组合和两张数据图完成；等待 Round B、demo 与公开素材审计       |
 
 ### 3.2 已验证基线
 
@@ -116,9 +116,11 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
 - [x] 完成全部 17 条 ASLR 记录的 label-free side/peak evidence audit；16 个独立窗口中 11 good、2 watch、3 limited，且不调评分阈值。
 - [x] 对 3 个 ASLR limited 窗口完成 subject-aware ROI sensitivity：1 good、2 watch、0 limited；两条原 watch 完成人工视频 QA。
-- [x] 通过 lint、format、317/317 tests 和三页面 production build。
+- [x] 选定 4 个申请案例：Deep Squat 主案例、ASLR 测量可靠性案例、Hurdle 方法案例和 Rotary 边界案例。
+- [x] 从冻结数据生成 2 张无人物申请图，并通过 source fingerprint、SHA-256、XML 和真实浏览器排版检查。
+- [x] 通过 lint、format、319/319 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；12/12 研究 artifacts 通过 SHA-256，10 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；13/13 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -288,7 +290,7 @@ G2 验收证据：
 - [x] 对全部 17 条 ASLR 记录运行不读取分数/文件名/reviewer 结果的 side/peak evidence gate；16 个独立窗口中 11 good、2 watch、3 limited。
 - [x] 对 3 个 ASLR `limited` 窗口做 subject-aware pose re-extraction，并人工复核 2 个 `watch` 窗口；新结果只进入 sensitivity。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
-- [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
+- [x] 生成 7 组可审阅 case-study candidates，并正式选定 4 个作用不同的申请案例。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
 - [ ] 在 G3 结束时冻结主要数字和结论。
 
@@ -313,6 +315,8 @@ G2 验收证据：
 - [x] 完成中文 Phase I 技术报告和 English abstract；full English adaptation 在
       Round B 后按最终数字生成。
 - [ ] 制作系统、数据 lineage、动作分布、study 结果和 profile 对比图。
+- [x] 完成该图表任务中的首批两张：Deep Squat 同分 movement profile 与 ASLR
+      subject-aware measurement reliability；其余系统/lineage/study 图仍待完成。
 - [x] 更新 dataset card、README、methods、limitations、ethics 和 publication
       boundaries。
 - [ ] 完成 3 分钟英文 demo video 和字幕。
@@ -322,7 +326,7 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 317 tests 和三入口 production build。
+      并通过 319 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
 - [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
@@ -456,8 +460,20 @@ Secondary questions：
 | 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human              |
 | 2026-08-10 | Round B 按证据状态分层展示                            | 18 条显示 AI 建议；8 条 Rotary 与 6 条协议不足 Deep Squat 不硬给总分      |
 | 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence    |
+| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界     |
 
 ## 12. 变更记录
+
+### v1.20 - 2026-08-10
+
+- 正式选定 4 个申请案例：Deep Squat 同分异型、ASLR subject-selection reliability、
+  Hurdle camera-view gate 和 Rotary feature-only boundary。
+- 新增 source-of-truth 案例配置与 `npm run release:phase-i:figures`，从冻结的
+  camera-audited features、ASLR sensitivity 和 Round B evidence manifest 生成结果。
+- 生成 2 张不含人物图像、源文件名或本机路径的 application candidate SVG；通过
+  source fingerprint、SHA-256、XML 和真实浏览器排版检查。
+- Phase I release-candidate manifest 扩展到 13/13 artifacts 和 11 份文档；质量门
+  提升到 319/319 tests。
 
 ### v1.19 - 2026-08-10
 
