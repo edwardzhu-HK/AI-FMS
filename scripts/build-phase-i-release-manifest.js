@@ -72,6 +72,7 @@ export function summarizePhaseIEvidence(artifacts) {
   const profiles = byId.get("round_a_movement_profiles")?.payload;
   const aiEvidence = byId.get("round_a_ai_evidence")?.payload;
   const aslrAudit = byId.get("aslr_side_peak_audit")?.payload;
+  const aslrSensitivity = byId.get("aslr_subject_sensitivity")?.payload;
   const roundBEvidence = byId.get("round_b_evidence")?.payload;
   if (
     !canonical ||
@@ -81,6 +82,7 @@ export function summarizePhaseIEvidence(artifacts) {
     !profiles ||
     !aiEvidence ||
     !aslrAudit ||
+    !aslrSensitivity ||
     !roundBEvidence
   ) {
     throw new Error("Phase I release evidence is incomplete");
@@ -119,6 +121,17 @@ export function summarizePhaseIEvidence(artifacts) {
     aslrAuditWatchWindows: aslrAudit.summary.byUniqueWindowStatus.watch ?? 0,
     aslrAuditLimitedWindows:
       aslrAudit.summary.byUniqueWindowStatus.limited ?? 0,
+    aslrSensitivityReextractedWindows:
+      aslrSensitivity.summary.reextractedUniqueWindows,
+    aslrSensitivityNoLongerLimited: aslrSensitivity.summary.noLongerLimited,
+    aslrSensitivityGoodWindows:
+      aslrSensitivity.summary.sensitivityStatus.good ?? 0,
+    aslrSensitivityWatchWindows:
+      aslrSensitivity.summary.sensitivityStatus.watch ?? 0,
+    aslrSensitivityLimitedWindows:
+      aslrSensitivity.summary.sensitivityStatus.limited ?? 0,
+    aslrSensitivityManualWatchReviews:
+      aslrSensitivity.summary.manualWatchReviews,
     roundBEvidenceItems: roundBEvidence.summary.totalItems,
     roundBFeatureReady: roundBEvidence.summary.featureReady,
     roundBAiScoreAvailable: roundBEvidence.summary.aiScoreAvailable,

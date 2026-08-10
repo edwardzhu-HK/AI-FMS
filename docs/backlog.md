@@ -354,9 +354,10 @@ Canonical execution plan:
       ASLR or Hurdle threshold tuning.
 - [x] Audit all 17 ASLR records with a label-free side/peak evidence gate:
       16 unique windows, including 11 good, 2 watch, and 3 limited.
-- [ ] Re-extract the three limited ASLR windows with subject-aware multi-pose or
+- [x] Re-extract the three limited ASLR windows with subject-aware multi-pose or
       ROI selection, manually review the two watch windows, and keep the result
-      as a separate sensitivity layer.
+      as a separate sensitivity layer: 1 good, 2 watch, 0 limited after ROI;
+      no frozen evidence or scoring thresholds changed.
 - [ ] After Round B, prototype robust peak-window ASLR stationary-leg geometry
       and cycle-level Hurdle knee/ankle, trunk, and dowel-orientation features
       on independent videos.
@@ -395,10 +396,10 @@ Canonical execution plan:
       evidence table.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      11/11 research artifacts, checksums 9 documents, and pins reproduction
+      12/12 research artifacts, checksums 10 documents, and pins reproduction
       commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 315-test and three-entry build gate.
+      study/claim boundaries, plus the full 317-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

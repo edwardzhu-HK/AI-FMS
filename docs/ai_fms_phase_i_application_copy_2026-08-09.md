@@ -57,6 +57,9 @@ movement profiles to an ordinal screening score.
 需要更稳健的 active-side/peak detection，Hurdle 需要完整动作轨迹和 dowel evidence。
 随后覆盖全部 17 条 ASLR 记录的无标签审计把 16 个独立窗口分为 11 good、2 watch、
 3 limited，说明 landmark visibility 高并不自动代表跟踪了正确主体或正确侧别。
+Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取，得到 1 good、
+2 watch、0 limited；这支持“部分失败来自错误主体选择或裁剪”的解释，但不回写冻结
+结果，也不构成评分准确率提升。
 
 ## Evidence Snapshot
 
@@ -69,7 +72,8 @@ movement profiles to an ordinal screening score.
 | Jointly scored human agreement |                               26/26 exact |
 | Leakage-controlled AI baseline |              9/16 exact；14/16 within one |
 | ASLR side/peak evidence audit  | 16 windows：11 good / 2 watch / 3 limited |
-| Automated quality gate         |           315 tests + 3 production builds |
+| ASLR subject-aware sensitivity |              3 limited → 1 good / 2 watch |
+| Automated quality gate         |           317 tests + 3 production builds |
 
 ## 我的角色
 

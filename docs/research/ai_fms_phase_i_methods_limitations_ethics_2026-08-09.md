@@ -39,6 +39,10 @@ ASLR 另运行 label-free side/peak evidence gate。它在 segment 内检查连�
 dominant pose side 和左右切换率，不读取人工分数或文件名。17 条记录对应 16 个独立
 窗口：11 `good`、2 `watch`、3 `limited`；`limited` 不进入自动总分比较。
 
+Subject-aware sensitivity 对 3 个原 `limited` 窗口使用受试者 ROI / inference crop，
+在不改变模型和质量门的情况下得到 1 `good`、2 `watch`、0 `limited`。该结果作为独立
+sensitivity 保存，不覆盖冻结基线、feature matrix 或 Round B evidence。
+
 不满足门槛的 rep 保留在 canonical pool，但标记为 feature-limited，不进入需要可靠
 quantitative evidence 的分析。
 
@@ -113,7 +117,8 @@ Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动
 - 2D pose 受视角、遮挡、透视和 landmark jitter 影响。
 - Camera metadata 曾有 45/110 错误，说明旧字段不能未经审计直接使用。
 - ASLR 的 16 个独立窗口中有 3 个暴露 active-side/peak selection、错误主体或遮挡
-  风险；平均 visibility 不能替代 identity/trajectory QA。
+  风险；subject-aware sensitivity 能恢复连续信号，但尚未在独立多人视频上验证。
+  平均 visibility 仍不能替代 identity/trajectory QA。
 - Hurdle 当前缺少全周期膝踝轨迹、动态 trunk 与 dowel orientation。
 - Deep Squat 依赖 floor/board staged metadata，缺失时必须拒绝最终分。
 

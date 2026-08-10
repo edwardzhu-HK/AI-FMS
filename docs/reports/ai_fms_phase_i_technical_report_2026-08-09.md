@@ -195,6 +195,18 @@ subject ROI，因此 visibility 不能证明跟踪了正确主体。`rep_8333424
 重提取，以及 peak-window robust geometry。`limited` 窗口不进入自动总分比较，任何新
 结果只作为独立 sensitivity，不覆盖冻结 baseline。
 
+### Subject-aware sensitivity
+
+随后对 3 个原 `limited` 独立窗口执行受试者 ROI / inference crop 重提取，模型和
+side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`：教学双人窗口的
+连续强信号帧由 3 增至 107；竖屏视频两个窗口分别由 27 增至 102、30 增至 47。
+两个原有 `watch` 窗口也完成视频 QA，并因协议布置或动作转换期侧别切换继续保留
+`watch`。
+
+该 sensitivity 说明部分失败来自 subject selection / crop，而不是视频完全没有动作
+信号。它不覆盖 11 / 2 / 3 冻结基线、不回写 Round B evidence，也不移动 ASLR 分数
+阈值。
+
 ## 10. 工程实现
 
 - React 19 + Vite multi-entry frontend。
@@ -203,7 +215,7 @@ subject ROI，因此 visibility 不能证明跟踪了正确主体。`rep_8333424
 - Movement-specific timing、features、suggestion adapters。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 307 automated tests 与三个 production entries。
+- 317 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
@@ -214,7 +226,8 @@ subject ROI，因此 visibility 不能证明跟踪了正确主体。`rep_8333424
 - 两位 reviewer 不构成 certified expert panel validation。
 - 没有人口统计、consent registry、clinical outcome 或 injury labels。
 - 2D pose 受视角、遮挡和 source-video signature 影响。
-- ASLR 的 16 个独立窗口中有 3 个因侧别切换或强峰值过稀而 pose-limited。
+- ASLR 冻结基线的 16 个独立窗口中有 3 个 pose-limited；subject-aware sensitivity
+  将这 3 个窗口转为 1 good / 2 watch，但尚未在独立多人视频上验证。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
 - Round B 尚未完成，不能报告 AI-assisted change 或 test-retest effect。
 - 未完成 rights/privacy audit 的媒体不能进入公开 release。
@@ -244,8 +257,8 @@ AI-FMS Phase I 已从单一 demo 发展为包含产品、数据、盲审和研�
 下一步：
 
 1. 完成 Round B 和 A/B change metrics；
-2. 对 ASLR `limited/watch` 窗口做 subject-aware re-extraction、人工复核和
-   peak-window robust geometry；
+2. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
+   robust geometry；
 3. 开发 Hurdle cycle-level path 和 dowel features；
 4. 增加独立来源和 rights/consent-clear 数据；
 5. 完成 demo video、公开素材 audit 与 final Phase I release。

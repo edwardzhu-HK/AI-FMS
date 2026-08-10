@@ -9,16 +9,17 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 当前阶段
 
-| 项目               | 当前状态                                     |
-| ------------------ | -------------------------------------------- |
-| 产品工作流         | 7 个 FMS movements 的 annotation workflow    |
-| 核心研究数据       | 4 个动作、28 个唯一视频、110 个 reps         |
-| Pose/feature 数据  | 29/29 pose assets；66/110 feature-ready      |
-| 正式盲审           | 32 reps，四动作各 8；Round A 已完成          |
-| Round A 人工证据   | 26 条双方均可评分且同分的 consensus reps     |
-| AI/人工探索性比较  | 冻结基线 9/16 完全同分；不能表述为模型准确率 |
-| ASLR pose 证据审计 | 16 个独立窗口：11 good、2 watch、3 limited   |
-| 当前等待项         | Round B 与最终结果冻结                       |
+| 项目                 | 当前状态                                     |
+| -------------------- | -------------------------------------------- |
+| 产品工作流           | 7 个 FMS movements 的 annotation workflow    |
+| 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps         |
+| Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready      |
+| 正式盲审             | 32 reps，四动作各 8；Round A 已完成          |
+| Round A 人工证据     | 26 条双方均可评分且同分的 consensus reps     |
+| AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率 |
+| ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited   |
+| ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited |
+| 当前等待项           | Round B 与最终结果冻结                       |
 
 四个 pilot actions：
 
@@ -74,6 +75,7 @@ suggestion；Rotary Stability 目前坚持 feature-only，不生成未经验证�
 - 26-rep Round A consensus overlay、case-study queue 和 AI evidence comparison。
 - 九条 AI/人工差异的 5 帧视觉复核与 protocol sensitivity。
 - 全部 17 条 ASLR 记录的 label-free side/peak evidence audit。
+- 三个 ASLR limited 窗口的 subject-aware ROI sensitivity 与两个 watch 视频 QA。
 
 ## 研究证据边界
 
@@ -90,6 +92,10 @@ kappa 为 1.0000；这反映本轮人工审核一致性，不证明 AI 准确。
 Sensitivity 只补入画面与双 reviewer 共同确认的 Deep Squat floor/board metadata。
 它是数据完整性修正，不是训练或 accuracy improvement。ASLR/Hurdle 阈值没有根据
 Round A 结果调整。
+
+ASLR subject-aware sensitivity 另把三个原 `limited` 窗口重提取为 1 `good`、
+2 `watch`、0 `limited`。该结果说明部分失败来自 subject selection / crop；它不回写
+冻结 evidence，也不属于 AI score accuracy improvement。
 
 ## 界面截图
 
@@ -128,7 +134,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、315 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、317 tests 和三个 Vite entry builds。
 
 ## 研究复现
 
@@ -187,6 +193,8 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   `docs/research/round_a_targeted_ai_difference_audit_2026-08-09.md`
 - ASLR 侧别与峰值证据审计：
   `docs/research/aslr_side_peak_evidence_audit_2026-08-09.md`
+- ASLR subject-aware sensitivity：
+  `docs/research/aslr_subject_aware_sensitivity_2026-08-10.md`
 
 ## Repository Layout
 
@@ -214,7 +222,6 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 ## 下一阶段
 
 1. 完成间隔后的 Round B，并冻结 Round A/B change metrics。
-2. 对 ASLR 的 3 个 `limited` 窗口做 subject-aware pose 重提取，并把 2 个
-   `watch` 窗口纳入人工复核。
-3. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
+2. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
+3. 将 Deep Squat movement-profile 与 ASLR measurement-reliability 案例制作成申请图。
 4. 完成公开素材 rights/privacy audit、demo video 和最终 release manifest。

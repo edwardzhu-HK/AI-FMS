@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "ai_fms_aslr_subject_sensitivity_config_v1",
+  "sensitivityId": "aslr-subject-roi-v1-2026-08-10",
+  "baselineAuditPath": "research/pilot-v1/generated/aslr-side-peak-audit/aslr-side-peak-audit.json",
+  "outputDir": "research/pilot-v1/generated/aslr-subject-sensitivity",
+  "modelPath": "models/pose_landmarker_lite.task",
+  "modelSha256": "59929e1d1ee95287735ddd833b19cf4ac46d29bc7afddbbf6753c459690d574a",
+  "pythonExecutable": ".venv/bin/python",
+  "policy": {
+    "changesFrozenRoundABaseline": false,
+    "changesRoundBEvidence": false,
+    "changesScoringThresholds": false,
+    "sensitivityOnly": true,
+    "sourceFilenameUsedForEvidence": false,
+    "historicalScoreUsed": false,
+    "reviewerScoreUsed": false
+  },
+  "extractions": [
+    {
+      "extractionId": "aslr_instruction_subject_roi",
+      "videoId": "vid_ba915a5240bc",
+      "videoPath": "Eval_Videos/Sample videos/5-ASLR/FMS Active Straight Leg Raise.mp4",
+      "sourceVideoSha256": "49c2cc061b938cc6705732beeb67cbf4cac077881813d6c7fea6b6a690de4ef0",
+      "outputPath": "research/pilot-v1/generated/aslr-subject-sensitivity/pose/aslr-instruction-subject-roi.pose.json",
+      "startSecond": 63.8,
+      "endSecond": 75.2,
+      "targetFps": 12,
+      "numPoses": 2,
+      "primaryPoseSelection": "roi",
+      "subjectRoi": "0.02,0.48,0.98,0.98",
+      "inferenceRoi": "0.02,0.35,0.98,0.98",
+      "reason": "Separate the horizontal test subject from the standing instructor."
+    },
+    {
+      "extractionId": "aslr_home_subject_crop",
+      "videoId": "vid_82cbc2bf0503",
+      "videoPath": "Eval_Videos/Sample videos/5-ASLR/4 reps score 2.mp4",
+      "sourceVideoSha256": "50a5364321d456a6f7ca752837da3fbbf2bf270d427414d9890736c8533c5602",
+      "outputPath": "research/pilot-v1/generated/aslr-subject-sensitivity/pose/aslr-home-subject-crop.pose.json",
+      "startSecond": 16.3,
+      "endSecond": 33,
+      "targetFps": 12,
+      "numPoses": 1,
+      "primaryPoseSelection": "first",
+      "subjectRoi": null,
+      "inferenceRoi": "0.05,0.25,0.93,0.74",
+      "reason": "Crop out most of the standing helper while retaining the horizontal test subject."
+    }
+  ],
+  "reextractedWindows": [
+    {
+      "repetitionId": "rep_6830e0689f85",
+      "extractionId": "aslr_instruction_subject_roi",
+      "startSecond": 63.8,
+      "endSecond": 75.2,
+      "segmentSide": "left"
+    },
+    {
+      "repetitionId": "rep_d7a697f7dad0",
+      "extractionId": "aslr_home_subject_crop",
+      "startSecond": 16.3,
+      "endSecond": 25.8,
+      "segmentSide": "left"
+    },
+    {
+      "repetitionId": "rep_63fb86ee032d",
+      "extractionId": "aslr_home_subject_crop",
+      "startSecond": 27,
+      "endSecond": 33,
+      "segmentSide": "left"
+    }
+  ],
+  "manualWatchReviews": [
+    {
+      "repetitionId": "rep_8333424d5d28",
+      "disposition": "retain_watch_protocol_limited",
+      "visualFinding": "A single subject and a clear right-leg peak are visible, but the measuring rod is positioned on the opposite side and both blind reviewers recorded low confidence.",
+      "eligibleUse": "Peak and side evidence description only; not a scoring-threshold anchor."
+    },
+    {
+      "repetitionId": "rep_fba72f13a0cb",
+      "disposition": "retain_watch_peak_usable",
+      "visualFinding": "A single subject and a clear left-leg peak are visible; side switches occur around the transition rather than from subject identity confusion.",
+      "eligibleUse": "Peak-window description with the existing watch flag; not a scoring-threshold anchor."
+    }
+  ]
+}

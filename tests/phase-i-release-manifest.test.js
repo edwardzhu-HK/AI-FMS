@@ -59,6 +59,14 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
         byUniqueWindowStatus: { good: 11, watch: 2, limited: 3 },
       },
     }),
+    artifact("aslr_subject_sensitivity", {
+      summary: {
+        reextractedUniqueWindows: 3,
+        noLongerLimited: 3,
+        sensitivityStatus: { good: 1, watch: 2 },
+        manualWatchReviews: 2,
+      },
+    }),
     artifact("round_b_evidence", {
       summary: {
         totalItems: 32,
@@ -98,6 +106,12 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     aslrAuditGoodWindows: 11,
     aslrAuditWatchWindows: 2,
     aslrAuditLimitedWindows: 3,
+    aslrSensitivityReextractedWindows: 3,
+    aslrSensitivityNoLongerLimited: 3,
+    aslrSensitivityGoodWindows: 1,
+    aslrSensitivityWatchWindows: 2,
+    aslrSensitivityLimitedWindows: 0,
+    aslrSensitivityManualWatchReviews: 2,
     roundBEvidenceItems: 32,
     roundBFeatureReady: 32,
     roundBAiScoreAvailable: 18,

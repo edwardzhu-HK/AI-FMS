@@ -3,6 +3,11 @@
 日期：2026-08-09
 状态：Phase I G3 方法审计完成；不修改冻结 Round A baseline
 
+2026-08-10 follow-up：3 个 `limited` 窗口已完成 subject-aware ROI sensitivity，
+结果为 1 `good`、2 `watch`、0 `limited`；两个原有 `watch` 也已完成人工视频 QA。
+该 follow-up 是独立 sensitivity，不覆盖本报告冻结的 11 / 2 / 3 基线。详见
+`docs/research/aslr_subject_aware_sensitivity_2026-08-10.md`。
+
 ## 结论
 
 ASLR 当前最需要解决的不是“把评分阈值调得更接近人工”，而是先确认 pose 是否在正确的
@@ -60,7 +65,8 @@ ASLR `4 reps score 2` 来源视频的前两个片段也出现较高侧别切换�
 
 1. 不修改冻结 AI baseline，不依据 Round A 结果移动 ASLR thresholds。
 2. `limited` 窗口不进入后续自动总分比较；`watch` 窗口保留并要求人工复核。
-3. 对多人教学视频优先用 multi-pose、subject-aware selection 或显式 ROI 重新提取。
+3. [x] 对多人教学视频和遮挡窗口使用 multi-pose、subject-aware selection 或显式
+       ROI 建立独立 sensitivity。
 4. 将 stationary-leg geometry 从单一峰值帧升级为 peak-window robust aggregation。
 5. 新算法结果作为独立 sensitivity，不能覆盖 Round A 原始 feature row。
 
