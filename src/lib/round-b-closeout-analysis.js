@@ -20,15 +20,6 @@ function mean(values) {
     : null;
 }
 
-function countBy(rows, key) {
-  return Object.fromEntries(
-    [...new Set(rows.map((row) => row[key]))]
-      .filter((value) => value != null)
-      .sort()
-      .map((value) => [value, rows.filter((row) => row[key] === value).length]),
-  );
-}
-
 function byReviewer(exports) {
   return new Map(exports.map((payload) => [payload.reviewerId, payload]));
 }
@@ -59,9 +50,7 @@ function buildReviewerChanges(roundAExport, roundBExport) {
       scoreChanged: bothScored ? before.score !== after.score : null,
       confidenceDelta,
       reviewDurationDeltaMs: after.reviewDurationMs - before.reviewDurationMs,
-      evidenceUsefulness: after.evidenceReview?.usefulness ?? null,
-      evidenceStatus: after.evidenceReview?.evidenceStatus ?? null,
-      aiSuggestionShown: after.evidenceReview?.aiSuggestionShown ?? false,
+      blindReview: after.blindReview?.reviewMode === "blind",
     };
   });
   const scoreComparableRows = rows.filter((row) => row.scoreComparable);
@@ -82,10 +71,7 @@ function buildReviewerChanges(roundAExport, roundBExport) {
       meanReviewDurationDeltaMs: mean(
         rows.map((row) => row.reviewDurationDeltaMs).filter(Number.isFinite),
       ),
-      evidenceUsefulness: countBy(rows, "evidenceUsefulness"),
-      evidenceStatus: countBy(rows, "evidenceStatus"),
-      aiSuggestionShownCount: rows.filter((row) => row.aiSuggestionShown)
-        .length,
+      blindReviewCount: rows.filter((row) => row.blindReview).length,
     },
     rows,
   };
@@ -198,9 +184,9 @@ export function summarizeRoundBCloseout({
     roundBExports[1],
   );
   return {
-    schemaVersion: "ai_fms_round_b_closeout_analysis_v1",
+    schemaVersion: "ai_fms_round_b_closeout_analysis_v2",
     pilotId: roundAAgreement.pilotId,
-    evidenceFreeze: {
+    aiBenchmarkFreeze: {
       freezeId: evidence.freezeId,
       manifestFingerprint: evidence.manifestFingerprint,
       ruleFingerprint: evidence.modelFreeze.ruleFingerprint,
@@ -217,7 +203,8 @@ export function summarizeRoundBCloseout({
       roundAConsensus: compareAiToConsensus(evidence, roundAAgreement),
       roundBConsensus: compareAiToConsensus(evidence, roundBAgreement),
       interpretation: "exploratory_concordance_not_clinical_validation",
-      roundBAssistedByDisplayedEvidence: true,
+      roundBReviewersBlindedToAi: true,
+      roundBAssistedByDisplayedEvidence: false,
     },
   };
 }

@@ -2,7 +2,7 @@
 
 日期：2026-08-10
 
-状态：Phase I G3 sensitivity 完成；不修改冻结 Round A / Round B evidence
+状态：Phase I G3 sensitivity 完成；不修改冻结 Round A / Round B 后置 AI benchmark
 
 ## 研究问题
 
@@ -59,7 +59,7 @@ AI 看错人、看错时间窗或受协议布置影响的情况。它是 measure
 ## 决策
 
 1. 原始 11 `good` / 2 `watch` / 3 `limited` 基线保持冻结。
-2. Subject-aware 结果只作为独立 sensitivity；不回写 Round B evidence manifest。
+2. Subject-aware 结果只作为独立 sensitivity；不回写 Round B 后置 AI benchmark manifest。
 3. 三个窗口均不再是 `limited`，暂不需要为这类问题定向采集新视频。
 4. 未来正式纳入 pipeline 前，应在独立多人/遮挡视频上验证 ROI 策略。
 5. ASLR 评分阈值继续保持不变。

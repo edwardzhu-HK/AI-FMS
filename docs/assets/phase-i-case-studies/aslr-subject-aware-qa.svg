@@ -45,5 +45,5 @@
   <text x="866" y="593" font-size="12" fill="#526074">dominance 0.957 · switch 0.043</text>
   <rect x="0" y="656" width="1200" height="64" fill="#f7f2e9"/>
   <text x="42" y="684" font-size="17" font-weight="700" fill="#172033">Human-in-the-loop also means checking subject identity, framing, and protocol quality.</text>
-  <text x="42" y="707" font-size="12" fill="#526074">Sensitivity only: frozen Round A / Round B evidence and ASLR scoring thresholds were not changed.</text>
+  <text x="42" y="707" font-size="12" fill="#526074">Sensitivity only: frozen Round A and post-review AI benchmark rules were not changed.</text>
 </svg>

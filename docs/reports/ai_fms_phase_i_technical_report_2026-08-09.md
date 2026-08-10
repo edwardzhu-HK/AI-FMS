@@ -37,15 +37,16 @@ subject or side tracking; target-subject extraction recovered non-limited
 continuous evidence in three previously limited windows without changing the
 frozen score benchmark.
 
-Round B will test a different question: whether showing frozen pose-derived
-evidence changes reviewer confidence, time, usefulness ratings, or final
-judgment. AI-human agreement remains a parallel benchmark with coverage and
-abstention reported separately. A later improved internal benchmark must remain
-distinct from held-out confirmation if the same 32 repetitions informed system
-development. The contribution is therefore neither automated diagnosis nor
-reviewer replacement. It is an end-to-end, auditable system that helps people
-review FMS video and preserves quantitative movement evidence alongside human
-judgment and explicit uncertainty.
+Round B is a second blind review after a planned interval. Reviewers see neither
+AI scores nor pose-derived evidence, allowing human test-retest stability to be
+measured without AI exposure. The frozen AI package is loaded only after both
+signed Round B exports, and AI-human agreement is reported as a parallel
+benchmark with coverage and abstention separated. A later improved internal
+benchmark must remain distinct from held-out confirmation if the same 32
+repetitions informed system development. The contribution is therefore neither
+automated diagnosis nor reviewer replacement. It is an end-to-end, auditable
+system that helps people review FMS video and preserves quantitative movement
+evidence alongside human judgment and explicit uncertainty.
 
 ## 摘要
 
@@ -65,8 +66,9 @@ Round A 显示，两位 reviewer 在共同可评分的 26 条上全部同分；�
 workflow 的一致性，不是 AI 准确率。冻结 AI 在 16 条可比较共识记录中 9 条完全同分、
 14 条相差不超过 1 分。Deep Squat 案例说明同分动作仍可保留不同的定量 movement
 profiles；ASLR 审计说明系统还必须识别错误主体、侧别切换和 pose evidence 不可靠的
-情况。Round B 将进一步检验 AI evidence 是否影响 confidence、review time、usefulness
-和评分结果。最终目标不是让 AI 取代 reviewer，而是形成一个更可回放、可解释、可复核
+情况。Round B 将在不显示 AI 或 pose evidence 的条件下检验人工评分稳定性、
+confidence 和 review time 变化；冻结 AI 将在人评完成后单独比较。最终目标不是让 AI
+取代 reviewer，而是形成一个更可回放、可解释、可复核
 和可追溯的 FMS 审核流程。
 
 ## 1. 背景与动机
@@ -235,26 +237,23 @@ Round A 结果：
 Kappa 只使用双方都能评分的 26 条。Unscorable reason agreement 较弱，说明 protocol
 taxonomy 仍需改进；高 score agreement 不能外推为临床可靠性。
 
-### Round B：AI evidence-assisted review
+### Round B：第二次独立盲评
 
 Round B 与 Round A 使用隔离 namespace、重新随机的队列和独立 append-only events。
-两位 reviewer 仍各自评分，看不到历史答案、另一位 reviewer 的结果或旧 AI 标签；区别是
-可以查看冻结的 pose-derived quantitative evidence、质量提示和通过 gate 的 AI
-suggestion。
+两位 reviewer 各自评分，看不到历史答案、另一位 reviewer 结果、AI RAW SCORE、
+AI confidence、pose-derived 角度/距离/轨迹、质量提示或原始文件名。正式导出中
+`evidenceReview` 必须为 `null`，并明确标记 current pose evidence 和 current AI
+suggestion 均未展示。
 
-当前 Round B 界面、32-rep reviewer-safe evidence manifest、AI v1.0 rule fingerprint
-和 source checksums 已经冻结，并完成桌面/手机界面检查：
+AI v1.0 rule fingerprint、source checksums 和 32-rep benchmark package 仍在人评前冻结，
+但 Study Mode 不会请求该包。两位 reviewer 完成签名导出后，分析脚本才读取：
 
-- 32/32 都有可追溯 quantitative features；
-- 18/32 通过 evidence gate，可显示 AI RAW SCORE suggestion；
-- 8/32 Rotary Stability 保持 feature-only；
-- 6/32 Deep Squat 因 floor/board protocol metadata 不足，不硬给总分；
-- 每条终态额外记录 evidence exposure、usefulness、confidence 和 foreground review
-  time。
+- 18/32 冻结 AI v1.0 RAW SCORE；
+- 8/32 Rotary Stability v1.0 feature-only 记录；
+- 6/32 缺少 floor/board protocol metadata 的 Deep Squat 记录。
 
-Round B 尚未由两位 reviewer 完成，因此目前不能声称 AI evidence 已提高准确性、信心或
-效率。完成后将比较逐 reviewer score change、confidence delta、review-time delta、
-evidence usefulness，以及 Round A/B 人际一致性。
+Round B 尚未完成。完成后将比较逐 reviewer score change、confidence delta、
+review-time delta、Round A/B 人际一致性，以及冻结 AI 对两轮人工共识的探索性匹配。
 
 ## 6. Quantitative Movement Profiles
 
@@ -301,12 +300,12 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 “AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 将其拆成
 四个评测层次：
 
-| 评测层次                 | 比较内容                                  | 回答的问题                           | 当前状态                          |
-| ------------------------ | ----------------------------------------- | ------------------------------------ | --------------------------------- |
-| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定               | Round A 完成；Round B pending     |
-| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致         | Round A 基线完成；Round B 待生成  |
-| Assisted review effect   | 每位 reviewer 的 Round B vs Round A       | AI evidence 是否影响判断、信心和时间 | 待 Round B                        |
-| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现         | Rotary 组件完成；全 32 待 Round B |
+| 评测层次                 | 比较内容                                  | 回答的问题                   | 当前状态                          |
+| ------------------------ | ----------------------------------------- | ---------------------------- | --------------------------------- |
+| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定       | Round A 完成；Round B pending     |
+| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致 | Round A 基线完成；Round B 待生成  |
+| Human test-retest        | 每位 reviewer 的 Round B vs Round A       | 盲评分数、信心和时间是否稳定 | 待 Round B                        |
+| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现 | Rotary 组件完成；全 32 待 Round B |
 
 冻结基线的运行顺序是先对 110 条生成 leakage-controlled AI suggestions，再连接 26 条
 人工 consensus。Files、notes、历史 labels、legacy AI 和 reviewer comments 不进入
@@ -414,7 +413,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 `watch`。
 
 该 sensitivity 说明部分失败来自 subject selection / crop，而不是视频完全没有动作
-信号。它不覆盖 11 / 2 / 3 冻结基线、不回写 Round B evidence，也不移动 ASLR 分数
+信号。它不覆盖 11 / 2 / 3 冻结基线、不回写 post-review AI benchmark，也不移动 ASLR 分数
 阈值。
 
 ## 10. 工程实现
@@ -429,7 +428,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
   experimental cycle-rule adapter，frozen Round B 仍走 feature-only gate。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 327 automated tests 与三个 production entries。
+- 328 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
@@ -445,7 +444,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - ASLR 冻结基线的 16 个独立窗口中有 3 个 pose-limited；subject-aware sensitivity
   将这 3 个窗口转为 1 good / 2 watch，但尚未在独立多人视频上验证。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
-- Round B 尚未完成，不能报告 AI-assisted change 或 test-retest effect。
+- Round B 尚未完成，不能报告 test-retest 结果或 AI-vs-Round B concordance。
 - 未完成 rights/privacy audit 的媒体不能进入公开 release。
 
 ## 12. 伦理与合理主张

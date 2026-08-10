@@ -34,8 +34,8 @@ Shoulder Mobility 与 clearing / pain report 关系更强，而且评分逻辑�
 Trunk Stability Push-Up 已有 first-pass pose-based AI suggestion，并已接入
 score-3 sample 的本地 pose extraction / demo preset；但还需要更多样本复核和
 Ronnie threshold 校准。Rotary Stability 的默认产品状态仍为 features-only；独立
-v1.1 experimental adapter 已加入完整周期 1/2/3 suggestion 与 abstain，但不会显示在
-frozen Round B。
+v1.1 experimental adapter 已加入完整周期 1/2/3 suggestion 与 abstain，但不会进入
+blind Round B。
 
 ## 七动作 Maturity Table
 
@@ -177,7 +177,7 @@ Ronnie 后续适合修改：
 1. 已增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
 2. 已增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
 3. 继续校准 Shoulder Mobility suggestion thresholds。
-4. Rotary Stability v1.1 已完成独立 cycle-rule first-pass，不进入 frozen Round B。
+4. Rotary Stability v1.1 已完成独立 cycle-rule first-pass，不进入 blind Round B。
    下一步不是继续调当前 8 条，而是补采手脚无遮挡、board edge 可见的新来源并冻结后做
    held-out confirmation。旧 probe 仍记录在
    `docs/rotary_feature_probe_report_2026-05-31.md`。

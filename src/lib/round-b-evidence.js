@@ -219,8 +219,8 @@ export function buildRoundBEvidenceManifest({
             }
           : null,
       exposure: {
-        poseFeaturesShown: true,
-        aiRawScoreShown: status === "ai_score_available",
+        poseFeaturesShown: false,
+        aiRawScoreShown: false,
       },
     };
     return { ...item, itemFingerprint: fingerprint(JSON.stringify(item)) };
@@ -241,14 +241,15 @@ export function buildRoundBEvidenceManifest({
     sourceArtifacts,
     modelFreeze: {
       ruleFingerprint: aiEvidence.ruleFingerprint,
-      interpretation: "reviewer_aid_not_autonomous_validation",
+      interpretation: "post_round_b_ai_human_benchmark",
       thresholdsChangedAfterRoundA: false,
       rotaryStabilityPolicy: "features_only_no_ai_raw_score",
       independentHeldOutValidation: false,
     },
     exposurePolicy: {
-      poseDerivedFeaturesShown: true,
-      currentAiSuggestionShownWhenAvailable: true,
+      visibleToReviewers: false,
+      poseDerivedFeaturesShown: false,
+      currentAiSuggestionShownWhenAvailable: false,
       historicalHumanScoresHidden: true,
       otherReviewerResultsHidden: true,
       sourceFileNamesHidden: true,
@@ -330,6 +331,22 @@ export function validateRoundBEvidenceManifest(
     ) {
       errors.push(`${prefix} exposes a Rotary Stability AI RAW SCORE.`);
     }
+    if (
+      item?.exposure?.poseFeaturesShown !== false ||
+      item?.exposure?.aiRawScoreShown !== false
+    ) {
+      errors.push(`${prefix} is visible to a blind Round B reviewer.`);
+    }
+  }
+
+  if (
+    evidence?.exposurePolicy?.visibleToReviewers !== false ||
+    evidence?.exposurePolicy?.poseDerivedFeaturesShown !== false ||
+    evidence?.exposurePolicy?.currentAiSuggestionShownWhenAvailable !== false
+  ) {
+    errors.push(
+      "exposurePolicy must keep the AI benchmark hidden from reviewers.",
+    );
   }
 
   if (pilot) {

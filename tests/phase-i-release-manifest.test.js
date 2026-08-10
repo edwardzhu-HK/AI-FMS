@@ -67,7 +67,7 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
         manualWatchReviews: 2,
       },
     }),
-    artifact("round_b_evidence", {
+    artifact("round_b_ai_benchmark", {
       summary: {
         totalItems: 32,
         featureReady: 32,
@@ -125,12 +125,12 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     aslrSensitivityWatchWindows: 2,
     aslrSensitivityLimitedWindows: 0,
     aslrSensitivityManualWatchReviews: 2,
-    roundBEvidenceItems: 32,
-    roundBFeatureReady: 32,
-    roundBAiScoreAvailable: 18,
-    roundBRotaryFeaturesOnly: 8,
-    roundBProtocolMetadataRequired: 6,
-    roundBAiRuleFingerprint: "rule-fingerprint",
+    roundBAiBenchmarkItems: 32,
+    roundBAiBenchmarkFeatureReady: 32,
+    roundBAiBenchmarkScoreAvailable: 18,
+    roundBAiBenchmarkRotaryFeatureOnly: 8,
+    roundBAiBenchmarkProtocolMetadataRequired: 6,
+    roundBAiBenchmarkRuleFingerprint: "rule-fingerprint",
     rotaryV11FormalItems: 8,
     rotaryV11ScoredItems: 4,
     rotaryV11AbstainedItems: 4,

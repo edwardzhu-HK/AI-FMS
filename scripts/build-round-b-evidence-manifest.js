@@ -89,7 +89,7 @@ function buildReport(manifest) {
           .join("; ")} |`,
     )
     .join("\n");
-  return `# Round B Reviewer-safe Evidence Freeze
+  return `# Round B Post-review AI Benchmark Freeze
 
 - Freeze: \`${manifest.freezeId}\`
 - Manifest fingerprint: \`${manifest.manifestFingerprint}\`
@@ -102,8 +102,10 @@ function buildReport(manifest) {
 | --- | ---: | ---: | ---: | --- |
 ${actions}
 
+This package is never loaded by Study Mode and remains hidden from both Round B
+reviewers. It is used only after signed blind-review exports are complete.
 Rotary Stability remains feature-only. Deep Squat records without verified
-attempt-condition metadata show quantitative features but no AI RAW SCORE.
+attempt-condition metadata retain quantitative features but no AI RAW SCORE.
 The package contains no historical human score, reviewer result, source file
 name, or reviewer note.
 `;

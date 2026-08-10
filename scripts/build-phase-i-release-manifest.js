@@ -73,7 +73,7 @@ export function summarizePhaseIEvidence(artifacts) {
   const aiEvidence = byId.get("round_a_ai_evidence")?.payload;
   const aslrAudit = byId.get("aslr_side_peak_audit")?.payload;
   const aslrSensitivity = byId.get("aslr_subject_sensitivity")?.payload;
-  const roundBEvidence = byId.get("round_b_evidence")?.payload;
+  const roundBAiBenchmark = byId.get("round_b_ai_benchmark")?.payload;
   const rotaryV11 = byId.get("rotary_v1_1_internal")?.payload;
   const casePortfolio = byId.get("phase_i_case_study_portfolio")?.payload;
   if (
@@ -85,7 +85,7 @@ export function summarizePhaseIEvidence(artifacts) {
     !aiEvidence ||
     !aslrAudit ||
     !aslrSensitivity ||
-    !roundBEvidence ||
+    !roundBAiBenchmark ||
     !rotaryV11 ||
     !casePortfolio
   ) {
@@ -136,15 +136,17 @@ export function summarizePhaseIEvidence(artifacts) {
       aslrSensitivity.summary.sensitivityStatus.limited ?? 0,
     aslrSensitivityManualWatchReviews:
       aslrSensitivity.summary.manualWatchReviews,
-    roundBEvidenceItems: roundBEvidence.summary.totalItems,
-    roundBFeatureReady: roundBEvidence.summary.featureReady,
-    roundBAiScoreAvailable: roundBEvidence.summary.aiScoreAvailable,
-    roundBRotaryFeaturesOnly:
-      roundBEvidence.summary.byAction.rotary_stability.byEvidenceStatus
+    roundBAiBenchmarkItems: roundBAiBenchmark.summary.totalItems,
+    roundBAiBenchmarkFeatureReady: roundBAiBenchmark.summary.featureReady,
+    roundBAiBenchmarkScoreAvailable: roundBAiBenchmark.summary.aiScoreAvailable,
+    roundBAiBenchmarkRotaryFeatureOnly:
+      roundBAiBenchmark.summary.byAction.rotary_stability.byEvidenceStatus
         .features_only ?? 0,
-    roundBProtocolMetadataRequired:
-      roundBEvidence.summary.byEvidenceStatus.protocol_metadata_required ?? 0,
-    roundBAiRuleFingerprint: roundBEvidence.modelFreeze.ruleFingerprint,
+    roundBAiBenchmarkProtocolMetadataRequired:
+      roundBAiBenchmark.summary.byEvidenceStatus.protocol_metadata_required ??
+      0,
+    roundBAiBenchmarkRuleFingerprint:
+      roundBAiBenchmark.modelFreeze.ruleFingerprint,
     rotaryV11FormalItems: rotaryV11.metrics.formalItems,
     rotaryV11ScoredItems: rotaryV11.metrics.scoredItems,
     rotaryV11AbstainedItems: rotaryV11.metrics.abstainedItems,

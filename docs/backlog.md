@@ -302,16 +302,16 @@ Canonical execution plan:
       unscorable-reason taxonomy disagreements.
 - [x] Report Round A outcome agreement, raw score agreement, linear/quadratic
       weighted Cohen's kappa, and the 0-3 confusion matrix from signed exports.
-- [x] Generate a checksum-protected, reviewer-safe Round B evidence manifest
+- [x] Generate a checksum-protected, private post-review AI benchmark manifest
       for all 32 formal reps before either second-round review begins.
 - [x] Freeze AI v1.0 coverage at 18 score-bearing suggestions, 8 Rotary
       feature-only records, and 6 protocol-limited Deep Squat records.
-- [x] Open the isolated Round B queue with pose features, quality context,
-      evidence status, and AI RAW SCORE only where the frozen gate permits it.
-- [x] Record evidence manifest/item fingerprints, AI-score exposure, and
-      reviewer-rated usefulness in each resolved Round B event.
-- [x] Normalize Round B evidence status, exposure, usefulness, and fingerprints
-      into a queryable SQLite child table while preserving raw events.
+- [x] Open an isolated, re-randomized Round B queue as a second blind review;
+      show no AI score, pose-derived feature, prior-round result, or other-reviewer result.
+- [x] Reject `evidenceReview`, current pose evidence, and current AI suggestion
+      exposure in every formal Round B event/export.
+- [x] Ingest blind Round B exports without reviewer evidence child rows while
+      preserving auditable blind flags in raw events.
 - [x] Publish a Chinese Round B reviewer protocol and browser-check the desktop
       and mobile scoring workflow.
 - [ ] Complete Ronnie Round B after the planned 48-72 hour interval.
@@ -322,16 +322,16 @@ Canonical execution plan:
 
 - [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
 - [x] Freeze the pre-Round-B AI v1.0 rule fingerprint, source checksums,
-      reviewer exposure policy, and 32-item coverage contract.
+      zero-reviewer-exposure policy, and 32-item coverage contract.
 - [ ] After both Round B exports close, compare frozen AI v1.0 against Round A
       consensus and Round B consensus, with coverage reported separately.
 - [x] Add a checksum-verified Round B closeout command for reviewer agreement,
-      per-reviewer A/B change, evidence usefulness, and frozen AI comparisons.
+      per-reviewer A/B change, blind-exposure verification, and frozen AI comparisons.
 - [x] Implement an isolated Rotary Stability v1.1 experimental adapter with
       pose-derived full-cycle phases, updated FMS score 1/2/3 rules, human
       pain/clearing gates, and explicit abstention.
-- [x] Pin the frozen Round B AI v1.0 SHA-256 and prove that Rotary v1.1 cannot
-      enter the default Workbench or Round B evidence path.
+- [x] Pin the pre-review AI v1.0 package SHA-256 and prove that Rotary v1.1
+      cannot enter the default Workbench or blind Round B path.
 - [x] Generate a label-free-first Rotary v1.1 internal benchmark: 4/8 formal
       reps scored, 4/4 exact among comparable reps, 4 abstentions.
 - [x] Run a MediaPipe Full 15 fps sensitivity on the low-coverage Rotary source;
@@ -418,7 +418,7 @@ Canonical execution plan:
       14/14 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 327-test and three-entry build gate.
+      study/claim boundaries, plus the full 328-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

@@ -2,7 +2,7 @@
   "schemaVersion": "ai_fms_round_b_ai_v1_freeze_spec_v1",
   "freezeId": "ai-fms-ai-v1.0-round-b-2026-08-10",
   "frozenAt": "2026-08-10T00:00:00.000Z",
-  "status": "frozen_for_round_b",
+  "status": "frozen_for_post_round_b_benchmark",
   "sources": {
     "formalStudy": {
       "path": "research/pilot-v1/generated/formal-study-manifest.json",
@@ -34,9 +34,10 @@
     "thresholdsChangedAfterRoundA": false,
     "historicalHumanScoresAvailableToBuilder": false,
     "otherReviewerResultsAvailableToBuilder": false,
+    "reviewerExposure": "none_blind_review",
     "rotaryStability": "features_only_no_ai_raw_score",
     "deepSquatMissingAttemptCondition": "features_only_no_ai_raw_score",
-    "interpretation": "evidence_assisted_review_and_exploratory_concordance"
+    "interpretation": "blind_retest_then_post_round_b_ai_concordance"
   },
   "postRoundBComparison": {
     "primaryHumanReference": "round_a_consensus",

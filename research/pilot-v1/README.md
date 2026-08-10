@@ -65,18 +65,22 @@ unscorable records require a protocol reason and are excluded from score
 analysis.
 
 Formal Round B uses `/study.html?round=b` after the planned 48-72 hour interval.
-Build its frozen reviewer-safe evidence package before starting:
+It is a second blind review with a separately randomized queue. Study Mode
+shows video and the human scoring form only; it does not request or display AI
+scores, pose-derived features, Round A answers, or the other reviewer result.
+
+Freeze the private post-review AI benchmark before starting:
 
 ```bash
 npm run study:evidence:round-b
 ```
 
-Round B shows traceable pose-derived features and quality context for all 32
-formal reps. Frozen AI v1.0 shows a RAW SCORE suggestion for 18 reps; eight
-Rotary Stability reps remain feature-only and six protocol-limited Deep Squat
-reps show features without a total score. Each resolved event also records the
-evidence manifest/item fingerprints and reviewer-rated usefulness. Instructions
-are in `docs/research/round_b_reviewer_protocol_2026-08-10.md`.
+The package contains quantitative features for all 32 formal reps and a frozen
+AI v1.0 RAW SCORE for 18. It remains hidden from both reviewers and is loaded
+only after the signed Round B exports are complete. Eight Rotary Stability reps
+remain feature-only and six protocol-limited Deep Squat reps have no total
+score. Instructions are in
+`docs/research/round_b_reviewer_protocol_2026-08-10.md`.
 
 Use the paired JSON and SHA-256 downloads for handoff. Validate a complete
 formal export with:
@@ -99,10 +103,9 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 
 The default database is `Ingested-data/ai-fms-study-reviews.sqlite`. Import is
 idempotent by export SHA-256 and rejects reused event IDs with different
-content. Round B evidence status, exposure, usefulness, and fingerprints are
-also normalized into `study_review_evidence_reviews` for direct queries while
-the complete event remains in `raw_event_json`. The paired JSON/SHA-256 remains
-the frozen handoff artifact.
+content. Formal Round B events must have no `evidenceReview` row and must record
+blind exposure flags. The complete event remains in `raw_event_json`; the
+paired JSON/SHA-256 remains the frozen handoff artifact.
 
 After both reviewer exports are complete, generate the private Round A
 agreement package from the signed source files:
@@ -129,10 +132,11 @@ npm run study:closeout:round-b -- \
   /absolute/path/to/round-b-reviewer-2.json
 ```
 
-The command verifies each JSON/SHA-256 pair and the frozen evidence package,
-then generates Round B agreement, per-reviewer A/B changes, evidence usefulness,
-and AI v1.0 comparisons against Round A and Round B consensus. Round B
-AI concordance remains evidence-assisted rather than independent validation.
+The command verifies each JSON/SHA-256 pair, verifies that Round B remained
+blind, and then loads the separately frozen AI package. It generates Round B
+agreement, per-reviewer A/B changes, and AI v1.0 comparisons against Round A
+and Round B consensus. AI-human concordance is exploratory rather than an
+independent held-out validation.
 
 Generate the Round A quantitative movement-profile package from the verified
 agreement output and feature matrix:

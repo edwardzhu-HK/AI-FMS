@@ -41,7 +41,7 @@ dominant pose side 和左右切换率，不读取人工分数或文件名。17 �
 
 Subject-aware sensitivity 对 3 个原 `limited` 窗口使用受试者 ROI / inference crop，
 在不改变模型和质量门的情况下得到 1 `good`、2 `watch`、0 `limited`。该结果作为独立
-sensitivity 保存，不覆盖冻结基线、feature matrix 或 Round B evidence。
+sensitivity 保存，不覆盖冻结基线、feature matrix 或 post-review AI benchmark。
 
 不满足门槛的 rep 保留在 canonical pool，但标记为 feature-limited，不进入需要可靠
 quantitative evidence 的分析。
@@ -59,9 +59,10 @@ Reviewer manifest 只暴露匿名 media alias、action、timing 和必要 protoc
 
 ## 5. Review Protocol
 
-Round A 为 blind human review；Round B 在至少 48-72 小时间隔后提供隔离的 AI/feature
-evidence，用于观察 score、confidence 和 review-time change。两轮使用不同 storage key
-和显式 `studyRound`，禁止事件覆盖。
+Round A 和 Round B 均为 blind human review。Round B 在至少 48-72 小时间隔后使用
+重新随机的队列，用于观察 score、confidence 和 review-time 的 test-retest
+change。两轮使用不同 storage key 和显式 `studyRound`，禁止事件覆盖。
+Round B 不显示 AI score、AI confidence、pose-derived features 或任何历史人工结果。
 
 Review event 为 append-only：修改产生新 event，并通过 `supersedesEventId` 连接。
 Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动作或协议条件
@@ -149,12 +150,12 @@ Round B 前允许修复：数据读取 bug、checksum/schema validation、明确
 Round B 前不允许：依据 Round A 分数移动 ASLR/Hurdle thresholds、删除不利样本、改变
 formal rep IDs 或把 post-hoc sensitivity 替代冻结 baseline。
 
-当前 Round B evidence package 已在人评前冻结：全部 32 条显示定量特征，18 条通过
-AI v1.0 总分 gate，8 条 Rotary 保持 feature-only，6 条 Deep Squat 因缺少完整
-attempt-condition metadata 不显示总分。每个事件必须记录 evidence/item fingerprint、
-AI 分数是否展示和 evidence usefulness。两位 reviewer 完成前不重新生成阈值或用
-Round B 结果修改 AI v1.0；完成后才计算 A/B change 和 AI-vs-human exploratory
-concordance。
+当前 AI v1.0 benchmark package 已在人评前冻结：32 条均有定量特征，
+18 条通过 AI v1.0 总分 gate，8 条 Rotary 保持 feature-only，6 条 Deep Squat
+因缺少完整 attempt-condition metadata 不输出总分。该包不被 Study Mode 请求。
+正式 Round B event 必须记录 `evidenceReview: null`、`currentPoseEvidenceShown:
+false` 和 `currentAiSuggestionShown: false`。两位 reviewer 完成前不用 Round B
+结果修改 AI v1.0；完成后才计算 A/B change 和 AI-vs-human exploratory concordance。
 
 最终报告应同时保留 negative/null findings。当前最可信的贡献是可解释证据和研究流程，
 不是自动评分性能。

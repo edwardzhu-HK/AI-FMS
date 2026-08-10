@@ -179,13 +179,6 @@ test("review export validator rejects incomplete or cross-round events", () => {
         repetition,
         score: 2,
         eventId: "wrong_round",
-        evidenceReview: {
-          manifestFingerprint: "manifest-v1",
-          itemFingerprint: "item-v1",
-          evidenceStatus: "ai_score_available",
-          aiSuggestionShown: true,
-          usefulness: "helpful",
-        },
       }),
     ],
   });
@@ -196,8 +189,33 @@ test("review export validator rejects incomplete or cross-round events", () => {
   assert.match(result.errors.join(" "), /incomplete/);
 });
 
-test("resolved Round B reviews record evidence exposure and usefulness", () => {
+test("resolved Round B reviews remain blind to AI and pose evidence", () => {
   const repetition = buildStudyQueue(pilot, "Ronnie", "round_b")[0];
+  const event = createStudyReviewEvent({
+    pilotId: pilot.pilotId,
+    reviewerId: "Ronnie",
+    studyRound: "round_b",
+    repetition,
+    score: 2,
+  });
+  assert.equal(event.blindReview.reviewMode, "blind");
+  assert.equal(event.blindReview.currentPoseEvidenceShown, false);
+  assert.equal(event.blindReview.currentAiSuggestionShown, false);
+  assert.equal(event.blindReview.priorRoundReviewHidden, true);
+  assert.equal(event.blindReview.otherReviewerResultsHidden, true);
+  assert.equal(event.blindReview.eligibleForBlindAnalysis, true);
+  assert.equal(event.evidenceReview, null);
+});
+
+test("Round B rejects AI evidence in event creation and export validation", () => {
+  const repetition = buildStudyQueue(pilot, "Ronnie", "round_b")[0];
+  const exposedEvidence = {
+    manifestFingerprint: "manifest-v1",
+    itemFingerprint: "item-v1",
+    evidenceStatus: "ai_score_available",
+    aiSuggestionShown: true,
+    usefulness: "helpful",
+  };
   assert.throws(
     () =>
       createStudyReviewEvent({
@@ -206,46 +224,16 @@ test("resolved Round B reviews record evidence exposure and usefulness", () => {
         studyRound: "round_b",
         repetition,
         score: 2,
+        evidenceReview: exposedEvidence,
       }),
-    /evidenceReview is required/,
+    /Formal blind reviews cannot include AI or pose evidence/,
   );
-
   const event = createStudyReviewEvent({
     pilotId: pilot.pilotId,
     reviewerId: "Ronnie",
     studyRound: "round_b",
     repetition,
     score: 2,
-    evidenceReview: {
-      manifestFingerprint: "manifest-v1",
-      itemFingerprint: "item-v1",
-      evidenceStatus: "features_only",
-      aiSuggestionShown: false,
-      usefulness: "no_change",
-    },
-  });
-  assert.equal(event.blindReview.reviewMode, "evidence_assisted");
-  assert.equal(event.blindReview.currentPoseEvidenceShown, true);
-  assert.equal(event.blindReview.currentAiSuggestionShown, false);
-  assert.equal(event.blindReview.eligibleForBlindAnalysis, false);
-  assert.equal(event.evidenceReview.usefulness, "no_change");
-});
-
-test("Round B export validation cross-checks the frozen evidence item", () => {
-  const repetition = buildStudyQueue(pilot, "Ronnie", "round_b")[0];
-  const event = createStudyReviewEvent({
-    pilotId: pilot.pilotId,
-    reviewerId: "Ronnie",
-    studyRound: "round_b",
-    repetition,
-    score: 2,
-    evidenceReview: {
-      manifestFingerprint: "manifest-v1",
-      itemFingerprint: "item-v1",
-      evidenceStatus: "ai_score_available",
-      aiSuggestionShown: true,
-      usefulness: "helpful",
-    },
   });
   const payload = buildStudyReviewExport({
     pilot,
@@ -253,30 +241,14 @@ test("Round B export validation cross-checks the frozen evidence item", () => {
     studyRound: "round_b",
     events: [event],
   });
-  const evidenceManifest = {
-    pilotId: pilot.pilotId,
-    manifestFingerprint: "manifest-v1",
-    items: [
-      {
-        repetitionId: repetition.repetitionId,
-        itemFingerprint: "item-v1",
-        evidenceStatus: "ai_score_available",
-        aiSuggestion: { totalScore: 2 },
-      },
-    ],
-  };
-  assert.equal(
-    validateStudyReviewExport(payload, { pilot, evidenceManifest }).valid,
-    true,
-  );
+  assert.equal(validateStudyReviewExport(payload, { pilot }).valid, true);
   assert.equal(payload.completion.analysisExcludedCount, 0);
-  payload.events[0].evidenceReview.itemFingerprint = "tampered";
-  const validation = validateStudyReviewExport(payload, {
-    pilot,
-    evidenceManifest,
-  });
+  payload.events[0].evidenceReview = exposedEvidence;
+  payload.events[0].blindReview.currentAiSuggestionShown = true;
+  const validation = validateStudyReviewExport(payload, { pilot });
   assert.equal(validation.valid, false);
-  assert.match(validation.errors.join(" "), /itemFingerprint does not match/);
+  assert.match(validation.errors.join(" "), /evidenceReview must be null/);
+  assert.match(validation.errors.join(" "), /current AI suggestion/);
 });
 
 test("partial exports remain valid backups when completion is not required", () => {

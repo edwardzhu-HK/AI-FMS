@@ -58,7 +58,6 @@ export function ingestStudyReviewExport({
   manifest,
   reviewPath,
   checksumPath = `${reviewPath}.sha256`,
-  evidenceManifest = null,
   importedAt = new Date(),
 }) {
   const resolvedReviewPath = path.resolve(reviewPath);
@@ -73,13 +72,9 @@ export function ingestStudyReviewExport({
   }
 
   const payload = JSON.parse(raw.toString("utf8"));
-  if (payload.studyRound === "round_b" && !evidenceManifest) {
-    throw new Error("A verified Round B evidence manifest is required.");
-  }
   const validation = validateStudyReviewExport(payload, {
     pilot: manifest,
     requireComplete: true,
-    evidenceManifest,
   });
   if (!validation.valid) {
     throw new Error(

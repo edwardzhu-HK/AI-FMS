@@ -120,7 +120,7 @@ test("study review database import rejects a checksum mismatch", () => {
   }
 });
 
-test("Round B evidence fields are queryable after database ingestion", () => {
+test("blind Round B exports ingest without reviewer evidence exposure", () => {
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), "ai-fms-db-"));
   const dbPath = path.join(directory, "study.sqlite");
   const events = manifest.items.map((repetition, index) =>
@@ -131,13 +131,6 @@ test("Round B evidence fields are queryable after database ingestion", () => {
       repetition,
       score: 2,
       eventId: `round_b_event_${index}`,
-      evidenceReview: {
-        manifestFingerprint: "manifest-v1",
-        itemFingerprint: `item-${index}`,
-        evidenceStatus: index === 0 ? "ai_score_available" : "features_only",
-        aiSuggestionShown: index === 0,
-        usefulness: index === 0 ? "helpful" : "no_change",
-      },
     }),
   );
   const payload = buildStudyReviewExport({
@@ -146,16 +139,6 @@ test("Round B evidence fields are queryable after database ingestion", () => {
     studyRound: "round_b",
     events,
   });
-  const evidenceManifest = {
-    pilotId: manifest.pilotId,
-    manifestFingerprint: "manifest-v1",
-    items: manifest.items.map((repetition, index) => ({
-      repetitionId: repetition.repetitionId,
-      itemFingerprint: `item-${index}`,
-      evidenceStatus: index === 0 ? "ai_score_available" : "features_only",
-      aiSuggestion: index === 0 ? { totalScore: 2 } : null,
-    })),
-  };
   const reviewPath = writeSignedExport(directory, payload, "round-b.json");
 
   try {
@@ -163,7 +146,6 @@ test("Round B evidence fields are queryable after database ingestion", () => {
       dbPath,
       manifest,
       reviewPath,
-      evidenceManifest,
     });
     const status = inspectStudyReviewDatabase({
       dbPath,
@@ -171,11 +153,11 @@ test("Round B evidence fields are queryable after database ingestion", () => {
       studyRound: "round_b",
       reviewerId: "Ronnie",
     });
-    assert.equal(status.latest.evidence_review_count, 2);
-    assert.equal(status.latest.ai_suggestion_shown_count, 1);
-    assert.equal(status.latest.evidence_helpful_count, 1);
-    assert.equal(status.latest.evidence_no_change_count, 1);
-    assert.equal(status.evidence.length, 2);
+    assert.equal(status.latest.resolved_count, 2);
+    assert.equal(status.latest.analysis_excluded_count, 0);
+    assert.equal(status.latest.evidence_review_count, 0);
+    assert.equal(status.latest.ai_suggestion_shown_count, 0);
+    assert.equal(status.evidence.length, 0);
   } finally {
     fs.rmSync(directory, { recursive: true, force: true });
   }

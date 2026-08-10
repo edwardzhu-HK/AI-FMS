@@ -11,7 +11,6 @@ function event({
   score,
   confidence,
   duration,
-  usefulness = null,
 }) {
   return {
     eventId,
@@ -25,17 +24,17 @@ function event({
     confidence,
     reviewDurationMs: duration,
     createdAt: "2026-08-10T00:00:00.000Z",
-    evidenceReview: usefulness
-      ? {
-          usefulness,
-          evidenceStatus: "ai_score_available",
-          aiSuggestionShown: true,
-        }
-      : null,
+    evidenceReview: null,
+    blindReview: {
+      reviewMode: "blind",
+      currentPoseEvidenceShown: false,
+      currentAiSuggestionShown: false,
+      eligibleForBlindAnalysis: true,
+    },
   };
 }
 
-function reviewExport(reviewerId, studyRound, scores, usefulness = null) {
+function reviewExport(reviewerId, studyRound, scores) {
   const repetitionIds = ["rep-1", "rep-2"];
   return {
     pilotId: "pilot-test",
@@ -52,7 +51,6 @@ function reviewExport(reviewerId, studyRound, scores, usefulness = null) {
         score: scores[index],
         confidence: index === 0 ? "medium" : "high",
         duration: 1000 + index * 100,
-        usefulness,
       }),
     ),
   };
@@ -84,18 +82,17 @@ test("summarizes reviewer changes and frozen AI comparisons after Round B", () =
       reviewExport("Other Reviewer", "round_a", [2, 2]),
     ],
     roundBExports: [
-      reviewExport("Ronnie", "round_b", [3, 2], "helpful"),
-      reviewExport("Other Reviewer", "round_b", [3, 2], "no_change"),
+      reviewExport("Ronnie", "round_b", [3, 2]),
+      reviewExport("Other Reviewer", "round_b", [3, 2]),
     ],
     evidence,
   });
 
   assert.equal(analysis.roundBAgreement.overall.rawScoreAgreementRate, 1);
   assert.equal(analysis.reviewerChanges[1].summary.scoreChangedCount, 1);
-  assert.equal(
-    analysis.reviewerChanges[1].summary.evidenceUsefulness.helpful,
-    2,
-  );
+  assert.equal(analysis.reviewerChanges[1].summary.blindReviewCount, 2);
+  assert.equal(analysis.aiComparison.roundBReviewersBlindedToAi, true);
+  assert.equal(analysis.aiComparison.roundBAssistedByDisplayedEvidence, false);
   assert.equal(analysis.aiComparison.roundAConsensus.metrics.exactCount, 1);
   assert.equal(analysis.aiComparison.roundBConsensus.metrics.withinOneCount, 1);
   assert.equal(analysis.aiComparison.roundBConsensus.metrics.exactCount, 0);
@@ -110,8 +107,8 @@ test("requires the same two reviewer identities across rounds", () => {
           reviewExport("Other Reviewer", "round_a", [2, 2]),
         ],
         roundBExports: [
-          reviewExport("Ronnie", "round_b", [2, 2], "helpful"),
-          reviewExport("Third Reviewer", "round_b", [2, 2], "helpful"),
+          reviewExport("Ronnie", "round_b", [2, 2]),
+          reviewExport("Third Reviewer", "round_b", [2, 2]),
         ],
         evidence,
       }),

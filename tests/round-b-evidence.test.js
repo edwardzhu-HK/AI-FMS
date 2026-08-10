@@ -110,7 +110,7 @@ function buildFixture() {
   });
 }
 
-test("builds reviewer-safe Round B evidence with score coverage separated", () => {
+test("builds a post-review AI benchmark hidden from Round B reviewers", () => {
   const manifest = buildFixture();
   assert.equal(manifest.summary.totalItems, 2);
   assert.equal(manifest.summary.featureReady, 2);
@@ -118,6 +118,9 @@ test("builds reviewer-safe Round B evidence with score coverage separated", () =
   assert.equal(manifest.items[0].aiSuggestion.totalScore, 2);
   assert.equal(manifest.items[1].evidenceStatus, "features_only");
   assert.equal(manifest.items[1].aiSuggestion, null);
+  assert.equal(manifest.exposurePolicy.visibleToReviewers, false);
+  assert.equal(manifest.items[0].exposure.poseFeaturesShown, false);
+  assert.equal(manifest.items[0].exposure.aiRawScoreShown, false);
   assert.equal(manifest.items[1].exposure.aiRawScoreShown, false);
   assert.equal(
     validateRoundBEvidenceManifest(manifest, { pilot: formalManifest }).valid,
@@ -142,15 +145,17 @@ test("fails closed when a formal item has no evidence row", () => {
   );
 });
 
-test("validator rejects reviewer-unsafe keys and Rotary RAW SCORE exposure", () => {
+test("validator rejects reviewer-unsafe keys and any reviewer exposure", () => {
   const manifest = buildFixture();
   manifest.items[0].historicalHumanScore = 2;
   manifest.items[1].aiSuggestion = { totalScore: 3 };
   manifest.items[1].exposure.aiRawScoreShown = true;
+  manifest.items[0].exposure.poseFeaturesShown = true;
   const validation = validateRoundBEvidenceManifest(manifest, {
     pilot: formalManifest,
   });
   assert.equal(validation.valid, false);
   assert.match(validation.errors.join("\n"), /reviewer-unsafe/);
   assert.match(validation.errors.join("\n"), /Rotary Stability/);
+  assert.match(validation.errors.join("\n"), /blind Round B reviewer/);
 });
