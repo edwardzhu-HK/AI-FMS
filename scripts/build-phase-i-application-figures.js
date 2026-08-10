@@ -74,7 +74,7 @@ export function buildPhaseICaseStudyPortfolio({
   config,
   featureMatrix,
   aslrSensitivity,
-  roundBEvidence,
+  roundBAiBenchmark,
 }) {
   assertEqual(
     featureMatrix.matrixFingerprint,
@@ -87,9 +87,9 @@ export function buildPhaseICaseStudyPortfolio({
     "ASLR sensitivity fingerprint",
   );
   assertEqual(
-    roundBEvidence.manifestFingerprint,
-    config.sources.roundBEvidenceFingerprint,
-    "Round B evidence fingerprint",
+    roundBAiBenchmark.manifestFingerprint,
+    config.sources.roundBAiBenchmarkFingerprint,
+    "Post-review AI benchmark fingerprint",
   );
 
   const rowsById = new Map(
@@ -168,7 +168,7 @@ export function buildPhaseICaseStudyPortfolio({
     "Hurdle right camera view",
   );
 
-  const rotarySummary = roundBEvidence.summary.byAction.rotary_stability;
+  const rotarySummary = roundBAiBenchmark.summary.byAction.rotary_stability;
   const rotaryFeatureOnly = rotarySummary.byEvidenceStatus.features_only ?? 0;
   assertEqual(
     rotarySummary.total,
@@ -198,7 +198,7 @@ export function buildPhaseICaseStudyPortfolio({
     sourceFingerprints: {
       featureMatrix: featureMatrix.matrixFingerprint,
       aslrSensitivity: aslrSensitivity.rowsFingerprint,
-      roundBEvidence: roundBEvidence.manifestFingerprint,
+      roundBAiBenchmark: roundBAiBenchmark.manifestFingerprint,
     },
     cases: {
       deepSquat: {
@@ -342,7 +342,7 @@ function aslrSvg(portfolio) {
   ${rowBlocks.join("\n  ")}
   <rect x="0" y="656" width="1200" height="64" fill="#f7f2e9"/>
   <text x="42" y="684" font-size="17" font-weight="700" fill="#172033">Human-in-the-loop also means checking subject identity, framing, and protocol quality.</text>
-  <text x="42" y="707" font-size="12" fill="#526074">Sensitivity only: frozen Round A / Round B evidence and ASLR scoring thresholds were not changed.</text>
+  <text x="42" y="707" font-size="12" fill="#526074">Sensitivity only: frozen Round A and post-review AI benchmark rules were not changed.</text>
 </svg>\n`;
 }
 
@@ -459,14 +459,14 @@ export async function main(argv = process.argv.slice(2)) {
   const aslrSensitivity = readJson(
     path.resolve(repoRoot, config.sources.aslrSensitivityPath),
   );
-  const roundBEvidence = readJson(
-    path.resolve(repoRoot, config.sources.roundBEvidencePath),
+  const roundBAiBenchmark = readJson(
+    path.resolve(repoRoot, config.sources.roundBAiBenchmarkPath),
   );
   const portfolio = buildPhaseICaseStudyPortfolio({
     config,
     featureMatrix,
     aslrSensitivity,
-    roundBEvidence,
+    roundBAiBenchmark,
   });
   portfolio.inputs = {
     config: { path: options.configPath, sha256: sha256(configRaw) },

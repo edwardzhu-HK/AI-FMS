@@ -10,7 +10,7 @@
   "sourceFingerprints": {
     "featureMatrix": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
     "aslrSensitivity": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
-    "roundBEvidence": "63eaa7d992b9b32f0b87ad71d987457edf1241283a56b23df00cc8f3dd9e8f82"
+    "roundBAiBenchmark": "ad809451d43a2fcbaf59425419aeb13b0af05b379256f98a6ad2168e3c424c76"
   },
   "cases": {
     "deepSquat": {
@@ -154,11 +154,11 @@
     "validatedImpairmentSubtypeClaimsAllowed": false,
     "exploratoryHumanInTheLoopFramingRequired": true
   },
-  "portfolioFingerprint": "148b7d65dee05e266e66b61dbb9a1f528d7885bf184de5f20e0255230503dfc6",
+  "portfolioFingerprint": "ffcf48d105ba58ec9c86fa71ee95fc86a3d55106a1f47495a201b279ef721a32",
   "inputs": {
     "config": {
       "path": "research/pilot-v1/phase-i-case-study-portfolio.json",
-      "sha256": "7bfc738b6f2ecb2a186fb4a3a722da46f8b6ce0c5ddcd2d52153f03ba8414f49"
+      "sha256": "bf5e5dc9a88a76e9a58a6b81e8b91df081ae972728422cc4ee612cebb211bb83"
     }
   }
 }

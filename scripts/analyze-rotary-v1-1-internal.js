@@ -300,7 +300,7 @@ function buildReport(payload) {
 - Model: \`${payload.modelVersion}\`
 - Status: \`${payload.status}\`
 - Generated: ${payload.generatedAt}
-- Round B AI v1.0 isolation: **PASS**
+- Blind Round B isolation: **PASS**
 
 ## 结论
 
@@ -326,7 +326,7 @@ ${rowTable}
 
 - 分数 0 只由人工 pain / flexion clearing metadata 触发，pose 不推断疼痛。
 - 分数 3 要求完整周期、同时离地和 board alignment 均有证据；没有 board evidence 时最多给保守的 2 分建议。
-- 本结果与明天 Round B 的 frozen AI v1.0 完全隔离，不进入 Study Mode evidence manifest。
+- 本结果与 blind Round B reviewer path 完全隔离，仅在签名人评导出完成后作内部比较。
 `;
 }
 

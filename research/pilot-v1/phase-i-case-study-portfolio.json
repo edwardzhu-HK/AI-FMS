@@ -8,8 +8,8 @@
     "featureMatrixFingerprint": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
     "aslrSensitivityPath": "research/pilot-v1/generated/aslr-subject-sensitivity/aslr-subject-sensitivity.json",
     "aslrSensitivityFingerprint": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
-    "roundBEvidencePath": "research/pilot-v1/generated/round-b-evidence-manifest.json",
-    "roundBEvidenceFingerprint": "63eaa7d992b9b32f0b87ad71d987457edf1241283a56b23df00cc8f3dd9e8f82"
+    "roundBAiBenchmarkPath": "research/pilot-v1/generated/round-b-evidence-manifest.json",
+    "roundBAiBenchmarkFingerprint": "ad809451d43a2fcbaf59425419aeb13b0af05b379256f98a6ad2168e3c424c76"
   },
   "cases": {
     "deepSquat": {

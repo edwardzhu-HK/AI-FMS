@@ -41,12 +41,12 @@
     "aslrSensitivityWatchWindows": 2,
     "aslrSensitivityLimitedWindows": 0,
     "aslrSensitivityManualWatchReviews": 2,
-    "roundBEvidenceItems": 32,
-    "roundBFeatureReady": 32,
-    "roundBAiScoreAvailable": 18,
-    "roundBRotaryFeaturesOnly": 8,
-    "roundBProtocolMetadataRequired": 6,
-    "roundBAiRuleFingerprint": "74d7b5d0ef59edc5785c5b39c61d30a65149eb4e35d1e01445a17c5e319818d8",
+    "roundBAiBenchmarkItems": 32,
+    "roundBAiBenchmarkFeatureReady": 32,
+    "roundBAiBenchmarkScoreAvailable": 18,
+    "roundBAiBenchmarkRotaryFeatureOnly": 8,
+    "roundBAiBenchmarkProtocolMetadataRequired": 6,
+    "roundBAiBenchmarkRuleFingerprint": "74d7b5d0ef59edc5785c5b39c61d30a65149eb4e35d1e01445a17c5e319818d8",
     "rotaryV11FormalItems": 8,
     "rotaryV11ScoredItems": 4,
     "rotaryV11AbstainedItems": 4,
@@ -124,7 +124,7 @@
       "access": "private_research"
     },
     {
-      "id": "round_b_evidence",
+      "id": "round_b_ai_benchmark",
       "path": "research/pilot-v1/generated/round-b-evidence-manifest.json",
       "checksumManifest": "research/pilot-v1/generated/round-b-evidence-SHA256SUMS",
       "access": "reviewer_safe_private"

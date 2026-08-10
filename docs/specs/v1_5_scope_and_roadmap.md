@@ -44,16 +44,16 @@ contract separates a true FMS score of 0 (observed or reported pain) from an
 unscorable protocol case; unscorable reps count as reviewed but remain excluded
 from score analysis.
 
-Round B is now implemented as a separate evidence-assisted workflow. A
-checksum-protected reviewer-safe manifest joins the frozen 32-rep queue to the
-camera-audited feature matrix and the pre-human-join AI suggestion universe.
-All 32 reps expose quantitative pose evidence; frozen AI v1.0 exposes a RAW
-SCORE suggestion for 18, keeps all eight Rotary Stability reps feature-only,
-and withholds a total score for six Deep Squat reps lacking verified staged
-attempt metadata. Each resolved Round B event records the exact evidence/item
-fingerprints, whether an AI score was shown, and reviewer-rated usefulness.
-The AI rules are frozen before Round B and will be compared with Round A and
-Round B human consensus only after both second-round exports close.
+Round B is implemented as a second blind review with isolated storage and a
+separately randomized queue. Reviewers see no AI score, pose-derived feature,
+Round A result, other-reviewer result, or source filename. A checksum-protected
+private benchmark package still joins the frozen 32-rep set to the
+camera-audited feature matrix and pre-human-join AI suggestion universe, but it
+is not loaded by Study Mode. Frozen AI v1.0 has a RAW SCORE for 18 reps, keeps
+all eight Rotary Stability reps feature-only, and withholds a total score for
+six Deep Squat reps lacking verified staged-attempt metadata. It is compared
+with Round A and Round B human consensus only after both signed second-round
+exports close.
 
 Both Round A reviewer exports are now complete, signed, validated, and stored in
 the local research database. The reproducible agreement package keeps review
@@ -800,14 +800,13 @@ Implementation status after the first P2 pass:
     scores, reviewer outcomes, or source filenames and does not tune thresholds.
 42. Expanded the Phase I release candidate to 10/10 verified research
     artifacts, eight checksummed documents, and a 307-test quality baseline.
-43. Opened Round B as an evidence-assisted Study Mode, froze a reviewer-safe
-    32-item evidence manifest and AI v1.0 rule fingerprint, and added explicit
-    evidence-exposure/usefulness fields to append-only review events. Rotary
-    Stability remains feature-only and protocol-limited Deep Squat rows do not
-    display an AI RAW SCORE.
+43. Opened an isolated Round B Study Mode and froze the 32-item AI v1.0 package
+    and rule fingerprint. The reviewer protocol was subsequently corrected to
+    a true second blind review: Study Mode does not load AI/pose evidence and
+    append-only events reject evidence exposure.
 44. Added a checksum-verified post-Round-B closeout analyzer for reviewer
-    agreement, per-reviewer A/B changes, evidence-usefulness distributions, and
-    frozen AI v1.0 comparisons against Round A and Round B consensus. The full
+    agreement, per-reviewer A/B changes, blind-exposure verification, and frozen
+    AI v1.0 comparisons against Round A and Round B consensus. The full
     quality baseline is now 315 tests plus lint, format, and three builds.
 
 Recommended next sprint:

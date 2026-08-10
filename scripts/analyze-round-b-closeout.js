@@ -61,7 +61,7 @@ function buildReport(analysis) {
   const changes = analysis.reviewerChanges
     .map(
       (item) =>
-        `| ${item.reviewerId} | ${item.summary.scoreChangedCount}/${item.summary.scoreComparableCount} | ${percent(item.summary.scoreChangeRate)} | ${item.summary.meanConfidenceDelta ?? "N/A"} | ${JSON.stringify(item.summary.evidenceUsefulness)} |`,
+        `| ${item.reviewerId} | ${item.summary.scoreChangedCount}/${item.summary.scoreComparableCount} | ${percent(item.summary.scoreChangeRate)} | ${item.summary.meanConfidenceDelta ?? "N/A"} | ${item.summary.blindReviewCount}/${item.summary.totalItems} |`,
     )
     .join("\n");
   const aiA = analysis.aiComparison.roundAConsensus;
@@ -69,13 +69,13 @@ function buildReport(analysis) {
   return `# AI-FMS Round B Closeout Analysis
 
 - Pilot: \`${analysis.pilotId}\`
-- Evidence freeze: \`${analysis.evidenceFreeze.freezeId}\`
-- AI rule fingerprint: \`${analysis.evidenceFreeze.ruleFingerprint}\`
+- Post-review AI benchmark freeze: \`${analysis.aiBenchmarkFreeze.freezeId}\`
+- AI rule fingerprint: \`${analysis.aiBenchmarkFreeze.ruleFingerprint}\`
 
 ## Reviewer Change
 
-| Reviewer | Score changes | Rate | Mean confidence delta | Evidence usefulness |
-| --- | ---: | ---: | ---: | --- |
+| Reviewer | Score changes | Rate | Mean confidence delta | Blind events |
+| --- | ---: | ---: | ---: | ---: |
 ${changes}
 
 ## Frozen AI v1.0 Comparison
@@ -85,9 +85,10 @@ ${changes}
 | Round A consensus | ${aiA.metrics.comparedCount} | ${aiA.metrics.exactCount} | ${aiA.metrics.withinOneCount} | ${aiA.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiA.metrics.linearWeightedKappa ?? "N/A"} |
 | Round B consensus | ${aiB.metrics.comparedCount} | ${aiB.metrics.exactCount} | ${aiB.metrics.withinOneCount} | ${aiB.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiB.metrics.linearWeightedKappa ?? "N/A"} |
 
-Coverage and agreement are reported separately. Round B reviewers saw the
-frozen evidence, so the Round B comparison is evidence-assisted concordance,
-not an independent model validation or clinical accuracy estimate.
+Coverage and agreement are reported separately. Round B reviewers were blind
+to AI scores and pose-derived evidence. The frozen AI package was loaded only
+after the signed human exports, so this is an AI-human concordance benchmark,
+not an independent held-out validation or clinical accuracy estimate.
 `;
 }
 
@@ -105,8 +106,6 @@ export function main(argv = process.argv.slice(2)) {
     const validation = validateStudyReviewExport(source.payload, {
       pilot: manifest,
       requireComplete: true,
-      evidenceManifest:
-        source.payload.studyRound === "round_b" ? evidence.payload : null,
     });
     if (!validation.valid) {
       throw new Error(

@@ -7,7 +7,7 @@ const CONFIG = {
   sources: {
     featureMatrixFingerprint: "matrix-fingerprint",
     aslrSensitivityFingerprint: "aslr-fingerprint",
-    roundBEvidenceFingerprint: "round-b-fingerprint",
+    roundBAiBenchmarkFingerprint: "round-b-fingerprint",
   },
   cases: {
     deepSquat: {
@@ -93,7 +93,7 @@ function inputs(overrides = {}) {
         },
       ],
     },
-    roundBEvidence: {
+    roundBAiBenchmark: {
       manifestFingerprint: "round-b-fingerprint",
       summary: {
         byAction: {

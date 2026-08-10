@@ -19,7 +19,7 @@
   },
   "roundBIsolation": {
     "frozenAiPath": "research/pilot-v1/round-b-ai-v1-freeze.json",
-    "expectedSha256": "aeed0d3902d405d4223598be8079748e39375d0858eaad942d9382535060fc64",
+    "expectedSha256": "bf334f81deaad4f6856c039e91baf746c02b3c900410d7ca7db46e5f7cf2f3b9",
     "exposeExperimentalScore": false
   },
   "inputs": {

@@ -31,9 +31,10 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 - Rotary Stability
 
 Deep Squat 是旗舰的 staged FMS pipeline；ASLR 和 Hurdle 已有 pose-based first-pass
-suggestion。Round B 冻结的 AI v1.0 中 Rotary Stability 继续 feature-only；独立的
-v1.1 experimental adapter 已能按完整周期提出保守 1/2/3 分或 abstain，但不进入明天
-的 Study Mode，也不是独立验证结果。
+suggestion。人评前冻结的 AI v1.0 仅在 Round B 完成后用于比较，其中
+Rotary Stability 保持 feature-only。独立 v1.1 experimental adapter 已能按完整
+周期提出保守 1/2/3 分或 abstain，但不进入 reviewer Study Mode，也不是
+独立验证结果。
 
 ## 项目价值
 
@@ -71,11 +72,12 @@ Rotary Stability 说明证据不足时如何从 features-only 发展到 cycle-le
 ### Study Mode
 
 - Round A blind review 与 Round B 隔离 namespace。
-- 历史分数、legacy AI、源文件名和音频标签提示从 reviewer 界面隔离。
-- Round B 对 32/32 展示 pose-derived quantitative evidence；冻结 AI v1.0
-  仅对通过 gate 的 18 条显示 RAW SCORE 建议，Rotary 继续 feature-only。
+- Round A 和 Round B 均隔离历史分数、AI 分数、pose-derived 参数、源文件名
+  和音频标签提示。
+- Round B 是间隔 48-72 小时后、重新随机的第二次独立盲评；冻结 AI v1.0
+  只在签名导出完成后由分析脚本读取。
 - Append-only review events、foreground review time、confidence、comment 和
-  unscorable taxonomy；Round B 另记录 evidence usefulness 与暴露 fingerprint。
+  unscorable taxonomy；校验器会拒绝 Round B 中的 AI/pose evidence 暴露。
 - 完整 export 的 manifest/fingerprint/schema/SHA-256 校验。
 - 签名 JSON 进入本地 SQLite 研究数据库，导入按 checksum 幂等。
 
@@ -149,7 +151,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、327 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、328 tests 和三个 Vite entry builds。
 
 ## 研究复现
 

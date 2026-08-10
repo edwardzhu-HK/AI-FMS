@@ -7,7 +7,6 @@ import {
   studyStorageKey,
   validateStudyReviewExport,
 } from "../lib/study-review.js";
-import { validateRoundBEvidenceManifest } from "../lib/round-b-evidence.js";
 
 const SEARCH_PARAMS = new URLSearchParams(window.location.search);
 const IS_DRY_RUN = SEARCH_PARAMS.get("mode") === "dry-run";
@@ -30,8 +29,6 @@ const INVALID_ROUND_PARAM =
 const PILOT_URL = IS_DRY_RUN
   ? "/research/pilot-v1/generated/dry-run-study-manifest.json"
   : "/research/pilot-v1/generated/formal-study-manifest.json";
-const ROUND_B_EVIDENCE_URL =
-  "/research/pilot-v1/generated/round-b-evidence-manifest.json";
 
 const ACTION_LABELS = {
   deep_squat: "Deep Squat",
@@ -54,35 +51,6 @@ const UNSCORABLE_REASONS = [
   ["other", "其他"],
 ];
 
-const EVIDENCE_USEFULNESS = [
-  ["helpful", "有帮助"],
-  ["no_change", "未改变判断"],
-  ["insufficient", "证据不足"],
-];
-
-const EVIDENCE_STATUS_COPY = {
-  ai_score_available: {
-    label: "AI v1.0 suggestion",
-    detail: "当前冻结规则可给出 RAW SCORE 建议；最终判断仍由 reviewer 完成。",
-  },
-  features_only: {
-    label: "Quantitative features only",
-    detail: "本动作仅展示定量特征，不显示未经验证的 AI RAW SCORE。",
-  },
-  protocol_metadata_required: {
-    label: "Protocol condition required",
-    detail: "定量特征可用，但缺少完整协议条件，因此不显示 AI RAW SCORE。",
-  },
-  quality_limited: {
-    label: "Pose evidence limited",
-    detail: "当前 pose 或 timing 质量不足，请结合视频谨慎判断。",
-  },
-  suggestion_unavailable: {
-    label: "AI suggestion unavailable",
-    detail: "定量特征已保留，但当前规则不能生成 RAW SCORE 建议。",
-  },
-};
-
 function encodeVideoPath(relativePath) {
   return `/${relativePath.split("/").map(encodeURIComponent).join("/")}`;
 }
@@ -98,7 +66,6 @@ function emptyDraft(item) {
     side: item?.side ?? "unknown",
     comment: "",
     qualityFlags: [],
-    evidenceUsefulness: null,
   };
 }
 
@@ -116,65 +83,7 @@ function draftFromEvent(item, event) {
     side: event.side ?? item.side ?? "unknown",
     comment: event.comment ?? "",
     qualityFlags: event.qualityFlags ?? [],
-    evidenceUsefulness: event.evidenceReview?.usefulness ?? null,
   };
-}
-
-function formatEvidenceValue(value, unit) {
-  if (!Number.isFinite(value)) return "Unavailable";
-  if (unit === "degrees") return `${value.toFixed(1)}°`;
-  if (unit === "ratio_0_1") return `${Math.round(value * 100)}%`;
-  return Math.abs(value) >= 10 ? value.toFixed(1) : value.toFixed(3);
-}
-
-function EvidencePanel({ evidence }) {
-  if (!evidence) return null;
-  const status = EVIDENCE_STATUS_COPY[evidence.evidenceStatus];
-  const availableFeatures = evidence.features.filter(
-    (item) => item.value != null,
-  );
-  return (
-    <section className="evidence-panel" aria-label="Pose-derived evidence">
-      <div className="evidence-heading">
-        <div>
-          <span>POSE-DERIVED EVIDENCE</span>
-          <h3>{status.label}</h3>
-        </div>
-        {evidence.aiSuggestion ? (
-          <div className="ai-score-suggestion">
-            <span>AI RAW SCORE</span>
-            <strong>{evidence.aiSuggestion.totalScore}</strong>
-            <small>{evidence.aiSuggestion.confidenceLabel} confidence</small>
-          </div>
-        ) : null}
-      </div>
-      <p>{status.detail}</p>
-      <div className="evidence-feature-grid">
-        {availableFeatures.map((feature) => (
-          <div key={feature.name} title={feature.direction}>
-            <span>{feature.label}</span>
-            <strong>{formatEvidenceValue(feature.value, feature.unit)}</strong>
-            <small>{feature.unit.replaceAll("_", " ")}</small>
-          </div>
-        ))}
-      </div>
-      <div className="evidence-quality">
-        <span>Timing: {evidence.quality.timingStatus}</span>
-        <span>
-          Pose visibility:{" "}
-          {formatEvidenceValue(
-            evidence.quality.poseAverageVisibility,
-            "ratio_0_1",
-          )}
-        </span>
-        {evidence.aiSuggestion ? (
-          <span>Model: {evidence.aiSuggestion.modelVersion}</span>
-        ) : (
-          <span>Feature contract only</span>
-        )}
-      </div>
-    </section>
-  );
 }
 
 function readTimerDuration(timer) {
@@ -211,7 +120,6 @@ export default function StudyApp() {
   const videoRef = useRef(null);
   const reviewTimerRef = useRef(null);
   const [pilot, setPilot] = useState(null);
-  const [roundBEvidence, setRoundBEvidence] = useState(null);
   const [loadError, setLoadError] = useState("");
   const [reviewerId, setReviewerId] = useState("");
   const [events, setEvents] = useState([]);
@@ -229,36 +137,17 @@ export default function StudyApp() {
       setLoadError("Study round 参数无效。");
       return;
     }
-    const loadJson = (url) =>
-      fetch(url).then((response) => {
+    fetch(PILOT_URL)
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`Study asset load failed (${response.status}).`);
         }
         return response.json();
-      });
-    Promise.all([
-      loadJson(PILOT_URL),
-      ROUND_B_REQUESTED
-        ? loadJson(ROUND_B_EVIDENCE_URL)
-        : Promise.resolve(null),
-    ])
-      .then(([loadedPilot, loadedEvidence]) => {
-        if (loadedEvidence) {
-          const validation = validateRoundBEvidenceManifest(loadedEvidence, {
-            pilot: loadedPilot,
-          });
-          if (!validation.valid) {
-            throw new Error(validation.errors.join("\n"));
-          }
-        }
-        setPilot(loadedPilot);
-        setRoundBEvidence(loadedEvidence);
       })
+      .then(setPilot)
       .catch(() => {
         setLoadError(
-          ROUND_B_REQUESTED
-            ? "Round B 证据包缺失或校验失败。请运行 npm run study:evidence:round-b。"
-            : "未找到正式 Study manifest。请先运行 npm run study:formal:freeze。",
+          "未找到正式 Study manifest。请先运行 npm run study:formal:freeze。",
         );
       });
   }, []);
@@ -275,16 +164,6 @@ export default function StudyApp() {
     [events],
   );
   const activeItem = queue[activeIndex] ?? null;
-  const evidenceByRepetition = useMemo(
-    () =>
-      new Map(
-        (roundBEvidence?.items ?? []).map((item) => [item.repetitionId, item]),
-      ),
-    [roundBEvidence],
-  );
-  const activeEvidence = activeItem
-    ? (evidenceByRepetition.get(activeItem.repetitionId) ?? null)
-    : null;
   const activeReview = activeItem
     ? latestByRepetition.get(activeItem.repetitionId)
     : null;
@@ -306,10 +185,7 @@ export default function StudyApp() {
     draft.outcome === "unscorable"
       ? Boolean(draft.unscorableReason && draft.comment.trim())
       : draft.score !== null && (draft.score !== 0 || draft.scoreZeroConfirmed);
-  const canSaveReview =
-    outcomeCanSave &&
-    (!ROUND_B_REQUESTED ||
-      (Boolean(activeEvidence) && Boolean(draft.evidenceUsefulness)));
+  const canSaveReview = outcomeCanSave;
 
   useEffect(() => {
     if (!pilot || !reviewerId) {
@@ -491,17 +367,7 @@ export default function StudyApp() {
         status === "scored" && draft.score === 0
           ? "pain_observed_or_reported"
           : null,
-      evidenceReview:
-        ROUND_B_REQUESTED && activeEvidence
-          ? {
-              manifestFingerprint: roundBEvidence.manifestFingerprint,
-              itemFingerprint: activeEvidence.itemFingerprint,
-              evidenceStatus: activeEvidence.evidenceStatus,
-              aiSuggestionShown: Boolean(activeEvidence.aiSuggestion),
-              usefulness:
-                status === "deferred" ? null : draft.evidenceUsefulness,
-            }
-          : null,
+      evidenceReview: null,
       supersedesEventId: activeReview?.eventId ?? null,
     });
     setEvents((current) => [...current, event]);
@@ -552,7 +418,6 @@ export default function StudyApp() {
       const validation = validateStudyReviewExport(payload, {
         pilot,
         requireComplete: false,
-        evidenceManifest: ROUND_B_REQUESTED ? roundBEvidence : null,
       });
       if (!validation.valid) {
         throw new Error("Review export validation failed.");
@@ -593,7 +458,7 @@ export default function StudyApp() {
           {IS_DRY_RUN
             ? "Dry run"
             : ROUND_B_REQUESTED
-              ? "Round B · Evidence assisted"
+              ? "Round B · Blind"
               : "Round A · Blind"}
         </div>
         <div
@@ -723,11 +588,7 @@ export default function StudyApp() {
             </div>
           </aside>
 
-          <section
-            className={
-              ROUND_B_REQUESTED ? "video-pane with-evidence" : "video-pane"
-            }
-          >
+          <section className="video-pane">
             <div className="case-heading">
               <div>
                 <span>CASE {String(activeIndex + 1).padStart(3, "0")}</span>
@@ -787,9 +648,6 @@ export default function StudyApp() {
                 </button>
               </div>
             </div>
-            {ROUND_B_REQUESTED ? (
-              <EvidencePanel evidence={activeEvidence} />
-            ) : null}
           </section>
 
           <aside className="score-pane">
@@ -899,31 +757,6 @@ export default function StudyApp() {
                 ))}
               </div>
             </div>
-
-            {ROUND_B_REQUESTED ? (
-              <div className="field-block evidence-usefulness">
-                <span>Evidence usefulness</span>
-                <div className="segmented-control">
-                  {EVIDENCE_USEFULNESS.map(([value, label]) => (
-                    <button
-                      type="button"
-                      className={
-                        draft.evidenceUsefulness === value ? "active" : ""
-                      }
-                      key={value}
-                      onClick={() =>
-                        setDraft((current) => ({
-                          ...current,
-                          evidenceUsefulness: value,
-                        }))
-                      }
-                    >
-                      {label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : null}
 
             <div className="metadata-grid">
               <label>
