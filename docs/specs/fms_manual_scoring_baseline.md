@@ -163,9 +163,11 @@ scoreable segment。只有覆盖“起始位 -> touch -> full extension -> touch
 - `1`：不能完成 diagonal pattern。
 - `0`：测试中出现 pain，或 flexion clearing test 为 positive / fail。
 
-Rotary Stability 当前在 AI-FMS 中仍是 feature-only / pose-evidence-only：pose 可以辅助 reviewer
-查看 reach、trunk rotation、balance stability 和 side evidence，但不应自动输出 AI RAW SCORE。
-Raw score 和 clearing / pain 结果必须由 human reviewer 按 FMS manual 确认。
+Frozen AI v1.0 中 Rotary Stability 仍是 feature-only / pose-evidence-only。Workbench
+v1.1 另有明确标注为 experimental 的 cycle-based first-pass，可依据两次触踝、肘膝
+伸展、离地时序和回位证据提出保守 AI RAW SCORE 或 abstain。它不进入 blind Study
+Mode；raw score 建议、board alignment 和 clearing / pain 结果仍必须由 human
+reviewer 按 FMS manual 确认。
 
 ## 10. 当前实现影响
 

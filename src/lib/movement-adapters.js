@@ -18,6 +18,8 @@ import { buildTrunkStabilityExplainableSuggestion } from "./trunk-stability-sugg
 import { evaluateTrunkStabilitySegmentsTiming } from "./trunk-stability-timing.js";
 import { summarizeRotaryStabilityPoseFeatures } from "./rotary-stability-features.js";
 import { evaluateRotaryStabilitySegmentsTiming } from "./rotary-stability-timing.js";
+import { buildRotaryStabilityCycleEvidence } from "./rotary-stability-cycle-evidence.js";
+import { buildRotaryStabilityExperimentalSuggestion } from "./rotary-stability-suggestion.js";
 
 export const MOVEMENT_CAPABILITY_STATUS = {
   IMPLEMENTED: "implemented",
@@ -27,6 +29,7 @@ export const MOVEMENT_CAPABILITY_STATUS = {
 
 export const AI_SCORING_STATUS = {
   POSE_BASED: "pose_based_ai_suggestion",
+  POSE_CYCLE_EXPERIMENTAL: "pose_cycle_experimental_suggestion",
   FEATURES_ONLY: "pose_evidence_only",
   NOT_SUPPORTED: "not_supported_yet",
 };
@@ -88,11 +91,11 @@ const BASE_CAPABILITIES = {
   },
   rotary_stability: {
     actionType: "rotary_stability",
-    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.FEATURES_ONLY,
-    aiScoringStatus: AI_SCORING_STATUS.FEATURES_ONLY,
+    posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_CYCLE_EXPERIMENTAL,
     supportsPoseTiming: true,
     supportsPoseFeatures: true,
-    supportsPoseSuggestion: false,
+    supportsPoseSuggestion: true,
     supportsAiDraftTiming: true,
   },
 };
@@ -417,8 +420,23 @@ const ROTARY_STABILITY_ADAPTER = {
       timingReport,
     });
   },
-  buildSuggestionReport() {
-    return null;
+  buildSuggestionReport({ posePayload, timingReport, segments } = {}) {
+    if (!posePayload || !timingReport || !segments?.length) {
+      return null;
+    }
+
+    const cycleEvidenceReport = buildRotaryStabilityCycleEvidence({
+      posePayload,
+      timingReport,
+      segments,
+    });
+    if (!cycleEvidenceReport) {
+      return null;
+    }
+
+    return buildRotaryStabilityExperimentalSuggestion({
+      cycleEvidenceReport,
+    });
   },
 };
 

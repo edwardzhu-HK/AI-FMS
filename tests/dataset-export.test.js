@@ -353,7 +353,7 @@ test("attachPoseEvidenceToDataset keeps reviewer side separate from AI side sugg
   });
 });
 
-test("attachPoseEvidenceToDataset exports Rotary feature-only evidence without pose score", () => {
+test("attachPoseEvidenceToDataset requires a Rotary experimental suggestion before showing a score", () => {
   const exported = buildDatasetExport(
     {
       videoId: "vid_rotary",
@@ -432,9 +432,12 @@ test("attachPoseEvidenceToDataset exports Rotary feature-only evidence without p
 
   assert.equal(
     augmented.video.movementCapability.posePipelineStatus,
-    "features_only",
+    "implemented",
   );
-  assert.equal(augmented.records[0].poseEvidenceGate.status, "features_only");
+  assert.equal(
+    augmented.records[0].poseEvidenceGate.status,
+    "insufficient_ai_suggestion",
+  );
   assert.equal(augmented.records[0].poseEvidenceGate.canUsePoseEvidence, true);
   assert.equal(
     augmented.records[0].poseEvidenceGate.canShowPoseSuggestion,

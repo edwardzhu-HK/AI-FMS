@@ -82,12 +82,23 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     artifact("rotary_v1_1_internal", {
       metrics: {
         formalItems: 8,
-        scoredItems: 4,
-        abstainedItems: 4,
-        exactCount: 4,
-        coverage: 0.5,
+        scoredItems: 8,
+        abstainedItems: 0,
+        exactCount: 6,
+        coverage: 1,
       },
       roundBIsolation: { experimentalScoreExposed: false },
+    }),
+    artifact("final_ai_v1_1_predictions", {
+      summary: {
+        formalItems: 32,
+        scoreAvailable: 28,
+        abstained: 4,
+        byAction: {
+          rotary_stability: { scoreAvailable: 8 },
+          deep_squat: { scoreAvailable: 4 },
+        },
+      },
     }),
     artifact("phase_i_case_study_portfolio", {
       summary: { selectedCases: 4, applicationFigures: 2 },
@@ -132,11 +143,16 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     roundBAiBenchmarkProtocolMetadataRequired: 6,
     roundBAiBenchmarkRuleFingerprint: "rule-fingerprint",
     rotaryV11FormalItems: 8,
-    rotaryV11ScoredItems: 4,
-    rotaryV11AbstainedItems: 4,
-    rotaryV11Exact: 4,
-    rotaryV11Coverage: 0.5,
+    rotaryV11ScoredItems: 8,
+    rotaryV11AbstainedItems: 0,
+    rotaryV11Exact: 6,
+    rotaryV11Coverage: 1,
     rotaryV11RoundBIsolation: true,
+    finalAiV11FormalItems: 32,
+    finalAiV11ScoreAvailable: 28,
+    finalAiV11Abstained: 4,
+    finalAiV11RotaryScoreAvailable: 8,
+    finalAiV11DeepSquatScoreAvailable: 4,
     selectedCaseStudies: 4,
     applicationFigures: 2,
   });

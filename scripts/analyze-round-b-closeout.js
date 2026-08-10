@@ -11,6 +11,8 @@ const DEFAULT_MANIFEST =
 const DEFAULT_EVIDENCE =
   "research/pilot-v1/generated/round-b-evidence-manifest.json";
 const DEFAULT_OUTPUT = "research/pilot-v1/generated/round-b-closeout";
+const DEFAULT_FINAL_AI =
+  "research/pilot-v1/generated/final-ai-v1-1/final-ai-v1-1-predictions.json";
 
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
@@ -21,6 +23,7 @@ function parseArgs(argv) {
     manifestPath: DEFAULT_MANIFEST,
     evidencePath: DEFAULT_EVIDENCE,
     outputDir: DEFAULT_OUTPUT,
+    finalAiPath: DEFAULT_FINAL_AI,
     reviewPaths: [],
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -30,6 +33,8 @@ function parseArgs(argv) {
       options.evidencePath = argv[++index];
     } else if (argv[index] === "--output-dir") {
       options.outputDir = argv[++index];
+    } else if (argv[index] === "--final-ai") {
+      options.finalAiPath = argv[++index];
     } else {
       options.reviewPaths.push(argv[index]);
     }
@@ -40,6 +45,25 @@ function parseArgs(argv) {
     );
   }
   return options;
+}
+
+function readChecksummedOutput(filePath) {
+  const resolvedPath = path.resolve(filePath);
+  const raw = fs.readFileSync(resolvedPath);
+  const actual = sha256(raw);
+  const checksums = fs.readFileSync(
+    path.join(path.dirname(resolvedPath), "SHA256SUMS"),
+    "utf8",
+  );
+  const expected = checksums
+    .split("\n")
+    .map((line) => line.match(/^([a-f0-9]{64})\s+\*?(.+)$/i))
+    .find((match) => match?.[2]?.trim() === path.basename(resolvedPath))?.[1]
+    ?.toLowerCase();
+  if (!expected || expected !== actual) {
+    throw new Error(`SHA-256 mismatch for ${filePath}`);
+  }
+  return { payload: JSON.parse(raw.toString("utf8")), sha256: actual };
 }
 
 function readSignedJson(filePath, checksumPath = `${filePath}.sha256`) {
@@ -66,6 +90,10 @@ function buildReport(analysis) {
     .join("\n");
   const aiA = analysis.aiComparison.roundAConsensus;
   const aiB = analysis.aiComparison.roundBConsensus;
+  const finalAi = analysis.aiComparison.finalV11;
+  const finalSection = finalAi
+    ? `\n## Final AI v1.1 Post-audit Internal Comparison\n\n| Human reference | Comparable | Exact | Within one | MAE | Linear kappa |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Round A consensus | ${finalAi.roundAConsensus.metrics.comparedCount} | ${finalAi.roundAConsensus.metrics.exactCount} | ${finalAi.roundAConsensus.metrics.withinOneCount} | ${finalAi.roundAConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundAConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n| Round B consensus | ${finalAi.roundBConsensus.metrics.comparedCount} | ${finalAi.roundBConsensus.metrics.exactCount} | ${finalAi.roundBConsensus.metrics.withinOneCount} | ${finalAi.roundBConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundBConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n\nPackage fingerprint: \`${finalAi.packageFingerprint}\`. This is a post-audit internal benchmark, not held-out validation.\n`
+    : "";
   return `# AI-FMS Round B Closeout Analysis
 
 - Pilot: \`${analysis.pilotId}\`
@@ -89,6 +117,7 @@ Coverage and agreement are reported separately. Round B reviewers were blind
 to AI scores and pose-derived evidence. The frozen AI package was loaded only
 after the signed human exports, so this is an AI-human concordance benchmark,
 not an independent held-out validation or clinical accuracy estimate.
+${finalSection}
 `;
 }
 
@@ -101,6 +130,13 @@ export function main(argv = process.argv.slice(2)) {
     evidencePath: options.evidencePath,
     pilot: manifest,
   });
+  const finalAi = readChecksummedOutput(options.finalAiPath);
+  if (
+    finalAi.payload.evaluationBoundary?.humanLabelsLoaded !== false ||
+    finalAi.payload.evaluationBoundary?.roundBStudyModeLoaded !== false
+  ) {
+    throw new Error("Final AI package is not isolated from human review data");
+  }
   const reviews = options.reviewPaths.map((reviewPath) => {
     const source = readSignedJson(reviewPath);
     const validation = validateStudyReviewExport(source.payload, {
@@ -128,12 +164,14 @@ export function main(argv = process.argv.slice(2)) {
     roundAExports,
     roundBExports,
     evidence: evidence.payload,
+    finalPredictions: finalAi.payload,
   });
   const payload = {
     ...analysis,
     generatedAt: new Date().toISOString(),
     sources: {
       evidence: { path: options.evidencePath, sha256: evidence.sha256 },
+      finalAi: { path: options.finalAiPath, sha256: finalAi.sha256 },
       reviews: reviews.map((source) => ({
         path: source.path,
         sha256: source.sha256,

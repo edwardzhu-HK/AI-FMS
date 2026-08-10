@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 315-test quality gate
+resolve both video and pose assets, and the current full 335-test quality gate
 passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
@@ -145,7 +145,7 @@ sensitivity work.
 G4 now has a Round A release candidate: a current README, Phase I dataset card,
 methods/limitations/ethics note, Chinese technical report with English abstract,
 application copy, and claim-control evidence table. A deterministic,
-fail-closed release generator verifies 14/14 private research/application
+fail-closed release generator verifies 15/15 private research/application
 artifacts, locks all reported evidence values, checksums 11 source-controlled documents, and
 audits release boundaries. Round B, demo recording, and human media
 rights/privacy review remain open.
@@ -259,11 +259,11 @@ Current V1.7 implementation status:
 The current 7-action maturity table is maintained in
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
 Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
-Mobility, and Trunk Stability Push-Up are pose-based AI suggestion paths.
-Rotary Stability remains feature-only in the default product and frozen Round B
-AI v1.0. A separate post-audit v1.1 experimental adapter now derives full-cycle
-evidence and proposes a conservative score or abstains; it is not displayed in
-Round B and is not a held-out validation result.
+Mobility, Trunk Stability Push-Up, and Rotary Stability are pose-based AI
+suggestion paths. Rotary remains feature-only in frozen AI v1.0, while the
+default Workbench now exposes a clearly labeled post-audit v1.1 experimental
+adapter that derives full-cycle evidence and proposes a conservative score or
+abstains. It is not displayed in Round B and is not a held-out validation result.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
@@ -286,12 +286,12 @@ Round B and is not a held-out validation result.
   compensation proxies. The score-3 sample has a reproducible local pose
   extraction path and browser preset, but it still needs more sample variety
   and Ronnie threshold calibration before stronger scoring claims.
-- Rotary Stability has the original feature-only pose probe plus an isolated
-  v1.1 cycle-rule path for two ankle touches, elbow/knee extension, hand/knee
-  lift timing, return control, and human flexion-clearing metadata. On the eight
-  formal reps it scores 4/8 and abstains on four low phase-coverage reps; 4/4
-  comparable suggestions match Round A consensus. This is an internal,
-  post-audit benchmark and remains hidden from frozen Round B.
+- Rotary Stability has the original feature-only frozen baseline plus a
+  Workbench v1.1 cycle-rule path for two ankle touches, elbow/knee extension,
+  hand/knee lift timing, return control, and human flexion-clearing metadata.
+  Criterion-specific visibility and visible finger proxies preserve 8/8 formal
+  cycles; 6/8 match Round A consensus and all 8 are within one point. This is an
+  internal, post-audit benchmark and remains hidden from blind Round B.
 
 Four-movement local demo readiness is now covered by `npm run demo:check:four`.
 As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
@@ -299,10 +299,9 @@ Hurdle Step all pass the local preset readiness check.
 
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
 As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow.
-Deep Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
-Mobility, and Trunk Stability Push-Up are implemented default pose/AI paths.
-Rotary remains feature-only in the default workflow and adds only an explicitly
-opt-in experimental v1.1 scoring path.
+All seven actions are implemented Workbench pose/AI paths. Rotary is explicitly
+marked experimental, while its frozen AI v1.0 and blind Round B paths remain
+feature-only and score-hidden respectively.
 
 ### V2: Evaluation and Application Package
 
@@ -789,25 +788,33 @@ Implementation status after the first P2 pass:
 38. Completed a nine-case frame-level AI difference audit and preserved the
     frozen 9/16 baseline alongside an explicitly post-audit 11/17 protocol
     sensitivity result.
-39. Finalized the Round A Phase I documentation package and added a deterministic
+39. Added an experimental Rotary Stability v1.1 Workbench path with
+    criterion-specific cycle evidence, finger-or-wrist ankle-touch proxies,
+    conservative scoring, and human clearing gates. A label-free 32-rep final
+    AI package is locked separately from both blind reviewer rounds: 28 score-
+    bearing predictions and four staged Deep Squat abstentions.
+40. Finalized the Round A Phase I documentation package and added a deterministic
     release-candidate manifest that verifies 9/9 evidence artifacts, checksums
     seven current documents, and fails on evidence drift or missing claim
     boundaries.
-40. Raised the complete quality baseline to 303 tests plus lint, format, and
+41. Raised the complete quality baseline to 303 tests plus lint, format, and
     three production entry builds.
-41. Added a label-free ASLR side/peak evidence gate over 17 records and 16
+42. Added a label-free ASLR side/peak evidence gate over 17 records and 16
     unique windows: 11 good, 2 watch, and 3 limited. The audit does not read
     scores, reviewer outcomes, or source filenames and does not tune thresholds.
-42. Expanded the Phase I release candidate to 10/10 verified research
+43. Expanded the Phase I release candidate to 10/10 verified research
     artifacts, eight checksummed documents, and a 307-test quality baseline.
-43. Opened an isolated Round B Study Mode and froze the 32-item AI v1.0 package
+44. Opened an isolated Round B Study Mode and froze the 32-item AI v1.0 package
     and rule fingerprint. The reviewer protocol was subsequently corrected to
     a true second blind review: Study Mode does not load AI/pose evidence and
     append-only events reject evidence exposure.
-44. Added a checksum-verified post-Round-B closeout analyzer for reviewer
+45. Added a checksum-verified post-Round-B closeout analyzer for reviewer
     agreement, per-reviewer A/B changes, blind-exposure verification, and frozen
     AI v1.0 comparisons against Round A and Round B consensus. The full
     quality baseline is now 315 tests plus lint, format, and three builds.
+46. Added the Rotary v1.1 Workbench path, a label-free final AI v1.1 package,
+    and dual-version Round B closeout comparison. The current quality baseline
+    is 335 tests plus lint, format, and three production entry builds.
 
 Recommended next sprint:
 

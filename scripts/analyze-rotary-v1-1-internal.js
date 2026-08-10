@@ -80,7 +80,7 @@ function buildSegment(repetition) {
   };
 }
 
-function buildLabelFreeRows({
+export function buildRotaryLabelFreeRows({
   canonical,
   assets,
   formalItems,
@@ -143,6 +143,8 @@ function buildLabelFreeRows({
         rawPoseScore: suggestion?.rawPoseScore ?? null,
         confidence: suggestion?.confidence ?? 0,
         confidenceLabel: suggestion?.confidenceLabel ?? "low",
+        scoreSource: suggestion?.scoreSource ?? null,
+        modelVersion: suggestion?.modelVersion ?? null,
         poseSide: evidence?.poseSide ?? null,
         phases: evidence?.phases ?? {},
         criteria: evidence?.criteria ?? {},
@@ -154,6 +156,32 @@ function buildLabelFreeRows({
   return rows.sort((left, right) =>
     left.repetitionId.localeCompare(right.repetitionId),
   );
+}
+
+export function sanitizeRotaryLabelFreeRows(rows) {
+  return rows.map((row) => ({
+    repetitionId: row.repetitionId,
+    actionType: "rotary_stability",
+    suggestionStatus: row.suggestionStatus,
+    scoringStatus: Number.isInteger(row.aiScore)
+      ? "score_available"
+      : "abstained",
+    scoreSource: row.scoreSource,
+    aiSuggestedScore: row.aiScore,
+    rawPoseScore: row.rawPoseScore,
+    confidence: row.confidence,
+    confidenceLabel: row.confidenceLabel,
+    modelVersion: row.modelVersion,
+    comparisonEligible: Number.isInteger(row.aiScore),
+    exclusionReason: Number.isInteger(row.aiScore)
+      ? null
+      : row.suggestionStatus,
+    evidenceStatus: row.evidenceStatus,
+    poseSide: row.poseSide,
+    criteria: row.criteria,
+    metrics: row.metrics,
+    reasons: row.abstentionReasons,
+  }));
 }
 
 function addHumanConsensus(labelFreeRows, agreement) {
@@ -372,7 +400,7 @@ export function runRotaryInternalBenchmark({
   }
 
   // Human labels are intentionally unavailable during suggestion generation.
-  const labelFreeRows = buildLabelFreeRows({
+  const labelFreeRows = buildRotaryLabelFreeRows({
     canonical,
     assets,
     formalItems,
@@ -381,6 +409,26 @@ export function runRotaryInternalBenchmark({
   });
   const agreement = readJson(path.resolve(repoRoot, spec.inputs.agreementPath));
   const rows = addHumanConsensus(labelFreeRows, agreement);
+  const labelFreePayload = {
+    schemaVersion: "ai-fms-rotary-v1.1-label-free-suggestions-v1",
+    modelVersion: spec.modelVersion,
+    generatedAt: new Date().toISOString(),
+    evaluationBoundary: {
+      humanLabelsLoaded: false,
+      reviewerExposure: "none",
+      roundBStudyModeLoaded: false,
+      claimsAllowed: "post_audit_internal_predictions_only",
+    },
+    summary: {
+      formalItems: labelFreeRows.length,
+      scoreAvailable: labelFreeRows.filter((row) =>
+        Number.isInteger(row.aiScore),
+      ).length,
+      abstained: labelFreeRows.filter((row) => !Number.isInteger(row.aiScore))
+        .length,
+    },
+    rows: sanitizeRotaryLabelFreeRows(labelFreeRows),
+  };
   const payload = {
     schemaVersion: "ai-fms-rotary-v1.1-internal-benchmark-v1",
     modelVersion: spec.modelVersion,
@@ -417,6 +465,7 @@ export function runRotaryInternalBenchmark({
     rows,
   };
   const outputs = {
+    "rotary-v1-1-label-free-suggestions.json": `${JSON.stringify(labelFreePayload, null, 2)}\n`,
     "rotary-v1-1-internal-benchmark.json": `${JSON.stringify(payload, null, 2)}\n`,
     "rotary-v1-1-internal-benchmark.csv": buildCsv(rows),
     "rotary-v1-1-internal-benchmark-report.md": buildReport(payload),

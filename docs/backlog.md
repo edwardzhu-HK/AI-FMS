@@ -336,6 +336,20 @@ Canonical execution plan:
       reps scored, 4/4 exact among comparable reps, 4 abstentions.
 - [x] Run a MediaPipe Full 15 fps sensitivity on the low-coverage Rotary source;
       retain the original gate after coverage did not improve.
+- [x] Replace the all-or-nothing Rotary landmark gate with core-cycle and
+      criterion-specific visibility checks; use visible finger landmarks for
+      the lateral-malleolus proxy and retain conservative disagreement cases.
+- [x] Regenerate Rotary v1.1 at 8/8 score-bearing coverage: 6/8 exact, 8/8
+      within one, MAE 0.25; do not tune the two conservative score-1 cases to
+      their Round A labels.
+- [x] Expose Rotary v1.1 as an explicitly experimental Workbench suggestion
+      while keeping frozen AI v1.0 and both blind Study rounds isolated.
+- [x] Audit floor/board protocol metadata for all eight formal Deep Squat reps
+      without reading human scores or changing thresholds.
+- [x] Lock a label-free final AI v1.1 prediction package for all 32 formal reps:
+      28 score-bearing, 4 staged Deep Squat abstentions, checksum-protected.
+- [x] Extend the Round B closeout command to compare both frozen AI v1.0 and
+      final AI v1.1 only after blind signed reviewer exports are available.
 - [x] Generate a checksum-protected private Round A reviewer comparison package.
 - [x] Preserve all 110 canonical reps in an explicit evidence-tier analysis
       instead of reducing the research pool to the 26 gold-consensus rows.
@@ -415,10 +429,10 @@ Canonical execution plan:
       media, person images, source filenames, or local paths.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      14/14 research/application artifacts, checksums 11 documents, and pins
+      15/15 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 328-test and three-entry build gate.
+      study/claim boundaries, plus the full 335-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 
@@ -490,19 +504,16 @@ remain reusable:
   small frozen pilot and do not establish clinical validity or generalization.
 - All 92 historical numeric AI suggestions are excluded from accuracy analysis
   because the legacy workflow could read score-bearing file names or notes.
-- Current AI suggestion is pose-based and explainable for Deep Squat, Active
-  Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk
-  Stability Push-Up. Rotary Stability is feature-only until movement-specific
-  phase/side semantics and scoring thresholds are calibrated. The workbench now
+- Current AI suggestion is pose-based and explainable for all seven actions.
+  Rotary Stability is explicitly experimental, uses full-cycle evidence, and
+  may abstain; its frozen AI v1.0 baseline remains feature-only. The Workbench
   uses movement capability metadata and a per-segment evidence gate to decide
-  whether to show pose-based AI scoring or a more conservative
-  evidence/annotation state.
+  whether to show pose-based AI scoring or a more conservative state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an
   explicitly labeled demo skeleton when no pose JSON is loaded.
 - Demo presets now cover all 7 FMS action slots, but Trunk Stability Push-Up
   still needs more sample calibration beyond the first score-3 pose demo, and
-  Rotary Stability still needs better final demo sample selection before any AI
-  scoring claim.
+  Rotary Stability needs new held-out samples before any generalization claim.
 - The pilot can support movement-quality phenotype hypotheses, but it has no
   external clinical diagnosis, impairment, injury, or outcome labels. It must
   not be presented as evidence of diagnosis or injury-risk prediction.

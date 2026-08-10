@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "ai_fms_final_ai_protocol_audit_v1",
+  "pilotId": "ai-fms-four-movement-core-2026-08-09",
+  "auditedAt": "2026-08-10",
+  "scope": {
+    "actionType": "deep_squat",
+    "formalReps": 8,
+    "auditedReps": 8,
+    "field": "attemptCondition"
+  },
+  "policy": {
+    "metadataOnly": true,
+    "humanScoresUsed": false,
+    "aiThresholdsChanged": false,
+    "roundBStudyModeChanged": false,
+    "interpretation": "independent_protocol_metadata_audit_for_post_audit_internal_ai_pass"
+  },
+  "rows": [
+    {
+      "repetitionId": "rep_088a670f0e91",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "evidence": {
+        "frameSecond": 2.5025,
+        "method": "full_resolution_visual_audit",
+        "observation": "The athlete stands directly on the wooden lifting platform; no separate heel-elevation board is under the feet."
+      }
+    },
+    {
+      "repetitionId": "rep_1cf84c0f5463",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "evidence": {
+        "frameSecond": 6.8,
+        "method": "full_resolution_visual_audit",
+        "observation": "The FMS board is visible beside the athlete rather than under the heels."
+      }
+    },
+    {
+      "repetitionId": "rep_489b80ba8943",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "heels_elevated_board"
+      },
+      "evidence": {
+        "frameSecond": 48.8,
+        "method": "full_resolution_visual_audit",
+        "observation": "A separate board is clearly visible beneath both heels."
+      }
+    },
+    {
+      "repetitionId": "rep_733347d54148",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "evidence": {
+        "frameSecond": 33.2332,
+        "method": "full_resolution_visual_audit",
+        "observation": "Both socked feet contact the floor directly with no heel-elevation board."
+      }
+    },
+    {
+      "repetitionId": "rep_7521c8fb023f",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "evidence": {
+        "frameSecond": 13.2,
+        "method": "full_resolution_visual_audit",
+        "observation": "Both bare feet contact the floor directly with no heel-elevation board."
+      }
+    },
+    {
+      "repetitionId": "rep_b6a99beacfdd",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "heels_elevated_board"
+      },
+      "evidence": {
+        "frameSecond": 4.027211,
+        "method": "full_resolution_visual_audit",
+        "observation": "The shoes and heels are supported by a long board during the attempt."
+      }
+    },
+    {
+      "repetitionId": "rep_c80a95e3ac44",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "floor"
+      },
+      "evidence": {
+        "frameSecond": 4.16,
+        "method": "full_resolution_visual_audit",
+        "observation": "The feet are on the floor; the FMS board is beside the athlete, not under the heels."
+      }
+    },
+    {
+      "repetitionId": "rep_ce280c79a07d",
+      "actionType": "deep_squat",
+      "protocolMetadata": {
+        "attemptCondition": "heels_elevated_board"
+      },
+      "evidence": {
+        "frameSecond": 51.1,
+        "method": "full_resolution_visual_audit",
+        "observation": "A separate board is clearly visible beneath both heels."
+      }
+    }
+  ]
+}

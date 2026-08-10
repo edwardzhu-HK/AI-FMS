@@ -182,7 +182,7 @@ const DEMO_PRESETS = [
   },
   {
     id: "rotary-review",
-    label: "Rotary Stability feature-only sample",
+    label: "Rotary Stability experimental AI sample",
     actionType: "rotary_stability",
     videoUrl:
       "/Eval_Videos/Sample%20videos/7-rotatory%20stability/videoplayback%20%2821%29.mp4",
@@ -192,7 +192,7 @@ const DEMO_PRESETS = [
     poseFileName: "rotary-review.pose.json",
     expectedReps: "2",
     notes:
-      "Rotary Stability feature-only sample。只保留两个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原；后面的图片/clearing 讲解不纳入 segment。当前只显示 pose evidence / side suggestion，不生成 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
+      "Rotary Stability experimental first-pass sample。只保留两个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原；后面的图片/clearing 讲解不纳入 segment。系统可生成保守、可拒判的 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
     range: {
       startSecond: "46",
       endSecond: "112",
@@ -572,6 +572,8 @@ const UI_TEXT = {
     posePipeline_annotation_only: "annotation only",
     posePipeline_unknown: "unknown",
     aiScoring_pose_based_ai_suggestion: "pose-based AI suggestion",
+    aiScoring_pose_cycle_experimental_suggestion:
+      "experimental cycle-based AI suggestion",
     aiScoring_pose_evidence_only: "pose evidence only",
     aiScoring_not_supported_yet: "not supported yet",
     status: "Status",
@@ -581,6 +583,9 @@ const UI_TEXT = {
     none: "None",
     poseBasedSuggestion: "Pose-based suggestion",
     poseBasedAiSuggestion: "Pose-based AI Suggestion",
+    experimentalPoseAiSuggestion: "Experimental pose-based AI suggestion",
+    experimentalPoseAiSuggestionDetail:
+      "Conservative first-pass only. A human reviewer confirms the score, pain, and clearing test.",
     deepSquatStagedScoring: "Deep Squat staged scoring",
     deepSquatNeedsBoardAttemptDetail:
       "This floor attempt did not meet the score-3 path. Review the heels-elevated / FMS board attempts before assigning a Deep Squat final score.",
@@ -1125,6 +1130,7 @@ const UI_TEXT = {
     posePipeline_annotation_only: "仅人工标注",
     posePipeline_unknown: "unknown",
     aiScoring_pose_based_ai_suggestion: "基于 pose 的 AI 建议",
+    aiScoring_pose_cycle_experimental_suggestion: "实验性周期规则 AI 建议",
     aiScoring_pose_evidence_only: "仅 pose evidence",
     aiScoring_not_supported_yet: "暂未支持",
     status: "状态",
@@ -1134,6 +1140,9 @@ const UI_TEXT = {
     none: "无",
     poseBasedSuggestion: "基于 pose 的建议",
     poseBasedAiSuggestion: "基于 Pose 的 AI 建议",
+    experimentalPoseAiSuggestion: "实验性 Pose AI 建议",
+    experimentalPoseAiSuggestionDetail:
+      "仅作为保守的 first-pass 建议；最终分数、疼痛与 clearing test 仍由人工确认。",
     deepSquatStagedScoring: "Deep Squat 分阶段评分",
     deepSquatNeedsBoardAttemptDetail:
       "这个 floor attempt 没有达到 3 分路径；需要复核脚跟垫高 / FMS board attempts 后，才能给 Deep Squat 最终分。",
@@ -2101,6 +2110,7 @@ export default function App() {
     }
 
     return movementAdapter.buildSuggestionReport({
+      posePayload,
       featureReport,
       timingReport,
       segments,
@@ -2112,6 +2122,7 @@ export default function App() {
     currentVideoFileName,
     featureReport,
     movementAdapter,
+    posePayload,
     segments,
     timingReport,
   ]);

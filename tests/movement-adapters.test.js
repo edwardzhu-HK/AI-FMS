@@ -41,6 +41,7 @@ test("movement adapter registry exposes ASLR implemented pipeline", () => {
     "in_line_lunge",
     "shoulder_mobility",
     "trunk_stability_push_up",
+    "rotary_stability",
   ]);
 });
 
@@ -74,6 +75,7 @@ test("movement adapter registry exposes Shoulder Mobility implemented pipeline",
     "in_line_lunge",
     "shoulder_mobility",
     "trunk_stability_push_up",
+    "rotary_stability",
   ]);
 });
 
@@ -106,7 +108,7 @@ test("movement capability registry covers all actions", () => {
   );
   assert.equal(
     getMovementCapability("rotary_stability").posePipelineStatus,
-    "features_only",
+    "implemented",
   );
 });
 
@@ -142,8 +144,8 @@ test("movement evidence gate separates ready AI scoring from feature-only eviden
     }),
     {
       actionType: "rotary_stability",
-      status: "features_only",
-      reasonCode: "features_only",
+      status: "insufficient_ai_suggestion",
+      reasonCode: "insufficient_ai_suggestion",
       canUsePoseEvidence: true,
       canShowPoseSuggestion: false,
       timingStatus: "good",
@@ -235,7 +237,7 @@ test("movement evidence gate separates ready AI scoring from feature-only eviden
   assert.equal(stagedGate.canShowPoseSuggestion, false);
 });
 
-test("movement evidence gate keeps Rotary Stability feature-only", () => {
+test("movement evidence gate exposes only a valid Rotary Stability suggestion", () => {
   const gate = evaluateMovementEvidenceGate({
     actionType: "rotary_stability",
     segmentId: "seg_1",
@@ -258,9 +260,9 @@ test("movement evidence gate keeps Rotary Stability feature-only", () => {
     },
   });
 
-  assert.equal(gate.status, "features_only");
-  assert.equal(gate.reasonCode, "features_only");
-  assert.equal(gate.canShowPoseSuggestion, false);
+  assert.equal(gate.status, "ready");
+  assert.equal(gate.reasonCode, "ready");
+  assert.equal(gate.canShowPoseSuggestion, true);
 });
 
 test("movement evidence gate does not let curated labels bypass pose quality", () => {
@@ -310,17 +312,21 @@ test("movement adapter registry exposes In-Line Lunge implemented pipeline", () 
     "in_line_lunge",
     "shoulder_mobility",
     "trunk_stability_push_up",
+    "rotary_stability",
   ]);
 });
 
-test("movement adapter registry exposes Rotary Stability feature-only pipeline", () => {
+test("movement adapter registry exposes Rotary Stability experimental scoring pipeline", () => {
   const adapter = getMovementAdapter("rotary_stability");
   const capability = getMovementCapability("rotary_stability");
 
   assert.equal(adapter.actionType, "rotary_stability");
-  assert.equal(adapter.posePipelineStatus, "features_only");
-  assert.equal(capability.aiScoringStatus, "pose_evidence_only");
-  assert.equal(capability.supportsPoseSuggestion, false);
+  assert.equal(adapter.posePipelineStatus, "implemented");
+  assert.equal(
+    capability.aiScoringStatus,
+    "pose_cycle_experimental_suggestion",
+  );
+  assert.equal(capability.supportsPoseSuggestion, true);
   assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");
   assert.equal(typeof adapter.buildFeatureReport, "function");

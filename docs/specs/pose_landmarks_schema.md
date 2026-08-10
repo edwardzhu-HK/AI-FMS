@@ -147,10 +147,9 @@ JSON dataset export 不会嵌入完整 `*.pose.json` 原始帧数据。加载 po
 criteria schema；`subscores` 只是为了兼容当前 UI、CSV 和旧测试路径而保留。
 
 `poseEvidence` 还会记录 `implementedPoseActionTypes`、`plannedActionTypes` 和
-`movementCapabilities`。当前 Deep Squat、ASLR、Hurdle Step、In-Line Lunge、
-Shoulder Mobility 和 Trunk Stability Push-Up 已有 first-pass pose-based AI
-suggestion；Rotary Stability 为 feature-only，只显示 pose evidence，不显示 AI
-RAW SCORE。
+`movementCapabilities`。当前七个动作都有 first-pass pose-based AI suggestion；
+Rotary Stability 使用明确标注的 experimental cycle rules。Frozen AI v1.0 与 blind
+Study Mode 仍保持 Rotary score 隔离。
 
 7 个动作的当前 maturity、Side 策略和 Clearing / Pain 边界记录在
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`。统一

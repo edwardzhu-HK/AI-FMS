@@ -1,16 +1,29 @@
-const REQUIRED_LANDMARKS = [
+const CORE_LANDMARKS = [
   "left_shoulder",
   "right_shoulder",
   "left_hip",
   "right_hip",
-  "left_elbow",
-  "right_elbow",
   "left_wrist",
   "right_wrist",
   "left_knee",
   "right_knee",
   "left_ankle",
   "right_ankle",
+];
+
+const OPTIONAL_CRITERION_LANDMARKS = ["left_elbow", "right_elbow"];
+const OPTIONAL_HAND_LANDMARKS = [
+  "left_thumb",
+  "left_index",
+  "left_pinky",
+  "right_thumb",
+  "right_index",
+  "right_pinky",
+];
+const TRACKED_LANDMARKS = [
+  ...CORE_LANDMARKS,
+  ...OPTIONAL_CRITERION_LANDMARKS,
+  ...OPTIONAL_HAND_LANDMARKS,
 ];
 
 export const ROTARY_STABILITY_CYCLE_EVIDENCE_VERSION =
@@ -83,13 +96,14 @@ function isUsableLandmark(landmark, minVisibility) {
 }
 
 function distance(first, second) {
-  return first && second
+  return isFinitePoint(first) && isFinitePoint(second)
     ? Math.hypot(first.x - second.x, first.y - second.y)
     : null;
 }
 
 function jointAngle(first, center, last) {
-  if (!first || !center || !last) return null;
+  if (!isFinitePoint(first) || !isFinitePoint(center) || !isFinitePoint(last))
+    return null;
   const firstVector = [first.x - center.x, first.y - center.y];
   const lastVector = [last.x - center.x, last.y - center.y];
   const denominator = Math.hypot(...firstVector) * Math.hypot(...lastVector);
@@ -101,9 +115,13 @@ function jointAngle(first, center, last) {
 }
 
 function midpoint(first, second) {
-  return first && second
+  return isFinitePoint(first) && isFinitePoint(second)
     ? { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 }
     : null;
+}
+
+function isFinitePoint(point) {
+  return Boolean(point && Number.isFinite(point.x) && Number.isFinite(point.y));
 }
 
 function medianPoint(states, landmarkName) {
@@ -115,13 +133,16 @@ function medianPoint(states, landmarkName) {
 
 function buildFrameState(frame, config) {
   const second = getFrameSecond(frame);
-  const landmarks = getLandmarkMap(frame);
-  if (
-    second === null ||
-    REQUIRED_LANDMARKS.some(
-      (name) => !isUsableLandmark(landmarks[name], config.minVisibility),
-    )
-  ) {
+  const rawLandmarks = getLandmarkMap(frame);
+  const landmarks = Object.fromEntries(
+    TRACKED_LANDMARKS.map((name) => [
+      name,
+      isUsableLandmark(rawLandmarks[name], config.minVisibility)
+        ? rawLandmarks[name]
+        : null,
+    ]),
+  );
+  if (second === null || CORE_LANDMARKS.some((name) => !landmarks[name])) {
     return null;
   }
   const referenceLength = average([
@@ -137,7 +158,7 @@ function buildFrameState(frame, config) {
     landmarks,
     referenceLength,
     visibility: average(
-      REQUIRED_LANDMARKS.map((name) => landmarks[name].visibility),
+      CORE_LANDMARKS.map((name) => landmarks[name].visibility),
     ),
   };
 }
@@ -168,6 +189,14 @@ function findMaximum(states, valueBuilder) {
     if (!Number.isFinite(value)) return best;
     return !best || value > best.value ? { state, value } : best;
   }, null);
+}
+
+function handToAnkleDistance(state, side) {
+  const ankle = state.landmarks[`${side}_ankle`];
+  const distances = ["wrist", "thumb", "index", "pinky"]
+    .map((joint) => distance(state.landmarks[`${side}_${joint}`], ankle))
+    .filter(Number.isFinite);
+  return distances.length ? Math.min(...distances) : null;
 }
 
 function getSegmentBounds(timingItem, segment) {
@@ -245,10 +274,10 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
   const setupStates = states.slice(0, setupCount);
   const endStates = states.slice(-endCount);
   const setup = Object.fromEntries(
-    REQUIRED_LANDMARKS.map((name) => [name, medianPoint(setupStates, name)]),
+    CORE_LANDMARKS.map((name) => [name, medianPoint(setupStates, name)]),
   );
   const end = Object.fromEntries(
-    REQUIRED_LANDMARKS.map((name) => [name, medianPoint(endStates, name)]),
+    CORE_LANDMARKS.map((name) => [name, medianPoint(endStates, name)]),
   );
   const normalizedDisplacement = (state, side, joint) =>
     distance(state.landmarks[`${side}_${joint}`], setup[`${side}_${joint}`]) /
@@ -305,10 +334,7 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
   const firstTouchSearch = states.slice(searchStart, extensionIndex + 1);
   const secondTouchSearch = states.slice(extensionIndex, searchEnd);
   const touchDistance = (state) =>
-    distance(
-      state.landmarks[`${poseSide}_wrist`],
-      state.landmarks[`${poseSide}_ankle`],
-    ) / referenceLength;
+    handToAnkleDistance(state, poseSide) / referenceLength;
   const firstTouch = findMinimum(firstTouchSearch, touchDistance);
   const secondTouch = findMinimum(secondTouchSearch, touchDistance);
   const extensionLandmarks = extension.state.landmarks;
@@ -317,6 +343,9 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
     extensionLandmarks[`${poseSide}_elbow`],
     extensionLandmarks[`${poseSide}_wrist`],
   );
+  const movingElbowUsableFrameRatio =
+    states.filter((state) => state.landmarks[`${poseSide}_elbow`]).length /
+    Math.max(1, states.length);
   const kneeExtension = jointAngle(
     extensionLandmarks[`${poseSide}_hip`],
     extensionLandmarks[`${poseSide}_knee`],
@@ -407,7 +436,7 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
       ),
       firstTouchDistance,
       "body_reference_ratio",
-      "First hand-to-lateral-malleolus proxy",
+      "First finger-or-wrist-to-lateral-malleolus proxy",
     ),
     secondAnkleTouch: createCriterion(
       statusFromThreshold(
@@ -417,7 +446,7 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
       ),
       secondTouchDistance,
       "body_reference_ratio",
-      "Second hand-to-lateral-malleolus proxy",
+      "Second finger-or-wrist-to-lateral-malleolus proxy",
     ),
     elbowExtension: createCriterion(
       statusFromThreshold(
@@ -499,6 +528,7 @@ function buildCycleEvidenceItem({ posePayload, timingItem, segment, config }) {
       averageVisibility: round(
         average(states.map((state) => state.visibility)),
       ),
+      movingElbowUsableFrameRatio: round(movingElbowUsableFrameRatio),
       referenceLength: round(referenceLength, 4),
       frameIntervalSecond: round(frameIntervalSecond, 3),
       leftMotion: round(leftMotion),

@@ -56,9 +56,9 @@ protocol condition、confidence 和备注，并用 pose overlay、角度、距�
 辅助肉眼判断。第二，恢复传统 0-3 分压缩掉的连续信息：分数相同的动作仍可能具有不同
 的深度、关节策略、躯干控制和左右稳定性。
 
-平台层面覆盖全部 7 个 FMS 动作；其中 6 个已经具备默认 first-pass pose-based AI
-suggestion。Rotary Stability 在 frozen Round B v1.0 中仍为 feature-only；独立 v1.1
-experimental 路径已经加入完整周期判分与 abstain，但不向 Round B reviewer 展示。
+平台层面覆盖全部 7 个 FMS 动作，七个动作均具备 first-pass pose-based AI suggestion。
+Rotary Stability 在 frozen Round B v1.0 中仍为 feature-only；默认 Workbench 的 v1.1
+experimental 路径已加入完整周期判分与 abstain，但不向 Round A/B reviewer 展示。
 Phase I 数据研究重点选择 4 个动作，重建了 28 个唯一视频、110 个 reps 的 canonical
 pilot；66 条通过 quantitative feature quality gate，32 条进入正式双轮研究。
 
@@ -156,21 +156,21 @@ MediaPipe pose -> timing QA -> movement-specific features
 
 ### 3.3 Product Scope：七动作功能覆盖
 
-| Action                    | Annotation / timing                      | Pose features                                      | AI-assisted review                     | Side / clearing 边界                      |
-| ------------------------- | ---------------------------------------- | -------------------------------------------------- | -------------------------------------- | ----------------------------------------- |
-| Deep Squat                | Rep timing + floor/board attempt context | Depth、torso、hip/knee/ankle proxies               | First-pass explainable suggestion      | 非左右动作；无 clearing                   |
-| Active Straight Leg Raise | Left/right raise cycles                  | Active-leg height、stationary-leg、pelvis、side    | First-pass explainable suggestion + QA | AI side suggestion；无 clearing           |
-| Hurdle Step               | Step-cycle timing                        | Clearance、stance leg、pelvis/trunk、alignment     | First-pass explainable suggestion + QA | AI side suggestion；无 clearing           |
-| In-Line Lunge             | Lunge-depth cycles                       | Depth、trunk/pelvis、rear leg、knee-foot alignment | First-pass explainable suggestion      | AI side；ankle clearing 由人工确认        |
-| Shoulder Mobility         | Best-reach evidence                      | Reach distance、visibility、side context           | Conservative first-pass suggestion     | AI side；shoulder pain 由人工确认         |
-| Trunk Stability Push-Up   | Best push-up frame                       | Lift、body line、arm extension、hip drift          | Conservative first-pass suggestion     | 非左右动作；extension pain 由人工确认     |
-| Rotary Stability          | Segment cycle + pose-derived phase QA    | 两次触踝、肘膝伸展、离地时序、回位、稳定性         | v1.0 feature-only；v1.1 experimental   | AI side evidence；flexion pain 由人工确认 |
+| Action                    | Annotation / timing                      | Pose features                                      | AI-assisted review                             | Side / clearing 边界                      |
+| ------------------------- | ---------------------------------------- | -------------------------------------------------- | ---------------------------------------------- | ----------------------------------------- |
+| Deep Squat                | Rep timing + floor/board attempt context | Depth、torso、hip/knee/ankle proxies               | First-pass explainable suggestion              | 非左右动作；无 clearing                   |
+| Active Straight Leg Raise | Left/right raise cycles                  | Active-leg height、stationary-leg、pelvis、side    | First-pass explainable suggestion + QA         | AI side suggestion；无 clearing           |
+| Hurdle Step               | Step-cycle timing                        | Clearance、stance leg、pelvis/trunk、alignment     | First-pass explainable suggestion + QA         | AI side suggestion；无 clearing           |
+| In-Line Lunge             | Lunge-depth cycles                       | Depth、trunk/pelvis、rear leg、knee-foot alignment | First-pass explainable suggestion              | AI side；ankle clearing 由人工确认        |
+| Shoulder Mobility         | Best-reach evidence                      | Reach distance、visibility、side context           | Conservative first-pass suggestion             | AI side；shoulder pain 由人工确认         |
+| Trunk Stability Push-Up   | Best push-up frame                       | Lift、body line、arm extension、hip drift          | Conservative first-pass suggestion             | 非左右动作；extension pain 由人工确认     |
+| Rotary Stability          | Segment cycle + pose-derived phase QA    | 两次触踝、肘膝伸展、离地时序、回位、稳定性         | v1.0 feature-only；Workbench v1.1 experimental | AI side evidence；flexion pain 由人工确认 |
 
-六个动作已经进入默认 `implemented` 状态，具有 timing、features 和可人工校准的
-first-pass pose-based suggestion。Rotary Stability 已进入完整 annotation、pose
-evidence、Study Mode、export 和数据库流程；frozen v1.0 保持 `features_only`，另有不
-接入默认 UI 的 v1.1 experimental adapter。v1.1 对完整周期输出可解释建议，对遮挡或
-关键阶段不足的周期 abstain。它改善了功能完整性，但不改变 Round B 实验设计。
+七个动作都已进入 `implemented` 产品状态，具有 timing、features 和可人工校准的
+first-pass pose-based suggestion。Rotary Stability 的默认 Workbench 使用明确标注为
+experimental 的 v1.1 cycle rules；frozen v1.0 仍保持 `features_only`，blind Round B
+也完全不载入 v1.1。v1.1 对完整周期输出可解释建议，对证据不足的周期 abstain，并将
+pain / flexion clearing 保留为人工 gate。
 
 ### 3.4 Research Scope：四动作 Phase I pilot
 
@@ -288,7 +288,7 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 1. Deep Squat：同分背后的连续 movement-profile 差异。
 2. ASLR：subject-aware extraction 如何改变 pose evidence reliability。
 3. Hurdle Step：mixed/front 机位差异为什么阻止 movement-only 解释。
-4. Rotary Stability：8 条正式样本保留 features，但证据不足时不输出 AI 总分。
+4. Rotary Stability：完整周期证据、保守 AI first-pass 与 human clearing boundary。
 
 其中 Deep Squat 和 ASLR 已生成不含人物图像、源文件名或本机路径的数据驱动图，完整
 数字与发布边界见
@@ -300,12 +300,12 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 “AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 将其拆成
 四个评测层次：
 
-| 评测层次                 | 比较内容                                  | 回答的问题                   | 当前状态                          |
-| ------------------------ | ----------------------------------------- | ---------------------------- | --------------------------------- |
-| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定       | Round A 完成；Round B pending     |
-| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致 | Round A 基线完成；Round B 待生成  |
-| Human test-retest        | 每位 reviewer 的 Round B vs Round A       | 盲评分数、信心和时间是否稳定 | 待 Round B                        |
-| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现 | Rotary 组件完成；全 32 待 Round B |
+| 评测层次                 | 比较内容                                  | 回答的问题                   | 当前状态                              |
+| ------------------------ | ----------------------------------------- | ---------------------------- | ------------------------------------- |
+| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定       | Round A 完成；Round B pending         |
+| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致 | Round A 基线完成；Round B 待生成      |
+| Human test-retest        | 每位 reviewer 的 Round B vs Round A       | 盲评分数、信心和时间是否稳定 | 待 Round B                            |
+| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现 | v1.1 预测已锁定；agreement 待 Round B |
 
 冻结基线的运行顺序是先对 110 条生成 leakage-controlled AI suggestions，再连接 26 条
 人工 consensus。Files、notes、历史 labels、legacy AI 和 reviewer comments 不进入
@@ -337,8 +337,12 @@ weighted Cohen's kappa、分动作结果，以及 abstain / evidence-insufficien
 当前 frozen AI v1.0 的 score-bearing coverage 为 18/32：ASLR 8、Hurdle Step 8、
 Deep Squat 2、Rotary Stability 0。Rotary v1.1 已建立 cycle-level、规则驱动、允许
 abstain 的 first-pass suggestion，并单独完成组件 benchmark；其结果不会回写 v1.0。
-全 32 条改进版 benchmark 仍需等待 Round B 后统一运行。由于 v1.1 开发发生在 Round A
-之后，它只能称为 internal benchmark，不能称为 held-out validation。
+Final AI v1.1 的 label-free prediction package 已在 Round B 人评结果产生前锁定：32 条
+全部进入分析，28 条有 AI raw score，4 条合理 abstain。ASLR、Hurdle 与 Rotary 各
+8/8 score-bearing；Deep Squat 为 4/8，另外 4 条 floor attempt 缺少 staged
+heels-elevated follow-up，不能强行生成最终 raw score。该包不含 human/reviewer 字段，
+也不由 Study Mode 载入。Round B 完成后只需连接人工共识计算 agreement。由于 v1.1
+开发发生在 Round A 之后，它只能称为 internal benchmark，不能称为 held-out validation。
 
 ### Rotary Stability v1.1：实现与当前证据边界
 
@@ -356,21 +360,25 @@ pain / flexion clearing metadata 触发。Curated timing 中的人工 score over
 
 正式 8 条的 post-audit internal benchmark 结果如下：
 
-| 指标                   |                     Rotary v1.1 |
-| ---------------------- | ------------------------------: |
-| Formal reps            |                               8 |
-| Score-bearing coverage |                        4/8，50% |
-| Exact agreement        |                             4/4 |
-| Within-one agreement   |                             4/4 |
-| MAE                    |                               0 |
-| Abstain                |                               4 |
-| Weighted kappa         | 不可估计；可比较项均为人工 1 分 |
+| 指标                     | Rotary v1.1 |
+| ------------------------ | ----------: |
+| Formal reps              |           8 |
+| Score-bearing coverage   |   8/8，100% |
+| Exact agreement          |         6/8 |
+| Within-one agreement     |         8/8 |
+| MAE                      |        0.25 |
+| Abstain                  |           0 |
+| Linear / quadratic kappa |   0.5 / 0.5 |
 
-4 条人工 1 分来源均出现明确的触踝、伸展或回位失败证据；4 条人工 2 分来源的关键阶段
-landmark coverage 只有约 34%–50%，系统全部 abstain。另用 MediaPipe Full、15 fps
-重提取该来源，coverage 仍为 4/8，且关键关节可用比例没有改善。这说明当前瓶颈主要是
-侧面拍摄和手脚遮挡，而不是 Lite model size。这里的 4/4 exact 不能脱离 50% coverage
-单独宣传，更不能视为独立验证。
+初版 all-or-nothing gate 要求 12 个 landmarks 每帧同时可见，因此 support-side elbow
+遮挡会让整个动作周期失效。v1.1 将 setup/phase 所需的 core landmarks 与单项评分所需
+的 elbow/finger landmarks 分开，并在可见时优先使用 thumb/index/pinky 作为
+finger-to-lateral-malleolus proxy。修正后 8/8 均保留完整周期证据。
+
+4 条人工 1 分全部被 AI 判为 1；4 条人工 2 分中 2 条判为 2，另 2 条因第二次触踝
+proxy 明确失败而保守判为 1。两条差异没有通过移动 threshold 追成人工答案，而是作为
+当前 2D touch proxy 的边界保留。6/8 exact 不能视为独立验证；更重要的下一步是使用
+board edge、手指和脚踝更清晰的新来源做 held-out confirmation。
 
 ## 8. 九条 Targeted Error Audit
 
@@ -424,11 +432,11 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
   和 movement-specific reviewer forms。
 - Mock API、local HTTP API stub 与 Video Manager API。
 - MediaPipe Pose Landmarker 本地 extraction、pose overlay 和 subject/side evidence。
-- 七动作 adapters；六动作默认 first-pass suggestion；Rotary 另有隔离的 v1.1
-  experimental cycle-rule adapter，frozen Round B 仍走 feature-only gate。
+- 七动作 adapters 与 first-pass suggestion；Rotary 在 Workbench 明确标注为
+  experimental cycle-rule，frozen AI v1.0 与 blind Round B 仍走隔离路径。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 328 automated tests 与三个 production entries。
+- 335 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
@@ -439,8 +447,8 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - 两位 reviewer 不构成 certified expert panel validation。
 - 没有人口统计、consent registry、clinical outcome 或 injury labels。
 - 2D pose 受视角、遮挡和 source-video signature 影响。
-- Rotary v1.1 在正式 8 条上只有 4/8 score-bearing coverage；Full pose model 未改善
-  低覆盖来源，score 2/3 与 board alignment 仍需新视频验证。
+- Rotary v1.1 在正式 8 条上达到 8/8 score-bearing coverage，但只有两个来源，且两条
+  人工 2 分被 touch proxy 保守判为 1；score 2/3 与 board alignment 仍需新视频验证。
 - ASLR 冻结基线的 16 个独立窗口中有 3 个 pose-limited；subject-aware sensitivity
   将这 3 个窗口转为 1 good / 2 watch，但尚未在独立多人视频上验证。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
@@ -453,8 +461,8 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 
 - 建成了覆盖七动作的 human-in-the-loop annotation、pose evidence 和 study
   platform；
-- 六动作具有默认 first-pass AI suggestion；Rotary 在 frozen v1.0 中 feature-only，
-  v1.1 experimental 可输出保守建议或 abstain；
+- 七动作具有 first-pass AI suggestion；Rotary 在 frozen v1.0 中 feature-only，
+  Workbench v1.1 experimental 可输出保守建议或 abstain；
 - 保存了 pose-derived quantitative evidence 和完整 lineage；
 - 完成了四动作 pilot、Round A blind review 和 exploratory analyses；
 - 发现了同分动作内部的可量化差异及当前 AI 的明确边界。

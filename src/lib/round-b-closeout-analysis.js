@@ -24,6 +24,22 @@ function byReviewer(exports) {
   return new Map(exports.map((payload) => [payload.reviewerId, payload]));
 }
 
+function assertBlindReviewExports(exports) {
+  for (const payload of exports) {
+    for (const review of latestStudyReviews(payload.events).values()) {
+      if (
+        review.blindReview?.reviewMode !== "blind" ||
+        review.blindReview?.currentPoseEvidenceShown !== false ||
+        review.blindReview?.currentAiSuggestionShown !== false
+      ) {
+        throw new Error(
+          `${payload.studyRound} export contains a non-blind review event`,
+        );
+      }
+    }
+  }
+}
+
 function buildReviewerChanges(roundAExport, roundBExport) {
   const roundA = latestStudyReviews(roundAExport.events);
   const roundB = latestStudyReviews(roundBExport.events);
@@ -158,14 +174,54 @@ function compareAiToConsensus(evidence, agreement) {
   };
 }
 
+function comparePredictionPackageToConsensus(predictions, agreement) {
+  const consensus = consensusByRepetition(agreement);
+  const eligibleItems = predictions.rows.filter(
+    (item) =>
+      item.comparisonEligible && Number.isInteger(item.aiSuggestedScore),
+  );
+  const rows = eligibleItems
+    .filter((item) => consensus.has(item.repetitionId))
+    .map((item) => {
+      const humanConsensusScore = consensus.get(item.repetitionId);
+      return {
+        repetitionId: item.repetitionId,
+        actionType: item.actionType,
+        humanConsensusScore,
+        aiSuggestedScore: item.aiSuggestedScore,
+        absoluteDifference: Math.abs(
+          humanConsensusScore - item.aiSuggestedScore,
+        ),
+      };
+    });
+  return {
+    aiScoreAvailableCount: eligibleItems.length,
+    humanConsensusCount: consensus.size,
+    consensusComparableCount: rows.length,
+    coverageRate: rate(rows.length, predictions.summary.formalItems),
+    metrics: summarizeAiPairs(rows),
+    byAction: Object.fromEntries(
+      [...new Set(rows.map((row) => row.actionType))]
+        .sort()
+        .map((actionType) => [
+          actionType,
+          summarizeAiPairs(rows.filter((row) => row.actionType === actionType)),
+        ]),
+    ),
+    rows,
+  };
+}
+
 export function summarizeRoundBCloseout({
   roundAExports,
   roundBExports,
   evidence,
+  finalPredictions = null,
 }) {
   if (roundAExports.length !== 2 || roundBExports.length !== 2) {
     throw new Error("Round A and Round B each require two reviewer exports.");
   }
+  assertBlindReviewExports([...roundAExports, ...roundBExports]);
   const roundAByReviewer = byReviewer(roundAExports);
   const roundBByReviewer = byReviewer(roundBExports);
   const reviewerIds = [...roundAByReviewer.keys()].sort();
@@ -202,6 +258,21 @@ export function summarizeRoundBCloseout({
     aiComparison: {
       roundAConsensus: compareAiToConsensus(evidence, roundAAgreement),
       roundBConsensus: compareAiToConsensus(evidence, roundBAgreement),
+      finalV11: finalPredictions
+        ? {
+            packageVersion: finalPredictions.packageVersion,
+            packageFingerprint: finalPredictions.packageFingerprint,
+            roundAConsensus: comparePredictionPackageToConsensus(
+              finalPredictions,
+              roundAAgreement,
+            ),
+            roundBConsensus: comparePredictionPackageToConsensus(
+              finalPredictions,
+              roundBAgreement,
+            ),
+            interpretation: "post_audit_internal_benchmark_not_held_out",
+          }
+        : null,
       interpretation: "exploratory_concordance_not_clinical_validation",
       roundBReviewersBlindedToAi: true,
       roundBAssistedByDisplayedEvidence: false,

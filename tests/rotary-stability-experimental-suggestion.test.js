@@ -5,6 +5,7 @@ import { getMovementAdapter } from "../src/lib/movement-adapters.js";
 import { buildRotaryStabilityCycleEvidence } from "../src/lib/rotary-stability-cycle-evidence.js";
 import { getRotaryStabilityExperimentalAdapter } from "../src/lib/rotary-stability-experimental-adapter.js";
 import { buildRotaryStabilityExperimentalSuggestion } from "../src/lib/rotary-stability-suggestion.js";
+import { sanitizeRotaryLabelFreeRows } from "../scripts/analyze-rotary-v1-1-internal.js";
 
 function landmark(name, x, y, visibility = 0.96) {
   return { name, x, y, z: 0, visibility, presence: 0.99 };
@@ -53,21 +54,25 @@ function interpolate(start, end, ratio) {
   );
 }
 
-function frame(second, points) {
+function frame(second, points, hiddenLandmarks = []) {
   return {
     second,
     timestampMs: second * 1000,
     poses: [
       {
         landmarks: Object.entries(points).map(([name, [x, y]]) =>
-          landmark(name, x, y),
+          landmark(name, x, y, hiddenLandmarks.includes(name) ? 0.2 : 0.96),
         ),
       },
     ],
   };
 }
 
-function buildPosePayload({ delayedKnee = false, incomplete = false } = {}) {
+function buildPosePayload({
+  delayedKnee = false,
+  incomplete = false,
+  hiddenLandmarks = [],
+} = {}) {
   const frames = [];
   for (let index = 0; index <= 24; index += 1) {
     const second = index / 10;
@@ -99,7 +104,7 @@ function buildPosePayload({ delayedKnee = false, incomplete = false } = {}) {
         ? { ...SETUP, left_wrist: [0.22, 0.55], left_knee: [0.5, 0.62] }
         : SETUP;
     }
-    frames.push(frame(second, points));
+    frames.push(frame(second, points, hiddenLandmarks));
   }
   return { frames };
 }
@@ -154,12 +159,12 @@ function buildSuggestion(payload, options = {}) {
   };
 }
 
-test("experimental Rotary adapter remains isolated from the default and Round B path", () => {
+test("experimental Rotary adapter is available in Workbench but isolated from Round B", () => {
   const defaultAdapter = getMovementAdapter("rotary_stability");
   const experimentalAdapter = getRotaryStabilityExperimentalAdapter();
 
   assert.equal(defaultAdapter.buildSuggestionReport(), null);
-  assert.equal(experimentalAdapter.exposedInDefaultWorkbench, false);
+  assert.equal(experimentalAdapter.exposedInDefaultWorkbench, true);
   assert.equal(experimentalAdapter.exposedInFrozenRoundB, false);
 });
 
@@ -208,6 +213,55 @@ test("Rotary v1.1 maps explicit incomplete-cycle evidence to score 1", () => {
   assert.equal(suggestion.items[0].rawPoseScore, 1);
 });
 
+test("Rotary v1.1 keeps a cycle when only the support-side elbow is occluded", () => {
+  const { evidence, suggestion } = buildSuggestion(
+    buildPosePayload({ hiddenLandmarks: ["right_elbow"] }),
+  );
+
+  assert.equal(evidence.items[0].status, "ok");
+  assert.equal(evidence.items[0].metrics.usableFrameRatio, 1);
+  assert.equal(evidence.items[0].metrics.movingElbowUsableFrameRatio, 1);
+  assert.equal(suggestion.items[0].rawPoseScore, 2);
+});
+
+test("Rotary v1.1 uses visible finger landmarks for the malleolus touch criterion", () => {
+  const payload = buildPosePayload();
+  for (const currentFrame of payload.frames) {
+    const landmarks = currentFrame.poses[0].landmarks;
+    const wrist = landmarks.find((item) => item.name === "left_wrist");
+    const ankle = landmarks.find((item) => item.name === "left_ankle");
+    const inSecondTouch =
+      currentFrame.second >= 1.4 && currentFrame.second < 1.8;
+    landmarks.push(
+      landmark(
+        "left_index",
+        inSecondTouch ? ankle.x : wrist.x,
+        inSecondTouch ? ankle.y : wrist.y,
+      ),
+    );
+    if (inSecondTouch) {
+      wrist.x = 0.2;
+      wrist.y = 0.6;
+    }
+  }
+
+  const { evidence } = buildSuggestion(payload);
+
+  assert.equal(evidence.items[0].criteria.secondAnkleTouch.status, "pass");
+});
+
+test("Rotary v1.1 marks moving-elbow extension unknown instead of trusting an occluded landmark", () => {
+  const { evidence, suggestion } = buildSuggestion(
+    buildPosePayload({ hiddenLandmarks: ["left_elbow"] }),
+  );
+
+  assert.equal(evidence.items[0].status, "ok");
+  assert.equal(evidence.items[0].criteria.elbowExtension.status, "unknown");
+  assert.equal(evidence.items[0].metrics.movingElbowUsableFrameRatio, 0);
+  assert.equal(suggestion.items[0].status, "needs_manual_review");
+  assert.equal(suggestion.items[0].rawPoseScore, 2);
+});
+
 test("Rotary v1.1 does not read curated manual score overrides", () => {
   const posePayload = buildPosePayload({ incomplete: true });
   const scoreOneEvidence = buildRotaryStabilityCycleEvidence({
@@ -240,4 +294,33 @@ test("positive human clearing metadata sets final score 0 while preserving the p
 
   assert.equal(suggestion.items[0].rawPoseScore, 3);
   assert.equal(suggestion.items[0].totalScore, 0);
+});
+
+test("Rotary label-free export strips human labels and source paths", () => {
+  const [row] = sanitizeRotaryLabelFreeRows([
+    {
+      repetitionId: "rep_rotary",
+      suggestionStatus: "suggested",
+      aiScore: 2,
+      rawPoseScore: 2,
+      scoreSource: "pose_cycle_rule_conservative_cap",
+      confidence: 0.84,
+      confidenceLabel: "high",
+      modelVersion: "pose-cycle-rules-v1.1-rotary-experimental",
+      evidenceStatus: "ok",
+      poseSide: "left",
+      criteria: {},
+      metrics: {},
+      abstentionReasons: [],
+      humanConsensusScore: 2,
+      posePath: "/private/source.pose.json",
+      ingestId: "ing_private",
+    },
+  ]);
+
+  assert.equal(row.aiSuggestedScore, 2);
+  assert.equal(row.comparisonEligible, true);
+  assert.equal("humanConsensusScore" in row, false);
+  assert.equal("posePath" in row, false);
+  assert.equal("ingestId" in row, false);
 });

@@ -231,11 +231,8 @@ pose-based AI suggestion 的 evidence gate。
 
 ## 限制
 
-- 当前 Deep Squat、Active Straight Leg Raise、Hurdle Step、In-Line Lunge、
-  Shoulder Mobility 和 Trunk Stability Push-Up 有 first-pass pose-based AI
-  suggestion。
-- Rotary Stability 目前是 feature-only：可导出 pose evidence，但不显示 AI RAW
-  SCORE。
+- 七个 FMS 动作均有 first-pass pose-based AI suggestion。Rotary Stability 使用
+  保守、可拒判的 experimental cycle rules；分数 3 还需要独立确认 board alignment。
 - Raw video clips 和完整 per-frame landmarks 不嵌入本包；segment 通过原视频文件名和
   start/end timestamp 追溯。
 - AI suggestion 是 reviewer decision support，不是最终自动评分。

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "ai_fms_final_ai_v1_1_spec_v1",
+  "packageVersion": "final-ai-v1.1-post-audit-internal",
+  "status": "locked_for_post_round_b_internal_comparison",
+  "inputs": {
+    "canonicalPath": "research/pilot-v1/generated/canonical-pilot.json",
+    "canonicalChecksumsPath": "research/pilot-v1/generated/SHA256SUMS",
+    "featureMatrixPath": "research/pilot-v1/generated/camera-audited-features/camera-audited-feature-matrix.json",
+    "featureChecksumsPath": "research/pilot-v1/generated/camera-audited-features/SHA256SUMS",
+    "formalManifestPath": "research/pilot-v1/generated/formal-study-manifest.json",
+    "formalManifestSha256": "cbc0d8fa3ef2d608330c93b39b5a01e44a350b9692fc1f4c1aa456d033c55a90",
+    "protocolAuditPath": "research/pilot-v1/final-ai-protocol-audit.json",
+    "protocolAuditSha256": "590a335b9dada8a1849c41d4719fb012e02739db30053967dbf456a2535ad5a3",
+    "rotarySuggestionsPath": "research/pilot-v1/generated/rotary-v1-1-internal/rotary-v1-1-label-free-suggestions.json",
+    "rotaryChecksumsPath": "research/pilot-v1/generated/rotary-v1-1-internal/SHA256SUMS"
+  },
+  "algorithmSourcePaths": [
+    "src/constants/scoring.js",
+    "src/lib/movement-adapters.js",
+    "src/lib/deep-squat-suggestion.js",
+    "src/lib/deep-squat-attempt-condition.js",
+    "src/lib/deep-squat-board-detector.js",
+    "src/lib/aslr-suggestion.js",
+    "src/lib/hurdle-step-suggestion.js",
+    "src/lib/rotary-stability-cycle-evidence.js",
+    "src/lib/rotary-stability-suggestion.js"
+  ],
+  "expected": {
+    "formalItems": 32,
+    "scoreAvailable": 28,
+    "abstained": 4,
+    "byAction": {
+      "active_straight_leg_raise": {
+        "total": 8,
+        "scoreAvailable": 8
+      },
+      "deep_squat": {
+        "total": 8,
+        "scoreAvailable": 4
+      },
+      "hurdle_step": {
+        "total": 8,
+        "scoreAvailable": 8
+      },
+      "rotary_stability": {
+        "total": 8,
+        "scoreAvailable": 8
+      }
+    }
+  },
+  "evaluationBoundary": {
+    "humanLabelsLoaded": false,
+    "reviewerExposure": "none",
+    "roundBStudyModeLoaded": false,
+    "heldOutValidation": false,
+    "claimsAllowed": "post_audit_internal_benchmark_only"
+  },
+  "defaultOutputDir": "research/pilot-v1/generated/final-ai-v1-1"
+}

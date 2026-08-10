@@ -9,19 +9,19 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 当前阶段
 
-| 项目                 | 当前状态                                     |
-| -------------------- | -------------------------------------------- |
-| 产品工作流           | 7 个 FMS movements 的 annotation workflow    |
-| 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps         |
-| Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready      |
-| 正式盲审             | 32 reps，四动作各 8；Round A 已完成          |
-| Round A 人工证据     | 26 条双方均可评分且同分的 consensus reps     |
-| AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率 |
-| ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited   |
-| ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited |
-| Rotary AI v1.1       | Experimental；4/8 coverage，比较项 4/4 exact |
-| 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图           |
-| 当前等待项           | Round B 与最终结果冻结                       |
+| 项目                 | 当前状态                                              |
+| -------------------- | ----------------------------------------------------- |
+| 产品工作流           | 7 个 FMS movements 的 annotation workflow             |
+| 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps                  |
+| Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready               |
+| 正式盲审             | 32 reps，四动作各 8；Round A 已完成                   |
+| Round A 人工证据     | 26 条双方均可评分且同分的 consensus reps              |
+| AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率          |
+| ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited            |
+| ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited          |
+| Rotary AI v1.1       | Experimental；8/8 coverage，6/8 exact，8/8 within one |
+| 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图                    |
+| 当前等待项           | Round B 与最终结果冻结                                |
 
 四个 pilot actions：
 
@@ -31,10 +31,9 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 - Rotary Stability
 
 Deep Squat 是旗舰的 staged FMS pipeline；ASLR 和 Hurdle 已有 pose-based first-pass
-suggestion。人评前冻结的 AI v1.0 仅在 Round B 完成后用于比较，其中
-Rotary Stability 保持 feature-only。独立 v1.1 experimental adapter 已能按完整
-周期提出保守 1/2/3 分或 abstain，但不进入 reviewer Study Mode，也不是
-独立验证结果。
+suggestion。人评前冻结的 AI v1.0 仅在 Round B 完成后用于比较，其中 Rotary
+Stability 保持 feature-only。Workbench 的 v1.1 experimental adapter 已能按完整
+周期提出保守 1/2/3 分或 abstain；它不进入 reviewer Study Mode，也不是独立验证结果。
 
 ## 项目价值
 
@@ -51,8 +50,8 @@ Rotary Stability 保持 feature-only。独立 v1.1 experimental adapter 已能�
 
 申请案例组合同时保留不同类型的证据：Deep Squat 是同分异型主案例，ASLR 展示
 subject selection 对测量可靠性的影响，Hurdle Step 说明 camera-view metadata gate，
-Rotary Stability 说明证据不足时如何从 features-only 发展到 cycle-level first-pass，
-同时继续拒绝对遮挡周期硬给总分。
+Rotary Stability 说明系统如何从 frozen feature-only 基线发展到 cycle-level
+first-pass，同时把 pain、clearing 和证据边界留给人工确认。
 
 ![Deep Squat same-score movement profile](docs/assets/phase-i-case-studies/deep-squat-same-score.svg)
 
@@ -151,7 +150,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、328 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、335 tests 和三个 Vite entry builds。
 
 ## 研究复现
 

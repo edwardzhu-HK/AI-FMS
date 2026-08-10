@@ -113,6 +113,8 @@ export default function ScoreSummary({
   const canShowPoseSuggestion =
     evidenceGate?.canShowPoseSuggestion &&
     poseSuggestion?.status === "suggested";
+  const isExperimentalPoseSuggestion =
+    canShowPoseSuggestion && poseSuggestion?.experimental === true;
   const isAnnotationOnly =
     movementCapability?.posePipelineStatus === "annotation_only" ||
     evidenceGate?.status === "annotation_only";
@@ -138,6 +140,9 @@ export default function ScoreSummary({
           label: item.label,
           score: displayedScore?.subscores?.[item.key],
         }));
+  const hasDisplayedCriteriaScores = displayedCriteriaScores.some((item) =>
+    Number.isInteger(item.score),
+  );
 
   if (isAnnotationOnly) {
     return (
@@ -231,19 +236,28 @@ export default function ScoreSummary({
       }
     >
       <h3>
-        {canShowPoseSuggestion ? t("poseBasedAiSuggestion") : t("aiSuggestion")}
+        {isExperimentalPoseSuggestion
+          ? t("experimentalPoseAiSuggestion")
+          : canShowPoseSuggestion
+            ? t("poseBasedAiSuggestion")
+            : t("aiSuggestion")}
       </h3>
+      {isExperimentalPoseSuggestion ? (
+        <p>{t("experimentalPoseAiSuggestionDetail")}</p>
+      ) : null}
       <p className="score-total">
         {t("totalScore")}: {displayedScore.totalScore}
       </p>
-      <ul>
-        {displayedCriteriaScores.map((item) => (
-          <li key={item.key}>
-            <span>{item.label}</span>
-            <strong>{item.score ?? "N/A"}</strong>
-          </li>
-        ))}
-      </ul>
+      {hasDisplayedCriteriaScores ? (
+        <ul>
+          {displayedCriteriaScores.map((item) => (
+            <li key={item.key}>
+              <span>{item.label}</span>
+              <strong>{item.score ?? "N/A"}</strong>
+            </li>
+          ))}
+        </ul>
+      ) : null}
 
       {canShowPoseSuggestion ? (
         <>
