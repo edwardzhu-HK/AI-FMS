@@ -327,6 +327,15 @@ Canonical execution plan:
       consensus and Round B consensus, with coverage reported separately.
 - [x] Add a checksum-verified Round B closeout command for reviewer agreement,
       per-reviewer A/B change, evidence usefulness, and frozen AI comparisons.
+- [x] Implement an isolated Rotary Stability v1.1 experimental adapter with
+      pose-derived full-cycle phases, updated FMS score 1/2/3 rules, human
+      pain/clearing gates, and explicit abstention.
+- [x] Pin the frozen Round B AI v1.0 SHA-256 and prove that Rotary v1.1 cannot
+      enter the default Workbench or Round B evidence path.
+- [x] Generate a label-free-first Rotary v1.1 internal benchmark: 4/8 formal
+      reps scored, 4/4 exact among comparable reps, 4 abstentions.
+- [x] Run a MediaPipe Full 15 fps sensitivity on the low-coverage Rotary source;
+      retain the original gate after coverage did not improve.
 - [x] Generate a checksum-protected private Round A reviewer comparison package.
 - [x] Preserve all 110 canonical reps in an explicit evidence-tier analysis
       instead of reducing the research pool to the 26 gold-consensus rows.
@@ -374,7 +383,8 @@ Canonical execution plan:
       promote it as the primary application-facing same-score example.
 - [x] Select a four-case application portfolio: Deep Squat as the primary
       movement-profile case, ASLR as a measurement-reliability case, Hurdle as
-      a view-metadata method case, and Rotary as a feature-only boundary case.
+      a view-metadata method case, and Rotary as a frozen-v1.0 feature-only /
+      experimental-v1.1 abstention boundary case.
 - [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
       original field for lineage, and generate checksum-protected
       `auditedCameraView` outputs before using view as an explanatory variable.
@@ -405,10 +415,10 @@ Canonical execution plan:
       media, person images, source filenames, or local paths.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      13/13 research/application artifacts, checksums 11 documents, and pins reproduction
-      commands.
+      14/14 research/application artifacts, checksums 11 documents, and pins
+      reproduction commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 319-test and three-entry build gate.
+      study/claim boundaries, plus the full 327-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

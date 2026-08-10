@@ -74,6 +74,7 @@ export function summarizePhaseIEvidence(artifacts) {
   const aslrAudit = byId.get("aslr_side_peak_audit")?.payload;
   const aslrSensitivity = byId.get("aslr_subject_sensitivity")?.payload;
   const roundBEvidence = byId.get("round_b_evidence")?.payload;
+  const rotaryV11 = byId.get("rotary_v1_1_internal")?.payload;
   const casePortfolio = byId.get("phase_i_case_study_portfolio")?.payload;
   if (
     !canonical ||
@@ -85,6 +86,7 @@ export function summarizePhaseIEvidence(artifacts) {
     !aslrAudit ||
     !aslrSensitivity ||
     !roundBEvidence ||
+    !rotaryV11 ||
     !casePortfolio
   ) {
     throw new Error("Phase I release evidence is incomplete");
@@ -143,6 +145,13 @@ export function summarizePhaseIEvidence(artifacts) {
     roundBProtocolMetadataRequired:
       roundBEvidence.summary.byEvidenceStatus.protocol_metadata_required ?? 0,
     roundBAiRuleFingerprint: roundBEvidence.modelFreeze.ruleFingerprint,
+    rotaryV11FormalItems: rotaryV11.metrics.formalItems,
+    rotaryV11ScoredItems: rotaryV11.metrics.scoredItems,
+    rotaryV11AbstainedItems: rotaryV11.metrics.abstainedItems,
+    rotaryV11Exact: rotaryV11.metrics.exactCount,
+    rotaryV11Coverage: rotaryV11.metrics.coverage,
+    rotaryV11RoundBIsolation:
+      rotaryV11.roundBIsolation.experimentalScoreExposed === false,
     selectedCaseStudies: casePortfolio.summary.selectedCases,
     applicationFigures: casePortfolio.summary.applicationFigures,
   };

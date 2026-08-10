@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "ai-fms-rotary-v1.1-experimental-spec-v1",
+  "modelVersion": "pose-cycle-rules-v1.1-rotary-experimental",
+  "status": "post_audit_internal_only",
+  "protocol": {
+    "name": "Updated FMS Rotary Stability protocol",
+    "criteria": [
+      "hand_and_knee_lift_timing",
+      "arm_and_leg_board_alignment",
+      "fingers_to_lateral_malleolus",
+      "elbow_and_knee_extension",
+      "balance_and_return",
+      "human_flexion_clearing_gate"
+    ],
+    "references": [
+      "https://www.functionalmovement.com/articles/916/functional_movement_screen_updates_rotary_stability_and_ankle_clearing",
+      "https://pmc.ncbi.nlm.nih.gov/articles/PMC10324293/"
+    ]
+  },
+  "roundBIsolation": {
+    "frozenAiPath": "research/pilot-v1/round-b-ai-v1-freeze.json",
+    "expectedSha256": "aeed0d3902d405d4223598be8079748e39375d0858eaad942d9382535060fc64",
+    "exposeExperimentalScore": false
+  },
+  "inputs": {
+    "canonicalPath": "research/pilot-v1/generated/canonical-pilot.json",
+    "assetManifestPath": "research/pilot-v1/generated/asset-manifest.json",
+    "formalManifestPath": "research/pilot-v1/generated/formal-study-manifest.json",
+    "agreementPath": "research/pilot-v1/generated/round-a-agreement/round-a-agreement.json"
+  },
+  "expectedFormalRotaryItems": 8,
+  "algorithmSourcePaths": [
+    "src/lib/rotary-stability-cycle-evidence.js",
+    "src/lib/rotary-stability-suggestion.js",
+    "src/lib/rotary-stability-experimental-adapter.js"
+  ],
+  "defaultOutputDir": "research/pilot-v1/generated/rotary-v1-1-internal"
+}

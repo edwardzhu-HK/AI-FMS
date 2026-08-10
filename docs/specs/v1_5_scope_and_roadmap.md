@@ -145,8 +145,8 @@ sensitivity work.
 G4 now has a Round A release candidate: a current README, Phase I dataset card,
 methods/limitations/ethics note, Chinese technical report with English abstract,
 application copy, and claim-control evidence table. A deterministic,
-fail-closed release generator verifies 11/11 private research artifacts, locks
-all reported evidence values, checksums nine source-controlled documents, and
+fail-closed release generator verifies 14/14 private research/application
+artifacts, locks all reported evidence values, checksums 11 source-controlled documents, and
 audits release boundaries. Round B, demo recording, and human media
 rights/privacy review remain open.
 
@@ -260,8 +260,10 @@ The current 7-action maturity table is maintained in
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
 Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
 Mobility, and Trunk Stability Push-Up are pose-based AI suggestion paths.
-Rotary Stability is feature-only: it can show pose evidence and side suggestion,
-but it does not display AI RAW SCORE.
+Rotary Stability remains feature-only in the default product and frozen Round B
+AI v1.0. A separate post-audit v1.1 experimental adapter now derives full-cycle
+evidence and proposes a conservative score or abstains; it is not displayed in
+Round B and is not a held-out validation result.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
@@ -284,10 +286,12 @@ but it does not display AI RAW SCORE.
   compensation proxies. The score-3 sample has a reproducible local pose
   extraction path and browser preset, but it still needs more sample variety
   and Ronnie threshold calibration before stronger scoring claims.
-- Rotary Stability has a first-pass feature-only pose probe for rotary reach,
-  trunk rotation, balance stability, and side-confidence evidence. It can be
-  segmented, reviewed, ingested in mock mode, and exported, but it intentionally
-  does not yet show pose-based AI scoring.
+- Rotary Stability has the original feature-only pose probe plus an isolated
+  v1.1 cycle-rule path for two ankle touches, elbow/knee extension, hand/knee
+  lift timing, return control, and human flexion-clearing metadata. On the eight
+  formal reps it scores 4/8 and abstains on four low phase-coverage reps; 4/4
+  comparable suggestions match Round A consensus. This is an internal,
+  post-audit benchmark and remains hidden from frozen Round B.
 
 Four-movement local demo readiness is now covered by `npm run demo:check:four`.
 As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
@@ -296,9 +300,9 @@ Hurdle Step all pass the local preset readiness check.
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
 As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow.
 Deep Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
-Mobility, and Trunk Stability Push-Up are implemented pose/AI paths; Rotary
-Stability is feature-only with pose evidence and AI side suggestion, but no AI
-RAW SCORE.
+Mobility, and Trunk Stability Push-Up are implemented default pose/AI paths.
+Rotary remains feature-only in the default workflow and adds only an explicitly
+opt-in experimental v1.1 scoring path.
 
 ### V2: Evaluation and Application Package
 

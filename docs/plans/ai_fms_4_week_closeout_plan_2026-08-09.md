@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.21                          |
+| 版本     | v1.22                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-10                     |
@@ -119,9 +119,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 选定 4 个申请案例：Deep Squat 主案例、ASLR 测量可靠性案例、Hurdle 方法案例和 Rotary 边界案例。
 - [x] 从冻结数据生成 2 张无人物申请图，并通过 source fingerprint、SHA-256、XML 和真实浏览器排版检查。
 - [x] 重写 Phase I 技术报告的双语摘要、背景动机、系统功能、七动作 Product Scope、四动作 Research Scope 与四层 AI-human 评测设计。
-- [x] 通过 lint、format、319/319 tests 和三页面 production build。
+- [x] 建立与 Round B 隔离的 Rotary AI v1.1 experimental first-pass：使用完整周期
+      pose evidence、updated FMS 规则和 abstain gate；正式 8 条内部 benchmark 为
+      4/8 coverage、可比较项 4/4 exact，不能表述为独立验证。
+- [x] 对低覆盖 Rotary 来源使用 MediaPipe Full 15 fps 重提取；关键阶段 coverage
+      未改善，因此保留拒判并把遮挡/机位列为后续采集条件。
+- [x] 通过 lint、format、327/327 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；13/13 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；14/14 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -249,7 +254,8 @@ Round B：
 - [x] 展示 pose-derived quantitative evidence 和质量提示。
 - [x] 不显示历史教练分数、参考标签或另一位 reviewer 的结果。
 - [x] 记录可计算改分与 confidence delta 的新事件、evidence usefulness、原因和用时。
-- [x] Rotary Stability 保持 feature-only，不显示未经验证的 AI RAW SCORE。
+- [x] Round B frozen AI v1.0 中 Rotary Stability 保持 feature-only，不显示 v1.1
+      experimental AI RAW SCORE。
 - [x] 在人评前冻结 AI v1.0 rule fingerprint、source checksums 和 32-rep evidence manifest。
 - [ ] Ronnie 与 Other Reviewer 分别完成 32/32，并导出、校验、入库。
 
@@ -290,6 +296,13 @@ G2 验收证据：
 - [x] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口；本轮不调阈值。
 - [x] 对全部 17 条 ASLR 记录运行不读取分数/文件名/reviewer 结果的 side/peak evidence gate；16 个独立窗口中 11 good、2 watch、3 limited。
 - [x] 对 3 个 ASLR `limited` 窗口做 subject-aware pose re-extraction，并人工复核 2 个 `watch` 窗口；新结果只进入 sensitivity。
+- [x] 为 Rotary 建立不读取人工 score/override 的 pose-derived full-cycle evidence：
+      两次 hand-to-ankle、肘膝伸展、hand/knee lift timing、return/balance proxy 与
+      human flexion-clearing gate。
+- [x] 生成 Rotary v1.1 post-audit internal benchmark 和 SHA-256；8 条中 4 条可判且
+      4/4 exact，另 4 条因关键阶段 landmark coverage 34%–50% 而 abstain。
+- [x] 使用 MediaPipe Full 15 fps 做独立 pose sensitivity；coverage 仍为 4/8，
+      说明当前限制主要来自机位与遮挡，不是 Lite/Full model size。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates，并正式选定 4 个作用不同的申请案例。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
@@ -300,7 +313,8 @@ G2 验收证据：
 - Deep Squat：同分 case-pair 在同一主 group 内仍呈现连续参数差异。
 - Hurdle Step：保留为 camera-view metadata gate 的方法学案例；stance discrepancy 已关闭，不作为 movement-only 主证据。
 - ASLR：历史高一致性为何不能解释为模型准确。
-- Rotary Stability：为什么当前采取 feature-only 策略。
+- Rotary Stability：为什么 frozen v1.0 采取 feature-only，以及 v1.1 如何用
+  cycle-level evidence 在低质量视频上主动 abstain。
 
 统计口径：
 
@@ -327,7 +341,7 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 319 tests 和三入口 production build。
+      并通过 327 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
 - [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
@@ -463,8 +477,21 @@ Secondary questions：
 | 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence    |
 | 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界     |
 | 2026-08-10 | 技术报告并列呈现产品价值与研究价值                    | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                 |
+| 2026-08-10 | Rotary v1.1 与 frozen Round B v1.0 严格隔离           | 防止 post-audit 新规则污染明天的辅助复评；新结果只作 internal benchmark   |
+| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage     | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                    |
 
 ## 12. 变更记录
+
+### v1.22 - 2026-08-10
+
+- 新增独立 `Rotary AI v1.1 experimental` adapter，以 pose-derived full-cycle
+  evidence 实现 1/2/3 first-pass rule、human pain/clearing gate 和 abstain。
+- 新规则不读取 curated manual score override，也不进入 frozen Round B；配置锁定
+  AI v1.0 SHA-256，测试阻止 experimental score 暴露。
+- 新增可复现内部 benchmark：正式 8 条中 4 条可判，4/4 exact，coverage 4/8；
+  kappa 因可比较项均为 1 分而不可估计。
+- MediaPipe Full 15 fps sensitivity 未提高低覆盖来源，后续优先补无遮挡、board
+  edge 可见和完整侧身的新视频，不继续以更大 pose model 替代采集质量。
 
 ### v1.21 - 2026-08-10
 
