@@ -6,6 +6,10 @@ import {
   ingestStudyReviewExport,
   inspectStudyReviewDatabase,
 } from "./lib/study-review-database.js";
+import {
+  DEFAULT_ROUND_B_EVIDENCE,
+  readVerifiedRoundBEvidence,
+} from "./lib/round-b-evidence-source.js";
 
 const DEFAULT_MANIFEST =
   "research/pilot-v1/generated/formal-study-manifest.json";
@@ -15,6 +19,7 @@ function parseArgs(argv) {
     dbPath: DEFAULT_STUDY_REVIEW_DB,
     manifestPath: DEFAULT_MANIFEST,
     checksumPath: null,
+    evidencePath: DEFAULT_ROUND_B_EVIDENCE,
     reviewPath: null,
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -25,6 +30,8 @@ function parseArgs(argv) {
       options.manifestPath = argv[++index];
     } else if (argument === "--checksum") {
       options.checksumPath = argv[++index];
+    } else if (argument === "--evidence") {
+      options.evidencePath = argv[++index];
     } else if (!options.reviewPath) {
       options.reviewPath = argument;
     } else {
@@ -33,7 +40,7 @@ function parseArgs(argv) {
   }
   if (!options.reviewPath) {
     throw new Error(
-      "Usage: npm run study:reviews:ingest -- [--db path] [--manifest path] [--checksum path] review.json",
+      "Usage: npm run study:reviews:ingest -- [--db path] [--manifest path] [--evidence path] [--checksum path] review.json",
     );
   }
   return options;
@@ -47,11 +54,19 @@ export function main(argv = process.argv.slice(2)) {
   const payload = JSON.parse(
     fs.readFileSync(path.resolve(options.reviewPath), "utf8"),
   );
+  const evidence =
+    payload.studyRound === "round_b"
+      ? readVerifiedRoundBEvidence({
+          evidencePath: options.evidencePath,
+          pilot: manifest,
+        })
+      : null;
   const result = ingestStudyReviewExport({
     dbPath: options.dbPath,
     manifest,
     reviewPath: options.reviewPath,
     ...(options.checksumPath ? { checksumPath: options.checksumPath } : {}),
+    evidenceManifest: evidence?.payload ?? null,
   });
   const status = inspectStudyReviewDatabase({
     dbPath: options.dbPath,

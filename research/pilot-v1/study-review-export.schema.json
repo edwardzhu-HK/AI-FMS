@@ -236,6 +236,50 @@
             "type": "string"
           }
         },
+        "evidenceReview": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "manifestFingerprint",
+                "itemFingerprint",
+                "evidenceStatus",
+                "aiSuggestionShown",
+                "usefulness"
+              ],
+              "properties": {
+                "manifestFingerprint": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "itemFingerprint": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidenceStatus": {
+                  "enum": [
+                    "ai_score_available",
+                    "features_only",
+                    "protocol_metadata_required",
+                    "quality_limited",
+                    "suggestion_unavailable"
+                  ]
+                },
+                "aiSuggestionShown": {
+                  "type": "boolean"
+                },
+                "usefulness": {
+                  "type": ["string", "null"],
+                  "enum": ["helpful", "no_change", "insufficient", null]
+                }
+              }
+            }
+          ]
+        },
         "blindReview": {
           "type": "object"
         },

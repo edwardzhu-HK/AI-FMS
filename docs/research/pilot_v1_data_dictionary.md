@@ -147,7 +147,12 @@ Blindability 将两类视觉线索分开记录：
   `pain_observed_or_reported`；不能用 `0` 代替视频条件不足。
 - `unscorableReason`：无法独立评分时记录动作不可见、缺少参照物、缺少必要
   protocol condition、片段时间无效或其他原因。
-- `eligibleForBlindAnalysis`：`unscorable` event 固定为 `false`。
+- `eligibleForBlindAnalysis`：Round A 的 `unscorable` 或 label-cue event 为
+  `false`；Round B 属于 evidence-assisted review，因此整轮均不标记为 blind，
+  但 scored Round B event 仍可进入 A/B change 与 evidence-assisted analysis。
+- `evidenceReview`：Round B 终态保存 evidence manifest/item fingerprint、
+  `evidenceStatus`、是否显示 AI suggestion 和 reviewer 选择的 usefulness；CLI
+  validation 和 SQLite ingestion 会对冻结 evidence package 做 SHA-256 与逐条交叉校验。
 
 `ai_fms_study_review_export_v2` 同时保存 frozen repetition IDs、source
 fingerprints、完整 event log 和 `completion`。只有 `completion.complete=true`
@@ -163,6 +168,8 @@ fingerprints、完整 event log 和 `completion`。只有 `completion.complete=t
 - `study_review_exports`：签名导出的 hash、来源、完成统计和原始 JSON；
 - `study_review_events`：按 `eventId` 不可变保存全部 append-only events；
 - `study_review_export_events`：导出与 event 的顺序关联；
+- `study_review_evidence_reviews`：可查询的 Round B evidence fingerprint、状态、
+  AI suggestion exposure 和 usefulness；
 - `study_review_schema_migrations`：本地 schema 版本。
 
 SQLite 用于本地查询与后续分析，不取代成对 JSON/SHA-256 的冻结交付物。相同

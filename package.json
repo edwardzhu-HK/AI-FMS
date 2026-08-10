@@ -65,6 +65,8 @@
     "study:reviews:agreement": "node scripts/analyze-study-review-agreement.js",
     "study:profiles:round-a": "node scripts/analyze-round-a-movement-profiles.js",
     "study:ai-evidence:round-a": "node scripts/analyze-round-a-ai-consensus-evidence.js",
+    "study:evidence:round-b": "node scripts/build-round-b-evidence-manifest.js",
+    "study:closeout:round-b": "node scripts/analyze-round-b-closeout.js",
     "study:ai-evidence:audit-previews": "node scripts/generate-round-a-ai-audit-previews.js --force",
     "study:aslr:side-peak-audit": "node scripts/audit-aslr-side-peak-evidence.js",
     "release:phase-i:manifest": "node scripts/build-phase-i-release-manifest.js",

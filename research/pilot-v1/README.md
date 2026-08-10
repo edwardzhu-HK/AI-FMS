@@ -64,6 +64,20 @@ unscorable result. Score 0 is reserved for observed or reported pain;
 unscorable records require a protocol reason and are excluded from score
 analysis.
 
+Formal Round B uses `/study.html?round=b` after the planned 48-72 hour interval.
+Build its frozen reviewer-safe evidence package before starting:
+
+```bash
+npm run study:evidence:round-b
+```
+
+Round B shows traceable pose-derived features and quality context for all 32
+formal reps. Frozen AI v1.0 shows a RAW SCORE suggestion for 18 reps; eight
+Rotary Stability reps remain feature-only and six protocol-limited Deep Squat
+reps show features without a total score. Each resolved event also records the
+evidence manifest/item fingerprints and reviewer-rated usefulness. Instructions
+are in `docs/research/round_b_reviewer_protocol_2026-08-10.md`.
+
 Use the paired JSON and SHA-256 downloads for handoff. Validate a complete
 formal export with:
 
@@ -71,8 +85,9 @@ formal export with:
 npm run study:reviews:validate -- /absolute/path/to/review.json
 ```
 
-Pass `--allow-partial` only for session backups. Reviewer instructions are in
-`docs/research/round_a_reviewer_protocol.md`.
+Pass `--allow-partial` only for session backups. Round A and Round B reviewer
+instructions are in `docs/research/round_a_reviewer_protocol.md` and
+`docs/research/round_b_reviewer_protocol_2026-08-10.md`.
 
 After validation, ingest a complete signed export into the ignored local
 research database and inspect its latest-event summary:
@@ -84,7 +99,10 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 
 The default database is `Ingested-data/ai-fms-study-reviews.sqlite`. Import is
 idempotent by export SHA-256 and rejects reused event IDs with different
-content. The paired JSON/SHA-256 remains the frozen handoff artifact.
+content. Round B evidence status, exposure, usefulness, and fingerprints are
+also normalized into `study_review_evidence_reviews` for direct queries while
+the complete event remains in `raw_event_json`. The paired JSON/SHA-256 remains
+the frozen handoff artifact.
 
 After both reviewer exports are complete, generate the private Round A
 agreement package from the signed source files:
@@ -98,6 +116,23 @@ Outputs are written to the ignored
 agreement is reported across all frozen reps; RAW SCORE agreement, weighted
 Cohen's kappa, and the confusion matrix use only reps scored by both reviewers.
 Unscorable outcomes remain nonnumeric and are analyzed separately.
+
+After both complete Round B exports are validated and ingested, run the frozen
+four-export closeout analysis in this order: Round A reviewer 1, Round A
+reviewer 2, Round B reviewer 1, Round B reviewer 2.
+
+```bash
+npm run study:closeout:round-b -- \
+  /absolute/path/to/round-a-reviewer-1.json \
+  /absolute/path/to/round-a-reviewer-2.json \
+  /absolute/path/to/round-b-reviewer-1.json \
+  /absolute/path/to/round-b-reviewer-2.json
+```
+
+The command verifies each JSON/SHA-256 pair and the frozen evidence package,
+then generates Round B agreement, per-reviewer A/B changes, evidence usefulness,
+and AI v1.0 comparisons against Round A and Round B consensus. Round B
+AI concordance remains evidence-assisted rather than independent validation.
 
 Generate the Round A quantitative movement-profile package from the verified
 agreement output and feature matrix:

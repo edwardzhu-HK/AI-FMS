@@ -58,8 +58,10 @@ suggestion；Rotary Stability 目前坚持 feature-only，不生成未经验证�
 
 - Round A blind review 与 Round B 隔离 namespace。
 - 历史分数、legacy AI、源文件名和音频标签提示从 reviewer 界面隔离。
+- Round B 对 32/32 展示 pose-derived quantitative evidence；冻结 AI v1.0
+  仅对通过 gate 的 18 条显示 RAW SCORE 建议，Rotary 继续 feature-only。
 - Append-only review events、foreground review time、confidence、comment 和
-  unscorable taxonomy。
+  unscorable taxonomy；Round B 另记录 evidence usefulness 与暴露 fingerprint。
 - 完整 export 的 manifest/fingerprint/schema/SHA-256 校验。
 - 签名 JSON 进入本地 SQLite 研究数据库，导入按 checksum 幂等。
 
@@ -109,7 +111,8 @@ npm run dev
 主要页面：
 
 - Workbench：`http://127.0.0.1:5173/`
-- Study Mode：`http://127.0.0.1:5173/study.html?round=a`
+- Study Mode Round A：`http://127.0.0.1:5173/study.html?round=a`
+- Study Mode Round B：`http://127.0.0.1:5173/study.html?round=b`
 - Video Manager：`http://127.0.0.1:5173/video-manager.html`
 
 本地 HTTP API stub：
@@ -125,7 +128,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、307 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、315 tests 和三个 Vite entry builds。
 
 ## 研究复现
 

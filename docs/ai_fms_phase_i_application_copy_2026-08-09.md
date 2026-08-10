@@ -69,7 +69,7 @@ movement profiles to an ordinal screening score.
 | Jointly scored human agreement |                               26/26 exact |
 | Leakage-controlled AI baseline |              9/16 exact；14/16 within one |
 | ASLR side/peak evidence audit  | 16 windows：11 good / 2 watch / 3 limited |
-| Automated quality gate         |           307 tests + 3 production builds |
+| Automated quality gate         |           315 tests + 3 production builds |
 
 ## 我的角色
 

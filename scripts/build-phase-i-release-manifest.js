@@ -72,6 +72,7 @@ export function summarizePhaseIEvidence(artifacts) {
   const profiles = byId.get("round_a_movement_profiles")?.payload;
   const aiEvidence = byId.get("round_a_ai_evidence")?.payload;
   const aslrAudit = byId.get("aslr_side_peak_audit")?.payload;
+  const roundBEvidence = byId.get("round_b_evidence")?.payload;
   if (
     !canonical ||
     !features ||
@@ -79,7 +80,8 @@ export function summarizePhaseIEvidence(artifacts) {
     !agreement ||
     !profiles ||
     !aiEvidence ||
-    !aslrAudit
+    !aslrAudit ||
+    !roundBEvidence
   ) {
     throw new Error("Phase I release evidence is incomplete");
   }
@@ -117,6 +119,15 @@ export function summarizePhaseIEvidence(artifacts) {
     aslrAuditWatchWindows: aslrAudit.summary.byUniqueWindowStatus.watch ?? 0,
     aslrAuditLimitedWindows:
       aslrAudit.summary.byUniqueWindowStatus.limited ?? 0,
+    roundBEvidenceItems: roundBEvidence.summary.totalItems,
+    roundBFeatureReady: roundBEvidence.summary.featureReady,
+    roundBAiScoreAvailable: roundBEvidence.summary.aiScoreAvailable,
+    roundBRotaryFeaturesOnly:
+      roundBEvidence.summary.byAction.rotary_stability.byEvidenceStatus
+        .features_only ?? 0,
+    roundBProtocolMetadataRequired:
+      roundBEvidence.summary.byEvidenceStatus.protocol_metadata_required ?? 0,
+    roundBAiRuleFingerprint: roundBEvidence.modelFreeze.ruleFingerprint,
   };
 }
 

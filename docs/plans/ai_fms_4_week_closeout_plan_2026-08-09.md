@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.17                          |
+| 版本     | v1.18                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-09                     |
+| 最近更新 | 2026-08-10                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -66,7 +66,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                              |
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做                   |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛                       |
-| G2C 双轮独立审核                | IN PROGRESS | Round A 双 reviewer 已完成并分析；等待间隔后进入 Round B                          |
+| G2C 双轮独立审核                | IN PROGRESS | Round B 界面与 AI v1.0 证据已冻结；等待间隔后由双 reviewer 独立完成               |
 | G3 定量研究与结果冻结           | IN PROGRESS | ASLR 16 个独立窗口证据审计完成；最终冻结仍等待 Round B                            |
 | G4 报告与申请发布包             | IN PROGRESS | Round A 文档与 release-candidate manifest 完成；等待 Round B、demo 与公开素材审计 |
 
@@ -115,9 +115,9 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 完成九条 AI 差异逐帧复核；定位 2 条 Deep Squat metadata 修正、2 条 ASLR pose/timing QA、4 条 Hurdle 动态证据缺口和 1 条 floor depth proxy 差异。
 - [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
 - [x] 完成全部 17 条 ASLR 记录的 label-free side/peak evidence audit；16 个独立窗口中 11 good、2 watch、3 limited，且不调评分阈值。
-- [x] 通过 lint、format、307/307 tests 和三页面 production build。
+- [x] 通过 lint、format、315/315 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；10/10 研究 artifacts 通过 SHA-256，8 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；11/11 研究 artifacts 通过 SHA-256，9 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -242,10 +242,12 @@ Round A：
 Round B：
 
 - [ ] 两轮之间保留合理间隔，并重新随机样本顺序。
-- [ ] 展示 pose-derived quantitative evidence 和质量提示。
-- [ ] 不显示历史教练分数、参考标签或另一位 reviewer 的结果。
-- [ ] 记录改分、confidence delta、evidence usefulness、原因和用时。
-- [ ] Rotary Stability 保持 feature-only，不显示未经验证的 AI RAW SCORE。
+- [x] 展示 pose-derived quantitative evidence 和质量提示。
+- [x] 不显示历史教练分数、参考标签或另一位 reviewer 的结果。
+- [x] 记录可计算改分与 confidence delta 的新事件、evidence usefulness、原因和用时。
+- [x] Rotary Stability 保持 feature-only，不显示未经验证的 AI RAW SCORE。
+- [x] 在人评前冻结 AI v1.0 rule fingerprint、source checksums 和 32-rep evidence manifest。
+- [ ] Ronnie 与 Other Reviewer 分别完成 32/32，并导出、校验、入库。
 
 G2 验收证据：
 
@@ -263,8 +265,15 @@ G2 验收证据：
 目标窗口：Week 3
 
 - [ ] 冻结 canonical snapshot、study manifest、pose、feature 和 rule version。
+- [x] 冻结 Round B 使用的 AI v1.0 evidence snapshot：32/32 有定量特征，18/32
+      可显示 AI RAW SCORE，8/32 Rotary feature-only，6/32 Deep Squat
+      protocol-metadata-required。
 - [x] 计算 Round A raw agreement、weighted Cohen's kappa 和 confusion matrix。
 - [ ] Round B 完成后计算 Round B agreement 及 Round A/B change metrics。
+- [ ] Round B 完成后，用人评前冻结的 AI v1.0 对同一 32 rep 计算 AI-vs-Round A
+      consensus 与 AI-vs-Round B consensus；coverage 与 agreement 分开报告。
+- [x] 建立 checksum-verified Round B closeout command，一次生成双 reviewer
+      agreement、逐 reviewer A/B change、evidence usefulness 与 frozen AI comparison。
 - [ ] 计算 score-change rate、confidence delta 和 review-time delta。
 - [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
 - [x] 完成 Round A 26 条 consensus rep 的 quantitative profile 异质性分析。
@@ -312,7 +321,7 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 307 tests 和三入口 production build。
+      并通过 315 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
 - [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
@@ -443,8 +452,24 @@ Secondary questions：
 | 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查         |
 | 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估 |
 | 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity               |
+| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human              |
+| 2026-08-10 | Round B 按证据状态分层展示                            | 18 条显示 AI 建议；8 条 Rotary 与 6 条协议不足 Deep Squat 不硬给总分      |
 
 ## 12. 变更记录
+
+### v1.18 - 2026-08-10
+
+- 开放独立的 Round B evidence-assisted Study Mode，并保留与 Round A 分离的
+  queue、browser namespace 和 append-only event log。
+- 冻结 reviewer-safe 32-rep evidence manifest、AI v1.0 rule fingerprint 和
+  source checksums；全部 32 条有定量特征，18 条通过总分 gate。
+- 每条 Round B 终态新增 evidence usefulness、manifest/item fingerprint 和
+  AI-score exposure 记录；Rotary 继续 feature-only。
+- 建立 Round B 完成后一键分析命令，覆盖人际一致性、A/B 变化、证据有用性及
+  frozen AI-vs-human comparison。
+- 新增中文 Round B reviewer protocol，并完成桌面和手机真实浏览器检查。
+- Phase I release-candidate manifest 扩展到 11/11 artifacts 和 9 份文档；质量门
+  提升到 315/315 tests。
 
 ### v1.17 - 2026-08-09
 

@@ -1,6 +1,6 @@
 # Backlog
 
-Date: 2026-08-09
+Date: 2026-08-10
 
 This backlog has been reset around the V1.5 restart plan:
 
@@ -302,10 +302,31 @@ Canonical execution plan:
       unscorable-reason taxonomy disagreements.
 - [x] Report Round A outcome agreement, raw score agreement, linear/quadratic
       weighted Cohen's kappa, and the 0-3 confusion matrix from signed exports.
+- [x] Generate a checksum-protected, reviewer-safe Round B evidence manifest
+      for all 32 formal reps before either second-round review begins.
+- [x] Freeze AI v1.0 coverage at 18 score-bearing suggestions, 8 Rotary
+      feature-only records, and 6 protocol-limited Deep Squat records.
+- [x] Open the isolated Round B queue with pose features, quality context,
+      evidence status, and AI RAW SCORE only where the frozen gate permits it.
+- [x] Record evidence manifest/item fingerprints, AI-score exposure, and
+      reviewer-rated usefulness in each resolved Round B event.
+- [x] Normalize Round B evidence status, exposure, usefulness, and fingerprints
+      into a queryable SQLite child table while preserving raw events.
+- [x] Publish a Chinese Round B reviewer protocol and browser-check the desktop
+      and mobile scoring workflow.
+- [ ] Complete Ronnie Round B after the planned 48-72 hour interval.
+- [ ] Complete Other Reviewer Round B independently.
+- [ ] Validate, checksum, and ingest both complete Round B exports.
 
 ### G3: Quantitative Feature Study
 
 - [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
+- [x] Freeze the pre-Round-B AI v1.0 rule fingerprint, source checksums,
+      reviewer exposure policy, and 32-item coverage contract.
+- [ ] After both Round B exports close, compare frozen AI v1.0 against Round A
+      consensus and Round B consensus, with coverage reported separately.
+- [x] Add a checksum-verified Round B closeout command for reviewer agreement,
+      per-reviewer A/B change, evidence usefulness, and frozen AI comparisons.
 - [x] Generate a checksum-protected private Round A reviewer comparison package.
 - [x] Preserve all 110 canonical reps in an explicit evidence-tier analysis
       instead of reducing the research pool to the 26 gold-consensus rows.
@@ -374,10 +395,10 @@ Canonical execution plan:
       evidence table.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      10/10 research artifacts, checksums 8 documents, and pins reproduction
+      11/11 research artifacts, checksums 9 documents, and pins reproduction
       commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 307-test and three-entry build gate.
+      study/claim boundaries, plus the full 315-test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 
