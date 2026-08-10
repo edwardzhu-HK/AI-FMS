@@ -395,6 +395,9 @@ Canonical execution plan:
 - [x] Finalize the Phase I dataset card, methods, limitations, and
       ethics/publication notes for the Round A release candidate.
 - [x] Produce the Chinese Phase I technical report with an English abstract.
+- [x] Rewrite the Phase I report narrative around two product goals, implemented
+      reviewer support, seven-action product scope, four-action research scope,
+      and a four-layer AI-human evaluation design.
 - [x] Produce application project-page copy and a concise claim-control
       evidence table.
 - [x] Generate two public-safe, data-driven application figures for the Deep

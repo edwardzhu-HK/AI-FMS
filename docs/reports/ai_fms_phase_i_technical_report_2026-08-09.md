@@ -2,64 +2,133 @@
 
 ## AI-FMS: A Human-in-the-Loop Platform for FMS Video Annotation and Pose-Based Movement Evidence
 
-日期：2026-08-09
+初始日期：2026-08-09
+
+叙事更新：2026-08-10
 
 状态：Phase I release candidate；Round A complete，Round B pending
 
 ## English Abstract
 
-AI-FMS is a human-in-the-loop platform for Functional Movement Screen video
-annotation and pose-based movement evidence. The project combines repetition
-segmentation, blinded human review, MediaPipe pose extraction, interpretable
-movement features, rules-based AI suggestions, adjudication, and traceable
-exports. A four-movement pilot was reconstructed from 28 unique source videos
-and 110 repetitions. Sixty-six repetitions passed pose and timing quality gates;
-32 balanced repetitions were frozen for a two-round reviewer study. In Round A,
-two reviewers agreed on scoreability for 31 of 32 repetitions and assigned the
-same raw score to all 26 repetitions that both could score. This agreement
-describes the reviewer workflow, not AI accuracy. Leakage-controlled AI
-suggestions were comparable on 16 consensus repetitions, matching exactly on 9
-and falling within one point on 14. A targeted audit showed that some Deep Squat
-differences came from missing staged-attempt metadata, while ASLR and Hurdle
-differences exposed pose-side, peak-selection, camera-view, and cycle-level
-feature limitations. A label-free ASLR evidence audit covered 17 records and
-16 unique windows: 11 were usable, 2 required review, and 3 were pose-limited.
-The most useful contribution is therefore not automated
-diagnosis or reviewer replacement. It is a reproducible evidence pipeline that
-adds quantitative movement profiles to ordinal FMS scores while preserving
-human judgment, provenance, and explicit uncertainty.
+AI-FMS is a human-in-the-loop platform designed to support Functional Movement
+Screen review when direct observation is brief, remote, asynchronous, or hard
+to reproduce. It lets a reviewer segment video into repetitions, pause and loop
+each movement, preserve camera view and protocol context, inspect MediaPipe pose
+overlays and quantitative features, record confidence and uncertainty, compare
+independent reviews, adjudicate disagreements, and export a traceable evidence
+package. The platform covers annotation and review workflows for all seven FMS
+movements. Six movements have first-pass pose-based AI suggestions; Rotary
+Stability currently retains pose features and side evidence but withholds an
+unsupported AI raw score.
+
+The second goal is scientific: to recover continuous information compressed by
+the traditional 0-3 ordinal score. A four-movement Phase I pilot was
+reconstructed from 28 unique source videos and 110 repetitions. Sixty-six
+repetitions passed pose and timing quality gates, and 32 balanced repetitions
+were frozen for a two-round reviewer study. In Round A, the two reviewers agreed
+on scoreability for 31 of 32 repetitions and assigned the same raw score to all
+26 repetitions that both could score. Leakage-controlled AI suggestions were
+comparable on 16 of these consensus repetitions, matching exactly on 9 and
+falling within one point on 14. Deep Squat cases showed that the same human
+score can preserve different movement-depth and joint-strategy profiles. An
+ASLR audit further showed that pose visibility alone does not guarantee correct
+subject or side tracking; target-subject extraction recovered non-limited
+continuous evidence in three previously limited windows without changing the
+frozen score benchmark.
+
+Round B will test a different question: whether showing frozen pose-derived
+evidence changes reviewer confidence, time, usefulness ratings, or final
+judgment. AI-human agreement remains a parallel benchmark with coverage and
+abstention reported separately. A later improved internal benchmark must remain
+distinct from held-out confirmation if the same 32 repetitions informed system
+development. The contribution is therefore neither automated diagnosis nor
+reviewer replacement. It is an end-to-end, auditable system that helps people
+review FMS video and preserves quantitative movement evidence alongside human
+judgment and explicit uncertainty.
 
 ## 摘要
 
-AI-FMS 将 FMS 视频 review 建模为一个可追溯的人机协同研究流程。平台支持动作 rep
-切分、blind review、MediaPipe pose、可解释 feature、AI evidence、分歧复核和数据
-导出。Phase I pilot 包含四动作、28 个唯一视频和 110 个 reps，其中 66 条通过
-quantitative feature quality gate，32 条进入正式双轮研究。
+AI-FMS 有两个相互连接的目标。第一，帮助 reviewer 更方便、更完整地完成 FMS 视频
+评分：在远程或异步场景下切分动作、暂停回放、逐 rep 循环，保存 camera view、side、
+protocol condition、confidence 和备注，并用 pose overlay、角度、距离、轨迹和质量提示
+辅助肉眼判断。第二，恢复传统 0-3 分压缩掉的连续信息：分数相同的动作仍可能具有不同
+的深度、关节策略、躯干控制和左右稳定性。
 
-Round A 显示人工 workflow 可以得到高一致性，但现有规则式 AI 总分仍不足以替代人工。
-项目更重要的发现是：同一个 0-3 分数内部存在可量化的动作差异，而错误分析还能明确
-指出 protocol metadata、pose tracking、camera view 和动态 trajectory 的不同缺口。
+平台层面覆盖全部 7 个 FMS 动作；其中 6 个已经具备 first-pass pose-based AI
+suggestion，Rotary Stability 具备完整标注和 pose feature evidence，但暂不输出未经验证
+的 AI 总分。Phase I 数据研究重点选择 4 个动作，重建了 28 个唯一视频、110 个 reps 的
+canonical pilot；66 条通过 quantitative feature quality gate，32 条进入正式双轮研究。
+
+Round A 显示，两位 reviewer 在共同可评分的 26 条上全部同分；这证明的是本轮人工
+workflow 的一致性，不是 AI 准确率。冻结 AI 在 16 条可比较共识记录中 9 条完全同分、
+14 条相差不超过 1 分。Deep Squat 案例说明同分动作仍可保留不同的定量 movement
+profiles；ASLR 审计说明系统还必须识别错误主体、侧别切换和 pose evidence 不可靠的
+情况。Round B 将进一步检验 AI evidence 是否影响 confidence、review time、usefulness
+和评分结果。最终目标不是让 AI 取代 reviewer，而是形成一个更可回放、可解释、可复核
+和可追溯的 FMS 审核流程。
 
 ## 1. 背景与动机
 
-FMS 使用 0-3 RAW SCORE 对动作是否达到规则要求进行总结。该分数适合快速 screening，
-但无法完整记录动作是如何完成的。人眼可以观察躯干稳定、膝踝对齐和动作流畅性，却难以
-稳定记录连续角度、相对距离和轨迹。
+FMS 使用 0-3 RAW SCORE 对动作是否达到规则要求进行总结。这个体系适合快速
+movement screening，但一次现场观察具有天然限制：动作很快结束，reviewer 可能只能
+抓住一两个显著现象；远程、异步或无法亲临现场时更难重复观察；不同 rep、机位、侧别和
+protocol condition 也不容易在同一证据链中保存。人眼擅长理解动作整体，却难以稳定记录
+连续角度、相对距离和轨迹。
+
+### 1.1 帮助人更好地完成 FMS 评分
+
+AI-FMS 的第一层目的，是把人工评分变成一个可以暂停、回放、比较和追溯的审核流程。
+系统不是替 reviewer 做最终判断，而是为判断提供更好的工作条件：
+
+- 支持远程和异步 review，不要求 reviewer 必须亲临一次性现场观察；
+- 自动或人工校正 rep segmentation，减少在长视频中反复寻找动作的时间；
+- 对单条 rep 循环播放，使动作不会“过去就过去了”；
+- 同时保存 camera view、side、protocol condition、confidence、备注和质量标志；
+- 叠加 pose skeleton，并展示角度、相对距离、轨迹和 movement-specific evidence；
+- 对遮挡、低可见度、主体选择、侧别不稳定和协议条件不足主动提示人工复核；
+- 保留两位 reviewer 的独立记录、分歧、adjudication 和完整 export lineage。
+
+这些是当前系统已经实现的产品能力。它们是否提高 confidence、降低 review time 或改变
+评分，将由 Round B 对照 Round A 的数据回答，不能在实验完成前预设结论。
+
+### 1.2 恢复 0-3 分压缩掉的信息
+
+AI-FMS 的第二层目的，是在不推翻 FMS 规则的前提下，保留 ordinal score 之外的连续
+movement evidence。两个同为 2 分的动作，可能在深度、髋膝踝策略、躯干控制、左右侧
+稳定性和完整轨迹上不同。传统总分保留“是否达到规则要求”，pose-derived parameters
+进一步描述“动作是如何完成的”。
 
 长期游泳训练使 movement quality、左右差异和动作效率成为 Ronnie 可以持续观察的问题。
-AI-FMS 尝试把这种经验转化为一个 Human Movement Science 与计算机视觉交叉项目：不
-推翻人工规则，而是在其旁边增加可以检查、比较和追踪的 quantitative evidence。
+AI-FMS 把这种经验转化为一个 Human Movement Science 与计算机视觉交叉项目：既改善
+实际审核流程，也为同分动作的定量差异建立可检查、比较和后续研究的证据。
 
 ## 2. 研究问题
 
-1. 能否建立从视频、rep、pose、人工评分到研究输出的完整 lineage？
-2. Pose-derived parameters 能否揭示同分动作内部的连续差异？
-3. Rules-based AI 在哪些动作上能提供 reviewer-support，在哪些地方应拒绝评分？
-4. Blinded human review 能否为既有 110-rep pool 建立较可信的抽样审核层？
+1. 能否建立覆盖七动作、适合远程/异步复核的视频 annotation 与 reviewer workflow？
+2. 能否建立从视频、rep、pose、人工评分到研究输出的完整 lineage？
+3. Pose-derived parameters 能否揭示同分动作内部的连续差异？
+4. Frozen rules-based AI 与独立人工共识的一致性和 coverage 如何？
+5. AI/pose evidence 是否会改变 reviewer 的评分、confidence、review time 或主观
+   usefulness？
+6. AI 在哪些情况下应主动 abstain，并把最终判断保留给人工？
 
 本项目不回答“AI 是否能自动诊断或自动替代 FMS professional”。
 
 ## 3. 系统设计
+
+### 3.1 人工困难、系统功能与预期帮助
+
+| 人工审核中的困难                 | 已实现的系统功能                                             | 预期帮助与验证边界                           |
+| -------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
+| 无法亲临现场或需要异步复核       | 本地视频导入、匿名 reviewer queue、可恢复 review state       | 支持远程/异步工作；不是临床远程服务验证      |
+| 动作快速结束，难以回看细节       | Duration-aware range、逐 rep segment、loop playback          | 允许暂停和重复观察                           |
+| 长视频中寻找 rep 耗时            | Timing detector、自动 draft segmentation、人工 timing 校正   | 减少定位工作；错误切分仍需人工修正           |
+| 人眼难以稳定记录连续量           | MediaPipe overlay、角度、距离、轨迹和 movement-specific 特征 | 增加定量旁证；2D proxy 不是临床量角器        |
+| 机位、侧别和协议条件容易丢失     | Camera view、side、attempt condition、clearing/pain metadata | 保留评分上下文；pain 不由 AI 自动判断        |
+| 遮挡、主体混乱或证据不足         | Pose-quality gate、subject/side QA、watch/limited/abstain    | 提醒 reviewer 复核，不强行输出总分           |
+| 第二 reviewer 与争议处理难以追溯 | Blind Study Mode、append-only events、adjudication、export   | 支持独立复核与追溯；实际辅助效果等待 Round B |
+
+### 3.2 系统架构
 
 ```text
 Local videos + review histories
@@ -81,9 +150,48 @@ MediaPipe pose -> timing QA -> movement-specific features
        JSON/CSV exports + SQLite + research reports
 ```
 
-Workbench 覆盖 7 个 FMS movements。Phase I quantitative pilot 聚焦 Deep Squat、
-Hurdle Step、ASLR 和 Rotary Stability。所有建议保留 reasons、confidence、model
-version 和 evidence quality；Rotary 在未完成规则验证前只输出 features。
+### 3.3 Product Scope：七动作功能覆盖
+
+| Action                    | Annotation / timing                      | Pose features                                      | AI-assisted review                     | Side / clearing 边界                      |
+| ------------------------- | ---------------------------------------- | -------------------------------------------------- | -------------------------------------- | ----------------------------------------- |
+| Deep Squat                | Rep timing + floor/board attempt context | Depth、torso、hip/knee/ankle proxies               | First-pass explainable suggestion      | 非左右动作；无 clearing                   |
+| Active Straight Leg Raise | Left/right raise cycles                  | Active-leg height、stationary-leg、pelvis、side    | First-pass explainable suggestion + QA | AI side suggestion；无 clearing           |
+| Hurdle Step               | Step-cycle timing                        | Clearance、stance leg、pelvis/trunk、alignment     | First-pass explainable suggestion + QA | AI side suggestion；无 clearing           |
+| In-Line Lunge             | Lunge-depth cycles                       | Depth、trunk/pelvis、rear leg、knee-foot alignment | First-pass explainable suggestion      | AI side；ankle clearing 由人工确认        |
+| Shoulder Mobility         | Best-reach evidence                      | Reach distance、visibility、side context           | Conservative first-pass suggestion     | AI side；shoulder pain 由人工确认         |
+| Trunk Stability Push-Up   | Best push-up frame                       | Lift、body line、arm extension、hip drift          | Conservative first-pass suggestion     | 非左右动作；extension pain 由人工确认     |
+| Rotary Stability          | Curated full-cycle timing / feature QA   | Reach、trunk rotation、center offset、balance      | Features-only；暂不输出 AI RAW SCORE   | AI side evidence；flexion pain 由人工确认 |
+
+六个动作已经进入 `implemented` 状态，具有 timing、features 和可人工校准的 first-pass
+pose-based suggestion。Rotary Stability 已进入完整 annotation、pose evidence、Study
+Mode、export 和数据库流程，但当前保持 `features_only`。这不是“未实现”，而是系统在
+movement sequence evidence 尚不足时拒绝输出未经验证的总分。
+
+### 3.4 Research Scope：四动作 Phase I pilot
+
+| 研究层级                     | 当前范围                                               |
+| ---------------------------- | ------------------------------------------------------ |
+| Product workflow             | 全部 7 个 FMS movements                                |
+| Phase I quantitative pilot   | Deep Squat、Hurdle Step、ASLR、Rotary Stability        |
+| Canonical research pool      | 28 个唯一 source videos、110 reps                      |
+| Quantitative feature pool    | 66 feature-ready reps                                  |
+| Formal blind study           | 32 reps；四动作各 8                                    |
+| Round A gold-consensus layer | 26 条双方均可评分且同分；不是对 110 条的随机有效性证明 |
+
+Product Scope 回答“系统做出了什么”，Research Scope 回答“本阶段用哪些数据做了正式分析”。
+平台覆盖七动作，不等于七动作都已完成同等强度的模型验证；四动作 pilot 也不意味着另外
+三个动作没有实现主要产品功能。
+
+### 3.5 当前界面证据
+
+![AI-FMS workbench overview](../assets/ai-fms-demo-overview.jpg)
+
+![Deep Squat side-view angle features](../assets/ai-fms-demo-side-angle-features.jpg)
+
+![Export evidence dashboard](../assets/ai-fms-demo-export-evidence.jpg)
+
+这些截图用于说明已实现的产品流程和开发工作量。人物或源视频画面在进入公开申请材料前
+仍需完成 source-rights 与 privacy audit。
 
 ## 4. 数据与质量门
 
@@ -123,6 +231,27 @@ Round A 结果：
 
 Kappa 只使用双方都能评分的 26 条。Unscorable reason agreement 较弱，说明 protocol
 taxonomy 仍需改进；高 score agreement 不能外推为临床可靠性。
+
+### Round B：AI evidence-assisted review
+
+Round B 与 Round A 使用隔离 namespace、重新随机的队列和独立 append-only events。
+两位 reviewer 仍各自评分，看不到历史答案、另一位 reviewer 的结果或旧 AI 标签；区别是
+可以查看冻结的 pose-derived quantitative evidence、质量提示和通过 gate 的 AI
+suggestion。
+
+当前 Round B 界面、32-rep reviewer-safe evidence manifest、AI v1.0 rule fingerprint
+和 source checksums 已经冻结，并完成桌面/手机界面检查：
+
+- 32/32 都有可追溯 quantitative features；
+- 18/32 通过 evidence gate，可显示 AI RAW SCORE suggestion；
+- 8/32 Rotary Stability 保持 feature-only；
+- 6/32 Deep Squat 因 floor/board protocol metadata 不足，不硬给总分；
+- 每条终态额外记录 evidence exposure、usefulness、confidence 和 foreground review
+  time。
+
+Round B 尚未由两位 reviewer 完成，因此目前不能声称 AI evidence 已提高准确性、信心或
+效率。完成后将比较逐 reviewer score change、confidence delta、review-time delta、
+evidence usefulness，以及 Round A/B 人际一致性。
 
 ## 6. Quantitative Movement Profiles
 
@@ -164,10 +293,21 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 `docs/research/phase_i_case_study_portfolio_2026-08-10.md`。该组合同时展示项目的
 科学价值、human-in-the-loop 质量控制和 fail-closed 边界。
 
-## 7. AI Evidence 与人工共识
+## 7. AI 与人工：四层评测设计及当前基线
 
-运行顺序先生成 110 条 AI suggestions，再连接 26 条人工 consensus。Files、notes、
-历史 labels、legacy AI 和 reviewer comments 不进入 suggestion builder。
+“AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 将其拆成
+四个评测层次：
+
+| 评测层次                 | 比较内容                                  | 回答的问题                           | 当前状态                         |
+| ------------------------ | ----------------------------------------- | ------------------------------------ | -------------------------------- |
+| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定               | Round A 完成；Round B pending    |
+| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致         | Round A 基线完成；Round B 待生成 |
+| Assisted review effect   | 每位 reviewer 的 Round B vs Round A       | AI evidence 是否影响判断、信心和时间 | 待 Round B                       |
+| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现         | 计划项；不得包装成独立验证       |
+
+冻结基线的运行顺序是先对 110 条生成 leakage-controlled AI suggestions，再连接 26 条
+人工 consensus。Files、notes、历史 labels、legacy AI 和 reviewer comments 不进入
+suggestion builder。
 
 | 分析                 | 可比较 | Exact | Within 1 |    MAE | Linear / Quadratic kappa |
 | -------------------- | -----: | ----: | -------: | -----: | -----------------------: |
@@ -176,6 +316,39 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 
 基线结果足以排除“当前规则式 AI 已经可以替代人工”的描述。Sensitivity 的变化来自
 Deep Squat attempt metadata 补齐，不是训练后 performance improvement。
+
+### Final Locked AI Scoring Pass
+
+两位 reviewer 完成 Round B 后，将对同一 32 reps 运行一次锁定的 AI scoring pass，
+并同时保留三层结果：
+
+1. **Frozen AI v1.0 baseline**：人评前已冻结，防止 Round B 结果反向影响规则。
+2. **Post-audit / final internal benchmark**：若补齐 Deep Squat protocol metadata 或
+   新增 Rotary first-pass rule，必须使用新 version 和 fingerprint 单独报告。
+3. **Held-out confirmation**：最终锁定后再使用少量、未参与调参的新视频，才用于讨论
+   初步推广能力。
+
+每个 AI benchmark 至少报告 coverage、exact agreement、within-one agreement、MAE、
+weighted Cohen's kappa、分动作结果，以及 abstain / evidence-insufficient 数量。分析全部
+32 条不等于强迫 AI 给 32 条总分；合理拒绝评分本身是 human-in-the-loop 系统能力。
+
+当前 frozen AI v1.0 的 score-bearing coverage 为 18/32：ASLR 8、Hurdle Step 8、
+Deep Squat 2、Rotary Stability 0。要形成更高 coverage 的改进版 internal benchmark，
+需要先审计 6 条 Deep Squat protocol condition，并为 Rotary 建立 cycle-level、
+规则驱动、允许 abstain 的 first-pass suggestion。若这些改动参考了本批 32 条人工结果，
+其结果只能称为 internal benchmark，不能称为 held-out validation。
+
+### Rotary Stability 的当前证据边界
+
+Rotary 并非没有实现。正式 study 的 8 条样本全部 feature-ready，Round A 两位 reviewer
+8/8 完全同分，其中 4 条为 1 分、4 条为 2 分。系统已经保存 rotary reach、trunk
+rotation、center offset、hip-height/balance stability、side evidence 和人工
+clearing/pain gate。
+
+缺失的是从现有 features 到可信 AI RAW SCORE 的映射。Rotary 需要识别同侧/对角模式、
+手膝离地顺序、接触位置、膝肘伸展、失衡或触地、完整返回和 flexion clearing；当前
+formal features 在 1 分和 2 分之间仍有重叠。因此下一版本应增加 cycle-level
+pattern/event detection，而不是为了“七动作全完成”仓促设置单阈值。
 
 ## 8. 九条 Targeted Error Audit
 
@@ -223,10 +396,13 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 
 ## 10. 工程实现
 
-- React 19 + Vite multi-entry frontend。
+- React 19 + Vite multi-entry frontend，包含 Workbench、Study Mode 和 Video
+  Manager。
+- Duration-aware analysis range、rep segmentation、loop playback、timing correction
+  和 movement-specific reviewer forms。
 - Mock API、local HTTP API stub 与 Video Manager API。
-- MediaPipe Pose Landmarker 本地 extraction。
-- Movement-specific timing、features、suggestion adapters。
+- MediaPipe Pose Landmarker 本地 extraction、pose overlay 和 subject/side evidence。
+- 七动作 adapters；六动作 first-pass suggestion，Rotary feature-only evidence gate。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
 - 319 automated tests 与三个 production entries。
@@ -250,7 +426,9 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 
 可以主张：
 
-- 建成了可运行的 human-in-the-loop annotation 和 study platform；
+- 建成了覆盖七动作的 human-in-the-loop annotation、pose evidence 和 study
+  platform；
+- 六动作具有 first-pass AI suggestion，Rotary 以 feature-only 方式进入同一审核流程；
 - 保存了 pose-derived quantitative evidence 和完整 lineage；
 - 完成了四动作 pilot、Round A blind review 和 exploratory analyses；
 - 发现了同分动作内部的可量化差异及当前 AI 的明确边界。
@@ -265,14 +443,19 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 ## 13. 结论与下一步
 
 AI-FMS Phase I 已从单一 demo 发展为包含产品、数据、盲审和研究输出的完整 pilot。
-最可信的贡献是把 ordinal FMS judgment 与 continuous pose evidence 放在同一可审计流程
-中，并诚实暴露 AI 何时有帮助、何时证据不足。
+项目首先回应人工 FMS 在远程/异步审核、回放、定量观察和信息保留方面的不足，随后建立
+覆盖七动作的人机协同系统，再选择四个动作进行结构化研究。最可信的贡献是把 ordinal
+FMS judgment 与 continuous pose evidence 放在同一可审计流程中，并诚实暴露 AI 何时
+可能提供帮助、何时证据不足。
 
 下一步：
 
-1. 完成 Round B 和 A/B change metrics；
-2. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
+1. 完成双 reviewer Round B，冻结 agreement、confidence、time、usefulness 和 A/B
+   change metrics；
+2. 运行 Final Locked AI Scoring Pass，分开报告 frozen v1.0 与 post-audit internal
+   benchmark；
+3. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
    robust geometry；
-3. 开发 Hurdle cycle-level path 和 dowel features；
-4. 增加独立来源和 rights/consent-clear 数据；
-5. 完成 demo video、公开素材 audit 与 final Phase I release。
+4. 开发 Hurdle 和 Rotary cycle-level pattern/event features；
+5. 增加少量独立来源、rights/consent-clear 新视频，完成 held-out confirmation；
+6. 完成 demo video、公开素材 audit 与 final Phase I release。

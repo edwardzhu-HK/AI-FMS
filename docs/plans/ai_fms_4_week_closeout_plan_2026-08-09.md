@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.20                          |
+| 版本     | v1.21                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-10                     |
@@ -68,7 +68,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛         |
 | G2C 双轮独立审核                | IN PROGRESS | Round B 界面与 AI v1.0 证据已冻结；等待间隔后由双 reviewer 独立完成 |
 | G3 定量研究与结果冻结           | IN PROGRESS | ASLR 16 个独立窗口证据审计完成；最终冻结仍等待 Round B              |
-| G4 报告与申请发布包             | IN PROGRESS | 四案例组合和两张数据图完成；等待 Round B、demo 与公开素材审计       |
+| G4 报告与申请发布包             | IN PROGRESS | 技术报告叙事与案例图完成；等待 Round B、demo 与公开素材审计         |
 
 ### 3.2 已验证基线
 
@@ -118,6 +118,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 对 3 个 ASLR limited 窗口完成 subject-aware ROI sensitivity：1 good、2 watch、0 limited；两条原 watch 完成人工视频 QA。
 - [x] 选定 4 个申请案例：Deep Squat 主案例、ASLR 测量可靠性案例、Hurdle 方法案例和 Rotary 边界案例。
 - [x] 从冻结数据生成 2 张无人物申请图，并通过 source fingerprint、SHA-256、XML 和真实浏览器排版检查。
+- [x] 重写 Phase I 技术报告的双语摘要、背景动机、系统功能、七动作 Product Scope、四动作 Research Scope 与四层 AI-human 评测设计。
 - [x] 通过 lint、format、319/319 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
 - [x] 建立 Phase I release-candidate spec 与生成器；13/13 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
@@ -461,8 +462,20 @@ Secondary questions：
 | 2026-08-10 | Round B 按证据状态分层展示                            | 18 条显示 AI 建议；8 条 Rotary 与 6 条协议不足 Deep Squat 不硬给总分      |
 | 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence    |
 | 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界     |
+| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                    | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                 |
 
 ## 12. 变更记录
+
+### v1.21 - 2026-08-10
+
+- 重写 Phase I technical report 的 English Abstract、中文摘要和背景动机，将
+  “帮助人工评分”与“恢复 ordinal score 压缩信息”明确为两层项目目的。
+- 新增“人工困难、系统功能与预期帮助”表、七动作 Product Scope、四动作 Research
+  Scope 和现有界面证据，突出真实功能与开发工作量。
+- 新增 Human reliability、Frozen AI benchmark、Assisted review effect 和 Final
+  internal benchmark 四层评测框架，并把 held-out confirmation 作为推广性门槛。
+- 按当前事实记录 Round B 界面与 AI v1.0 evidence 已冻结、人工 Round B 尚待完成；
+  Rotary 保持 feature-only，未来评分必须基于 cycle-level evidence 并允许 abstain。
 
 ### v1.20 - 2026-08-10
 
