@@ -17,9 +17,10 @@ each movement, preserve camera view and protocol context, inspect MediaPipe pose
 overlays and quantitative features, record confidence and uncertainty, compare
 independent reviews, adjudicate disagreements, and export a traceable evidence
 package. The platform covers annotation and review workflows for all seven FMS
-movements. Six movements have first-pass pose-based AI suggestions; Rotary
-Stability currently retains pose features and side evidence but withholds an
-unsupported AI raw score.
+movements. Six movements have first-pass pose-based AI suggestions. Rotary
+Stability remains feature-only in the frozen Round B AI v1.0, while a separate
+experimental v1.1 now derives full-cycle evidence and either proposes a
+conservative score or abstains. It is not exposed to Round B reviewers.
 
 The second goal is scientific: to recover continuous information compressed by
 the traditional 0-3 ordinal score. A four-movement Phase I pilot was
@@ -54,10 +55,11 @@ protocol condition、confidence 和备注，并用 pose overlay、角度、距�
 辅助肉眼判断。第二，恢复传统 0-3 分压缩掉的连续信息：分数相同的动作仍可能具有不同
 的深度、关节策略、躯干控制和左右稳定性。
 
-平台层面覆盖全部 7 个 FMS 动作；其中 6 个已经具备 first-pass pose-based AI
-suggestion，Rotary Stability 具备完整标注和 pose feature evidence，但暂不输出未经验证
-的 AI 总分。Phase I 数据研究重点选择 4 个动作，重建了 28 个唯一视频、110 个 reps 的
-canonical pilot；66 条通过 quantitative feature quality gate，32 条进入正式双轮研究。
+平台层面覆盖全部 7 个 FMS 动作；其中 6 个已经具备默认 first-pass pose-based AI
+suggestion。Rotary Stability 在 frozen Round B v1.0 中仍为 feature-only；独立 v1.1
+experimental 路径已经加入完整周期判分与 abstain，但不向 Round B reviewer 展示。
+Phase I 数据研究重点选择 4 个动作，重建了 28 个唯一视频、110 个 reps 的 canonical
+pilot；66 条通过 quantitative feature quality gate，32 条进入正式双轮研究。
 
 Round A 显示，两位 reviewer 在共同可评分的 26 条上全部同分；这证明的是本轮人工
 workflow 的一致性，不是 AI 准确率。冻结 AI 在 16 条可比较共识记录中 9 条完全同分、
@@ -160,12 +162,13 @@ MediaPipe pose -> timing QA -> movement-specific features
 | In-Line Lunge             | Lunge-depth cycles                       | Depth、trunk/pelvis、rear leg、knee-foot alignment | First-pass explainable suggestion      | AI side；ankle clearing 由人工确认        |
 | Shoulder Mobility         | Best-reach evidence                      | Reach distance、visibility、side context           | Conservative first-pass suggestion     | AI side；shoulder pain 由人工确认         |
 | Trunk Stability Push-Up   | Best push-up frame                       | Lift、body line、arm extension、hip drift          | Conservative first-pass suggestion     | 非左右动作；extension pain 由人工确认     |
-| Rotary Stability          | Curated full-cycle timing / feature QA   | Reach、trunk rotation、center offset、balance      | Features-only；暂不输出 AI RAW SCORE   | AI side evidence；flexion pain 由人工确认 |
+| Rotary Stability          | Segment cycle + pose-derived phase QA    | 两次触踝、肘膝伸展、离地时序、回位、稳定性         | v1.0 feature-only；v1.1 experimental   | AI side evidence；flexion pain 由人工确认 |
 
-六个动作已经进入 `implemented` 状态，具有 timing、features 和可人工校准的 first-pass
-pose-based suggestion。Rotary Stability 已进入完整 annotation、pose evidence、Study
-Mode、export 和数据库流程，但当前保持 `features_only`。这不是“未实现”，而是系统在
-movement sequence evidence 尚不足时拒绝输出未经验证的总分。
+六个动作已经进入默认 `implemented` 状态，具有 timing、features 和可人工校准的
+first-pass pose-based suggestion。Rotary Stability 已进入完整 annotation、pose
+evidence、Study Mode、export 和数据库流程；frozen v1.0 保持 `features_only`，另有不
+接入默认 UI 的 v1.1 experimental adapter。v1.1 对完整周期输出可解释建议，对遮挡或
+关键阶段不足的周期 abstain。它改善了功能完整性，但不改变 Round B 实验设计。
 
 ### 3.4 Research Scope：四动作 Phase I pilot
 
@@ -298,12 +301,12 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 “AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 将其拆成
 四个评测层次：
 
-| 评测层次                 | 比较内容                                  | 回答的问题                           | 当前状态                         |
-| ------------------------ | ----------------------------------------- | ------------------------------------ | -------------------------------- |
-| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定               | Round A 完成；Round B pending    |
-| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致         | Round A 基线完成；Round B 待生成 |
-| Assisted review effect   | 每位 reviewer 的 Round B vs Round A       | AI evidence 是否影响判断、信心和时间 | 待 Round B                       |
-| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现         | 计划项；不得包装成独立验证       |
+| 评测层次                 | 比较内容                                  | 回答的问题                           | 当前状态                          |
+| ------------------------ | ----------------------------------------- | ------------------------------------ | --------------------------------- |
+| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定               | Round A 完成；Round B pending     |
+| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致         | Round A 基线完成；Round B 待生成  |
+| Assisted review effect   | 每位 reviewer 的 Round B vs Round A       | AI evidence 是否影响判断、信心和时间 | 待 Round B                        |
+| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现         | Rotary 组件完成；全 32 待 Round B |
 
 冻结基线的运行顺序是先对 110 条生成 leakage-controlled AI suggestions，再连接 26 条
 人工 consensus。Files、notes、历史 labels、legacy AI 和 reviewer comments 不进入
@@ -333,22 +336,42 @@ weighted Cohen's kappa、分动作结果，以及 abstain / evidence-insufficien
 32 条不等于强迫 AI 给 32 条总分；合理拒绝评分本身是 human-in-the-loop 系统能力。
 
 当前 frozen AI v1.0 的 score-bearing coverage 为 18/32：ASLR 8、Hurdle Step 8、
-Deep Squat 2、Rotary Stability 0。要形成更高 coverage 的改进版 internal benchmark，
-需要先审计 6 条 Deep Squat protocol condition，并为 Rotary 建立 cycle-level、
-规则驱动、允许 abstain 的 first-pass suggestion。若这些改动参考了本批 32 条人工结果，
-其结果只能称为 internal benchmark，不能称为 held-out validation。
+Deep Squat 2、Rotary Stability 0。Rotary v1.1 已建立 cycle-level、规则驱动、允许
+abstain 的 first-pass suggestion，并单独完成组件 benchmark；其结果不会回写 v1.0。
+全 32 条改进版 benchmark 仍需等待 Round B 后统一运行。由于 v1.1 开发发生在 Round A
+之后，它只能称为 internal benchmark，不能称为 held-out validation。
 
-### Rotary Stability 的当前证据边界
+### Rotary Stability v1.1：实现与当前证据边界
 
 Rotary 并非没有实现。正式 study 的 8 条样本全部 feature-ready，Round A 两位 reviewer
 8/8 完全同分，其中 4 条为 1 分、4 条为 2 分。系统已经保存 rotary reach、trunk
 rotation、center offset、hip-height/balance stability、side evidence 和人工
 clearing/pain gate。
 
-缺失的是从现有 features 到可信 AI RAW SCORE 的映射。Rotary 需要识别同侧/对角模式、
-手膝离地顺序、接触位置、膝肘伸展、失衡或触地、完整返回和 flexion clearing；当前
-formal features 在 1 分和 2 分之间仍有重叠。因此下一版本应增加 cycle-level
-pattern/event detection，而不是为了“七动作全完成”仓促设置单阈值。
+v1.1 不再把单帧 `rotaryReachScore` 直接映射成总分，而是在每个 segment 内重新寻找
+setup、第一次 hand-to-lateral-malleolus、extension、第二次 touch 和 return 阶段，
+再检查 hand/knee lift timing、肘膝伸展、回位误差和稳定性 proxy。Score 3 只有在完整
+周期、同时离地与 board-parallel alignment 都被确认时才允许；score 0 仍只由人工
+pain / flexion clearing metadata 触发。Curated timing 中的人工 score override 不进入
+规则输入，并有自动测试防止标签泄漏。
+
+正式 8 条的 post-audit internal benchmark 结果如下：
+
+| 指标                   |                     Rotary v1.1 |
+| ---------------------- | ------------------------------: |
+| Formal reps            |                               8 |
+| Score-bearing coverage |                        4/8，50% |
+| Exact agreement        |                             4/4 |
+| Within-one agreement   |                             4/4 |
+| MAE                    |                               0 |
+| Abstain                |                               4 |
+| Weighted kappa         | 不可估计；可比较项均为人工 1 分 |
+
+4 条人工 1 分来源均出现明确的触踝、伸展或回位失败证据；4 条人工 2 分来源的关键阶段
+landmark coverage 只有约 34%–50%，系统全部 abstain。另用 MediaPipe Full、15 fps
+重提取该来源，coverage 仍为 4/8，且关键关节可用比例没有改善。这说明当前瓶颈主要是
+侧面拍摄和手脚遮挡，而不是 Lite model size。这里的 4/4 exact 不能脱离 50% coverage
+单独宣传，更不能视为独立验证。
 
 ## 8. 九条 Targeted Error Audit
 
@@ -402,10 +425,11 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
   和 movement-specific reviewer forms。
 - Mock API、local HTTP API stub 与 Video Manager API。
 - MediaPipe Pose Landmarker 本地 extraction、pose overlay 和 subject/side evidence。
-- 七动作 adapters；六动作 first-pass suggestion，Rotary feature-only evidence gate。
+- 七动作 adapters；六动作默认 first-pass suggestion；Rotary 另有隔离的 v1.1
+  experimental cycle-rule adapter，frozen Round B 仍走 feature-only gate。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 319 automated tests 与三个 production entries。
+- 327 automated tests 与三个 production entries。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
@@ -416,6 +440,8 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - 两位 reviewer 不构成 certified expert panel validation。
 - 没有人口统计、consent registry、clinical outcome 或 injury labels。
 - 2D pose 受视角、遮挡和 source-video signature 影响。
+- Rotary v1.1 在正式 8 条上只有 4/8 score-bearing coverage；Full pose model 未改善
+  低覆盖来源，score 2/3 与 board alignment 仍需新视频验证。
 - ASLR 冻结基线的 16 个独立窗口中有 3 个 pose-limited；subject-aware sensitivity
   将这 3 个窗口转为 1 good / 2 watch，但尚未在独立多人视频上验证。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
@@ -428,7 +454,8 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 
 - 建成了覆盖七动作的 human-in-the-loop annotation、pose evidence 和 study
   platform；
-- 六动作具有 first-pass AI suggestion，Rotary 以 feature-only 方式进入同一审核流程；
+- 六动作具有默认 first-pass AI suggestion；Rotary 在 frozen v1.0 中 feature-only，
+  v1.1 experimental 可输出保守建议或 abstain；
 - 保存了 pose-derived quantitative evidence 和完整 lineage；
 - 完成了四动作 pilot、Round A blind review 和 exploratory analyses；
 - 发现了同分动作内部的可量化差异及当前 AI 的明确边界。
@@ -456,6 +483,8 @@ FMS judgment 与 continuous pose evidence 放在同一可审计流程中，并�
    benchmark；
 3. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
    robust geometry；
-4. 开发 Hurdle 和 Rotary cycle-level pattern/event features；
-5. 增加少量独立来源、rights/consent-clear 新视频，完成 held-out confirmation；
-6. 完成 demo video、公开素材 audit 与 final Phase I release。
+4. 开发 Hurdle cycle-level pattern/event features；
+5. 补采手脚无遮挡、board edge 可见的 Rotary 新视频，并在冻结 v1.1 后完成 held-out
+   confirmation；
+6. 增加少量其他独立来源、rights/consent-clear 新视频；
+7. 完成 demo video、公开素材 audit 与 final Phase I release。

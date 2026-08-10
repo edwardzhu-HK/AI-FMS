@@ -79,6 +79,16 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
       },
       modelFreeze: { ruleFingerprint: "rule-fingerprint" },
     }),
+    artifact("rotary_v1_1_internal", {
+      metrics: {
+        formalItems: 8,
+        scoredItems: 4,
+        abstainedItems: 4,
+        exactCount: 4,
+        coverage: 0.5,
+      },
+      roundBIsolation: { experimentalScoreExposed: false },
+    }),
     artifact("phase_i_case_study_portfolio", {
       summary: { selectedCases: 4, applicationFigures: 2 },
     }),
@@ -121,6 +131,12 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     roundBRotaryFeaturesOnly: 8,
     roundBProtocolMetadataRequired: 6,
     roundBAiRuleFingerprint: "rule-fingerprint",
+    rotaryV11FormalItems: 8,
+    rotaryV11ScoredItems: 4,
+    rotaryV11AbstainedItems: 4,
+    rotaryV11Exact: 4,
+    rotaryV11Coverage: 0.5,
+    rotaryV11RoundBIsolation: true,
     selectedCaseStudies: 4,
     applicationFigures: 2,
   });

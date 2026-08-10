@@ -47,6 +47,12 @@
     "roundBRotaryFeaturesOnly": 8,
     "roundBProtocolMetadataRequired": 6,
     "roundBAiRuleFingerprint": "74d7b5d0ef59edc5785c5b39c61d30a65149eb4e35d1e01445a17c5e319818d8",
+    "rotaryV11FormalItems": 8,
+    "rotaryV11ScoredItems": 4,
+    "rotaryV11AbstainedItems": 4,
+    "rotaryV11Exact": 4,
+    "rotaryV11Coverage": 0.5,
+    "rotaryV11RoundBIsolation": true,
     "selectedCaseStudies": 4,
     "applicationFigures": 2
   },
@@ -124,6 +130,12 @@
       "access": "reviewer_safe_private"
     },
     {
+      "id": "rotary_v1_1_internal",
+      "path": "research/pilot-v1/generated/rotary-v1-1-internal/rotary-v1-1-internal-benchmark.json",
+      "checksumManifest": "research/pilot-v1/generated/rotary-v1-1-internal/SHA256SUMS",
+      "access": "private_research_post_audit"
+    },
+    {
       "id": "phase_i_case_study_portfolio",
       "path": "docs/assets/phase-i-case-studies/case-study-portfolio.json",
       "checksumManifest": "docs/assets/phase-i-case-studies/SHA256SUMS",
@@ -155,6 +167,7 @@
     "npm run study:evidence:round-b",
     "npm run study:aslr:side-peak-audit",
     "npm run study:aslr:subject-sensitivity",
+    "npm run study:rotary:v1-1",
     "npm run release:phase-i:figures",
     "npm run release:phase-i:manifest",
     "npm run check"

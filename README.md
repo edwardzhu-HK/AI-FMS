@@ -19,6 +19,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率 |
 | ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited   |
 | ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited |
+| Rotary AI v1.1       | Experimental；4/8 coverage，比较项 4/4 exact |
 | 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图           |
 | 当前等待项           | Round B 与最终结果冻结                       |
 
@@ -30,7 +31,9 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 - Rotary Stability
 
 Deep Squat 是旗舰的 staged FMS pipeline；ASLR 和 Hurdle 已有 pose-based first-pass
-suggestion；Rotary Stability 目前坚持 feature-only，不生成未经验证的 AI RAW SCORE。
+suggestion。Round B 冻结的 AI v1.0 中 Rotary Stability 继续 feature-only；独立的
+v1.1 experimental adapter 已能按完整周期提出保守 1/2/3 分或 abstain，但不进入明天
+的 Study Mode，也不是独立验证结果。
 
 ## 项目价值
 
@@ -47,7 +50,8 @@ suggestion；Rotary Stability 目前坚持 feature-only，不生成未经验证�
 
 申请案例组合同时保留不同类型的证据：Deep Squat 是同分异型主案例，ASLR 展示
 subject selection 对测量可靠性的影响，Hurdle Step 说明 camera-view metadata gate，
-Rotary Stability 说明证据不足时保留 features、拒绝硬给总分。
+Rotary Stability 说明证据不足时如何从 features-only 发展到 cycle-level first-pass，
+同时继续拒绝对遮挡周期硬给总分。
 
 ![Deep Squat same-score movement profile](docs/assets/phase-i-case-studies/deep-squat-same-score.svg)
 
@@ -85,6 +89,8 @@ Rotary Stability 说明证据不足时保留 features、拒绝硬给总分。
 - 九条 AI/人工差异的 5 帧视觉复核与 protocol sensitivity。
 - 全部 17 条 ASLR 记录的 label-free side/peak evidence audit。
 - 三个 ASLR limited 窗口的 subject-aware ROI sensitivity 与两个 watch 视频 QA。
+- Rotary v1.1 的两次 hand-to-ankle、肘膝伸展、离地时序、回位与 clearing gate；
+  `npm run study:rotary:v1-1` 生成 checksum-protected internal benchmark。
 
 ## 研究证据边界
 
@@ -143,7 +149,7 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、319 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、327 tests 和三个 Vite entry builds。
 
 ## 研究复现
 
@@ -240,5 +246,7 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 
 1. 完成间隔后的 Round B，并冻结 Round A/B change metrics。
 2. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
-3. 按申请平台尺寸复核已生成的 Deep Squat 与 ASLR 图，并完成替代文本定稿。
-4. 完成公开素材 rights/privacy audit、demo video 和最终 release manifest。
+3. 为 Rotary 补采手脚无遮挡、board edge 可见、完整侧身的新来源视频，作为 held-out
+   confirmation；不使用正式 8 条继续调参。
+4. 按申请平台尺寸复核已生成的 Deep Squat 与 ASLR 图，并完成替代文本定稿。
+5. 完成公开素材 rights/privacy audit、demo video 和最终 release manifest。
