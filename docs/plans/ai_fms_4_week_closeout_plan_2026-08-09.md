@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.18                          |
+| 版本     | v1.19                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-10                     |
@@ -115,9 +115,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 完成九条 AI 差异逐帧复核；定位 2 条 Deep Squat metadata 修正、2 条 ASLR pose/timing QA、4 条 Hurdle 动态证据缺口和 1 条 floor depth proxy 差异。
 - [x] 保留 9/16 冻结基线，并单独生成 Deep Squat protocol-audited sensitivity：11/17 完全同分、15/17 相差不超过 1 分。
 - [x] 完成全部 17 条 ASLR 记录的 label-free side/peak evidence audit；16 个独立窗口中 11 good、2 watch、3 limited，且不调评分阈值。
-- [x] 通过 lint、format、315/315 tests 和三页面 production build。
+- [x] 对 3 个 ASLR limited 窗口完成 subject-aware ROI sensitivity：1 good、2 watch、0 limited；两条原 watch 完成人工视频 QA。
+- [x] 通过 lint、format、317/317 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；11/11 研究 artifacts 通过 SHA-256，9 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；12/12 研究 artifacts 通过 SHA-256，10 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -285,7 +286,7 @@ G2 验收证据：
 - [x] 使用 camera-audited pose-derived 输出比较 AI evidence 与人工 consensus；按 exploratory concordance 报告，不表述为模型准确率。
 - [x] 复核 2 条 ASLR 大分差、4 条 Hurdle 分歧、1 条 Deep Squat 分数差异和 2 条 Deep Squat protocol metadata 缺口；本轮不调阈值。
 - [x] 对全部 17 条 ASLR 记录运行不读取分数/文件名/reviewer 结果的 side/peak evidence gate；16 个独立窗口中 11 good、2 watch、3 limited。
-- [ ] 对 3 个 ASLR `limited` 窗口做 subject-aware pose re-extraction，并人工复核 2 个 `watch` 窗口；新结果只进入 sensitivity。
+- [x] 对 3 个 ASLR `limited` 窗口做 subject-aware pose re-extraction，并人工复核 2 个 `watch` 窗口；新结果只进入 sensitivity。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates；正式选定 4-6 组仍需人工复核。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
@@ -321,7 +322,7 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 315 tests 和三入口 production build。
+      并通过 317 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
 - [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
 
@@ -454,8 +455,19 @@ Secondary questions：
 | 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity               |
 | 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human              |
 | 2026-08-10 | Round B 按证据状态分层展示                            | 18 条显示 AI 建议；8 条 Rotary 与 6 条协议不足 Deep Squat 不硬给总分      |
+| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence    |
 
 ## 12. 变更记录
+
+### v1.19 - 2026-08-10
+
+- 对 ASLR 三个原 `limited` 独立窗口执行 multi-pose / subject ROI / inference crop
+  重提取；结果为 1 `good`、2 `watch`、0 `limited`。
+- 两个原有 `watch` 窗口完成人工视频 QA；保留质量标志，不作为评分阈值锚点。
+- 新 pose、配置、结果和 SHA-256 均保存在独立 sensitivity layer；Round A、Round B、
+  原 feature matrix 和 AI v1.0 evidence 保持不变。
+- Phase I release-candidate manifest 扩展到 12/12 artifacts 和 10 份文档；质量门
+  提升到 317/317 tests。
 
 ### v1.18 - 2026-08-10
 

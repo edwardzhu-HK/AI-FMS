@@ -35,6 +35,12 @@
     "aslrAuditGoodWindows": 11,
     "aslrAuditWatchWindows": 2,
     "aslrAuditLimitedWindows": 3,
+    "aslrSensitivityReextractedWindows": 3,
+    "aslrSensitivityNoLongerLimited": 3,
+    "aslrSensitivityGoodWindows": 1,
+    "aslrSensitivityWatchWindows": 2,
+    "aslrSensitivityLimitedWindows": 0,
+    "aslrSensitivityManualWatchReviews": 2,
     "roundBEvidenceItems": 32,
     "roundBFeatureReady": 32,
     "roundBAiScoreAvailable": 18,
@@ -104,6 +110,12 @@
       "access": "private_research"
     },
     {
+      "id": "aslr_subject_sensitivity",
+      "path": "research/pilot-v1/generated/aslr-subject-sensitivity/aslr-subject-sensitivity.json",
+      "checksumManifest": "research/pilot-v1/generated/aslr-subject-sensitivity/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
       "id": "round_b_evidence",
       "path": "research/pilot-v1/generated/round-b-evidence-manifest.json",
       "checksumManifest": "research/pilot-v1/generated/round-b-evidence-SHA256SUMS",
@@ -119,6 +131,7 @@
     "docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md",
     "docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md",
     "docs/research/aslr_side_peak_evidence_audit_2026-08-09.md",
+    "docs/research/aslr_subject_aware_sensitivity_2026-08-10.md",
     "docs/research/round_b_reviewer_protocol_2026-08-10.md"
   ],
   "reproductionCommands": [
@@ -132,6 +145,7 @@
     "npm run study:ai-evidence:round-a",
     "npm run study:evidence:round-b",
     "npm run study:aslr:side-peak-audit",
+    "npm run study:aslr:subject-sensitivity",
     "npm run release:phase-i:manifest",
     "npm run check"
   ]

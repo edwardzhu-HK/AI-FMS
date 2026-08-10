@@ -69,6 +69,8 @@
     "study:closeout:round-b": "node scripts/analyze-round-b-closeout.js",
     "study:ai-evidence:audit-previews": "node scripts/generate-round-a-ai-audit-previews.js --force",
     "study:aslr:side-peak-audit": "node scripts/audit-aslr-side-peak-evidence.js",
+    "study:aslr:subject-sensitivity": "node scripts/run-aslr-subject-sensitivity.js",
+    "study:aslr:subject-sensitivity:extract": "node scripts/run-aslr-subject-sensitivity.js --execute",
     "release:phase-i:manifest": "node scripts/build-phase-i-release-manifest.js",
     "data:pilot:features": "node scripts/build-pilot-feature-matrix.js",
     "data:pilot:features:camera-audited": "node scripts/build-camera-audited-feature-matrix.js",
