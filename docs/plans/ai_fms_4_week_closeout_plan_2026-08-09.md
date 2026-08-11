@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.25                          |
+| 版本     | v1.26                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-11                     |
@@ -67,7 +67,7 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 | G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
 | G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
 | G2C 双轮独立审核                | COMPLETE    | Round A/B 均完成；四份签名导出已校验并入库                      |
-| G3 定量研究与结果冻结           | COMPLETE    | 双轮人工、AI v1.0/v1.1 和历史标签审计结果已冻结                 |
+| G3 定量研究与结果冻结           | COMPLETE    | 双轮人工、locked AI 和历史标签审计结果已冻结                    |
 | G4 报告与申请发布包             | IN PROGRESS | 结果文档已更新；等待 demo 与公开素材 rights/privacy 审计        |
 
 ### 3.2 已验证基线
@@ -122,8 +122,8 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 建立与 Round B 隔离的 Rotary AI v1.1 experimental first-pass：使用完整周期
       pose evidence、updated FMS 规则和 abstain gate；criterion-specific visibility
       修正后正式 8 条均可评分，internal benchmark 为 6/8 exact、8/8 within one。
-- [x] 将 Rotary v1.1 接入默认 Workbench，并明确显示 experimental first-pass；
-      frozen AI v1.0 与 blind Round B 仍保持原样，不载入该建议。
+- [x] 将 Rotary 完整周期 first-pass 接入默认 Workbench；七动作统一显示
+      pose-based AI suggestion，冻结研究 artifact 与 blind Study Mode 保持隔离。
 - [x] 完成 8/8 Deep Squat floor/board protocol metadata 独立视觉审计；未读取人工分数，
       未根据审计结果移动 AI threshold。
 - [x] 生成 label-free、checksum-protected final AI v1.1 package：32 条均被分析，
@@ -341,8 +341,8 @@ G2 验收证据：
 - Deep Squat：同分 case-pair 在同一主 group 内仍呈现连续参数差异。
 - Hurdle Step：保留为 camera-view metadata gate 的方法学案例；stance discrepancy 已关闭，不作为 movement-only 主证据。
 - ASLR：历史高一致性为何不能解释为模型准确。
-- Rotary Stability：为什么 frozen v1.0 采取 feature-only，以及 v1.1 如何用
-  cycle-level evidence 在低质量视频上主动 abstain。
+- Rotary Stability：完整 cycle-level evidence 如何支持 first-pass suggestion，并在
+  低质量视频上主动 abstain。
 
 统计口径：
 
@@ -514,6 +514,16 @@ Secondary questions：
 | 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果            | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释              |
 
 ## 12. 变更记录
+
+### v1.26 - 2026-08-11
+
+- 根据阶段性讨论重写技术报告：Abstract 改为完整项目叙事，不再用版本迁移解释
+  Rotary；Human Review 与 AI-human agreement 分节回答不同问题。
+- 将 Targeted Error Audit 与 ASLR 独立过程审计下沉到 Quantitative Movement
+  Findings，扩写 Deep Squat、ASLR、Hurdle Step 和 Rotary 四动作研究发现。
+- Rotary 在默认 Workbench 中提升为与其他六动作一致的 first-pass pose-based AI
+  suggestion；旧研究 artifact 继续保留其冻结 provenance，不改写历史 benchmark。
+- 为界面截图和案例图增加可点击原图入口。
 
 ### v1.25 - 2026-08-11
 

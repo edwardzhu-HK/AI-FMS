@@ -5,8 +5,8 @@ import { buildRotaryStabilityExperimentalSuggestion } from "./rotary-stability-s
 
 const EXPERIMENTAL_ROTARY_STABILITY_ADAPTER = Object.freeze({
   actionType: "rotary_stability",
-  status: "experimental_first_pass",
-  exposedInDefaultWorkbench: true,
+  status: "frozen_internal_reference",
+  exposedInDefaultWorkbench: false,
   exposedInFrozenRoundB: false,
   buildTimingReport({ posePayload, segments }) {
     return evaluateRotaryStabilitySegmentsTiming({ posePayload, segments });

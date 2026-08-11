@@ -353,7 +353,7 @@ test("attachPoseEvidenceToDataset keeps reviewer side separate from AI side sugg
   });
 });
 
-test("attachPoseEvidenceToDataset requires a Rotary experimental suggestion before showing a score", () => {
+test("attachPoseEvidenceToDataset requires a Rotary first-pass suggestion before showing a score", () => {
   const exported = buildDatasetExport(
     {
       videoId: "vid_rotary",
@@ -464,6 +464,48 @@ test("attachPoseEvidenceToDataset requires a Rotary experimental suggestion befo
       ratingLabel: "rotary side tentative",
     },
   });
+
+  const scored = attachPoseEvidenceToDataset(exported, {
+    poseSummary: augmented.poseEvidence.poseSummary,
+    timingReport: {
+      items: [
+        {
+          segmentId: "seg_rotary",
+          status: "good",
+          issues: [],
+          cycle: { startSecond: 1, endSecond: 5 },
+        },
+      ],
+    },
+    featureReport: {
+      items: [
+        {
+          segmentId: "seg_rotary",
+          status: "ok",
+          ratings: {},
+          metrics: {},
+        },
+      ],
+    },
+    suggestionReport: {
+      items: [
+        {
+          segmentId: "seg_rotary",
+          status: "suggested",
+          totalScore: 2,
+          scoringStatus: "scored",
+          scoreSource: "pose_cycle_rule",
+          confidence: 0.78,
+          confidenceLabel: "high",
+          reasons: ["Complete cycle evidence."],
+          modelVersion: "pose-cycle-rules-v1.0-rotary-first-pass",
+        },
+      ],
+    },
+  });
+
+  assert.equal(scored.records[0].poseSuggestion.totalScore, 2);
+  assert.deepEqual(scored.records[0].poseSuggestion.subscores, []);
 });
 
 test("dataset export includes action-specific clearing findings", () => {

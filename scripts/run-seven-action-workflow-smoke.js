@@ -129,21 +129,22 @@ const DEMO_CASES = [
     },
   },
   {
-    label: "Rotary Stability feature-only sample",
+    label: "Rotary Stability first-pass AI sample",
     actionType: "rotary_stability",
     fileName: "videoplayback (21).mp4",
     expectedReps: 2,
-    startSecond: 0,
-    endSecond: 40,
+    startSecond: 46,
+    endSecond: 112,
     notes:
-      "Rotary Stability feature-only sample。当前只显示 pose evidence / side suggestion，不生成 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
+      "Rotary Stability first-pass sample。系统使用完整动作周期生成保守、可拒判的 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
     posePath:
       "Eval_Videos/Sample videos/7-rotatory stability/pose/rotary-review.pose.json",
     expected: {
       records: 2,
       featureUsable: 2,
-      suggestionReady: false,
+      suggestionReady: true,
       aiSideSuggestionReady: true,
+      poseSuggestionReady: true,
     },
   },
 ];
@@ -186,11 +187,14 @@ function hasBlockingCycleIssue(item) {
 }
 
 function reviewerScoreFromSegment(segment, reviewerId) {
+  const aiScore = Number.isInteger(segment.aiScore?.totalScore)
+    ? segment.aiScore.totalScore
+    : 2;
   return {
     reviewerId,
-    totalScore: segment.aiScore.totalScore,
-    subscores: segment.aiScore.subscores,
-    comment: "seven-action workflow smoke consensus label",
+    totalScore: aiScore,
+    subscores: segment.aiScore?.subscores ?? [],
+    comment: "seven-action workflow smoke manual consensus label",
   };
 }
 
@@ -334,6 +338,8 @@ function buildPoseReports({ adapter, posePayload, segments }) {
     timingReport,
   });
   const suggestionReport = adapter.buildSuggestionReport({
+    posePayload,
+    segments,
     featureReport,
     timingReport,
   });
@@ -482,9 +488,11 @@ async function runDemoWorkflow(demoCase) {
       ),
       `${demoCase.label}: expected at least one AI side suggestion`,
     );
+  }
+  if (demoCase.expected.poseSuggestionReady) {
     assertCondition(
-      dataset.records.every((record) => record.poseSuggestion === null),
-      `${demoCase.label}: feature-only workflow should not export pose score suggestion`,
+      dataset.records.some((record) => record.poseSuggestion !== null),
+      `${demoCase.label}: expected a first-pass pose score suggestion`,
     );
   }
 

@@ -1,6 +1,6 @@
 # V1.7 七动作成熟度与 Side / Clearing 能力表
 
-最近更新：2026-08-10
+最近更新：2026-08-11
 
 本文档用于把当前 AI-FMS workbench 的 7 个 FMS actions 放在同一张图里看清楚：
 
@@ -34,21 +34,21 @@ Shoulder Mobility 与 clearing / pain report 关系更强，而且评分逻辑�
 
 Trunk Stability Push-Up 已有 first-pass pose-based AI suggestion，并已接入
 score-3 sample 的本地 pose extraction / demo preset；但还需要更多样本复核和
-Ronnie threshold 校准。Rotary Stability v1.1 已作为 experimental first-pass 接入
-默认 Workbench，使用完整周期 1/2/3 suggestion 与 abstain；它不会进入 blind Round B，
-也不会覆盖 frozen AI v1.0 的 feature-only 基线。
+Ronnie threshold 校准。Rotary Stability 已使用完整周期 1/2/3 suggestion 与 abstain
+接入默认 Workbench。七个动作在产品层面均为统一的 first-pass pose-based AI
+suggestion；验证强度和 held-out evidence 仍按动作分别报告。
 
 ## 七动作 Maturity Table
 
-| Action                    | 当前 maturity                   | Pose JSON / Demo                      | Timing                                                                   | Features                                                                                   | AI suggestion                                       | Side 自动判断                                                         | Clearing / Pain                                         | 下一步建议                                                  |
-| ------------------------- | ------------------------------- | ------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------- |
-| Deep Squat                | implemented                     | 有 Sample-1 / front / side demo       | 已有 Deep Squat cycle detector                                           | 已有 depth、torso、knee、hip/knee/ankle proxies                                            | 已有 pose-based AI suggestion                       | 不适用，`side=none`                                                   | 无 clearing；pain 只能人工标记                          | Ronnie 校准专业 threshold 和解释文案                        |
-| Active Straight Leg Raise | implemented                     | 有 ASLR score-3 demo                  | 已有 left/right leg raise cycle detector                                 | 已有 active leg raise、stationary leg control、pelvic stability、leg line、side confidence | 已有 pose-based AI suggestion                       | 已统一输出 segment-level `aiSideSuggestion`                           | 无 clearing；pain 只能人工标记                          | 继续补 score 1/2 样本校准                                   |
-| Hurdle Step               | implemented                     | 有 Hurdle score-3 demo                | 已有 Hurdle Step cycle detector；仍会出现 extra candidate cycles         | 已有 clearance zone、stance leg、pelvis/trunk、step leg alignment、side confidence         | 已有 pose-based AI suggestion                       | 已统一输出 segment-level `aiSideSuggestion`                           | 无 clearing；pain 只能人工标记                          | 用 mixed-score 样本校准 thresholds                          |
-| In-Line Lunge             | implemented                     | 有 In-Line Lunge score-3 demo         | 已有 lunge depth cycle detector；4-rep score-2 样本召回仍需校准          | 已有 lunge depth zone、trunk/pelvis、rear leg、front knee-foot line、side confidence       | 已有 pose-based AI suggestion                       | 已统一输出 segment-level `aiSideSuggestion`，保留 front/rear evidence | 有 ankle clearing pain / mobility；AI 不应自动判定疼痛  | 优先做 clearing reminder/gate，不自动判 positive/negative   |
-| Shoulder Mobility         | implemented                     | 有 Shoulder score-2 demo              | 目前是 best reach frame，不是真正 movement-cycle timing                  | 已有 reach distance、hand visibility、shoulder reference、side context                     | 已有保守版 pose-based AI suggestion                 | 已统一输出 segment-level `aiSideSuggestion`                           | 有 shoulder clearing；pain 只能人工确认                 | Ronnie 校准 thresholds；后续做 clearing reminder/gate       |
-| Trunk Stability Push-Up   | implemented                     | 有 score-3 pose demo                  | 已有 best push-up frame timing；暂不 auto-apply draft timing             | 已有 push-up lift、trunk/body-line、arm extension、hip-drift compensation proxies          | 已有保守版 pose-based AI suggestion                 | 不适用，`side=none`                                                   | 有 extension clearing；pain 只能人工确认                | 扩展 score 1/2 样本；Ronnie 校准 thresholds                 |
-| Rotary Stability          | implemented / experimental v1.1 | 有 3 个 probe pose JSON；2 个正式来源 | v1.1 在 segment 内 pose-derived setup、touch、extension、return phase QA | 两次触踝、肘膝伸展、离地时序、回位、稳定性与原 feature proxies                             | Workbench 显示保守 1/2/3 或 abstain；Round B 不显示 | 已统一输出 side evidence；pose side 不静默覆盖 reviewer side          | flexion clearing 由人工确认；pain 可将 final score 置 0 | 补采无遮挡、board edge 可见的新来源做 held-out confirmation |
+| Action                    | 当前 maturity | Pose JSON / Demo                      | Timing                                                           | Features                                                                                   | AI suggestion                       | Side 自动判断                                                         | Clearing / Pain                                         | 下一步建议                                                  |
+| ------------------------- | ------------- | ------------------------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ----------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------- | ----------------------------------------------------------- |
+| Deep Squat                | implemented   | 有 Sample-1 / front / side demo       | 已有 Deep Squat cycle detector                                   | 已有 depth、torso、knee、hip/knee/ankle proxies                                            | 已有 pose-based AI suggestion       | 不适用，`side=none`                                                   | 无 clearing；pain 只能人工标记                          | Ronnie 校准专业 threshold 和解释文案                        |
+| Active Straight Leg Raise | implemented   | 有 ASLR score-3 demo                  | 已有 left/right leg raise cycle detector                         | 已有 active leg raise、stationary leg control、pelvic stability、leg line、side confidence | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`                           | 无 clearing；pain 只能人工标记                          | 继续补 score 1/2 样本校准                                   |
+| Hurdle Step               | implemented   | 有 Hurdle score-3 demo                | 已有 Hurdle Step cycle detector；仍会出现 extra candidate cycles | 已有 clearance zone、stance leg、pelvis/trunk、step leg alignment、side confidence         | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`                           | 无 clearing；pain 只能人工标记                          | 用 mixed-score 样本校准 thresholds                          |
+| In-Line Lunge             | implemented   | 有 In-Line Lunge score-3 demo         | 已有 lunge depth cycle detector；4-rep score-2 样本召回仍需校准  | 已有 lunge depth zone、trunk/pelvis、rear leg、front knee-foot line、side confidence       | 已有 pose-based AI suggestion       | 已统一输出 segment-level `aiSideSuggestion`，保留 front/rear evidence | 有 ankle clearing pain / mobility；AI 不应自动判定疼痛  | 优先做 clearing reminder/gate，不自动判 positive/negative   |
+| Shoulder Mobility         | implemented   | 有 Shoulder score-2 demo              | 目前是 best reach frame，不是真正 movement-cycle timing          | 已有 reach distance、hand visibility、shoulder reference、side context                     | 已有保守版 pose-based AI suggestion | 已统一输出 segment-level `aiSideSuggestion`                           | 有 shoulder clearing；pain 只能人工确认                 | Ronnie 校准 thresholds；后续做 clearing reminder/gate       |
+| Trunk Stability Push-Up   | implemented   | 有 score-3 pose demo                  | 已有 best push-up frame timing；暂不 auto-apply draft timing     | 已有 push-up lift、trunk/body-line、arm extension、hip-drift compensation proxies          | 已有保守版 pose-based AI suggestion | 不适用，`side=none`                                                   | 有 extension clearing；pain 只能人工确认                | 扩展 score 1/2 样本；Ronnie 校准 thresholds                 |
+| Rotary Stability          | implemented   | 有 3 个 probe pose JSON；2 个正式来源 | Segment 内 pose-derived setup、touch、extension、return phase QA | 两次触踝、肘膝伸展、离地时序、回位、稳定性与原 feature proxies                             | 保守 1/2/3 suggestion 或 abstain    | 已统一输出 side evidence；pose side 不静默覆盖 reviewer side          | flexion clearing 由人工确认；pain 可将 final score 置 0 | 补采无遮挡、board edge 可见的新来源做 held-out confirmation |
 
 ## Pipeline 状态定义
 
@@ -70,15 +70,15 @@ Side 是 rep-level metadata，不是 person-level final score。当前阶段只�
 
 ### 当前动作侧别策略
 
-| Action                  | `sidePolicy`      | 默认值    | AI side inference | 说明                                             |
-| ----------------------- | ----------------- | --------- | ----------------- | ------------------------------------------------ |
-| Deep Squat              | `not_lateralized` | `none`    | `not_applicable`  | 不按左右侧评分                                   |
-| ASLR                    | `left_right`      | `unknown` | `pose_supported`  | 抬起的是左腿还是右腿                             |
-| Hurdle Step             | `left_right`      | `unknown` | `pose_supported`  | 跨步侧 / 支撑侧需要进入 evidence                 |
-| In-Line Lunge           | `left_right`      | `unknown` | `pose_supported`  | front side / rear side 需要清楚                  |
-| Shoulder Mobility       | `left_right`      | `unknown` | `pose_supported`  | 当前有 side context，但还要校准语义              |
-| Trunk Stability Push-Up | `not_lateralized` | `none`    | `not_applicable`  | 不按左右侧评分                                   |
-| Rotary Stability        | `left_right`      | `unknown` | `pose_supported`  | v1.1 suggestion 另存 `poseSide`，不覆盖人工 side |
+| Action                  | `sidePolicy`      | 默认值    | AI side inference | 说明                                           |
+| ----------------------- | ----------------- | --------- | ----------------- | ---------------------------------------------- |
+| Deep Squat              | `not_lateralized` | `none`    | `not_applicable`  | 不按左右侧评分                                 |
+| ASLR                    | `left_right`      | `unknown` | `pose_supported`  | 抬起的是左腿还是右腿                           |
+| Hurdle Step             | `left_right`      | `unknown` | `pose_supported`  | 跨步侧 / 支撑侧需要进入 evidence               |
+| In-Line Lunge           | `left_right`      | `unknown` | `pose_supported`  | front side / rear side 需要清楚                |
+| Shoulder Mobility       | `left_right`      | `unknown` | `pose_supported`  | 当前有 side context，但还要校准语义            |
+| Trunk Stability Push-Up | `not_lateralized` | `none`    | `not_applicable`  | 不按左右侧评分                                 |
+| Rotary Stability        | `left_right`      | `unknown` | `pose_supported`  | AI suggestion 另存 `poseSide`，不覆盖人工 side |
 
 ### 已完成：统一 `aiSideSuggestion`
 
@@ -178,8 +178,8 @@ Ronnie 后续适合修改：
 1. 已增加统一 `aiSideSuggestion` 汇总层，把各动作已有 side evidence 合并为同一导出字段。
 2. 已增加 clearing reminder / gate：有 clearing policy 的动作必须提示人工确认。
 3. 继续校准 Shoulder Mobility suggestion thresholds。
-4. Rotary Stability v1.1 已完成 cycle-rule first-pass 并接入 Workbench，但不进入 blind
-   Round B。正式 8 条内部 benchmark 为 6/8 exact、8/8 within one；下一步不是继续调
+4. Rotary Stability 已完成 cycle-rule first-pass 并接入 Workbench。正式 8 条内部
+   benchmark 为 6/8 exact、8/8 within one；下一步不是继续调
    当前 8 条，而是补采手脚无遮挡、board edge 可见的新来源并冻结后做 held-out
    confirmation。旧 probe 仍记录在
    `docs/rotary_feature_probe_report_2026-05-31.md`。

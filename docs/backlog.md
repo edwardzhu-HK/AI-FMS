@@ -344,6 +344,9 @@ Canonical execution plan:
       their Round A labels.
 - [x] Expose Rotary v1.1 as an explicitly experimental Workbench suggestion
       while keeping frozen AI v1.0 and both blind Study rounds isolated.
+- [x] Promote the default Rotary Workbench path to the same first-pass
+      pose-based AI suggestion status as the other six actions, while keeping
+      the frozen research adapter and benchmark provenance unchanged.
 - [x] Audit floor/board protocol metadata for all eight formal Deep Squat reps
       without reading human scores or changing thresholds.
 - [x] Lock a label-free final AI v1.1 prediction package for all 32 formal reps:
@@ -500,13 +503,13 @@ remain reusable:
   been audited for all 110 reps; pose quality, crop choice, and feature validity
   still require per-action QA.
 - Historical Reviewer A/B records are not independent blind ratings. The new
-  two-reviewer Round A is complete, but its 26 jointly scored reps remain a
-  small frozen pilot and do not establish clinical validity or generalization.
+  two-reviewer, two-round blinded study is complete, but its 26 jointly scored
+  reps remain a small frozen pilot and do not establish clinical validity or
+  generalization.
 - All 92 historical numeric AI suggestions are excluded from accuracy analysis
   because the legacy workflow could read score-bearing file names or notes.
 - Current AI suggestion is pose-based and explainable for all seven actions.
-  Rotary Stability is explicitly experimental, uses full-cycle evidence, and
-  may abstain; its frozen AI v1.0 baseline remains feature-only. The Workbench
+  Rotary Stability uses full-cycle evidence and may abstain. The Workbench
   uses movement capability metadata and a per-segment evidence gate to decide
   whether to show pose-based AI scoring or a more conservative state.
 - Keypoint overlay uses real pose JSON when uploaded, and falls back to an

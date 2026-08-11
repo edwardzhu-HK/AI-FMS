@@ -1,6 +1,11 @@
 export const ROTARY_STABILITY_EXPERIMENTAL_MODEL_VERSION =
   "pose-cycle-rules-v1.1-rotary-experimental";
 
+export const ROTARY_STABILITY_FIRST_PASS_MODEL_VERSION =
+  "pose-cycle-rules-v1.0-rotary-first-pass";
+export const ROTARY_STABILITY_FIRST_PASS_EVIDENCE_VERSION =
+  "pose-cycle-evidence-v1.0-rotary";
+
 const COMPLETION_CRITERIA = [
   "movementAmplitude",
   "firstAnkleTouch",
@@ -206,5 +211,28 @@ export function buildRotaryStabilityExperimentalSuggestion({
         ]),
       ),
     },
+  };
+}
+
+export function buildRotaryStabilityFirstPassSuggestion(options = {}) {
+  const report = buildRotaryStabilityExperimentalSuggestion(options);
+  if (!report) return null;
+
+  return {
+    ...report,
+    modelVersion: ROTARY_STABILITY_FIRST_PASS_MODEL_VERSION,
+    experimental: false,
+    evaluationClass: "first_pass_reviewer_support",
+    productStatus: "first_pass",
+    items: report.items.map((item) => ({
+      ...item,
+      modelVersion: ROTARY_STABILITY_FIRST_PASS_MODEL_VERSION,
+      evidenceVersion: item.evidenceVersion
+        ? ROTARY_STABILITY_FIRST_PASS_EVIDENCE_VERSION
+        : item.evidenceVersion,
+      experimental: false,
+      evaluationClass: "first_pass_reviewer_support",
+      productStatus: "first_pass",
+    })),
   };
 }

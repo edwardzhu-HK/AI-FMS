@@ -1,6 +1,6 @@
 # AI-FMS V1.5 Scope and Roadmap
 
-Date: 2026-08-10
+Date: 2026-08-11
 
 ## 1. Executive Decision
 
@@ -31,7 +31,7 @@ four evidence gates rather than continuous daily scheduling:
 
 The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
 integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 335-test quality gate
+resolve both video and pose assets, and the current full 340-test quality gate
 passes.
 The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
 Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
@@ -260,10 +260,11 @@ The current 7-action maturity table is maintained in
 `docs/specs/v1_7_movement_maturity_and_side_clearing.md`. In short, Deep
 Squat, Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder
 Mobility, Trunk Stability Push-Up, and Rotary Stability are pose-based AI
-suggestion paths. Rotary remains feature-only in frozen AI v1.0, while the
-default Workbench now exposes a clearly labeled post-audit v1.1 experimental
-adapter that derives full-cycle evidence and proposes a conservative score or
-abstains. It is not displayed in Round B and is not a held-out validation result.
+suggestion paths. All seven actions now share the same implemented product
+status and first-pass AI suggestion framework. Rotary derives full-cycle
+evidence and proposes a conservative score or abstains. Validation strength is
+still reported separately from product capability, and current results are not
+held-out validation.
 
 - Active Straight Leg Raise has an implemented pose/timing/features/suggestion
   path and one browser-verifiable demo preset.
@@ -286,12 +287,12 @@ abstains. It is not displayed in Round B and is not a held-out validation result
   compensation proxies. The score-3 sample has a reproducible local pose
   extraction path and browser preset, but it still needs more sample variety
   and Ronnie threshold calibration before stronger scoring claims.
-- Rotary Stability has the original feature-only frozen baseline plus a
-  Workbench v1.1 cycle-rule path for two ankle touches, elbow/knee extension,
+- Rotary Stability has an implemented Workbench cycle-rule path for two ankle
+  touches, elbow/knee extension,
   hand/knee lift timing, return control, and human flexion-clearing metadata.
   Criterion-specific visibility and visible finger proxies preserve 8/8 formal
-  cycles; 6/8 match Round A consensus and all 8 are within one point. This is an
-  internal, post-audit benchmark and remains hidden from blind Round B.
+  cycles; 6/8 match human consensus and all 8 are within one point. This remains
+  an internal benchmark rather than held-out validation.
 
 Four-movement local demo readiness is now covered by `npm run demo:check:four`.
 As of 2026-05-23, Deep Squat, Active Straight Leg Raise, Shoulder Mobility, and
@@ -299,9 +300,9 @@ Hurdle Step all pass the local preset readiness check.
 
 Seven-action local workflow smoke is now covered by `npm run demo:flow:seven`.
 As of 2026-05-30, all 7 FMS action slots pass the mock end-to-end workflow.
-All seven actions are implemented Workbench pose/AI paths. Rotary is explicitly
-marked experimental, while its frozen AI v1.0 and blind Round B paths remain
-feature-only and score-hidden respectively.
+All seven actions are implemented Workbench pose/AI paths and expose the same
+first-pass AI suggestion capability. Action-specific quality gates and human
+clearing requirements remain distinct.
 
 ### V2: Evaluation and Application Package
 
@@ -818,10 +819,8 @@ Implementation status after the first P2 pass:
 
 Recommended next sprint:
 
-1. Complete both independent Round B reviews after the planned interval, then
-   freeze A/B change metrics and AI-vs-human exploratory concordance.
-2. Re-extract ASLR limited windows with subject-aware pose selection, review
-   watch windows, and prototype robust peak-window stationary-leg geometry.
+1. Deepen the four quantitative movement case studies and application figures.
+2. Validate ASLR subject selection and robust peak-window geometry on new videos.
 3. Add Hurdle cycle-level knee/ankle, trunk, and dowel-orientation evidence.
-4. Record and verify the 2-3 minute demo against the current Phase I narrative.
-5. Complete human PII, media source-rights, and final public-release claim audit.
+4. Collect clear Rotary touch and board-alignment held-out samples.
+5. Record the demo and complete PII, media source-rights, and final claim audit.

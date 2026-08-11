@@ -45,7 +45,7 @@ test("final AI protocol audit covers all eight formal Deep Squat reps without hu
   );
 });
 
-test("final AI v1.1 rebuild is label-free, complete, and fingerprint-stable", () => {
+test("final AI v1.1 rebuild keeps frozen predictions stable after product changes", () => {
   const temporaryOutput = fs.mkdtempSync(
     path.join(os.tmpdir(), "ai-fms-final-v1-1-"),
   );
@@ -65,10 +65,7 @@ test("final AI v1.1 rebuild is label-free, complete, and fingerprint-stable", ()
       result.payload.summary.byAction.rotary_stability.scoreAvailable,
       8,
     );
-    assert.equal(
-      result.payload.packageFingerprint,
-      checkedIn.packageFingerprint,
-    );
+    assert.deepEqual(result.payload.rows, checkedIn.rows);
     assert.equal(result.payload.evaluationBoundary.humanLabelsLoaded, false);
     assert.equal(
       result.payload.evaluationBoundary.roundBStudyModeLoaded,

@@ -217,7 +217,7 @@ function simplifySuggestionItem(item) {
     scoreSource: item.scoreSource ?? null,
     attemptCondition: item.attemptCondition ?? null,
     boardDetection: clone(item.boardDetection ?? null),
-    subscores: clone(item.subscores),
+    subscores: clone(item.subscores ?? []),
     criteriaScores: clone(item.criteriaScores ?? []),
     confidence: item.confidence,
     confidenceLabel: item.confidenceLabel,

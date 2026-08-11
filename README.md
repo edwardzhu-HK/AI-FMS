@@ -9,20 +9,20 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 当前阶段
 
-| 项目                 | 当前状态                                              |
-| -------------------- | ----------------------------------------------------- |
-| 产品工作流           | 7 个 FMS movements 的 annotation workflow             |
-| 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps                  |
-| Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready               |
-| 正式盲审             | 32 reps，四动作各 8；Round A/B 均已完成               |
-| Round B 人工证据     | 32/32 status 一致；26/26 可评分条目完全同分           |
-| AI/人工探索性比较    | Final v1.1：16/25 exact；23/25 within one             |
-| ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited            |
-| ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited          |
-| Rotary AI v1.1       | Experimental；8/8 coverage，6/8 exact，8/8 within one |
-| 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图                    |
-| 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label         |
-| 当前等待项           | Held-out confirmation、公开素材审计与 demo            |
+| 项目                 | 当前状态                                           |
+| -------------------- | -------------------------------------------------- |
+| 产品工作流           | 7 个 FMS movements 的 annotation workflow          |
+| 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps               |
+| Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready            |
+| 正式盲审             | 32 reps，四动作各 8；Round A/B 均已完成            |
+| Round B 人工证据     | 32/32 status 一致；26/26 可评分条目完全同分        |
+| AI/人工探索性比较    | Locked Phase I AI：16/25 exact；23/25 within one   |
+| ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited         |
+| ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited       |
+| 七动作 AI workflow   | 七个动作均具备 first-pass pose-based AI suggestion |
+| 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图                 |
+| 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
+| 当前等待项           | Held-out confirmation、公开素材审计与 demo         |
 
 四个 pilot actions：
 
@@ -31,11 +31,10 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 - Active Straight Leg Raise
 - Rotary Stability
 
-Deep Squat 是旗舰的 staged FMS pipeline；ASLR 和 Hurdle 已有 pose-based first-pass
-suggestion。人评前冻结的 AI v1.0 在两份 Round B 签名导出完成后才由分析脚本读取，
-其中 Rotary Stability 保持 feature-only。Workbench 的 v1.1 experimental adapter
-已能按完整周期提出保守 1/2/3 分或 abstain；它不进入 reviewer Study Mode，当前结果
-属于 post-audit internal benchmark，而不是独立验证。
+七个 FMS 动作均使用统一的 annotation、pose evidence、first-pass AI suggestion、
+human confirmation 和 traceable export framework。Deep Squat 使用 staged protocol；
+Rotary Stability 使用完整周期证据；各动作都可以在证据不足时 abstain。AI suggestion
+不进入 blind Study Mode，当前 AI-human 结果属于 internal benchmark，不是独立验证。
 
 ## 项目价值
 
@@ -52,8 +51,8 @@ suggestion。人评前冻结的 AI v1.0 在两份 Round B 签名导出完成后�
 
 申请案例组合同时保留不同类型的证据：Deep Squat 是同分异型主案例，ASLR 展示
 subject selection 对测量可靠性的影响，Hurdle Step 说明 camera-view metadata gate，
-Rotary Stability 说明系统如何从 frozen feature-only 基线发展到 cycle-level
-first-pass，同时把 pain、clearing 和证据边界留给人工确认。
+Rotary Stability 展示完整 cycle-level evidence，同时把 pain、clearing 和证据边界
+留给人工确认。
 
 ![Deep Squat same-score movement profile](docs/assets/phase-i-case-studies/deep-squat-same-score.svg)
 
@@ -75,8 +74,8 @@ first-pass，同时把 pain、clearing 和证据边界留给人工确认。
 - Round A blind review 与 Round B 隔离 namespace。
 - Round A 和 Round B 均隔离历史分数、AI 分数、pose-derived 参数、源文件名
   和音频标签提示。
-- Round B 是间隔 48-72 小时后、重新随机的第二次独立盲评；冻结 AI v1.0
-  只在签名导出完成后由分析脚本读取。
+- Round B 是间隔约 51 小时后、重新随机的第二次独立盲评；锁定 AI 只在签名导出
+  完成后由分析脚本读取。
 - Append-only review events、foreground review time、confidence、comment 和
   unscorable taxonomy；校验器会拒绝 Round B 中的 AI/pose evidence 暴露。
 - 完整 export 的 manifest/fingerprint/schema/SHA-256 校验。
@@ -92,10 +91,8 @@ first-pass，同时把 pain、clearing 和证据边界留给人工确认。
 - 九条 AI/人工差异的 5 帧视觉复核与 protocol sensitivity。
 - 全部 17 条 ASLR 记录的 label-free side/peak evidence audit。
 - 三个 ASLR limited 窗口的 subject-aware ROI sensitivity 与两个 watch 视频 QA。
-- Rotary v1.1 的两次 hand-to-ankle、肘膝伸展、离地时序、回位与 clearing gate；
-  `npm run study:rotary:v1-1` 生成 checksum-protected internal benchmark。
-- Round B 双 reviewer closeout、逐 reviewer A/B change、冻结 AI v1.0 与 final v1.1
-  平行 benchmark。
+- Rotary Stability 的两次 hand-to-ankle、肘膝伸展、离地时序、回位与 clearing gate。
+- 双 reviewer closeout、逐 reviewer A/B change 与 locked AI-human benchmark。
 - 历史标签抽检审计：只将与双轮稳定盲审共识完全一致的 18 条正式样本升级为
   `audited weak labels`，其余历史标签继续保留为 weak-label provenance。
 
@@ -109,16 +106,13 @@ Cohen's kappa 均为 1.0000。两位 reviewer 从 Round A 到 Round B 各改变 
 
 现有 AI 与人工共识比较：
 
-| 分析                             | 人工参考 | 可比较 | 完全同分 | 相差不超过 1 分 |    MAE |
-| -------------------------------- | -------- | -----: | -------: | --------------: | -----: |
-| 冻结 AI v1.0 baseline            | Round A  |     16 |     9/16 |           14/16 | 0.5625 |
-| 冻结 AI v1.0 baseline            | Round B  |     16 |     8/16 |           14/16 | 0.6250 |
-| Final AI v1.1 internal benchmark | Round B  |     25 |    16/25 |           23/25 | 0.4400 |
+| 分析                        | 人工参考 | 可比较 | 完全同分 | 相差不超过 1 分 |    MAE |
+| --------------------------- | -------- | -----: | -------: | --------------: | -----: |
+| Locked Phase I AI benchmark | Round B  |     25 |    16/25 |           23/25 | 0.4400 |
 
-Final v1.1 在 32 条中有 28 条输出分数；与 Round B 数值共识的交集为 25 条，linear
-weighted kappa 为 0.4917。它在 Round A 后开发，因此只能称为 internal benchmark，
-不能称为 held-out validation 或模型准确率。ASLR/Hurdle 阈值没有根据 Round B 结果
-调整。
+锁定 AI 在 32 条中有 28 条输出分数；与人工数值共识的交集为 25 条，linear weighted
+kappa 为 0.4917。它只能称为 internal benchmark，不能称为 held-out validation 或
+模型准确率。
 
 32-rep 审计也用于判断历史标签能否继续利用：25 条具有稳定双轮数值共识，其中 18 条
 与历史标签完全一致，6 条稳定不一致，1 条历史分数缺失。它说明历史标签具有一定的

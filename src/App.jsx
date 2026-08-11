@@ -182,7 +182,7 @@ const DEMO_PRESETS = [
   },
   {
     id: "rotary-review",
-    label: "Rotary Stability experimental AI sample",
+    label: "Rotary Stability AI sample",
     actionType: "rotary_stability",
     videoUrl:
       "/Eval_Videos/Sample%20videos/7-rotatory%20stability/videoplayback%20%2821%29.mp4",
@@ -192,7 +192,7 @@ const DEMO_PRESETS = [
     poseFileName: "rotary-review.pose.json",
     expectedReps: "2",
     notes:
-      "Rotary Stability experimental first-pass sample。只保留两个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原；后面的图片/clearing 讲解不纳入 segment。系统可生成保守、可拒判的 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
+      "Rotary Stability first-pass sample。只保留两个完整 rep：四足支撑起始位、触碰、完全伸展、再次触碰、复原；后面的图片/clearing 讲解不纳入 segment。系统可生成保守、可拒判的 AI RAW SCORE；flexion clearing/pain 仍需人工确认。",
     range: {
       startSecond: "46",
       endSecond: "112",

@@ -316,16 +316,13 @@ test("movement adapter registry exposes In-Line Lunge implemented pipeline", () 
   ]);
 });
 
-test("movement adapter registry exposes Rotary Stability experimental scoring pipeline", () => {
+test("movement adapter registry exposes Rotary Stability as a standard first-pass scoring pipeline", () => {
   const adapter = getMovementAdapter("rotary_stability");
   const capability = getMovementCapability("rotary_stability");
 
   assert.equal(adapter.actionType, "rotary_stability");
   assert.equal(adapter.posePipelineStatus, "implemented");
-  assert.equal(
-    capability.aiScoringStatus,
-    "pose_cycle_experimental_suggestion",
-  );
+  assert.equal(capability.aiScoringStatus, "pose_based_ai_suggestion");
   assert.equal(capability.supportsPoseSuggestion, true);
   assert.equal(adapter.supportsAiDraftTiming, true);
   assert.equal(typeof adapter.buildTimingReport, "function");

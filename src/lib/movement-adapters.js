@@ -19,7 +19,7 @@ import { evaluateTrunkStabilitySegmentsTiming } from "./trunk-stability-timing.j
 import { summarizeRotaryStabilityPoseFeatures } from "./rotary-stability-features.js";
 import { evaluateRotaryStabilitySegmentsTiming } from "./rotary-stability-timing.js";
 import { buildRotaryStabilityCycleEvidence } from "./rotary-stability-cycle-evidence.js";
-import { buildRotaryStabilityExperimentalSuggestion } from "./rotary-stability-suggestion.js";
+import { buildRotaryStabilityFirstPassSuggestion } from "./rotary-stability-suggestion.js";
 
 export const MOVEMENT_CAPABILITY_STATUS = {
   IMPLEMENTED: "implemented",
@@ -29,7 +29,6 @@ export const MOVEMENT_CAPABILITY_STATUS = {
 
 export const AI_SCORING_STATUS = {
   POSE_BASED: "pose_based_ai_suggestion",
-  POSE_CYCLE_EXPERIMENTAL: "pose_cycle_experimental_suggestion",
   FEATURES_ONLY: "pose_evidence_only",
   NOT_SUPPORTED: "not_supported_yet",
 };
@@ -92,7 +91,7 @@ const BASE_CAPABILITIES = {
   rotary_stability: {
     actionType: "rotary_stability",
     posePipelineStatus: MOVEMENT_CAPABILITY_STATUS.IMPLEMENTED,
-    aiScoringStatus: AI_SCORING_STATUS.POSE_CYCLE_EXPERIMENTAL,
+    aiScoringStatus: AI_SCORING_STATUS.POSE_BASED,
     supportsPoseTiming: true,
     supportsPoseFeatures: true,
     supportsPoseSuggestion: true,
@@ -434,7 +433,7 @@ const ROTARY_STABILITY_ADAPTER = {
       return null;
     }
 
-    return buildRotaryStabilityExperimentalSuggestion({
+    return buildRotaryStabilityFirstPassSuggestion({
       cycleEvidenceReport,
     });
   },

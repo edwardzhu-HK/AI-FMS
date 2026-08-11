@@ -159,12 +159,32 @@ function buildSuggestion(payload, options = {}) {
   };
 }
 
-test("experimental Rotary adapter is available in Workbench but isolated from Round B", () => {
+test("Rotary is a standard first-pass Workbench capability while frozen study evidence remains isolated", () => {
   const defaultAdapter = getMovementAdapter("rotary_stability");
   const experimentalAdapter = getRotaryStabilityExperimentalAdapter();
+  const productSuggestion = defaultAdapter.buildSuggestionReport({
+    posePayload: buildPosePayload(),
+    timingReport: timingReport(),
+    segments: SEGMENTS,
+  });
 
-  assert.equal(defaultAdapter.buildSuggestionReport(), null);
-  assert.equal(experimentalAdapter.exposedInDefaultWorkbench, true);
+  assert.equal(productSuggestion.status, "ok");
+  assert.equal(productSuggestion.experimental, false);
+  assert.equal(productSuggestion.productStatus, "first_pass");
+  assert.equal(
+    productSuggestion.modelVersion,
+    "pose-cycle-rules-v1.0-rotary-first-pass",
+  );
+  assert.equal(
+    productSuggestion.evaluationClass,
+    "first_pass_reviewer_support",
+  );
+  assert.equal(productSuggestion.items[0].experimental, false);
+  assert.equal(
+    productSuggestion.items[0].evidenceVersion,
+    "pose-cycle-evidence-v1.0-rotary",
+  );
+  assert.equal(experimentalAdapter.exposedInDefaultWorkbench, false);
   assert.equal(experimentalAdapter.exposedInFrozenRoundB, false);
 });
 
