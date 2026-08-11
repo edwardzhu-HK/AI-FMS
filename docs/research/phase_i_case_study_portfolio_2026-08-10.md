@@ -2,7 +2,7 @@
 
 日期：2026-08-10
 
-状态：application candidate；Round B pending
+状态：application candidate；Round A/B complete
 
 ## 组合原则
 
@@ -11,7 +11,7 @@
 1. Deep Squat：同分背后的连续 movement-profile 差异。
 2. ASLR：subject selection 如何影响 pose evidence reliability。
 3. Hurdle Step：camera-view metadata 如何限制解释。
-4. Rotary Stability：证据不足时为什么只显示 features、不硬给 AI 总分。
+4. Rotary Stability：从 frozen feature-only baseline 到保守 cycle-level AI 的边界。
 
 所有图均不包含人物截图、源文件名、绝对路径或诊断性结论。
 
@@ -58,10 +58,14 @@ Round A 均判为 RAW SCORE 2。分数相同，但定量参数不同：
 
 ## 4. Rotary Stability 边界案例
 
-正式样本中的 8 条 Rotary Stability rep 全部保留定量 features，
-但 AI RAW SCORE coverage 为 0/8。这不是功能
-缺失的掩饰，而是项目的 fail-closed 原则：当前规则证据不足时，宁可展示可追溯特征，
-也不输出未经验证的综合分数。
+正式样本中的 8 条 Rotary Stability rep 全部保留定量 features。Frozen AI v1.0 的
+RAW SCORE coverage 为 0/8，保留 feature-only；在与 blind Study Mode 隔离的 v1.1 中，
+系统增加完整周期、两次触踝、肘膝伸展、离地时序和回位 evidence，得到 8/8
+score-bearing、6/8 exact、8/8 within one。两条人工 2 分被 2D touch proxy 保守判为
+1 分，没有通过移动阈值追成人工答案。
+
+这个案例同时展示两点：证据不足时应 fail closed；新增规则即使改善 coverage，也必须
+标为 post-audit internal benchmark，并在新来源视频上做 held-out confirmation。
 
 ## 申请展示顺序
 
@@ -74,4 +78,4 @@ Round A 均判为 RAW SCORE 2。分数相同，但定量参数不同：
 - 当前图表可作为无人物媒体的 application candidate。
 - 仍需完成最终文案、学校平台尺寸和无障碍替代文本检查。
 - 不声称医学诊断、临床验证、伤病预测或 validated impairment subtype。
-- Round B 完成后只更新 study 结果，不事后改写这些案例的数据来源和质量边界。
+- 双轮 study 结果已经冻结；后续不事后改写这些案例的数据来源和质量边界。

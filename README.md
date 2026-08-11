@@ -14,14 +14,15 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | 产品工作流           | 7 个 FMS movements 的 annotation workflow             |
 | 核心研究数据         | 4 个动作、28 个唯一视频、110 个 reps                  |
 | Pose/feature 数据    | 29/29 pose assets；66/110 feature-ready               |
-| 正式盲审             | 32 reps，四动作各 8；Round A 已完成                   |
-| Round A 人工证据     | 26 条双方均可评分且同分的 consensus reps              |
-| AI/人工探索性比较    | 冻结基线 9/16 完全同分；不能表述为模型准确率          |
+| 正式盲审             | 32 reps，四动作各 8；Round A/B 均已完成               |
+| Round B 人工证据     | 32/32 status 一致；26/26 可评分条目完全同分           |
+| AI/人工探索性比较    | Final v1.1：16/25 exact；23/25 within one             |
 | ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited            |
 | ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited          |
 | Rotary AI v1.1       | Experimental；8/8 coverage，6/8 exact，8/8 within one |
 | 申请案例与图表       | 4 个受控案例；2 张无人物数据驱动图                    |
-| 当前等待项           | Round B 与最终结果冻结                                |
+| 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label         |
+| 当前等待项           | Held-out confirmation、公开素材审计与 demo            |
 
 四个 pilot actions：
 
@@ -31,9 +32,10 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 - Rotary Stability
 
 Deep Squat 是旗舰的 staged FMS pipeline；ASLR 和 Hurdle 已有 pose-based first-pass
-suggestion。人评前冻结的 AI v1.0 仅在 Round B 完成后用于比较，其中 Rotary
-Stability 保持 feature-only。Workbench 的 v1.1 experimental adapter 已能按完整
-周期提出保守 1/2/3 分或 abstain；它不进入 reviewer Study Mode，也不是独立验证结果。
+suggestion。人评前冻结的 AI v1.0 在两份 Round B 签名导出完成后才由分析脚本读取，
+其中 Rotary Stability 保持 feature-only。Workbench 的 v1.1 experimental adapter
+已能按完整周期提出保守 1/2/3 分或 abstain；它不进入 reviewer Study Mode，当前结果
+属于 post-audit internal benchmark，而不是独立验证。
 
 ## 项目价值
 
@@ -92,22 +94,36 @@ first-pass，同时把 pain、clearing 和证据边界留给人工确认。
 - 三个 ASLR limited 窗口的 subject-aware ROI sensitivity 与两个 watch 视频 QA。
 - Rotary v1.1 的两次 hand-to-ankle、肘膝伸展、离地时序、回位与 clearing gate；
   `npm run study:rotary:v1-1` 生成 checksum-protected internal benchmark。
+- Round B 双 reviewer closeout、逐 reviewer A/B change、冻结 AI v1.0 与 final v1.1
+  平行 benchmark。
+- 历史标签抽检审计：只将与双轮稳定盲审共识完全一致的 18 条正式样本升级为
+  `audited weak labels`，其余历史标签继续保留为 weak-label provenance。
 
 ## 研究证据边界
 
-Round A 两位 reviewer 在双方都能评分的 26 条上 26/26 同分，weighted Cohen's
-kappa 为 1.0000；这反映本轮人工审核一致性，不证明 AI 准确。
+Round B 两位 reviewer 在全部 32 条上 status 一致，其中 26 条双方均可评分且
+26/26 同分，6 条均判为 unscorable 且原因一致；linear 与 quadratic weighted
+Cohen's kappa 均为 1.0000。两位 reviewer 从 Round A 到 Round B 各改变 1 条数值
+分数，且改变的是同一条 Hurdle Step。这个结果反映本轮人工审核的一致性和复测稳定性，
+不证明 AI 准确，也不能外推到更大的 reviewer population。
 
 现有 AI 与人工共识比较：
 
-| 分析                            | 可比较 | 完全同分 | 相差不超过 1 分 |    MAE |
-| ------------------------------- | -----: | -------: | --------------: | -----: |
-| 冻结基线                        |     16 |     9/16 |           14/16 | 0.5625 |
-| Post-audit protocol sensitivity |     17 |    11/17 |           15/17 | 0.4706 |
+| 分析                             | 人工参考 | 可比较 | 完全同分 | 相差不超过 1 分 |    MAE |
+| -------------------------------- | -------- | -----: | -------: | --------------: | -----: |
+| 冻结 AI v1.0 baseline            | Round A  |     16 |     9/16 |           14/16 | 0.5625 |
+| 冻结 AI v1.0 baseline            | Round B  |     16 |     8/16 |           14/16 | 0.6250 |
+| Final AI v1.1 internal benchmark | Round B  |     25 |    16/25 |           23/25 | 0.4400 |
 
-Sensitivity 只补入画面与双 reviewer 共同确认的 Deep Squat floor/board metadata。
-它是数据完整性修正，不是训练或 accuracy improvement。ASLR/Hurdle 阈值没有根据
-Round A 结果调整。
+Final v1.1 在 32 条中有 28 条输出分数；与 Round B 数值共识的交集为 25 条，linear
+weighted kappa 为 0.4917。它在 Round A 后开发，因此只能称为 internal benchmark，
+不能称为 held-out validation 或模型准确率。ASLR/Hurdle 阈值没有根据 Round B 结果
+调整。
+
+32-rep 审计也用于判断历史标签能否继续利用：25 条具有稳定双轮数值共识，其中 18 条
+与历史标签完全一致，6 条稳定不一致，1 条历史分数缺失。它说明历史标签具有一定的
+ordinal reference value，但不能证明 110 条全部有效；目前只把这 18 条标记为经盲审
+确认的 audited weak labels，不改写 canonical 历史记录。
 
 ASLR subject-aware sensitivity 另把三个原 `limited` 窗口重提取为 1 `good`、
 2 `watch`、0 `limited`。该结果说明部分失败来自 subject selection / crop；它不回写
@@ -150,7 +166,8 @@ npm run dev:real
 npm run check
 ```
 
-当前质量基线为 lint、Prettier、335 tests 和三个 Vite entry builds。
+当前质量基线为 lint、Prettier、自动测试和三个 Vite entry builds；以最近一次
+`npm run check` 输出为准。
 
 ## 研究复现
 
@@ -183,6 +200,13 @@ npm run study:ai-evidence:audit-previews
 npm run study:aslr:side-peak-audit
 ```
 
+重建双轮 closeout 与历史标签审计：
+
+```bash
+npm run study:closeout:round-b -- /path/round-a-a.json /path/round-a-b.json /path/round-b-a.json /path/round-b-b.json
+npm run study:labels:audit
+```
+
 重建申请案例组合与无人物图表：
 
 ```bash
@@ -210,6 +234,8 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md`
 - 数据字典：`docs/research/pilot_v1_data_dictionary.md`
 - Round A agreement：私有 generated report + checksum，主要数字已进入 technical report
+- Round B closeout：私有 generated report + checksum，主要数字已进入 technical report
+- 历史标签审计：私有 generated report + checksum，主要数字已进入 dataset card
 - AI/人工比较：`docs/research/round_a_ai_consensus_evidence_2026-08-09.md`
 - 九条差异复核：
   `docs/research/round_a_targeted_ai_difference_audit_2026-08-09.md`
@@ -239,14 +265,14 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 - 当前数据不包含受控参与者招募、人口统计、临床结果或 injury outcome。
 - Reviewer comments、原始视频、raw pose 和本地绝对路径不进入公开申请包。
 - `0` 只表示观察或报告的 pain；无法按协议独立评分使用 `unscorable`，不能写成 0。
-- 历史 97 条 numeric labels 仅作为 weak-label provenance；Round A blind consensus 才是
-  当前较强的人工证据层。
+- 历史 97 条 numeric labels 默认仍是 weak-label provenance；正式样本中只有 18 条已被
+  双轮稳定盲审共识确认，可标记为 audited weak labels。
 - 所有结果都应表述为 exploratory pilot evidence，不做 clinical generalization。
 
 ## 下一阶段
 
-1. 完成间隔后的 Round B，并冻结 Round A/B change metrics。
-2. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
+1. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
+2. 为 ASLR 补充主体明确、侧别与完整峰值可见的新来源视频，验证当前低分差异。
 3. 为 Rotary 补采手脚无遮挡、board edge 可见、完整侧身的新来源视频，作为 held-out
    confirmation；不使用正式 8 条继续调参。
 4. 按申请平台尺寸复核已生成的 Deep Squat 与 ASLR 图，并完成替代文本定稿。

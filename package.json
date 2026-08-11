@@ -67,6 +67,7 @@
     "study:ai-evidence:round-a": "node scripts/analyze-round-a-ai-consensus-evidence.js",
     "study:evidence:round-b": "node scripts/build-round-b-evidence-manifest.js",
     "study:closeout:round-b": "node scripts/analyze-round-b-closeout.js",
+    "study:labels:audit": "node scripts/analyze-historical-label-audit.js",
     "study:rotary:v1-1": "node scripts/analyze-rotary-v1-1-internal.js",
     "study:ai:final-v1-1": "node scripts/build-final-ai-v1-1-predictions.js",
     "study:ai-evidence:audit-previews": "node scripts/generate-round-a-ai-audit-previews.js --force",

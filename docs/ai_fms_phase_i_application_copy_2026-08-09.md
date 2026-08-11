@@ -38,10 +38,12 @@ movement profiles to an ordinal screening score.
 - 将 28 个 history exports 重建为 28 个唯一视频、110 个 reps 的 canonical pilot，
   带稳定 ID、lineage 和 SHA-256。
 - 建立 blind Study Mode，冻结四动作各 8 条的正式 32-rep 样本，并完成双 reviewer
-  Round A。
+  Round A 与间隔约 51 小时的 Round B。
 - 对 66 条 feature-ready reps 做 label-free movement profiles 和 source-effect audit。
 - 逐条复核 AI/人工差异，区分 protocol metadata、pose tracking、camera view 和动态
   feature 缺口。
+- 完成冻结 AI v1.0、final v1.1 与双轮人工共识的平行 benchmark，并审计历史标签的
+  可复用范围。
 - 选定四案例申请组合，并把 Deep Squat 同分异型与 ASLR 主体选择生成两张无人物、
   可由冻结数据重建的图表。
 
@@ -54,9 +56,11 @@ movement profiles to an ordinal screening score.
 
 > 相同 FMS RAW SCORE 背后，可能存在不同的动作完成程度和 movement strategy。
 
-另一个重要结果是负面的：当前规则式 AI 只能在 16 条可比较 consensus reps 中与人工
-完全同分 9 条，因此不能说它已经是可靠的自动评分器。Error audit 进一步说明，ASLR
-需要更稳健的 active-side/peak detection，Hurdle 需要完整动作轨迹和 dowel evidence。
+另一个重要结果是有边界的：两位 reviewer 在 Round B 的 26 条可评分记录中全部同分，
+而 final AI v1.1 在 25 条可比较记录中与人工完全同分 16 条、23 条相差不超过 1 分。
+这比 frozen v1.0 提供了更广的内部 benchmark，但仍不能说它已经是经过独立验证的自动
+评分器。Error audit 进一步说明，ASLR 需要更稳健的 active-side/peak detection，
+Hurdle 需要完整动作轨迹和 dowel evidence。
 随后覆盖全部 17 条 ASLR 记录的无标签审计把 16 个独立窗口分为 11 good、2 watch、
 3 limited，说明 landmark visibility 高并不自动代表跟踪了正确主体或正确侧别。
 Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取，得到 1 good、
@@ -70,13 +74,15 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 | Canonical pilot                |                      28 videos / 110 reps |
 | Feature-ready                  |                                   66 reps |
 | Formal blind sample            |                    32 reps，4 actions x 8 |
-| Round A scoreability agreement |                                     31/32 |
-| Jointly scored human agreement |                               26/26 exact |
-| Leakage-controlled AI baseline |              9/16 exact；14/16 within one |
+| Round B status agreement       |                                     32/32 |
+| Round B human score agreement  |                               26/26 exact |
+| Frozen AI v1.0 vs Round B      |              8/16 exact；14/16 within one |
+| Final AI v1.1 vs Round B       |             16/25 exact；23/25 within one |
+| Historical audited weak labels |    18 confirmed among 25 stable consensus |
 | ASLR side/peak evidence audit  | 16 windows：11 good / 2 watch / 3 limited |
 | ASLR subject-aware sensitivity |              3 limited → 1 good / 2 watch |
 | Application case portfolio     |                       4 cases / 2 figures |
-| Automated quality gate         |           319 tests + 3 production builds |
+| Automated quality gate         |     Full test suite + 3 production builds |
 
 ## 我的角色
 
@@ -101,8 +107,8 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
   human-in-the-loop workflow for FMS video segmentation, blinded review,
   pose-based movement features, adjudication, and traceable JSON/CSV exports.
 - Reconstructed a four-movement pilot with 28 source videos and 110 repetitions;
-  designed a balanced 32-repetition reviewer study with stable IDs, blinded
-  media, append-only events, and SHA-256 validation.
+  completed a balanced two-round, 32-repetition blinded reviewer study with
+  stable IDs, append-only events, and SHA-256 validation.
 - Analyzed 66 feature-ready repetitions and showed how identical ordinal FMS
   scores can contain different quantitative movement profiles, while documenting
   why the current AI rules are not a replacement for trained reviewers.
@@ -112,10 +118,11 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。传统 FMS 最终给 0-3 分，但
 同分动作可能以不同方式完成。我先做了一个可用的视频审核平台，然后用 MediaPipe 把
 动作变成角度、相对距离和稳定性参数。项目后来形成了 28 个视频、110 个 reps 的四动作
-pilot，并完成 32 条双人 blind review。结果很有意思：人工在共同可评分的 26 条上完全
-一致，但当前 AI 只在 16 条可比较记录中完全匹配 9 条。它没有证明 AI 能替代人，反而
-让我更清楚地看到 protocol metadata、pose tracking 和动态 feature 的边界。这个项目
-最重要的成果，是把运动经验、研究设计和负责任的 AI 工程连接了起来。
+pilot，并完成 32 条双人、双轮 blind review。Round B 中人工在共同可评分的 26 条上
+完全一致；final AI v1.1 在 25 条可比较记录中完全匹配 16 条，23 条相差不超过 1 分。
+它没有证明 AI 能替代人，反而让我更清楚地看到 protocol metadata、pose tracking、
+动态 feature 和 held-out validation 的边界。这个项目最重要的成果，是把运动经验、
+研究设计和负责任的 AI 工程连接了起来。
 
 ## 必须保留的边界
 
@@ -123,5 +130,5 @@ pilot，并完成 32 条双人 blind review。结果很有意思：人工在共�
 - Not a medical diagnostic or injury-risk prediction system。
 - Does not automatically detect pain。
 - Does not replace certified FMS professionals。
-- Round A 是 exploratory pilot；Round B 和外部验证尚未完成。
+- Round A/B 是 exploratory pilot；双轮盲评已完成，外部 held-out validation 尚未完成。
 - 公开视频和人物画面只有在 rights/privacy audit 后才能公开展示。

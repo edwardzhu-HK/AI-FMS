@@ -1,8 +1,8 @@
 {
   "schemaVersion": "ai_fms_phase_i_release_candidate_spec_v1",
-  "releaseId": "ai-fms-phase-i-rc1-2026-08-09",
-  "releaseDate": "2026-08-09",
-  "status": "round_a_complete_round_b_pending",
+  "releaseId": "ai-fms-phase-i-rc2-2026-08-11",
+  "releaseDate": "2026-08-11",
+  "status": "round_b_complete_results_frozen",
   "artifactPolicy": {
     "generatedArtifactsArePrivate": true,
     "rawMediaIncluded": false,
@@ -58,6 +58,28 @@
     "finalAiV11Abstained": 4,
     "finalAiV11RotaryScoreAvailable": 8,
     "finalAiV11DeepSquatScoreAvailable": 4,
+    "roundBStatusAgreement": 32,
+    "roundBBothScored": 26,
+    "roundBBothUnscorable": 6,
+    "roundBRawScoreExact": 26,
+    "roundBHumanLinearWeightedKappa": 1,
+    "roundBUnscorableReasonExact": 6,
+    "roundBReviewerScoreChanges": 2,
+    "roundBLegacyAttestedExports": 2,
+    "frozenAiV1RoundBComparable": 16,
+    "frozenAiV1RoundBExact": 8,
+    "frozenAiV1RoundBWithinOne": 14,
+    "finalAiV11RoundBComparable": 25,
+    "finalAiV11RoundBExact": 16,
+    "finalAiV11RoundBWithinOne": 23,
+    "finalAiV11RoundBMeanAbsoluteDifference": 0.44,
+    "finalAiV11RoundBLinearWeightedKappa": 0.4917,
+    "historicalAuditStableBlindConsensus": 25,
+    "historicalAuditConfirmedWeakLabels": 18,
+    "historicalAuditStableDisagreements": 6,
+    "historicalAuditRoundBComparable": 25,
+    "historicalAuditRoundBExact": 18,
+    "historicalAuditRoundBWithinOne": 25,
     "selectedCaseStudies": 4,
     "applicationFigures": 2
   },
@@ -147,6 +169,18 @@
       "access": "private_research_post_audit"
     },
     {
+      "id": "round_b_closeout",
+      "path": "research/pilot-v1/generated/round-b-closeout/round-b-closeout-analysis.json",
+      "checksumManifest": "research/pilot-v1/generated/round-b-closeout/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
+      "id": "historical_label_audit",
+      "path": "research/pilot-v1/generated/historical-label-audit/historical-label-audit.json",
+      "checksumManifest": "research/pilot-v1/generated/historical-label-audit/SHA256SUMS",
+      "access": "private_research"
+    },
+    {
       "id": "phase_i_case_study_portfolio",
       "path": "docs/assets/phase-i-case-studies/case-study-portfolio.json",
       "checksumManifest": "docs/assets/phase-i-case-studies/SHA256SUMS",
@@ -180,6 +214,7 @@
     "npm run study:aslr:subject-sensitivity",
     "npm run study:rotary:v1-1",
     "npm run study:ai:final-v1-1",
+    "npm run study:labels:audit",
     "npm run release:phase-i:figures",
     "npm run release:phase-i:manifest",
     "npm run check"

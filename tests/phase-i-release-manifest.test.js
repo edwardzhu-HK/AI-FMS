@@ -100,6 +100,49 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
         },
       },
     }),
+    artifact("round_b_closeout", {
+      roundBAgreement: {
+        overall: {
+          statusAgreementCount: 32,
+          bothScoredCount: 26,
+          bothUnscorableCount: 6,
+          exactScoreAgreementCount: 26,
+          linearWeightedKappa: 1,
+          unscorableReasonAgreementCount: 6,
+        },
+      },
+      reviewerChanges: [
+        { summary: { scoreChangedCount: 1 } },
+        { summary: { scoreChangedCount: 1 } },
+      ],
+      roundALegacyBlindAttestation: { appliedCount: 2 },
+      aiComparison: {
+        roundBConsensus: {
+          metrics: { comparedCount: 16, exactCount: 8, withinOneCount: 14 },
+        },
+        finalV11: {
+          roundBConsensus: {
+            metrics: {
+              comparedCount: 25,
+              exactCount: 16,
+              withinOneCount: 23,
+              meanAbsoluteDifference: 0.44,
+              linearWeightedKappa: 0.4917,
+            },
+          },
+        },
+      },
+    }),
+    artifact("historical_label_audit", {
+      summary: {
+        stableBlindConsensusCount: 25,
+        confirmedAuditedWeakLabelCount: 18,
+        stableBlindHistoricalDisagreementCount: 6,
+        roundBHistoricalComparableCount: 25,
+        roundBHistoricalExactCount: 18,
+        roundBHistoricalWithinOneCount: 25,
+      },
+    }),
     artifact("phase_i_case_study_portfolio", {
       summary: { selectedCases: 4, applicationFigures: 2 },
     }),
@@ -153,6 +196,28 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     finalAiV11Abstained: 4,
     finalAiV11RotaryScoreAvailable: 8,
     finalAiV11DeepSquatScoreAvailable: 4,
+    roundBStatusAgreement: 32,
+    roundBBothScored: 26,
+    roundBBothUnscorable: 6,
+    roundBRawScoreExact: 26,
+    roundBHumanLinearWeightedKappa: 1,
+    roundBUnscorableReasonExact: 6,
+    roundBReviewerScoreChanges: 2,
+    roundBLegacyAttestedExports: 2,
+    frozenAiV1RoundBComparable: 16,
+    frozenAiV1RoundBExact: 8,
+    frozenAiV1RoundBWithinOne: 14,
+    finalAiV11RoundBComparable: 25,
+    finalAiV11RoundBExact: 16,
+    finalAiV11RoundBWithinOne: 23,
+    finalAiV11RoundBMeanAbsoluteDifference: 0.44,
+    finalAiV11RoundBLinearWeightedKappa: 0.4917,
+    historicalAuditStableBlindConsensus: 25,
+    historicalAuditConfirmedWeakLabels: 18,
+    historicalAuditStableDisagreements: 6,
+    historicalAuditRoundBComparable: 25,
+    historicalAuditRoundBExact: 18,
+    historicalAuditRoundBWithinOne: 25,
     selectedCaseStudies: 4,
     applicationFigures: 2,
   });
@@ -164,7 +229,7 @@ test("release document audit blocks local absolute paths", () => {
       auditReleaseDocuments([
         {
           path: "README.md",
-          text: "Round B pending. Not a medical diagnosis. Does not replace reviewers. Rights/privacy review. /Users/example/private",
+          text: "Round B complete. Not a medical diagnosis. Does not replace reviewers. Rights/privacy review. /Users/example/private",
         },
       ]),
     /absolutePaths=1/,

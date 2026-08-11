@@ -4,9 +4,9 @@
 
 初始日期：2026-08-09
 
-叙事更新：2026-08-10
+叙事更新：2026-08-11
 
-状态：Phase I release candidate；Round A complete，Round B pending
+状态：Phase I release candidate；Round A/B complete，results frozen
 
 ## English Abstract
 
@@ -37,16 +37,19 @@ subject or side tracking; target-subject extraction recovered non-limited
 continuous evidence in three previously limited windows without changing the
 frozen score benchmark.
 
-Round B is a second blind review after a planned interval. Reviewers see neither
-AI scores nor pose-derived evidence, allowing human test-retest stability to be
-measured without AI exposure. The frozen AI package is loaded only after both
-signed Round B exports, and AI-human agreement is reported as a parallel
-benchmark with coverage and abstention separated. A later improved internal
-benchmark must remain distinct from held-out confirmation if the same 32
-repetitions informed system development. The contribution is therefore neither
-automated diagnosis nor reviewer replacement. It is an end-to-end, auditable
-system that helps people review FMS video and preserves quantitative movement
-evidence alongside human judgment and explicit uncertainty.
+Round B was completed as a second blind review after a median interval of about
+51 hours. The reviewers agreed on scoreability for all 32 repetitions, assigned
+identical scores to all 26 jointly scorable repetitions, and agreed on the
+unscorable reason for all six remaining repetitions. Each reviewer changed one
+numeric score between rounds, both on the same Hurdle Step repetition. The
+frozen AI v1.0 matched 8 of 16 Round B consensus scores exactly and 14 within
+one point. The final locked v1.1 was comparable on 25 repetitions, matching 16
+exactly and 23 within one point, with MAE 0.44 and linear weighted kappa 0.4917.
+Because v1.1 was developed after Round A, this is an internal benchmark rather
+than held-out validation. The contribution is therefore neither automated
+diagnosis nor reviewer replacement. It is an end-to-end, auditable system that
+helps people review FMS video and preserves quantitative movement evidence
+alongside human judgment and explicit uncertainty.
 
 ## 摘要
 
@@ -62,14 +65,14 @@ experimental 路径已加入完整周期判分与 abstain，但不向 Round A/B 
 Phase I 数据研究重点选择 4 个动作，重建了 28 个唯一视频、110 个 reps 的 canonical
 pilot；66 条通过 quantitative feature quality gate，32 条进入正式双轮研究。
 
-Round A 显示，两位 reviewer 在共同可评分的 26 条上全部同分；这证明的是本轮人工
-workflow 的一致性，不是 AI 准确率。冻结 AI 在 16 条可比较共识记录中 9 条完全同分、
-14 条相差不超过 1 分。Deep Squat 案例说明同分动作仍可保留不同的定量 movement
-profiles；ASLR 审计说明系统还必须识别错误主体、侧别切换和 pose evidence 不可靠的
-情况。Round B 将在不显示 AI 或 pose evidence 的条件下检验人工评分稳定性、
-confidence 和 review time 变化；冻结 AI 将在人评完成后单独比较。最终目标不是让 AI
-取代 reviewer，而是形成一个更可回放、可解释、可复核
-和可追溯的 FMS 审核流程。
+Round B 显示，两位 reviewer 对 32 条的 scoreability 全部一致，在共同可评分的 26 条
+上 26/26 同分，6 条 unscorable reason 也全部一致；每位 reviewer 从 Round A 到
+Round B 各改变 1 条数值分数，且为同一条 Hurdle Step。冻结 AI v1.0 对 Round B 的
+16 条可比较记录为 8/16 exact、14/16 within one；final v1.1 对 25 条可比较记录为
+16/25 exact、23/25 within one、MAE 0.44、linear weighted kappa 0.4917。
+Deep Squat 案例说明同分动作仍可保留不同的定量 movement profiles；ASLR 审计说明
+系统还必须识别错误主体、侧别切换和 pose evidence 不可靠的情况。最终目标不是让 AI
+取代 reviewer，而是形成一个更可回放、可解释、可复核和可追溯的 FMS 审核流程。
 
 ## 1. 背景与动机
 
@@ -92,8 +95,9 @@ AI-FMS 的第一层目的，是把人工评分变成一个可以暂停、回放�
 - 对遮挡、低可见度、主体选择、侧别不稳定和协议条件不足主动提示人工复核；
 - 保留两位 reviewer 的独立记录、分歧、adjudication 和完整 export lineage。
 
-这些是当前系统已经实现的产品能力。它们是否提高 confidence、降低 review time 或改变
-评分，将由 Round B 对照 Round A 的数据回答，不能在实验完成前预设结论。
+这些是当前系统已经实现的产品能力。本次 Round B 仍是完全盲评，没有向 reviewer 展示
+AI 或 pose evidence，因此 A/B 对照只回答复测稳定性，不能据此声称 AI 提高 confidence、
+降低 review time 或改善评分。真正的 assisted-review effect 需要另行设计实验。
 
 ### 1.2 恢复 0-3 分压缩掉的信息
 
@@ -112,8 +116,7 @@ AI-FMS 把这种经验转化为一个 Human Movement Science 与计算机视觉�
 2. 能否建立从视频、rep、pose、人工评分到研究输出的完整 lineage？
 3. Pose-derived parameters 能否揭示同分动作内部的连续差异？
 4. Frozen rules-based AI 与独立人工共识的一致性和 coverage 如何？
-5. AI/pose evidence 是否会改变 reviewer 的评分、confidence、review time 或主观
-   usefulness？
+5. 双轮独立盲评下，人工评分、confidence 和 review time 是否稳定？
 6. AI 在哪些情况下应主动 abstain，并把最终判断保留给人工？
 
 本项目不回答“AI 是否能自动诊断或自动替代 FMS professional”。
@@ -122,15 +125,15 @@ AI-FMS 把这种经验转化为一个 Human Movement Science 与计算机视觉�
 
 ### 3.1 人工困难、系统功能与预期帮助
 
-| 人工审核中的困难                 | 已实现的系统功能                                             | 预期帮助与验证边界                           |
-| -------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
-| 无法亲临现场或需要异步复核       | 本地视频导入、匿名 reviewer queue、可恢复 review state       | 支持远程/异步工作；不是临床远程服务验证      |
-| 动作快速结束，难以回看细节       | Duration-aware range、逐 rep segment、loop playback          | 允许暂停和重复观察                           |
-| 长视频中寻找 rep 耗时            | Timing detector、自动 draft segmentation、人工 timing 校正   | 减少定位工作；错误切分仍需人工修正           |
-| 人眼难以稳定记录连续量           | MediaPipe overlay、角度、距离、轨迹和 movement-specific 特征 | 增加定量旁证；2D proxy 不是临床量角器        |
-| 机位、侧别和协议条件容易丢失     | Camera view、side、attempt condition、clearing/pain metadata | 保留评分上下文；pain 不由 AI 自动判断        |
-| 遮挡、主体混乱或证据不足         | Pose-quality gate、subject/side QA、watch/limited/abstain    | 提醒 reviewer 复核，不强行输出总分           |
-| 第二 reviewer 与争议处理难以追溯 | Blind Study Mode、append-only events、adjudication、export   | 支持独立复核与追溯；实际辅助效果等待 Round B |
+| 人工审核中的困难                 | 已实现的系统功能                                             | 预期帮助与验证边界                       |
+| -------------------------------- | ------------------------------------------------------------ | ---------------------------------------- |
+| 无法亲临现场或需要异步复核       | 本地视频导入、匿名 reviewer queue、可恢复 review state       | 支持远程/异步工作；不是临床远程服务验证  |
+| 动作快速结束，难以回看细节       | Duration-aware range、逐 rep segment、loop playback          | 允许暂停和重复观察                       |
+| 长视频中寻找 rep 耗时            | Timing detector、自动 draft segmentation、人工 timing 校正   | 减少定位工作；错误切分仍需人工修正       |
+| 人眼难以稳定记录连续量           | MediaPipe overlay、角度、距离、轨迹和 movement-specific 特征 | 增加定量旁证；2D proxy 不是临床量角器    |
+| 机位、侧别和协议条件容易丢失     | Camera view、side、attempt condition、clearing/pain metadata | 保留评分上下文；pain 不由 AI 自动判断    |
+| 遮挡、主体混乱或证据不足         | Pose-quality gate、subject/side QA、watch/limited/abstain    | 提醒 reviewer 复核，不强行输出总分       |
+| 第二 reviewer 与争议处理难以追溯 | Blind Study Mode、append-only events、adjudication、export   | 支持独立复核与追溯；本轮不测 AI 辅助效应 |
 
 ### 3.2 系统架构
 
@@ -174,14 +177,14 @@ pain / flexion clearing 保留为人工 gate。
 
 ### 3.4 Research Scope：四动作 Phase I pilot
 
-| 研究层级                     | 当前范围                                               |
-| ---------------------------- | ------------------------------------------------------ |
-| Product workflow             | 全部 7 个 FMS movements                                |
-| Phase I quantitative pilot   | Deep Squat、Hurdle Step、ASLR、Rotary Stability        |
-| Canonical research pool      | 28 个唯一 source videos、110 reps                      |
-| Quantitative feature pool    | 66 feature-ready reps                                  |
-| Formal blind study           | 32 reps；四动作各 8                                    |
-| Round A gold-consensus layer | 26 条双方均可评分且同分；不是对 110 条的随机有效性证明 |
+| 研究层级                     | 当前范围                                        |
+| ---------------------------- | ----------------------------------------------- |
+| Product workflow             | 全部 7 个 FMS movements                         |
+| Phase I quantitative pilot   | Deep Squat、Hurdle Step、ASLR、Rotary Stability |
+| Canonical research pool      | 28 个唯一 source videos、110 reps               |
+| Quantitative feature pool    | 66 feature-ready reps                           |
+| Formal blind study           | 32 reps；四动作各 8                             |
+| Stable blind-consensus layer | 25 条在 Round A/B 均有稳定数值共识              |
 
 Product Scope 回答“系统做出了什么”，Research Scope 回答“本阶段用哪些数据做了正式分析”。
 平台覆盖七动作，不等于七动作都已完成同等强度的模型验证；四动作 pilot 也不意味着另外
@@ -252,8 +255,27 @@ AI v1.0 rule fingerprint、source checksums 和 32-rep benchmark package 仍在�
 - 8/32 Rotary Stability v1.0 feature-only 记录；
 - 6/32 缺少 floor/board protocol metadata 的 Deep Squat 记录。
 
-Round B 尚未完成。完成后将比较逐 reviewer score change、confidence delta、
-review-time delta、Round A/B 人际一致性，以及冻结 AI 对两轮人工共识的探索性匹配。
+Round B 两份完整导出均通过 schema、blind-state 与 SHA-256 校验并进入本地 SQLite。
+结果如下：
+
+| 指标                           |            结果 |
+| ------------------------------ | --------------: |
+| Outcome/scoreability agreement |     32/32，100% |
+| 双方都能评分                   |              26 |
+| RAW SCORE exact agreement      |     26/26，100% |
+| Linear / quadratic kappa       | 1.0000 / 1.0000 |
+| 双方均 unscorable              |               6 |
+| Unscorable reason agreement    |       6/6，100% |
+
+两轮间隔中位数约为 51 小时。两位 reviewer 各有 1/26 数值分数改变，且都是同一条
+Hurdle Step 从 3 改为 2；Ronnie 另将 Round A 的 1 条 Deep Squat 数值分改为
+unscorable，解决了原 scoreability mismatch。两位 reviewer 的 confidence 均略有上升，
+中位 review time 均下降，但 Round A 有明显长时间离群值；加之两轮都没有 AI exposure，
+这些用时变化只能作描述，不能解释为 AI 带来的效率提升。
+
+Round A 导出早于新版严格 blind-state 字段。分析没有改写历史 JSON，而是只允许两份
+已知 SHA-256 的签名导出通过 legacy blind attestation；未知 checksum 或显示 AI 的旧
+导出一律 fail closed。这个兼容边界保留在 closeout artifact 中。
 
 ## 6. Quantitative Movement Profiles
 
@@ -297,15 +319,15 @@ FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是
 
 ## 7. AI 与人工：四层评测设计及当前基线
 
-“AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 将其拆成
-四个评测层次：
+“AI 与人工是否一致”和“AI evidence 是否帮助人工”是两个不同问题。Phase I 完成了
+前者的平行 benchmark；后者因 Round B 仍为完全盲评，不在本实验中回答。
 
-| 评测层次                 | 比较内容                                  | 回答的问题                   | 当前状态                              |
-| ------------------------ | ----------------------------------------- | ---------------------------- | ------------------------------------- |
-| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定       | Round A 完成；Round B pending         |
-| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致 | Round A 基线完成；Round B 待生成      |
-| Human test-retest        | 每位 reviewer 的 Round B vs Round A       | 盲评分数、信心和时间是否稳定 | 待 Round B                            |
-| Final internal benchmark | 完整改进版 AI vs 最终人工参考             | 改进版在这 32 条上的内部表现 | v1.1 预测已锁定；agreement 待 Round B |
+| 评测层次                 | 比较内容                                  | 回答的问题                   | 当前状态            |
+| ------------------------ | ----------------------------------------- | ---------------------------- | ------------------- |
+| Human reliability        | Reviewer A vs Reviewer B，Round A 与 B    | 人工评分是否一致、稳定       | 双轮完成            |
+| Frozen AI benchmark      | 人评前冻结 AI v1.0 vs Round A/B consensus | 当前 AI 与独立人工判断多一致 | 双轮比较完成        |
+| Human test-retest        | 每位 reviewer 的 Round B vs Round A       | 盲评分数、信心和时间是否稳定 | 完成                |
+| Final internal benchmark | 完整改进版 AI vs Round B consensus        | 改进版在这 32 条上的内部表现 | 完成；不是 held-out |
 
 冻结基线的运行顺序是先对 110 条生成 leakage-controlled AI suggestions，再连接 26 条
 人工 consensus。Files、notes、历史 labels、legacy AI 和 reviewer comments 不进入
@@ -321,8 +343,8 @@ Deep Squat attempt metadata 补齐，不是训练后 performance improvement。
 
 ### Final Locked AI Scoring Pass
 
-两位 reviewer 完成 Round B 后，将对同一 32 reps 运行一次锁定的 AI scoring pass，
-并同时保留三层结果：
+两位 reviewer 完成 Round B 后，分析脚本连接了同一 32 reps 的锁定 AI scoring pass，
+并保留三层结果：
 
 1. **Frozen AI v1.0 baseline**：人评前已冻结，防止 Round B 结果反向影响规则。
 2. **Post-audit / final internal benchmark**：若补齐 Deep Squat protocol metadata 或
@@ -341,8 +363,19 @@ Final AI v1.1 的 label-free prediction package 已在 Round B 人评结果产�
 全部进入分析，28 条有 AI raw score，4 条合理 abstain。ASLR、Hurdle 与 Rotary 各
 8/8 score-bearing；Deep Squat 为 4/8，另外 4 条 floor attempt 缺少 staged
 heels-elevated follow-up，不能强行生成最终 raw score。该包不含 human/reviewer 字段，
-也不由 Study Mode 载入。Round B 完成后只需连接人工共识计算 agreement。由于 v1.1
-开发发生在 Round A 之后，它只能称为 internal benchmark，不能称为 held-out validation。
+也不由 Study Mode 载入。由于 v1.1 开发发生在 Round A 之后，它只能称为 internal
+benchmark，不能称为 held-out validation。
+
+与 Round B 人工共识连接后的结果：
+
+| 分析                      | 可比较 | Exact | Within 1 |    MAE | Linear / Quadratic kappa |
+| ------------------------- | -----: | ----: | -------: | -----: | -----------------------: |
+| Frozen AI v1.0 vs Round B |     16 |  8/16 |    14/16 | 0.6250 |        -0.1111 / -0.2174 |
+| Final AI v1.1 vs Round B  |     25 | 16/25 |    23/25 | 0.4400 |          0.4917 / 0.5247 |
+
+Final v1.1 按动作的 exact agreement 为 ASLR 4/6、Deep Squat 3/3、Hurdle Step
+3/8、Rotary Stability 6/8。ASLR 的两条两分差异和 Hurdle 的 2/3 边界是下一阶段最
+明确的定向验证目标；Deep Squat 的小交集不能作强结论。
 
 ### Rotary Stability v1.1：实现与当前证据边界
 
@@ -379,6 +412,17 @@ finger-to-lateral-malleolus proxy。修正后 8/8 均保留完整周期证据。
 proxy 明确失败而保守判为 1。两条差异没有通过移动 threshold 追成人工答案，而是作为
 当前 2D touch proxy 的边界保留。6/8 exact 不能视为独立验证；更重要的下一步是使用
 board edge、手指和脚踝更清晰的新来源做 held-out confirmation。
+
+### 历史 110-rep 标签如何继续利用
+
+32 条正式样本的意义不是自动证明全部历史标签有效，而是建立一个可审计的校准切片。
+25 条在 Round A/B 都有稳定数值共识，其中 18 条与历史标签完全一致，6 条稳定不一致，
+1 条历史分数缺失。按 Round B 与历史标签的 25 条可比较记录计算，18/25 exact、25/25
+within one、MAE 0.28、linear weighted kappa 0.6479。
+
+因此历史数据不是“白做了”，但必须分层使用：18 条可标记为 `audited weak labels`；
+其余历史分数继续保留为 weak-label provenance，可用于抽样、假设生成和后续定向复核，
+不能直接升级为 gold label。Canonical 数据和原始标签均不被本次审计改写。
 
 ## 8. 九条 Targeted Error Audit
 
@@ -436,7 +480,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
   experimental cycle-rule，frozen AI v1.0 与 blind Round B 仍走隔离路径。
 - Append-only study events、signed export validation、SQLite idempotent ingest。
 - Canonical JSON/CSV、data dictionary、manifest、SHA-256 和 reproducible scripts。
-- 335 automated tests 与三个 production entries。
+- 自动测试、lint、Prettier 与三个 production entries 组成统一质量门。
 
 工程价值不只在 UI，而在 source-of-truth、审计层、数据隔离和 fail-closed 边界。
 
@@ -452,7 +496,11 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - ASLR 冻结基线的 16 个独立窗口中有 3 个 pose-limited；subject-aware sensitivity
   将这 3 个窗口转为 1 good / 2 watch，但尚未在独立多人视频上验证。
 - Rules 可能接触过同一公开视频，不是 held-out test set。
-- Round B 尚未完成，不能报告 test-retest 结果或 AI-vs-Round B concordance。
+- Final v1.1 是 post-audit internal benchmark，不是 held-out test；当前 32 条也不能继续
+  用于调参后再宣称独立验证。
+- Round A 旧导出依赖两份 checksum-pinned legacy blind attestation；虽然旧版 blind
+  flags 与当时 UI 支持盲评边界，但缺少新版三个显式字段。
+- Round B 是完全盲评，没有测量 AI/pose evidence 对 reviewer 的实际辅助效应。
 - 未完成 rights/privacy audit 的媒体不能进入公开 release。
 
 ## 12. 伦理与合理主张
@@ -464,7 +512,7 @@ side/peak 质量门保持不变。结果为 1 `good`、2 `watch`、0 `limited`�
 - 七动作具有 first-pass AI suggestion；Rotary 在 frozen v1.0 中 feature-only，
   Workbench v1.1 experimental 可输出保守建议或 abstain；
 - 保存了 pose-derived quantitative evidence 和完整 lineage；
-- 完成了四动作 pilot、Round A blind review 和 exploratory analyses；
+- 完成了四动作 pilot、Round A/B blind review 和 exploratory analyses；
 - 发现了同分动作内部的可量化差异及当前 AI 的明确边界。
 
 不能主张：
@@ -484,14 +532,11 @@ FMS judgment 与 continuous pose evidence 放在同一可审计流程中，并�
 
 下一步：
 
-1. 完成双 reviewer Round B，冻结 agreement、confidence、time、usefulness 和 A/B
-   change metrics；
-2. 运行 Final Locked AI Scoring Pass，分开报告 frozen v1.0 与 post-audit internal
-   benchmark；
-3. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
+1. 在独立多人视频上验证 ASLR subject-aware extraction，并继续开发 peak-window
    robust geometry；
-4. 开发 Hurdle cycle-level pattern/event features；
-5. 补采手脚无遮挡、board edge 可见的 Rotary 新视频，并在冻结 v1.1 后完成 held-out
+2. 开发 Hurdle cycle-level pattern/event features，并针对 2/3 边界做定向采集；
+3. 补采手脚无遮挡、board edge 可见的 Rotary 新视频，并在冻结 v1.1 后完成 held-out
    confirmation；
-6. 增加少量其他独立来源、rights/consent-clear 新视频；
-7. 完成 demo video、公开素材 audit 与 final Phase I release。
+4. 增加少量其他独立来源、rights/consent-clear 新视频；
+5. 如需验证 AI 对 reviewer 的帮助，另设计明确暴露 evidence 的 assisted-review study；
+6. 完成 demo video、公开素材 audit 与 final Phase I release。

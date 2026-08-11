@@ -2,15 +2,19 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyLegacyRoundABlindAttestation } from "../src/lib/legacy-round-a-blind-attestation.js";
 import { validateStudyReviewExport } from "../src/lib/study-review.js";
 
 const DEFAULT_MANIFEST =
   "research/pilot-v1/generated/formal-study-manifest.json";
+const DEFAULT_ROUND_A_ATTESTATION =
+  "research/pilot-v1/round-a-legacy-blind-attestation.json";
 
 function parseArgs(argv) {
   const options = {
     allowPartial: false,
     manifestPath: DEFAULT_MANIFEST,
+    attestationPath: DEFAULT_ROUND_A_ATTESTATION,
     reviewPaths: [],
   };
 
@@ -20,6 +24,9 @@ function parseArgs(argv) {
       options.allowPartial = true;
     } else if (argument === "--manifest") {
       options.manifestPath = argv[index + 1];
+      index += 1;
+    } else if (argument === "--round-a-attestation") {
+      options.attestationPath = argv[index + 1];
       index += 1;
     } else {
       options.reviewPaths.push(argument);
@@ -42,20 +49,45 @@ export function validateReviewFile({
   manifest,
   reviewPath,
   allowPartial = false,
+  attestation = null,
 }) {
   const raw = fs.readFileSync(reviewPath);
-  const payload = JSON.parse(raw.toString("utf8"));
-  const validation = validateStudyReviewExport(payload, {
+  const sourceSha256 = crypto.createHash("sha256").update(raw).digest("hex");
+  const sourcePayload = JSON.parse(raw.toString("utf8"));
+  let normalized;
+  try {
+    normalized = applyLegacyRoundABlindAttestation({
+      payload: sourcePayload,
+      sha256: sourceSha256,
+      attestation,
+    });
+  } catch (error) {
+    return {
+      file: reviewPath,
+      sha256: sourceSha256,
+      schemaVersion: sourcePayload.schemaVersion ?? null,
+      pilotId: sourcePayload.pilotId ?? null,
+      studyRound: sourcePayload.studyRound ?? null,
+      reviewerId: sourcePayload.reviewerId ?? null,
+      legacyRoundAAttestationApplied: false,
+      valid: false,
+      completion: sourcePayload.completion ?? null,
+      errors: [error.message],
+      warnings: [],
+    };
+  }
+  const validation = validateStudyReviewExport(normalized.payload, {
     pilot: manifest,
     requireComplete: !allowPartial,
   });
   return {
     file: reviewPath,
-    sha256: crypto.createHash("sha256").update(raw).digest("hex"),
-    schemaVersion: payload.schemaVersion ?? null,
-    pilotId: payload.pilotId ?? null,
-    studyRound: payload.studyRound ?? null,
-    reviewerId: payload.reviewerId ?? null,
+    sha256: sourceSha256,
+    schemaVersion: sourcePayload.schemaVersion ?? null,
+    pilotId: sourcePayload.pilotId ?? null,
+    studyRound: sourcePayload.studyRound ?? null,
+    reviewerId: sourcePayload.reviewerId ?? null,
+    legacyRoundAAttestationApplied: normalized.applied,
     valid: validation.valid,
     completion: validation.completion,
     errors: validation.errors,
@@ -67,11 +99,13 @@ export function main(argv = process.argv.slice(2)) {
   const options = parseArgs(argv);
   const manifestPath = path.resolve(options.manifestPath);
   const manifest = readJson(manifestPath);
+  const attestation = readJson(path.resolve(options.attestationPath));
   const results = options.reviewPaths.map((reviewPath) =>
     validateReviewFile({
       manifest,
       reviewPath: path.resolve(reviewPath),
       allowPartial: options.allowPartial,
+      attestation,
     }),
   );
   process.stdout.write(

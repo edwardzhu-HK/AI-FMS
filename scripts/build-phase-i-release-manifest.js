@@ -76,6 +76,8 @@ export function summarizePhaseIEvidence(artifacts) {
   const roundBAiBenchmark = byId.get("round_b_ai_benchmark")?.payload;
   const rotaryV11 = byId.get("rotary_v1_1_internal")?.payload;
   const finalAiV11 = byId.get("final_ai_v1_1_predictions")?.payload;
+  const roundBCloseout = byId.get("round_b_closeout")?.payload;
+  const historicalLabelAudit = byId.get("historical_label_audit")?.payload;
   const casePortfolio = byId.get("phase_i_case_study_portfolio")?.payload;
   if (
     !canonical ||
@@ -89,6 +91,8 @@ export function summarizePhaseIEvidence(artifacts) {
     !roundBAiBenchmark ||
     !rotaryV11 ||
     !finalAiV11 ||
+    !roundBCloseout ||
+    !historicalLabelAudit ||
     !casePortfolio
   ) {
     throw new Error("Phase I release evidence is incomplete");
@@ -163,6 +167,55 @@ export function summarizePhaseIEvidence(artifacts) {
       finalAiV11.summary.byAction.rotary_stability.scoreAvailable,
     finalAiV11DeepSquatScoreAvailable:
       finalAiV11.summary.byAction.deep_squat.scoreAvailable,
+    roundBStatusAgreement:
+      roundBCloseout.roundBAgreement.overall.statusAgreementCount,
+    roundBBothScored: roundBCloseout.roundBAgreement.overall.bothScoredCount,
+    roundBBothUnscorable:
+      roundBCloseout.roundBAgreement.overall.bothUnscorableCount,
+    roundBRawScoreExact:
+      roundBCloseout.roundBAgreement.overall.exactScoreAgreementCount,
+    roundBHumanLinearWeightedKappa:
+      roundBCloseout.roundBAgreement.overall.linearWeightedKappa,
+    roundBUnscorableReasonExact:
+      roundBCloseout.roundBAgreement.overall.unscorableReasonAgreementCount,
+    roundBReviewerScoreChanges: roundBCloseout.reviewerChanges.reduce(
+      (sum, item) => sum + item.summary.scoreChangedCount,
+      0,
+    ),
+    roundBLegacyAttestedExports:
+      roundBCloseout.roundALegacyBlindAttestation.appliedCount,
+    frozenAiV1RoundBComparable:
+      roundBCloseout.aiComparison.roundBConsensus.metrics.comparedCount,
+    frozenAiV1RoundBExact:
+      roundBCloseout.aiComparison.roundBConsensus.metrics.exactCount,
+    frozenAiV1RoundBWithinOne:
+      roundBCloseout.aiComparison.roundBConsensus.metrics.withinOneCount,
+    finalAiV11RoundBComparable:
+      roundBCloseout.aiComparison.finalV11.roundBConsensus.metrics
+        .comparedCount,
+    finalAiV11RoundBExact:
+      roundBCloseout.aiComparison.finalV11.roundBConsensus.metrics.exactCount,
+    finalAiV11RoundBWithinOne:
+      roundBCloseout.aiComparison.finalV11.roundBConsensus.metrics
+        .withinOneCount,
+    finalAiV11RoundBMeanAbsoluteDifference:
+      roundBCloseout.aiComparison.finalV11.roundBConsensus.metrics
+        .meanAbsoluteDifference,
+    finalAiV11RoundBLinearWeightedKappa:
+      roundBCloseout.aiComparison.finalV11.roundBConsensus.metrics
+        .linearWeightedKappa,
+    historicalAuditStableBlindConsensus:
+      historicalLabelAudit.summary.stableBlindConsensusCount,
+    historicalAuditConfirmedWeakLabels:
+      historicalLabelAudit.summary.confirmedAuditedWeakLabelCount,
+    historicalAuditStableDisagreements:
+      historicalLabelAudit.summary.stableBlindHistoricalDisagreementCount,
+    historicalAuditRoundBComparable:
+      historicalLabelAudit.summary.roundBHistoricalComparableCount,
+    historicalAuditRoundBExact:
+      historicalLabelAudit.summary.roundBHistoricalExactCount,
+    historicalAuditRoundBWithinOne:
+      historicalLabelAudit.summary.roundBHistoricalWithinOneCount,
     selectedCaseStudies: casePortfolio.summary.selectedCases,
     applicationFigures: casePortfolio.summary.applicationFigures,
   };
@@ -188,8 +241,8 @@ export function auditReleaseDocuments(documents) {
   );
   const combined = documents.map((document) => document.text).join("\n");
   const requiredBoundaries = {
-    roundBPending:
-      /Round B pending|Round B.*pending|Round B.*尚未完成|等待 Round B/i.test(
+    roundBComplete:
+      /Round B complete|Round B.*完成|Round B.*已完成|双轮.*完成/i.test(
         combined,
       ),
     noDiagnosis:
@@ -261,10 +314,9 @@ ${documents}
 
 ## Release Boundary
 
-This is a Round A release candidate manifest. Raw media, raw pose files,
+This is a Round B-complete Phase I release candidate manifest. Raw media, raw pose files,
 reviewer event exports, comments, and SQLite databases are excluded. Final
-public release still requires Round B freeze plus source-rights and privacy
-review.
+public release still requires source-rights, privacy, and final demo review.
 `;
 }
 

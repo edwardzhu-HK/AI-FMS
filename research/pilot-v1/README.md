@@ -64,8 +64,8 @@ unscorable result. Score 0 is reserved for observed or reported pain;
 unscorable records require a protocol reason and are excluded from score
 analysis.
 
-Formal Round B uses `/study.html?round=b` after the planned 48-72 hour interval.
-It is a second blind review with a separately randomized queue. Study Mode
+Formal Round B used `/study.html?round=b` after an approximately 51-hour interval.
+It was a second blind review with a separately randomized queue. Study Mode
 shows video and the human scoring form only; it does not request or display AI
 scores, pose-derived features, Round A answers, or the other reviewer result.
 
@@ -133,10 +133,26 @@ npm run study:closeout:round-b -- \
 ```
 
 The command verifies each JSON/SHA-256 pair, verifies that Round B remained
-blind, and then loads the separately frozen AI package. It generates Round B
-agreement, per-reviewer A/B changes, and AI v1.0 comparisons against Round A
-and Round B consensus. AI-human concordance is exploratory rather than an
-independent held-out validation.
+blind, and then loads the separately frozen AI v1.0 and final v1.1 packages. It
+generates Round B agreement, per-reviewer A/B changes, and both AI comparisons
+against Round A and Round B consensus. AI-human concordance is exploratory
+rather than an independent held-out validation.
+
+The two Round A exports predate the explicit `reviewMode`,
+`currentPoseEvidenceShown`, and `currentAiSuggestionShown` fields. The validator
+does not rewrite those exports. It applies `round-a-legacy-blind-attestation.json`
+only when the source SHA-256 and the older blind flags match the registered
+contract; any unknown legacy export fails closed.
+
+Audit historical labels against the stable blind consensus without changing
+canonical provenance:
+
+```bash
+npm run study:labels:audit
+```
+
+The audit identifies only exact, stable Round A/B matches as `audited weak
+labels`. It does not promote the rest of the 110-rep history to gold labels.
 
 Generate the Round A quantitative movement-profile package from the verified
 agreement output and feature matrix:

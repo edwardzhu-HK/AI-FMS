@@ -20,6 +20,17 @@ function mean(values) {
     : null;
 }
 
+function median(values) {
+  if (!values.length) return null;
+  const sorted = [...values].sort((left, right) => left - right);
+  const middle = Math.floor(sorted.length / 2);
+  return round(
+    sorted.length % 2
+      ? sorted[middle]
+      : (sorted[middle - 1] + sorted[middle]) / 2,
+  );
+}
+
 function byReviewer(exports) {
   return new Map(exports.map((payload) => [payload.reviewerId, payload]));
 }
@@ -73,6 +84,18 @@ function buildReviewerChanges(roundAExport, roundBExport) {
   const scoreChangedCount = scoreComparableRows.filter(
     (row) => row.scoreChanged,
   ).length;
+  const confidenceDeltas = rows
+    .map((row) => row.confidenceDelta)
+    .filter(Number.isFinite);
+  const roundADurations = rows
+    .map((row) => roundA.get(row.repetitionId)?.reviewDurationMs)
+    .filter(Number.isFinite);
+  const roundBDurations = rows
+    .map((row) => roundB.get(row.repetitionId)?.reviewDurationMs)
+    .filter(Number.isFinite);
+  const durationDeltas = rows
+    .map((row) => row.reviewDurationDeltaMs)
+    .filter(Number.isFinite);
   return {
     reviewerId: roundAExport.reviewerId,
     summary: {
@@ -81,12 +104,17 @@ function buildReviewerChanges(roundAExport, roundBExport) {
       scoreComparableCount: scoreComparableRows.length,
       scoreChangedCount,
       scoreChangeRate: rate(scoreChangedCount, scoreComparableRows.length),
-      meanConfidenceDelta: mean(
-        rows.map((row) => row.confidenceDelta).filter(Number.isFinite),
-      ),
-      meanReviewDurationDeltaMs: mean(
-        rows.map((row) => row.reviewDurationDeltaMs).filter(Number.isFinite),
-      ),
+      confidenceIncreasedCount: confidenceDeltas.filter((value) => value > 0)
+        .length,
+      confidenceUnchangedCount: confidenceDeltas.filter((value) => value === 0)
+        .length,
+      confidenceDecreasedCount: confidenceDeltas.filter((value) => value < 0)
+        .length,
+      meanConfidenceDelta: mean(confidenceDeltas),
+      roundAMedianReviewDurationMs: median(roundADurations),
+      roundBMedianReviewDurationMs: median(roundBDurations),
+      medianReviewDurationDeltaMs: median(durationDeltas),
+      meanReviewDurationDeltaMs: mean(durationDeltas),
       blindReviewCount: rows.filter((row) => row.blindReview).length,
     },
     rows,

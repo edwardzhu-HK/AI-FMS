@@ -314,16 +314,16 @@ Canonical execution plan:
       preserving auditable blind flags in raw events.
 - [x] Publish a Chinese Round B reviewer protocol and browser-check the desktop
       and mobile scoring workflow.
-- [ ] Complete Ronnie Round B after the planned 48-72 hour interval.
-- [ ] Complete Other Reviewer Round B independently.
-- [ ] Validate, checksum, and ingest both complete Round B exports.
+- [x] Complete Ronnie Round B after the planned 48-72 hour interval.
+- [x] Complete Other Reviewer Round B independently.
+- [x] Validate, checksum, and ingest both complete Round B exports.
 
 ### G3: Quantitative Feature Study
 
-- [ ] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
+- [x] Freeze pose model, feature schema, scoring rules, and analysis snapshot.
 - [x] Freeze the pre-Round-B AI v1.0 rule fingerprint, source checksums,
       zero-reviewer-exposure policy, and 32-item coverage contract.
-- [ ] After both Round B exports close, compare frozen AI v1.0 against Round A
+- [x] After both Round B exports close, compare frozen AI v1.0 against Round A
       consensus and Round B consensus, with coverage reported separately.
 - [x] Add a checksum-verified Round B closeout command for reviewer agreement,
       per-reviewer A/B change, blind-exposure verification, and frozen AI comparisons.
@@ -409,7 +409,7 @@ Canonical execution plan:
 - [x] Separate exploratory movement-profile hypotheses from validated findings
       in the generated report.
 - [x] Generate reproducible figures and script outputs with SHA-256 checksums.
-- [ ] After Round B, audit historical labels against blind gold consensus before
+- [x] After Round B, audit historical labels against blind gold consensus before
       promoting any legacy labels to audited weak labels.
 
 ### G4: Application Package and Release
@@ -429,10 +429,10 @@ Canonical execution plan:
       media, person images, source filenames, or local paths.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
-      15/15 research/application artifacts, checksums 11 documents, and pins
+      17/17 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.
 - [x] Run release-document preflight for local absolute paths and required
-      study/claim boundaries, plus the full 335-test and three-entry build gate.
+      study/claim boundaries, plus the full test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
 

@@ -7,7 +7,7 @@ pose-derived movement evidence，不是疾病、疼痛或受伤风险。主要�
 
 1. 能否把视频、rep、人工评分、pose 参数和 AI suggestion 连接成可追溯证据链？
 2. 同一 FMS RAW SCORE 内是否存在可描述的连续 quantitative differences？
-3. 当前规则式 AI 在什么地方能辅助 reviewer，什么地方必须 fail closed？
+3. 当前规则式 AI 与独立人工共识的一致性和 coverage 如何，什么地方必须 fail closed？
 
 ## 2. 数据构建
 
@@ -89,17 +89,34 @@ Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动
 
 - 对全部 110 条 camera-audited feature rows 先独立生成 suggestion。
 - `notes` 和 `fileName` 为空；人工 score、reviewer comment 与 legacy AI 不进入 builder。
-- 之后才按稳定 repetition ID 连接 26 条 Round A consensus。
-- Rotary Stability feature-only 与 Deep Squat staged gate 不当作错误分数。
-- Targeted audit 补入的 protocol metadata 只进入单独 sensitivity，不覆盖 baseline。
+- 之后才按稳定 repetition ID 连接 Round A/B consensus。
+- Frozen AI v1.0 中 Rotary Stability feature-only 与 Deep Squat staged gate 不当作
+  错误分数。
+- Final v1.1 在查看 Round B 结果前冻结，但开发发生在 Round A 之后，因此只能称为
+  post-audit internal benchmark，不能称为 held-out validation。
+
+### 双轮结果
+
+- Round B status agreement 为 32/32；双方共同评分 26 条，exact agreement 为
+  26/26，linear/quadratic weighted kappa 均为 1.0000。
+- 6 条双方均 unscorable，reason taxonomy agreement 为 6/6。
+- 两位 reviewer 各有 1/26 数值分数从 Round A 改变到 Round B，且为同一条 Hurdle
+  Step；另有 1 条 Deep Squat 的 scoreability mismatch 在 Round B 解决。
+- Review time 只作描述：两位 reviewer 的中位用时均下降，但 Round A 存在长时间离群值，
+  且没有实验性 AI exposure，所以不能作效率因果结论。
+- Frozen AI v1.0 vs Round B：16 条可比较，8/16 exact、14/16 within one、MAE
+  0.6250。
+- Final AI v1.1 vs Round B：25 条可比较，16/25 exact、23/25 within one、MAE
+  0.4400、linear weighted kappa 0.4917。
 
 ## 7. 多重证据等级
 
 项目避免把所有数据称为 ground truth：
 
-- Round A blind consensus：当前较强人工 evidence。
+- Round A/B stable blind consensus：当前较强人工 evidence。
 - Formal non-consensus：保留 scoreability 和 taxonomy 边界。
-- Historical scores：weak labels，只作数据利用与未来 audit 候选。
+- Historical scores：默认是 weak labels；只有 18 条与稳定双轮盲审共识完全一致的正式
+  样本可标记为 audited weak labels。
 - Pose features：quantitative evidence，不是人工 label。
 - AI suggestions：rules-based exploratory output，不是 gold label。
 - File-name score cues：只作 lineage/leakage QA，禁止进入模型输入。
@@ -127,7 +144,10 @@ Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动
 
 - 两位 reviewer 的一致性不能替代 expert panel 或外部验证。
 - 规则开发可能接触过同一公开视频，不是 held-out evaluation。
-- Round A 不能同时用于调阈值和报告改进后的 performance。
+- Round A 不能同时用于开发 v1.1 和将 v1.1 表述为 held-out performance。
+- 32 条正式样本的历史标签审计不能证明其余 110-rep pool 的标签有效。
+- Round B 是第二次完全盲评，没有向 reviewer 展示 AI/pose evidence，因此不能回答
+  AI evidence 是否提高效率、信心或评分质量。
 - Label-free groups 受 source signature 和小样本影响，不能命名为功能障碍亚型。
 
 ## 9. Ethics 与发布规则
@@ -135,14 +155,14 @@ Reviewer 可以给 0-3 RAW SCORE 或 `unscorable`。0 仅限 pain evidence；动
 - 项目描述使用 movement screening、annotation、pose-based features 和
   AI-assisted review，不使用 diagnosis 或 injury prediction。
 - Pain 由人工观察或报告，不由模型推断。
-- 对外材料必须说明数据规模、来源依赖和未完成 Round B 的状态。
+- 对外材料必须说明数据规模、来源依赖、双轮盲审已完成和 held-out validation 尚未完成。
 - 未完成 rights/consent/privacy audit 的视频、人物画面和 reviewer comments 不公开。
 - 公开图表只显示聚合值、稳定 ID 或经批准的去标识截图。
 - 不发布本地绝对路径、raw review events、raw landmarks 或 SQLite 数据库。
 - 任何未来 supervised model 都需要独立训练/验证划分，并以 source video 或 participant
   为分组单位，防止同源泄漏。
 
-## 10. Round B 前冻结规则
+## 10. Round B 冻结与 closeout
 
 Round B 前允许修复：数据读取 bug、checksum/schema validation、明确的 protocol metadata
 通路和 UI 可用性问题。
@@ -150,12 +170,21 @@ Round B 前允许修复：数据读取 bug、checksum/schema validation、明确
 Round B 前不允许：依据 Round A 分数移动 ASLR/Hurdle thresholds、删除不利样本、改变
 formal rep IDs 或把 post-hoc sensitivity 替代冻结 baseline。
 
-当前 AI v1.0 benchmark package 已在人评前冻结：32 条均有定量特征，
+AI v1.0 benchmark package 已在人评前冻结：32 条均有定量特征，
 18 条通过 AI v1.0 总分 gate，8 条 Rotary 保持 feature-only，6 条 Deep Squat
 因缺少完整 attempt-condition metadata 不输出总分。该包不被 Study Mode 请求。
 正式 Round B event 必须记录 `evidenceReview: null`、`currentPoseEvidenceShown:
-false` 和 `currentAiSuggestionShown: false`。两位 reviewer 完成前不用 Round B
-结果修改 AI v1.0；完成后才计算 A/B change 和 AI-vs-human exploratory concordance。
+false` 和 `currentAiSuggestionShown: false`。Round B 两份导出均通过完整性、blind-state
+和 SHA-256 校验后进入本地 SQLite，AI 结果随后才由 closeout script 连接。
+
+Round A 导出早于这三个严格字段加入 schema。为避免改写历史证据，分析只允许两份
+预先登记 SHA-256 的 Round A signed exports 通过 legacy blind attestation，并同时检查
+旧版可用的 blind flags；未知 checksum 一律 fail closed。这个兼容层是 provenance
+限制，必须随结果披露。
+
+历史标签审计同样不改写 canonical source。25 条有稳定双轮数值共识的正式样本中，
+18 条与历史标签 exact match，6 条稳定不一致，1 条历史分数缺失。该结果支持有条件复用
+抽检确认的 weak labels，不支持把未审核历史记录升级为 gold labels。
 
 最终报告应同时保留 negative/null findings。当前最可信的贡献是可解释证据和研究流程，
 不是自动评分性能。

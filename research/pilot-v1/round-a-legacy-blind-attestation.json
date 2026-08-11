@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "ai_fms_round_a_legacy_blind_attestation_v1",
+  "status": "locked_compatibility_attestation",
+  "createdAt": "2026-08-11",
+  "scope": {
+    "pilotId": "ai-fms-four-movement-core-2026-08-09",
+    "studyRound": "round_a",
+    "reason": "Round A was exported before the explicit reviewMode and current-evidence exposure fields were added on 2026-08-10. The original signed exports remain unchanged."
+  },
+  "originalContract": {
+    "requiredBlindReviewValues": {
+      "historicalHumanScoresHidden": true,
+      "legacyAiSuggestionHidden": true,
+      "sourceFileNameHidden": true,
+      "audioMuted": true,
+      "labelCueDetected": false
+    },
+    "requiredAbsentEventFields": ["evidenceReview"],
+    "requiredAbsentBlindReviewFields": [
+      "priorRoundReviewHidden",
+      "otherReviewerResultsHidden",
+      "reviewMode",
+      "currentPoseEvidenceShown",
+      "currentAiSuggestionShown"
+    ]
+  },
+  "normalizedAnalysisContract": {
+    "evidenceReview": null,
+    "priorRoundReviewHidden": true,
+    "otherReviewerResultsHidden": true,
+    "reviewMode": "blind",
+    "currentPoseEvidenceShown": false,
+    "currentAiSuggestionShown": false
+  },
+  "sourceEvidence": {
+    "roundAProtocolCommit": "c65551007156fac65a8df80ad809b25de63be598",
+    "roundAProtocolPath": "docs/research/round_a_reviewer_protocol.md",
+    "studyAppPath": "src/study/StudyApp.jsx",
+    "explicitExposureFieldsAddedCommit": "5bfccfb3c92eaf823e34ad441fe257c4039374ae",
+    "limitation": "The old export did not record the newer exposure fields directly; blind status is reconstructed only for these checksum-pinned files from the original event contract, protocol, and source history."
+  },
+  "exports": [
+    {
+      "reviewerId": "Ronnie",
+      "exportedAt": "2026-08-09T07:43:19.261Z",
+      "eventCount": 46,
+      "sha256": "afb14b21ca23356e7798cf09a908d476797716d9dfef07bc9f31457a269c2837"
+    },
+    {
+      "reviewerId": "Other Reviewer",
+      "exportedAt": "2026-08-09T08:20:29.011Z",
+      "eventCount": 32,
+      "sha256": "dc7c441e607e0b4f9ec36b39750a875cfff417681a40f558ed98ef44b7d0528b"
+    }
+  ],
+  "handling": {
+    "originalArtifactsModified": false,
+    "normalization": "in_memory_only",
+    "roundBAffected": false,
+    "claimsAllowed": "blind_retest_internal_analysis_with_legacy_round_a_metadata_limitation"
+  }
+}

@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.24                          |
+| 版本     | v1.25                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-10                     |
+| 最近更新 | 2026-08-11                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -61,14 +61,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                              |
-| ------------------------------- | ----------- | --------------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                  |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做       |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛           |
-| G2C 双轮独立审核                | IN PROGRESS | Round B 已修正为第二次 blind review；等待间隔后由双 reviewer 独立完成 |
-| G3 定量研究与结果冻结           | IN PROGRESS | Final AI v1.1 已锁定 28/32 score coverage；agreement 等待 Round B     |
-| G4 报告与申请发布包             | IN PROGRESS | 技术报告叙事与案例图完成；等待 Round B、demo 与公开素材审计           |
+| Gate                            | 状态        | 当前结论                                                        |
+| ------------------------------- | ----------- | --------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
+| G2C 双轮独立审核                | COMPLETE    | Round A/B 均完成；四份签名导出已校验并入库                      |
+| G3 定量研究与结果冻结           | COMPLETE    | 双轮人工、AI v1.0/v1.1 和历史标签审计结果已冻结                 |
+| G4 报告与申请发布包             | IN PROGRESS | 结果文档已更新；等待 demo 与公开素材 rights/privacy 审计        |
 
 ### 3.2 已验证基线
 
@@ -128,9 +128,17 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
       未根据审计结果移动 AI threshold。
 - [x] 生成 label-free、checksum-protected final AI v1.1 package：32 条均被分析，
       28 条有 AI raw score，4 条 floor attempt 因缺少 staged follow-up 合理拒判。
-- [x] 通过 lint、format、335/335 tests 和三页面 production build。
+- [x] Ronnie 与 Other Reviewer 完成 Round B 32/32；两份导出通过 SHA-256、schema、
+      blind-state 校验并幂等写入本地 SQLite。
+- [x] Round B status agreement 32/32；共同评分 26/26 exact，6/6 unscorable reason
+      agreement，linear/quadratic weighted kappa 均为 1.0000。
+- [x] 完成 Final AI v1.1 vs Round B internal benchmark：25 条可比较，16/25 exact、
+      23/25 within one、MAE 0.44、linear weighted kappa 0.4917。
+- [x] 完成历史标签审计：25 条稳定双轮共识中 18 条确认历史 weak label，6 条稳定
+      不一致，1 条历史分数缺失；未将其余历史标签升级为 gold。
+- [x] 通过 lint、format、340/340 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
-- [x] 建立 Phase I release-candidate spec 与生成器；15/15 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
+- [x] 建立 Phase I release-candidate spec 与生成器；17/17 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
 
 对应检查点 commits：
 
@@ -254,7 +262,7 @@ Round A：
 
 Round B：
 
-- [ ] 两轮之间保留合理间隔，并重新随机样本顺序。
+- [x] 两轮之间保留约 51 小时间隔，并重新随机样本顺序。
 - [x] 仅显示匿名视频和人工评分表单；不显示 AI RAW SCORE、pose-derived
       parameters、质量提示或 evidence usefulness。
 - [x] 不显示 Round A 答案、历史教练分数、参考标签或另一位 reviewer 结果。
@@ -265,7 +273,7 @@ Round B：
       benchmark manifest；该包仅在 Round B 签名导出后由分析脚本读取。
 - [x] 在 Round B 人评结果产生前锁定 final AI v1.1 prediction package；生成器不载入
       human labels、reviewer exports 或 Study Mode state。
-- [ ] Ronnie 与 Other Reviewer 分别完成 32/32，并导出、校验、入库。
+- [x] Ronnie 与 Other Reviewer 分别完成 32/32，并导出、校验、入库。
 
 G2 验收证据：
 
@@ -278,25 +286,30 @@ G2 验收证据：
   为 26/26，linear 与 quadratic weighted kappa 均为 1.0000。
 - 1 条 scoreability mismatch 与 3 条 reason taxonomy mismatch 保留在私有
   adjudication queue，不静默改写 reviewer 原始记录。
+- Round B outcome agreement 为 32/32；共同评分 26/26 exact，6/6 unscorable
+  reason agreement，linear 与 quadratic weighted kappa 均为 1.0000。
+- Round A 旧导出只通过两份 SHA-256 白名单的 legacy blind attestation 进入 closeout；
+  不改写原始 reviewer JSON，未知 checksum fail closed。
 
 ### G3：分析、Case Studies 与结果冻结
 
 目标窗口：Week 3
 
-- [ ] 冻结 canonical snapshot、study manifest、pose、feature 和 rule version。
+- [x] 冻结 canonical snapshot、study manifest、pose、feature 和 rule version。
 - [x] 冻结评后使用的 AI v1.0 benchmark snapshot：32/32 有定量特征，
       18/32 有 AI RAW SCORE，8/32 Rotary feature-only，6/32 Deep Squat
       protocol-metadata-required；不对 reviewer 显示。
 - [x] 计算 Round A raw agreement、weighted Cohen's kappa 和 confusion matrix。
-- [ ] Round B 完成后计算 Round B agreement 及 Round A/B change metrics。
-- [ ] Round B 完成后，用人评前冻结的 AI v1.0 对同一 32 rep 计算 AI-vs-Round A
+- [x] 计算 Round B agreement 及 Round A/B change metrics。
+- [x] 用人评前冻结的 AI v1.0 对同一 32 rep 计算 AI-vs-Round A
       consensus 与 AI-vs-Round B consensus；coverage 与 agreement 分开报告。
 - [x] 建立 checksum-verified Round B closeout command，一次生成双 reviewer
       agreement、逐 reviewer A/B change、blind-exposure validation 与 frozen AI comparison。
 - [x] 将 final AI v1.1 接入同一 closeout command；保留 v1.0 baseline 与 v1.1
       post-audit internal benchmark 两个独立版本和 fingerprint。
-- [ ] 计算 score-change rate、confidence delta 和 review-time delta。
-- [ ] 分析每个动作的分歧率、常见理由和 pose-quality 影响。
+- [x] 计算 score-change rate、confidence delta 和 review-time delta；review time 只作
+      描述，不作 AI 效率因果解释。
+- [x] 分析每个动作的分歧率、unscorable reason 和 AI-vs-human 差异。
 - [x] 完成 Round A 26 条 consensus rep 的 quantitative profile 异质性分析。
 - [x] 使用全部 110 条进行 evidence-tier/quality 分析，并使用全部 66 条 feature-ready rep 生成 label-free feature distribution。
 - [x] 对 66 条 feature-ready rep 完成无标签分组、来源效应和留一来源稳定性分析。
@@ -316,10 +329,12 @@ G2 验收证据：
 - [x] 生成无人工字段的 Rotary label-free prediction layer，并合入 final AI v1.1。
 - [x] 审计正式 Deep Squat 8 条的 attempt condition：5 条 floor、3 条 heels-elevated；
       final v1.1 中 4 条 staged floor attempt 保持 abstain。
+- [x] 审计历史标签与双轮稳定盲审共识；仅 18 条 exact match 正式样本进入
+      `audited weak labels`，其余保持 weak-label provenance。
 - [x] 旧 AI 字段不进入 accuracy、agreement、profile distance 或 validation。
 - [x] 生成 7 组可审阅 case-study candidates，并正式选定 4 个作用不同的申请案例。
 - [x] 通过脚本重新生成当前全部结果表、四动作 heatmap 和 SHA-256。
-- [ ] 在 G3 结束时冻结主要数字和结论。
+- [x] 在 G3 结束时冻结主要数字和结论。
 
 建议 case studies：
 
@@ -340,8 +355,7 @@ G2 验收证据：
 
 目标窗口：Week 4
 
-- [x] 完成中文 Phase I 技术报告和 English abstract；full English adaptation 在
-      Round B 后按最终数字生成。
+- [x] 完成中文 Phase I 技术报告和 English abstract，并按 Round B 最终数字更新。
 - [ ] 制作系统、数据 lineage、动作分布、study 结果和 profile 对比图。
 - [x] 完成该图表任务中的首批两张：Deep Squat 同分 movement profile 与 ASLR
       subject-aware measurement reliability；其余系统/lineage/study 图仍待完成。
@@ -354,9 +368,10 @@ G2 验收证据：
       rights/privacy audit 后生成。
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
-      并通过 335 tests 和三入口 production build。
+      并通过 340 tests 和三入口 production build。
 - [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
-- [x] 标记 `ai-fms-phase-i-rc1-2026-08-09` release candidate，并保留最终缓冲时间。
+- [x] 标记 `ai-fms-phase-i-rc2-2026-08-11` results-frozen release candidate，并保留
+      demo、rights/privacy 与 held-out 工作缓冲时间。
 
 建议英文报告标题：
 
@@ -461,41 +476,56 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                  | 原因                                                                      |
-| ---------- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
-| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                                  |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                           |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                            |
-| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only            | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                   |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                      |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                                   |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量             |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | 支持评后定量比较；feature 不在 blind Round B 中展示                       |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                        |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                            |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                             |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告               |
-| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测      |
-| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels       |
-| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection               |
-| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数   | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                     |
-| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据 |
-| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段       | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写               |
-| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查         |
-| 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估 |
-| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity               |
-| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human              |
-| 2026-08-10 | Round B 修正为第二次完全盲评                          | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较    |
-| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence    |
-| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界     |
-| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                    | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                 |
-| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                 | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark         |
-| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage     | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                    |
-| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility        | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch      |
-| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定               | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评       |
+| 日期       | 决策                                                  | 原因                                                                       |
+| ---------- | ----------------------------------------------------- | -------------------------------------------------------------------------- |
+| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                                   |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                            |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                             |
+| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only            | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                    |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                       |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                                    |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量              |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | 支持评后定量比较；feature 不在 blind Round B 中展示                        |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                         |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                             |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                              |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                 |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测       |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels        |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection                |
+| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数   | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                      |
+| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据  |
+| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段       | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                |
+| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查          |
+| 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估  |
+| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                |
+| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human               |
+| 2026-08-10 | Round B 修正为第二次完全盲评                          | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较     |
+| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence     |
+| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界      |
+| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                    | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                  |
+| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                 | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark          |
+| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage     | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                     |
+| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility        | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch       |
+| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定               | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评        |
+| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation      | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed |
+| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                 | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels         |
+| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果            | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释              |
 
 ## 12. 变更记录
+
+### v1.25 - 2026-08-11
+
+- Ronnie 与 Other Reviewer 完成 Round B 32/32；两份签名导出通过 SHA-256、schema、
+  blind-state 校验并进入本地 SQLite。
+- Round B status agreement 32/32，26/26 数值分 exact，6/6 unscorable reason
+  agreement；两位 reviewer 各改变同一条 Hurdle score。
+- Frozen AI v1.0 vs Round B 为 8/16 exact、14/16 within one；final v1.1 为
+  16/25 exact、23/25 within one、MAE 0.44、linear weighted kappa 0.4917。
+- 新增 checksum-pinned Round A legacy blind attestation，不修改原始导出；新增历史
+  标签审计，确认 18 条 audited weak labels，并保留其余标签的弱证据边界。
+- G2C 与 G3 转为 COMPLETE；G4 继续处理 demo、rights/privacy 和最终公开包。
 
 ### v1.24 - 2026-08-10
 

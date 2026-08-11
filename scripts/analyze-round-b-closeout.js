@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyLegacyRoundABlindAttestation } from "../src/lib/legacy-round-a-blind-attestation.js";
 import { summarizeRoundBCloseout } from "../src/lib/round-b-closeout-analysis.js";
 import { validateStudyReviewExport } from "../src/lib/study-review.js";
 import { readVerifiedRoundBEvidence } from "./lib/round-b-evidence-source.js";
@@ -13,6 +14,8 @@ const DEFAULT_EVIDENCE =
 const DEFAULT_OUTPUT = "research/pilot-v1/generated/round-b-closeout";
 const DEFAULT_FINAL_AI =
   "research/pilot-v1/generated/final-ai-v1-1/final-ai-v1-1-predictions.json";
+const DEFAULT_ROUND_A_ATTESTATION =
+  "research/pilot-v1/round-a-legacy-blind-attestation.json";
 
 function sha256(value) {
   return crypto.createHash("sha256").update(value).digest("hex");
@@ -24,6 +27,7 @@ function parseArgs(argv) {
     evidencePath: DEFAULT_EVIDENCE,
     outputDir: DEFAULT_OUTPUT,
     finalAiPath: DEFAULT_FINAL_AI,
+    roundAAttestationPath: DEFAULT_ROUND_A_ATTESTATION,
     reviewPaths: [],
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -35,6 +39,8 @@ function parseArgs(argv) {
       options.outputDir = argv[++index];
     } else if (argv[index] === "--final-ai") {
       options.finalAiPath = argv[++index];
+    } else if (argv[index] === "--round-a-attestation") {
+      options.roundAAttestationPath = argv[++index];
     } else {
       options.reviewPaths.push(argv[index]);
     }
@@ -82,36 +88,75 @@ function percent(value) {
 }
 
 function buildReport(analysis) {
+  const roundA = analysis.roundAAgreement.overall;
+  const roundB = analysis.roundBAgreement.overall;
+  const actionRows = Object.entries(analysis.roundBAgreement.byAction)
+    .map(
+      ([actionType, item]) =>
+        `| ${actionType} | ${item.statusAgreementCount}/${item.expectedCount} | ${item.bothScoredCount} | ${item.exactScoreAgreementCount}/${item.bothScoredCount} | ${item.linearWeightedKappa ?? "N/A"} |`,
+    )
+    .join("\n");
   const changes = analysis.reviewerChanges
     .map(
       (item) =>
-        `| ${item.reviewerId} | ${item.summary.scoreChangedCount}/${item.summary.scoreComparableCount} | ${percent(item.summary.scoreChangeRate)} | ${item.summary.meanConfidenceDelta ?? "N/A"} | ${item.summary.blindReviewCount}/${item.summary.totalItems} |`,
+        `| ${item.reviewerId} | ${item.summary.statusChangedCount} | ${item.summary.scoreChangedCount}/${item.summary.scoreComparableCount} | ${percent(item.summary.scoreChangeRate)} | ${item.summary.confidenceIncreasedCount}/${item.summary.confidenceDecreasedCount} | ${item.summary.meanConfidenceDelta ?? "N/A"} | ${Math.round(item.summary.medianReviewDurationDeltaMs / 1000)} s |`,
     )
     .join("\n");
   const aiA = analysis.aiComparison.roundAConsensus;
   const aiB = analysis.aiComparison.roundBConsensus;
   const finalAi = analysis.aiComparison.finalV11;
   const finalSection = finalAi
-    ? `\n## Final AI v1.1 Post-audit Internal Comparison\n\n| Human reference | Comparable | Exact | Within one | MAE | Linear kappa |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Round A consensus | ${finalAi.roundAConsensus.metrics.comparedCount} | ${finalAi.roundAConsensus.metrics.exactCount} | ${finalAi.roundAConsensus.metrics.withinOneCount} | ${finalAi.roundAConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundAConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n| Round B consensus | ${finalAi.roundBConsensus.metrics.comparedCount} | ${finalAi.roundBConsensus.metrics.exactCount} | ${finalAi.roundBConsensus.metrics.withinOneCount} | ${finalAi.roundBConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundBConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n\nPackage fingerprint: \`${finalAi.packageFingerprint}\`. This is a post-audit internal benchmark, not held-out validation.\n`
+    ? `\n## Final AI v1.1 Post-audit Internal Comparison\n\n| Human reference | Comparable | Exact | Within one | MAE | Linear kappa |\n| --- | ---: | ---: | ---: | ---: | ---: |\n| Round A consensus | ${finalAi.roundAConsensus.metrics.comparedCount} | ${finalAi.roundAConsensus.metrics.exactCount} (${percent(finalAi.roundAConsensus.metrics.exactRate)}) | ${finalAi.roundAConsensus.metrics.withinOneCount} (${percent(finalAi.roundAConsensus.metrics.withinOneRate)}) | ${finalAi.roundAConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundAConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n| Round B consensus | ${finalAi.roundBConsensus.metrics.comparedCount} | ${finalAi.roundBConsensus.metrics.exactCount} (${percent(finalAi.roundBConsensus.metrics.exactRate)}) | ${finalAi.roundBConsensus.metrics.withinOneCount} (${percent(finalAi.roundBConsensus.metrics.withinOneRate)}) | ${finalAi.roundBConsensus.metrics.meanAbsoluteDifference ?? "N/A"} | ${finalAi.roundBConsensus.metrics.linearWeightedKappa ?? "N/A"} |\n\n### v1.1 vs Round B by action\n\n| Action | Comparable | Exact | Within one | MAE |\n| --- | ---: | ---: | ---: | ---: |\n${Object.entries(
+        finalAi.roundBConsensus.byAction,
+      )
+        .map(
+          ([actionType, item]) =>
+            `| ${actionType} | ${item.comparedCount} | ${item.exactCount} (${percent(item.exactRate)}) | ${item.withinOneCount} (${percent(item.withinOneRate)}) | ${item.meanAbsoluteDifference ?? "N/A"} |`,
+        )
+        .join(
+          "\n",
+        )}\n\nPackage fingerprint: \`${finalAi.packageFingerprint}\`. This is a post-audit internal benchmark, not held-out validation.\n`
     : "";
   return `# AI-FMS Round B Closeout Analysis
 
 - Pilot: \`${analysis.pilotId}\`
 - Post-review AI benchmark freeze: \`${analysis.aiBenchmarkFreeze.freezeId}\`
 - AI rule fingerprint: \`${analysis.aiBenchmarkFreeze.ruleFingerprint}\`
+- Round A legacy blind attestation: **${analysis.roundALegacyBlindAttestation.appliedCount}/2 exports normalized in memory**
+
+The signed Round A files predate the explicit current-evidence exposure fields.
+Their original SHA-256 files remain unchanged; compatibility is limited to the
+two checksum-pinned exports in the attestation. Round B uses the complete current
+blind-event contract without compatibility normalization.
+
+## Human Agreement
+
+| Round | Status agreement | Both scored | Exact score agreement | Linear weighted kappa | Unscorable-reason agreement |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Round A | ${roundA.statusAgreementCount}/${roundA.expectedCount} (${percent(roundA.statusAgreementRate)}) | ${roundA.bothScoredCount} | ${roundA.exactScoreAgreementCount}/${roundA.bothScoredCount} (${percent(roundA.rawScoreAgreementRate)}) | ${roundA.linearWeightedKappa ?? "N/A"} | ${roundA.unscorableReasonAgreementCount}/${roundA.bothUnscorableCount} (${percent(roundA.unscorableReasonAgreementRate)}) |
+| Round B | ${roundB.statusAgreementCount}/${roundB.expectedCount} (${percent(roundB.statusAgreementRate)}) | ${roundB.bothScoredCount} | ${roundB.exactScoreAgreementCount}/${roundB.bothScoredCount} (${percent(roundB.rawScoreAgreementRate)}) | ${roundB.linearWeightedKappa ?? "N/A"} | ${roundB.unscorableReasonAgreementCount}/${roundB.bothUnscorableCount} (${percent(roundB.unscorableReasonAgreementRate)}) |
+
+### Round B by action
+
+| Action | Status agreement | Both scored | Exact score agreement | Linear weighted kappa |
+| --- | ---: | ---: | ---: | ---: |
+${actionRows}
 
 ## Reviewer Change
 
-| Reviewer | Score changes | Rate | Mean confidence delta | Blind events |
-| --- | ---: | ---: | ---: | ---: |
+| Reviewer | Status changes | Score changes | Rate | Confidence +/− | Mean confidence delta | Median time delta |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
 ${changes}
+
+Review-time deltas are descriptive only. Round A contains large timing outliers,
+so the median is reported and no causal efficiency claim is made.
 
 ## Frozen AI v1.0 Comparison
 
 | Human reference | Comparable | Exact | Within one | MAE | Linear kappa |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Round A consensus | ${aiA.metrics.comparedCount} | ${aiA.metrics.exactCount} | ${aiA.metrics.withinOneCount} | ${aiA.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiA.metrics.linearWeightedKappa ?? "N/A"} |
-| Round B consensus | ${aiB.metrics.comparedCount} | ${aiB.metrics.exactCount} | ${aiB.metrics.withinOneCount} | ${aiB.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiB.metrics.linearWeightedKappa ?? "N/A"} |
+| Round A consensus | ${aiA.metrics.comparedCount} | ${aiA.metrics.exactCount} (${percent(aiA.metrics.exactRate)}) | ${aiA.metrics.withinOneCount} (${percent(aiA.metrics.withinOneRate)}) | ${aiA.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiA.metrics.linearWeightedKappa ?? "N/A"} |
+| Round B consensus | ${aiB.metrics.comparedCount} | ${aiB.metrics.exactCount} (${percent(aiB.metrics.exactRate)}) | ${aiB.metrics.withinOneCount} (${percent(aiB.metrics.withinOneRate)}) | ${aiB.metrics.meanAbsoluteDifference ?? "N/A"} | ${aiB.metrics.linearWeightedKappa ?? "N/A"} |
 
 Coverage and agreement are reported separately. Round B reviewers were blind
 to AI scores and pose-derived evidence. The frozen AI package was loaded only
@@ -131,6 +176,11 @@ export function main(argv = process.argv.slice(2)) {
     pilot: manifest,
   });
   const finalAi = readChecksummedOutput(options.finalAiPath);
+  const roundAAttestationRaw = fs.readFileSync(
+    path.resolve(options.roundAAttestationPath),
+  );
+  const roundAAttestation = JSON.parse(roundAAttestationRaw.toString("utf8"));
+  const roundAAttestationSha256 = sha256(roundAAttestationRaw);
   if (
     finalAi.payload.evaluationBoundary?.humanLabelsLoaded !== false ||
     finalAi.payload.evaluationBoundary?.roundBStudyModeLoaded !== false
@@ -139,7 +189,12 @@ export function main(argv = process.argv.slice(2)) {
   }
   const reviews = options.reviewPaths.map((reviewPath) => {
     const source = readSignedJson(reviewPath);
-    const validation = validateStudyReviewExport(source.payload, {
+    const normalized = applyLegacyRoundABlindAttestation({
+      payload: source.payload,
+      sha256: source.sha256,
+      attestation: roundAAttestation,
+    });
+    const validation = validateStudyReviewExport(normalized.payload, {
       pilot: manifest,
       requireComplete: true,
     });
@@ -148,7 +203,12 @@ export function main(argv = process.argv.slice(2)) {
         `Review validation failed for ${reviewPath}: ${validation.errors.join(" ")}`,
       );
     }
-    return { path: reviewPath, ...source };
+    return {
+      path: reviewPath,
+      ...source,
+      payload: normalized.payload,
+      legacyRoundAAttestationApplied: normalized.applied,
+    };
   });
   const roundAExports = reviews.slice(0, 2).map((source) => source.payload);
   const roundBExports = reviews.slice(2).map((source) => source.payload);
@@ -169,12 +229,23 @@ export function main(argv = process.argv.slice(2)) {
   const payload = {
     ...analysis,
     generatedAt: new Date().toISOString(),
+    roundALegacyBlindAttestation: {
+      path: options.roundAAttestationPath,
+      sha256: roundAAttestationSha256,
+      appliedCount: reviews.filter(
+        (source) => source.legacyRoundAAttestationApplied,
+      ).length,
+      originalArtifactsModified: false,
+      interpretation:
+        "checksum_pinned_legacy_metadata_compatibility_not_direct_exposure_telemetry",
+    },
     sources: {
       evidence: { path: options.evidencePath, sha256: evidence.sha256 },
       finalAi: { path: options.finalAiPath, sha256: finalAi.sha256 },
       reviews: reviews.map((source) => ({
         path: source.path,
         sha256: source.sha256,
+        legacyRoundAAttestationApplied: source.legacyRoundAAttestationApplied,
       })),
     },
   };
