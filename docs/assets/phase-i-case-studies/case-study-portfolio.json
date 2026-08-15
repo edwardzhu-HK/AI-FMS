@@ -1,164 +1,836 @@
 {
-  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_v1",
-  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-10",
+  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_v2",
+  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-15",
   "summary": {
-    "selectedCases": 4,
-    "applicationFigures": 2,
+    "canonicalRepetitions": 110,
+    "featureReadyRepetitions": 66,
+    "selectedAnalyses": 4,
+    "applicationFigures": 4,
     "rawMediaIncluded": false,
     "personImagesIncluded": false
   },
   "sourceFingerprints": {
     "featureMatrix": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
-    "aslrSensitivity": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
-    "roundBAiBenchmark": "ad809451d43a2fcbaf59425419aeb13b0af05b379256f98a6ad2168e3c424c76"
+    "aslrAudit": "f232256558818c4fc1a349581f600998eb85b5e3bd8919a7f3d02b06f2ba1467",
+    "rotaryModelVersion": "pose-cycle-rules-v1.1-rotary-experimental"
   },
   "cases": {
     "deepSquat": {
-      "caseId": "deep-squat-same-score-profile",
-      "status": "exploratory_case_supported",
-      "humanRawScore": 2,
-      "sourceRelation": "different_video",
-      "left": {
-        "repetitionId": "rep_489b80ba8943",
-        "videoId": "vid_2c70d61afac8",
-        "auditedCameraView": "side"
+      "caseId": "deep-squat-side-view-strategy-continuum",
+      "status": "exploratory_group_level_supported",
+      "role": "group_level_strategy_continuum",
+      "method": "side_view_rank_correlation_with_source_median_sensitivity",
+      "repetitionCount": 15,
+      "sourceVideoCount": 7,
+      "cameraView": "side",
+      "referenceFeature": "peakDepthRatio",
+      "featureRanges": {
+        "peakDepthRatio": {
+          "count": 15,
+          "min": 0.5268,
+          "median": 0.6812,
+          "max": 0.7639,
+          "maxMinRatio": 1.45
+        },
+        "hipKneeVerticalGap": {
+          "count": 15,
+          "min": -0.0641,
+          "median": 0.0238,
+          "max": 0.0845,
+          "maxMinRatio": null
+        },
+        "hipAngleDegrees": {
+          "count": 15,
+          "min": 30.9,
+          "median": 57.2,
+          "max": 106.8,
+          "maxMinRatio": 3.46
+        },
+        "kneeAngleDegrees": {
+          "count": 15,
+          "min": 29.5,
+          "median": 51.4,
+          "max": 106.5,
+          "maxMinRatio": 3.61
+        },
+        "ankleShankLeanDegrees": {
+          "count": 15,
+          "min": 13.4,
+          "median": 16.4,
+          "max": 60.1,
+          "maxMinRatio": 4.49
+        },
+        "trunkLeanDegrees": {
+          "count": 15,
+          "min": 7.4,
+          "median": 17.1,
+          "max": 36.3,
+          "maxMinRatio": 4.91
+        },
+        "maxKneeAnkleOffset": {
+          "count": 15,
+          "min": 0.0277,
+          "median": 0.0403,
+          "max": 0.0762,
+          "maxMinRatio": 2.75
+        }
       },
-      "right": {
-        "repetitionId": "rep_ce280c79a07d",
-        "videoId": "vid_b93a2900a437",
-        "auditedCameraView": "side"
-      },
-      "role": "primary_movement_profile_case",
-      "features": [
+      "correlations": [
         {
-          "name": "peakDepthRatio",
-          "label": "Peak depth ratio",
-          "unit": "normalized ratio",
-          "decimals": 4,
-          "leftValue": 0.66,
-          "rightValue": 0.7542
+          "feature": "hipKneeVerticalGap",
+          "repetitionLevelSpearman": 0.7,
+          "sourceMedianSpearman": 0.75
         },
         {
-          "name": "hipKneeVerticalGap",
-          "label": "Hip-knee vertical gap",
-          "unit": "normalized height",
-          "decimals": 4,
-          "leftValue": -0.0121,
-          "rightValue": 0.0673
+          "feature": "hipAngleDegrees",
+          "repetitionLevelSpearman": -0.689,
+          "sourceMedianSpearman": -0.821
         },
         {
-          "name": "hipAngleDegrees",
-          "label": "Hip angle",
-          "unit": "degrees",
-          "decimals": 1,
-          "leftValue": 86.3,
-          "rightValue": 42.8
+          "feature": "kneeAngleDegrees",
+          "repetitionLevelSpearman": -0.85,
+          "sourceMedianSpearman": -0.929
         },
         {
-          "name": "kneeAngleDegrees",
-          "label": "Knee angle",
-          "unit": "degrees",
-          "decimals": 1,
-          "leftValue": 64.9,
-          "rightValue": 35
+          "feature": "ankleShankLeanDegrees",
+          "repetitionLevelSpearman": -0.204,
+          "sourceMedianSpearman": -0.107
         },
         {
-          "name": "ankleShankLeanDegrees",
-          "label": "Ankle-shank lean",
-          "unit": "degrees",
-          "decimals": 1,
-          "leftValue": 32.4,
-          "rightValue": 15.1
+          "feature": "trunkLeanDegrees",
+          "repetitionLevelSpearman": -0.05,
+          "sourceMedianSpearman": 0.464
         },
         {
-          "name": "maxKneeAnkleOffset",
-          "label": "Knee-ankle offset",
-          "unit": "normalized width",
-          "decimals": 4,
-          "leftValue": 0.0709,
-          "rightValue": 0.0403
+          "feature": "maxKneeAnkleOffset",
+          "repetitionLevelSpearman": -0.118,
+          "sourceMedianSpearman": -0.214
         }
       ],
-      "interpretation": "The same ordinal score preserves different movement depth and joint-strategy profiles."
-    },
-    "aslr": {
-      "caseId": "aslr-subject-selection-reliability",
-      "status": "measurement_reliability_sensitivity",
-      "role": "supporting_measurement_reliability_case",
       "rows": [
         {
-          "repetitionId": "rep_6830e0689f85",
-          "baselineStatus": "limited",
-          "sensitivityStatus": "watch",
-          "baselineStrongFrames": 3,
-          "sensitivityStrongFrames": 107,
-          "dominantSideRatio": 0.757,
-          "sideSwitchRate": 0.038,
-          "segmentSideAgreement": "indeterminate"
+          "repetitionId": "rep_088a670f0e91",
+          "videoId": "vid_f7eb2a89922c",
+          "features": {
+            "peakDepthRatio": 0.6858,
+            "hipKneeVerticalGap": -0.0327,
+            "hipAngleDegrees": 84.8,
+            "kneeAngleDegrees": 44.1,
+            "ankleShankLeanDegrees": 60.1,
+            "trunkLeanDegrees": 19.3,
+            "maxKneeAnkleOffset": 0.0762
+          }
         },
         {
-          "repetitionId": "rep_d7a697f7dad0",
-          "baselineStatus": "limited",
-          "sensitivityStatus": "watch",
-          "baselineStrongFrames": 27,
-          "sensitivityStrongFrames": 102,
-          "dominantSideRatio": 0.951,
-          "sideSwitchRate": 0.099,
-          "segmentSideAgreement": "match"
+          "repetitionId": "rep_0e6f22d293cc",
+          "videoId": "vid_c99b0bc829d9",
+          "features": {
+            "peakDepthRatio": 0.612,
+            "hipKneeVerticalGap": 0.0146,
+            "hipAngleDegrees": 63.2,
+            "kneeAngleDegrees": 66.1,
+            "ankleShankLeanDegrees": 14,
+            "trunkLeanDegrees": 16.8,
+            "maxKneeAnkleOffset": 0.0367
+          }
         },
         {
-          "repetitionId": "rep_63fb86ee032d",
-          "baselineStatus": "limited",
-          "sensitivityStatus": "good",
-          "baselineStrongFrames": 30,
-          "sensitivityStrongFrames": 47,
-          "dominantSideRatio": 0.957,
-          "sideSwitchRate": 0.043,
-          "segmentSideAgreement": "match"
+          "repetitionId": "rep_18b8567a982c",
+          "videoId": "vid_b93a2900a437",
+          "features": {
+            "peakDepthRatio": 0.7547,
+            "hipKneeVerticalGap": 0.0845,
+            "hipAngleDegrees": 30.9,
+            "kneeAngleDegrees": 29.5,
+            "ankleShankLeanDegrees": 13.9,
+            "trunkLeanDegrees": 12.6,
+            "maxKneeAnkleOffset": 0.0394
+          }
+        },
+        {
+          "repetitionId": "rep_35ee72443636",
+          "videoId": "vid_846738888a71",
+          "features": {
+            "peakDepthRatio": 0.7639,
+            "hipKneeVerticalGap": 0.0411,
+            "hipAngleDegrees": 33.9,
+            "kneeAngleDegrees": 36.9,
+            "ankleShankLeanDegrees": 33.4,
+            "trunkLeanDegrees": 36.3,
+            "maxKneeAnkleOffset": 0.0497
+          }
+        },
+        {
+          "repetitionId": "rep_489b80ba8943",
+          "videoId": "vid_2c70d61afac8",
+          "features": {
+            "peakDepthRatio": 0.66,
+            "hipKneeVerticalGap": -0.0121,
+            "hipAngleDegrees": 86.3,
+            "kneeAngleDegrees": 64.9,
+            "ankleShankLeanDegrees": 32.4,
+            "trunkLeanDegrees": 11,
+            "maxKneeAnkleOffset": 0.0709
+          }
+        },
+        {
+          "repetitionId": "rep_4cd3d58d8c42",
+          "videoId": "vid_2c70d61afac8",
+          "features": {
+            "peakDepthRatio": 0.5268,
+            "hipKneeVerticalGap": -0.0641,
+            "hipAngleDegrees": 106.8,
+            "kneeAngleDegrees": 106.5,
+            "ankleShankLeanDegrees": 20.6,
+            "trunkLeanDegrees": 20.3,
+            "maxKneeAnkleOffset": 0.0478
+          }
+        },
+        {
+          "repetitionId": "rep_5fa005a42f90",
+          "videoId": "vid_0d04652e9ce7",
+          "features": {
+            "peakDepthRatio": 0.5992,
+            "hipKneeVerticalGap": 0.0296,
+            "hipAngleDegrees": 36.7,
+            "kneeAngleDegrees": 51.4,
+            "ankleShankLeanDegrees": 17.2,
+            "trunkLeanDegrees": 31.8,
+            "maxKneeAnkleOffset": 0.0354
+          }
+        },
+        {
+          "repetitionId": "rep_825e7b31ebb3",
+          "videoId": "vid_0d04652e9ce7",
+          "features": {
+            "peakDepthRatio": 0.7,
+            "hipKneeVerticalGap": 0.0447,
+            "hipAngleDegrees": 36.3,
+            "kneeAngleDegrees": 41.4,
+            "ankleShankLeanDegrees": 16.4,
+            "trunkLeanDegrees": 21.4,
+            "maxKneeAnkleOffset": 0.0327
+          }
+        },
+        {
+          "repetitionId": "rep_95314595d62a",
+          "videoId": "vid_c99b0bc829d9",
+          "features": {
+            "peakDepthRatio": 0.633,
+            "hipKneeVerticalGap": 0.0183,
+            "hipAngleDegrees": 61.2,
+            "kneeAngleDegrees": 62.4,
+            "ankleShankLeanDegrees": 15.5,
+            "trunkLeanDegrees": 16.6,
+            "maxKneeAnkleOffset": 0.0404
+          }
+        },
+        {
+          "repetitionId": "rep_a3904fdf1cd9",
+          "videoId": "vid_0d04652e9ce7",
+          "features": {
+            "peakDepthRatio": 0.7111,
+            "hipKneeVerticalGap": 0.052,
+            "hipAngleDegrees": 33.8,
+            "kneeAngleDegrees": 38.2,
+            "ankleShankLeanDegrees": 13.9,
+            "trunkLeanDegrees": 18.3,
+            "maxKneeAnkleOffset": 0.0304
+          }
+        },
+        {
+          "repetitionId": "rep_c80a95e3ac44",
+          "videoId": "vid_c99b0bc829d9",
+          "features": {
+            "peakDepthRatio": 0.6336,
+            "hipKneeVerticalGap": 0.0182,
+            "hipAngleDegrees": 61.3,
+            "kneeAngleDegrees": 61.9,
+            "ankleShankLeanDegrees": 15.9,
+            "trunkLeanDegrees": 16.5,
+            "maxKneeAnkleOffset": 0.0418
+          }
+        },
+        {
+          "repetitionId": "rep_ca0dc50a7d43",
+          "videoId": "vid_99fd3179ed7d",
+          "features": {
+            "peakDepthRatio": 0.6812,
+            "hipKneeVerticalGap": 0.0032,
+            "hipAngleDegrees": 70.4,
+            "kneeAngleDegrees": 69.8,
+            "ankleShankLeanDegrees": 17.8,
+            "trunkLeanDegrees": 17.1,
+            "maxKneeAnkleOffset": 0.0374
+          }
+        },
+        {
+          "repetitionId": "rep_ce280c79a07d",
+          "videoId": "vid_b93a2900a437",
+          "features": {
+            "peakDepthRatio": 0.7542,
+            "hipKneeVerticalGap": 0.0673,
+            "hipAngleDegrees": 42.8,
+            "kneeAngleDegrees": 35,
+            "ankleShankLeanDegrees": 15.1,
+            "trunkLeanDegrees": 7.4,
+            "maxKneeAnkleOffset": 0.0403
+          }
+        },
+        {
+          "repetitionId": "rep_ddda880013be",
+          "videoId": "vid_0d04652e9ce7",
+          "features": {
+            "peakDepthRatio": 0.7057,
+            "hipKneeVerticalGap": 0.0497,
+            "hipAngleDegrees": 35.8,
+            "kneeAngleDegrees": 41.1,
+            "ankleShankLeanDegrees": 13.4,
+            "trunkLeanDegrees": 18.6,
+            "maxKneeAnkleOffset": 0.0277
+          }
+        },
+        {
+          "repetitionId": "rep_e08d32cfb1ef",
+          "videoId": "vid_99fd3179ed7d",
+          "features": {
+            "peakDepthRatio": 0.6791,
+            "hipKneeVerticalGap": 0.0238,
+            "hipAngleDegrees": 57.2,
+            "kneeAngleDegrees": 56.5,
+            "ankleShankLeanDegrees": 17.5,
+            "trunkLeanDegrees": 16.7,
+            "maxKneeAnkleOffset": 0.0421
+          }
         }
       ],
-      "interpretation": "Subject-aware extraction recovers continuous evidence without changing the frozen scoring result."
+      "interpretation": "Depth covaries with hip and knee flexion, while ankle, trunk, and alignment evidence remain partly independent movement-strategy dimensions."
+    },
+    "aslr": {
+      "caseId": "aslr-bilateral-repeatability-series",
+      "status": "exploratory_within_source_series",
+      "role": "within_source_bilateral_repeatability",
+      "method": "four_repetition_bilateral_series_with_evidence_tiers",
+      "videoId": "vid_125a01002e26",
+      "repetitionCount": 4,
+      "blindConsensusCount": 3,
+      "historicalWeakLabelOnlyCount": 1,
+      "excludedWatchCount": 1,
+      "rows": [
+        {
+          "repetitionId": "rep_2881d183b3eb",
+          "repetitionIndex": 1,
+          "side": "left",
+          "historicalScore": 3,
+          "blindConsensusScore": 3,
+          "evidenceTier": "stable_blind_consensus",
+          "auditStatus": "good",
+          "features": {
+            "ankleAboveHip": 0.3053,
+            "peakElevation": 0.3361,
+            "stationaryKneeAngleDegrees": 161.6,
+            "stationaryAnkleDrift": 0.01,
+            "hipHeightGap": 0.018
+          }
+        },
+        {
+          "repetitionId": "rep_02eb75d9d8cd",
+          "repetitionIndex": 2,
+          "side": "left",
+          "historicalScore": 3,
+          "blindConsensusScore": 3,
+          "evidenceTier": "stable_blind_consensus",
+          "auditStatus": "good",
+          "features": {
+            "ankleAboveHip": 0.3009,
+            "peakElevation": 0.3309,
+            "stationaryKneeAngleDegrees": 174.9,
+            "stationaryAnkleDrift": 0.004,
+            "hipHeightGap": 0.0251
+          }
+        },
+        {
+          "repetitionId": "rep_f455548e040f",
+          "repetitionIndex": 4,
+          "side": "right",
+          "historicalScore": 3,
+          "blindConsensusScore": 3,
+          "evidenceTier": "stable_blind_consensus",
+          "auditStatus": "good",
+          "features": {
+            "ankleAboveHip": 0.285,
+            "peakElevation": 0.3218,
+            "stationaryKneeAngleDegrees": 162.8,
+            "stationaryAnkleDrift": 0.017,
+            "hipHeightGap": 0.0361
+          }
+        },
+        {
+          "repetitionId": "rep_36c1b75c9fcf",
+          "repetitionIndex": 5,
+          "side": "right",
+          "historicalScore": 3,
+          "blindConsensusScore": null,
+          "evidenceTier": "historical_weak_label",
+          "auditStatus": "good",
+          "features": {
+            "ankleAboveHip": 0.2758,
+            "peakElevation": 0.3166,
+            "stationaryKneeAngleDegrees": 164.5,
+            "stationaryAnkleDrift": 0.017,
+            "hipHeightGap": 0.046
+          }
+        }
+      ],
+      "sideSummaries": [
+        {
+          "side": "left",
+          "repetitionCount": 2,
+          "featureMeans": {
+            "ankleAboveHip": 0.3031,
+            "peakElevation": 0.3335,
+            "stationaryKneeAngleDegrees": 168.25,
+            "stationaryAnkleDrift": 0.007,
+            "hipHeightGap": 0.0215
+          }
+        },
+        {
+          "side": "right",
+          "repetitionCount": 2,
+          "featureMeans": {
+            "ankleAboveHip": 0.2804,
+            "peakElevation": 0.3192,
+            "stationaryKneeAngleDegrees": 163.65,
+            "stationaryAnkleDrift": 0.017,
+            "hipHeightGap": 0.0411
+          }
+        }
+      ],
+      "featureRanges": {
+        "ankleAboveHip": {
+          "count": 4,
+          "min": 0.2758,
+          "median": 0.2929,
+          "max": 0.3053,
+          "maxMinRatio": 1.11
+        },
+        "peakElevation": {
+          "count": 4,
+          "min": 0.3166,
+          "median": 0.3264,
+          "max": 0.3361,
+          "maxMinRatio": 1.06
+        },
+        "stationaryKneeAngleDegrees": {
+          "count": 4,
+          "min": 161.6,
+          "median": 163.65,
+          "max": 174.9,
+          "maxMinRatio": 1.08
+        },
+        "stationaryAnkleDrift": {
+          "count": 4,
+          "min": 0.004,
+          "median": 0.0135,
+          "max": 0.017,
+          "maxMinRatio": 4.25
+        },
+        "hipHeightGap": {
+          "count": 4,
+          "min": 0.018,
+          "median": 0.0306,
+          "max": 0.046,
+          "maxMinRatio": 2.56
+        }
+      },
+      "interpretation": "A similar active-leg result can coexist with larger side-to-side and repetition-to-repetition changes in stationary-leg and pelvic control."
     },
     "hurdle": {
-      "caseId": "hurdle-view-metadata-gate",
-      "status": "exploratory_case_view_confounded",
+      "caseId": "hurdle-score-two-pathway-taxonomy",
+      "status": "blind_same_score_thematic_case_series",
+      "role": "same_score_failure_pathway_taxonomy",
+      "method": "blind_reviewer_thematic_coding_plus_quantitative_ranges",
       "humanRawScore": 2,
-      "sourceRelation": "different_video",
-      "left": {
-        "repetitionId": "rep_40850b8084c3",
-        "videoId": "vid_b89674fb7c28",
-        "auditedCameraView": "mixed"
+      "repetitionCount": 5,
+      "sourceVideoCount": 5,
+      "pathwayCount": 4,
+      "pathways": [
+        {
+          "pathway": "multi_domain_control",
+          "label": "Multi-domain control",
+          "count": 1,
+          "repetitionIds": ["rep_02b493a8dd09"]
+        },
+        {
+          "pathway": "distal_alignment",
+          "label": "Distal alignment",
+          "count": 2,
+          "repetitionIds": ["rep_39e05034d0ad", "rep_d13daa76b8a8"]
+        },
+        {
+          "pathway": "return_phase_alignment",
+          "label": "Return-phase alignment",
+          "count": 1,
+          "repetitionIds": ["rep_40850b8084c3"]
+        },
+        {
+          "pathway": "dowel_only",
+          "label": "Dowel control only",
+          "count": 1,
+          "repetitionIds": ["rep_e60c2fea3bb1"]
+        }
+      ],
+      "rows": [
+        {
+          "repetitionId": "rep_02b493a8dd09",
+          "videoId": "vid_288bcd9a507b",
+          "cameraView": "mixed",
+          "pathway": "multi_domain_control",
+          "label": "Multi-domain control",
+          "themes": [
+            "alignment",
+            "trunk_control",
+            "support_stability",
+            "dowel_control"
+          ],
+          "features": {
+            "peakClearance": 0.2245,
+            "stepKneeLineOffset": 0.0146,
+            "trunkCenterOffset": 0.0263,
+            "hipHeightGap": 0.0125,
+            "stanceAnkleDrift": null
+          }
+        },
+        {
+          "repetitionId": "rep_39e05034d0ad",
+          "videoId": "vid_5df4331144ab",
+          "cameraView": "front",
+          "pathway": "distal_alignment",
+          "label": "Distal alignment",
+          "themes": ["alignment", "distal_ankle"],
+          "features": {
+            "peakClearance": 0.2413,
+            "stepKneeLineOffset": 0.0043,
+            "trunkCenterOffset": 0.0036,
+            "hipHeightGap": 0.0199,
+            "stanceAnkleDrift": 0.0191
+          }
+        },
+        {
+          "repetitionId": "rep_40850b8084c3",
+          "videoId": "vid_b89674fb7c28",
+          "cameraView": "mixed",
+          "pathway": "return_phase_alignment",
+          "label": "Return-phase alignment",
+          "themes": ["alignment", "return_phase"],
+          "features": {
+            "peakClearance": 0.2956,
+            "stepKneeLineOffset": 0.0435,
+            "trunkCenterOffset": 0.0023,
+            "hipHeightGap": 0.0495,
+            "stanceAnkleDrift": null
+          }
+        },
+        {
+          "repetitionId": "rep_d13daa76b8a8",
+          "videoId": "vid_624f7f9812f5",
+          "cameraView": "front",
+          "pathway": "distal_alignment",
+          "label": "Distal alignment",
+          "themes": ["alignment", "distal_ankle"],
+          "features": {
+            "peakClearance": 0.2061,
+            "stepKneeLineOffset": 0.0092,
+            "trunkCenterOffset": 0.0105,
+            "hipHeightGap": 0.0166,
+            "stanceAnkleDrift": 0.0184
+          }
+        },
+        {
+          "repetitionId": "rep_e60c2fea3bb1",
+          "videoId": "vid_82ad6608d5f9",
+          "cameraView": "front",
+          "pathway": "dowel_only",
+          "label": "Dowel control only",
+          "themes": ["dowel_control"],
+          "features": {
+            "peakClearance": 0.2225,
+            "stepKneeLineOffset": 0.0048,
+            "trunkCenterOffset": 0.0084,
+            "hipHeightGap": 0.0171,
+            "stanceAnkleDrift": 0.0078
+          }
+        }
+      ],
+      "featureRanges": {
+        "peakClearance": {
+          "count": 5,
+          "min": 0.2061,
+          "median": 0.2245,
+          "max": 0.2956,
+          "maxMinRatio": 1.43
+        },
+        "stepKneeLineOffset": {
+          "count": 5,
+          "min": 0.0043,
+          "median": 0.0092,
+          "max": 0.0435,
+          "maxMinRatio": 10.12
+        },
+        "trunkCenterOffset": {
+          "count": 5,
+          "min": 0.0023,
+          "median": 0.0084,
+          "max": 0.0263,
+          "maxMinRatio": 11.43
+        },
+        "hipHeightGap": {
+          "count": 5,
+          "min": 0.0125,
+          "median": 0.0171,
+          "max": 0.0495,
+          "maxMinRatio": 3.96
+        },
+        "stanceAnkleDrift": {
+          "count": 3,
+          "min": 0.0078,
+          "median": 0.0184,
+          "max": 0.0191,
+          "maxMinRatio": 2.45
+        }
       },
-      "right": {
-        "repetitionId": "rep_d13daa76b8a8",
-        "videoId": "vid_624f7f9812f5",
-        "auditedCameraView": "front"
-      },
-      "role": "methodological_view_metadata_case",
-      "interpretation": "A mixed-versus-front view prevents a movement-only interpretation and demonstrates the metadata gate."
+      "interpretation": "The same score-2 endpoint represents different review pathways: multi-domain control, distal alignment, return-phase alignment, or dowel control."
     },
     "rotary": {
-      "caseId": "rotary-feature-only-boundary",
-      "status": "feature_only_boundary",
-      "role": "conservative_feature_only_boundary",
-      "formalItems": 8,
-      "featureOnlyItems": 8,
-      "aiScoreAvailable": 0,
-      "interpretation": "Quantitative features are retained while an unsupported AI total score is withheld."
+      "caseId": "rotary-eight-rep-cycle-event-matrix",
+      "status": "blind_temporal_case_series",
+      "role": "temporal_cycle_event_matrix",
+      "method": "eight_repetition_event_matrix_by_blind_human_score",
+      "repetitionCount": 8,
+      "sourceVideoCount": 2,
+      "exactAiCount": 6,
+      "scoreGroups": [
+        {
+          "humanScore": 1,
+          "repetitionCount": 4,
+          "criterionStatusCounts": {
+            "firstAnkleTouch": {
+              "pass": 1,
+              "watch": 0,
+              "fail": 3,
+              "unknown": 0
+            },
+            "secondAnkleTouch": {
+              "pass": 0,
+              "watch": 0,
+              "fail": 4,
+              "unknown": 0
+            },
+            "elbowExtension": {
+              "pass": 3,
+              "watch": 1,
+              "fail": 0,
+              "unknown": 0
+            },
+            "kneeExtension": { "pass": 1, "watch": 2, "fail": 1, "unknown": 0 },
+            "returnControl": { "pass": 0, "watch": 0, "fail": 4, "unknown": 0 },
+            "simultaneousLift": {
+              "pass": 0,
+              "watch": 0,
+              "fail": 0,
+              "unknown": 4
+            }
+          },
+          "aiScoreCounts": { "1": 4, "2": 0, "3": 0 }
+        },
+        {
+          "humanScore": 2,
+          "repetitionCount": 4,
+          "criterionStatusCounts": {
+            "firstAnkleTouch": {
+              "pass": 4,
+              "watch": 0,
+              "fail": 0,
+              "unknown": 0
+            },
+            "secondAnkleTouch": {
+              "pass": 2,
+              "watch": 0,
+              "fail": 2,
+              "unknown": 0
+            },
+            "elbowExtension": {
+              "pass": 4,
+              "watch": 0,
+              "fail": 0,
+              "unknown": 0
+            },
+            "kneeExtension": { "pass": 4, "watch": 0, "fail": 0, "unknown": 0 },
+            "returnControl": { "pass": 2, "watch": 2, "fail": 0, "unknown": 0 },
+            "simultaneousLift": {
+              "pass": 0,
+              "watch": 1,
+              "fail": 1,
+              "unknown": 2
+            }
+          },
+          "aiScoreCounts": { "1": 2, "2": 2, "3": 0 }
+        }
+      ],
+      "criteria": [
+        "firstAnkleTouch",
+        "secondAnkleTouch",
+        "elbowExtension",
+        "kneeExtension",
+        "returnControl",
+        "simultaneousLift"
+      ],
+      "rows": [
+        {
+          "repetitionId": "rep_20d395710323",
+          "humanConsensusScore": 1,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "fail",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "pass",
+            "kneeExtension": "watch",
+            "returnControl": "fail",
+            "simultaneousLift": "unknown"
+          }
+        },
+        {
+          "repetitionId": "rep_31643e8b8230",
+          "humanConsensusScore": 2,
+          "aiScore": 2,
+          "criteria": {
+            "firstAnkleTouch": "pass",
+            "secondAnkleTouch": "pass",
+            "elbowExtension": "pass",
+            "kneeExtension": "pass",
+            "returnControl": "pass",
+            "simultaneousLift": "fail"
+          }
+        },
+        {
+          "repetitionId": "rep_37ba2a32f5a4",
+          "humanConsensusScore": 2,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "pass",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "pass",
+            "kneeExtension": "pass",
+            "returnControl": "watch",
+            "simultaneousLift": "unknown"
+          }
+        },
+        {
+          "repetitionId": "rep_954843723413",
+          "humanConsensusScore": 1,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "fail",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "watch",
+            "kneeExtension": "fail",
+            "returnControl": "fail",
+            "simultaneousLift": "unknown"
+          }
+        },
+        {
+          "repetitionId": "rep_d838cc49ae41",
+          "humanConsensusScore": 1,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "fail",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "pass",
+            "kneeExtension": "pass",
+            "returnControl": "fail",
+            "simultaneousLift": "unknown"
+          }
+        },
+        {
+          "repetitionId": "rep_e3e98cb9bd02",
+          "humanConsensusScore": 1,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "pass",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "pass",
+            "kneeExtension": "watch",
+            "returnControl": "fail",
+            "simultaneousLift": "unknown"
+          }
+        },
+        {
+          "repetitionId": "rep_f50edcd936eb",
+          "humanConsensusScore": 2,
+          "aiScore": 2,
+          "criteria": {
+            "firstAnkleTouch": "pass",
+            "secondAnkleTouch": "pass",
+            "elbowExtension": "pass",
+            "kneeExtension": "pass",
+            "returnControl": "pass",
+            "simultaneousLift": "watch"
+          }
+        },
+        {
+          "repetitionId": "rep_fbeb40aff62f",
+          "humanConsensusScore": 2,
+          "aiScore": 1,
+          "criteria": {
+            "firstAnkleTouch": "pass",
+            "secondAnkleTouch": "fail",
+            "elbowExtension": "pass",
+            "kneeExtension": "pass",
+            "returnControl": "watch",
+            "simultaneousLift": "unknown"
+          }
+        }
+      ],
+      "interpretation": "Cycle events separate score-1 incompletion from score-2 sequencing and boundary cases, while preserving two conservative AI review flags."
     }
+  },
+  "synthesis": {
+    "compressedInformationTypes": [
+      "continuous_joint_strategy",
+      "bilateral_and_repeatability_variation",
+      "different_failure_pathways_within_one_score",
+      "temporal_event_order_and_cycle_completion"
+    ],
+    "claim": "The ordinal score compresses different kinds of movement information; no single pairwise template can represent all four actions."
   },
   "publicationBoundary": {
     "rawMediaIncluded": false,
     "personImagesIncluded": false,
+    "reviewerRawCommentsIncluded": false,
     "diagnosticClaimsAllowed": false,
     "validatedImpairmentSubtypeClaimsAllowed": false,
     "exploratoryHumanInTheLoopFramingRequired": true
   },
-  "portfolioFingerprint": "ffcf48d105ba58ec9c86fa71ee95fc86a3d55106a1f47495a201b279ef721a32",
+  "portfolioFingerprint": "eb4d927a10d76dc77f372d1a8d5fd95eab94dd57b05eaed72dac9a84571f96cd",
   "inputs": {
     "config": {
       "path": "research/pilot-v1/phase-i-case-study-portfolio.json",
-      "sha256": "bf5e5dc9a88a76e9a58a6b81e8b91df081ae972728422cc4ee612cebb211bb83"
+      "sha256": "e55cbabb09e53d1991c0628e2c07c940da91bc1de94e48e59cee58ce8eb840aa"
+    },
+    "featureMatrix": {
+      "sha256": "f2323be6a2fd94290c94f63bf7855ab82070527c2a6a4df2f7d8f6cf90c5567a"
+    },
+    "aslrAudit": {
+      "sha256": "739eca9ad2ebd52b7e1d1626e2f2344652895ea5f58f0ae00d1ebcb4e8ae8fed"
+    },
+    "canonicalPilot": {
+      "sha256": "592347ee5bb6f320c6a060be6e0a30b4f909cfa86f05d94fad2a3f3f2e735207"
+    },
+    "roundBCloseout": {
+      "sha256": "83f3cd0b504d3d43aa6fb035977d18f7d6d7a12ccd4d760318cfa8b4cf4e079e"
+    },
+    "rotaryBenchmark": {
+      "sha256": "d8b80c5be429ac55d4d64d9f138a6a1d738c7b012757a4b6498f70181e22715b"
     }
   }
 }

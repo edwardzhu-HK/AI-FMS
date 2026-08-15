@@ -1,90 +1,133 @@
 {
-  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_config_v1",
-  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-10",
+  "schemaVersion": "ai_fms_phase_i_case_study_portfolio_config_v2",
+  "portfolioId": "ai-fms-phase-i-case-portfolio-2026-08-15",
   "outputDir": "docs/assets/phase-i-case-studies",
   "reportPath": "docs/research/phase_i_case_study_portfolio_2026-08-10.md",
   "sources": {
     "featureMatrixPath": "research/pilot-v1/generated/camera-audited-features/camera-audited-feature-matrix.json",
+    "featureMatrixSha256": "f2323be6a2fd94290c94f63bf7855ab82070527c2a6a4df2f7d8f6cf90c5567a",
     "featureMatrixFingerprint": "b78662fe61119326459453bc94315deca8b866db64159cd4e435cf2030aeae83",
-    "aslrSensitivityPath": "research/pilot-v1/generated/aslr-subject-sensitivity/aslr-subject-sensitivity.json",
-    "aslrSensitivityFingerprint": "9c82be775edc12a0aaadcf87ac5be11ccbc9124015e26b9e9d819a00476caf27",
-    "roundBAiBenchmarkPath": "research/pilot-v1/generated/round-b-evidence-manifest.json",
-    "roundBAiBenchmarkFingerprint": "ad809451d43a2fcbaf59425419aeb13b0af05b379256f98a6ad2168e3c424c76"
+    "aslrAuditPath": "research/pilot-v1/generated/aslr-side-peak-audit/aslr-side-peak-audit.json",
+    "aslrAuditSha256": "739eca9ad2ebd52b7e1d1626e2f2344652895ea5f58f0ae00d1ebcb4e8ae8fed",
+    "aslrAuditFingerprint": "f232256558818c4fc1a349581f600998eb85b5e3bd8919a7f3d02b06f2ba1467",
+    "canonicalPilotPath": "research/pilot-v1/generated/canonical-pilot.json",
+    "canonicalPilotSha256": "592347ee5bb6f320c6a060be6e0a30b4f909cfa86f05d94fad2a3f3f2e735207",
+    "roundBCloseoutPath": "research/pilot-v1/generated/round-b-closeout/round-b-closeout-analysis.json",
+    "roundBCloseoutSha256": "83f3cd0b504d3d43aa6fb035977d18f7d6d7a12ccd4d760318cfa8b4cf4e079e",
+    "rotaryBenchmarkPath": "research/pilot-v1/generated/rotary-v1-1-internal/rotary-v1-1-internal-benchmark.json",
+    "rotaryBenchmarkSha256": "d8b80c5be429ac55d4d64d9f138a6a1d738c7b012757a4b6498f70181e22715b"
   },
-  "cases": {
+  "analyses": {
     "deepSquat": {
-      "caseId": "deep-squat-same-score-profile",
-      "status": "exploratory_case_supported",
-      "humanRawScore": 2,
-      "auditedCameraView": "side",
-      "leftRepetitionId": "rep_489b80ba8943",
-      "rightRepetitionId": "rep_ce280c79a07d",
+      "caseId": "deep-squat-side-view-strategy-continuum",
+      "status": "exploratory_group_level_supported",
+      "cameraView": "side",
+      "expectedRepetitions": 15,
+      "expectedSourceVideos": 7,
+      "referenceFeature": "peakDepthRatio",
       "features": [
-        {
-          "name": "peakDepthRatio",
-          "label": "Peak depth ratio",
-          "unit": "normalized ratio",
-          "decimals": 4
-        },
-        {
-          "name": "hipKneeVerticalGap",
-          "label": "Hip-knee vertical gap",
-          "unit": "normalized height",
-          "decimals": 4
-        },
-        {
-          "name": "hipAngleDegrees",
-          "label": "Hip angle",
-          "unit": "degrees",
-          "decimals": 1
-        },
-        {
-          "name": "kneeAngleDegrees",
-          "label": "Knee angle",
-          "unit": "degrees",
-          "decimals": 1
-        },
-        {
-          "name": "ankleShankLeanDegrees",
-          "label": "Ankle-shank lean",
-          "unit": "degrees",
-          "decimals": 1
-        },
-        {
-          "name": "maxKneeAnkleOffset",
-          "label": "Knee-ankle offset",
-          "unit": "normalized width",
-          "decimals": 4
-        }
+        "hipKneeVerticalGap",
+        "hipAngleDegrees",
+        "kneeAngleDegrees",
+        "ankleShankLeanDegrees",
+        "trunkLeanDegrees",
+        "maxKneeAnkleOffset"
       ]
     },
     "aslr": {
-      "caseId": "aslr-subject-selection-reliability",
-      "status": "measurement_reliability_sensitivity",
-      "repetitionIds": [
-        "rep_6830e0689f85",
-        "rep_d7a697f7dad0",
-        "rep_63fb86ee032d"
+      "caseId": "aslr-bilateral-repeatability-series",
+      "status": "exploratory_within_source_series",
+      "videoId": "vid_125a01002e26",
+      "includedRepetitionIds": [
+        "rep_2881d183b3eb",
+        "rep_02eb75d9d8cd",
+        "rep_f455548e040f",
+        "rep_36c1b75c9fcf"
+      ],
+      "excludedWatchRepetitionIds": ["rep_fba72f13a0cb"],
+      "expectedHistoricalScore": 3,
+      "expectedBlindScoreCount": 3,
+      "features": [
+        "ankleAboveHip",
+        "peakElevation",
+        "stationaryKneeAngleDegrees",
+        "stationaryAnkleDrift",
+        "hipHeightGap"
       ]
     },
     "hurdle": {
-      "caseId": "hurdle-view-metadata-gate",
-      "status": "exploratory_case_view_confounded",
+      "caseId": "hurdle-score-two-pathway-taxonomy",
+      "status": "blind_same_score_thematic_case_series",
       "humanRawScore": 2,
-      "leftRepetitionId": "rep_40850b8084c3",
-      "rightRepetitionId": "rep_d13daa76b8a8",
-      "expectedViews": ["mixed", "front"]
+      "expectedRepetitions": 5,
+      "expectedSourceVideos": 5,
+      "pathways": [
+        {
+          "repetitionId": "rep_02b493a8dd09",
+          "pathway": "multi_domain_control",
+          "label": "Multi-domain control",
+          "themes": [
+            "alignment",
+            "trunk_control",
+            "support_stability",
+            "dowel_control"
+          ]
+        },
+        {
+          "repetitionId": "rep_39e05034d0ad",
+          "pathway": "distal_alignment",
+          "label": "Distal alignment",
+          "themes": ["alignment", "distal_ankle"]
+        },
+        {
+          "repetitionId": "rep_40850b8084c3",
+          "pathway": "return_phase_alignment",
+          "label": "Return-phase alignment",
+          "themes": ["alignment", "return_phase"]
+        },
+        {
+          "repetitionId": "rep_d13daa76b8a8",
+          "pathway": "distal_alignment",
+          "label": "Distal alignment",
+          "themes": ["alignment", "distal_ankle"]
+        },
+        {
+          "repetitionId": "rep_e60c2fea3bb1",
+          "pathway": "dowel_only",
+          "label": "Dowel control only",
+          "themes": ["dowel_control"]
+        }
+      ],
+      "features": [
+        "peakClearance",
+        "stepKneeLineOffset",
+        "trunkCenterOffset",
+        "hipHeightGap",
+        "stanceAnkleDrift"
+      ]
     },
     "rotary": {
-      "caseId": "rotary-feature-only-boundary",
-      "status": "feature_only_boundary",
-      "expectedFormalItems": 8,
-      "expectedAiScoreAvailable": 0
+      "caseId": "rotary-eight-rep-cycle-event-matrix",
+      "status": "blind_temporal_case_series",
+      "expectedRepetitions": 8,
+      "expectedHumanScoreCounts": {
+        "1": 4,
+        "2": 4
+      },
+      "criteria": [
+        "firstAnkleTouch",
+        "secondAnkleTouch",
+        "elbowExtension",
+        "kneeExtension",
+        "returnControl",
+        "simultaneousLift"
+      ]
     }
   },
   "publicationBoundary": {
     "rawMediaIncluded": false,
     "personImagesIncluded": false,
+    "reviewerRawCommentsIncluded": false,
     "diagnosticClaimsAllowed": false,
     "validatedImpairmentSubtypeClaimsAllowed": false,
     "exploratoryHumanInTheLoopFramingRequired": true

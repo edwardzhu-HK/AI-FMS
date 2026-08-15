@@ -44,26 +44,25 @@ movement profiles to an ordinal screening score.
   feature 缺口。
 - 让锁定的 Phase I AI 通过与盲评隔离的路径分析同一批正式样本，完成人工一致性与
   AI-human agreement 的平行 benchmark，并审计历史标签的可复用范围。
-- 选定四个同分定量案例，分别展示 Deep Squat 深度与关节策略、ASLR 固定腿与骨盆
-  控制、Hurdle clearance 与对线组合、Rotary 完整周期差异；另保留测量 QA 图表。
+- 从完整 110-rep pool 建立四种差异化研究：Deep Squat 15-rep 侧视连续谱、ASLR
+  同源 bilateral repeatability series、Hurdle 五条盲评 2 分的 pathway taxonomy，
+  以及 Rotary 八-rep full-cycle event matrix；另保留 measurement QA。
 
 ## 最有意义的发现
 
-两条 Deep Squat 都因脚跟垫板获得人工 2 分，但 pose parameters 显示它们的深度、髋膝
-角度、踝-胫策略和膝踝 offset 明显不同。其他三个动作也出现了方向一致但证据强度较弱
-的支持性案例：ASLR 同为 3 分且活动腿高度近似，固定腿和骨盆参数不同；Hurdle Step
-同为 2 分，对线问题伴随不同 clearance、膝线和躯干位移组合；Rotary Stability 同为
-2 分，完整周期中的第二次触踝、伸展、回位和躯干旋转不同。
+研究显示，0-3 分压缩的不只是更多角度。15 条 Deep Squat 侧视 rep 显示，深度与髋膝
+屈曲形成连续轴，但踝、躯干和对线策略不能由深度自动推断。ASLR 同源四-rep 序列显示，
+active height 变化较小，固定踝漂移和骨盆 gap 却变化更大。五条来自五个视频的 Hurdle
+盲评 2 分形成四种 review pathway。Rotary 的八-rep event matrix 则显示，第二次触踝、
+回位和动作时序必须放在完整周期中解释。
 
 这说明 AI-FMS 的价值不是把一个 2 分改成另一个分数，而是让 reviewer 看见：
 
-> 相同 FMS RAW SCORE 背后，可能存在不同的动作完成程度和 movement strategy。
+> FMS 分数可能压缩连续动作策略、左右与重复性、规则扣分路径和时间事件顺序；
+> AI-FMS 把这些信息恢复成可检查、可继续验证的 movement evidence。
 
-这些差异的意义不只在于多记录几个角度。它们可以提示不同的活动度、稳定性、协调和
-代偿方向：例如，同样达到 ASLR 3 分，一条 rep 可能更多伴随固定腿代偿，另一条则更多
-呈现骨盆控制变化；同样得到 Rotary 2 分，一条可能依赖躯干旋转完成周期，另一条可能更
-受对侧协调和回位控制限制。这些都是可以通过后续专项动作继续检验的运动科学假设，
-不是医学诊断或已确认的功能障碍。
+这些结果可以提示不同的 mobility、stability、coordination、repeatability 和
+compensation follow-up，但不是医学诊断或已确认的功能障碍。
 
 另一个重要结果是有边界的：两位 reviewer 在第二轮的 26 条可评分记录中全部同分，
 而锁定的 Phase I AI 在 25 条可比较记录中与人工完全同分 16 条、23 条相差不超过 1 分。
@@ -90,7 +89,7 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 | Historical audited weak labels       |    18 confirmed among 25 stable consensus |
 | ASLR side/peak evidence audit        | 16 windows：11 good / 2 watch / 3 limited |
 | ASLR subject-aware sensitivity       |              3 limited → 1 good / 2 watch |
-| Application case portfolio           |                       4 cases / 2 figures |
+| Application case portfolio           |                    4 analyses / 4 figures |
 | Automated quality gate               |     Full test suite + 3 production builds |
 
 ## 我的角色
@@ -118,16 +117,18 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 - Reconstructed a four-movement pilot with 28 source videos and 110 repetitions;
   completed a balanced two-round, 32-repetition blinded reviewer study with
   stable IDs, append-only events, and SHA-256 validation.
-- Analyzed 66 feature-ready repetitions and showed how identical ordinal FMS
-  scores can contain different quantitative movement profiles, while documenting
-  why the current AI rules are not a replacement for trained reviewers.
+- Analyzed 66 feature-ready repetitions using a movement-strategy continuum,
+  bilateral repeatability series, blind-review pathway taxonomy, and cycle-event
+  matrix, while documenting why the current AI rules are not a replacement for
+  trained reviewers.
 
 ## 60-Second Interview Version
 
 我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。传统 FMS 最终给 0-3 分，但
-同分动作可能以不同方式完成。我先做了一个可用的视频审核平台，然后用 MediaPipe 把
-动作变成角度、相对距离和稳定性参数。项目后来形成了 28 个视频、110 个 reps 的四动作
-pilot，并完成 32 条双人、双轮 blind review。第二轮中人工在共同可评分的 26 条上
+一个 0-3 分还会压缩左右差异、重复性、扣分原因和完整动作顺序。我先做了一个可用的
+视频审核平台，然后用 MediaPipe 把动作变成角度、相对距离、稳定性和周期事件。项目
+后来形成了 28 个视频、110 个 reps 的四动作 pilot，并完成 32 条双人、双轮 blind
+review。第二轮中人工在共同可评分的 26 条上
 完全一致；锁定的 Phase I AI 在 25 条可比较记录中完全匹配 16 条，23 条相差不超过 1 分。
 它没有证明 AI 能替代人，反而让我更清楚地看到 protocol metadata、pose tracking、
 动态 feature 和 held-out validation 的边界。这个项目最重要的成果，是把运动经验、

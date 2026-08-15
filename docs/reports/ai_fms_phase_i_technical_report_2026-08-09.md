@@ -34,17 +34,18 @@ review consistency and moderate exploratory AI-human concordance, but they do
 not constitute external or clinical validation.
 
 The scientific contribution is not limited to reproducing an ordinal score.
-Pose-derived angles, normalized distances, trajectories, side evidence, and
-cycle-level events preserve information compressed by the traditional 0-3 FMS
-scale. Same-score contrasts showed differences in Deep Squat depth and joint
-strategy, ASLR stationary-leg and pelvic control, Hurdle Step clearance and
-alignment, and Rotary Stability trunk rotation and cycle completion. AI-FMS
-therefore contributes an auditable bridge from ordinal scores to continuous
-movement evidence and testable hypotheses about mobility, stability,
-coordination, and compensation patterns. These hypotheses require targeted
-follow-up assessment and are not diagnoses. Human oversight and explicit
-abstention remain necessary when the available video does not support a
-reliable suggestion.
+Four movement-specific analyses recovered four different kinds of information
+compressed by the traditional 0-3 FMS scale. A 15-repetition Deep Squat
+side-view analysis separated the depth/flexion continuum from partly
+independent ankle, trunk, and alignment strategies. A four-repetition ASLR
+series exposed bilateral and repeatability differences. Five independently
+reviewed Hurdle Step score-2 repetitions followed four distinct review
+pathways. An eight-repetition Rotary Stability event matrix showed why temporal
+order and cycle completion cannot be reduced to a peak frame. AI-FMS therefore
+creates an auditable bridge from ordinal scores to movement-specific evidence
+and testable hypotheses about mobility, stability, coordination,
+repeatability, and compensation. These hypotheses require targeted follow-up
+assessment and are not diagnoses.
 
 ## 摘要
 
@@ -63,14 +64,13 @@ canonical pilot，其中 66 条通过 pose 与 timing quality gate。研究从�
 16 条完全一致，23 条相差不超过 1 分。该结果支持较高的内部人工一致性和中等程度的
 探索性 AI-human concordance，但不构成外部或临床验证。
 
-本项目的研究价值不只是重现一个 0-3 分，而是恢复 ordinal score 压缩掉的连续动作
-信息。同分案例显示，Deep Squat 可在深度和关节策略上不同，ASLR 可在固定腿与骨盆
-控制上不同，Hurdle Step 可在 clearance 与对线组合上不同，Rotary Stability 可在
-躯干旋转和动作周期完整度上不同。更重要的是，这些差异可以形成关于 mobility、
-stability、coordination 和 compensation pattern 的可检验假设，为后续定向复核提供
-依据。它们不是医学诊断，也不能仅凭视频参数确定具体功能障碍。AI-FMS 因而建立了一条
-从人工 ordinal judgment 到连续 quantitative evidence，再到待验证运动科学假设的
-可审计路径，同时在证据不足时保留人工复核和主动拒判。
+本项目的研究价值不只是重现一个 0-3 分，而是恢复 ordinal score 以不同方式压缩掉的
+动作信息。本研究没有把四个动作都写成机械的两-rep 对比：Deep Squat 使用 15 条侧视
+rep 研究动作策略连续谱；ASLR 使用同源四-rep 序列研究左右侧和重复性；Hurdle Step
+对五条独立盲评 2 分进行 review-pathway 编码；Rotary Stability 使用八-rep event
+matrix 研究完整周期。四种分析分别恢复连续关节策略、双侧与重复性、同分扣分路径和
+事件顺序信息，并形成关于 mobility、stability、coordination、repeatability 与
+compensation 的可检验假设。它们不是医学诊断，也不能仅凭视频参数确定具体功能障碍。
 
 ## 1. 背景与动机
 
@@ -290,142 +290,134 @@ time 可作流程描述，但本研究没有设置 AI-evidence exposure 组，�
 
 ## 6. Quantitative Movement Findings
 
-这一部分是 Phase I 的主要研究输出。它不只问“AI 是否给对了分”，而是研究连续 pose
-parameters 能否揭示 ordinal score 没有表达的动作差异。四个案例均优先选择人工分数
-稳定、pose/timing 可用且机位可解释的同分 rep；测量失败与技术限制移至第 9 节讨论。
+这一部分是 Phase I 的主要研究输出。分析从 110-rep canonical pool 出发，但不把每个
+动作都强行压成“两条同分 rep 的对比”。不同动作压缩的信息类型不同，因此研究问题、
+分析单位和方法也应不同。
 
-### 6.1 总体发现：同分不等于同一种动作完成方式
+### 6.1 四个动作，四种研究问题
 
-对 66 条 feature-ready reps 的 label-free analysis 显示，部分相同 action-score
-strata 跨越多个 quantitative profiles。但这些分组仍受到 singleton、source-video
-signature 和独立来源不足影响，因此当前最稳妥的结论不是“发现了新的障碍分类”，而是：
+| 动作             | 研究问题                               | 方法                                                 | 分析单位              |
+| ---------------- | -------------------------------------- | ---------------------------------------------------- | --------------------- |
+| Deep Squat       | 深度是否决定完整动作策略？             | 侧视连续谱与 rank correlation                        | 15 reps / 7 videos    |
+| ASLR             | 同一结果在左右侧和重复动作中是否稳定？ | 同源 bilateral repeatability series                  | 4 good reps           |
+| Hurdle Step      | 同为 2 分是否因为同一种问题？          | blind reviewer thematic coding + quantitative ranges | 5 reps / 5 videos     |
+| Rotary Stability | 单帧参数能否表达复杂动作顺序？         | full-cycle event matrix                              | 8 blind-reviewed reps |
 
-> 相同 FMS RAW SCORE 内部可以存在连续、多维的 movement-strategy differences；
-> AI-FMS 能将这些差异保存为可检查的定量证据。
+四种方法仍遵守同一解释边界：先报告 observed evidence，再描述 movement pattern，最后
+提出需要专项动作或专业评估确认的 functional hypothesis；不能从 2D pose 直接跳到疾病、
+伤病风险或确诊功能障碍。
 
-本报告按以下四层解释证据，避免停留在参数罗列，也避免从视频直接跳到诊断：
+### 6.2 Deep Squat：动作策略是连续谱，不是两个模板
 
-| 层次                     | 本研究可以回答什么                                                        | 证据边界                           |
-| ------------------------ | ------------------------------------------------------------------------- | ---------------------------------- |
-| 1. Observed feature      | 哪些角度、相对距离、轨迹或周期事件不同                                    | Pose-derived proxy，不是临床量角器 |
-| 2. Movement profile      | 动作更多依赖哪种深度、对线、稳定、协调或代偿策略                          | 对动作方式的可重复描述             |
-| 3. Functional hypothesis | 可能优先复核 mobility、stability、coordination 或 compensation 的哪个环节 | 需要专项动作或专业评估确认         |
-| 4. Diagnostic claim      | 是否存在具体疾病、损伤风险或已确诊功能障碍                                | 本研究不能回答                     |
+从 31 条 feature-ready Deep Squat 中，保留 15 条审计后 side-view rep，覆盖 7 个源
+视频。分析不使用人工分数，以 `peakDepthRatio` 为连续参考轴，并同时计算 rep-level
+Spearman correlation 与按源视频取 median 后的 sensitivity：
 
-因此，下列案例中的“可能提示”是面向下一步检查的 hypothesis，不是对参与者作医学或
-功能障碍诊断。
+| Feature vs depth        | Rep-level ρ | Source-median ρ | 解释                                       |
+| ----------------------- | ----------: | --------------: | ------------------------------------------ |
+| `hipKneeVerticalGap`    |       0.700 |           0.750 | 深度增加时髋部相对膝部更低                 |
+| `hipAngleDegrees`       |      -0.689 |          -0.821 | 深度与髋屈曲方向一致                       |
+| `kneeAngleDegrees`      |      -0.850 |          -0.929 | 深度与膝屈曲关系最稳定                     |
+| `ankleShankLeanDegrees` |      -0.204 |          -0.107 | 与深度关系较弱，保留独立踝策略信息         |
+| `trunkLeanDegrees`      |      -0.050 |           0.464 | rep 与 source 层方向不稳定，受来源影响明显 |
+| `maxKneeAnkleOffset`    |      -0.118 |          -0.214 | 与深度关系较弱，保留独立对线信息           |
 
-### 6.2 Deep Squat：同分动作的深度和关节策略不同
+这个结果比两条 case 的差异更深一层：深度、髋屈曲和膝屈曲形成较清楚的连续轴，但踝策略、
+躯干策略和膝踝对线不能由“蹲得更深”自动推断。也就是说，一个更深的 Deep Squat 未必在
+所有 movement-quality 维度上都采用同一种策略。
 
-两条来自不同源视频、审计后均为 side view、使用 heels-elevated board 的 Deep Squat
-rep，均由两位 reviewer 判为 RAW SCORE 2：
+**运动科学含义：** 后续复核不应只问“深度够不够”，还应分别观察踝背屈贡献、躯干控制
+和膝踝对线。当前数据支持这些维度可被分开测量，不支持把某个 profile 直接命名为某种
+关节活动度障碍。
 
-| Feature                 |  Case A | Case B | 观察                      |
-| ----------------------- | ------: | -----: | ------------------------- |
-| `peakDepthRatio`        |  0.6600 | 0.7542 | Case B 完成深度更大       |
-| `hipKneeVerticalGap`    | -0.0121 | 0.0673 | Case B 髋部相对膝部更低   |
-| `hipAngleDegrees`       |    86.3 |   42.8 | 两条髋屈曲策略明显不同    |
-| `kneeAngleDegrees`      |    64.9 |   35.0 | 两条膝屈曲策略明显不同    |
-| `ankleShankLeanDegrees` |    32.4 |   15.1 | 下肢推进策略不同          |
-| `maxKneeAnkleOffset`    |  0.0709 | 0.0403 | Case A 的膝踝 offset 更大 |
+![Deep Squat strategy continuum](../assets/phase-i-case-studies/deep-squat-strategy-continuum.svg)
 
-FMS 规则正确地把两条垫板动作归为 2 分；AI-FMS 的增量价值是进一步描述两条动作的
-完成程度和 movement strategy，而不是推翻人工分数。该案例是当前最成熟的“同分异型”
-研究输出。
+### 6.3 ASLR：从单次高度转向左右侧与重复性
 
-**探索性功能解释：** Case A 以更大的小腿前倾和膝踝 offset 完成较浅的深度，Case B
-则以更充分的髋膝屈曲完成更深位置。这个组合可能提示两条动作在踝、膝、髋协同活动度与
-躯干/下肢控制策略上的受限环节不同；仅凭这些 2D 参数不能断言某个关节存在特定活动度
-缺陷，但可以指导后续分别检查踝背屈、髋膝屈曲和躯干控制。
+一个五-rep 源视频中，四条通过 `good` side/peak gate，一条 `watch` 被排除。四条 good
+rep 均保留历史 3 分；其中三条另有稳定 blind consensus，剩余一条为 historical
+weak-label evidence：
 
-![Deep Squat same-score movement profile](../assets/phase-i-case-studies/deep-squat-same-score.svg)
+| Rep     | Active height | Stationary knee | Stationary ankle drift | Pelvic gap | Label evidence         |
+| ------- | ------------: | --------------: | ---------------------: | ---------: | ---------------------- |
+| left 1  |        0.3053 |           161.6 |                 0.0100 |     0.0180 | stable blind consensus |
+| left 2  |        0.3009 |           174.9 |                 0.0040 |     0.0251 | stable blind consensus |
+| right 1 |        0.2850 |           162.8 |                 0.0170 |     0.0361 | stable blind consensus |
+| right 2 |        0.2758 |           164.5 |                 0.0170 |     0.0460 | historical weak label  |
 
-[打开原图：Deep Squat same-score profile](../assets/phase-i-case-studies/deep-squat-same-score.svg)
+四条 active height 仅跨 0.2758–0.3053，peak elevation 仅跨约 6%；但 stationary
+ankle drift 跨 4.25 倍，pelvic gap 跨 2.56 倍。按侧别取平均后，右侧 active height
+低约 7.5%，stationary ankle drift 约为左侧的 2.4 倍，pelvic gap 约为 1.9 倍。
 
-### 6.3 ASLR：同为 3 分，活动腿高度相近但固定腿控制不同
+这项分析不再问“哪两条 3 分不一样”，而是问：同一个人、同一次拍摄中，目标高度、左右
+侧差异和控制稳定性是否同步。当前序列提示，相近的 ASLR 结果可以伴随更明显的固定腿与
+骨盆控制变化。
 
-两条 ASLR rep 来自同一源视频、同一左侧动作，两轮盲评中两位 reviewer 均判为
-RAW SCORE 3；side/peak evidence gate 均为 `good`。它们的活动腿高度几乎相同，但
-固定腿与骨盆参数并不相同：
+**运动科学含义：** 后续可优先复核 bilateral posterior-chain mobility、固定腿伸展保持、
+lumbopelvic stability 和 rep-to-rep consistency。由于只有一个来源且一条右侧 rep
+仍是 weak label，这里是定向采集假设，不是已确认的左右功能障碍。
 
-| Feature                      | Case A | Case B | 观察                                   |
-| ---------------------------- | -----: | -----: | -------------------------------------- |
-| `ankleAboveHip`              | 0.3009 | 0.3053 | 活动踝高度几乎相同                     |
-| `peakElevation`              | 0.3309 | 0.3361 | 峰值抬升幅度几乎相同                   |
-| `stationaryKneeAngleDegrees` |  174.9 |  161.6 | Case B 固定腿屈曲更多，约相差 13.3°    |
-| `stationaryAnkleDrift`       | 0.0040 | 0.0100 | Case B 固定踝漂移约为 Case A 的 2.5 倍 |
-| `hipHeightGap`               | 0.0251 | 0.0180 | Case A 左右骨盆高度差更大              |
+![ASLR bilateral repeatability](../assets/phase-i-case-studies/aslr-bilateral-repeatability.svg)
 
-FMS 3 分正确记录了两条动作都达到 active-leg height 的规则要求；连续参数进一步显示，
-一次动作以更直、更安静的固定腿完成，另一次固定腿屈曲和位移更多，而两次骨盆高度差的
-方向又不完全相同。因此它们不能简单排成“一个全面优于另一个”，但可以被描述为不同的
-movement-control profiles。
+### 6.4 Hurdle Step：同为 2 分，却有四条不同扣分路径
 
-**探索性功能解释：** 两条 rep 达到相近活动腿高度的路径不同：Case B 更多伴随固定腿
-屈曲和踝位移，Case A 则呈现更大的骨盆高度差。这可能代表“固定腿代偿”与“骨盆控制
-变化”两种不同的 movement-control pattern，并提示后续分别复核固定腿伸展保持、
-lumbopelvic stability 与后侧链活动度；当前证据不能把差异单独归因于 hamstring
-flexibility。
+Round B 中有五条来自五个不同视频的 Hurdle rep 被两位 reviewer 一致判为 2 分。对
+blind comments 进行结构化主题编码，再连接 pose-derived ranges 后，得到四种 pathway：
 
-这是同一来源内的重复动作对照，减少了人物、机位和设备差异，但不构成独立样本复制。
-原 ASLR subject-selection audit 仍是重要的质量控制证据，已移至 measurement
-limitations，不再作为本节的主案例。
+| Pathway                | Reps | Blind observation pattern                            | Quantitative context                       |
+| ---------------------- | ---: | ---------------------------------------------------- | ------------------------------------------ |
+| Multi-domain control   |    1 | 对线、躯干、支撑腿和 dowel 同时出现问题              | trunk offset 0.0263，接近五条中的最高值    |
+| Distal alignment       |    2 | 躯干与支撑腿稳定，但膝踝/脚踝内移                    | clearance 0.2061–0.2413，trunk offset 较低 |
+| Return-phase alignment |    1 | 峰值阶段可完成，收腿阶段出现膝踝对线变化             | clearance 0.2956，为五条最高               |
+| Dowel control only     |    1 | 下肢对线、躯干和支撑腿稳定，主要问题为杆与栅栏不平行 | clearance 0.2225，trunk offset 0.0084      |
 
-### 6.4 Hurdle Step：同为 2 分，对线问题背后的参数组合不同
+这五条动作的 `peakClearance` 跨 1.43 倍，`stepKneeLineOffset` 跨 10.12 倍，
+`trunkCenterOffset` 跨 11.43 倍。更关键的发现并不是这些倍数，而是一个 2 分不能说明
+“为什么是 2 分”：有人是多领域稳定问题，有人是远端动态对线，有人只在回收阶段出现，
+还有一条主要是 dowel control。
 
-两条 Hurdle Step rep 来自不同源视频，均为审计确认的 `front` view。两轮盲评中两位
-reviewer 均以 high confidence 判为 RAW SCORE 2，并都记录了髋、膝、踝对线丢失和
-脚踝内移，同时认为躯干与支撑腿总体稳定。
+**运动科学含义：** 不同 pathway 对应不同 follow-up priority，例如单腿稳定与躯干控制、
+膝踝动态对线、回收阶段控制或上肢/dowel task execution。主题编码来自 reviewer 的盲评
+观察，不是自动生成的病因标签。
 
-| Feature              | Case A | Case B | 观察                                         |
-| -------------------- | -----: | -----: | -------------------------------------------- |
-| `peakClearance`      | 0.2413 | 0.2061 | Case A 的跨越高度约高 17%                    |
-| `stepKneeLineOffset` | 0.0043 | 0.0092 | Case B 峰值膝线 offset 约为 Case A 的 2.1 倍 |
-| `trunkCenterOffset`  | 0.0036 | 0.0105 | Case B 躯干中心位移约为 Case A 的 2.9 倍     |
-| `hipHeightGap`       | 0.0199 | 0.0166 | Case A 骨盆高度差略大                        |
-| `stanceAnkleDrift`   | 0.0191 | 0.0184 | 两条支撑踝漂移接近                           |
+![Hurdle score-two pathways](../assets/phase-i-case-studies/hurdle-score2-pathways.svg)
 
-人工评分把两条动作都归入 2 分是合理的；定量 panel 则显示，同一种定性扣分可以伴随不同
-的 clearance、峰值膝线、躯干位移和骨盆组合。当前特征尚不能完整表示 reviewer 观察到的
-恢复阶段脚踝内移，因此本案例支持“同分下存在不同参数组合”，不支持判断哪个参数是造成
-2 分的唯一原因。
+### 6.5 Rotary Stability：八条 rep 的周期事件矩阵
 
-**探索性功能解释：** Case A 更偏向“跨越高度较大、但仍出现骨盆高度变化”的策略，
-Case B 则同时呈现较低 clearance、较大的膝线和躯干偏移。这可能提示两条 2 分动作的
-主要受限方向不同：前者更值得复核单腿骨盆稳定，后者更值得复核摆动腿 clearance、
-动态对线和躯干控制。它们是 follow-up priorities，不是已经确认的单一病因。
+Rotary 不是峰值姿势问题，而是 setup、第一次触踝、伸展、第二次触踝、回位和离地时序
+组成的完整事件链。八条 blind-reviewed rep 包含四条人工 1 分和四条人工 2 分：
 
-### 6.5 Rotary Stability：同为 2 分，周期完成质量不同
+| Human score | First touch     | Second touch    | Elbow extension  | Knee extension            | Return control   | AI scores                |
+| ----------: | --------------- | --------------- | ---------------- | ------------------------- | ---------------- | ------------------------ |
+|           1 | 1 pass / 3 fail | 4 fail          | 3 pass / 1 watch | 1 pass / 2 watch / 1 fail | 4 fail           | 4 × score 1              |
+|           2 | 4 pass          | 2 pass / 2 fail | 4 pass           | 4 pass                    | 2 pass / 2 watch | 2 × score 2；2 × score 1 |
 
-两条 Rotary Stability rep 来自同一源视频、同一侧面动作，两轮盲评中两位 reviewer
-均判为 RAW SCORE 2。人工记录相同：手膝未同时离地，手指触及外踝，肘膝完成伸展，
-但侧面机位难以确认是否始终与板平行。完整周期参数进一步显示两条动作并不相同：
+人工 1 分组在第二次触踝和回位上呈现一致的 cycle-completion failure。人工 2 分组则不是
+一个整齐类型：两条主要保留 sequencing/timing 问题，另外两条在第二次触踝和回位上仍有
+边界证据，因此 AI 保守提示 1 分并要求回看。
 
-| Cycle evidence          | Case A | Case B | 观察                                 |
-| ----------------------- | -----: | -----: | ------------------------------------ |
-| `trunkTwistDegrees`     |   70.9 |    4.9 | 躯干旋转幅度差异明显                 |
-| `firstTouchDistance`    |  0.614 |  0.401 | 两条第一次触踝 proxy 均较接近        |
-| `secondTouchDistance`   |  0.635 |  2.152 | Case B 第二次触踝 proxy 明显更远     |
-| `elbowExtensionDegrees` |  171.6 |  163.1 | Case A 肘伸展更充分                  |
-| `kneeExtensionDegrees`  |  168.0 |  153.5 | Case A 膝伸展更充分                  |
-| `returnError`           |  0.124 |  0.649 | Case B 回位误差约为 Case A 的 5.2 倍 |
+**运动科学含义：** Rotary 隐藏的信息不是某一个角度，而是 contralateral coordination、
+动作顺序、完整伸展、触踝和回位控制之间的组合。八条结果说明 temporal evidence 可以
+把“无法完成周期”和“完成但时序/细节不足”分开；但只有两个源视频，不能把频率外推到
+人群。
 
-传统 2 分保留了规则层面的结果；cycle-level evidence 则恢复了第二次触踝、肘膝伸展、
-回位和躯干旋转等过程差异。AI 对 Case A 建议 2 分、对 Case B 保守建议 1 分，这里不把
-AI 的分数当作更正确的答案，而把差异视为值得 reviewer 回看完整周期的定量提示。
+![Rotary cycle event matrix](../assets/phase-i-case-studies/rotary-cycle-event-matrix.svg)
 
-**探索性功能解释：** Case A 较好地完成触踝、伸展和回位，但伴随更大的躯干旋转；
-Case B 躯干旋转较小，却在第二次触踝、肘膝伸展和回位上明显不足。前者可能更依赖躯干
-旋转代偿，后者可能更受对侧肢体协调、周期顺序或回位控制限制。这种 trade-off 是单一
-2 分无法表达的，也必须通过正面机位和专项复核确认。
+### 6.6 跨案例综合：分数压缩的是四种不同信息
 
-四个案例的证据强度并不完全相同：Deep Squat 是跨视频、同机位且规则来源清楚的主案例；
-ASLR 与 Rotary 是同来源内的控制性对照；Hurdle 是跨视频、同机位的支持性案例。它们
-共同支持“同分不等于同一种动作完成方式”，但都不能被命名为经过验证的功能障碍亚型。
-它们进一步给出的不是四个诊断标签，而是四组可被新机位、专项动作或专业评估继续检验的
-movement hypotheses。
+| 动作             | 被压缩的信息                   | AI-FMS 恢复的研究对象              |
+| ---------------- | ------------------------------ | ---------------------------------- |
+| Deep Squat       | 连续关节贡献与动作策略         | 深度轴与踝、躯干、对线等独立维度   |
+| ASLR             | 左右侧差异与重复动作稳定性     | bilateral profile 与 repeatability |
+| Hurdle Step      | 到达同一分数的不同扣分原因     | review pathway 与定向 follow-up    |
+| Rotary Stability | 事件顺序、周期完整度和边界证据 | cycle-level temporal evidence      |
 
-### 6.6 历史数据如何继续产生价值
+因此，本阶段最有价值的发现不应被压缩成“同分参数不同”这一句话。更完整的结论是：
+
+> FMS 0-3 分可能同时压缩连续动作策略、左右与重复性、规则扣分路径以及时间事件顺序；
+> AI-FMS 的价值是按动作特性恢复这些不同类型的信息，并把它们转成可检验的后续问题。
+
+### 6.7 历史数据如何继续产生价值
 
 32 条正式样本还用于审计历史评分，而不是把旧数据丢弃。25 条在两次盲评中保持稳定
 数值共识，其中 18 条与历史标签完全一致，6 条稳定不一致，1 条历史分数缺失。由此：
@@ -493,9 +485,14 @@ Overall linear weighted kappa 为 0.4917，quadratic weighted kappa 为 0.5247�
 - 没有人口统计、consent registry、clinical outcome 或 injury labels；
 - 2D pose 受视角、遮挡、透视、服装和 source-video signature 影响；
 - AI rules 与部分公开视频存在开发重叠，当前结果不是 held-out test；
+- Deep Squat continuum 的 15 条 rep 嵌套于 7 个视频；source-median sensitivity
+  减少但没有消除来源效应，也没有进行独立显著性检验；
 - ASLR 的 subject-aware extraction 尚未在独立多人视频验证；
+- ASLR bilateral series 只有一个来源，且四条中一条只有 historical weak label；
 - Hurdle Step 仍缺少完整 dynamic trajectory 和 dowel orientation；
+- Hurdle pathway 是对五条 blind comments 的结构化人工主题编码，不是自动或临床分类；
 - Rotary Stability 的触踝、board alignment 和 clearing 仍需要人工证据；
+- Rotary event matrix 只有两个源视频，不能把事件频率外推到总体人群；
 - Deep Squat 依赖完整 staged protocol，缺少 follow-up attempt 时必须 abstain；
 - 当前 quantitative profiles 不能命名为 validated impairment subtypes；
 - 双轮评审均为 blind human review，没有直接测量 AI evidence 对 reviewer 效率、
@@ -511,7 +508,7 @@ Overall linear weighted kappa 为 0.4917，quadratic weighted kappa 为 0.5247�
 - 七个动作均具备 first-pass pose-based AI suggestion，并允许证据不足时 abstain；
 - 完成四动作 canonical pilot、双轮盲评和探索性 AI-human comparison；
 - 保存连续 quantitative movement evidence 和完整 lineage；
-- 发现相同 FMS 分数内部的可量化差异，以及影响测量可靠性的关键条件。
+- 使用动作特异性方法恢复连续策略、双侧与重复性、同分扣分路径和时间事件信息。
 
 不能主张：
 
@@ -526,18 +523,19 @@ Overall linear weighted kappa 为 0.4917，quadratic weighted kappa 为 0.5247�
 AI-FMS Phase I 已从单一动作 demo 发展为一个覆盖七动作、连接产品功能、数据治理、
 人工审核、pose evidence 和研究输出的完整平台。它首先改善人工 FMS 在远程审核、
 回放、定量观察和信息保留方面的工作条件；随后通过四动作 pilot 验证人工流程的内部
-一致性，并评估 first-pass AI 与人工共识的关系；最后用定量案例说明，相同 ordinal
-score 背后可以存在不同的动作完成程度和 movement strategy。
+一致性，并评估 first-pass AI 与人工共识的关系；最后用四种动作特异性分析说明，
+ordinal score 会分别压缩连续策略、左右与重复性、扣分路径和事件顺序。
 
 现阶段最有价值的成果有三个：
 
 1. 建立了七动作统一、可运行、可追溯的人机协同系统；
 2. 建立了双轮人工盲评、锁定 AI comparison 和完整数据 lineage；
-3. 找到了从“给出 0-3 分”进一步走向“解释动作如何完成”的研究路径。
+3. 找到了从“给出 0-3 分”进一步走向“解释动作策略、稳定性、路径和周期”的研究路径。
 
 下一阶段应围绕研究发现而不是盲目扩大数据量：
 
-1. 深化 Deep Squat、ASLR、Hurdle Step 和 Rotary Stability 的案例分析与可视化；
+1. 使用新的独立视频检验 Deep Squat continuum、ASLR bilateral profile、Hurdle
+   pathway 和 Rotary event matrix 是否可复制；
 2. 优先采集能够回答明确问题的 held-out 视频：ASLR 主体与峰值、Hurdle 完整轨迹与
    dowel、Rotary 清晰触踝与 board alignment；
 3. 使用新的独立来源验证锁定 AI，而不继续用正式 32 条调参；
@@ -546,5 +544,6 @@ score 背后可以存在不同的动作完成程度和 movement strategy。
 6. 完成公开素材 rights/privacy audit、demo video 和最终 application package。
 
 Phase I 的结论不是“AI 已经取代 FMS reviewer”，而是：AI-FMS 已经证明，人工 ordinal
-judgment 可以与连续、可解释、可追溯的 movement evidence 放在同一套工作流中。这为
-更精细的动作理解、后续验证和负责任的 sports technology research 建立了基础。
+judgment 可以与连续、可解释、可追溯的 movement evidence 放在同一套工作流中，而且
+不同动作需要不同分析方法。这为更精细的动作理解、后续验证和负责任的 sports
+technology research 建立了基础。

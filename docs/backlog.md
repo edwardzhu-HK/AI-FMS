@@ -409,6 +409,10 @@ Canonical execution plan:
 - [x] Interpret each same-score contrast through observed features, movement
       profile, and a testable mobility/stability/coordination/compensation
       hypothesis, without converting pose proxies into diagnostic claims.
+- [x] Re-audit the full 110-repetition pool and replace the uniform pairwise
+      portfolio with four movement-specific methods: Deep Squat continuum,
+      ASLR bilateral repeatability, Hurdle blind score-2 pathway taxonomy, and
+      Rotary cycle-event matrix.
 - [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
       original field for lineage, and generate checksum-protected
       `auditedCameraView` outputs before using view as an explanatory variable.
@@ -439,9 +443,12 @@ Canonical execution plan:
       testable movement-science hypotheses and targeted follow-up priorities.
 - [x] Produce application project-page copy and a concise claim-control
       evidence table.
-- [x] Generate two public-safe, data-driven application figures for the Deep
+- [x] Generate the initial two public-safe, data-driven application figures for the Deep
       Squat same-score profile and ASLR subject-aware sensitivity, with no raw
       media, person images, source filenames, or local paths.
+- [x] Upgrade the pinned case-study generator to v2 and generate four
+      differentiated public-safe figures from the full-pool, blind-review, and
+      cycle-event evidence sources.
 - [ ] Record and verify a 2-3 minute demo video.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
       17/17 research/application artifacts, checksums 11 documents, and pins

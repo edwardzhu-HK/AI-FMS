@@ -216,7 +216,9 @@ export function summarizePhaseIEvidence(artifacts) {
       historicalLabelAudit.summary.roundBHistoricalExactCount,
     historicalAuditRoundBWithinOne:
       historicalLabelAudit.summary.roundBHistoricalWithinOneCount,
-    selectedCaseStudies: casePortfolio.summary.selectedCases,
+    selectedCaseStudies:
+      casePortfolio.summary.selectedAnalyses ??
+      casePortfolio.summary.selectedCases,
     applicationFigures: casePortfolio.summary.applicationFigures,
   };
 }

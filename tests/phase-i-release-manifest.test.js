@@ -144,7 +144,7 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
       },
     }),
     artifact("phase_i_case_study_portfolio", {
-      summary: { selectedCases: 4, applicationFigures: 2 },
+      summary: { selectedAnalyses: 4, applicationFigures: 4 },
     }),
   ]);
 
@@ -219,7 +219,7 @@ test("Phase I release summary keeps study and AI evidence counts separate", () =
     historicalAuditRoundBExact: 18,
     historicalAuditRoundBWithinOne: 25,
     selectedCaseStudies: 4,
-    applicationFigures: 2,
+    applicationFigures: 4,
   });
 });
 

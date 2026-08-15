@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.28                          |
+| 版本     | v1.29                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-15                     |
@@ -144,6 +144,10 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 - [x] 为四个案例补充“observed feature → movement profile → functional hypothesis”
       解释层，提出 mobility、stability、coordination 与 compensation 的定向复核假设，
       同时明确不作医学或功能障碍诊断。
+- [x] 重新从 110-rep pool 审计案例结构，取消统一 pair template：Deep Squat 改为
+      15-rep side-view continuum，ASLR 改为 4-rep bilateral repeatability，Hurdle
+      改为 5-rep blind score-2 pathway taxonomy，Rotary 改为 8-rep cycle-event matrix。
+- [x] 将案例生成器升级为 checksum-pinned v2，生成 4 张差异化、无人物研究图。
 - [x] 建立 Phase I release-candidate spec 与生成器；17/17 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
 
 对应检查点 commits：
@@ -482,46 +486,56 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                  | 原因                                                                       |
-| ---------- | ----------------------------------------------------- | -------------------------------------------------------------------------- |
-| 2026-08-09 | 四周硬截止为 2026-09-06                               | 保证申请输出有明确结束点                                                   |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定      | 样本量应服从 blindability、动作平衡和审核工作量                            |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                | 已确认存在 score hint 标签泄漏                                             |
-| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only            | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                    |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`           | 保持研究界面角色通用，不绑定个人姓名                                       |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                       | 避免 Downloads 草案与仓库执行版并行分叉                                    |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个            | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量              |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                      | 支持评后定量比较；feature 不在 blind Round B 中展示                        |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`      | 避免后续事件覆盖或仅凭时间推断轮次                                         |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                | 降低短期记忆对第二轮评分的影响                                             |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable` | 防止把 protocol 缺失误写成 FMS 分数并污染分析                              |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                 |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep               | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                |
-| 2026-08-09 | G3 可先使用 Round A consensus 启动                    | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测       |
-| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告        | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels        |
-| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof       | 样本来自 58 条双门槛候选的 deterministic balanced selection                |
-| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数   | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                      |
-| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                   | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据  |
-| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段       | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                |
-| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层  | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查          |
-| 2026-08-09 | 九条复核不直接用于移动评分阈值                        | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估  |
-| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则              | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                |
-| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                         | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human               |
-| 2026-08-10 | Round B 修正为第二次完全盲评                          | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较     |
-| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity             | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence     |
-| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                  | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界      |
-| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                    | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                  |
-| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                 | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark          |
-| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage     | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                     |
-| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility        | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch       |
-| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定               | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评        |
-| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation      | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed |
-| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                 | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels         |
-| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果            | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释              |
-| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”           | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例     |
-| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis  | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype     |
+| 日期       | 决策                                                   | 原因                                                                       |
+| ---------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| 2026-08-09 | 四周硬截止为 2026-09-06                                | 保证申请输出有明确结束点                                                   |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定       | 样本量应服从 blindability、动作平衡和审核工作量                            |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                 | 已确认存在 score hint 标签泄漏                                             |
+| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only             | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                    |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`            | 保持研究界面角色通用，不绑定个人姓名                                       |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                        | 避免 Downloads 草案与仓库执行版并行分叉                                    |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个             | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量              |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                       | 支持评后定量比较；feature 不在 blind Round B 中展示                        |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`       | 避免后续事件覆盖或仅凭时间推断轮次                                         |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                 | 降低短期记忆对第二轮评分的影响                                             |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable`  | 防止把 protocol 缺失误写成 FMS 分数并污染分析                              |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                 | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                 |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep                | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                     | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测       |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告         | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels        |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof        | 样本来自 58 条双门槛候选的 deterministic balanced selection                |
+| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数    | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                      |
+| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                    | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据  |
+| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段        | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                |
+| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层   | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查          |
+| 2026-08-09 | 九条复核不直接用于移动评分阈值                         | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估  |
+| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则               | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                |
+| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                          | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human               |
+| 2026-08-10 | Round B 修正为第二次完全盲评                           | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较     |
+| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity              | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence     |
+| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                   | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界      |
+| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                     | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                  |
+| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                  | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark          |
+| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage      | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                     |
+| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility         | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch       |
+| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定                | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评        |
+| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation       | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed |
+| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                  | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels         |
+| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果             | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释              |
+| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”            | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例     |
+| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis   | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype     |
+| 2026-08-15 | 案例方法由动作和数据结构决定，不统一套用 pair template | 分别研究连续谱、双侧重复性、扣分路径和完整周期，充分利用 110-rep pool      |
 
 ## 12. 变更记录
+
+### v1.29 - 2026-08-15
+
+- 重新审计完整 110-rep pool，确认四动作不适合使用同一种两-rep 对比模板。
+- Deep Squat 使用 15 条侧视 rep 与 source-median sensitivity；ASLR 使用同源四-rep
+  左右侧序列；Hurdle 使用五条独立盲评 2 分的四-pathway taxonomy；Rotary 使用八-rep
+  cycle-event matrix。
+- 升级既有 application-figure generator 和 source config，输出 4 张 checksum 保护的
+  无人物图；同步 technical report、README、application copy、evidence table 与 backlog。
 
 ### v1.28 - 2026-08-15
 

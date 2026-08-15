@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Deep Squat side-view strategy continuum</title>
+  <desc id="desc">Fifteen side-view repetitions from seven videos show a depth and knee-flexion continuum, while ankle, trunk, and alignment evidence vary more independently.</desc>
+  <rect width="1200" height="760" fill="#ffffff"/>
+  <rect width="1200" height="8" fill="#172033"/>
+  <text x="42" y="58" font-size="32" font-weight="750" fill="#172033">Deep Squat Is a Continuum, Not a Pair</text>
+  <text x="42" y="91" font-size="16" fill="#526074">15 audited side-view reps · 7 source videos · label-free movement evidence</text>
+  <line x1="90" y1="650" x2="790" y2="650" stroke="#94a3b8"/>
+  <line x1="90" y1="170" x2="90" y2="650" stroke="#94a3b8"/>
+  <text x="440" y="710" text-anchor="middle" font-size="15" fill="#526074">Peak depth ratio →</text>
+  <text x="24" y="410" transform="rotate(-90 24 410)" text-anchor="middle" font-size="15" fill="#526074">Knee angle (smaller = more flexion)</text>
+  <text x="90" y="677" font-size="13" fill="#64748b">0.51</text>
+  <text x="790" y="677" text-anchor="end" font-size="13" fill="#64748b">0.78</text>
+  <circle cx="542.2" cy="278.1" r="9" fill="#0f766e" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="355.8" cy="399.5" r="9" fill="#d97706" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="716.2" cy="197.6" r="9" fill="#2563eb" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="739.5" cy="238.4" r="9" fill="#b42318" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="477.0" cy="392.9" r="9" fill="#7c3aed" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="140.5" cy="622.4" r="9" fill="#7c3aed" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="323.4" cy="318.4" r="9" fill="#4d7c0f" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="578.1" cy="263.2" r="9" fill="#4d7c0f" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="408.8" cy="379.1" r="9" fill="#d97706" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="606.1" cy="245.6" r="9" fill="#4d7c0f" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="410.3" cy="376.3" r="9" fill="#d97706" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="530.6" cy="419.9" r="9" fill="#475569" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="715.0" cy="227.9" r="9" fill="#2563eb" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="592.5" cy="261.6" r="9" fill="#4d7c0f" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="525.3" cy="346.6" r="9" fill="#475569" fill-opacity="0.82" stroke="#ffffff" stroke-width="2"/>
+  <rect x="835" y="150" width="325" height="390" fill="#f8fafc" stroke="#dbe2ea"/>
+  <text x="865" y="188" font-size="18" font-weight="700" fill="#172033">Spearman vs depth</text>
+  <text x="865" y="225" font-size="15" fill="#172033">Hip-knee gap</text>
+  <text x="1125" y="225" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ 0.70</text>
+  <text x="865" y="271" font-size="15" fill="#172033">Hip angle</text>
+  <text x="1125" y="271" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ -0.69</text>
+  <text x="865" y="317" font-size="15" fill="#172033">Knee angle</text>
+  <text x="1125" y="317" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ -0.85</text>
+  <text x="865" y="363" font-size="15" fill="#172033">Shank lean</text>
+  <text x="1125" y="363" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ -0.20</text>
+  <text x="865" y="409" font-size="15" fill="#172033">Trunk lean</text>
+  <text x="1125" y="409" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ -0.05</text>
+  <text x="865" y="455" font-size="15" fill="#172033">Knee-ankle offset</text>
+  <text x="1125" y="455" text-anchor="end" font-size="16" font-weight="700" fill="#172033">ρ -0.12</text>
+  <rect x="835" y="565" width="325" height="85" fill="#eef6f5"/>
+  <text x="855" y="596" font-size="15" font-weight="700" fill="#172033">Depth tracks hip/knee flexion.</text>
+  <text x="855" y="622" font-size="14" fill="#526074">Ankle, trunk and alignment remain</text>
+  <text x="855" y="644" font-size="14" fill="#526074">partly independent strategy dimensions.</text>
+  <text x="42" y="742" font-size="12" fill="#64748b">Exploratory 2D pose evidence. Repetitions are nested within source videos; source-median sensitivity is retained in the research artifact.</text>
+</svg>

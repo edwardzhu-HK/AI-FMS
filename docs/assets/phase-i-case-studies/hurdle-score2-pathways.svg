@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Hurdle Step score-two pathway taxonomy</title>
+  <desc id="desc">Five independently blinded score-two repetitions from five videos were assigned to four different review pathways.</desc>
+  <rect width="1200" height="760" fill="#ffffff"/>
+  <rect width="1200" height="8" fill="#172033"/>
+  <text x="42" y="58" font-size="32" font-weight="750" fill="#172033">Five Score-2 Reps, Four Review Pathways</text>
+  <text x="42" y="91" font-size="16" fill="#526074">Hurdle Step · five independent videos · Round B blind consensus</text>
+  <text x="42" y="132" font-size="15" fill="#172033">One endpoint does not identify why the movement received that endpoint.</text>
+  <text x="560" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Alignment</text>
+  <text x="645" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Ankle</text>
+  <text x="730" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Trunk</text>
+  <text x="815" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Support</text>
+  <text x="900" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Dowel</text>
+  <text x="985" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#526074">Return</text>
+  <circle cx="62" cy="220" r="20" fill="#172033"/><text x="62" y="227" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">2</text>
+  <text x="100" y="216" font-size="17" font-weight="700" fill="#172033">Multi-domain control</text>
+  <text x="100" y="240" font-size="12" fill="#64748b">source 1 · mixed view</text>
+  <rect x="538" y="198" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="560" y="227" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="623" y="198" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="708" y="198" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="730" y="227" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="793" y="198" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="815" y="227" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="878" y="198" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="900" y="227" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="963" y="198" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <circle cx="62" cy="302" r="20" fill="#172033"/><text x="62" y="309" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">2</text>
+  <text x="100" y="298" font-size="17" font-weight="700" fill="#172033">Distal alignment</text>
+  <text x="100" y="322" font-size="12" fill="#64748b">source 2 · front view</text>
+  <rect x="538" y="280" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="560" y="309" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="623" y="280" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="645" y="309" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="708" y="280" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="793" y="280" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="878" y="280" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="963" y="280" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <circle cx="62" cy="384" r="20" fill="#172033"/><text x="62" y="391" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">2</text>
+  <text x="100" y="380" font-size="17" font-weight="700" fill="#172033">Return-phase alignment</text>
+  <text x="100" y="404" font-size="12" fill="#64748b">source 3 · mixed view</text>
+  <rect x="538" y="362" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="560" y="391" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="623" y="362" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="708" y="362" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="793" y="362" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="878" y="362" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="963" y="362" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="985" y="391" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <circle cx="62" cy="466" r="20" fill="#172033"/><text x="62" y="473" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">2</text>
+  <text x="100" y="462" font-size="17" font-weight="700" fill="#172033">Distal alignment</text>
+  <text x="100" y="486" font-size="12" fill="#64748b">source 4 · front view</text>
+  <rect x="538" y="444" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="560" y="473" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="623" y="444" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="645" y="473" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="708" y="444" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="793" y="444" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="878" y="444" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="963" y="444" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <circle cx="62" cy="548" r="20" fill="#172033"/><text x="62" y="555" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">2</text>
+  <text x="100" y="544" font-size="17" font-weight="700" fill="#172033">Dowel control only</text>
+  <text x="100" y="568" font-size="12" fill="#64748b">source 5 · front view</text>
+  <rect x="538" y="526" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="623" y="526" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="708" y="526" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="793" y="526" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="878" y="526" width="44" height="44" fill="#b42318" stroke="#8f1d14"/><text x="900" y="555" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">×</text>
+  <rect x="963" y="526" width="44" height="44" fill="#eef2f6" stroke="#dbe2ea"/>
+  <rect x="42" y="650" width="1116" height="72" fill="#f7f2e9"/>
+  <text x="64" y="681" font-size="16" font-weight="700" fill="#172033">The follow-up question changes by pathway: alignment, single-leg stability, trunk control, or dowel control.</text>
+  <text x="64" y="706" font-size="12" fill="#526074">Themes are structured coding of blinded reviewer observations, combined with pose-derived ranges; they are not diagnoses.</text>
+</svg>
