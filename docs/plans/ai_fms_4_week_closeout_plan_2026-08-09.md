@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.26                          |
+| 版本     | v1.28                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-11                     |
+| 最近更新 | 2026-08-15                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -138,6 +138,12 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
       不一致，1 条历史分数缺失；未将其余历史标签升级为 gold。
 - [x] 通过 lint、format、340/340 tests 和三页面 production build。
 - [x] 将 README、Phase I dataset card、methods/limitations/ethics、中文 technical report、application copy 和 claim-control evidence table 更新到当前四动作研究状态。
+- [x] 将技术报告第 6 节重新统一为四个同分定量案例：Deep Squat 深度/策略、ASLR
+      固定腿/骨盆控制、Hurdle clearance/对线组合和 Rotary 周期完成质量；原主体选择、
+      机位与 fail-closed 案例下沉为 measurement QA 与 Limitations。
+- [x] 为四个案例补充“observed feature → movement profile → functional hypothesis”
+      解释层，提出 mobility、stability、coordination 与 compensation 的定向复核假设，
+      同时明确不作医学或功能障碍诊断。
 - [x] 建立 Phase I release-candidate spec 与生成器；17/17 研究/申请 artifacts 通过 SHA-256，11 份主文档进入 checksum manifest。
 
 对应检查点 commits：
@@ -512,8 +518,27 @@ Secondary questions：
 | 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation      | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed |
 | 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                 | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels         |
 | 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果            | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释              |
+| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”           | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例     |
+| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis  | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype     |
 
 ## 12. 变更记录
+
+### v1.28 - 2026-08-15
+
+- 将四个同分案例由“参数对比”提升为“定量观察、movement profile、探索性功能假设”
+  三层解释。
+- 增加 mobility、stability、coordination 和 compensation pattern 的定向复核意义，
+  同时明确这些是假设，不是医学诊断或已确认功能障碍。
+- 同步 technical report、案例组合、README、application copy、evidence table 与 backlog。
+
+### v1.27 - 2026-08-15
+
+- 根据项目详细 review，重新审计 Quantitative Movement Findings 的论证一致性。
+- 保留 Deep Squat 同分异型主案例；将 ASLR、Hurdle 和 Rotary 改为经过两轮分数稳定性、
+  pose/timing 与机位条件复核的同分定量对照。
+- 将 ASLR 主体/峰值识别、Hurdle 机位/trajectory 缺口和 Rotary 触踝边界移回
+  measurement QA 与 Limitations，不再把技术困难作为主要科学发现。
+- 同步 Abstract、README、application copy、案例组合与 backlog，并明确四案例证据等级。
 
 ### v1.26 - 2026-08-11
 

@@ -398,10 +398,17 @@ Canonical execution plan:
       the stance-stability discrepancy as an inapplicable front-only feature.
 - [x] Complete a cross-video Deep Squat score-2 board-attempt case review and
       promote it as the primary application-facing same-score example.
-- [x] Select a four-case application portfolio: Deep Squat as the primary
+- [x] Select the initial four-case application portfolio: Deep Squat as the primary
       movement-profile case, ASLR as a measurement-reliability case, Hurdle as
       a view-metadata method case, and Rotary as a frozen-v1.0 feature-only /
       experimental-v1.1 abstention boundary case.
+- [x] Reframe the Phase I report portfolio around four same-score quantitative
+      contrasts: Deep Squat depth/strategy, ASLR stationary-leg/pelvic control,
+      Hurdle clearance/alignment, and Rotary cycle completion; retain the prior
+      ASLR, view, and fail-closed examples as measurement-QA evidence.
+- [x] Interpret each same-score contrast through observed features, movement
+      profile, and a testable mobility/stability/coordination/compensation
+      hypothesis, without converting pose proxies into diagnostic claims.
 - [x] Audit historical `cameraView` metadata across all 110 reps, preserve the
       original field for lineage, and generate checksum-protected
       `auditedCameraView` outputs before using view as an explanatory variable.
@@ -425,6 +432,11 @@ Canonical execution plan:
 - [x] Rewrite the Phase I report narrative around two product goals, implemented
       reviewer support, seven-action product scope, four-action research scope,
       and a four-layer AI-human evaluation design.
+- [x] Align the abstract and Quantitative Movement Findings so Sections 6.2-6.5
+      all answer what continuous information the 0-3 score compresses, with
+      explicit evidence tiers and limitations.
+- [x] Extend the application narrative beyond parameter differences to bounded,
+      testable movement-science hypotheses and targeted follow-up priorities.
 - [x] Produce application project-page copy and a concise claim-control
       evidence table.
 - [x] Generate two public-safe, data-driven application figures for the Deep

@@ -44,23 +44,33 @@ movement profiles to an ordinal screening score.
   feature 缺口。
 - 让锁定的 Phase I AI 通过与盲评隔离的路径分析同一批正式样本，完成人工一致性与
   AI-human agreement 的平行 benchmark，并审计历史标签的可复用范围。
-- 选定四案例申请组合，并把 Deep Squat 同分异型与 ASLR 主体选择生成两张无人物、
-  可由冻结数据重建的图表。
+- 选定四个同分定量案例，分别展示 Deep Squat 深度与关节策略、ASLR 固定腿与骨盆
+  控制、Hurdle clearance 与对线组合、Rotary 完整周期差异；另保留测量 QA 图表。
 
 ## 最有意义的发现
 
 两条 Deep Squat 都因脚跟垫板获得人工 2 分，但 pose parameters 显示它们的深度、髋膝
-角度、踝-胫策略和膝踝 offset 明显不同。
+角度、踝-胫策略和膝踝 offset 明显不同。其他三个动作也出现了方向一致但证据强度较弱
+的支持性案例：ASLR 同为 3 分且活动腿高度近似，固定腿和骨盆参数不同；Hurdle Step
+同为 2 分，对线问题伴随不同 clearance、膝线和躯干位移组合；Rotary Stability 同为
+2 分，完整周期中的第二次触踝、伸展、回位和躯干旋转不同。
 
 这说明 AI-FMS 的价值不是把一个 2 分改成另一个分数，而是让 reviewer 看见：
 
 > 相同 FMS RAW SCORE 背后，可能存在不同的动作完成程度和 movement strategy。
 
+这些差异的意义不只在于多记录几个角度。它们可以提示不同的活动度、稳定性、协调和
+代偿方向：例如，同样达到 ASLR 3 分，一条 rep 可能更多伴随固定腿代偿，另一条则更多
+呈现骨盆控制变化；同样得到 Rotary 2 分，一条可能依赖躯干旋转完成周期，另一条可能更
+受对侧协调和回位控制限制。这些都是可以通过后续专项动作继续检验的运动科学假设，
+不是医学诊断或已确认的功能障碍。
+
 另一个重要结果是有边界的：两位 reviewer 在第二轮的 26 条可评分记录中全部同分，
 而锁定的 Phase I AI 在 25 条可比较记录中与人工完全同分 16 条、23 条相差不超过 1 分。
 这提供了一个覆盖四动作的内部 benchmark，但仍不能说它已经是经过独立验证的自动
-评分器。定向误差分析进一步说明，ASLR 需要更稳健的 active-side/peak detection，
-Hurdle 需要完整动作轨迹和 dowel evidence。
+评分器。定向误差分析进一步说明，ASLR 仍需要更稳健的 active-side/peak detection，
+Hurdle 仍需要完整动作轨迹和 dowel evidence；这些内容属于 measurement limitations，
+不作为同分异型的主要证明。
 随后覆盖全部 17 条 ASLR 记录的无标签审计把 16 个独立窗口分为 11 good、2 watch、
 3 limited，说明 landmark visibility 高并不自动代表跟踪了正确主体或正确侧别。
 Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取，得到 1 good、
