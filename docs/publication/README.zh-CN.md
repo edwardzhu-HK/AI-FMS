@@ -51,7 +51,7 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 | 人工一致性结果              | 已准备         | Round A/B 签名导出和 closeout                            |
 | AI-human internal benchmark | 已准备         | 最终锁定 prediction package；不是 held-out validation    |
 | 动作特异性分析              | 已准备         | 四种差异化分析与四张生成图                               |
-| 文献综述                    | 尚未开始       | 需要人工阅读、核对并引用学术文献                         |
+| 文献综述                    | 已有初稿       | 已列入 11 条起始参考文献；仍需人工作者逐篇阅读和核实     |
 | Ethics/SRC/IRB 判定         | 待确认         | 既有视频二次分析和未来采集均需明确要求                   |
 | 媒体与 protocol 权利        | 待确认         | 公开图为聚合图；源视频和可识别画面保持私有               |
 | AI 使用资格                 | 等待期刊回复   | 必须完整披露，不能自行假定符合政策                       |
@@ -80,6 +80,10 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 - `ai_fms_manuscript_evidence_map_2026-08-17.zh-CN.md`：论文证据地图中文版。
 - `publication_human_input_form_2026-08-17.md`：英文人工确认表。
 - `publication_human_input_form_2026-08-17.zh-CN.md`：人工确认表中文版。
+- `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`：完整中文内部审阅稿的
+  可维护源文件。
+- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`：19 页 A4
+  中文论文整体审阅 PDF，包含 5 张研究图、10 组编号图表、参考文献和 4 个附录。
 
 ## 需要人工决定的事项
 

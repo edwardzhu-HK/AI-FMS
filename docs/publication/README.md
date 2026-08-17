@@ -52,20 +52,20 @@ review timeline.
 
 ## Current Readiness
 
-| Component                    | Status                    | Evidence                                                                          |
-| ---------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
-| Research question and scope  | Ready                     | Four-movement exploratory pilot; seven-movement product scope remains contextual  |
-| Frozen quantitative results  | Ready                     | Phase I release candidate and checksum-protected generated artifacts              |
-| Human reliability results    | Ready                     | Round A/B signed export closeout                                                  |
-| AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                          |
-| Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                           |
-| Literature review            | Not started               | Requires human-verified scholarly reading and citations                           |
-| Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                |
-| Media and protocol rights    | Pending                   | Public figures are aggregate; source video and identifiable frames remain private |
-| AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                |
-| Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed         |
-| NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                   |
-| Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                   |
+| Component                    | Status                    | Evidence                                                                                        |
+| ---------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------- |
+| Research question and scope  | Ready                     | Four-movement exploratory pilot; seven-movement product scope remains contextual                |
+| Frozen quantitative results  | Ready                     | Phase I release candidate and checksum-protected generated artifacts                            |
+| Human reliability results    | Ready                     | Round A/B signed export closeout                                                                |
+| AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                                        |
+| Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                         |
+| Literature review            | Initial draft             | Eleven starting references included; every source still requires human reading and verification |
+| Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                              |
+| Media and protocol rights    | Pending                   | Public figures are aggregate; source video and identifiable frames remain private               |
+| AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                              |
+| Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                       |
+| NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                 |
+| Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                 |
 
 ## Publication Claims
 
@@ -93,6 +93,11 @@ submission receipt, or Zenodo preprint.
   rights, and AI-disclosure confirmation form.
 - `publication_human_input_form_2026-08-17.zh-CN.md`: Chinese version of the
   human confirmation form.
+- `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
+  source for the complete Chinese internal manuscript draft.
+- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
+  19-page A4 internal review PDF with five research figures, ten numbered
+  figure/table groups, references, and four appendices.
 
 ## Required Human Decisions
 

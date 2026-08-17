@@ -464,6 +464,12 @@ Canonical execution plan:
       ethics, rights, advisor requirements, and preprint eligibility.
 - [x] Create a manuscript evidence map from the frozen Phase I results without
       presenting AI-generated planning text as a journal-ready student paper.
+- [x] Produce a complete Chinese internal manuscript draft with title, abstract,
+      introduction, methods, results, discussion, conclusion, declarations,
+      references, figures/tables, and four appendices.
+- [x] Render and visually inspect a 19-page A4 Chinese manuscript PDF; verify
+      extractable text, page geometry, table integrity, figures, headers, and
+      page numbering.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Send the NHSJS presubmission inquiry and archive the written response.

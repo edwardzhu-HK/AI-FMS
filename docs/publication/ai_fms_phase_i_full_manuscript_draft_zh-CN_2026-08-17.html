@@ -1,0 +1,1792 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-FMS Phase I 中文论文完整初稿</title>
+    <style>
+      :root {
+        --ink: #182028;
+        --muted: #56616d;
+        --rule: #cfd6dc;
+        --blue: #155f82;
+        --blue-dark: #123f57;
+        --blue-soft: #edf6fa;
+        --teal: #237b72;
+        --teal-soft: #edf7f5;
+        --gold: #a56b16;
+        --gold-soft: #fff7e8;
+        --red: #a23b3b;
+        --red-soft: #fff1f0;
+        --panel: #f6f8fa;
+      }
+
+      @page {
+        size: A4;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 10.6pt;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family:
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Heiti SC",
+          sans-serif;
+        line-height: 1.72;
+        letter-spacing: 0;
+        background: white;
+      }
+
+      main {
+        max-width: 176mm;
+        margin: 0 auto;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--blue-dark);
+        page-break-after: avoid;
+        break-after: avoid;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        font-size: 23pt;
+        line-height: 1.32;
+        margin: 0 0 5mm;
+        text-align: center;
+      }
+
+      h2 {
+        font-size: 15.5pt;
+        margin: 8mm 0 3mm;
+        padding-bottom: 1.2mm;
+        border-bottom: 1.2pt solid var(--blue);
+      }
+
+      h3 {
+        font-size: 12.3pt;
+        margin: 5mm 0 1.8mm;
+      }
+
+      h4 {
+        font-size: 10.9pt;
+        margin: 3.5mm 0 1.2mm;
+      }
+
+      p {
+        margin: 0 0 2.4mm;
+        text-align: justify;
+        orphans: 3;
+        widows: 3;
+      }
+
+      ul,
+      ol {
+        margin: 1.6mm 0 3mm 7mm;
+        padding-left: 4mm;
+      }
+
+      li {
+        margin-bottom: 1.2mm;
+      }
+
+      sup a {
+        color: var(--blue);
+        text-decoration: none;
+      }
+
+      .cover {
+        min-height: 245mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        page-break-after: always;
+        text-align: center;
+      }
+
+      .cover-kicker {
+        margin-bottom: 8mm;
+        color: var(--teal);
+        font-size: 10pt;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .cover-en {
+        max-width: 145mm;
+        margin: 0 auto 12mm;
+        color: var(--muted);
+        font-family: Arial, sans-serif;
+        font-size: 12pt;
+        line-height: 1.45;
+      }
+
+      .cover-meta {
+        width: 132mm;
+        margin: 0 auto 12mm;
+        padding: 5mm 8mm;
+        border-top: 1pt solid var(--rule);
+        border-bottom: 1pt solid var(--rule);
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .draft-badge {
+        align-self: center;
+        margin-top: 8mm;
+        padding: 2.2mm 5mm;
+        border: 1pt solid var(--red);
+        color: var(--red);
+        font-weight: 700;
+        font-size: 9.5pt;
+      }
+
+      .lead-box,
+      .note-box,
+      .warning-box {
+        margin: 4mm 0;
+        padding: 4mm 5mm;
+        border-left: 3.5pt solid var(--blue);
+        background: var(--blue-soft);
+        break-inside: avoid;
+      }
+
+      .note-box {
+        border-left-color: var(--teal);
+        background: var(--teal-soft);
+      }
+
+      .warning-box {
+        border-left-color: var(--gold);
+        background: var(--gold-soft);
+      }
+
+      .lead-box strong,
+      .note-box strong,
+      .warning-box strong {
+        color: var(--blue-dark);
+      }
+
+      .toc {
+        page-break-after: always;
+      }
+
+      .toc ol {
+        columns: 2;
+        column-gap: 12mm;
+        margin-left: 0;
+        padding-left: 6mm;
+      }
+
+      .toc a {
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .abstract {
+        margin: 3mm 0;
+        padding: 5mm 6mm;
+        background: var(--panel);
+        border: 0.8pt solid var(--rule);
+      }
+
+      .keywords {
+        margin-top: 3mm;
+        color: var(--muted);
+      }
+
+      table {
+        width: 100%;
+        margin: 3mm 0 4.5mm;
+        border-collapse: collapse;
+        table-layout: fixed;
+        font-size: 8.6pt;
+        line-height: 1.45;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      th {
+        padding: 2.1mm 2mm;
+        border: 0.7pt solid #b9c5cd;
+        background: var(--blue-dark);
+        color: white;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      td {
+        padding: 2mm;
+        border: 0.7pt solid #c8d0d6;
+        vertical-align: middle;
+      }
+
+      tbody tr:nth-child(even) td {
+        background: #f7f9fa;
+      }
+
+      td.num,
+      td.center {
+        text-align: center;
+      }
+
+      .table-caption,
+      .figure-caption {
+        margin: 1mm 0 3mm;
+        font-size: 8.7pt;
+        line-height: 1.5;
+        color: var(--muted);
+        text-align: left;
+        break-before: avoid;
+        page-break-before: avoid;
+      }
+
+      .figure {
+        margin: 5mm 0 6mm;
+        padding: 3mm;
+        border: 0.7pt solid var(--rule);
+        background: white;
+        break-inside: avoid;
+      }
+
+      .figure img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 152mm;
+        object-fit: contain;
+      }
+
+      .workflow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 3mm;
+        align-items: stretch;
+        padding: 3mm;
+      }
+
+      .workflow-step {
+        position: relative;
+        min-height: 34mm;
+        padding: 4mm 3mm;
+        border: 1pt solid #9bb6c4;
+        background: var(--blue-soft);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .workflow-step:nth-child(2),
+      .workflow-step:nth-child(4) {
+        background: var(--teal-soft);
+        border-color: #9cc7c0;
+      }
+
+      .workflow-step::after {
+        content: "→";
+        position: absolute;
+        right: -4.5mm;
+        top: 12mm;
+        color: var(--blue);
+        font-size: 15pt;
+        font-weight: 700;
+      }
+
+      .workflow-step:last-child::after {
+        content: "";
+      }
+
+      .workflow-step b {
+        display: block;
+        margin-bottom: 1.5mm;
+        color: var(--blue-dark);
+        font-size: 9.4pt;
+      }
+
+      .workflow-step span {
+        color: var(--muted);
+        font-size: 7.8pt;
+        line-height: 1.4;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3mm;
+        margin: 4mm 0;
+        break-inside: avoid;
+      }
+
+      .stat {
+        padding: 4mm 2mm;
+        background: var(--panel);
+        border-top: 2.5pt solid var(--blue);
+        text-align: center;
+      }
+
+      .stat b {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--blue-dark);
+        font-size: 17pt;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 8pt;
+      }
+
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .keep {
+        break-inside: avoid;
+      }
+
+      .refs {
+        padding-left: 7mm;
+        font-size: 8.5pt;
+        line-height: 1.48;
+      }
+
+      .refs li {
+        margin-bottom: 2mm;
+      }
+
+      .appendix-label {
+        color: var(--teal);
+        font-weight: 700;
+      }
+
+      code {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 8.2pt;
+        color: #263746;
+      }
+
+      pre {
+        margin: 3mm 0;
+        padding: 3mm 4mm;
+        border: 0.7pt solid var(--rule);
+        background: #f7f8f9;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-size: 7.8pt;
+        line-height: 1.45;
+      }
+
+      a {
+        color: var(--blue);
+      }
+
+      .small {
+        font-size: 8.5pt;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="cover">
+        <div class="cover-kicker">AI-FMS PHASE I · 中文论文完整审阅初稿</div>
+        <h1>
+          超越 FMS 顺序分数：<br />四动作 Pilot
+          中基于姿态估计的人机协同动作策略分析
+        </h1>
+        <div class="cover-en">
+          Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of
+          Movement Strategy in a Four-Movement Pilot
+        </div>
+        <div class="cover-meta">
+          <div><strong>学生作者：</strong>[Ronnie 正式发表姓名]</div>
+          <div><strong>成人通信联系人：</strong>[姓名与 affiliation]</div>
+          <div><strong>其他贡献者：</strong>[待按贡献与期刊政策确认]</div>
+          <div><strong>版本：</strong>中文完整初稿 v0.1 · 2026-08-17</div>
+        </div>
+        <div class="draft-badge">
+          内部整体审阅稿 · 尚未提交期刊 · 不得表述为同行评审论文
+        </div>
+      </section>
+
+      <section class="toc">
+        <h2>目录</h2>
+        <ol>
+          <li><a href="#abstract">摘要与关键词</a></li>
+          <li><a href="#intro">1. 引言</a></li>
+          <li><a href="#methods">2. 方法</a></li>
+          <li><a href="#results">3. 结果</a></li>
+          <li><a href="#discussion">4. 讨论</a></li>
+          <li><a href="#conclusion">5. 结论</a></li>
+          <li><a href="#declarations">声明、伦理与数据可用性</a></li>
+          <li><a href="#references">参考文献</a></li>
+          <li><a href="#appendix-a">附录 A：特征与质量门</a></li>
+          <li><a href="#appendix-b">附录 B：分析分母</a></li>
+          <li><a href="#appendix-c">附录 C：主张边界</a></li>
+          <li><a href="#appendix-d">附录 D：复现命令</a></li>
+        </ol>
+        <div class="warning-box">
+          <strong>审阅说明：</strong
+          >本稿用于先整体检查论文问题、结构、结果与论证深度。 正式英文稿将在
+          NHSJS 书面确认 AI-use、secondary-video ethics、成人联系人及 Zenodo
+          preprint 政策后，按照其 Word 模板重新撰写和排版。
+        </div>
+      </section>
+
+      <section id="abstract">
+        <h2>摘要</h2>
+        <div class="abstract">
+          <p>
+            <strong>背景：</strong>Functional Movement Screen（FMS）使用 0-3
+            的顺序分数
+            对动作完成情况进行归纳。该方法便于实际筛查，但一个单一分数无法完整保存动作
+            深度、关节贡献、左右差异、重复性、扣分路径和动作周期等连续信息。本研究开发并
+            评估了一套 human-in-the-loop 视频审核平台，探索 pose-derived
+            quantitative evidence
+            能否在保留人工最终判断权的同时，恢复顺序分数压缩掉的动作信息。
+          </p>
+          <p>
+            <strong>方法：</strong>系统以 MediaPipe Pose Landmarker
+            为基础，连接视频动作 切片、人工盲评、动作特异性特征、规则式 AI
+            suggestion 和可追踪数据导出。Phase I 研究覆盖 Deep Squat、Active
+            Straight Leg Raise（ASLR）、Hurdle Step 和 Rotary Stability。研究从
+            28 个唯一源视频重建 110 个 canonical repetitions，其中 66 个 通过
+            pose/timing 质量门。两位 reviewer 对四动作各 8 条、共 32
+            条正式样本完成 两轮独立盲评。锁定 AI 通过与 Study Mode
+            隔离的路径处理同一批样本。研究另外采用
+            四种动作特异性探索方法：15-rep Deep Squat 连续谱、4-rep ASLR
+            双侧重复性序列、 5-rep Hurdle 盲评扣分路径分类，以及 8-rep Rotary
+            周期事件矩阵。
+          </p>
+          <p>
+            <strong>结果：</strong>Round B 中两位 reviewer 对 32/32
+            条可评分状态判断一致； 在双方均可评分的 26 条中，RAW SCORE 为 26/26
+            exact。最终锁定 AI 对 28/32 条 给出分数；在同时具有 AI
+            分数与人工数值共识的 25 条中，16/25 exact、23/25 相差不超过 1
+            分，MAE 为 0.44，linear weighted kappa 为 0.4917。动作特异性分析
+            显示：Deep Squat
+            的深度与髋膝屈曲形成较清楚的连续轴，但踝、躯干与对线保留
+            相对独立信息；ASLR 中相近的 active height
+            可伴随更大的固定腿与骨盆控制变化； 五条 Hurdle 2 分动作形成四种不同
+            review pathway；Rotary 的触踝、伸展、时序与
+            回位必须在完整周期内解释。
+          </p>
+          <p>
+            <strong>结论：</strong>AI-FMS 的当前价值不是替代 reviewer
+            自动给分，而是把人工
+            顺序判断与连续、可解释、可追踪的动作证据放入同一工作流。结果支持开展进一步的
+            held-out 和 expert-panel
+            验证，但不支持医疗诊断、伤病预测或临床准确率主张。
+          </p>
+        </div>
+        <p class="keywords">
+          <strong>关键词：</strong>Functional Movement
+          Screen；human-in-the-loop；pose estimation；movement quality；video
+          annotation；markerless motion analysis； ordinal score；interpretable
+          AI
+        </p>
+      </section>
+
+      <section id="intro">
+        <h2>1. 引言</h2>
+
+        <h3>1.1 从动作筛查到视频审核</h3>
+        <p>
+          FMS 通过七种动作模式和 0-3
+          的顺序评分，帮助实践者以统一规则观察动作完成情况。
+          既有系统综述通常认为 FMS 具有较好的 interrater 与 intrarater
+          reliability，但同时
+          也提醒研究者区分“评分者能否一致给分”与“分数是否代表某种临床机制或未来伤病”。
+          Cuchna 等人的 meta-analysis 报告了总体较好的评分可靠性<sup
+            ><a href="#ref-1">[1]</a></sup
+          >； Bonazza 等人则指出，尽管可靠性结果较好，construct validity 和
+          injury prediction 仍存在明显限制<sup><a href="#ref-2">[2]</a></sup
+          >。更新版 FMS 的视频评分研究也表明，不同 动作的 reliability
+          并不完全相同<sup><a href="#ref-3">[3]</a></sup
+          >。
+        </p>
+        <p>
+          视频为动作审核提供了现场观察之外的能力：reviewer 可以暂停、回放、逐
+          rep 循环， 也可以在远程或异步场景中复核。然而，如果视频最终只留下一个
+          0-3 分数，大量关于 动作如何完成的信息仍会丢失。例如，两个同为 2 分的
+          Deep Squat 可能具有不同的动作
+          深度、髋膝屈曲组合、踝部贡献和躯干策略；两个相同分数的动态动作也可能在左右侧、
+          回收阶段或周期完整度上存在差异。
+        </p>
+
+        <h3>1.2 Markerless pose estimation 的机会与限制</h3>
+        <p>
+          Markerless pose estimation
+          可以从普通视频中提取人体关键点，为低成本动作分析提供 基础。BlazePose
+          针对移动端和 fitness 场景设计了 33 个 body keypoints，并支持对单人
+          视频进行实时或接近实时的姿态跟踪<sup><a href="#ref-4">[4]</a></sup
+          >。单摄像机与开源 pose
+          系统有潜力降低运动分析门槛；相关研究已经展示了从普通视频预测部分定量运动指标的
+          可行性<sup><a href="#ref-6">[6]</a></sup
+          >，Sports2D 等工具也说明 2D keypoints 可以转化为
+          可读的关节和肢段角度<sup><a href="#ref-8">[8]</a></sup
+          >。
+        </p>
+        <p>
+          但 markerless measurement 不能被自动等同于 laboratory
+          biomechanics。Camera view、 遮挡、运动模糊、单人/多人主体选择、透视和
+          out-of-plane movement 都会改变测量质量。 Colyer
+          等人的综述指出，markerless
+          技术具有实用潜力，但精度和适用边界必须结合任务 与采集环境判断<sup
+            ><a href="#ref-5">[5]</a></sup
+          >。Wade 等人进一步强调，部分时空指标 已接近传统系统，但 joint center
+          和 joint angle 仍不应在缺少 gold-standard comparison
+          时被当作临床测量<sup><a href="#ref-7">[7]</a></sup
+          >。
+        </p>
+
+        <h3>1.3 研究缺口与目的</h3>
+        <p>
+          现有讨论常把问题简化为“AI 能否自动给出 FMS
+          分数”。本研究采用不同定位：AI 首先 是人工审核的 evidence
+          layer，而不是最终决策者。Human-AI 系统应当说明何时有证据、
+          何时不确定，并保持人工能够复核和覆盖系统输出<sup
+            ><a href="#ref-10">[10]</a></sup
+          >。因此， 本研究不把综合分数作为唯一结果，而是同时保存视频范围、rep
+          timing、camera view、 side、protocol condition、pose
+          features、质量标志、人工判断和 AI abstention。
+        </p>
+        <p>本研究提出四个探索性问题：</p>
+        <ol>
+          <li>
+            能否建立一个覆盖七动作、支持人工最终判断且可追踪的 FMS
+            视频审核平台？
+          </li>
+          <li>
+            两位 reviewer 在两轮独立盲评中的一致性与 test-retest stability
+            如何？
+          </li>
+          <li>
+            锁定 AI 的 coverage、abstention 和与人工共识的 internal concordance
+            如何？
+          </li>
+          <li>
+            不同动作的顺序分数分别压缩了哪些连续、双侧、规则路径或时间事件信息？
+          </li>
+        </ol>
+        <div class="lead-box">
+          <strong>论文的核心主张：</strong>FMS
+          顺序分数并非“错误”，而是为了快速决策进行的 有目的压缩。AI-FMS
+          的研究价值在于恢复部分被压缩的信息，并把这些信息转化为可以
+          复核、比较和继续验证的 evidence，而不是用 AI 替代人工判断。
+        </div>
+      </section>
+
+      <section id="methods">
+        <h2>2. 方法</h2>
+
+        <h3>2.1 研究设计与系统范围</h3>
+        <p>
+          本研究为探索性观察型 software-and-data pilot。平台产品层覆盖全部七个
+          FMS 动作， 包含视频上传、分析范围、rep segmentation、loop
+          playback、人工评分、pose overlay、 movement-specific
+          features、first-pass AI suggestion、adjudication 和 JSON/CSV
+          export。Phase I 定量研究聚焦四个具有较完整历史视频和 pose
+          证据的动作：Deep Squat、 ASLR、Hurdle Step 和 Rotary Stability。
+        </p>
+
+        <div class="figure">
+          <div class="workflow">
+            <div class="workflow-step">
+              <b>视频与 Rep</b>
+              <span
+                >28 source videos<br />110 canonical reps<br />stable IDs</span
+              >
+            </div>
+            <div class="workflow-step">
+              <b>Pose 与质量门</b>
+              <span
+                >MediaPipe landmarks<br />camera/timing QA<br />66
+                feature-ready</span
+              >
+            </div>
+            <div class="workflow-step">
+              <b>人工盲评</b>
+              <span
+                >2 reviewers<br />Round A + Round B<br />32 formal reps</span
+              >
+            </div>
+            <div class="workflow-step">
+              <b>锁定 AI</b>
+              <span
+                >label-free inputs<br />coverage + abstention<br />post-review
+                join</span
+              >
+            </div>
+            <div class="workflow-step">
+              <b>研究输出</b>
+              <span
+                >human reliability<br />AI concordance<br />4 analysis
+                methods</span
+              >
+            </div>
+          </div>
+          <div class="figure-caption">
+            <strong>图 1｜AI-FMS Phase I 证据流程。</strong>人工盲评与锁定 AI
+            由不同路径 处理，直到签名审核完成后才通过稳定 repetition ID
+            连接；源视频、raw pose、人工 comments 和 SQLite 均保持私有。
+          </div>
+        </div>
+
+        <h3>2.2 Canonical 数据重建</h3>
+        <p>
+          研究从 28 个 cumulative history exports 重建 canonical
+          snapshot。相同内容的视频 通过 checksum 去重，最终得到 29 个 ingest、28
+          个唯一源视频和 110 个 repetitions。 稳定 `videoId`、`ingestId` 和
+          `repetitionId` 根据内容和 lineage 派生。每条记录保留 动作类型、原
+          segment、时间范围、camera view、side、protocol metadata、video/pose
+          checksum 及冲突状态。历史人工标签与 legacy AI 仅保留为
+          provenance，不能作为 当前 AI 规则的输入。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 27%">动作</th>
+              <th>源视频</th>
+              <th>Reps</th>
+              <th>Blindable</th>
+              <th>Feature-ready</th>
+              <th>Formal</th>
+              <th>Round B consensus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Active Straight Leg Raise</td>
+              <td class="num">7</td>
+              <td class="num">17</td>
+              <td class="num">11</td>
+              <td class="num">11</td>
+              <td class="num">8</td>
+              <td class="num">6</td>
+            </tr>
+            <tr>
+              <td>Deep Squat</td>
+              <td class="num">11</td>
+              <td class="num">34</td>
+              <td class="num">31</td>
+              <td class="num">31</td>
+              <td class="num">8</td>
+              <td class="num">4</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td class="num">7</td>
+              <td class="num">41</td>
+              <td class="num">37</td>
+              <td class="num">16</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td class="num">3</td>
+              <td class="num">18</td>
+              <td class="num">18</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+              <td class="num">8</td>
+            </tr>
+            <tr>
+              <td><strong>合计</strong></td>
+              <td class="num"><strong>28</strong></td>
+              <td class="num"><strong>110</strong></td>
+              <td class="num"><strong>97</strong></td>
+              <td class="num"><strong>66</strong></td>
+              <td class="num"><strong>32</strong></td>
+              <td class="num"><strong>26</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 1｜四动作数据范围。</strong>Repetitions
+          嵌套于源视频，不能将 110 reps 解释为 110 名独立参与者。
+        </div>
+
+        <h3>2.3 Blindability 与 feature-readiness 质量门</h3>
+        <p>
+          所有 110 条 rep 均通过 start/middle/end contact-sheet
+          审核。画面中的直接数字分数、 明确评分指导、目标人物错误或动作不可见会
+          fail closed。97 条 rep 被判为 blindable， 13
+          条因可见分数线索、评分指导或构图不足被排除。历史 `cameraView` 经过
+          110/110 contact-sheet audit：65 条确认，45 条校正；分析使用独立的
+          `auditedCameraView`， 不覆盖原始 lineage。
+        </p>
+        <p>
+          Feature quality gate 综合 pose frame coverage、missing-frame
+          ratio、landmark visibility、timing cycle completeness、camera-view
+          applicability 及多人物场景的目标 主体/ROI QA。最终 66 条
+          feature-ready，44 条 limited。58 条同时通过 blindability 和
+          feature-readiness，正式样本从该池按动作平衡、源视频分散和固定策略冻结为
+          32 条。 这一选择不是对完整 110-rep pool 的 simple random sample。
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 30%">Evidence tier</th>
+              <th style="width: 12%">Reps</th>
+              <th>用途</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>gold_consensus</code></td>
+              <td class="num">26</td>
+              <td>Round B 两位 blind reviewers 均可评分且同分</td>
+            </tr>
+            <tr>
+              <td><code>formal_unscorable</code></td>
+              <td class="num">6</td>
+              <td>双方均判为无法按 protocol 独立评分</td>
+            </tr>
+            <tr>
+              <td><code>expansion_candidate</code></td>
+              <td class="num">26</td>
+              <td>同时通过双门槛但未进入正式审核</td>
+            </tr>
+            <tr>
+              <td><code>feature_ready_not_blindable</code></td>
+              <td class="num">8</td>
+              <td>可用于无标签 feature analysis，不可进入 blind study</td>
+            </tr>
+            <tr>
+              <td><code>blindable_feature_limited</code></td>
+              <td class="num">39</td>
+              <td>可观看，但 timing/pose evidence 不足</td>
+            </tr>
+            <tr>
+              <td><code>not_blindable_feature_limited</code></td>
+              <td class="num">5</td>
+              <td>两类门槛均未通过</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 2｜Evidence tiers。</strong>完整 pool
+          被保留；不因正式样本较小而丢弃 前期数据，也不把未审核的 weak labels
+          升级为 gold labels。
+        </div>
+
+        <h3>2.4 双轮人工盲评</h3>
+        <p>
+          两位 reviewer 分别完成 Round A 和 Round B。第二轮在约 51
+          小时后进行，使用重新 随机的队列和独立存储
+          namespace。两轮均不显示源文件名、历史分数、AI suggestion、
+          pose-derived features、上一轮答案、另一 reviewer 答案或音频。Reviewer
+          可选择 0-3 RAW SCORE 或 `unscorable`。`0` 仅代表已观察或报告的
+          pain；动作、机位或 protocol 条件不足必须记录为 `unscorable` 及原因。
+        </p>
+        <p>
+          Review events 为 append-only；修改产生新 event 并通过
+          `supersedesEventId` 关联。 每份导出均与 SHA-256 配对，并经
+          schema、manifest、completion 和 blind-state validation 后幂等写入本地
+          SQLite。RAW SCORE agreement、MAE、confusion matrix 与 weighted Cohen's
+          kappa 仅使用双方均给出数值分数的 reps。Weighted kappa 用于
+          对有序分值的不同距离赋予不同权重<sup><a href="#ref-9">[9]</a></sup
+          >。
+        </p>
+
+        <h3>2.5 Pose-derived features 与锁定 AI</h3>
+        <p>
+          MediaPipe Pose Landmarker 生成 time-aligned landmarks。Action adapters
+          在脱敏后 的 pose payload 上提取 normalized distances、2D
+          angles、trajectory proxies 和 cycle events。建议规则不接收
+          score-bearing filename、notes、历史分数、reviewer comments 或 legacy
+          AI。早期 workflow 中 92 条 numeric AI suggestions 被标记为
+          `label-leakage-ineligible`，不进入任何 agreement 或 validation。
+        </p>
+        <p>
+          Frozen AI v1.0 在 Round B 前锁定；Final AI v1.1 在查看 Round B
+          结果前锁定，但其 开发发生在 Round A 之后。因此 v1.1 只能称为
+          post-audit internal benchmark。AI 分析全部 32 条不等于强制给 32
+          个分数；当 Deep Squat floor attempt 缺少 FMS staged follow-up
+          时，系统保持 abstain。
+        </p>
+
+        <h3>2.6 动作特异性分析</h3>
+        <p>
+          四个动作并未套用同一个 pairwise
+          template。分析问题、单位和方法由动作结构及 可用证据决定：
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 18%">动作</th>
+              <th style="width: 27%">研究问题</th>
+              <th style="width: 36%">方法</th>
+              <th>分析单位</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deep Squat</td>
+              <td>深度是否决定完整动作策略？</td>
+              <td>
+                侧视连续谱、rep-level Spearman 与 source-median sensitivity
+              </td>
+              <td>15 reps / 7 videos</td>
+            </tr>
+            <tr>
+              <td>ASLR</td>
+              <td>相似结果在左右侧与重复动作中是否稳定？</td>
+              <td>同源 bilateral repeatability series</td>
+              <td>4 good reps</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td>同为 2 分是否代表同一种扣分原因？</td>
+              <td>Blind comments 主题编码与 quantitative ranges</td>
+              <td>5 reps / 5 videos</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td>单一峰值帧能否表达复杂动作顺序？</td>
+              <td>Full-cycle event matrix</td>
+              <td>8 blind-reviewed reps</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 3｜动作特异性分析设计。</strong>
+        </div>
+
+        <h3>2.7 伦理、隐私与数据边界</h3>
+        <p>
+          Pilot 使用既有本地和公开教学/reference
+          videos，没有前瞻性招募参与者，也没有 收集人口统计、临床诊断或 injury
+          outcome。不同来源的公开与再发布权利尚未完全
+          统一，因此本文初稿只使用聚合数值和无人物研究图。Raw
+          videos、可识别帧、raw pose、 reviewer comments、签名 exports 和 SQLite
+          均保持私有。正式投稿前需要目标期刊书面 确认 secondary-video research
+          所需的 SRC/IRB/exemption/consent 与 rights 材料。
+        </p>
+      </section>
+
+      <section id="results" class="page-break">
+        <h2>3. 结果</h2>
+
+        <div class="stat-grid">
+          <div class="stat"><b>110</b><span>Canonical reps</span></div>
+          <div class="stat"><b>66</b><span>Feature-ready</span></div>
+          <div class="stat"><b>32</b><span>Formal blind sample</span></div>
+          <div class="stat"><b>28</b><span>Final AI scores</span></div>
+        </div>
+
+        <h3>3.1 人工一致性与复测稳定性</h3>
+        <p>
+          Round A 中两位 reviewer 的 outcome agreement 为 31/32。双方均可评分的
+          26 条 全部同分；5 条双方均为 unscorable，另有 1 条 scoreability
+          mismatch。Round B 中 outcome agreement 提高到 32/32；双方均可评分的 26
+          条仍为 26/26 exact，6 条双方 均 unscorable 且 reason taxonomy 6/6
+          一致。两位 reviewer 各有 1 条数值分变化， 且发生在同一条 Hurdle
+          Step。由于可比较分数完全一致，Round A 与 Round B 的 linear 和
+          quadratic weighted kappa 均为 1.0000。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 29%">指标</th>
+              <th>Round A</th>
+              <th>Round B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Completed reviews</td>
+              <td class="center">32 / reviewer</td>
+              <td class="center">32 / reviewer</td>
+            </tr>
+            <tr>
+              <td>Status agreement</td>
+              <td class="center">31/32</td>
+              <td class="center">32/32</td>
+            </tr>
+            <tr>
+              <td>Jointly scorable</td>
+              <td class="center">26</td>
+              <td class="center">26</td>
+            </tr>
+            <tr>
+              <td>RAW SCORE exact</td>
+              <td class="center">26/26</td>
+              <td class="center">26/26</td>
+            </tr>
+            <tr>
+              <td>Both unscorable</td>
+              <td class="center">5</td>
+              <td class="center">6</td>
+            </tr>
+            <tr>
+              <td>Unscorable reason exact</td>
+              <td class="center">2/5</td>
+              <td class="center">6/6</td>
+            </tr>
+            <tr>
+              <td>Linear weighted kappa</td>
+              <td class="center">1.0000</td>
+              <td class="center">1.0000</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 4｜双轮人工审核结果。</strong>高一致性受正式样本筛选、共同
+          protocol training、分值结构和只有两位 reviewer
+          等条件限制，不能外推为临床可靠性。
+        </div>
+
+        <h3>3.2 AI-Human Internal Concordance</h3>
+        <p>
+          Final AI v1.1 对正式 32 条中的 28 条给出 RAW SCORE，对 4 条 Deep Squat
+          staged floor attempt 保持 abstain。人工 Round B 形成 26 条数值共识，AI
+          与人工数值共识的 交集为 25 条。整体 exact agreement 为
+          16/25，within-one agreement 为 23/25， MAE 为 0.44，linear weighted
+          kappa 为 0.4917。按动作看，Deep Squat 当前只有 3 条可比较，不能因 3/3
+          exact 作强泛化；Hurdle 的主要差异集中在 2/3 边界；ASLR
+          存在少数严重低估；Rotary 有两条保守的 AI 1 / human 2 差异。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 29%">动作</th>
+              <th>Comparable</th>
+              <th>Exact</th>
+              <th>Within one</th>
+              <th>MAE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ASLR</td>
+              <td class="num">6</td>
+              <td class="num">4/6</td>
+              <td class="num">4/6</td>
+              <td class="num">0.6667</td>
+            </tr>
+            <tr>
+              <td>Deep Squat</td>
+              <td class="num">3</td>
+              <td class="num">3/3</td>
+              <td class="num">3/3</td>
+              <td class="num">0.0000</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td class="num">8</td>
+              <td class="num">3/8</td>
+              <td class="num">8/8</td>
+              <td class="num">0.6250</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td class="num">8</td>
+              <td class="num">6/8</td>
+              <td class="num">8/8</td>
+              <td class="num">0.2500</td>
+            </tr>
+            <tr>
+              <td><strong>Overall</strong></td>
+              <td class="num"><strong>25</strong></td>
+              <td class="num"><strong>16/25</strong></td>
+              <td class="num"><strong>23/25</strong></td>
+              <td class="num"><strong>0.4400</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 5｜Final AI v1.1 与 Round B 人工共识。</strong>这是
+          post-audit internal benchmark，不是 held-out accuracy。AI coverage 与
+          agreement 分开报告。
+        </div>
+
+        <h3>3.3 Deep Squat：动作策略是连续谱</h3>
+        <p>
+          从 31 条 feature-ready Deep Squat 中保留 15 条审计后的 side-view
+          reps，覆盖 7 个源视频。分析不使用人工分数，以 `peakDepthRatio`
+          为连续参考轴，同时计算 rep-level Spearman correlation 与按源视频取
+          median 后的 sensitivity。深度与 `kneeAngleDegrees`、`hipAngleDegrees`
+          和 `hipKneeVerticalGap` 呈较强方向关系；
+          `ankleShankLeanDegrees`、`trunkLeanDegrees` 和 `maxKneeAnkleOffset`
+          与深度的 关系较弱或在 rep/source 层方向不稳定。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 38%">Feature vs depth</th>
+              <th>Rep-level rho</th>
+              <th>Source-median rho</th>
+              <th style="width: 32%">解释</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>hipKneeVerticalGap</code></td>
+              <td class="num">0.700</td>
+              <td class="num">0.750</td>
+              <td>深度增加时髋部相对膝部更低</td>
+            </tr>
+            <tr>
+              <td><code>hipAngleDegrees</code></td>
+              <td class="num">-0.689</td>
+              <td class="num">-0.821</td>
+              <td>深度与髋屈曲方向一致</td>
+            </tr>
+            <tr>
+              <td><code>kneeAngleDegrees</code></td>
+              <td class="num">-0.850</td>
+              <td class="num">-0.929</td>
+              <td>深度与膝屈曲关系最稳定</td>
+            </tr>
+            <tr>
+              <td><code>ankleShankLeanDegrees</code></td>
+              <td class="num">-0.204</td>
+              <td class="num">-0.107</td>
+              <td>与深度关系较弱</td>
+            </tr>
+            <tr>
+              <td><code>trunkLeanDegrees</code></td>
+              <td class="num">-0.050</td>
+              <td class="num">0.464</td>
+              <td>受来源影响，方向不稳定</td>
+            </tr>
+            <tr>
+              <td><code>maxKneeAnkleOffset</code></td>
+              <td class="num">-0.118</td>
+              <td class="num">-0.214</td>
+              <td>保留独立对线信息</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 6｜Deep Squat 连续谱的 rank correlations。</strong>
+        </div>
+        <div class="figure">
+          <img
+            src="../assets/phase-i-case-studies/deep-squat-strategy-continuum.svg"
+            alt="Deep Squat strategy continuum"
+          />
+          <div class="figure-caption">
+            <strong>图 2｜Deep Squat strategy continuum。</strong>15 条侧视 rep
+            显示较清楚
+            的深度/髋膝屈曲轴，同时保留踝、躯干和膝踝对线等相对独立的动作维度。
+          </div>
+        </div>
+
+        <h3>3.4 ASLR：从单次高度转向左右侧与重复性</h3>
+        <p>
+          一个五-rep 源视频中，四条通过 `good` side/peak gate，一条 `watch`
+          被排除。 四条 good rep 均保留历史 3 分，其中三条另有稳定 blind
+          consensus，剩余一条为 historical weak-label evidence。四条 active
+          ankle height 只跨 0.2758-0.3053， 但 stationary ankle drift 跨 4.25
+          倍，pelvic gap 跨 2.56 倍。按侧别取平均后， 右侧 active height 低约
+          7.5%，stationary ankle drift 约为左侧的 2.4 倍， pelvic gap 约为 1.9
+          倍。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Rep</th>
+              <th>Active height</th>
+              <th>Stationary knee</th>
+              <th>Ankle drift</th>
+              <th>Pelvic gap</th>
+              <th style="width: 24%">Label evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Left 1</td>
+              <td class="num">0.3053</td>
+              <td class="num">161.6</td>
+              <td class="num">0.0100</td>
+              <td class="num">0.0180</td>
+              <td>Stable blind consensus</td>
+            </tr>
+            <tr>
+              <td>Left 2</td>
+              <td class="num">0.3009</td>
+              <td class="num">174.9</td>
+              <td class="num">0.0040</td>
+              <td class="num">0.0251</td>
+              <td>Stable blind consensus</td>
+            </tr>
+            <tr>
+              <td>Right 1</td>
+              <td class="num">0.2850</td>
+              <td class="num">162.8</td>
+              <td class="num">0.0170</td>
+              <td class="num">0.0361</td>
+              <td>Stable blind consensus</td>
+            </tr>
+            <tr>
+              <td>Right 2</td>
+              <td class="num">0.2758</td>
+              <td class="num">164.5</td>
+              <td class="num">0.0170</td>
+              <td class="num">0.0460</td>
+              <td>Historical weak label</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 7｜ASLR bilateral repeatability series。</strong>
+        </div>
+        <div class="figure">
+          <img
+            src="../assets/phase-i-case-studies/aslr-bilateral-repeatability.svg"
+            alt="ASLR bilateral repeatability"
+          />
+          <div class="figure-caption">
+            <strong>图 3｜ASLR 左右侧与重复性。</strong
+            >相近的目标抬腿高度并不意味着固定腿 与骨盆控制 proxy
+            也同步稳定。该结果只有一个来源，属于定向采集假设。
+          </div>
+        </div>
+
+        <h3>3.5 Hurdle Step：同为 2 分，却有不同 review pathway</h3>
+        <p>
+          Round B 中有五条来自五个不同视频的 Hurdle rep 被两位 reviewer 一致判为
+          2 分。 对 blind comments 进行结构化主题编码，并连接 pose-derived
+          ranges 后，识别出四种
+          pathway：多领域控制、远端对线、回收阶段对线和单独的 dowel
+          control。五条动作的 `peakClearance` 跨 1.43 倍，`stepKneeLineOffset`
+          跨 10.12 倍， `trunkCenterOffset` 跨 11.43 倍。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 22%">Pathway</th>
+              <th>Reps</th>
+              <th style="width: 43%">Blind observation pattern</th>
+              <th style="width: 27%">Quantitative context</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Multi-domain control</td>
+              <td class="num">1</td>
+              <td>对线、躯干、支撑腿和 dowel 同时出现问题</td>
+              <td>Trunk offset 0.0263，接近五条最高值</td>
+            </tr>
+            <tr>
+              <td>Distal alignment</td>
+              <td class="num">2</td>
+              <td>躯干与支撑腿稳定，但膝踝/脚踝内移</td>
+              <td>Clearance 0.2061-0.2413</td>
+            </tr>
+            <tr>
+              <td>Return-phase alignment</td>
+              <td class="num">1</td>
+              <td>峰值阶段完成，收腿阶段出现膝踝对线变化</td>
+              <td>Clearance 0.2956，为五条最高</td>
+            </tr>
+            <tr>
+              <td>Dowel control only</td>
+              <td class="num">1</td>
+              <td>下肢和躯干稳定，主要问题为杆与栅栏不平行</td>
+              <td>Clearance 0.2225；trunk offset 0.0084</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 8｜Hurdle Step 2 分的四种 review pathway。</strong>
+        </div>
+        <div class="figure">
+          <img
+            src="../assets/phase-i-case-studies/hurdle-score2-pathways.svg"
+            alt="Hurdle score-two pathways"
+          />
+          <div class="figure-caption">
+            <strong>图 4｜五条 Hurdle 2 分动作的主题矩阵。</strong>同一个 2
+            分无法直接说明 “为什么是 2 分”或应优先复核哪里；主题来自 blinded
+            reviewer observations， 不是自动诊断标签。
+          </div>
+        </div>
+
+        <h3>3.6 Rotary Stability：完整周期事件矩阵</h3>
+        <p>
+          Rotary 由
+          setup、第一次触踝、伸展、第二次触踝、回位和离地时序组成。八条正式 rep
+          包含四条人工 1 分和四条人工 2 分。人工 1 分组的第二次触踝与回位均为
+          4/4 fail； 人工 2
+          分组的第一次触踝和肘膝伸展均保留，但其中两条在第二次触踝/回位仍有边界
+          证据，AI 因而保守提示 1 分。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Human score</th>
+              <th>First touch</th>
+              <th>Second touch</th>
+              <th>Elbow extension</th>
+              <th>Knee extension</th>
+              <th>Return</th>
+              <th>AI scores</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td>1 pass / 3 fail</td>
+              <td>4 fail</td>
+              <td>3 pass / 1 watch</td>
+              <td>1 pass / 2 watch / 1 fail</td>
+              <td>4 fail</td>
+              <td>4 × score 1</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td>4 pass</td>
+              <td>2 pass / 2 fail</td>
+              <td>4 pass</td>
+              <td>4 pass</td>
+              <td>2 pass / 2 watch</td>
+              <td>2 × score 2；2 × score 1</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 9｜Rotary 的 cycle-event evidence 摘要。</strong>
+        </div>
+        <div class="figure">
+          <img
+            src="../assets/phase-i-case-studies/rotary-cycle-event-matrix.svg"
+            alt="Rotary cycle event matrix"
+          />
+          <div class="figure-caption">
+            <strong>图 5｜Rotary full-cycle event matrix。</strong>Rotary
+            隐藏的信息不是单一 角度，而是 contralateral
+            coordination、动作顺序、完整伸展、触踝和回位控制的
+            组合；正式样本只来自两个视频，频率不能外推到总体人群。
+          </div>
+        </div>
+
+        <h3>3.7 历史标签审计</h3>
+        <p>
+          正式 32 条还被用于审计历史评分。25
+          条在两轮盲评中保持稳定数值共识，其中 18 条 与历史标签 exact，6
+          条稳定不一致，1 条历史分数缺失。只有 18 条可以标记为 `audited weak
+          labels`；其余历史标签继续用于 provenance、抽样和假设生成，不能升级 为
+          gold labels。该结果说明前期 110-rep 工作可以继续产生价值，但 32
+          条目的性平衡 样本不能证明全部历史标签有效。
+        </p>
+      </section>
+
+      <section id="discussion">
+        <h2>4. 讨论</h2>
+
+        <h3>4.1 分数压缩的不是同一种信息</h3>
+        <p>
+          本研究最重要的结果并不是“同分参数不同”这一句话，而是四个动作分别暴露了四类
+          信息压缩。Deep Squat 主要表现为连续关节贡献与动作策略；ASLR
+          表现为左右侧与 repeatability；Hurdle Step
+          表现为到达同一分数的不同扣分路径；Rotary Stability
+          表现为事件顺序与周期完整度。统一的 FMS
+          分值便于规则决策，但动作特异性的定量 evidence
+          才能进一步回答“动作是如何完成的”。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 24%">动作</th>
+              <th style="width: 35%">顺序分数压缩的信息</th>
+              <th>AI-FMS 恢复的研究对象</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deep Squat</td>
+              <td>连续关节贡献与动作策略</td>
+              <td>深度轴与踝、躯干、对线等相对独立维度</td>
+            </tr>
+            <tr>
+              <td>ASLR</td>
+              <td>左右侧差异与重复动作稳定性</td>
+              <td>Bilateral profile 与 repeatability</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td>到达同一分数的不同扣分原因</td>
+              <td>Review pathway 与定向 follow-up</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td>事件顺序、周期完整度与边界证据</td>
+              <td>Cycle-level temporal evidence</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 10｜跨动作的信息恢复框架。</strong>
+        </div>
+
+        <h3>4.2 人工一致性与 AI 一致性必须分开解释</h3>
+        <p>
+          两位 reviewer 在 Round B
+          对全部可评分状态和共同可评分分数达到完全一致，这说明 在本样本、本
+          protocol training 和本研究条件下，人工流程具有较高内部稳定性。 但两位
+          reviewer 不能代表 certified expert panel，也不能推断不同背景 reviewer
+          population 的 reliability。高 exact agreement
+          还会受到正式样本选择和分数分布影响。
+        </p>
+        <p>
+          Final AI 的 16/25 exact 和 23/25 within one 提供了一个有边界的内部
+          benchmark。 它说明当前规则可为多数正式样本提供与人工相同或相邻的
+          first-pass suggestion； 同时，ASLR 的少数大偏差、Hurdle 的 2/3 边界和
+          Deep Squat staged protocol abstention 都表明 AI 不能替代
+          reviewer。Final v1.1 接触过 Round A 后的开发过程，因此不能用 同一 32
+          条宣称 held-out accuracy。
+        </p>
+
+        <h3>4.3 Abstention 与质量门是系统能力</h3>
+        <p>
+          在自动评分叙事中，coverage 经常被误解为“所有样本都必须给分”。本研究将
+          evidence quality 与 score availability 分开。当 Deep Squat floor
+          attempt 未满足最高分且没有 heels-elevated follow-up
+          时，规则无法确定最终 staged score；合理行为是 abstain， 而不是根据单段
+          pose 强行猜测。类似地，ASLR active-side/peak gate 和 Hurdle
+          camera-view applicability 也要求系统明确说明证据边界。
+        </p>
+
+        <h3>4.4 工程贡献与研究贡献的关系</h3>
+        <p>
+          AI-FMS 的工程贡献不是单一模型，而是把 video、rep、pose、human
+          review、AI suggestion、quality gate 和 export 连接成可追踪流程。稳定
+          ID、append-only events、 signed JSON/SHA-256、SQLite
+          idempotency、manifest 与生成脚本使结果能够回到具体 证据。该设计遵循
+          human-AI interaction 中“让用户理解系统能力与限制、支持纠正和
+          保持人工控制”的一般原则<sup><a href="#ref-10">[10]</a></sup
+          >。
+        </p>
+        <p>
+          研究贡献则来自该流程能够保存传统分数之外的信息。换言之，工程系统使定量观察
+          可追溯，动作分析再把这些观察转化为可检验的问题。两者共同形成从产品
+          prototype 到 exploratory research 的闭环。
+        </p>
+
+        <h3>4.5 主要限制</h3>
+        <ol>
+          <li>
+            <strong>Sampling：</strong>110 reps 嵌套于 28 个源视频，不是 110
+            名独立 participants；动作、机位和来源分布不平衡。
+          </li>
+          <li>
+            <strong>Reviewer：</strong>只有两位 reviewer，且没有 certified
+            expert panel； 不能把内部一致性外推到专业群体。
+          </li>
+          <li>
+            <strong>Measurement：</strong>2D pose 受 camera
+            view、遮挡、透视、服装、主体 选择和 landmark jitter 影响；当前
+            features 是 video-derived proxies，不是临床 goniometric
+            measurement。
+          </li>
+          <li>
+            <strong>Validation：</strong>Final AI 在 Round A 后开发，不是
+            held-out；Round B 也没有展示 AI evidence，因此不能检验 AI
+            是否提高人工效率、信心或准确性。
+          </li>
+          <li>
+            <strong>Case analyses：</strong>Deep Squat reps 嵌套于 7
+            个视频；ASLR series 只有一个来源且含一条 weak label；Hurdle pathways
+            来自人工主题编码；正式 Rotary subset 只来自两个视频。
+          </li>
+          <li>
+            <strong>Ethics and rights：</strong
+            >来源视频的再发布授权不完全一致，当前不能公开 原视频、可识别帧、raw
+            pose 或 reviewer comments。
+          </li>
+        </ol>
+
+        <h3>4.6 下一阶段研究</h3>
+        <p>
+          下一阶段不应盲目增加 rep
+          数，而应围绕已识别的问题采集独立证据：使用主体明确、 side 与 peak
+          可见的 ASLR 视频验证 bilateral profile；使用完整轨迹和清晰 dowel 的
+          Hurdle 视频验证 pathway；使用手脚无遮挡、board alignment 可见的 Rotary
+          视频验证 cycle events；并以新的 source video 或 participant
+          为分组单位冻结 held-out set。
+        </p>
+        <p>
+          此外，可引入更多 reviewer 或 certified expert panel。如果要检验 AI
+          对人工审核的 实际帮助，应另设 evidence-assisted controlled
+          study，将盲评组与可见 AI evidence 组分开，预先定义
+          accuracy、confidence、time 和 correction outcomes。
+        </p>
+      </section>
+
+      <section id="conclusion">
+        <h2>5. 结论</h2>
+        <p>
+          本研究建立了一套覆盖七个 FMS 动作的人机协同视频审核平台，并在四动作
+          Phase I pilot 中连接了 canonical data、MediaPipe
+          pose、双轮人工盲评、锁定 AI comparison 和动作特异性定量分析。两位
+          reviewer 在 Round B 中对 32/32 条可评分状态判断一致， 并在共同可评分的
+          26 条中全部同分。最终锁定 AI 对 28/32 条给出分数；与人工数值
+          共识交集的 25 条中，16 条 exact、23 条 within one。
+        </p>
+        <p>
+          四种分析进一步表明，FMS
+          顺序分数可能分别压缩连续动作策略、左右与重复性、规则
+          扣分路径和时间事件顺序。AI-FMS
+          的价值不是把人工分数替换成另一个自动分数，而是
+          把这些连续、可解释、可追踪的 movement evidence
+          保存下来，并在证据不足时主动 abstain。当前结果支持一项有边界的
+          exploratory pilot 结论，不支持医疗诊断、伤病 预测、临床推广或
+          autonomous FMS scoring。
+        </p>
+        <div class="note-box">
+          <strong>最终结论：</strong>人工 ordinal judgment 与 pose-derived
+          quantitative evidence
+          可以被放入同一套可复核工作流；不同动作需要不同的分析问题与证据结构。
+          这一结果为后续 held-out validation、expert review 和 responsible
+          sports technology research 提供了方法基础。
+        </div>
+      </section>
+
+      <section id="declarations" class="page-break">
+        <h2>声明、伦理与数据可用性</h2>
+
+        <h3>作者贡献（待人工确认）</h3>
+        <p>
+          Ronnie：[研究问题与项目动机、FMS protocol 学习、研究设计参与、Reviewer
+          A 盲评、 结果解释、论文撰写与最终批准，待逐项确认]。Other
+          Reviewer：[独立盲评、方法和 结果审阅，是否满足作者资格待确认]。成人
+          advisor：[监督、伦理与权利审核、关键 学术审阅及通信职责，待确认]。
+        </p>
+
+        <h3>AI 使用披露</h3>
+        <p>
+          MediaPipe Pose Landmarker 被用于 pose estimation。OpenAI Codex 作为 AI
+          coding
+          agent，被用于辅助软件实现、可复现数据流程、分析脚本、研究图表，以及内部文档的
+          起草或编辑。人类参与者确定研究方向、完成盲评、检查证据与输出、解释结果，并对
+          提交的工作承担责任。Codex
+          不是作者。正式投稿前将根据目标期刊书面回复调整披露 格式，但不会淡化 AI
+          实际参与范围。医学期刊编辑规范同样强调，AI 工具不能承担
+          作者责任，使用方式应透明披露<sup><a href="#ref-11">[11]</a></sup
+          >。
+        </p>
+
+        <h3>伦理审批与同意</h3>
+        <p>
+          本研究没有前瞻性招募参与者，也没有收集人口统计或临床结局。Pilot
+          使用既有本地 和公开 instructional/reference videos。正式投稿前将向
+          NHSJS 书面确认 secondary video analysis 所需的
+          SRC、IRB、exemption、consent 和 rights documentation。
+          在确认前，本稿不声称伦理审查豁免。
+        </p>
+
+        <h3>数据与代码可用性</h3>
+        <p>
+          Source code、schema、聚合图和 public-safe methods 可在 rights/privacy
+          审核后通过 GitHub release 提供。Raw videos、可识别帧、raw pose
+          landmarks、reviewer comments、 signed exports 和本地 SQLite
+          不公开。Canonical data 与分析输出通过稳定 ID、 SHA-256、manifest
+          和生成脚本保存于 private research archive。
+        </p>
+
+        <h3>利益冲突与资金</h3>
+        <p>[待人工作者确认。当前草稿未记录外部商业资助或利益冲突。]</p>
+
+        <h3>致谢</h3>
+        <p>
+          感谢参与独立盲评、FMS protocol
+          讨论、数据审核和项目复核的人员。正式致谢名单需在 获得本人同意后填写。
+        </p>
+      </section>
+
+      <section id="references">
+        <h2>参考文献</h2>
+        <ol class="refs">
+          <li id="ref-1">
+            Cuchna JW, Hoch MC, Hoch JM. The interrater and intrarater
+            reliability of the Functional Movement Screen: a systematic review
+            with meta-analysis. <em>Physical Therapy in Sport</em>.
+            2016;19:57-65. doi:10.1016/j.ptsp.2015.12.002.
+          </li>
+          <li id="ref-2">
+            Bonazza NA, Smuin D, Onks CA, Silvis ML, Dhawan A. Reliability,
+            validity, and injury predictive value of the Functional Movement
+            Screen: a systematic review and meta-analysis.
+            <em>American Journal of Sports Medicine</em>. 2017;45(3):725-732.
+            doi:10.1177/0363546516641937.
+          </li>
+          <li id="ref-3">
+            Morgan R, LeMire S, Knoll L, et al. The Functional Movement Screen:
+            exploring interrater reliability between raters in the updated
+            version. <em>International Journal of Sports Physical Therapy</em>.
+            2023;18(3):737-745. doi:10.26603/001c.74724.
+          </li>
+          <li id="ref-4">
+            Bazarevsky V, Grishchenko I, Raveendran K, Zhu T, Zhang F, Grundmann
+            M. BlazePose: on-device real-time body pose tracking.
+            arXiv:2006.10204. doi:10.48550/arXiv.2006.10204.
+          </li>
+          <li id="ref-5">
+            Colyer SL, Evans M, Cosker DP, Salo AIT. A review of the evolution
+            of vision-based motion analysis and the integration of advanced
+            computer vision methods towards developing a markerless system.
+            <em>Sports Medicine - Open</em>. 2018;4:24.
+            doi:10.1186/s40798-018-0139-y.
+          </li>
+          <li id="ref-6">
+            Kidziński L, Yang B, Hicks JL, Rajagopal A, Delp SL, Schwartz MH.
+            Deep neural networks enable quantitative movement analysis using
+            single-camera videos. <em>Nature Communications</em>. 2020;11:4054.
+            doi:10.1038/s41467-020-17807-z.
+          </li>
+          <li id="ref-7">
+            Wade L, Needham L, McGuigan P, Bilzon J. Applications and
+            limitations of current markerless motion capture methods for
+            clinical gait biomechanics. <em>PeerJ</em>. 2022;10:e12995.
+            doi:10.7717/peerj.12995.
+          </li>
+          <li id="ref-8">
+            Pagnon D, Kim H. Sports2D: compute 2D human pose and angles from a
+            video or a webcam. <em>Journal of Open Source Software</em>.
+            2024;9(101):6849. doi:10.21105/joss.06849.
+          </li>
+          <li id="ref-9">
+            Cohen J. Weighted kappa: nominal scale agreement with provision for
+            scaled disagreement or partial credit.
+            <em>Psychological Bulletin</em>. 1968;70(4):213-220.
+            doi:10.1037/h0026256.
+          </li>
+          <li id="ref-10">
+            Amershi S, Weld D, Vorvoreanu M, et al. Guidelines for Human-AI
+            Interaction. In:
+            <em
+              >Proceedings of the 2019 CHI Conference on Human Factors in
+              Computing Systems</em
+            >. 2019:1-13. doi:10.1145/3290605.3300233.
+          </li>
+          <li id="ref-11">
+            International Committee of Medical Journal Editors. Use of
+            Artificial Intelligence in Publishing: Use of AI by Authors.
+            Accessed 2026-08-17.
+            https://www.icmje.org/recommendations/browse/artificial-intelligence/ai-use-by-authors.html.
+          </li>
+        </ol>
+        <p class="small">
+          注：正式投稿前，以上参考文献须由人类作者逐篇打开、阅读、确认引用语境，并按
+          NHSJS numerical citation format 生成匿名标准引用版与 online-citation
+          版。
+        </p>
+      </section>
+
+      <section id="appendix-a" class="page-break">
+        <h2><span class="appendix-label">附录 A</span>：动作特征与质量门</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 18%">动作</th>
+              <th style="width: 39%">主要 pose-derived evidence</th>
+              <th style="width: 20%">主要质量门</th>
+              <th>解释边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deep Squat</td>
+              <td>
+                Depth ratio、hip-knee gap、hip/knee angle、trunk lean、shank
+                lean、knee-ankle offset
+              </td>
+              <td>
+                Side/front applicability；完整最低点与回位；floor/board
+                condition
+              </td>
+              <td>2D proxy，不等同关节活动度诊断</td>
+            </tr>
+            <tr>
+              <td>ASLR</td>
+              <td>
+                Active ankle height、peak elevation、moving/stationary
+                knee、stationary ankle drift、pelvic gap
+              </td>
+              <td>Active-side stability；peak window；主体选择；遮挡</td>
+              <td>不能把一条 weak-label rep 当作 blind gold</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td>
+                Peak clearance、knee geometry、line offset、trunk center
+                offset、hip-height gap、ankle drift
+              </td>
+              <td>Camera-view applicability；完整前进与回收；目标人物</td>
+              <td>Pathway 为人工编码，不是病因分类</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td>
+                First/second touch、elbow/knee extension、lift
+                timing、return/balance、trunk displacement
+              </td>
+              <td>
+                Core-cycle visibility；criterion-specific
+                visibility；clearing/pain
+              </td>
+              <td>正式样本来源少，触踝 proxy 保守</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="appendix-b">
+        <h2><span class="appendix-label">附录 B</span>：分析分母与问题对应</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 24%">数字</th>
+              <th style="width: 34%">代表什么</th>
+              <th>不能被用来证明什么</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="center">110</td>
+              <td>完整 canonical repetitions</td>
+              <td>不是 110 名参与者，也不是 110 个 gold labels</td>
+            </tr>
+            <tr>
+              <td class="center">97</td>
+              <td>通过 blindability gate</td>
+              <td>不代表 pose evidence 可靠</td>
+            </tr>
+            <tr>
+              <td class="center">66</td>
+              <td>通过 pose/timing feature gate</td>
+              <td>不代表具有人工 gold score</td>
+            </tr>
+            <tr>
+              <td class="center">58</td>
+              <td>同时通过 blindability 与 feature gate</td>
+              <td>不是最终 formal sample</td>
+            </tr>
+            <tr>
+              <td class="center">32</td>
+              <td>平衡冻结的双轮 blind formal sample</td>
+              <td>不是对 110 的 simple random proof</td>
+            </tr>
+            <tr>
+              <td class="center">26</td>
+              <td>Round B 双方均可评分且同分</td>
+              <td>不包含 unscorable，也不等同 expert panel</td>
+            </tr>
+            <tr>
+              <td class="center">28</td>
+              <td>Final AI 有分数的正式样本</td>
+              <td>不代表 28 条都可与人工数值比较</td>
+            </tr>
+            <tr>
+              <td class="center">25</td>
+              <td>Final AI 与人工数值共识交集</td>
+              <td>不是 held-out evaluation set</td>
+            </tr>
+            <tr>
+              <td class="center">18</td>
+              <td>与稳定双轮共识 exact 的 audited weak labels</td>
+              <td>不能升级其余历史标签</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="appendix-c">
+        <h2><span class="appendix-label">附录 C</span>：论文主张控制</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 27%">主题</th>
+              <th style="width: 38%">可以说</th>
+              <th>不能说</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>平台能力</td>
+              <td>七动作均有 first-pass pose-based AI suggestion workflow</td>
+              <td>七动作已经达到相同验证成熟度</td>
+            </tr>
+            <tr>
+              <td>人工结果</td>
+              <td>两位 reviewer 在本正式样本中高度一致</td>
+              <td>已经证明临床或跨群体 reliability</td>
+            </tr>
+            <tr>
+              <td>AI 结果</td>
+              <td>在 25 条内部可比较样本中 16 exact、23 within one</td>
+              <td>64% accuracy、临床准确率或 held-out performance</td>
+            </tr>
+            <tr>
+              <td>动作发现</td>
+              <td>顺序分数压缩了动作特异性的连续与时间信息</td>
+              <td>已经识别 validated impairment subtype</td>
+            </tr>
+            <tr>
+              <td>功能解释</td>
+              <td>可提出 mobility、stability、coordination 的复核假设</td>
+              <td>诊断功能障碍、疼痛原因或伤病风险</td>
+            </tr>
+            <tr>
+              <td>Round B</td>
+              <td>第二次独立盲评与 test-retest evidence</td>
+              <td>AI evidence 提高了人工效率或信心</td>
+            </tr>
+            <tr>
+              <td>Zenodo</td>
+              <td>经允许后的 publicly available preprint</td>
+              <td>peer-reviewed publication</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="appendix-d">
+        <h2><span class="appendix-label">附录 D</span>：主要复现命令</h2>
+        <pre><code>npm run data:pilot:build
+npm run data:pilot:features
+npm run data:pilot:camera-views
+npm run data:pilot:features:camera-audited
+npm run data:pilot:utilization
+npm run data:pilot:profiles:label-free
+npm run study:profiles:round-a
+npm run study:ai-evidence:round-a
+npm run study:evidence:round-b
+npm run study:rotary:v1-1
+npm run study:ai:final-v1-1
+npm run study:labels:audit
+npm run release:phase-i:figures
+npm run release:phase-i:manifest
+npm run check</code></pre>
+        <p class="small">
+          需要签名 reviewer exports 的 closeout 命令只在 private research
+          environment 中运行。 Raw media、raw pose 和本地 SQLite
+          不属于公开复现包。
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
