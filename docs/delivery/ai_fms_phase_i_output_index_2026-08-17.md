@@ -17,15 +17,16 @@ review，后续修改以细节、语言、授权和目标载体适配为主。
 
 ## 2. 公开申请输出
 
-| 输出                      | Canonical source                                               | 当前状态                                  | 主要用途                                         | 下一步                                             |
-| ------------------------- | -------------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------ | -------------------------------------------------- |
-| Application writing pack  | `docs/ai_fms_phase_i_application_copy_2026-08-09.md`           | 当前文案已更新                            | Activities、Additional Information、resume、面试 | Ronnie 确认第一人称贡献与学校字数限制              |
-| Claim-control table       | `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md` | 数字和禁用主张已冻结                      | 所有公开文案的事实检查                           | 每次发布前逐项检查                                 |
-| Portfolio project page    | `docs/project_page_copy_ai_fms_v1_5.md`                        | 当前 copy 已更新，页面待实现              | 个人网站、补充链接、面试前浏览                   | 完成 rights 审核后制作正式页面                     |
-| Demo video                | `docs/demo_walkthrough_script_ai_fms_v1_5.md`                  | 4:30 Master、3 分钟版与 60 秒版脚本已更新 | Portfolio、推荐人 briefing、面试                 | Ronnie 出镜/旁白；证书与实践素材；录屏、字幕和剪辑 |
-| Interface visual package  | `docs/assets/publication/`                                     | 3 张当前界面图已完成                      | 论文、项目页、demo、简报                         | 两张人物帧逐帧确认授权                             |
-| Movement research figures | `docs/assets/phase-i-case-studies/`                            | 4 张 checksum-pinned 图已完成             | 论文、项目页、面试                               | 公开前做最后文字与配色复核                         |
-| GitHub project            | `README.md` + source tree                                      | 私有仓库、17/17 RC；迁移待执行            | 工程证明、技术复现、项目归属                     | 先收口 main，再转移到 Ronnie 账户                  |
+| 输出                      | Canonical source                                                           | 当前状态                                  | 主要用途                                         | 下一步                                             |
+| ------------------------- | -------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------------------------ | -------------------------------------------------- |
+| Application writing pack  | `docs/ai_fms_phase_i_application_copy_2026-08-09.md`                       | 当前文案已更新                            | Activities、Additional Information、resume、面试 | Ronnie 确认第一人称贡献与学校字数限制              |
+| Claim-control table       | `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md`             | 数字和禁用主张已冻结                      | 所有公开文案的事实检查                           | 每次发布前逐项检查                                 |
+| Portfolio project page    | `docs/project_page_copy_ai_fms_v1_5.md`                                    | 当前 copy 已更新，页面待实现              | 个人网站、补充链接、面试前浏览                   | 完成 rights 审核后制作正式页面                     |
+| Demo video                | `docs/demo_walkthrough_script_ai_fms_v1_5.md`                              | 4:30 Master、3 分钟版与 60 秒版脚本已更新 | Portfolio、推荐人 briefing、面试                 | Ronnie 出镜/旁白；证书与实践素材；录屏、字幕和剪辑 |
+| Video asset/shot plan     | `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md` | 逐镜头 production map 已完成              | 拍摄执行、素材交接、rights 和技术 QA             | 收集 A-roll、证书、七动作与 practice footage       |
+| Interface visual package  | `docs/assets/publication/`                                                 | 3 张当前界面图已完成                      | 论文、项目页、demo、简报                         | 两张人物帧逐帧确认授权                             |
+| Movement research figures | `docs/assets/phase-i-case-studies/`                                        | 4 张 checksum-pinned 图已完成             | 论文、项目页、面试                               | 公开前做最后文字与配色复核                         |
+| GitHub project            | `README.md` + source tree                                                  | 私有仓库、17/17 RC；迁移待执行            | 工程证明、技术复现、项目归属                     | 先收口 main，再转移到 Ronnie 账户                  |
 
 ## 3. 论文与研究输出
 
@@ -74,10 +75,11 @@ rights clearance。
 
 ## 6. 当前执行顺序
 
-1. **现在**：统一申请文案、project-page copy、demo script、README、plan 和 backlog。
-2. **人工输入**：Ronnie 作者信息、证书原图/准确名称、贡献/学习陈述、GitHub 用户名；
-   成人联系人；FMS 实践和媒体授权。
-3. **下一输出**：实现 project page，录制 4:30 application film 母版及短版，统一
+1. **已完成**：统一申请文案、project-page copy、demo script、README、plan 和 backlog。
+2. **现在收集**：Ronnie 作者信息、证书原图/准确名称、A-roll、七动作与实践 B-roll、
+   贡献/学习陈述、GitHub 用户名、participant consent 和媒体授权。
+3. **并行制作**：按 asset/shot plan 生成 screen recordings、results
+   card、research-figure motion 和 end card；随后实现 project page、剪辑视频并统一
    technical-report PDF。
 4. **发表路径**：发送 NHSJS 询问信，按书面回复准备英文 Word 与 supplement。
 5. **最后收口**：clean rebuild、public manifest、main merge、release、GitHub transfer。

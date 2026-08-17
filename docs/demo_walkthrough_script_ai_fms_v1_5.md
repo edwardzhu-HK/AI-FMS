@@ -9,6 +9,9 @@
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
 
+逐镜头素材来源、拍摄参数、人员分工和交付要求见：
+`docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。
+
 ## 1. 视频定位
 
 这不是单纯的 software demo。它同时承担两项任务：

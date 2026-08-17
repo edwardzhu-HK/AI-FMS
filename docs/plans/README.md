@@ -24,8 +24,10 @@
 - `../ai_fms_phase_i_application_evidence_table_2026-08-09.md`：公开 claim control。
 - `../project_page_copy_ai_fms_v1_5.md`：当前 Phase I portfolio project-page copy；
   文件名只为兼容旧链接而保留。
-- `../demo_walkthrough_script_ai_fms_v1_5.md`：当前 3 分钟和 60 秒 demo 脚本；
+- `../demo_walkthrough_script_ai_fms_v1_5.md`：当前 4:30 Master、3 分钟和 60 秒脚本；
   文件名只为兼容旧链接而保留。
+- `../delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`：逐镜头素材来源、
+  真人拍摄、screen recording、graphics、rights 和交付要求。
 - `../delivery/ai_fms_phase_i_output_index_2026-08-17.md`：跨输出的唯一交付入口。
 - `../delivery/ronnie_github_repository_transfer_2026-08-17.md`：Ronnie 账户迁移门槛。
 - `../../README.md`：GitHub onboarding 与当前 Phase I 状态。

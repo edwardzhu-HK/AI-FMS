@@ -454,6 +454,9 @@ Canonical execution plan:
 - [x] Add applicant-facing opening and closing sections covering FMS basics,
       Ronnie's Level 1/Level 2 certification, assessment practice, personal role,
       reflection, and college-stage research direction.
+- [x] Produce a time-coded asset and shot plan that separates new A-roll/FMS
+      filming, certificate processing, Workbench/Study screen recordings,
+      frozen-results graphics, research figures, rights gates, and handoff specs.
 - [ ] Collect the exact certificate titles/dates, redacted certificate images,
       consented FMS-practice footage, Ronnie A-roll, and final narration audio.
 - [ ] Produce the final technical-report PDF and verify text extraction, page
