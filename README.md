@@ -273,12 +273,19 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   双轮稳定盲审共识确认，可标记为 audited weak labels。
 - 所有结果都应表述为 exploratory pilot evidence，不做 clinical generalization。
 
-## 下一阶段
+## Phase I 收尾状态
 
-1. 为 Hurdle 增加 cycle-level knee/ankle、trunk 和 dowel-orientation evidence。
-2. 为 ASLR 补充主体明确、侧别与完整峰值可见的新来源视频，验证当前低分差异。
-3. 为 Rotary 补采手脚无遮挡、board edge 可见、完整侧身的新来源视频，作为 held-out
-   confirmation；不使用正式 8 条继续调参。
-4. 将四张差异化研究图整合进 project page 与 demo；现有 ASLR subject-aware 图保留为
-   方法 QA 补充材料。
-5. 完成公开素材 rights/privacy audit、demo video 和最终 release manifest。
+G1-G3 已完成，当前正式进入 G4 输出阶段。研究数字、双轮人工结果、锁定 AI internal
+benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增样本或继续调参作为交付
+条件。
+
+剩余 Phase I 工作：
+
+1. 完成技术报告 PDF、系统/lineage/result 总览图和逐页排版检查。
+2. 完成 portfolio project page、2-3 分钟英文 demo 与 60 秒短版。
+3. 完成公开素材 rights/privacy、PII 和最终夸大表述人工审计。
+4. 在干净环境复现代码与受控输出，生成 final public-safe manifest 和 closeout index。
+
+Phase II confirmation 再处理独立 held-out 视频：ASLR 主体/峰值、Hurdle 完整轨迹与
+dowel evidence、Rotary 清晰触踝与回位，以及更多 reviewer 或 expert panel。新数据不
+回写 Phase I 冻结结果。

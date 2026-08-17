@@ -1,5 +1,9 @@
 # AI-FMS V1.5 Demo Dry-Run Checklist
 
+> **历史技术检查单（2026-08-17）**：本文件继续用于复现 2026-05 的 V1.5 Deep Squat
+> demo preset，不代表最终 Phase I 视频脚本或发布验收。最终 demo 需另按 G4 交付矩阵
+> 完成七动作产品叙事、四动作研究结果、rights/privacy 和公开边界检查。
+
 日期：2026-05-22
 
 用途：这份 checklist 用来稳定复现 Deep Squat flagship demo，并补充验证当前

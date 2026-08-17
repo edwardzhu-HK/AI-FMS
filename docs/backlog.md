@@ -1,10 +1,10 @@
 # Backlog
 
-Date: 2026-08-10
+Date: 2026-08-17
 
 This backlog has been reset around the V1.5 restart plan:
 
-**Seven-movement annotation platform + Deep Squat flagship AI pipeline +
+**Seven-movement first-pass AI-assisted workflow + four-movement Phase I study +
 application-ready evidence package.**
 
 See `docs/specs/v1_5_scope_and_roadmap.md` for the canonical scope.
@@ -384,9 +384,9 @@ Canonical execution plan:
       ROI selection, manually review the two watch windows, and keep the result
       as a separate sensitivity layer: 1 good, 2 watch, 0 limited after ROI;
       no frozen evidence or scoring thresholds changed.
-- [ ] After Round B, prototype robust peak-window ASLR stationary-leg geometry
-      and cycle-level Hurdle knee/ankle, trunk, and dowel-orientation features
-      on independent videos.
+- [x] Defer robust peak-window ASLR geometry and expanded Hurdle cycle-level
+      features on independent videos to Phase II; these are not G3 acceptance
+      blockers for the frozen Phase I claims.
 - [x] Export Round A consensus action-specific quantitative feature tables with
       units and quality fields.
 - [x] Analyze Round A feature distributions and exploratory effect sizes by
@@ -431,7 +431,7 @@ Canonical execution plan:
 - [x] Update README to the current four-movement research narrative and remove
       single-video/mock-prototype onboarding drift.
 - [x] Finalize the Phase I dataset card, methods, limitations, and
-      ethics/publication notes for the Round A release candidate.
+      ethics/publication notes for the Round A/B results-frozen release candidate.
 - [x] Produce the Chinese Phase I technical report with an English abstract.
 - [x] Rewrite the Phase I report narrative around two product goals, implemented
       reviewer support, seven-action product scope, four-action research scope,
@@ -441,15 +441,21 @@ Canonical execution plan:
       explicit evidence tiers and limitations.
 - [x] Extend the application narrative beyond parameter differences to bounded,
       testable movement-science hypotheses and targeted follow-up priorities.
-- [x] Produce application project-page copy and a concise claim-control
-      evidence table.
-- [x] Generate the initial two public-safe, data-driven application figures for the Deep
-      Squat same-score profile and ASLR subject-aware sensitivity, with no raw
-      media, person images, source filenames, or local paths.
+- [x] Produce current application copy and a concise claim-control evidence table.
+- [x] Generate the initial two public-safe figures as a feasibility pass; retain
+      them as historical/QA assets after the v2 portfolio superseded them.
 - [x] Upgrade the pinned case-study generator to v2 and generate four
       differentiated public-safe figures from the full-pool, blind-review, and
       cycle-event evidence sources.
 - [ ] Record and verify a 2-3 minute demo video.
+- [ ] Replace the May V1.5 demo script with the current seven-movement product,
+      four-movement research, blind-review, and quantitative-findings narrative.
+- [ ] Produce the final technical-report PDF and verify text extraction, page
+      count, figure legibility, links, and page layout.
+- [ ] Build the final portfolio project page from the current application copy
+      and evidence table; link the report, demo, GitHub, and public-safe figures.
+- [ ] Finish the application writing pack: school-length variants, resume entry,
+      60-second answer, and Ronnie-approved contribution/learning statement.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
       17/17 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.
@@ -457,6 +463,8 @@ Canonical execution plan:
       study/claim boundaries, plus the full test and three-entry build gate.
 - [ ] Complete the human PII, media source-rights, demo visual, and final
       stale-claim audit after Round B.
+- [ ] Rebuild the application and controlled research outputs in a clean
+      environment, then generate the final public-safe manifest and closeout index.
 
 ## Stretch: Selected Movement Expansion
 

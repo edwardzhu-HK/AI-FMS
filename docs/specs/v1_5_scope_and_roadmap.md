@@ -1,6 +1,6 @@
 # AI-FMS V1.5 Scope and Roadmap
 
-Date: 2026-08-11
+Date: 2026-08-17
 
 ## 1. Executive Decision
 
@@ -29,126 +29,34 @@ four evidence gates rather than continuous daily scheduling:
 3. leakage-free quantitative feature analysis;
 4. application-facing report, dataset card, demo, and release bundle.
 
-The 2026-08-09 G1 checkpoint is accepted: Ronnie's branch has been selectively
-integrated, score-label leakage paths have been removed, 29/29 pilot ingests
-resolve both video and pose assets, and the current full 340-test quality gate
-passes.
-The canonical pilot contains 110 repetitions across Deep Squat, Hurdle Step,
-Active Straight Leg Raise, and Rotary Stability. Historical AI scores remain
-provenance-only and are excluded from accuracy analysis.
+As of 2026-08-17, G1-G3 are complete and the project is in G4 closeout:
 
-The current Study Mode keeps reviewer/round browser state only as a resume
-cache, exports an append-only JSON/SHA-256 evidence pair, and ingests validated
-complete exports into an ignored local SQLite research database. The review
-contract separates a true FMS score of 0 (observed or reported pain) from an
-unscorable protocol case; unscorable reps count as reviewed but remain excluded
-from score analysis.
+- Product workflow covers all seven FMS movements with first-pass pose-based AI
+  suggestions, action-specific quality gates, and human pain/clearing control.
+- The Phase I research scope remains four movements: 28 unique source videos,
+  110 canonical repetitions, 66 feature-ready repetitions, and a balanced
+  32-repetition blinded study subset.
+- Round A and Round B are complete. Both rounds remained blind to AI and pose
+  evidence. Round B reached 32/32 scoreability agreement and 26/26 exact score
+  agreement among jointly scorable repetitions.
+- The final locked AI produced 28/32 scores. Against the 25 repetitions with both
+  an AI score and numeric human consensus, it reached 16/25 exact and 23/25
+  within one, with MAE 0.44. This is a post-audit internal benchmark, not
+  held-out validation.
+- The final case-study portfolio uses four movement-specific methods rather than
+  one pairwise template: a 15-repetition Deep Squat continuum, a four-repetition
+  ASLR bilateral series, a five-repetition Hurdle pathway taxonomy, and an
+  eight-repetition Rotary cycle-event matrix.
+- The results-frozen release candidate verifies 17/17 research and application
+  artifacts, checksums 11 controlled documents, and passes the 340-test plus
+  three-entry production-build gate.
 
-Round B is implemented as a second blind review with isolated storage and a
-separately randomized queue. Reviewers see no AI score, pose-derived feature,
-Round A result, other-reviewer result, or source filename. A checksum-protected
-private benchmark package still joins the frozen 32-rep set to the
-camera-audited feature matrix and pre-human-join AI suggestion universe, but it
-is not loaded by Study Mode. Frozen AI v1.0 has a RAW SCORE for 18 reps, keeps
-all eight Rotary Stability reps feature-only, and withholds a total score for
-six Deep Squat reps lacking verified staged-attempt metadata. It is compared
-with Round A and Round B human consensus only after both signed second-round
-exports close.
-
-Both Round A reviewer exports are now complete, signed, validated, and stored in
-the local research database. The reproducible agreement package keeps review
-outcome agreement (31/32) separate from RAW SCORE agreement on the 26 jointly
-scored reps (26/26, linear and quadratic weighted kappa 1.0000), while retaining
-one scoreability mismatch and three unscorable-reason taxonomy mismatches for
-adjudication. These are frozen-pilot reliability results, not clinical validity.
-
-G3 exploratory analysis has started without altering or waiting on Round B. A
-checksum-verified pipeline joins the 26 jointly scored Round A reps to the
-leakage-controlled quantitative feature matrix. All 26 are feature-ready and
-span 16 source videos. The generated movement-profile package reports
-action/score distributions, explicitly video-confounded contrasts, and seven
-same-score/different-feature candidate pairs for human case-study review.
-
-A second checksum-protected pipeline now uses all 66 feature-ready reps for
-label-free profile discovery. It excludes scores and quality fields from
-distance, reports robust-z heatmaps, source-video effects, and
-leave-one-video-out stability, then overlays the 26 Round A consensus labels
-only after groups are frozen. Three of seven action-score strata cross more
-than one exploratory group, but every such result remains limited by a
-singleton, source signature, or too few independent videos. The supported
-finding is multidimensional within-score heterogeneity, not validated discrete
-impairment classes.
-
-The first cross-video Hurdle Step case review found two independently agreed
-score-2 reps with different step-knee line offset and hip-height gap. The camera
-audit subsequently changed the outlier from historical `front` to `mixed`,
-while the comparator remains `front`. The pair is therefore retained as a
-view-confounded metadata/feature-audit example, not as clean evidence of
-movement-only heterogeneity. The former stance-stability discrepancy was
-resolved by making the front-only feature unavailable for mixed/side views.
-
-A Deep Squat board-attempt pair is now the primary application-facing example.
-Both reps correctly receive score 2 because the heels are elevated, while the
-pose-derived depth, hip/knee flexion, shank lean, and knee-ankle offset show
-different completion quality. The parameter directions agree with the blinded
-reviewers' depth descriptions. A source-video check also exposed inaccurate
-historical camera-view metadata. The subsequent 110-rep contact-sheet audit
-preserved the original field for lineage and produced `auditedCameraView`: 65
-rows were confirmed and 45 were corrected, with all 29 two-reviewer Round A
-camera-view agreements matching the audited result. Future view-stratified
-analysis must use the audited layer.
-
-A separate camera-audited feature sensitivity matrix now preserves the frozen
-Round A fingerprint while rebuilding all 110 rows with corrected views. Four
-Hurdle numeric rows and 17 view-aware rating rows changed, but readiness stayed
-66/44. No label-free profile group, score stratum, source-effect flag, or
-stability status changed; only eight Hurdle outlier ranks shifted. This supports
-the robustness of the current high-level exploratory findings while preserving
-the original review lineage.
-
-The first leakage-free AI/consensus comparison now generates suggestions for
-all 110 audited feature rows before joining any human score. Of the 26 jointly
-scored Round A reps, 16 are eligible for a current rule-based total score: 9/16
-match exactly and 14/16 are within one point, while weighted kappa is negative.
-Eight Rotary Stability rows remain feature-only and two Deep Squat rows are
-correctly gated because staged-attempt metadata is missing. These results
-support quantitative AI evidence as a reviewer aid, not autonomous FMS scoring,
-and create a focused ASLR/Hurdle/protocol-metadata audit queue before any rule
-change or targeted collection. Runtime labels are isolated, but this is not an
-independent held-out validation because rule-development overlap with the pilot
-corpus remains possible.
-
-The research evidence model now explicitly preserves the full 110-rep pilot
-pool instead of shrinking the project to the 26 gold-consensus rows. All 110
-canonical repetitions and feature/quality records are mirrored into the local
-SQLite research database. Label-free quantitative summaries use all 66
-feature-ready reps; the formal 32-rep sample provides blinded reliability and
-protocol evidence; 26 jointly scored reps provide the current gold labels. The
-formal sample was a deterministic balanced selection from 58 blindable and
-feature-ready reps, not a simple random proof that all 110 labels are valid.
-
-The nine AI/human score differences have now received frame-level review. Two
-Deep Squat differences were resolved as missing staged-attempt metadata; the
-remaining cases identify bounded ASLR side/peak, Hurdle trajectory/dowel, view,
-and depth-proxy limitations. The frozen AI baseline remains 9/16 exact and
-14/16 within one; a separately labeled post-audit protocol sensitivity is
-11/17 exact and 15/17 within one. Thresholds were not tuned to Round A labels.
-
-A label-free ASLR side/peak evidence audit now covers all 17 ASLR records and
-16 unique evidence windows. Eleven windows are good, two require human review,
-and three are pose-limited because strong raise evidence is sparse or side
-labels switch around the peak. These gates use no scores, reviewer results, or
-source filenames. Limited windows are excluded from automatic score comparison;
-subject-aware re-extraction and robust peak-window geometry remain separate
-sensitivity work.
-
-G4 now has a Round A release candidate: a current README, Phase I dataset card,
-methods/limitations/ethics note, Chinese technical report with English abstract,
-application copy, and claim-control evidence table. A deterministic,
-fail-closed release generator verifies 15/15 private research/application
-artifacts, locks all reported evidence values, checksums 11 source-controlled documents, and
-audits release boundaries. Round B, demo recording, and human media
-rights/privacy review remain open.
+The closeout decision is **GO FOR OUTPUT**. Phase I does not need more tuning or
+new data to support its current bounded claims. Remaining work is publication
+quality: final report PDF/layout, a concise portfolio page, an updated demo
+script and video, rights/privacy review, clean-environment reproduction, and a
+final public-safe release manifest. New held-out videos, expert-panel review,
+and an evidence-assisted controlled study belong to the next validation phase.
 
 ## 2. Inputs Reviewed
 
@@ -315,10 +223,12 @@ In scope:
 - AI-final agreement report.
 - Segment timing error analysis.
 - Per-movement difficulty notes.
-- Technical report.
+- Technical report in Markdown and polished PDF form.
 - GitHub-ready README.
-- 2-3 minute demo video outline.
+- 2-3 minute demo video, subtitles, and a short cut.
 - Project page or portfolio-ready summary.
+- Application writing pack and contribution/learning statement.
+- Public-safe release manifest plus private evidence archive.
 
 ### V1.6: Dataset and Expansion Track
 
@@ -626,10 +536,11 @@ Dates: 2026-08-03 to 2026-08-16
 Deliverables:
 
 - Polished README.
-- Technical report draft.
-- Project page content.
-- Demo video script.
-- Final application project brief.
+- Final technical report and verified PDF.
+- Portfolio project page.
+- Demo video, subtitles, and short cut.
+- Final application writing pack.
+- Public-safe release manifest and closeout index.
 
 ### Stretch: Multi-Movement Expansion
 
@@ -816,11 +727,22 @@ Implementation status after the first P2 pass:
 46. Added the Rotary v1.1 Workbench path, a label-free final AI v1.1 package,
     and dual-version Round B closeout comparison. The current quality baseline
     is 335 tests plus lint, format, and three production entry builds.
+47. Completed both blind Round B reviews, validated signed exports, and froze
+    human reliability plus final AI internal-benchmark results.
+48. Replaced the uniform pairwise case portfolio with four movement-specific
+    analyses and four public-safe generated figures.
+49. Raised the results-frozen release candidate to 17/17 verified artifacts,
+    11 checksummed documents, 340 tests, lint, format, and three production
+    entry builds.
 
 Recommended next sprint:
 
-1. Deepen the four quantitative movement case studies and application figures.
-2. Validate ASLR subject selection and robust peak-window geometry on new videos.
-3. Add Hurdle cycle-level knee/ankle, trunk, and dowel-orientation evidence.
-4. Collect clear Rotary touch and board-alignment held-out samples.
-5. Record the demo and complete PII, media source-rights, and final claim audit.
+1. Finish report PDF/layout and the system, lineage, and outcome-summary visuals.
+2. Build the current portfolio project page from the frozen evidence package.
+3. Rewrite and record the 2-3 minute demo plus a short cut.
+4. Complete PII, media source-rights, privacy, and final claim audits.
+5. Reproduce the controlled package in a clean environment and publish the
+   public-safe manifest and closeout index.
+
+New ASLR/Hurdle/Rotary held-out collection is Phase II confirmation, not a
+Phase I closeout blocker.

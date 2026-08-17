@@ -1,5 +1,10 @@
 # AI-FMS V1.5 Demo Walkthrough Script
 
+> **历史脚本，暂勿直接录制（2026-08-17）**：本文件保留 2026-05 的单一 Deep Squat
+> flagship demo 流程。最终 Phase I demo 必须按统一收尾计划重写，覆盖七动作产品能力、
+> 四动作研究、双轮 blind review、AI-human internal benchmark、四种定量分析和明确限制。
+> 最终脚本与视频是 G4 待交付项。
+
 日期：2026-05-22
 
 用途：这是一份 2-3 分钟 demo video 的录屏脚本草稿。行文以中文说明为主，正式录制时可以使用英文旁白。目标受众是招生官、学校老师、项目评审者和不熟悉代码的人。
