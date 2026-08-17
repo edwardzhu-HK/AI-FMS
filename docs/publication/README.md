@@ -61,7 +61,7 @@ review timeline.
 | Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                         |
 | Literature review            | Initial draft             | Eleven starting references included; every source still requires human reading and verification |
 | Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                              |
-| Media and protocol rights    | Pending                   | Public figures are aggregate; source video and identifiable frames remain private               |
+| Media and protocol rights    | Pending                   | Internal draft has two real-frame UI captures; external reuse needs frame-level clearance       |
 | AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                              |
 | Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                       |
 | NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                 |
@@ -101,12 +101,12 @@ submission receipt, or Zenodo preprint.
   move detailed case tables, the Study Mode figure, and appendices into
   supporting material to meet the NHSJS 20-page limit at 12-point type.
 - `../../scripts/capture-ai-fms-publication-screenshots.mjs`: reproducibly runs
-  the real Demo and Study Mode dry-run, removes private media and score-bearing
-  metadata from the captured view, and generates the three publication assets.
-- `../assets/publication/ai-fms-workbench-overview-public-safe.png`: complete
-  Workbench overview used in the manuscript.
-- `../assets/publication/ai-fms-study-mode-blind-review-public-safe.png`: blind
-  review workflow figure retained in the internal paper and future supplement.
+  the real Demo and Study Mode dry-run, seeks fixed action frames, removes source
+  names and score-bearing metadata, and generates the three interface assets.
+- `../assets/publication/ai-fms-workbench-overview-real-video.png`: complete
+  Workbench overview with real movement video and pose overlay.
+- `../assets/publication/ai-fms-study-mode-blind-review-real-video.png`: blind
+  review workflow with the anonymous action video visible.
 - `../assets/publication/ai-fms-workbench-quantitative-evidence.png`: compact
   parameter-detail figure for the project page or supplement.
 
@@ -121,3 +121,7 @@ Before the inquiry is sent:
 4. Confirm which source videos, screenshots, and aggregate figures may be
    described or published.
 5. Approve the AI-use disclosure without minimizing the role of Codex.
+
+The two real-frame interface captures are for internal manuscript review until
+the exact frames are cleared for publication. If clearance is unavailable, they
+must be replaced by equivalent project-owned, consented footage.

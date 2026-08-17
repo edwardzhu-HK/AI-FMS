@@ -980,7 +980,7 @@
         </p>
         <div class="figure">
           <img
-            src="../assets/publication/ai-fms-study-mode-blind-review-public-safe.png"
+            src="../assets/publication/ai-fms-study-mode-blind-review-real-video.png"
             alt="AI-FMS Study Mode blind review workflow"
           />
           <div class="figure-caption">
@@ -988,7 +988,9 @@
             >Reviewer 只看到 匿名队列、动作视频、RAW
             SCORE、unscorable、confidence、camera view、side、 QA flags 和
             note；正式 Round A/B 不显示 AI suggestion、pose parameters、历史
-            分数、另一 reviewer 答案或源文件名。人物画面在论文候选图中被隐藏。
+            分数、另一 reviewer 答案或源文件名。图中保留 reviewer
+            实际看到的匿名动作
+            视频；该人物帧仅用于内部审阅，正式发表前需确认再发布权利。
           </div>
         </div>
 
@@ -1063,10 +1065,14 @@
           Pilot 使用既有本地和公开教学/reference
           videos，没有前瞻性招募参与者，也没有 收集人口统计、临床诊断或 injury
           outcome。不同来源的公开与再发布权利尚未完全
-          统一，因此本文初稿只使用聚合数值和无人物研究图。Raw
-          videos、可识别帧、raw pose、 reviewer comments、签名 exports 和 SQLite
-          均保持私有。正式投稿前需要目标期刊书面 确认 secondary-video research
-          所需的 SRC/IRB/exemption/consent 与 rights 材料。
+          统一。为准确展示系统，当前内部审阅稿在 Workbench 与 Study Mode
+          图中各保留一张
+          真实动作帧，但不显示源文件名、受试者身份或历史评分；这些截图不因此自动获得
+          对外再发布资格。Raw videos、未选取的可识别帧、raw pose、reviewer
+          comments、 签名 exports 和 SQLite
+          均保持私有。正式投稿前需要逐帧确认所用界面图的 rights，
+          并向目标期刊书面确认 secondary-video research 所需的
+          SRC/IRB/exemption/consent 材料。
         </p>
       </section>
 
@@ -1090,15 +1096,15 @@
         </p>
         <div class="figure">
           <img
-            src="../assets/publication/ai-fms-workbench-overview-public-safe.png"
+            src="../assets/publication/ai-fms-workbench-overview-real-video.png"
             alt="AI-FMS quantitative feature and seven-action workflow interface"
           />
           <div class="figure-caption">
             <strong>图 3｜AI-FMS Workbench 的定量证据与七动作范围。</strong
             >完整三栏界面同时展示视频与pose、AI
-            suggestion、人工reviewer、segment metadata、timing
-            evidence、七个rep和readiness。源视频画面在publication候选图中
-            被替换为privacy-safe pose-only view。
+            suggestion、人工reviewer、segment metadata、timing evidence、七个
+            rep 和 readiness。视频区显示真实动作帧与对齐的 MediaPipe pose
+            overlay；源文件名、score-bearing notes 与具体 reviewer ID 已移除。
           </div>
         </div>
 
@@ -1771,10 +1777,12 @@
         <h3>数据与代码可用性</h3>
         <p>
           Source code、schema、聚合图和 public-safe methods 可在 rights/privacy
-          审核后通过 GitHub release 提供。Raw videos、可识别帧、raw pose
-          landmarks、reviewer comments、 signed exports 和本地 SQLite
-          不公开。Canonical data 与分析输出通过稳定 ID、 SHA-256、manifest
-          和生成脚本保存于 private research archive。
+          审核后通过 GitHub release 提供。Raw videos、未获授权的可识别帧、raw
+          pose landmarks、reviewer comments、signed exports 和本地 SQLite
+          不公开。两张界面 截图中的固定视频帧只有在完成 frame-level rights
+          确认后才进入投稿稿件，否则将由
+          项目自有并取得同意的同类画面替换。Canonical data 与分析输出通过稳定
+          ID、 SHA-256、manifest 和生成脚本保存于 private research archive。
         </p>
 
         <h3>利益冲突与资金</h3>

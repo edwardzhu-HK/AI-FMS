@@ -53,7 +53,7 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 | 动作特异性分析              | 已准备         | 四种差异化分析与四张生成图                               |
 | 文献综述                    | 已有初稿       | 已列入 11 条起始参考文献；仍需人工作者逐篇阅读和核实     |
 | Ethics/SRC/IRB 判定         | 待确认         | 既有视频二次分析和未来采集均需明确要求                   |
-| 媒体与 protocol 权利        | 待确认         | 公开图为聚合图；源视频和可识别画面保持私有               |
+| 媒体与 protocol 权利        | 待确认         | 内部稿含两张真实视频界面图；对外使用需逐帧确认授权       |
 | AI 使用资格                 | 等待期刊回复   | 必须完整披露，不能自行假定符合政策                       |
 | 作者与成人 advisor          | 待确认         | 目标是 Ronnie 第一作者；需确定成人通信联系人             |
 | NHSJS Word 两个版本         | 待完成         | 只在资格与论文文字获批后制作                             |
@@ -87,11 +87,11 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
   正式 NHSJS 英文稿会把详细案例表、Study Mode 图与附录移入 supporting material，
   以满足 12 号字体、20 页正文限制。
 - `../../scripts/capture-ai-fms-publication-screenshots.mjs`：运行真实 Demo 和 Study Mode
-  dry-run，移除私有媒体与带分数暗示的 metadata，生成三张可复现 publication assets。
-- `../assets/publication/ai-fms-workbench-overview-public-safe.png`：论文使用的完整
-  Workbench 总览。
-- `../assets/publication/ai-fms-study-mode-blind-review-public-safe.png`：盲评 workflow 图，
-  保留在中文内部稿及未来 supplement。
+  dry-run，定位到固定动作帧，移除源文件名与带分数暗示的 metadata，生成三张可复现界面图。
+- `../assets/publication/ai-fms-workbench-overview-real-video.png`：包含真实动作视频与 pose
+  overlay 的完整 Workbench 总览。
+- `../assets/publication/ai-fms-study-mode-blind-review-real-video.png`：显示匿名动作视频的
+  盲评 workflow 图。
 - `../assets/publication/ai-fms-workbench-quantitative-evidence.png`：项目页或 supplement
   使用的参数近景图。
 
@@ -104,3 +104,6 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 3. 使用类似 CRediT 的贡献说明，确认每位人类参与者的真实角色。
 4. 确认哪些源视频、截图和聚合图可以被描述或公开。
 5. 批准完整的 AI-use disclosure，不淡化 Codex 的作用。
+
+两张含真实人物帧的界面图目前仅用于内部论文审阅。正式对外发表前必须确认具体画面的
+再发布权利；如无法确认，则替换为项目自有并取得同意的同类动作视频。

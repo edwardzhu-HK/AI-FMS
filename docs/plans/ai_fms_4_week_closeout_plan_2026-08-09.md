@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.34                          |
+| 版本     | v1.35                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-17                     |
@@ -579,14 +579,22 @@ Secondary questions：
 
 ## 12. 变更记录
 
+### v1.35 - 2026-08-17
+
+- 根据内部审阅反馈，Workbench 与 Study Mode 截图恢复真实动作视频帧；Workbench 同时
+  保留对齐的 MediaPipe pose overlay，不再使用黑色 pose-only 占位画面。
+- 截图继续移除源文件名、score-bearing notes 与具体 reviewer IDs；含人物界面图在
+  frame-level rights 确认前只用于内部审阅，无法授权时改用项目自有并取得同意的视频。
+
 ### v1.34 - 2026-08-17
 
 - 将旧的局部、留白过多界面图替换为真实浏览器生成的完整 Workbench、Study Mode 和
   quantitative feature 三张 publication-safe screenshots。
 - Workbench 图展示 AI-FMS 品牌、pose-only evidence、AI suggestion、两位 reviewer、
   segment metadata、timing 和七 rep；Study Mode 图展示完整盲评 controls。
-- 截图脚本自动隐藏人物帧、源文件名、score-bearing notes 和具体 reviewer IDs；当前中文
-  PDF 为 24 页，正式英文正文将把 Study Mode 图转入 supplement。
+- 截图脚本在该版自动隐藏人物帧、源文件名、score-bearing notes 和具体 reviewer IDs；
+  人物帧策略已在 v1.35 根据内部审阅反馈调整。当前中文 PDF 为 24 页，正式英文正文将把
+  Study Mode 图转入 supplement。
 
 ### v1.33 - 2026-08-17
 

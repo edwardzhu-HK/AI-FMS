@@ -18,20 +18,62 @@ const browser = await chromium.launch({
   headless: true,
 });
 
-async function makeVideoPublicSafe(page, selector, { showPose }) {
+async function seekVideoFrame(page, selector, second) {
+  await page.locator(`${selector} video`).evaluate(async (video, target) => {
+    if (video.readyState < 1) {
+      await new Promise((resolve, reject) => {
+        const timeout = window.setTimeout(
+          () => reject(new Error("Video metadata timed out")),
+          10_000,
+        );
+        video.addEventListener(
+          "loadedmetadata",
+          () => {
+            window.clearTimeout(timeout);
+            resolve();
+          },
+          { once: true },
+        );
+      });
+    }
+
+    video.pause();
+    video.muted = true;
+    const duration = Number.isFinite(video.duration) ? video.duration : target;
+    const clampedTarget = Math.max(0, Math.min(target, duration - 0.05));
+    if (Math.abs(video.currentTime - clampedTarget) > 0.02) {
+      await new Promise((resolve, reject) => {
+        const timeout = window.setTimeout(
+          () => reject(new Error("Video seek timed out")),
+          10_000,
+        );
+        video.addEventListener(
+          "seeked",
+          () => {
+            window.clearTimeout(timeout);
+            resolve();
+          },
+          { once: true },
+        );
+        video.currentTime = clampedTarget;
+      });
+    }
+    video.dispatchEvent(new window.Event("timeupdate"));
+  }, second);
+
+  await page.waitForTimeout(350);
+}
+
+async function prepareVideoForCapture(page, selector, { showPose }) {
   await page.addStyleTag({
     content: `
       ${selector} {
         position: relative !important;
         overflow: hidden !important;
-        background-color: #10232d !important;
-        background-image:
-          linear-gradient(rgba(118, 174, 194, 0.10) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(118, 174, 194, 0.10) 1px, transparent 1px) !important;
-        background-size: 32px 32px !important;
+        background: #071014 !important;
       }
       ${selector} video {
-        visibility: hidden !important;
+        visibility: visible !important;
       }
       ${selector} .keypoint-overlay {
         z-index: 2 !important;
@@ -51,41 +93,8 @@ async function makeVideoPublicSafe(page, selector, { showPose }) {
       ${selector} .skeleton-point-neutral {
         fill: #ecf4f6 !important;
       }
-      ${selector} .publication-media-label {
-        position: absolute;
-        z-index: 4;
-        top: 22px;
-        left: 24px;
-        padding: 10px 13px;
-        border: 1px solid rgba(183, 223, 231, 0.45);
-        background: rgba(8, 25, 33, 0.84);
-        color: #effbfd;
-        font: 600 14px/1.3 system-ui, sans-serif;
-        border-radius: 4px;
-      }
-      ${selector} .publication-media-label small {
-        display: block;
-        margin-top: 3px;
-        color: #a7c5ce;
-        font-size: 11px;
-        font-weight: 400;
-      }
     `,
   });
-
-  await page.evaluate(
-    ({ target, poseVisible }) => {
-      const shell = document.querySelector(target);
-      if (!shell || shell.querySelector(".publication-media-label")) return;
-      const label = document.createElement("div");
-      label.className = "publication-media-label";
-      label.innerHTML = poseVisible
-        ? "Privacy-safe pose evidence<small>Source frame withheld pending rights review</small>"
-        : "Blind review media<small>Source frame withheld in publication figure</small>";
-      shell.appendChild(label);
-    },
-    { target: selector, poseVisible: showPose },
-  );
 }
 
 async function captureWorkbench() {
@@ -95,56 +104,58 @@ async function captureWorkbench() {
   });
 
   await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+  await page
+    .locator(".demo-loader select")
+    .selectOption("publication-deep-squat");
   await page.getByRole("button", { name: "Load Demo" }).click();
   await page.waitForTimeout(1800);
   await page.getByRole("button", { name: "Start Analysis" }).click();
   await page.waitForFunction(
-    () => document.body.innerText.includes("7 clips"),
+    () => document.body.innerText.includes("3 clips"),
     null,
     { timeout: 15_000 },
   );
 
-  await page.locator(".segment-item").nth(4).click();
+  await page.locator(".segment-item").nth(2).click();
   await page.evaluate(() => {
-    const video = document.querySelector(".video-stage video");
-    if (video) {
-      video.currentTime = 29.5;
-      video.dispatchEvent(new window.Event("timeupdate"));
-    }
     const preset = document.querySelector(".form-card select");
     if (preset?.selectedOptions?.[0]) {
       preset.selectedOptions[0].textContent = "Deep Squat demonstration";
     }
     for (const node of document.querySelectorAll(".form-card p")) {
       node.textContent = node.textContent
-        .replace("Video: Sample-1.mp4", "Video: publication demo sample")
-        .replace("Pose: Sample-1.pose.json", "Pose: MediaPipe landmarks");
+        .replace("Video: deep-squat-demo.mp4", "Video: publication demo sample")
+        .replace(
+          "Pose: deep-squat-demo.pose.json",
+          "Pose: MediaPipe landmarks",
+        );
     }
     for (const node of document.querySelectorAll(".player-card p")) {
-      if (node.textContent.includes("Sample-1.pose.json")) {
+      if (node.textContent.includes("deep-squat-demo.pose.json")) {
         node.textContent =
-          "Real MediaPipe pose overlay; source frame withheld in publication figure.";
+          "Real MediaPipe pose overlay aligned to the selected action frame.";
       }
     }
     window.scrollTo(0, 0);
   });
   await page
     .locator(".form-card textarea")
-    .fill("Seven repetitions with front and side review views.");
+    .fill("Three front-view repetitions with complete movement cycles.");
   const reviewerIds = page.locator(".reviewer-form input");
   await reviewerIds.nth(0).fill("Reviewer_A");
   await reviewerIds.nth(1).fill("Reviewer_B");
   await page.evaluate(() => document.activeElement?.blur());
-  await page.waitForTimeout(600);
-  await makeVideoPublicSafe(page, ".video-stage", { showPose: true });
-  await page.waitForTimeout(300);
+  await prepareVideoForCapture(page, ".video-stage", { showPose: true });
+  await seekVideoFrame(page, ".video-stage", 15.28);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(200);
 
   const appBox = await page.locator(".calibration-app").boundingBox();
   if (!appBox) {
     throw new Error("Workbench root bounds are unavailable");
   }
   await page.screenshot({
-    path: path.join(outputDir, "ai-fms-workbench-overview-public-safe.png"),
+    path: path.join(outputDir, "ai-fms-workbench-overview-real-video.png"),
     clip: {
       x: appBox.x,
       y: 0,
@@ -171,15 +182,12 @@ async function captureStudyMode() {
   });
   await page.getByRole("button", { name: "Test Reviewer" }).click();
   await page.waitForSelector(".study-video-shell video");
-  await page.waitForTimeout(1200);
-  await makeVideoPublicSafe(page, ".study-video-shell", { showPose: false });
-  await page.waitForTimeout(300);
+  await page.locator(".queue-item", { hasText: "Deep Squat" }).click();
+  await prepareVideoForCapture(page, ".study-video-shell", { showPose: false });
+  await seekVideoFrame(page, ".study-video-shell", 14.4);
 
   await page.screenshot({
-    path: path.join(
-      outputDir,
-      "ai-fms-study-mode-blind-review-public-safe.png",
-    ),
+    path: path.join(outputDir, "ai-fms-study-mode-blind-review-real-video.png"),
     fullPage: false,
   });
 
@@ -193,16 +201,17 @@ try {
   await browser.close();
 }
 
-const outputs = fs
-  .readdirSync(outputDir)
-  .filter((name) => name.endsWith(".png"))
-  .sort()
-  .map((name) => {
-    const file = path.join(outputDir, name);
-    return { name, bytes: fs.statSync(file).size };
-  });
+const expectedOutputNames = [
+  "ai-fms-study-mode-blind-review-real-video.png",
+  "ai-fms-workbench-overview-real-video.png",
+  "ai-fms-workbench-quantitative-evidence.png",
+];
+const outputs = expectedOutputNames.map((name) => {
+  const file = path.join(outputDir, name);
+  return { name, bytes: fs.existsSync(file) ? fs.statSync(file).size : 0 };
+});
 
-if (outputs.length < 3 || outputs.some((item) => item.bytes < 20_000)) {
+if (outputs.some((item) => item.bytes < 20_000)) {
   throw new Error(`Screenshot generation failed: ${JSON.stringify(outputs)}`);
 }
 

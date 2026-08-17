@@ -192,21 +192,22 @@ Product Scope 回答“系统做出了什么”；Research Scope 回答“本阶
 
 ### 3.5 当前界面证据
 
-![AI-FMS publication-safe workbench overview](../assets/publication/ai-fms-workbench-overview-public-safe.png)
+![AI-FMS Workbench with real movement video](../assets/publication/ai-fms-workbench-overview-real-video.png)
 
-[打开原图：Publication-safe Workbench overview](../assets/publication/ai-fms-workbench-overview-public-safe.png)
+[打开原图：Workbench overview with real movement video](../assets/publication/ai-fms-workbench-overview-real-video.png)
 
-![AI-FMS Study Mode blind review](../assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
+![AI-FMS Study Mode blind review](../assets/publication/ai-fms-study-mode-blind-review-real-video.png)
 
-[打开原图：Study Mode blind-review dry-run](../assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
+[打开原图：Study Mode blind-review dry-run](../assets/publication/ai-fms-study-mode-blind-review-real-video.png)
 
 ![AI-FMS quantitative feature detail](../assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
 [打开原图：Quantitative feature detail](../assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
-这些截图通过真实浏览器和现有 Demo workflow 生成。为遵守当前 publication boundary，
-人物与源视频帧在 Workbench 和 Study Mode 图中被 privacy-safe evidence view 替代；
-pose、timing、features、AI suggestion 和 review controls 均来自真实应用状态。
+这些截图通过真实浏览器和现有 Demo workflow 生成。Workbench 同时显示真实动作视频、
+pose、timing、features、AI suggestion 和 review controls；Study Mode 显示 reviewer 实际
+看到的匿名动作视频与盲评控件。源文件名、score-bearing notes 和具体 reviewer IDs 已从
+截图中移除。含人物截图当前仅用于内部审阅，正式发表前必须完成 frame-level rights 审核。
 
 ## 4. 数据与研究方法
 

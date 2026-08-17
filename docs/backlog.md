@@ -473,12 +473,13 @@ Canonical execution plan:
 - [x] Reframe the manuscript around all-seven-movement system development and
       Phase I formative evaluation; retain four-movement information recovery as
       a secondary research contribution rather than the initial project purpose.
-- [x] Replace the old partial UI captures with reproducible, publication-safe
-      Workbench overview, quantitative-feature detail, and Study Mode dry-run
-      screenshots generated from the real browser workflow.
-- [x] Sanitize publication captures by withholding source media and removing
-      file names, score-bearing notes, and specific reviewer identifiers while
-      preserving real pose, timing, AI, metadata, and review controls.
+- [x] Replace the old partial UI captures with reproducible Workbench overview,
+      quantitative-feature detail, and Study Mode dry-run screenshots generated
+      from the real browser workflow.
+- [x] Restore clear real-video action frames in the Workbench and Study Mode
+      captures while removing source file names, score-bearing notes, and
+      specific reviewer identifiers; retain frame-level rights clearance as a
+      publication gate.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Send the NHSJS presubmission inquiry and archive the written response.

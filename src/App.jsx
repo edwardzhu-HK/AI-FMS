@@ -62,6 +62,24 @@ const INGEST_HISTORY_STORAGE_KEY = "ai-fms-v1-6-ingest-history";
 const MAX_INGEST_HISTORY_ENTRIES = 30;
 const DEMO_PRESETS = [
   {
+    id: "publication-deep-squat",
+    label: "Deep Squat full-width demo",
+    actionType: "deep_squat",
+    videoUrl:
+      "/Eval_Videos/Sample%20videos/1-Squat/3%20%282%29%20reps%20score%203.mp4",
+    poseUrl:
+      "/Eval_Videos/Sample%20videos/1-Squat/pose/3%20%282%29%20reps%20score%203.pose.json",
+    videoFileName: "deep-squat-demo.mp4",
+    poseFileName: "deep-squat-demo.pose.json",
+    expectedReps: "3",
+    notes:
+      "Three front-view Deep Squat repetitions with complete movement cycles.",
+    range: {
+      startSecond: "0",
+      endSecond: "20.3",
+    },
+  },
+  {
     id: "sample-1",
     label: "Sample-1 mixed views",
     actionType: "deep_squat",

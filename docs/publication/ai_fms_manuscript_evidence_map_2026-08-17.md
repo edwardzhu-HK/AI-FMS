@@ -268,14 +268,19 @@ submission set:
 1. Table 1: manual scoring problems, implemented functions, and boundaries.
 2. Figure 1: AI-FMS human-in-the-loop workflow and evidence lineage.
 3. Table 2: all-seven-movement product capability.
-4. Figure 2: public-safe Study Mode dry-run blind-review interface.
-5. Figure 3: public-safe full Workbench interface.
+4. Figure 2: Study Mode dry-run blind-review interface with a real anonymous
+   movement frame; internal review until frame-level rights clearance.
+5. Figure 3: full Workbench interface with real movement video and aligned pose;
+   internal review until frame-level rights clearance.
 6. Table 3: dataset tiers and four-movement Phase I sample distribution.
 7. Table 4: Round A/B human reliability and AI-human concordance.
 8. Figures 4-7: four movement-specific secondary analyses.
 
-All figures must be public-safe, readable in print, and free of source file
-names, local paths, identifiable frames, and raw reviewer comments.
+All figures must be readable in print and free of source file names, local
+paths, score-bearing metadata, and raw reviewer comments. Identifiable action
+frames may remain in the internal draft, but can enter the submitted manuscript
+only after frame-level rights clearance or replacement with project-owned,
+consented footage.
 
 ## Claims Excluded from the Manuscript
 

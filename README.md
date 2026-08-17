@@ -135,19 +135,22 @@ ASLR subject-aware sensitivity 另把三个原 `limited` 窗口重提取为 1 `g
 
 ## 界面截图
 
-![AI-FMS publication-safe workbench overview](docs/assets/publication/ai-fms-workbench-overview-public-safe.png)
+![AI-FMS Workbench with real movement video](docs/assets/publication/ai-fms-workbench-overview-real-video.png)
 
-完整 Workbench 总览：视频区域保留真实 pose overlay，但隐藏待授权源画面；同时展示
-AI suggestion、人工 reviewer、segment metadata、timing evidence 和七动作范围。
+完整 Workbench 总览：真实动作视频与 MediaPipe pose overlay 对齐显示，同时展示 AI
+suggestion、人工 reviewer、segment metadata、timing evidence 和七动作范围。
 
-![AI-FMS Study Mode blind review](docs/assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
+![AI-FMS Study Mode with real blind-review video](docs/assets/publication/ai-fms-study-mode-blind-review-real-video.png)
 
 Study Mode dry-run：展示匿名队列、RAW SCORE、unscorable、confidence、camera view、
-side、QA flags 和 note；中心媒体画面按 publication boundary 隐藏。
+side、QA flags 和 note；中心区域显示 reviewer 实际看到的匿名动作视频。
 
 ![AI-FMS quantitative feature detail](docs/assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
 定量证据近景：展示 depth、torso、knee、hip、ankle 等 reviewer-readable features。
+
+当前两张含人物画面的界面图用于内部文稿审阅。正式对外发布前必须确认所用视频帧的
+再发布权利；若无法确认，则替换为项目自采并获得授权的同类动作画面。
 
 ## 本地运行
 
