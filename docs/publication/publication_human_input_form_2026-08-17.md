@@ -2,6 +2,8 @@
 
 Status: WAITING FOR HUMAN CONFIRMATION
 
+Chinese version: `publication_human_input_form_2026-08-17.zh-CN.md`
+
 This form contains no research scores and can be completed directly in Markdown.
 Use `confirmed`, `not confirmed`, or a short factual answer. Do not guess.
 

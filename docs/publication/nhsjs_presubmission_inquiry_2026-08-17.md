@@ -2,6 +2,8 @@
 
 Status: DRAFT - do not send before human review
 
+Chinese review copy: `nhsjs_presubmission_inquiry_2026-08-17.zh-CN.md`
+
 To: `submissions@nhsjs.com`
 
 Subject: Presubmission eligibility inquiry - AI-assisted FMS video analysis by a high-school student

@@ -2,6 +2,8 @@
 
 Status: INTERNAL WORKING OUTLINE - not submission text
 
+Chinese version: `ai_fms_manuscript_evidence_map_2026-08-17.zh-CN.md`
+
 This document maps frozen evidence into an NHSJS Research Article structure. It
 is intentionally not a polished manuscript while the journal's AI-use policy is
 unconfirmed.

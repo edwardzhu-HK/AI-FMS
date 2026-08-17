@@ -4,6 +4,8 @@ Status: ACTIVE - presubmission clarification
 
 Last updated: 2026-08-17
 
+Chinese version: `README.zh-CN.md`
+
 ## Publication Decision
 
 Primary route:
@@ -81,10 +83,16 @@ submission receipt, or Zenodo preprint.
 ## Files
 
 - `nhsjs_presubmission_inquiry_2026-08-17.md`: review-ready inquiry draft.
+- `nhsjs_presubmission_inquiry_2026-08-17.zh-CN.md`: Chinese review copy of the
+  inquiry.
 - `ai_fms_manuscript_evidence_map_2026-08-17.md`: paper structure, frozen facts,
   figure plan, references to verify, and unsupported claims to exclude.
+- `ai_fms_manuscript_evidence_map_2026-08-17.zh-CN.md`: Chinese version of the
+  evidence map.
 - `publication_human_input_form_2026-08-17.md`: short author, contribution,
   rights, and AI-disclosure confirmation form.
+- `publication_human_input_form_2026-08-17.zh-CN.md`: Chinese version of the
+  human confirmation form.
 
 ## Required Human Decisions
 
