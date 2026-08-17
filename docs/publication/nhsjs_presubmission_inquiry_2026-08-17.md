@@ -15,11 +15,15 @@ would like to confirm eligibility before we format or submit the full paper.
 
 The working title is:
 
-> Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of
-> Movement Strategy in a Four-Movement Pilot
+> AI-FMS: Development and Phase I Evaluation of an Explainable Human-in-the-Loop
+> System for Functional Movement Screen Video Review
 
-The project developed a human-in-the-loop platform for reviewing Functional
-Movement Screen videos. The Phase I research reconstructed 28 source videos and
+The project developed an AI-assisted, human-in-the-loop system for reviewing all
+seven Functional Movement Screen movements. It supports video import,
+repetition segmentation and loop playback, timing correction, movement-specific
+pose evidence, first-pass AI suggestions, human scoring, quality gates,
+adjudication, and traceable export. The Phase I formative evaluation selected
+four movements and reconstructed 28 source videos and
 110 repetitions across four movements. Sixty-six repetitions passed pose and
 timing quality gates. Two human reviewers completed two blinded rounds on a
 balanced 32-repetition subset. A separately locked, rules-based AI pipeline was

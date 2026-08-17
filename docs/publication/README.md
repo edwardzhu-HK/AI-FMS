@@ -96,8 +96,10 @@ submission receipt, or Zenodo preprint.
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
   source for the complete Chinese internal manuscript draft.
 - `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
-  19-page A4 internal review PDF with five research figures, ten numbered
-  figure/table groups, references, and four appendices.
+  23-page A4 v0.2 internal review PDF with six numbered figures, twelve numbered
+  tables, references, and four appendices. The formal English submission will
+  move detailed case tables and appendices into supporting material to meet the
+  NHSJS 20-page limit at 12-point type.
 
 ## Required Human Decisions
 

@@ -82,8 +82,10 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 - `publication_human_input_form_2026-08-17.zh-CN.md`：人工确认表中文版。
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`：完整中文内部审阅稿的
   可维护源文件。
-- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`：19 页 A4
-  中文论文整体审阅 PDF，包含 5 张研究图、10 组编号图表、参考文献和 4 个附录。
+- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`：23 页 A4
+  v0.2 中文论文整体审阅 PDF，包含 6 张编号图、12 张编号表、参考文献和 4 个附录。
+  正式 NHSJS 英文稿会把详细案例表与附录移入 supporting material，以满足 12 号字体、
+  20 页正文限制。
 
 ## 需要人工决定的事项
 

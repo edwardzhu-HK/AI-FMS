@@ -467,9 +467,12 @@ Canonical execution plan:
 - [x] Produce a complete Chinese internal manuscript draft with title, abstract,
       introduction, methods, results, discussion, conclusion, declarations,
       references, figures/tables, and four appendices.
-- [x] Render and visually inspect a 19-page A4 Chinese manuscript PDF; verify
-      extractable text, page geometry, table integrity, figures, headers, and
-      page numbering.
+- [x] Render and visually inspect the initial 19-page Chinese draft, then rebuild
+      v0.2 as a 23-page system-development-first internal review PDF with all
+      figures, declarations, references, and appendices retained.
+- [x] Reframe the manuscript around all-seven-movement system development and
+      Phase I formative evaluation; retain four-movement information recovery as
+      a secondary research contribution rather than the initial project purpose.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Send the NHSJS presubmission inquiry and archive the written response.

@@ -15,11 +15,14 @@
 
 暂定题目为：
 
-> Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of
-> Movement Strategy in a Four-Movement Pilot
+> AI-FMS: Development and Phase I Evaluation of an Explainable Human-in-the-Loop
+> System for Functional Movement Screen Video Review
 
-本项目开发了一套用于审核 Functional Movement Screen 视频的 human-in-the-loop
-平台。Phase I 研究从 28 个源视频重建了四个动作共 110 个 repetitions，其中 66 个通过
+本项目开发了一套覆盖全部七个 Functional Movement Screen 动作的 AI-assisted、
+human-in-the-loop 视频审核系统，支持视频导入、rep segmentation 与 loop playback、
+timing correction、动作特异性 pose evidence、first-pass AI suggestion、人工评分、
+quality gate、adjudication 和可追踪导出。Phase I formative evaluation 从中选择四个
+动作，并从 28 个源视频重建了 110 个 repetitions，其中 66 个通过
 pose 和 timing 质量门。两位人工 reviewer 对平衡选取的 32 个 repetition 完成了两轮
 独立盲评。另一条独立且锁定的规则式 AI 流程，仅在盲评全部结束后才与人工共识进行
 比较。论文拟报告动作特异性的探索性分析、人工一致性、AI coverage 与 abstention，

@@ -407,18 +407,18 @@
       <section class="cover">
         <div class="cover-kicker">AI-FMS PHASE I · 中文论文完整审阅初稿</div>
         <h1>
-          超越 FMS 顺序分数：<br />四动作 Pilot
-          中基于姿态估计的人机协同动作策略分析
+          AI-FMS：可解释的人机协同<br />Functional Movement Screen
+          视频审核系统开发与 Phase I 评估
         </h1>
         <div class="cover-en">
-          Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of
-          Movement Strategy in a Four-Movement Pilot
+          AI-FMS: Development and Phase I Evaluation of an Explainable
+          Human-in-the-Loop System for Functional Movement Screen Video Review
         </div>
         <div class="cover-meta">
           <div><strong>学生作者：</strong>[Ronnie 正式发表姓名]</div>
           <div><strong>成人通信联系人：</strong>[姓名与 affiliation]</div>
           <div><strong>其他贡献者：</strong>[待按贡献与期刊政策确认]</div>
-          <div><strong>版本：</strong>中文完整初稿 v0.1 · 2026-08-17</div>
+          <div><strong>版本：</strong>中文完整初稿 v0.2 · 2026-08-17</div>
         </div>
         <div class="draft-badge">
           内部整体审阅稿 · 尚未提交期刊 · 不得表述为同行评审论文
@@ -453,60 +453,65 @@
         <h2>摘要</h2>
         <div class="abstract">
           <p>
-            <strong>背景：</strong>Functional Movement Screen（FMS）使用 0-3
-            的顺序分数
-            对动作完成情况进行归纳。该方法便于实际筛查，但一个单一分数无法完整保存动作
-            深度、关节贡献、左右差异、重复性、扣分路径和动作周期等连续信息。本研究开发并
-            评估了一套 human-in-the-loop 视频审核平台，探索 pose-derived
-            quantitative evidence
-            能否在保留人工最终判断权的同时，恢复顺序分数压缩掉的动作信息。
+            <strong>背景：</strong>人工 Functional Movement
+            Screen（FMS）评分面临多种实际
+            限制：现场动作快速结束，细节难以回看；远程与异步复核缺少统一工具；长视频中的
+            repetition 定位耗时；camera view、side、protocol
+            condition、confidence 与判断
+            依据不易保存在同一证据链中；人眼能够把握动作整体，却难以稳定记录角度、相对
+            距离和完整轨迹。本研究的主要目的，是开发并评估一套 AI-assisted、
+            human-in-the-loop 的 FMS
+            视频审核系统，为人工评分提供可回放、可解释、可定量、
+            可拒判和可追踪的辅助证据，而不是替代人工 reviewer。
           </p>
           <p>
-            <strong>方法：</strong>系统以 MediaPipe Pose Landmarker
-            为基础，连接视频动作 切片、人工盲评、动作特异性特征、规则式 AI
-            suggestion 和可追踪数据导出。Phase I 研究覆盖 Deep Squat、Active
-            Straight Leg Raise（ASLR）、Hurdle Step 和 Rotary Stability。研究从
-            28 个唯一源视频重建 110 个 canonical repetitions，其中 66 个 通过
-            pose/timing 质量门。两位 reviewer 对四动作各 8 条、共 32
-            条正式样本完成 两轮独立盲评。锁定 AI 通过与 Study Mode
-            隔离的路径处理同一批样本。研究另外采用
-            四种动作特异性探索方法：15-rep Deep Squat 连续谱、4-rep ASLR
-            双侧重复性序列、 5-rep Hurdle 盲评扣分路径分类，以及 8-rep Rotary
-            周期事件矩阵。
+            <strong>系统与方法：</strong>AI-FMS 以 React/Vite 和 MediaPipe Pose
+            Landmarker 构建，覆盖全部七个 FMS 动作的 video import、rep
+            segmentation、loop playback、 timing
+            correction、人工评分、movement-specific pose features、first-pass AI
+            suggestion、quality gate、adjudication 与 JSON/CSV export。Phase I
+            从其中四个 动作开展 formative evaluation：28 个唯一源视频、110 个
+            canonical repetitions， 其中 66 个通过 pose/timing 质量门。两位
+            reviewer 对平衡选取的 32 条正式样本完成 两轮独立盲评；锁定 AI
+            通过隔离路径处理同一批样本，并在签名审核完成后才与人工
+            共识连接。进一步的secondary
+            analysis采用四种动作特异性方法研究顺序分数之外的 定量信息。
           </p>
           <p>
-            <strong>结果：</strong>Round B 中两位 reviewer 对 32/32
-            条可评分状态判断一致； 在双方均可评分的 26 条中，RAW SCORE 为 26/26
-            exact。最终锁定 AI 对 28/32 条 给出分数；在同时具有 AI
+            <strong>结果：</strong>七个动作均完成统一的 annotation、pose
+            evidence、 first-pass AI suggestion、human confirmation 和 traceable
+            export workflow， 并通过 340 项自动测试与三个 production
+            builds。Round B 中两位 reviewer 对 32/32
+            条可评分状态判断一致；在双方均可评分的 26 条中，RAW SCORE 为 26/26
+            exact。最终锁定 AI 对 28/32 条给出分数；在同时具有 AI
             分数与人工数值共识的 25 条中，16/25 exact、23/25 相差不超过 1
-            分，MAE 为 0.44，linear weighted kappa 为 0.4917。动作特异性分析
-            显示：Deep Squat
-            的深度与髋膝屈曲形成较清楚的连续轴，但踝、躯干与对线保留
-            相对独立信息；ASLR 中相近的 active height
-            可伴随更大的固定腿与骨盆控制变化； 五条 Hurdle 2 分动作形成四种不同
-            review pathway；Rotary 的触踝、伸展、时序与
-            回位必须在完整周期内解释。
+            分，MAE 为 0.44，linear weighted kappa 为 0.4917。Secondary findings
+            显示，pose-derived evidence 还能够区分 Deep Squat 连续策略、ASLR
+            双侧重复性、Hurdle 扣分路径和 Rotary 周期事件。
           </p>
           <p>
-            <strong>结论：</strong>AI-FMS 的当前价值不是替代 reviewer
-            自动给分，而是把人工
-            顺序判断与连续、可解释、可追踪的动作证据放入同一工作流。结果支持开展进一步的
-            held-out 和 expert-panel
-            验证，但不支持医疗诊断、伤病预测或临床准确率主张。
+            <strong>结论：</strong>AI-FMS
+            已实现一套覆盖七动作、以人工为最终决策者的 AI-assisted FMS
+            视频审核系统，并在四动作 Phase I 中取得可复现的内部流程、人工
+            一致性与 AI-human concordance
+            证据。系统还显示出恢复顺序分数所压缩动作信息的
+            科研潜力。当前结果支持继续进行 held-out 与 expert-panel
+            验证，但不支持医疗诊断、 伤病预测、临床准确率或 autonomous scoring
+            主张。
           </p>
         </div>
         <p class="keywords">
           <strong>关键词：</strong>Functional Movement
           Screen；human-in-the-loop；pose estimation；movement quality；video
-          annotation；markerless motion analysis； ordinal score；interpretable
-          AI
+          annotation；AI-assisted review；markerless motion analysis；system
+          development；formative evaluation；interpretable AI
         </p>
       </section>
 
       <section id="intro">
         <h2>1. 引言</h2>
 
-        <h3>1.1 从动作筛查到视频审核</h3>
+        <h3>1.1 人工 FMS 评分的实际困难</h3>
         <p>
           FMS 通过七种动作模式和 0-3
           的顺序评分，帮助实践者以统一规则观察动作完成情况。
@@ -522,15 +527,18 @@
           >。
         </p>
         <p>
-          视频为动作审核提供了现场观察之外的能力：reviewer 可以暂停、回放、逐
-          rep 循环， 也可以在远程或异步场景中复核。然而，如果视频最终只留下一个
-          0-3 分数，大量关于 动作如何完成的信息仍会丢失。例如，两个同为 2 分的
-          Deep Squat 可能具有不同的动作
-          深度、髋膝屈曲组合、踝部贡献和躯干策略；两个相同分数的动态动作也可能在左右侧、
-          回收阶段或周期完整度上存在差异。
+          实际评分的困难不只来自分数的信息压缩。现场动作快速结束，reviewer
+          可能只能捕捉
+          一两个显著现象；无法亲临现场、需要远程或异步复核时，动作过程更难被重复观察；
+          长视频中定位每个 repetition 耗时；不同 rep 的 camera
+          view、side、protocol condition、confidence、pain/clearing
+          与判断理由也不容易统一保存。人眼擅长理解动作
+          整体，却难以逐帧稳定记录角度、相对距离和轨迹。视频能够提供暂停、回放和逐
+          rep
+          循环，但如果缺少结构化系统，视频本身并不会自动形成可靠、可追踪的审核流程。
         </p>
 
-        <h3>1.2 Markerless pose estimation 的机会与限制</h3>
+        <h3>1.2 AI 辅助人工审核的系统机会</h3>
         <p>
           Markerless pose estimation
           可以从普通视频中提取人体关键点，为低成本动作分析提供 基础。BlazePose
@@ -541,6 +549,16 @@
           可行性<sup><a href="#ref-6">[6]</a></sup
           >，Sports2D 等工具也说明 2D keypoints 可以转化为
           可读的关节和肢段角度<sup><a href="#ref-8">[8]</a></sup
+          >。
+        </p>
+        <p>
+          这些技术使构建 AI-assisted review system 成为可能：系统可以自动提出
+          rep timing、 叠加 pose skeleton、生成动作特异性定量
+          evidence，并在证据不足时提示人工复核。 关键不是让 reviewer 服从
+          AI，而是让 reviewer 能够暂停、比较、解释、修正或拒绝 AI
+          suggestion。Human-AI
+          系统应说明何时有证据、何时不确定，并保持人工能够覆盖 系统输出<sup
+            ><a href="#ref-10">[10]</a></sup
           >。
         </p>
         <p>
@@ -556,55 +574,120 @@
           >。
         </p>
 
-        <h3>1.3 研究缺口与目的</h3>
+        <h3>1.3 系统建成后的进一步科研价值</h3>
         <p>
-          现有讨论常把问题简化为“AI 能否自动给出 FMS
-          分数”。本研究采用不同定位：AI 首先 是人工审核的 evidence
-          layer，而不是最终决策者。Human-AI 系统应当说明何时有证据、
-          何时不确定，并保持人工能够复核和覆盖系统输出<sup
-            ><a href="#ref-10">[10]</a></sup
-          >。因此， 本研究不把综合分数作为唯一结果，而是同时保存视频范围、rep
-          timing、camera view、 side、protocol condition、pose
-          features、质量标志、人工判断和 AI abstention。
+          当视频、rep、pose、人工评分和 AI suggestion
+          被放入同一可追踪工作流后，系统不仅
+          能辅助实际评分，还能产生进一步的研究用途。FMS 的 0-3
+          顺序分数适合快速总结规则
+          结果，但同一分数可能包含不同的深度、关节贡献、左右稳定性、扣分路径或周期完整度。
+          因而，恢复 ordinal score 所压缩的 quantitative movement evidence
+          是系统完成后的 secondary research
+          opportunity，而不是项目最初唯一的问题来源。
         </p>
-        <p>本研究提出四个探索性问题：</p>
+
+        <h3>1.4 研究目的与主要贡献</h3>
+        <p>
+          本研究按“系统开发、Phase I 评估、进一步科研用途”三个层次提出问题：
+        </p>
         <ol>
           <li>
-            能否建立一个覆盖七动作、支持人工最终判断且可追踪的 FMS
-            视频审核平台？
+            能否开发一套覆盖全部七个 FMS
+            动作、适合现场外和异步复核、并由人工保持最终 判断权的 AI-assisted
+            video review system？
           </li>
           <li>
-            两位 reviewer 在两轮独立盲评中的一致性与 test-retest stability
-            如何？
+            系统能否把 rep timing、pose features、protocol
+            metadata、人工审核、AI suggestion、quality gate 与 export lineage
+            连成可复现证据链？
           </li>
           <li>
-            锁定 AI 的 coverage、abstention 和与人工共识的 internal concordance
-            如何？
+            在四动作 Phase I 中，人工 blind review 的一致性与 test-retest
+            stability 如何， 锁定 AI 的 coverage、abstention 与 internal
+            concordance 如何？
           </li>
           <li>
-            不同动作的顺序分数分别压缩了哪些连续、双侧、规则路径或时间事件信息？
+            系统保存的 pose-derived evidence
+            能否进一步揭示顺序分数之外的动作特异性信息？
           </li>
         </ol>
         <div class="lead-box">
-          <strong>论文的核心主张：</strong>FMS
-          顺序分数并非“错误”，而是为了快速决策进行的 有目的压缩。AI-FMS
-          的研究价值在于恢复部分被压缩的信息，并把这些信息转化为可以
-          复核、比较和继续验证的 evidence，而不是用 AI 替代人工判断。
+          <strong>论文的核心主张：</strong>AI-FMS
+          的首要贡献是开发并验证一套覆盖七动作的 AI 辅助人工 FMS
+          视频审核系统；四动作 Phase I 为系统提供内部评估证据。对同分动作
+          隐藏信息的恢复，是该系统在完成主要功能后进一步解锁的科研价值。
         </div>
       </section>
 
       <section id="methods">
         <h2>2. 方法</h2>
 
-        <h3>2.1 研究设计与系统范围</h3>
+        <h3>2.1 Human-centered 设计目标</h3>
         <p>
-          本研究为探索性观察型 software-and-data pilot。平台产品层覆盖全部七个
-          FMS 动作， 包含视频上传、分析范围、rep segmentation、loop
-          playback、人工评分、pose overlay、 movement-specific
-          features、first-pass AI suggestion、adjudication 和 JSON/CSV
-          export。Phase I 定量研究聚焦四个具有较完整历史视频和 pose
-          证据的动作：Deep Squat、 ASLR、Hurdle Step 和 Rotary Stability。
+          本研究首先是一项 human-centered system development。设计目标来自人工
+          FMS
+          评分中的实际任务，而不是预设某个动作或某一种参数分析。系统需要支持远程与异步
+          视频审核、减少 rep 定位成本、允许动作回放与 timing
+          correction、保存评分上下文、 提供可解释的 pose evidence、在证据不足时
+          fail closed，并保留人工最终判断和完整
+          lineage。各项目标及其实现方式见表 1。
         </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 28%">人工评分中的困难</th>
+              <th style="width: 39%">系统功能</th>
+              <th>预期帮助与边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>无法亲临现场或需要异步复核</td>
+              <td>本地视频导入、匿名 reviewer queue、可恢复状态</td>
+              <td>支持远程与异步工作</td>
+            </tr>
+            <tr>
+              <td>动作快速结束，难以回看细节</td>
+              <td>Duration-aware range、逐 rep segment、loop playback</td>
+              <td>允许暂停和重复观察</td>
+            </tr>
+            <tr>
+              <td>长视频中寻找 rep 耗时</td>
+              <td>
+                Timing detector、draft segmentation、人工 timing correction
+              </td>
+              <td>减少定位工作；错误切分仍需人工修正</td>
+            </tr>
+            <tr>
+              <td>人眼难以稳定记录连续量</td>
+              <td>MediaPipe overlay、角度、距离、轨迹与动作特异性 features</td>
+              <td>增加定量旁证；2D proxy 不是临床量角器</td>
+            </tr>
+            <tr>
+              <td>机位、侧别与 protocol 容易丢失</td>
+              <td>
+                Camera view、side、attempt condition、clearing/pain metadata
+              </td>
+              <td>保存评分上下文；pain 不由 AI 判断</td>
+            </tr>
+            <tr>
+              <td>遮挡、主体混乱或证据不足</td>
+              <td>Pose-quality gate、subject/side QA、watch 与 abstain</td>
+              <td>提示 reviewer 复核，不强行输出总分</td>
+            </tr>
+            <tr>
+              <td>第二 reviewer 与争议难以追溯</td>
+              <td>
+                Blind Study Mode、append-only events、adjudication、export
+              </td>
+              <td>支持独立复核、争议处理与追踪</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 1｜人工评分问题、系统功能与帮助边界。</strong>
+        </div>
 
         <div class="figure">
           <div class="workflow">
@@ -649,7 +732,91 @@
           </div>
         </div>
 
-        <h3>2.2 Canonical 数据重建</h3>
+        <h3>2.2 七动作系统架构与实现范围</h3>
+        <p>
+          AI-FMS 采用统一的 segment-centered architecture：前端 Workbench
+          负责视频导入、 播放、segment navigation、metadata、人工评分和AI
+          evidence；movement adapter registry 为每个动作提供
+          timing、features、AI suggestion、side 与 clearing policy； Study Mode
+          负责与 AI 隔离的盲评；export 与 research pipeline 负责 schema、stable
+          IDs、checksums、SQLite mirror 和可复现分析。七个动作均进入 implemented
+          状态， 但动作特异性的 evidence 和验证强度分别管理。
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 19%">动作</th>
+              <th style="width: 23%">Timing / annotation</th>
+              <th style="width: 31%">主要 pose evidence</th>
+              <th style="width: 17%">AI suggestion</th>
+              <th>人工边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Deep Squat</td>
+              <td>Rep cycle + floor/board context</td>
+              <td>Depth、torso、hip/knee/ankle proxies</td>
+              <td>Staged、可解释、允许 abstain</td>
+              <td>Protocol 与 pain</td>
+            </tr>
+            <tr>
+              <td>ASLR</td>
+              <td>Left/right raise cycle</td>
+              <td>Active leg、stationary leg、pelvis、side evidence</td>
+              <td>侧别与抬腿质量建议</td>
+              <td>Side uncertainty</td>
+            </tr>
+            <tr>
+              <td>Hurdle Step</td>
+              <td>Forward/return cycle</td>
+              <td>Clearance、stance leg、pelvis/trunk、alignment</td>
+              <td>动态动作质量建议</td>
+              <td>Dowel、接触与恢复</td>
+            </tr>
+            <tr>
+              <td>In-Line Lunge</td>
+              <td>Lunge-depth cycle</td>
+              <td>Depth、trunk/pelvis、rear leg、knee-foot line</td>
+              <td>动作质量与侧别建议</td>
+              <td>Ankle clearing</td>
+            </tr>
+            <tr>
+              <td>Shoulder Mobility</td>
+              <td>Best-reach evidence</td>
+              <td>Reach distance、visibility、side context</td>
+              <td>保守 reach suggestion</td>
+              <td>Shoulder clearing / pain</td>
+            </tr>
+            <tr>
+              <td>Trunk Stability Push-Up</td>
+              <td>Push-up lift event</td>
+              <td>Lift、body line、arm extension、hip drift</td>
+              <td>保守 body-line suggestion</td>
+              <td>Extension clearing / pain</td>
+            </tr>
+            <tr>
+              <td>Rotary Stability</td>
+              <td>Setup-touch-extension-return cycle</td>
+              <td>两次触踝、肘膝伸展、离地时序、回位与稳定性</td>
+              <td>Cycle 1/2/3 或 abstain</td>
+              <td>Flexion clearing / pain</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-caption">
+          <strong>表 2｜七动作统一产品范围。</strong>七动作均具备 first-pass
+          pose-based AI
+          suggestion；“功能已实现”不等于“七动作已经获得同等外部验证”。
+        </div>
+
+        <h3>2.3 Phase I 评估范围与 Canonical 数据重建</h3>
+        <p>
+          为在可控范围内评估完整数据治理、人工审核和 AI comparison，Phase I
+          从七动作中 选择 Deep Squat、ASLR、Hurdle Step 和 Rotary
+          Stability。该选择反映当时可用视频、 pose
+          与动作多样性，不代表另外三动作缺少产品功能。
+        </p>
         <p>
           研究从 28 个 cumulative history exports 重建 canonical
           snapshot。相同内容的视频 通过 checksum 去重，最终得到 29 个 ingest、28
@@ -721,11 +888,11 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 1｜四动作数据范围。</strong>Repetitions
+          <strong>表 3｜Phase I 四动作评估数据范围。</strong>Repetitions
           嵌套于源视频，不能将 110 reps 解释为 110 名独立参与者。
         </div>
 
-        <h3>2.3 Blindability 与 feature-readiness 质量门</h3>
+        <h3>2.4 Blindability 与 feature-readiness 质量门</h3>
         <p>
           所有 110 条 rep 均通过 start/middle/end contact-sheet
           审核。画面中的直接数字分数、 明确评分指导、目标人物错误或动作不可见会
@@ -785,12 +952,12 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 2｜Evidence tiers。</strong>完整 pool
+          <strong>表 4｜Evidence tiers。</strong>完整 pool
           被保留；不因正式样本较小而丢弃 前期数据，也不把未审核的 weak labels
           升级为 gold labels。
         </div>
 
-        <h3>2.4 双轮人工盲评</h3>
+        <h3>2.5 双轮人工盲评</h3>
         <p>
           两位 reviewer 分别完成 Round A 和 Round B。第二轮在约 51
           小时后进行，使用重新 随机的队列和独立存储
@@ -809,7 +976,7 @@
           >。
         </p>
 
-        <h3>2.5 Pose-derived features 与锁定 AI</h3>
+        <h3>2.6 Pose-derived features 与锁定 AI</h3>
         <p>
           MediaPipe Pose Landmarker 生成 time-aligned landmarks。Action adapters
           在脱敏后 的 pose payload 上提取 normalized distances、2D
@@ -826,10 +993,12 @@
           时，系统保持 abstain。
         </p>
 
-        <h3>2.6 动作特异性分析</h3>
+        <h3>2.7 Secondary quantitative analyses</h3>
         <p>
-          四个动作并未套用同一个 pairwise
-          template。分析问题、单位和方法由动作结构及 可用证据决定：
+          完成系统与 Phase I
+          主要评估后，本研究进一步检验系统是否能够支持传统顺序分数
+          之外的科研分析。四个动作并未套用同一个 pairwise
+          template；分析问题、单位和方法 由动作结构及可用证据决定：
         </p>
         <table>
           <thead>
@@ -870,10 +1039,10 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 3｜动作特异性分析设计。</strong>
+          <strong>表 5｜Secondary quantitative analysis 设计。</strong>
         </div>
 
-        <h3>2.7 伦理、隐私与数据边界</h3>
+        <h3>2.8 伦理、隐私与数据边界</h3>
         <p>
           Pilot 使用既有本地和公开教学/reference
           videos，没有前瞻性招募参与者，也没有 收集人口统计、临床诊断或 injury
@@ -888,6 +1057,36 @@
       <section id="results" class="page-break">
         <h2>3. 结果</h2>
 
+        <h3>3.1 七动作系统实现与工程验证</h3>
+        <p>
+          AI-FMS 已从单动作 prototype 扩展为统一的七动作系统。Workbench
+          可以完成视频导入、 duration-aware range、rep segmentation、loop
+          playback、timing correction、camera view/side/protocol/clearing
+          metadata、人工评分、pose overlay、movement-specific
+          features、first-pass AI suggestion、adjudication 和 dataset
+          export。Study Mode 提供 与 AI 隔离的匿名 queue、append-only
+          events、resume、blind-state validation 和签名 JSON/SHA-256
+          export。Video Manager 与 manifest tools 支持候选视频治理和资产
+          readiness。七动作 adapter 与 evidence gate 均通过统一 smoke
+          path；完整质量门包含 340 项自动测试、lint、format 和 Workbench、Study
+          Mode、Video Manager 三个 production
+          builds。测试数量只证明工程流程可重复，不代表科学或临床有效性。
+        </p>
+        <div class="figure">
+          <img
+            src="../assets/ai-fms-demo-side-angle-features.jpg"
+            alt="AI-FMS quantitative feature and seven-action workflow interface"
+          />
+          <div class="figure-caption">
+            <strong>图 2｜AI-FMS Workbench 的定量证据与七动作范围。</strong
+            >界面同时展示 rep-level timing/readiness、Deep Squat angle and
+            distance evidence，以及七个 FMS movement
+            slots。该截图不包含可识别人物画面。
+          </div>
+        </div>
+
+        <h3>3.2 Phase I 数据与质量输出</h3>
+
         <div class="stat-grid">
           <div class="stat"><b>110</b><span>Canonical reps</span></div>
           <div class="stat"><b>66</b><span>Feature-ready</span></div>
@@ -895,7 +1094,15 @@
           <div class="stat"><b>28</b><span>Final AI scores</span></div>
         </div>
 
-        <h3>3.1 人工一致性与复测稳定性</h3>
+        <p>
+          Phase I 构建了 110-rep canonical pool、97 条 blindable、66 条
+          feature-ready、 58 条双门槛候选和 32
+          条正式盲审样本。全部正式样本同时通过 blindability 与
+          feature-readiness。该层级化结果说明系统能够保留 limited 与 excluded
+          evidence， 而不是只输出经过筛选的成功案例。
+        </p>
+
+        <h3>3.3 人工一致性与复测稳定性</h3>
         <p>
           Round A 中两位 reviewer 的 outcome agreement 为 31/32。双方均可评分的
           26 条 全部同分；5 条双方均为 unscorable，另有 1 条 scoreability
@@ -952,12 +1159,12 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 4｜双轮人工审核结果。</strong>高一致性受正式样本筛选、共同
+          <strong>表 6｜双轮人工审核结果。</strong>高一致性受正式样本筛选、共同
           protocol training、分值结构和只有两位 reviewer
           等条件限制，不能外推为临床可靠性。
         </div>
 
-        <h3>3.2 AI-Human Internal Concordance</h3>
+        <h3>3.4 AI-Human Internal Concordance</h3>
         <p>
           Final AI v1.1 对正式 32 条中的 28 条给出 RAW SCORE，对 4 条 Deep Squat
           staged floor attempt 保持 abstain。人工 Round B 形成 26 条数值共识，AI
@@ -1016,12 +1223,19 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 5｜Final AI v1.1 与 Round B 人工共识。</strong>这是
+          <strong>表 7｜Final AI v1.1 与 Round B 人工共识。</strong>这是
           post-audit internal benchmark，不是 held-out accuracy。AI coverage 与
           agreement 分开报告。
         </div>
 
-        <h3>3.3 Deep Squat：动作策略是连续谱</h3>
+        <h3>3.5 系统进一步解锁的定量科研用途</h3>
+        <p>
+          在完成七动作系统实现和四动作 Phase I 主要评估后，系统保存的连续 pose
+          evidence 进一步支持以下四种探索性研究。它们是系统的 secondary research
+          contribution， 不取代前述产品开发与评估结果。
+        </p>
+
+        <h4>3.5.1 Deep Squat：动作策略是连续谱</h4>
         <p>
           从 31 条 feature-ready Deep Squat 中保留 15 条审计后的 side-view
           reps，覆盖 7 个源视频。分析不使用人工分数，以 `peakDepthRatio`
@@ -1080,7 +1294,7 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 6｜Deep Squat 连续谱的 rank correlations。</strong>
+          <strong>表 8｜Deep Squat 连续谱的 rank correlations。</strong>
         </div>
         <div class="figure">
           <img
@@ -1088,13 +1302,13 @@
             alt="Deep Squat strategy continuum"
           />
           <div class="figure-caption">
-            <strong>图 2｜Deep Squat strategy continuum。</strong>15 条侧视 rep
+            <strong>图 3｜Deep Squat strategy continuum。</strong>15 条侧视 rep
             显示较清楚
             的深度/髋膝屈曲轴，同时保留踝、躯干和膝踝对线等相对独立的动作维度。
           </div>
         </div>
 
-        <h3>3.4 ASLR：从单次高度转向左右侧与重复性</h3>
+        <h4>3.5.2 ASLR：从单次高度转向左右侧与重复性</h4>
         <p>
           一个五-rep 源视频中，四条通过 `good` side/peak gate，一条 `watch`
           被排除。 四条 good rep 均保留历史 3 分，其中三条另有稳定 blind
@@ -1151,7 +1365,7 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 7｜ASLR bilateral repeatability series。</strong>
+          <strong>表 9｜ASLR bilateral repeatability series。</strong>
         </div>
         <div class="figure">
           <img
@@ -1159,13 +1373,13 @@
             alt="ASLR bilateral repeatability"
           />
           <div class="figure-caption">
-            <strong>图 3｜ASLR 左右侧与重复性。</strong
+            <strong>图 4｜ASLR 左右侧与重复性。</strong
             >相近的目标抬腿高度并不意味着固定腿 与骨盆控制 proxy
             也同步稳定。该结果只有一个来源，属于定向采集假设。
           </div>
         </div>
 
-        <h3>3.5 Hurdle Step：同为 2 分，却有不同 review pathway</h3>
+        <h4>3.5.3 Hurdle Step：同为 2 分，却有不同 review pathway</h4>
         <p>
           Round B 中有五条来自五个不同视频的 Hurdle rep 被两位 reviewer 一致判为
           2 分。 对 blind comments 进行结构化主题编码，并连接 pose-derived
@@ -1211,7 +1425,7 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 8｜Hurdle Step 2 分的四种 review pathway。</strong>
+          <strong>表 10｜Hurdle Step 2 分的四种 review pathway。</strong>
         </div>
         <div class="figure">
           <img
@@ -1219,13 +1433,13 @@
             alt="Hurdle score-two pathways"
           />
           <div class="figure-caption">
-            <strong>图 4｜五条 Hurdle 2 分动作的主题矩阵。</strong>同一个 2
+            <strong>图 5｜五条 Hurdle 2 分动作的主题矩阵。</strong>同一个 2
             分无法直接说明 “为什么是 2 分”或应优先复核哪里；主题来自 blinded
             reviewer observations， 不是自动诊断标签。
           </div>
         </div>
 
-        <h3>3.6 Rotary Stability：完整周期事件矩阵</h3>
+        <h4>3.5.4 Rotary Stability：完整周期事件矩阵</h4>
         <p>
           Rotary 由
           setup、第一次触踝、伸展、第二次触踝、回位和离地时序组成。八条正式 rep
@@ -1268,7 +1482,7 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 9｜Rotary 的 cycle-event evidence 摘要。</strong>
+          <strong>表 11｜Rotary 的 cycle-event evidence 摘要。</strong>
         </div>
         <div class="figure">
           <img
@@ -1276,14 +1490,14 @@
             alt="Rotary cycle event matrix"
           />
           <div class="figure-caption">
-            <strong>图 5｜Rotary full-cycle event matrix。</strong>Rotary
+            <strong>图 6｜Rotary full-cycle event matrix。</strong>Rotary
             隐藏的信息不是单一 角度，而是 contralateral
             coordination、动作顺序、完整伸展、触踝和回位控制的
             组合；正式样本只来自两个视频，频率不能外推到总体人群。
           </div>
         </div>
 
-        <h3>3.7 历史标签审计</h3>
+        <h3>3.6 历史标签审计与数据复用</h3>
         <p>
           正式 32 条还被用于审计历史评分。25
           条在两轮盲评中保持稳定数值共识，其中 18 条 与历史标签 exact，6
@@ -1297,15 +1511,66 @@
       <section id="discussion">
         <h2>4. 讨论</h2>
 
-        <h3>4.1 分数压缩的不是同一种信息</h3>
+        <h3>4.1 主要贡献：七动作 AI 辅助人工审核系统</h3>
         <p>
-          本研究最重要的结果并不是“同分参数不同”这一句话，而是四个动作分别暴露了四类
-          信息压缩。Deep Squat 主要表现为连续关节贡献与动作策略；ASLR
+          本研究的首要贡献是完成了一套面向 FMS 视频评分全过程的
+          human-in-the-loop 系统，
+          而不是只针对四个动作建立参数分析。七个动作共享统一的 video-to-rep
+          workflow、 pose evidence、first-pass AI suggestion、human
+          confirmation、quality gate 和 traceable export；动作特异性的
+          timing、features、side 和 clearing policy 通过 adapter registry
+          管理。系统因此既能服务实际审核，也能为后续研究保存结构化数据。
+        </p>
+        <p>
+          这一贡献的关键不是“所有动作都强行给分”，而是让每个动作都进入可测试、可解释、
+          可人工校准的流程。Protocol condition、pain 和 clearing
+          仍由人工确认；侧别建议不 静默覆盖 reviewer；pose evidence
+          不足时系统可以 watch 或 abstain。七动作功能覆盖
+          与七动作同等外部验证是两个不同问题，本文只主张前者已经实现。
+        </p>
+
+        <h3>4.2 对人工 FMS 视频评分的实际帮助</h3>
+        <p>
+          AI-FMS 将一次性现场观察转换为可暂停、回放、逐 rep
+          循环和可追踪的审核流程。自动 draft segmentation
+          降低长视频中定位动作的成本，人工 timing correction 保留最终
+          控制权；camera view、side、protocol、confidence 和 comments
+          保存评分上下文； pose overlay、angles、distances 和 trajectories
+          提供人眼难以稳定记录的定量旁证； append-only review events 和 signed
+          exports 支持第二 reviewer、adjudication 和
+          事后复核。这些功能说明系统的实用目标比“同分信息恢复”更广。
+        </p>
+
+        <h3>4.3 Phase I 如何评估系统</h3>
+        <p>
+          Phase I
+          选择四个动作，不是因为系统只支持四个动作，而是为了在可控范围内完成
+          canonical data、双轮人工盲评、locked AI comparison 和定量分析。两位
+          reviewer 在 Round B
+          对全部可评分状态和共同可评分分数达到完全一致，说明在本样本、本
+          protocol training 和本研究条件下，人工流程具有较高内部稳定性。但两位
+          reviewer 不能代表 certified expert panel，也不能推断不同背景 reviewer
+          population 的 reliability。
+        </p>
+        <p>
+          Final AI 的 16/25 exact 和 23/25 within one 提供了一个有边界的
+          internal
+          benchmark。它说明当前规则可为多数正式样本提供与人工相同或相邻的
+          first-pass suggestion；同时，ASLR 的少数大偏差、Hurdle 的 2/3 边界和
+          Deep Squat staged protocol abstention 都表明 AI 不能替代
+          reviewer。Final v1.1 接触过 Round A 后的 开发过程，因此不能用同一 32
+          条宣称 held-out accuracy。
+        </p>
+
+        <h3>4.4 系统进一步解锁的科研价值</h3>
+        <p>
+          在系统功能和主要评估之外，四动作分析揭示了第二层价值：顺序分数所压缩的信息并不
+          只有一种。Deep Squat 主要表现为连续关节贡献与动作策略；ASLR
           表现为左右侧与 repeatability；Hurdle Step
           表现为到达同一分数的不同扣分路径；Rotary Stability
           表现为事件顺序与周期完整度。统一的 FMS
-          分值便于规则决策，但动作特异性的定量 evidence
-          才能进一步回答“动作是如何完成的”。
+          分值便于规则决策，而动作特异性的定量 evidence
+          能进一步回答“动作是如何完成的”。
         </p>
         <table>
           <thead>
@@ -1339,28 +1604,10 @@
           </tbody>
         </table>
         <div class="table-caption">
-          <strong>表 10｜跨动作的信息恢复框架。</strong>
+          <strong>表 12｜跨动作的信息恢复框架。</strong>
         </div>
 
-        <h3>4.2 人工一致性与 AI 一致性必须分开解释</h3>
-        <p>
-          两位 reviewer 在 Round B
-          对全部可评分状态和共同可评分分数达到完全一致，这说明 在本样本、本
-          protocol training 和本研究条件下，人工流程具有较高内部稳定性。 但两位
-          reviewer 不能代表 certified expert panel，也不能推断不同背景 reviewer
-          population 的 reliability。高 exact agreement
-          还会受到正式样本选择和分数分布影响。
-        </p>
-        <p>
-          Final AI 的 16/25 exact 和 23/25 within one 提供了一个有边界的内部
-          benchmark。 它说明当前规则可为多数正式样本提供与人工相同或相邻的
-          first-pass suggestion； 同时，ASLR 的少数大偏差、Hurdle 的 2/3 边界和
-          Deep Squat staged protocol abstention 都表明 AI 不能替代
-          reviewer。Final v1.1 接触过 Round A 后的开发过程，因此不能用 同一 32
-          条宣称 held-out accuracy。
-        </p>
-
-        <h3>4.3 Abstention 与质量门是系统能力</h3>
+        <h3>4.5 Abstention 与质量门是系统能力</h3>
         <p>
           在自动评分叙事中，coverage 经常被误解为“所有样本都必须给分”。本研究将
           evidence quality 与 score availability 分开。当 Deep Squat floor
@@ -1370,7 +1617,7 @@
           camera-view applicability 也要求系统明确说明证据边界。
         </p>
 
-        <h3>4.4 工程贡献与研究贡献的关系</h3>
+        <h3>4.6 工程贡献与研究贡献的关系</h3>
         <p>
           AI-FMS 的工程贡献不是单一模型，而是把 video、rep、pose、human
           review、AI suggestion、quality gate 和 export 连接成可追踪流程。稳定
@@ -1386,7 +1633,7 @@
           prototype 到 exploratory research 的闭环。
         </p>
 
-        <h3>4.5 主要限制</h3>
+        <h3>4.7 主要限制</h3>
         <ol>
           <li>
             <strong>Sampling：</strong>110 reps 嵌套于 28 个源视频，不是 110
@@ -1419,7 +1666,7 @@
           </li>
         </ol>
 
-        <h3>4.6 下一阶段研究</h3>
+        <h3>4.8 下一阶段研究</h3>
         <p>
           下一阶段不应盲目增加 rep
           数，而应围绕已识别的问题采集独立证据：使用主体明确、 side 与 peak
@@ -1439,29 +1686,35 @@
       <section id="conclusion">
         <h2>5. 结论</h2>
         <p>
-          本研究建立了一套覆盖七个 FMS 动作的人机协同视频审核平台，并在四动作
-          Phase I pilot 中连接了 canonical data、MediaPipe
-          pose、双轮人工盲评、锁定 AI comparison 和动作特异性定量分析。两位
-          reviewer 在 Round B 中对 32/32 条可评分状态判断一致， 并在共同可评分的
-          26 条中全部同分。最终锁定 AI 对 28/32 条给出分数；与人工数值
-          共识交集的 25 条中，16 条 exact、23 条 within one。
+          本研究开发并实现了 AI-FMS：一套覆盖全部七个 FMS
+          动作、由人工保持最终判断权的 AI-assisted video review
+          system。系统把视频导入、rep segmentation、loop playback、 timing
+          correction、protocol metadata、pose-derived quantitative evidence、
+          first-pass AI suggestion、quality gate、人工审核、adjudication 和
+          traceable export
+          连接成统一流程。七动作均完成主要产品功能，并允许在证据不足时 watch 或
+          abstain。
         </p>
         <p>
-          四种分析进一步表明，FMS
-          顺序分数可能分别压缩连续动作策略、左右与重复性、规则
-          扣分路径和时间事件顺序。AI-FMS
-          的价值不是把人工分数替换成另一个自动分数，而是
-          把这些连续、可解释、可追踪的 movement evidence
-          保存下来，并在证据不足时主动 abstain。当前结果支持一项有边界的
-          exploratory pilot 结论，不支持医疗诊断、伤病 预测、临床推广或
-          autonomous FMS scoring。
+          四动作 Phase I 为系统提供了内部评估证据：两位 reviewer 在 Round B 对
+          32/32 条 可评分状态判断一致，并在共同可评分的 26
+          条中全部同分；最终锁定 AI 对 28/32 条 给出分数，与人工数值共识交集的
+          25 条中，16 条 exact、23 条 within one。进一步的 secondary analyses
+          表明，系统还能够保存传统顺序分数之外的连续策略、双侧重复性、
+          扣分路径和周期事件信息。
+        </p>
+        <p>
+          因此，AI-FMS
+          的主要价值是辅助人工更方便、更可重复、更定量和更可追踪地完成 FMS
+          视频评分；其进一步科研价值是把评分过程中原本会被压缩的信息转化为可检验的
+          movement evidence。当前结果不支持医疗诊断、伤病预测、临床推广或
+          autonomous FMS scoring，但为 held-out validation、expert review 和
+          responsible sports technology research 建立了可复现基础。
         </p>
         <div class="note-box">
-          <strong>最终结论：</strong>人工 ordinal judgment 与 pose-derived
-          quantitative evidence
-          可以被放入同一套可复核工作流；不同动作需要不同的分析问题与证据结构。
-          这一结果为后续 held-out validation、expert review 和 responsible
-          sports technology research 提供了方法基础。
+          <strong>最终结论：</strong>AI-FMS 已完成“七动作系统开发 + 四动作 Phase
+          I 评估 +
+          定量科研用途探索”的完整闭环。四动作是本阶段的评估范围，不是系统的产品边界。
         </div>
       </section>
 

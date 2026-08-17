@@ -10,18 +10,20 @@ unconfirmed.
 
 ## Working Title
 
-**Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of Movement
-Strategy in a Four-Movement Pilot**
+**AI-FMS: Development and Phase I Evaluation of an Explainable Human-in-the-Loop
+System for Functional Movement Screen Video Review**
 
 ## Article Type and Central Question
 
-Article type: Original Research Article; exploratory observational pilot.
+Article type: Original Research Article; human-centered system development and
+formative evaluation with exploratory secondary analyses.
 
 Central question:
 
-> What action-specific information is compressed by an ordinal FMS score, and
-> can a human-in-the-loop pose workflow preserve that information while keeping
-> the human reviewer as the final decision-maker?
+> Can an explainable, human-in-the-loop system support human FMS video review
+> across all seven movements, and what do a four-movement Phase I evaluation and
+> secondary quantitative analyses reveal about reliability, AI-human
+> concordance, and information preservation?
 
 Do not describe this question as prospectively preregistered. The four
 movement-specific analyses were refined during the Phase I audit and are
@@ -44,34 +46,40 @@ Target: 200-250 words after the manuscript is frozen.
 
 Required elements:
 
-- Background: FMS uses practical ordinal scores that cannot preserve all
-  continuous movement evidence.
-- Objective: evaluate a traceable human-in-the-loop workflow and characterize
-  action-specific information loss in a four-movement pilot.
+- Background: human FMS scoring faces replay, remote review, repetition finding,
+  quantitative observation, context preservation, and traceability limitations.
+- Objective: develop a seven-movement AI-assisted review system and evaluate its
+  internal workflow, human reliability, AI-human concordance, and secondary
+  research value.
 - Methods: 28 videos, 110 canonical repetitions, 66 feature-ready repetitions,
   32 balanced formal repetitions, two reviewers, two blind rounds, locked AI
   comparison, four exploratory analysis methods.
 - Results: Round B 32/32 scoreability agreement; 26/26 exact among jointly
   scorable repetitions; final locked AI scored 28/32; 25 AI-human comparable;
   16/25 exact, 23/25 within one, MAE 0.44, linear weighted kappa 0.4917.
-- Conclusion: quantitative evidence can retain movement strategy, bilateral and
-  repeatability information, review pathways, and cycle events, but the pilot is
-  not diagnostic or held-out validation.
+- Conclusion: the seven-movement system is functionally implemented and the
+  four-movement Phase I provides bounded internal evaluation evidence;
+  quantitative information recovery is a secondary research contribution, not
+  the sole project purpose.
 
 ### Introduction
 
 Evidence and literature tasks:
 
-1. Define FMS and the purpose of its seven movement patterns without reproducing
+1. Define FMS and the practical problems of live, remote, and video-based human
+   scoring without reproducing
    proprietary scoring material unnecessarily.
 2. Review FMS interrater and intrarater reliability.
 3. Separate reliability from construct validity and injury prediction.
 4. Review markerless pose estimation in sports and exercise.
 5. Explain 2D pose limitations: camera view, occlusion, out-of-plane movement,
    subject selection, and landmark jitter.
-6. Define the gap: existing ordinal scores support decisions but do not preserve
-   all continuous or temporal evidence behind the score.
-7. State exploratory objectives rather than a post-hoc confirmatory hypothesis.
+6. Define the primary gap: no single workflow in this project context connected
+   seven-movement video review, replay, metadata, pose evidence, human scoring,
+   AI suggestion, abstention, and traceable export.
+7. Introduce ordinal-score information recovery as a secondary research
+   opportunity enabled by the completed system.
+8. State exploratory objectives rather than a post-hoc confirmatory hypothesis.
 
 Initial references to read and verify manually:
 
@@ -98,7 +106,14 @@ read, and verified the source and its relevance.
 
 ### Methods
 
-#### Study Design
+#### Human-Centered System Design
+
+- Manual scoring problems and design requirements.
+- Seven-movement product capability table.
+- Workbench, Study Mode, Video Manager, movement adapters, quality gates, and
+  export/research architecture.
+
+#### Phase I Study Design
 
 - Exploratory observational software-and-data pilot.
 - Seven-movement product workflow; four-movement quantitative study.
@@ -250,13 +265,13 @@ limitations, and responsible human-in-the-loop AI.
 NHSJS requires at least five figures or tables for a Research Article. Proposed
 submission set:
 
-1. Figure 1: AI-FMS human-in-the-loop workflow and evidence lineage.
-2. Table 1: Dataset tiers and four-movement sample distribution.
-3. Table 2: Round A/B human reliability and AI-human concordance.
-4. Figure 2: Deep Squat strategy continuum.
-5. Figure 3: ASLR bilateral repeatability.
-6. Figure 4: Hurdle score-2 review pathways.
-7. Figure 5: Rotary cycle-event matrix.
+1. Table 1: manual scoring problems, implemented functions, and boundaries.
+2. Figure 1: AI-FMS human-in-the-loop workflow and evidence lineage.
+3. Table 2: all-seven-movement product capability.
+4. Figure 2: public-safe Workbench quantitative-evidence interface.
+5. Table 3: dataset tiers and four-movement Phase I sample distribution.
+6. Table 4: Round A/B human reliability and AI-human concordance.
+7. Figures 3-6: four movement-specific secondary analyses.
 
 All figures must be public-safe, readable in print, and free of source file
 names, local paths, identifiable frames, and raw reviewer comments.

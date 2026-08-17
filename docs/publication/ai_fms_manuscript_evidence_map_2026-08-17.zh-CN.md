@@ -9,21 +9,24 @@
 
 ## 暂定标题
 
-**Beyond Ordinal FMS Scores: A Human-in-the-Loop Pose-Based Analysis of Movement
-Strategy in a Four-Movement Pilot**
+**AI-FMS: Development and Phase I Evaluation of an Explainable Human-in-the-Loop
+System for Functional Movement Screen Video Review**
 
 中文理解：
 
-**超越 FMS 顺序分数：四动作 pilot 中基于姿态估计的人机协同动作策略分析**
+**AI-FMS：可解释的人机协同 Functional Movement Screen 视频审核系统开发与 Phase I
+评估**
 
 ## 文章类型与核心问题
 
-文章类型：Original Research Article；探索性观察 pilot。
+文章类型：Original Research Article；human-centered system development 与 formative
+evaluation，并包含探索性 secondary analyses。
 
 核心问题：
 
-> FMS 顺序分数压缩了哪些动作特异性信息？在保留人工 reviewer 最终判断权的同时，
-> human-in-the-loop pose workflow 能否保存这些信息？
+> 一套可解释的 human-in-the-loop 系统能否覆盖七动作、辅助人工 FMS 视频审核？四动作
+> Phase I 和 secondary quantitative analyses 能够为流程可靠性、AI-human concordance
+> 和信息保存提供哪些证据？
 
 不得把这个问题描述为提前注册的验证性假设。四种动作特异性分析是在 Phase I 审计中
 逐步完善的，属于探索性研究。
@@ -43,30 +46,34 @@ Strategy in a Four-Movement Pilot**
 
 必须包含：
 
-- 背景：FMS 使用实用的顺序分数，但不能保存全部连续动作证据。
-- 目的：评估一套可追踪的 human-in-the-loop workflow，并描述四动作 pilot 中不同动作
-  被压缩的信息。
+- 背景：人工 FMS 评分存在回放、远程复核、rep 定位、定量观察、上下文保存和追踪困难。
+- 目的：开发覆盖七动作的 AI-assisted review system，并评估其内部工作流、人工一致性、
+  AI-human concordance 和进一步科研价值。
 - 方法：28 个视频、110 个 canonical repetitions、66 个 feature-ready repetitions、
   32 个平衡正式样本、两位 reviewer、两轮盲评、锁定 AI comparison，以及四种探索性
   分析方法。
 - 结果：Round B 可评分性判断 32/32 一致；双方均可评分的 26 条为 26/26 exact；最终
   锁定 AI 对 28/32 给出分数；AI 与人工数值共识交集为 25 条，其中 16/25 exact、
   23/25 within one、MAE 0.44、linear weighted kappa 0.4917。
-- 结论：定量证据可以保存动作策略、左右与重复性、review pathway 和周期事件信息，
-  但当前 pilot 不是诊断工具，也不是 held-out validation。
+- 结论：七动作系统已完成主要功能，四动作 Phase I 提供了有边界的内部评估证据；定量
+  信息恢复是 secondary research contribution，不是项目唯一目的。
 
 ### Introduction
 
 证据与文献任务：
 
-1. 定义 FMS 及其七个动作的用途，但不无必要地复制受保护的评分材料。
+1. 定义 FMS 以及现场、远程和视频人工评分中的实际困难，但不无必要地复制受保护的评分
+   材料。
 2. 综述 FMS 的 interrater 与 intrarater reliability。
 3. 区分 reliability、construct validity 和 injury prediction。
 4. 综述运动与锻炼场景中的 markerless pose estimation。
 5. 说明 2D pose 限制：camera view、遮挡、out-of-plane movement、主体选择和 landmark
    jitter。
-6. 说明研究缺口：顺序分数有助于决策，但不能保存分数背后的全部连续或时间信息。
-7. 使用探索性研究目标，不把事后形成的问题包装成验证性假设。
+6. 说明主要缺口：在本项目场景中，还缺少一套把七动作视频审核、回放、metadata、pose
+   evidence、人工评分、AI suggestion、abstention 和 traceable export 连起来的系统。
+7. 将 ordinal-score information recovery 作为系统完成后解锁的 secondary research
+   opportunity。
+8. 使用探索性研究目标，不把事后形成的问题包装成验证性假设。
 
 需要人工阅读并核实的首批参考文献：
 
@@ -92,7 +99,14 @@ Strategy in a Four-Movement Pilot**
 
 ### Methods
 
-#### 研究设计
+#### Human-Centered 系统设计
+
+- 人工评分问题与设计需求。
+- 七动作产品能力表。
+- Workbench、Study Mode、Video Manager、movement adapters、quality gates 与
+  export/research architecture。
+
+#### Phase I 研究设计
 
 - 探索性观察型软件与数据 pilot。
 - 产品 workflow 覆盖七动作；定量研究覆盖四动作。
@@ -235,13 +249,13 @@ responsible human-in-the-loop AI。
 
 NHSJS 要求 Research Article 至少有 5 个 figures 或 tables。拟提交组合：
 
-1. Figure 1：AI-FMS human-in-the-loop workflow 与 evidence lineage。
-2. Table 1：Dataset tiers 与四动作样本分布。
-3. Table 2：Round A/B human reliability 与 AI-human concordance。
-4. Figure 2：Deep Squat strategy continuum。
-5. Figure 3：ASLR bilateral repeatability。
-6. Figure 4：Hurdle score-2 review pathways。
-7. Figure 5：Rotary cycle-event matrix。
+1. Table 1：人工评分问题、系统功能和边界。
+2. Figure 1：AI-FMS human-in-the-loop workflow 与 evidence lineage。
+3. Table 2：七动作产品能力。
+4. Figure 2：public-safe Workbench quantitative-evidence interface。
+5. Table 3：Dataset tiers 与四动作 Phase I 样本分布。
+6. Table 4：Round A/B human reliability 与 AI-human concordance。
+7. Figures 3-6：四种动作特异性的 secondary analyses。
 
 所有图必须适合公开、适合印刷阅读，不包含源文件名、本地路径、可识别人物画面或原始
 reviewer comments。
