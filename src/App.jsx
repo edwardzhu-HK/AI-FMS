@@ -334,9 +334,9 @@ const EVAL_VIDEO_PRESETS = {
 
 const UI_TEXT = {
   en: {
-    title: "FMS Calibration Workbench",
+    title: "AI-FMS Workbench",
     subtitle:
-      "V1 scope: all 7 FMS actions, segment-level scoring and ingest workflow.",
+      "AI-assisted review, quantitative movement evidence, and traceable scoring across all 7 FMS movements.",
     apiMode: "API mode",
     language: "Language",
     english: "EN",
@@ -896,9 +896,9 @@ const UI_TEXT = {
     analysisFailed: "Analysis failed.",
   },
   zh: {
-    title: "FMS Calibration Workbench",
+    title: "AI-FMS 工作台",
     subtitle:
-      "V1 范围：7 个 FMS actions、segment-level scoring 与 ingest workflow。",
+      "覆盖 7 个 FMS 动作的人机协同视频审核、定量动作证据与可追踪评分流程。",
     apiMode: "API 模式",
     language: "语言",
     english: "EN",

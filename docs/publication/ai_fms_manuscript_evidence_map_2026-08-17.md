@@ -268,10 +268,11 @@ submission set:
 1. Table 1: manual scoring problems, implemented functions, and boundaries.
 2. Figure 1: AI-FMS human-in-the-loop workflow and evidence lineage.
 3. Table 2: all-seven-movement product capability.
-4. Figure 2: public-safe Workbench quantitative-evidence interface.
-5. Table 3: dataset tiers and four-movement Phase I sample distribution.
-6. Table 4: Round A/B human reliability and AI-human concordance.
-7. Figures 3-6: four movement-specific secondary analyses.
+4. Figure 2: public-safe Study Mode dry-run blind-review interface.
+5. Figure 3: public-safe full Workbench interface.
+6. Table 3: dataset tiers and four-movement Phase I sample distribution.
+7. Table 4: Round A/B human reliability and AI-human concordance.
+8. Figures 4-7: four movement-specific secondary analyses.
 
 All figures must be public-safe, readable in print, and free of source file
 names, local paths, identifiable frames, and raw reviewer comments.

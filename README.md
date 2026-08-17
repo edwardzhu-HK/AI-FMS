@@ -135,11 +135,19 @@ ASLR subject-aware sensitivity 另把三个原 `limited` 窗口重提取为 1 `g
 
 ## 界面截图
 
-![AI-FMS workbench overview](docs/assets/ai-fms-demo-overview.jpg)
+![AI-FMS publication-safe workbench overview](docs/assets/publication/ai-fms-workbench-overview-public-safe.png)
 
-![Deep Squat side-view angle features](docs/assets/ai-fms-demo-side-angle-features.jpg)
+完整 Workbench 总览：视频区域保留真实 pose overlay，但隐藏待授权源画面；同时展示
+AI suggestion、人工 reviewer、segment metadata、timing evidence 和七动作范围。
 
-![Export evidence dashboard](docs/assets/ai-fms-demo-export-evidence.jpg)
+![AI-FMS Study Mode blind review](docs/assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
+
+Study Mode dry-run：展示匿名队列、RAW SCORE、unscorable、confidence、camera view、
+side、QA flags 和 note；中心媒体画面按 publication boundary 隐藏。
+
+![AI-FMS quantitative feature detail](docs/assets/publication/ai-fms-workbench-quantitative-evidence.png)
+
+定量证据近景：展示 depth、torso、knee、hip、ankle 等 reviewer-readable features。
 
 ## 本地运行
 

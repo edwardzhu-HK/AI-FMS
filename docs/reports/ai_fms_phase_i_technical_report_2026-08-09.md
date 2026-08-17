@@ -192,20 +192,21 @@ Product Scope 回答“系统做出了什么”；Research Scope 回答“本阶
 
 ### 3.5 当前界面证据
 
-![AI-FMS workbench overview](../assets/ai-fms-demo-overview.jpg)
+![AI-FMS publication-safe workbench overview](../assets/publication/ai-fms-workbench-overview-public-safe.png)
 
-[打开原图：Workbench overview](../assets/ai-fms-demo-overview.jpg)
+[打开原图：Publication-safe Workbench overview](../assets/publication/ai-fms-workbench-overview-public-safe.png)
 
-![Deep Squat side-view angle features](../assets/ai-fms-demo-side-angle-features.jpg)
+![AI-FMS Study Mode blind review](../assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
 
-[打开原图：Deep Squat angle features](../assets/ai-fms-demo-side-angle-features.jpg)
+[打开原图：Study Mode blind-review dry-run](../assets/publication/ai-fms-study-mode-blind-review-public-safe.png)
 
-![Export evidence dashboard](../assets/ai-fms-demo-export-evidence.jpg)
+![AI-FMS quantitative feature detail](../assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
-[打开原图：Export evidence dashboard](../assets/ai-fms-demo-export-evidence.jpg)
+[打开原图：Quantitative feature detail](../assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
-这些截图说明已实现的产品流程和开发工作量。人物或源视频画面进入公开申请材料前仍需
-完成 source-rights 与 privacy audit。
+这些截图通过真实浏览器和现有 Demo workflow 生成。为遵守当前 publication boundary，
+人物与源视频帧在 Workbench 和 Study Mode 图中被 privacy-safe evidence view 替代；
+pose、timing、features、AI suggestion 和 review controls 均来自真实应用状态。
 
 ## 4. 数据与研究方法
 

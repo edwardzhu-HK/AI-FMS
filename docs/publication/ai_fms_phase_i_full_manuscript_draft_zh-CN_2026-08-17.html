@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI-FMS Phase I 中文论文完整初稿</title>
+    <title>
+      AI-FMS：可解释的人机协同 Functional Movement Screen 视频审核系统开发与
+      Phase I 评估
+    </title>
     <style>
       :root {
         --ink: #182028;
@@ -975,6 +978,19 @@
           对有序分值的不同距离赋予不同权重<sup><a href="#ref-9">[9]</a></sup
           >。
         </p>
+        <div class="figure">
+          <img
+            src="../assets/publication/ai-fms-study-mode-blind-review-public-safe.png"
+            alt="AI-FMS Study Mode blind review workflow"
+          />
+          <div class="figure-caption">
+            <strong>图 2｜Study Mode 独立盲评界面（dry-run示意）。</strong
+            >Reviewer 只看到 匿名队列、动作视频、RAW
+            SCORE、unscorable、confidence、camera view、side、 QA flags 和
+            note；正式 Round A/B 不显示 AI suggestion、pose parameters、历史
+            分数、另一 reviewer 答案或源文件名。人物画面在论文候选图中被隐藏。
+          </div>
+        </div>
 
         <h3>2.6 Pose-derived features 与锁定 AI</h3>
         <p>
@@ -1074,14 +1090,15 @@
         </p>
         <div class="figure">
           <img
-            src="../assets/ai-fms-demo-side-angle-features.jpg"
+            src="../assets/publication/ai-fms-workbench-overview-public-safe.png"
             alt="AI-FMS quantitative feature and seven-action workflow interface"
           />
           <div class="figure-caption">
-            <strong>图 2｜AI-FMS Workbench 的定量证据与七动作范围。</strong
-            >界面同时展示 rep-level timing/readiness、Deep Squat angle and
-            distance evidence，以及七个 FMS movement
-            slots。该截图不包含可识别人物画面。
+            <strong>图 3｜AI-FMS Workbench 的定量证据与七动作范围。</strong
+            >完整三栏界面同时展示视频与pose、AI
+            suggestion、人工reviewer、segment metadata、timing
+            evidence、七个rep和readiness。源视频画面在publication候选图中
+            被替换为privacy-safe pose-only view。
           </div>
         </div>
 
@@ -1302,7 +1319,7 @@
             alt="Deep Squat strategy continuum"
           />
           <div class="figure-caption">
-            <strong>图 3｜Deep Squat strategy continuum。</strong>15 条侧视 rep
+            <strong>图 4｜Deep Squat strategy continuum。</strong>15 条侧视 rep
             显示较清楚
             的深度/髋膝屈曲轴，同时保留踝、躯干和膝踝对线等相对独立的动作维度。
           </div>
@@ -1373,7 +1390,7 @@
             alt="ASLR bilateral repeatability"
           />
           <div class="figure-caption">
-            <strong>图 4｜ASLR 左右侧与重复性。</strong
+            <strong>图 5｜ASLR 左右侧与重复性。</strong
             >相近的目标抬腿高度并不意味着固定腿 与骨盆控制 proxy
             也同步稳定。该结果只有一个来源，属于定向采集假设。
           </div>
@@ -1433,7 +1450,7 @@
             alt="Hurdle score-two pathways"
           />
           <div class="figure-caption">
-            <strong>图 5｜五条 Hurdle 2 分动作的主题矩阵。</strong>同一个 2
+            <strong>图 6｜五条 Hurdle 2 分动作的主题矩阵。</strong>同一个 2
             分无法直接说明 “为什么是 2 分”或应优先复核哪里；主题来自 blinded
             reviewer observations， 不是自动诊断标签。
           </div>
@@ -1490,7 +1507,7 @@
             alt="Rotary cycle event matrix"
           />
           <div class="figure-caption">
-            <strong>图 6｜Rotary full-cycle event matrix。</strong>Rotary
+            <strong>图 7｜Rotary full-cycle event matrix。</strong>Rotary
             隐藏的信息不是单一 角度，而是 contralateral
             coordination、动作顺序、完整伸展、触踝和回位控制的
             组合；正式样本只来自两个视频，频率不能外推到总体人群。

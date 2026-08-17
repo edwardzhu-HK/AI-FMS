@@ -96,10 +96,19 @@ submission receipt, or Zenodo preprint.
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
   source for the complete Chinese internal manuscript draft.
 - `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
-  23-page A4 v0.2 internal review PDF with six numbered figures, twelve numbered
+  24-page A4 v0.2 internal review PDF with seven numbered figures, twelve numbered
   tables, references, and four appendices. The formal English submission will
-  move detailed case tables and appendices into supporting material to meet the
-  NHSJS 20-page limit at 12-point type.
+  move detailed case tables, the Study Mode figure, and appendices into
+  supporting material to meet the NHSJS 20-page limit at 12-point type.
+- `../../scripts/capture-ai-fms-publication-screenshots.mjs`: reproducibly runs
+  the real Demo and Study Mode dry-run, removes private media and score-bearing
+  metadata from the captured view, and generates the three publication assets.
+- `../assets/publication/ai-fms-workbench-overview-public-safe.png`: complete
+  Workbench overview used in the manuscript.
+- `../assets/publication/ai-fms-study-mode-blind-review-public-safe.png`: blind
+  review workflow figure retained in the internal paper and future supplement.
+- `../assets/publication/ai-fms-workbench-quantitative-evidence.png`: compact
+  parameter-detail figure for the project page or supplement.
 
 ## Required Human Decisions
 

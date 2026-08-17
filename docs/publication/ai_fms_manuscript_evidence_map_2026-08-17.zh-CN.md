@@ -252,10 +252,11 @@ NHSJS 要求 Research Article 至少有 5 个 figures 或 tables。拟提交组�
 1. Table 1：人工评分问题、系统功能和边界。
 2. Figure 1：AI-FMS human-in-the-loop workflow 与 evidence lineage。
 3. Table 2：七动作产品能力。
-4. Figure 2：public-safe Workbench quantitative-evidence interface。
-5. Table 3：Dataset tiers 与四动作 Phase I 样本分布。
-6. Table 4：Round A/B human reliability 与 AI-human concordance。
-7. Figures 3-6：四种动作特异性的 secondary analyses。
+4. Figure 2：public-safe Study Mode dry-run blind-review interface。
+5. Figure 3：public-safe 完整 Workbench interface。
+6. Table 3：Dataset tiers 与四动作 Phase I 样本分布。
+7. Table 4：Round A/B human reliability 与 AI-human concordance。
+8. Figures 4-7：四种动作特异性的 secondary analyses。
 
 所有图必须适合公开、适合印刷阅读，不包含源文件名、本地路径、可识别人物画面或原始
 reviewer comments。

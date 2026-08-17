@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.33                          |
+| 版本     | v1.34                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-17                     |
@@ -392,7 +392,10 @@ G2 验收证据：
 - [x] 建立 publication track、presubmission inquiry 草稿和 manuscript evidence map。
 - [x] 完成中文论文完整初稿 v0.2：以七动作 AI 辅助人工审核系统开发为主线，以四动作
       Phase I 作为评估范围，并将同分隐藏信息定位为 secondary research contribution；
-      生成并逐页检查 23 页 A4 内部审阅 PDF。
+      生成并逐页检查 24 页 A4 内部审阅 PDF。
+- [x] 通过真实浏览器 workflow 生成 publication-safe Workbench 总览、quantitative
+      evidence 近景和 Study Mode blind-review dry-run；移除源媒体、文件名、score-bearing
+      notes 与具体 reviewer IDs，并将前两张系统图嵌入论文。
 - [ ] 由人工确认 Ronnie 作者名/年级/学校、成人 corresponding contact、贡献声明、
       rights 范围与完整 AI-use disclosure。
 - [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 AI、secondary
@@ -405,18 +408,18 @@ G2 验收证据：
 Phase I 最终交付分成公开申请材料、受控研究材料和内部证据三层。公开层只使用通过
 rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方便展示”而进入公开包。
 
-| 交付物                             | 最终形态                                                                                                                     | 当前状态                                                                                        | 主要应用途径                                                             |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | Release candidate 已完成；待 clean rebuild 与 final public manifest                             | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
-| Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                           | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
-| 研究图与界面视觉包                 | 4 张动作研究图、3 张系统/lineage/result 总览图和经授权截图                                                                   | 4 张研究图完成；总览图与截图 rights 审计待完成                                                  | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
-| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | 当前 copy 与 evidence table 已完成；正式页面待制作                                              | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 2-3 分钟英文主版、字幕和约 60 秒短版                                                                                         | 待更新脚本、录制、剪辑与画面审计                                                                | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
-| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 初稿已完成；待按最终载体压字数并由 Ronnie 确认第一人称事实                                      | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
-| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 23 页整体审阅稿已完成；正式英文版将把详细案例表和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
-| Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                         | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
-| Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                              | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
-| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | 待 G4 最后生成                                                                                  | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
+| 交付物                             | 最终形态                                                                                                                     | 当前状态                                                                                                       | 主要应用途径                                                             |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | Release candidate 已完成；待 clean rebuild 与 final public manifest                                            | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
+| Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
+| 研究图与界面视觉包                 | 4 张动作研究图、3 张系统/lineage/result 总览图和经授权截图                                                                   | 4 张研究图完成；总览图与截图 rights 审计待完成                                                                 | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
+| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | 当前 copy 与 evidence table 已完成；正式页面待制作                                                             | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
+| Demo video                         | 2-3 分钟英文主版、字幕和约 60 秒短版                                                                                         | 待更新脚本、录制、剪辑与画面审计                                                                               | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 初稿已完成；待按最终载体压字数并由 Ronnie 确认第一人称事实                                                     | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
+| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
+| Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
+| Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                                             | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
+| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | 待 G4 最后生成                                                                                                 | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
 
 ### G4.2 收尾判断
 
@@ -575,6 +578,15 @@ Secondary questions：
 | 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding      |
 
 ## 12. 变更记录
+
+### v1.34 - 2026-08-17
+
+- 将旧的局部、留白过多界面图替换为真实浏览器生成的完整 Workbench、Study Mode 和
+  quantitative feature 三张 publication-safe screenshots。
+- Workbench 图展示 AI-FMS 品牌、pose-only evidence、AI suggestion、两位 reviewer、
+  segment metadata、timing 和七 rep；Study Mode 图展示完整盲评 controls。
+- 截图脚本自动隐藏人物帧、源文件名、score-bearing notes 和具体 reviewer IDs；当前中文
+  PDF 为 24 页，正式英文正文将把 Study Mode 图转入 supplement。
 
 ### v1.33 - 2026-08-17
 
