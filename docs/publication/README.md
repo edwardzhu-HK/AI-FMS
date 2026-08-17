@@ -6,6 +6,11 @@ Last updated: 2026-08-17
 
 Chinese version: `README.zh-CN.md`
 
+Internal review note: the Chinese draft's overall structure, system-development
+framing, title, abstract direction, and main conclusions are accepted. Remaining
+work is detailed editing, human confirmation, rights/ethics clearance, and
+target-format adaptation.
+
 ## Publication Decision
 
 Primary route:
@@ -66,6 +71,7 @@ review timeline.
 | Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                       |
 | NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                 |
 | Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                 |
+| GitHub ownership             | Pending Ronnie account    | Transfer complete history after main/release and public-boundary audits                         |
 
 ## Publication Claims
 
@@ -109,6 +115,10 @@ submission receipt, or Zenodo preprint.
   review workflow with the anonymous action video visible.
 - `../assets/publication/ai-fms-workbench-quantitative-evidence.png`: compact
   parameter-detail figure for the project page or supplement.
+- `../delivery/ai_fms_phase_i_output_index_2026-08-17.md`: canonical cross-output
+  status and delivery entrypoint.
+- `../delivery/ronnie_github_repository_transfer_2026-08-17.md`: repository
+  ownership-transfer gates and verification checklist.
 
 ## Required Human Decisions
 
@@ -121,6 +131,7 @@ Before the inquiry is sent:
 4. Confirm which source videos, screenshots, and aggregate figures may be
    described or published.
 5. Approve the AI-use disclosure without minimizing the role of Codex.
+6. Provide Ronnie's exact GitHub username after account registration.
 
 The two real-frame interface captures are for internal manuscript review until
 the exact frames are cleared for publication. If clearance is unavailable, they

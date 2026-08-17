@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.35                          |
+| 版本     | v1.36                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-17                     |
@@ -393,9 +393,12 @@ G2 验收证据：
 - [x] 完成中文论文完整初稿 v0.2：以七动作 AI 辅助人工审核系统开发为主线，以四动作
       Phase I 作为评估范围，并将同分隐藏信息定位为 secondary research contribution；
       生成并逐页检查 24 页 A4 内部审阅 PDF。
-- [x] 通过真实浏览器 workflow 生成 publication-safe Workbench 总览、quantitative
-      evidence 近景和 Study Mode blind-review dry-run；移除源媒体、文件名、score-bearing
-      notes 与具体 reviewer IDs，并将前两张系统图嵌入论文。
+- [x] 通过真实浏览器 workflow 生成 Workbench 总览、quantitative evidence 近景和
+      Study Mode blind-review dry-run；保留清晰真实动作帧，移除源文件名、score-bearing
+      notes 与具体 reviewer IDs，并将两张系统图嵌入内部论文稿。
+- [x] 将 application copy、claim-control table、project-page copy 和 demo script 统一到
+      已认可的“七动作系统开发 + 四动作 Phase I 评估 + secondary findings”叙事。
+- [x] 建立 canonical output index 和 Ronnie GitHub repository-transfer checklist。
 - [ ] 由人工确认 Ronnie 作者名/年级/学校、成人 corresponding contact、贡献声明、
       rights 范围与完整 AI-use disclosure。
 - [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 AI、secondary
@@ -410,16 +413,16 @@ rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方�
 
 | 交付物                             | 最终形态                                                                                                                     | 当前状态                                                                                                       | 主要应用途径                                                             |
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | Release candidate 已完成；待 clean rebuild 与 final public manifest                                            | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
+| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | 17/17 RC 已完成；待 main 收口、clean rebuild、final manifest 与 Ronnie 账户 transfer                           | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
 | Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
-| 研究图与界面视觉包                 | 4 张动作研究图、3 张系统/lineage/result 总览图和经授权截图                                                                   | 4 张研究图完成；总览图与截图 rights 审计待完成                                                                 | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
-| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | 当前 copy 与 evidence table 已完成；正式页面待制作                                                             | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 2-3 分钟英文主版、字幕和约 60 秒短版                                                                                         | 待更新脚本、录制、剪辑与画面审计                                                                               | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
-| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 初稿已完成；待按最终载体压字数并由 Ronnie 确认第一人称事实                                                     | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
+| 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧 rights 审计待完成                                                  | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
+| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                                        | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
+| Demo video                         | 2-3 分钟英文主版、字幕和约 60 秒短版                                                                                         | 当前脚本与验收清单已完成；待 Ronnie 旁白、录制、剪辑与画面审计                                                 | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制           | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
 | Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
 | Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
 | Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                                             | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
-| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | 待 G4 最后生成                                                                                                 | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
+| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | v0.1 canonical output index 已建立；最终 release 时补 checksum 与完成记录                                      | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
 
 ### G4.2 收尾判断
 
@@ -431,9 +434,9 @@ benchmark、四种定量分析和主要主张均已冻结。当前不需要为�
 新的 held-out 视频、更多 reviewer、expert panel 和 evidence-assisted controlled study
 属于 Phase II confirmation。它们可以增强未来证据，但不是 Phase I 按期收尾的阻断项。
 
-建议英文报告标题：
+建议英文论文标题：
 
-`AI-FMS: From Ordinal Scores to Quantitative Movement Profiles in a Human-in-the-Loop Four-Movement Pilot`
+`AI-FMS: Development and Phase I Evaluation of an Explainable Human-in-the-Loop System for Functional Movement Screen Video Review`
 
 ## 6. 人员分工
 
@@ -451,6 +454,7 @@ benchmark、四种定量分析和主要主张均已冻结。当前不需要为�
 - 对高分歧案例提供基于规则的理由，不事后迎合 AI。
 - 完成第一人称贡献、学习和反思材料。
 - 录制英文 demo narration 或出镜说明。
+- 注册个人 GitHub 账户，提供准确 username，并在 repository transfer 发出后及时接受。
 
 ### Other Reviewer
 
@@ -534,50 +538,61 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                   | 原因                                                                              |
-| ---------- | ------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| 2026-08-09 | 四周硬截止为 2026-09-06                                | 保证申请输出有明确结束点                                                          |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定       | 样本量应服从 blindability、动作平衡和审核工作量                                   |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                 | 已确认存在 score hint 标签泄漏                                                    |
-| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only             | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                           |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`            | 保持研究界面角色通用，不绑定个人姓名                                              |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                        | 避免 Downloads 草案与仓库执行版并行分叉                                           |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个             | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量                     |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                       | 支持评后定量比较；feature 不在 blind Round B 中展示                               |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`       | 避免后续事件覆盖或仅凭时间推断轮次                                                |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                 | 降低短期记忆对第二轮评分的影响                                                    |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable`  | 防止把 protocol 缺失误写成 FMS 分数并污染分析                                     |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                 | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                        |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep                | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                       |
-| 2026-08-09 | G3 可先使用 Round A consensus 启动                     | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测              |
-| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告         | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels               |
-| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof        | 样本来自 58 条双门槛候选的 deterministic balanced selection                       |
-| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数    | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                             |
-| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                    | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据         |
-| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段        | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                       |
-| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层   | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查                 |
-| 2026-08-09 | 九条复核不直接用于移动评分阈值                         | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估         |
-| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则               | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                       |
-| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                          | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human                      |
-| 2026-08-10 | Round B 修正为第二次完全盲评                           | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较            |
-| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity              | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence            |
-| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                   | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界             |
-| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                     | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                         |
-| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                  | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark                 |
-| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage      | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                            |
-| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility         | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch              |
-| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定                | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评               |
-| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation       | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed        |
-| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                  | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels                |
-| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果             | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释                     |
-| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”            | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例            |
-| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis   | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype            |
-| 2026-08-15 | 案例方法由动作和数据结构决定，不统一套用 pair template | 分别研究连续谱、双侧重复性、扣分路径和完整周期，充分利用 110-rep pool             |
-| 2026-08-17 | G1-G3 冻结后正式转入 G4 收尾输出                       | 剩余阻断是 demo、rights/privacy、clean rebuild 与 final release，不再重开调参     |
-| 2026-08-17 | 论文主线采用 NHSJS expedited + conditional Zenodo      | 先取得 AI/ethics/preprint 书面许可；投稿完成是目标，期刊接受时间不作 Phase I 门槛 |
-| 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding      |
+| 日期       | 决策                                                   | 原因                                                                                 |
+| ---------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| 2026-08-09 | 四周硬截止为 2026-09-06                                | 保证申请输出有明确结束点                                                             |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定       | 样本量应服从 blindability、动作平衡和审核工作量                                      |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                 | 已确认存在 score hint 标签泄漏                                                       |
+| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only             | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                              |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`            | 保持研究界面角色通用，不绑定个人姓名                                                 |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                        | 避免 Downloads 草案与仓库执行版并行分叉                                              |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个             | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量                        |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                       | 支持评后定量比较；feature 不在 blind Round B 中展示                                  |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`       | 避免后续事件覆盖或仅凭时间推断轮次                                                   |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                 | 降低短期记忆对第二轮评分的影响                                                       |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable`  | 防止把 protocol 缺失误写成 FMS 分数并污染分析                                        |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                 | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                           |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep                | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                          |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                     | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测                 |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告         | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels                  |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof        | 样本来自 58 条双门槛候选的 deterministic balanced selection                          |
+| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数    | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                                |
+| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                    | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据            |
+| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段        | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                          |
+| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层   | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查                    |
+| 2026-08-09 | 九条复核不直接用于移动评分阈值                         | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估            |
+| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则               | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                          |
+| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                          | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human                         |
+| 2026-08-10 | Round B 修正为第二次完全盲评                           | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较               |
+| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity              | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence               |
+| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                   | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界                |
+| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                     | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                            |
+| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                  | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark                    |
+| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage      | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                               |
+| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility         | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch                 |
+| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定                | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评                  |
+| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation       | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed           |
+| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                  | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels                   |
+| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果             | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释                        |
+| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”            | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例               |
+| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis   | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype               |
+| 2026-08-15 | 案例方法由动作和数据结构决定，不统一套用 pair template | 分别研究连续谱、双侧重复性、扣分路径和完整周期，充分利用 110-rep pool                |
+| 2026-08-17 | G1-G3 冻结后正式转入 G4 收尾输出                       | 剩余阻断是 demo、rights/privacy、clean rebuild 与 final release，不再重开调参        |
+| 2026-08-17 | 论文主线采用 NHSJS expedited + conditional Zenodo      | 先取得 AI/ethics/preprint 书面许可；投稿完成是目标，期刊接受时间不作 Phase I 门槛    |
+| 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding         |
+| 2026-08-17 | Ronnie 注册账户后接收 GitHub repository 所有权         | 使用官方 transfer 保留完整历史；不建立无历史平行仓库，迁移前先完成 main/release 审计 |
+| 2026-08-17 | 中文论文整体框架进入细节打磨阶段                       | 标题、摘要、结构和主要结论已获内部认可；后续重点转向配套输出、授权和载体适配         |
 
 ## 12. 变更记录
+
+### v1.36 - 2026-08-17
+
+- 将 application copy、claim-control table、project-page copy 和 3 分钟/60 秒 demo
+  script 统一到当前七动作系统叙事及冻结 Phase I 数字。
+- 新增 canonical output index，明确公开申请、论文研究与私有证据三层交付物及用途。
+- 新增 Ronnie GitHub transfer checklist；当前仓库保持 PRIVATE，待 main/release、rights
+  与 clean-clone 审计完成后迁移所有权。
+- 记录中文论文整体框架已获认可，后续以细节 polish 和输出适配为主。
 
 ### v1.35 - 2026-08-17
 

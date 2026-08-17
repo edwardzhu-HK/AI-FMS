@@ -1,187 +1,219 @@
-# AI-FMS V1.5 Project Page Copy
+# AI-FMS Phase I Project Page Copy
 
-> 历史文件：本文件保留 2026-05-22 的 Deep Squat demo 文案。当前 Phase I
-> application copy 为 `docs/ai_fms_phase_i_application_copy_2026-08-09.md`。
+状态：CURRENT - ready for page implementation
 
-日期：2026-05-22
+更新日期：2026-08-17
 
-用途：这份文档是 project page / portfolio page 的可直接改写版本。中文用于内部理解和申请叙事梳理，英文段落可以直接用于网页、GitHub README 摘要、简历项目描述或 demo video 旁白。
+文件名为兼容早期链接而保留；内容已从 2026-05 的 Deep Squat V1.5 页面升级为当前
+Phase I canonical project-page copy。
 
-## 页面定位
+## 页面目标
 
-AI-FMS 应该被呈现为一个 application-facing research prototype：
+这不是产品营销页，而是一页可以快速回答以下问题的 research portfolio page：
 
-- 核心不是“AI 自动诊断”，而是 human-in-the-loop movement screening annotation。
-- 核心产物不是单次分数，而是 traceable segment-level training data。
-- 核心技术亮点是把 video workflow、pose evidence、reviewer scoring、AI suggestion 和 export 串成闭环。
-- 当前 flagship demo 是 Deep Squat，平台结构保留 all 7 FMS movements 的扩展空间。
+1. 为什么需要 AI 辅助人工 FMS 视频审核？
+2. Ronnie 与团队实际开发了什么？
+3. 系统如何覆盖七个动作，并保持人工最终判断？
+4. Phase I 用什么数据和方法进行了评估？
+5. 除了评分一致性，项目产生了什么 movement-science 发现？
+6. 当前证据的边界在哪里？
 
 ## Hero
 
-英文标题：
+### Title
 
-AI-FMS
+**AI-FMS**
 
-英文副标题：
+### Subtitle
 
-A human-in-the-loop computer vision platform for Functional Movement Screen video annotation.
+**An explainable, human-in-the-loop system for Functional Movement Screen video
+review.**
 
-英文短描述：
+### Supporting Copy
 
-AI-FMS helps reviewers segment FMS videos, inspect pose-based movement evidence, compare AI suggestions with human labels, adjudicate disagreements, and export traceable datasets for future movement-quality models.
+AI-FMS helps reviewers replay and segment movement videos, inspect quantitative
+pose evidence, record traceable scores, and compare human judgment with
+interpretable AI suggestions across all seven FMS movements.
 
-中文理解：
+### Status Line
 
-这是一个面向 FMS 视频标注和动作质量数据集生产的平台。它把 AI 放在辅助位置，让人类 reviewer 保持最终判断权。
+Phase I research prototype · 7-movement product workflow · 4-movement formative
+evaluation · manuscript in preparation
 
-## Problem
+### Primary Links
 
-英文正文：
+- `View the system`: link to the deployed or locally recorded demo.
+- `Read the Phase I report`: link to the approved public PDF.
+- `View the code`: replace with Ronnie's GitHub URL after repository transfer.
 
-Functional Movement Screen videos can be useful for learning and reviewing movement quality, but manual review is hard to standardize. Different reviewers may choose different segment boundaries, store comments in inconsistent formats, or lose the evidence behind a score. For future AI models, the first challenge is not replacing human judgment. It is creating high-quality, traceable labels.
+不要在 rights、部署和 GitHub 迁移完成前显示无效按钮或 placeholder URL。
 
-中文要点：
+## The Problem
 
-- 视频动作切片如果不一致，后续评分和训练数据都会受影响。
-- 人工 reviewer 的判断需要保留证据，不应该只留下一个分数。
-- 未来如果要训练更好的 movement-quality model，必须先把数据闭环做好。
+### English Copy
 
-## What I Built
+Human FMS review is structured, but video-based review still creates practical
+friction. A movement can pass before the reviewer has time to inspect it;
+remote and asynchronous review makes repetition finding slower; and visual
+judgment is often qualitative even when joint angles, distances, trajectories,
+or side-to-side control matter. A final 0-3 score also preserves very little of
+the evidence behind the decision.
 
-英文正文：
+AI-FMS was designed to support the reviewer at both levels: make the review
+workflow easier and more traceable, then preserve quantitative movement
+evidence that the ordinal score cannot fully express.
 
-I built a React/Vite workbench that supports all 7 FMS movement categories at the workflow level. Reviewers can upload a video, choose an analysis range, generate repetition-level segments, loop each segment, adjust boundaries, score with two human reviewers, compare an AI-assisted suggestion, adjudicate the final label, and export JSON/CSV dataset records.
+### Visual
 
-For the Deep Squat flagship pipeline, I added MediaPipe Pose Landmarker extraction, aligned keypoint overlay, pose-assisted segment timing QA, movement feature snapshots, and an explainable score suggestion based on pose-derived evidence.
+Use the complete Workbench screenshot, not a decorative hero image:
 
-中文要点：
+`docs/assets/publication/ai-fms-workbench-overview-real-video.png`
 
-- V1 层：7 个 FMS 动作的 annotation workflow。
-- V1.5 层：Deep Squat 的真实 pose pipeline 和可解释 AI suggestion。
-- Export 层：把 reviewer label、AI suggestion、pose summary、timing QA、feature evidence 一起导出。
+## What We Built
 
-## Demo Highlights
+### English Copy
 
-### 1. Workbench Overview
+AI-FMS is a segment-centered review and research platform. Reviewers can load a
+video, define a duration-aware analysis range, inspect automatically proposed
+repetitions, loop and correct each segment, record FMS scores and protocol
+conditions, review pose-derived evidence, and export traceable research data.
 
-截图：
+The platform supports all seven FMS movements. Each movement has an end-to-end
+annotation path and a first-pass, pose-based reviewer-support suggestion. The
+rules are movement-specific, explainable, and allowed to abstain when pose or
+protocol evidence is insufficient.
 
-`docs/assets/ai-fms-demo-overview.jpg`
+### Core Capabilities
 
-英文说明：
+| Area            | Implemented capability                                                          |
+| --------------- | ------------------------------------------------------------------------------- |
+| Video review    | Duration-aware range, rep segmentation, loop playback, timing correction        |
+| Human review    | RAW SCORE, confidence, camera view, side, protocol/clearing fields, notes       |
+| Pose evidence   | Time-aligned MediaPipe overlay, normalized distances, angles, trajectories      |
+| AI support      | Movement-specific first-pass suggestion, explanation, quality gates, abstention |
+| Study workflow  | Anonymous Round A/B queue, append-only events, signed JSON/SHA-256 export       |
+| Data governance | Stable IDs, lineage, SQLite ingest, dataset export, release manifests           |
 
-The main workbench combines video playback, segment navigation, reviewer scoring, AI suggestion, and export readiness in one review surface.
+## Human-in-the-Loop Workflow
 
-### 2. Real Pose Overlay
+Use a compact five-step sequence:
 
-英文说明：
+1. **Review the video**: isolate complete repetitions and replay difficult moments.
+2. **Inspect quantitative evidence**: view pose overlay, timing, angles, distances,
+   and movement-specific events.
+3. **Record human judgment**: preserve score, confidence, protocol condition,
+   camera view, side, QA flags, and notes.
+4. **Compare after review**: analyze locked AI suggestions against human consensus
+   without exposing AI to blinded reviewers.
+5. **Export traceable evidence**: retain stable IDs, lineage, checksums, and explicit
+   exclusion or abstention reasons.
 
-When a matching MediaPipe pose JSON file is loaded, AI-FMS renders real keypoints aligned to the current video time. If no pose file is loaded, demo skeletons are clearly labeled and are not presented as model output.
+### Supporting Visuals
 
-### 3. Segment Timing QA
+- Study Mode: `docs/assets/publication/ai-fms-study-mode-blind-review-real-video.png`
+- Quantitative feature detail:
+  `docs/assets/publication/ai-fms-workbench-quantitative-evidence.png`
 
-英文说明：
+The real-video frames are internal-review assets until frame-level rights are
+confirmed. Replace them with project-owned, consented footage if needed.
 
-The Deep Squat timing module detects repeated squat cycles and suggests segment boundaries. Reviewers can compare current and suggested ranges, then batch-apply pose-assisted timing before scoring.
+## Product Scope and Research Scope
 
-### 4. Feature Snapshot
+### English Copy
 
-截图：
+The product scope and the research scope are intentionally different. The
+platform implements the main review workflow for all seven FMS movements. Phase
+I selected Deep Squat, Active Straight Leg Raise, Hurdle Step, and Rotary
+Stability for a more structured data and reviewer study. The other three
+movements remain implemented product capabilities, not unbuilt placeholders.
 
-`docs/assets/ai-fms-demo-side-angle-features.jpg`
+## Phase I Evaluation
 
-英文说明：
+| Evidence layer                           |                              Current result |
+| ---------------------------------------- | ------------------------------------------: |
+| Canonical research pool                  |          28 source videos / 110 repetitions |
+| Feature-ready evidence                   |                              66 repetitions |
+| Formal blind sample                      |            32 repetitions / 4 movements x 8 |
+| Round B status agreement                 |                                       32/32 |
+| Round B jointly scorable exact agreement |                                       26/26 |
+| Locked AI vs Round B human consensus     |               16/25 exact; 23/25 within one |
+| Final AI score coverage                  |                        28/32; 4 abstentions |
+| Engineering quality gate                 | 340 tests; lint/format; 3 production builds |
 
-The selected segment shows reviewer-readable evidence such as depth, torso control, knee alignment, hip angle, knee angle, and ankle mobility proxy. These features support interpretation instead of replacing expert review.
+### Interpretation
 
-### 5. Export Evidence
+The reviewer result is a small, controlled internal study, not population-level
+reliability. The AI result is a post-audit internal benchmark, not held-out
+accuracy or clinical validation.
 
-截图：
+## What the Score Does Not Show
 
-`docs/assets/ai-fms-demo-export-evidence.jpg`
+After completing the system and its primary evaluation, Phase I used the
+quantitative evidence for four movement-specific exploratory analyses:
 
-英文说明：
+1. **Deep Squat: a strategy continuum**
+   Fifteen side-view repetitions showed that depth and hip/knee flexion form a
+   continuum, while ankle, trunk, and alignment strategies vary more independently.
+2. **ASLR: side and repeatability**
+   Four good-evidence repetitions from one source showed similar active-leg height
+   but larger changes in stationary-leg and pelvic-control proxies.
+3. **Hurdle Step: multiple paths to the same score**
+   Five independently reviewed score-two repetitions from five videos followed
+   four different review pathways.
+4. **Rotary Stability: full-cycle coordination**
+   Eight blind-reviewed repetitions showed why touch, extension, return, and event
+   sequence must be interpreted across a full movement cycle.
 
-The dashboard summarizes label completion, timing QA coverage, feature coverage, AI suggestion coverage, and pose-evidence export readiness before the dataset record is saved.
+These findings generate testable mobility, stability, coordination, and
+repeatability hypotheses. They do not diagnose impairments or establish causes.
 
 ## Technical Architecture
 
-英文版：
+- Frontend: React 19 and Vite.
+- Pose extraction: MediaPipe Pose Landmarker with time-indexed JSON landmarks.
+- Movement logic: seven action adapters for timing, features, evidence gates,
+  explainable suggestions, and abstention.
+- Human review: Workbench plus AI-isolated Study Mode.
+- Research data: canonical JSON, feature matrix, signed review exports, SQLite,
+  SHA-256 checksums, and deterministic analysis scripts.
+- Quality: 340 automated tests, lint/format checks, and three production builds.
 
-- Frontend: React and Vite.
-- Pose extraction: MediaPipe Pose Landmarker, exported as time-indexed JSON landmarks.
-- Feature extraction: JavaScript modules for Deep Squat timing, depth, trunk control, knee alignment, and side-view angle evidence.
-- Human review: Reviewer A/B scoring, comments, pain flag, clearing test, and rubric version.
-- Adjudication: human consensus first, AI-human agreement as secondary evidence, invalid state for unresolved mismatch.
-- Export: JSON and CSV records designed for traceability and future dataset construction.
-- Validation: Node test suite, manifest validation scripts, sample inventory, and dry-run checklist.
+## My Role and Learning
 
-中文解释：
+The following first-person copy requires Ronnie's final factual approval:
 
-技术上它不是单点模型 demo，而是一个小型数据平台。视频、pose、人工评分、AI 建议和导出结构都被连在一起，这更符合申请材料里“把运动科学兴趣转化为系统工程实践”的叙事。
+> My long-term swimming experience led me to ask how movement quality could be
+> reviewed more consistently. I learned the FMS protocol, helped define the
+> research questions, completed blinded movement reviews, and worked through an
+> AI-assisted development process to turn that question into a functioning
+> system. The hardest lesson was that responsible sports technology is not just
+> about producing a score. It requires traceable data, clear protocol conditions,
+> human oversight, and honest boundaries when the evidence is incomplete.
 
-## Current Evaluation Evidence
-
-英文正文：
-
-The current V1.5 demo has a reproducible Deep Squat dry run. It loads `Sample-1.mp4` and `Sample-1.pose.json`, applies pose-assisted timing to 7 repetitions, shows feature evidence for selected segments, generates an explainable AI suggestion, and exports traceable dataset records. The project also includes automated tests for adjudication, segmentation, pose parsing, timing QA, feature extraction, AI suggestion, export quality, and sample manifest validation.
-
-中文要点：
-
-- Deep Squat demo 已经可以稳定复现。
-- 目前不是只展示 UI，而是有真实 pose JSON、timing QA、feature snapshot、export evidence。
-- 自动测试覆盖核心逻辑，避免只是一次性的展示页。
+Contribution disclosure must separately state the roles of Ronnie, the Other
+Reviewer, adult contributors, and Codex. Codex is not an author.
 
 ## Limitations
 
-英文正文：
+- Educational and research prototype; not a medical diagnostic tool.
+- Does not predict injury risk or automatically determine pain.
+- Does not replace certified FMS professionals.
+- Repetitions are nested within source videos and are not independent participants.
+- The formal study is small and covers four selected movements.
+- The locked AI benchmark is internal and post-audit, not held-out validation.
+- Rights, consent, and target-journal ethics requirements remain publication gates.
 
-AI-FMS is an educational and research prototype. It is not a medical diagnostic tool, does not predict injury risk, and does not replace trained professionals. Pain and medical interpretation require human expertise. Deep Squat remains the flagship demo. Active Straight Leg Raise, Hurdle Step, In-Line Lunge, Shoulder Mobility, and Trunk Stability Push-Up have first-pass pose-based reviewer-support suggestions, while Rotary Stability is limited to feature evidence and side suggestion. All non-Deep-Squat movement logic still needs more curated samples and human calibration before stronger scoring claims.
+## Publication and Repository Status
 
-中文要点：
+- Manuscript: complete 24-page Chinese internal draft; not submitted or peer reviewed.
+- Journal route: NHSJS expedited review after written eligibility clarification.
+- Preprint: Zenodo only after written NHSJS permission.
+- Repository: currently under `edwardzhu-HK/AI-FMS`; planned transfer to Ronnie's
+  personal GitHub account after username confirmation and pre-transfer audit.
 
-- 不宣称医疗诊断。
-- 不宣称伤病预测。
-- 不宣称替代 certified FMS professionals。
-- Deep Squat 是当前 flagship，其他动作已有不同层级的 first-pass evidence，但仍需校准。
-- 样本量和视频多样性仍然有限。
+## Suggested Ending
 
-## Application Narrative
-
-英文正文：
-
-My long-term swimming experience made me curious about how movement quality, fatigue, and technique can be observed more consistently. While learning Functional Movement Screen concepts, I saw an opportunity to connect Human Movement Science with computer vision. AI-FMS became a way to explore how pose estimation can support structured review while preserving human judgment, traceability, and ethical boundaries.
-
-中文理解：
-
-这段可以作为 Ronnie 申请材料中的项目叙事核心：从长期游泳训练出发，进入 Human Movement Science / Kinesiology 的兴趣，再用 AI-FMS 展示他能把运动观察、数据结构、AI 工具和伦理边界结合起来。
-
-## Future Work
-
-英文 bullet：
-
-- Promote selected sample videos into canonical manifests for the remaining FMS movements.
-- Expand pose-derived features to Active Straight Leg Raise, Shoulder Mobility, Hurdle Step, and In-Line Lunge.
-- Build a small consent-aware dataset with a dataset card and clear limitations.
-- Record a 2-3 minute demo video showing the Deep Squat flagship workflow.
-- Explore lightweight supervised models only after label quality and sample diversity improve.
-
-## Resume Bullets
-
-英文可选版本：
-
-- Built AI-FMS, a human-in-the-loop computer vision workbench for Functional Movement Screen video annotation, reviewer scoring, adjudication, and traceable dataset export.
-- Implemented a Deep Squat flagship pipeline with MediaPipe pose extraction, aligned keypoint overlay, pose-assisted segmentation, movement-feature snapshots, and explainable AI score suggestions.
-- Designed the system around ethical AI boundaries: pose evidence supports reviewer decisions but does not claim medical diagnosis, injury-risk prediction, or replacement of trained professionals.
-
-## 2-3 Minute Demo Opening
-
-英文旁白：
-
-AI-FMS is a human-in-the-loop computer vision platform for reviewing Functional Movement Screen videos. Instead of trying to replace trained reviewers, it helps them create more consistent, evidence-backed labels. In this demo, I will show the Deep Squat pipeline: loading a video and pose file, applying pose-assisted segment timing, inspecting movement features, comparing an AI suggestion with reviewer labels, and exporting a traceable dataset record.
-
-## Suggested Page Ending
-
-英文结尾：
-
-AI-FMS is a small prototype, but it represents the kind of work I want to keep pursuing: combining human movement science, responsible AI, and practical tools that make sports and health data more interpretable.
+> AI-FMS began as a practical question from sport and became a system, a dataset,
+> and a small research study. It represents the kind of work I want to continue:
+> combining Human Movement Science, responsible AI, and tools that make movement
+> evidence easier to review and understand.

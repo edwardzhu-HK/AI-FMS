@@ -9,14 +9,15 @@ Use `confirmed`, `not confirmed`, or a short factual answer. Do not guess.
 
 ## 1. Student Author
 
-| Field                            | Answer             |
-| -------------------------------- | ------------------ |
-| Full publication name            | `[fill in]`        |
-| Preferred name in correspondence | `[fill in]`        |
-| Current grade                    | `[fill in]`        |
-| School name and location         | `[fill in]`        |
-| Student email, if appropriate    | `[fill in]`        |
-| ORCID, if already available      | `[none / fill in]` |
+| Field                            | Answer                         |
+| -------------------------------- | ------------------------------ |
+| Full publication name            | `[fill in]`                    |
+| Preferred name in correspondence | `[fill in]`                    |
+| Current grade                    | `[fill in]`                    |
+| School name and location         | `[fill in]`                    |
+| Student email, if appropriate    | `[fill in]`                    |
+| ORCID, if already available      | `[none / fill in]`             |
+| GitHub username                  | `[fill in after registration]` |
 
 ## 2. Adult Corresponding Contact
 
@@ -67,17 +68,18 @@ Proposed disclosure summary:
 
 ## 5. Media, Data, and Rights
 
-| Item                                              | Public permission status        | Notes or evidence |
-| ------------------------------------------------- | ------------------------------- | ----------------- |
-| Four aggregate case-study figures                 | `[pending / confirmed]`         | `[fill in]`       |
-| System workflow and lineage diagrams              | `[pending / confirmed]`         | `[fill in]`       |
-| Workbench screenshots without identifiable people | `[pending / confirmed]`         | `[fill in]`       |
-| Source-video frames containing people             | `[not public unless confirmed]` | `[fill in]`       |
-| Raw videos                                        | `[private]`                     | `[fill in]`       |
-| Raw pose landmarks                                | `[private]`                     | `[fill in]`       |
-| Reviewer comments and signed exports              | `[private]`                     | `[fill in]`       |
-| Aggregated numeric tables                         | `[pending / confirmed]`         | `[fill in]`       |
-| Source code                                       | `[pending / confirmed]`         | `[fill in]`       |
+| Item                                        | Public permission status        | Notes or evidence |
+| ------------------------------------------- | ------------------------------- | ----------------- |
+| Four aggregate case-study figures           | `[pending / confirmed]`         | `[fill in]`       |
+| System workflow and lineage diagrams        | `[pending / confirmed]`         | `[fill in]`       |
+| Workbench real-video screenshot             | `[not public unless confirmed]` | `[fill in]`       |
+| Study Mode real-video screenshot            | `[not public unless confirmed]` | `[fill in]`       |
+| Other source-video frames containing people | `[not public unless confirmed]` | `[fill in]`       |
+| Raw videos                                  | `[private]`                     | `[fill in]`       |
+| Raw pose landmarks                          | `[private]`                     | `[fill in]`       |
+| Reviewer comments and signed exports        | `[private]`                     | `[fill in]`       |
+| Aggregated numeric tables                   | `[pending / confirmed]`         | `[fill in]`       |
+| Source code                                 | `[pending / confirmed]`         | `[fill in]`       |
 
 ## 6. Presubmission Approval
 
@@ -87,8 +89,8 @@ Before sending the inquiry:
 - [ ] Adult corresponding contact agrees to be contacted.
 - [ ] AI-use paragraph is approved without omissions.
 - [ ] The summary numbers match the frozen release candidate.
-- [ ] No source file name, private path, identifiable image, or reviewer comment
-      is included.
+- [ ] No source file name, private path, unapproved identifiable image, or
+      reviewer comment is included in the inquiry package.
 - [ ] The sender approves the seven questions in the inquiry draft.
 
 Final decision:

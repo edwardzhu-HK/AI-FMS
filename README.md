@@ -22,7 +22,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | 七动作 AI workflow   | 七个动作均具备 first-pass pose-based AI suggestion |
 | 定量案例与图表       | 4 种差异化分析；4 张无人物数据驱动图               |
 | 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
-| 当前等待项           | Held-out confirmation、公开素材审计与 demo         |
+| 当前等待项           | 输出制作、公开素材审计、NHSJS 询问与 GitHub 迁移   |
 
 四个 pilot actions：
 
@@ -238,6 +238,9 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 
 ## 文档入口
 
+- Phase I 统一交付索引：`docs/delivery/ai_fms_phase_i_output_index_2026-08-17.md`
+- Ronnie GitHub 迁移清单：
+  `docs/delivery/ronnie_github_repository_transfer_2026-08-17.md`
 - 统一计划：`docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`
 - Phase I dataset card：`docs/research/ai_fms_phase_i_dataset_card_2026-08-09.md`
 - Methods、limitations 与 ethics：
@@ -293,12 +296,15 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 
 剩余 Phase I 工作：
 
-1. 完成技术报告 PDF、系统/lineage/result 总览图和逐页排版检查。
-2. 完成 portfolio project page、2-3 分钟英文 demo 与 60 秒短版。
-3. 完成公开素材 rights/privacy、PII 和最终夸大表述人工审计。
-4. 在干净环境复现代码与受控输出，生成 final public-safe manifest 和 closeout index。
+1. 将已更新的 project-page copy 实现为正式页面，按当前脚本录制 3 分钟英文 demo 与
+   60 秒短版。
+2. 完成技术报告 PDF，并统一论文、项目页、demo 和申请材料的最终细节。
+3. 完成公开素材 rights/privacy、PII、贡献声明和最终夸大表述人工审计。
+4. 在干净环境复现代码与受控输出，生成 final public manifest、release tag 和恢复说明。
 5. 先向 NHSJS 确认 AI-use、secondary-video ethics、advisor 和 preprint policy；获得
    书面许可后完成加急投稿包，Zenodo 继续保持 conditional。
+6. Ronnie 注册 GitHub 并提供 username 后，将收口后的 repository 连同完整历史转移到
+   Ronnie 账户，并更新所有公开链接。
 
 Phase II confirmation 再处理独立 held-out 视频：ASLR 主体/峰值、Hurdle 完整轨迹与
 dowel evidence、Rotary 清晰触踝与回位，以及更多 reviewer 或 expert panel。新数据不

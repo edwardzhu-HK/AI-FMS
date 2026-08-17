@@ -8,6 +8,9 @@
 
 文档性质：Phase I 技术报告与申请材料底稿
 
+内部 review 状态：整体框架、系统开发主线、Phase I 评估结构和主要结论已获认可；后续
+修改以细节 polish、跨输出一致性、媒体授权和目标载体适配为主。
+
 ## English Abstract
 
 AI-FMS is a human-in-the-loop platform designed to support Functional Movement

@@ -2,39 +2,42 @@
 
 ## 项目名称
 
-**AI-FMS: Quantitative Movement Evidence for Human FMS Review**
+**AI-FMS: Explainable Human-in-the-Loop FMS Video Review**
 
-中文：**AI-FMS：为人工 FMS 审核增加可解释的定量动作证据**
+中文：**AI-FMS：可解释的人机协同 FMS 视频审核系统**
 
 ## 一句话介绍
 
-我开发了一个 human-in-the-loop 计算机视觉平台，把 FMS 视频中的动作切片、人工评分、
-MediaPipe pose、角度/距离参数、AI suggestion 和研究导出连接成可追溯证据链。
+我参与开发了一个 AI 辅助人工审核的 FMS 视频平台，让 reviewer 可以远程、异步地回放
+每个动作，查看 MediaPipe pose、角度/距离参数和 AI suggestion，并把人工评分与研究
+导出连接成可追溯证据链。
 
 ## English Short Description
 
-AI-FMS is a human-in-the-loop computer vision platform for reviewing Functional
-Movement Screen videos. It combines repetition segmentation, blinded human
-scoring, MediaPipe pose features, interpretable AI evidence, and traceable data
-exports. The goal is not to replace trained reviewers, but to add quantitative
-movement profiles to an ordinal screening score.
+AI-FMS is an explainable, human-in-the-loop system for reviewing Functional
+Movement Screen videos. It supports repetition-level replay, blinded human
+review, MediaPipe pose features, interpretable AI suggestions, and traceable
+data exports across all seven FMS movements. It was designed to help reviewers
+work more consistently while preserving the quantitative movement information
+that a 0-3 score cannot fully express.
 
 ## 项目故事
 
-长期游泳训练让我持续注意到：两个人完成同一个动作，即使教练给出相同分数，动作过程
-也可能完全不同。FMS 提供了清楚的 0-3 规则，但人工观察很难稳定记录每一次动作的角度、
-相对距离和动态轨迹。
+长期游泳训练让我持续注意动作质量，但人工视频审核有几个现实问题：动作发生后很难
+回溯，远程或异步场景不方便，reviewer 需要反复寻找每个 rep，而且肉眼通常只能定性
+判断角度、距离和轨迹。FMS 提供了清楚的 0-3 规则，却不会自动保存这些观察证据。
 
-我把这个问题拆成三个部分：先建立可以反复审核的视频标注工具，再使用 pose estimation
-提取 quantitative evidence，最后通过 blind review 检查 AI 在哪里与人工一致、在哪里
-遗漏了人能看到的动作信息。
+我把问题拆成三个部分：先建立覆盖七动作、可以暂停回放和逐 rep 审核的工作台，再用
+pose estimation 提取 quantitative evidence，最后通过 blind review 检查人工评分的
+稳定性，以及锁定 AI 在哪里与人工一致、在哪里应该拒判或交给人复核。
 
 ## 我完成了什么
 
 - 构建 7-movement annotation workbench，支持视频、rep timing、loop playback、人工
   scoring、adjudication 和 JSON/CSV export。
 - 使用 MediaPipe Pose Landmarker 建立动作 timing、pose overlay 和 movement-specific
-  feature pipeline。
+  feature pipeline；全部 7 个动作均可生成 first-pass、可解释、允许 abstain 的 AI
+  reviewer-support suggestion。
 - 将 28 个 history exports 重建为 28 个唯一视频、110 个 reps 的 canonical pilot，
   带稳定 ID、lineage 和 SHA-256。
 - 建立 blind Study Mode，冻结四动作各 8 条的正式 32-rep 样本，并完成双 reviewer
@@ -48,7 +51,10 @@ movement profiles to an ordinal screening score.
   同源 bilateral repeatability series、Hurdle 五条盲评 2 分的 pathway taxonomy，
   以及 Rotary 八-rep full-cycle event matrix；另保留 measurement QA。
 
-## 最有意义的发现
+## 最有意义的研究发现
+
+系统开发和 Phase I 评估完成后，我们进一步发现它不只可以帮助 reviewer 完成评分，
+还可以支持传统 FMS 分数之外的 movement-science 分析。
 
 研究显示，0-3 分压缩的不只是更多角度。15 条 Deep Squat 侧视 rep 显示，深度与髋膝
 屈曲形成连续轴，但踝、躯干和对线策略不能由深度自动推断。ASLR 同源四-rep 序列显示，
@@ -78,19 +84,20 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 
 ## Evidence Snapshot
 
-| Evidence                             |                                    Result |
-| ------------------------------------ | ----------------------------------------: |
-| Canonical pilot                      |                      28 videos / 110 reps |
-| Feature-ready                        |                                   66 reps |
-| Formal blind sample                  |                    32 reps，4 actions x 8 |
-| Round B status agreement             |                                     32/32 |
-| Round B human score agreement        |                               26/26 exact |
-| Locked Phase I AI vs human consensus |             16/25 exact；23/25 within one |
-| Historical audited weak labels       |    18 confirmed among 25 stable consensus |
-| ASLR side/peak evidence audit        | 16 windows：11 good / 2 watch / 3 limited |
-| ASLR subject-aware sensitivity       |              3 limited → 1 good / 2 watch |
-| Application case portfolio           |                    4 analyses / 4 figures |
-| Automated quality gate               |     Full test suite + 3 production builds |
+| Evidence                             |                                        Result |
+| ------------------------------------ | --------------------------------------------: |
+| Canonical pilot                      |                          28 videos / 110 reps |
+| Feature-ready                        |                                       66 reps |
+| Formal blind sample                  |                        32 reps，4 actions x 8 |
+| Round B status agreement             |                                         32/32 |
+| Round B human score agreement        |                                   26/26 exact |
+| Locked Phase I AI vs human consensus |                 16/25 exact；23/25 within one |
+| Historical audited weak labels       |        18 confirmed among 25 stable consensus |
+| ASLR side/peak evidence audit        |     16 windows：11 good / 2 watch / 3 limited |
+| ASLR subject-aware sensitivity       |                  3 limited → 1 good / 2 watch |
+| Application case portfolio           |                        4 analyses / 4 figures |
+| Automated quality gate               | 340 tests + lint/format + 3 production builds |
+| Manuscript status                    |         24-page Chinese internal review draft |
 
 ## 我的角色
 
@@ -122,17 +129,48 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
   matrix, while documenting why the current AI rules are not a replacement for
   trained reviewers.
 
+## Length Variants
+
+以下版本不绑定某个申请系统的当前字数规则；正式填写时应按实际载体重新核对限制。
+
+### 150-character version
+
+142 characters including spaces:
+
+> Developed AI-FMS through AI-assisted coding: a 7-movement video-review platform
+> with blinded human scoring, pose evidence, and traceable data.
+
+### 350-character version
+
+295 characters including spaces:
+
+> Developed AI-FMS through AI-assisted coding, connecting my swimming and Human
+> Movement Science interests with a seven-movement video-review platform. I
+> learned the FMS protocol, completed two rounds of blinded review, and helped
+> interpret pose-based evidence from a 110-repetition Phase I pilot.
+
+### Short additional-information version
+
+> AI-FMS is an explainable, human-in-the-loop system for reviewing Functional
+> Movement Screen videos. I helped shape the research question from my swimming
+> experience, learned the FMS protocol, completed two blinded review rounds, and
+> interpreted both the system's quantitative evidence and its failures. The
+> platform supports all seven FMS movements; Phase I evaluated four movements
+> using 28 source videos and 110 repetitions. The work taught me to treat AI
+> output as evidence that requires protocol context, quality gates, human
+> responsibility, and honest limits rather than as an automatic diagnosis.
+
 ## 60-Second Interview Version
 
-我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。传统 FMS 最终给 0-3 分，但
-一个 0-3 分还会压缩左右差异、重复性、扣分原因和完整动作顺序。我先做了一个可用的
-视频审核平台，然后用 MediaPipe 把动作变成角度、相对距离、稳定性和周期事件。项目
-后来形成了 28 个视频、110 个 reps 的四动作 pilot，并完成 32 条双人、双轮 blind
-review。第二轮中人工在共同可评分的 26 条上
+我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。我先开发了一个覆盖七个 FMS
+动作的视频审核平台，让 reviewer 能够远程回放每个 rep、保存判断依据，并用 MediaPipe
+查看肉眼难以量化的角度、距离和动作轨迹。在系统完成后，我们又构建了 28 个视频、
+110 个 reps 的四动作 Phase I pilot，并完成 32 条双人、双轮 blind review。第二轮中
+人工在共同可评分的 26 条上
 完全一致；锁定的 Phase I AI 在 25 条可比较记录中完全匹配 16 条，23 条相差不超过 1 分。
-它没有证明 AI 能替代人，反而让我更清楚地看到 protocol metadata、pose tracking、
-动态 feature 和 held-out validation 的边界。这个项目最重要的成果，是把运动经验、
-研究设计和负责任的 AI 工程连接了起来。
+定量分析还显示，相同 FMS 分数可能隐藏不同的动作策略、左右重复性、扣分路径和周期
+顺序。项目没有证明 AI 能替代人，却让我更清楚地理解了 protocol metadata、pose
+tracking、abstention 和 held-out validation 的边界。
 
 ## 必须保留的边界
 
@@ -141,4 +179,6 @@ review。第二轮中人工在共同可评分的 26 条上
 - Does not automatically detect pain。
 - Does not replace certified FMS professionals。
 - Round A/B 是 exploratory pilot；双轮盲评已完成，外部 held-out validation 尚未完成。
-- 公开视频和人物画面只有在 rights/privacy audit 后才能公开展示。
+- 当前论文中的两张真实视频界面图仅供内部审阅；逐帧 rights clearance 完成后才能公开。
+- GitHub 当前仍由项目发起账户托管；Ronnie 注册账户后将按保留完整历史的 repository
+  transfer 流程迁移所有权。

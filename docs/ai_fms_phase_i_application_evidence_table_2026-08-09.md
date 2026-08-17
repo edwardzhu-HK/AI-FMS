@@ -24,6 +24,8 @@
 | 数据治理                    | Stable IDs、SHA-256、signed exports、SQLite idempotency                              | Built traceable, checksum-verified research data flows                      | 不说 production multi-user database                   |
 | 历史标签复用                | 25 条稳定盲审共识中 18 条与历史标签 exact                                            | Confirmed a limited audited weak-label subset                               | 不说 32 条抽检证明全部 110 条有效                     |
 | 伦理边界                    | Dataset card、methods/limitations、rights/privacy gate                               | Designed the prototype around human oversight and explicit limitations      | 不说 medical diagnosis、pain AI 或 injury prediction  |
+| 论文准备                    | 24 页中文完整内部审阅稿；7 figures、12 tables、4 appendices                          | Prepared a complete Chinese manuscript draft for internal review            | 不说 submitted、peer reviewed 或 published            |
+| 界面视觉                    | Workbench 与 Study Mode 真实视频帧截图；源文件名和 reviewer ID 已移除                | Demonstrated the real video-review workflow                                 | 逐帧授权前不作为公开可再发布素材                      |
 
 ## 最稳妥的核心句
 
@@ -53,3 +55,4 @@ labels 的统计证明。
 - [x] 当前受控文档不含本地绝对路径。
 - [ ] 人工确认最终公开包不含 reviewer raw comments、raw pose 或 SQLite。
 - [x] 明确写出 educational/research prototype 与 no-diagnosis boundary。
+- [ ] Ronnie GitHub 用户名确认后完成 repository ownership transfer，并更新所有公开链接。

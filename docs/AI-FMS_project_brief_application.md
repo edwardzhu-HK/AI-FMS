@@ -1,6 +1,8 @@
 # AI-FMS 项目说明：申请材料版
 
-> **历史版本说明（2026-08-09）**：本文件保留 2026-05-22 的早期申请叙事，相关 PDF 也仅作历史归档。当前 Phase I 申请材料以 `docs/ai_fms_phase_i_application_copy_2026-08-09.md`、`docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md` 和 `docs/reports/ai_fms_phase_i_technical_report_2026-08-09.md` 为准。
+> **历史版本说明（2026-08-17）**：本文件保留 2026-05-22 的早期申请叙事，相关 PDF
+> 也仅作历史归档。当前 Phase I 交付物统一从
+> `docs/delivery/ai_fms_phase_i_output_index_2026-08-17.md` 进入；不要继续修改或发布本文件。
 
 日期：2026-05-22
 

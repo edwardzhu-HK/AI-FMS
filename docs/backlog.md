@@ -448,7 +448,7 @@ Canonical execution plan:
       differentiated public-safe figures from the full-pool, blind-review, and
       cycle-event evidence sources.
 - [ ] Record and verify a 2-3 minute demo video.
-- [ ] Replace the May V1.5 demo script with the current seven-movement product,
+- [x] Replace the May V1.5 demo script with the current seven-movement product,
       four-movement research, blind-review, and quantitative-findings narrative.
 - [ ] Produce the final technical-report PDF and verify text extraction, page
       count, figure legibility, links, and page layout.
@@ -456,6 +456,14 @@ Canonical execution plan:
       and evidence table; link the report, demo, GitHub, and public-safe figures.
 - [ ] Finish the application writing pack: school-length variants, resume entry,
       60-second answer, and Ronnie-approved contribution/learning statement.
+- [x] Refresh the canonical application copy, claim-control table, and project-
+      page copy around the approved seven-movement system narrative and current
+      Phase I frozen evidence.
+- [x] Create one Phase I output index and a GitHub repository-transfer checklist
+      that preserves history and waits for Ronnie's exact username.
+- [ ] After Ronnie registers GitHub, complete the pre-transfer public-boundary
+      audit, merge the approved closeout branch to `main`, create the Phase I
+      release, and transfer repository ownership.
 - [x] Select NHSJS expedited review as the primary paper route, with Zenodo
       blocked until written preprint permission is received.
 - [x] Capture the current NHSJS Research Article structure, file variants,
