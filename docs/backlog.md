@@ -456,6 +456,24 @@ Canonical execution plan:
       and evidence table; link the report, demo, GitHub, and public-safe figures.
 - [ ] Finish the application writing pack: school-length variants, resume entry,
       60-second answer, and Ronnie-approved contribution/learning statement.
+- [x] Select NHSJS expedited review as the primary paper route, with Zenodo
+      blocked until written preprint permission is received.
+- [x] Capture the current NHSJS Research Article structure, file variants,
+      figure/table minimum, page limit, timeline, and contact information.
+- [x] Draft a transparent presubmission inquiry covering AI use, secondary-video
+      ethics, rights, advisor requirements, and preprint eligibility.
+- [x] Create a manuscript evidence map from the frozen Phase I results without
+      presenting AI-generated planning text as a journal-ready student paper.
+- [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
+      contributions, rights boundaries, and AI-use disclosure.
+- [ ] Send the NHSJS presubmission inquiry and archive the written response.
+- [ ] After eligibility confirmation, prepare the NHSJS anonymous standard-
+      citation Word manuscript, online-citation Word manuscript, supplements,
+      and submission checklist.
+- [ ] Submit through the expedited route only after the package and $280 fee are
+      approved; use the resulting status exactly as received from the journal.
+- [ ] Deposit a Zenodo preprint only after written NHSJS permission and the final
+      public-safe manuscript audit.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
       17/17 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.

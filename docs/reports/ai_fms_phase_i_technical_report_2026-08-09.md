@@ -4,7 +4,7 @@
 
 初始日期：2026-08-09
 
-最近更新：2026-08-15
+最近更新：2026-08-17
 
 文档性质：Phase I 技术报告与申请材料底稿
 
@@ -542,6 +542,8 @@ ordinal score 会分别压缩连续策略、左右与重复性、扣分路径和
 4. 引入更多 reviewer 或 expert panel，扩大 reliability evidence；
 5. 如需验证 AI 对人工审核的实际帮助，另行设计 evidence-assisted controlled study；
 6. 完成公开素材 rights/privacy audit、demo video 和最终 application package。
+7. 将本技术报告压缩为符合目标期刊结构的英文 exploratory Research Article；先取得
+   AI-use、secondary-video ethics 与 preprint policy 的书面确认，再完成正式投稿。
 
 Phase I 的结论不是“AI 已经取代 FMS reviewer”，而是：AI-FMS 已经证明，人工 ordinal
 judgment 可以与连续、可解释、可追溯的 movement evidence 放在同一套工作流中，而且

@@ -55,8 +55,11 @@ The closeout decision is **GO FOR OUTPUT**. Phase I does not need more tuning or
 new data to support its current bounded claims. Remaining work is publication
 quality: final report PDF/layout, a concise portfolio page, an updated demo
 script and video, rights/privacy review, clean-environment reproduction, and a
-final public-safe release manifest. New held-out videos, expert-panel review,
-and an evidence-assisted controlled study belong to the next validation phase.
+final public-safe release manifest. The publication track now targets an NHSJS
+Research Article with expedited review, while any Zenodo preprint remains
+conditional on written journal permission. New held-out videos, expert-panel
+review, and an evidence-assisted controlled study belong to the next validation
+phase.
 
 ## 2. Inputs Reviewed
 
@@ -229,6 +232,7 @@ In scope:
 - Project page or portfolio-ready summary.
 - Application writing pack and contribution/learning statement.
 - Public-safe release manifest plus private evidence archive.
+- NHSJS manuscript and submission package; conditional Zenodo preprint.
 
 ### V1.6: Dataset and Expansion Track
 

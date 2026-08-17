@@ -249,6 +249,7 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   `docs/research/aslr_subject_aware_sensitivity_2026-08-10.md`
 - Phase I 案例组合与申请图：
   `docs/research/phase_i_case_study_portfolio_2026-08-10.md`
+- Publication track、NHSJS 资格门与 Zenodo 边界：`docs/publication/README.md`
 
 ## Repository Layout
 
@@ -285,6 +286,8 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 2. 完成 portfolio project page、2-3 分钟英文 demo 与 60 秒短版。
 3. 完成公开素材 rights/privacy、PII 和最终夸大表述人工审计。
 4. 在干净环境复现代码与受控输出，生成 final public-safe manifest 和 closeout index。
+5. 先向 NHSJS 确认 AI-use、secondary-video ethics、advisor 和 preprint policy；获得
+   书面许可后完成加急投稿包，Zenodo 继续保持 conditional。
 
 Phase II confirmation 再处理独立 held-out 视频：ASLR 主体/峰值、Hurdle 完整轨迹与
 dowel evidence、Rotary 清晰触踝与回位，以及更多 reviewer 或 expert panel。新数据不

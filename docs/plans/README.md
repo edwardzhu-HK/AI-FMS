@@ -23,6 +23,8 @@
 - `../ai_fms_phase_i_application_copy_2026-08-09.md`：当前申请文案与第一人称素材。
 - `../ai_fms_phase_i_application_evidence_table_2026-08-09.md`：公开 claim control。
 - `../../README.md`：GitHub onboarding 与当前 Phase I 状态。
+- `../publication/README.md`：NHSJS expedited + conditional Zenodo publication
+  路线、资格门和投稿状态。
 
 `AI-FMS_project_brief_application.md`、`project_page_copy_ai_fms_v1_5.md`、
 `application_package_notes_ai_fms_v1_5.md` 和 2026-05 的 demo 文档属于历史 V1.5
