@@ -447,15 +447,22 @@ Canonical execution plan:
 - [x] Upgrade the pinned case-study generator to v2 and generate four
       differentiated public-safe figures from the full-pool, blind-review, and
       cycle-event evidence sources.
-- [ ] Record and verify a 2-3 minute demo video.
+- [ ] Record and verify a 4:15-4:30 application-film master, then export a
+      3-minute cut and a 60-second teaser.
 - [x] Replace the May V1.5 demo script with the current seven-movement product,
       four-movement research, blind-review, and quantitative-findings narrative.
+- [x] Add applicant-facing opening and closing sections covering FMS basics,
+      Ronnie's Level 1/Level 2 certification, assessment practice, personal role,
+      reflection, and college-stage research direction.
+- [ ] Collect the exact certificate titles/dates, redacted certificate images,
+      consented FMS-practice footage, Ronnie A-roll, and final narration audio.
 - [ ] Produce the final technical-report PDF and verify text extraction, page
       count, figure legibility, links, and page layout.
 - [ ] Build the final portfolio project page from the current application copy
       and evidence table; link the report, demo, GitHub, and public-safe figures.
-- [ ] Finish the application writing pack: school-length variants, resume entry,
-      60-second answer, and Ronnie-approved contribution/learning statement.
+- [ ] Finish the application writing pack: current length variants and resume/
+      interview copy are drafted; Ronnie must approve the first-person
+      contribution, certification, learning, and future-direction statements.
 - [x] Refresh the canonical application copy, claim-control table, and project-
       page copy around the approved seven-movement system narrative and current
       Phase I frozen evidence.

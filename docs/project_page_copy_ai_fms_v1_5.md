@@ -40,6 +40,8 @@ interpretable AI suggestions across all seven FMS movements.
 Phase I research prototype · 7-movement product workflow · 4-movement formative
 evaluation · manuscript in preparation
 
+Applicant preparation: FMS Level 1 and Level 2 certified.
+
 ### Primary Links
 
 - `View the system`: link to the deployed or locally recorded demo.
@@ -52,6 +54,10 @@ evaluation · manuscript in preparation
 
 ### English Copy
 
+The Functional Movement Screen uses seven fundamental movement patterns and a
+zero-to-three ordinal score to organize movement-quality observations. It is a
+screening framework, not a medical diagnosis.
+
 Human FMS review is structured, but video-based review still creates practical
 friction. A movement can pass before the reviewer has time to inspect it;
 remote and asynchronous review makes repetition finding slower; and visual
@@ -62,6 +68,17 @@ the evidence behind the decision.
 AI-FMS was designed to support the reviewer at both levels: make the review
 workflow easier and more traceable, then preserve quantitative movement
 evidence that the ordinal score cannot fully express.
+
+### Why This Became My Project
+
+> My interest began with years of swimming and a growing curiosity about movement
+> quality. I completed FMS Level 1 and Level 2 training, earned both
+> certifications, and began conducting and reviewing FMS assessments. The
+> practical limits I encountered in replay, remote review, quantitative
+> observation, and evidence preservation became the starting point for AI-FMS.
+
+Certification is evidence of protocol training. It must not be presented as
+clinical licensure, medical expertise, or external validation of AI-FMS.
 
 ### Visual
 
@@ -183,11 +200,12 @@ repeatability hypotheses. They do not diagnose impairments or establish causes.
 The following first-person copy requires Ronnie's final factual approval:
 
 > My long-term swimming experience led me to ask how movement quality could be
-> reviewed more consistently. I learned the FMS protocol, helped define the
-> research questions, completed blinded movement reviews, and worked through an
-> AI-assisted development process to turn that question into a functioning
-> system. The hardest lesson was that responsible sports technology is not just
-> about producing a score. It requires traceable data, clear protocol conditions,
+> reviewed more consistently. I completed FMS Level 1 and Level 2 certification,
+> applied the protocol in practice, helped define the research questions,
+> completed blinded movement reviews, and worked through an AI-assisted
+> development process to turn that question into a functioning system. The
+> hardest lesson was that responsible sports technology is not just about
+> producing a score. It requires traceable data, clear protocol conditions,
 > human oversight, and honest boundaries when the evidence is incomplete.
 
 Contribution disclosure must separately state the roles of Ronnie, the Other

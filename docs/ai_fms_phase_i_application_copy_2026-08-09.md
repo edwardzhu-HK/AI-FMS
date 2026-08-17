@@ -27,6 +27,10 @@ that a 0-3 score cannot fully express.
 回溯，远程或异步场景不方便，reviewer 需要反复寻找每个 rep，而且肉眼通常只能定性
 判断角度、距离和轨迹。FMS 提供了清楚的 0-3 规则，却不会自动保存这些观察证据。
 
+为了先理解和负责地执行这套 protocol，我完成了 FMS Level 1 和 Level 2 training，并
+取得两项 certification。随后在实际进行和复核 FMS assessments 的过程中，我进一步
+确认这些问题并不只是理论上的不便，而是会直接影响视频审核效率、证据保存和后续解释。
+
 我把问题拆成三个部分：先建立覆盖七动作、可以暂停回放和逐 rep 审核的工作台，再用
 pose estimation 提取 quantitative evidence，最后通过 blind review 检查人工评分的
 稳定性，以及锁定 AI 在哪里与人工一致、在哪里应该拒判或交给人复核。
@@ -35,6 +39,8 @@ pose estimation 提取 quantitative evidence，最后通过 blind review 检查�
 
 - 构建 7-movement annotation workbench，支持视频、rep timing、loop playback、人工
   scoring、adjudication 和 JSON/CSV export。
+- 完成 FMS Level 1 和 Level 2 training/certification，并将 protocol 学习用于系统规则、
+  blind review 和结果解释。
 - 使用 MediaPipe Pose Landmarker 建立动作 timing、pose overlay 和 movement-specific
   feature pipeline；全部 7 个动作均可生成 first-pass、可解释、允许 abstain 的 AI
   reviewer-support suggestion。
@@ -98,18 +104,19 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 | Application case portfolio           |                        4 analyses / 4 figures |
 | Automated quality gate               | 340 tests + lint/format + 3 production builds |
 | Manuscript status                    |         24-page Chinese internal review draft |
+| FMS preparation                      |            Level 1 and Level 2 certifications |
 
 ## 我的角色
 
 适合申请材料中的第一人称表述：
 
 > I turned a question from my swimming experience into the AI-FMS research
-> project. I learned and applied the FMS review protocol, helped define the
-> study design, completed blinded movement reviews, and iterated the platform
-> through AI-assisted development. I also helped interpret both the useful
-> quantitative signals and the system's failures. I learned that responsible
-> sports technology depends as much on data lineage, human review, and honest
-> limitations as it does on computer vision.
+> project. I completed FMS Level 1 and Level 2 certification, applied the
+> protocol in practice, helped define the study design, completed blinded
+> movement reviews, and iterated the platform through AI-assisted development. I
+> also helped interpret both the useful quantitative signals and the system's
+> failures. I learned that responsible sports technology depends as much on data
+> lineage, human review, and honest limitations as it does on computer vision.
 
 协作贡献应如实披露：Ronnie 提出来自游泳训练的研究问题，学习并执行 FMS protocol，
 完成 Reviewer A 的 blind review，参与研究设计、专业校准和结果解释；Other Reviewer
@@ -118,6 +125,8 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 
 ## Resume Bullets
 
+- Completed FMS Level 1 and Level 2 certification and applied the protocol in
+  movement-screening practice, blinded review, and system rule interpretation.
 - Developed AI-FMS through AI-assisted coding, creating a React/MediaPipe
   human-in-the-loop workflow for FMS video segmentation, blinded review,
   pose-based movement features, adjudication, and traceable JSON/CSV exports.
@@ -162,11 +171,12 @@ Subject-aware sensitivity 再对 3 个 limited 窗口做受试者 ROI 重提取�
 
 ## 60-Second Interview Version
 
-我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。我先开发了一个覆盖七个 FMS
-动作的视频审核平台，让 reviewer 能够远程回放每个 rep、保存判断依据，并用 MediaPipe
-查看肉眼难以量化的角度、距离和动作轨迹。在系统完成后，我们又构建了 28 个视频、
-110 个 reps 的四动作 Phase I pilot，并完成 32 条双人、双轮 blind review。第二轮中
-人工在共同可评分的 26 条上
+我做 AI-FMS 的起点是游泳训练中对动作质量的长期观察。我完成了 FMS Level 1 和
+Level 2 certification，并在实际评估中发现视频回放、定量观察和证据保存的不足。随后
+我参与开发了一个覆盖七个 FMS 动作的视频审核平台，让 reviewer 能够远程回放每个
+rep、保存判断依据，并用 MediaPipe 查看肉眼难以量化的角度、距离和动作轨迹。在系统
+完成后，我们又构建了 28 个视频、110 个 reps 的四动作 Phase I pilot，并完成 32 条
+双人、双轮 blind review。第二轮中人工在共同可评分的 26 条上
 完全一致；锁定的 Phase I AI 在 25 条可比较记录中完全匹配 16 条，23 条相差不超过 1 分。
 定量分析还显示，相同 FMS 分数可能隐藏不同的动作策略、左右重复性、扣分路径和周期
 顺序。项目没有证明 AI 能替代人，却让我更清楚地理解了 protocol metadata、pose

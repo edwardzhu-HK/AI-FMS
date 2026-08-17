@@ -20,6 +20,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | ASLR pose 证据审计   | 16 个独立窗口：11 good、2 watch、3 limited         |
 | ASLR ROI sensitivity | 原 3 个 limited → 1 good、2 watch、0 limited       |
 | 七动作 AI workflow   | 七个动作均具备 first-pass pose-based AI suggestion |
+| 申请人专业准备       | Ronnie 已完成 FMS Level 1 与 Level 2 certification |
 | 定量案例与图表       | 4 种差异化分析；4 张无人物数据驱动图               |
 | 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
 | 当前等待项           | 输出制作、公开素材审计、NHSJS 询问与 GitHub 迁移   |
@@ -283,6 +284,8 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 - 视频来源混合，部分只适合本地研究复核；没有完成 rights audit 的媒体不得公开。
 - 当前数据不包含受控参与者招募、人口统计、临床结果或 injury outcome。
 - Reviewer comments、原始视频、raw pose 和本地绝对路径不进入公开申请包。
+- Level 1/Level 2 证书原图保留在 private production archive；公开视频只使用完成
+  identifier redaction 和展示授权确认的版本。
 - `0` 只表示观察或报告的 pain；无法按协议独立评分使用 `unscorable`，不能写成 0。
 - 历史 97 条 numeric labels 默认仍是 weak-label provenance；正式样本中只有 18 条已被
   双轮稳定盲审共识确认，可标记为 audited weak labels。
@@ -296,8 +299,8 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 
 剩余 Phase I 工作：
 
-1. 将已更新的 project-page copy 实现为正式页面，按当前脚本录制 3 分钟英文 demo 与
-   60 秒短版。
+1. 将已更新的 project-page copy 实现为正式页面，按当前脚本录制 4:15-4:30 英文
+   application-film 母版，再输出 3 分钟版与 60 秒短版。
 2. 完成技术报告 PDF，并统一论文、项目页、demo 和申请材料的最终细节。
 3. 完成公开素材 rights/privacy、PII、贡献声明和最终夸大表述人工审计。
 4. 在干净环境复现代码与受控输出，生成 final public manifest、release tag 和恢复说明。

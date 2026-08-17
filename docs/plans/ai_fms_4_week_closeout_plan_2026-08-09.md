@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.36                          |
+| 版本     | v1.37                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-17                     |
@@ -399,6 +399,9 @@ G2 验收证据：
 - [x] 将 application copy、claim-control table、project-page copy 和 demo script 统一到
       已认可的“七动作系统开发 + 四动作 Phase I 评估 + secondary findings”叙事。
 - [x] 建立 canonical output index 和 Ronnie GitHub repository-transfer checklist。
+- [x] 将 demo 从 software walkthrough 升级为 applicant-led application film：Ronnie
+      全程旁白、首尾出镜，并加入 FMS 定义、Level 1/Level 2 certification、实际评估
+      动机、个人反思和大学阶段研究方向。
 - [ ] 由人工确认 Ronnie 作者名/年级/学校、成人 corresponding contact、贡献声明、
       rights 范围与完整 AI-use disclosure。
 - [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 AI、secondary
@@ -417,7 +420,7 @@ rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方�
 | Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
 | 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧 rights 审计待完成                                                  | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
 | Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                                        | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 2-3 分钟英文主版、字幕和约 60 秒短版                                                                                         | 当前脚本与验收清单已完成；待 Ronnie 旁白、录制、剪辑与画面审计                                                 | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.0 脚本完成；待 Ronnie A-roll/旁白、证书与实践素材、录屏、剪辑和画面审计                                     | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
 | Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制           | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
 | Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
 | Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
@@ -454,6 +457,8 @@ benchmark、四种定量分析和主要主张均已冻结。当前不需要为�
 - 对高分歧案例提供基于规则的理由，不事后迎合 AI。
 - 完成第一人称贡献、学习和反思材料。
 - 录制英文 demo narration 或出镜说明。
+- 提供 Level 1/Level 2 证书原图和准确 title/date，录制首尾 A-roll，并确认所有第一人称
+  certification、实践、反思和未来方向表述。
 - 注册个人 GitHub 账户，提供准确 username，并在 repository transfer 发出后及时接受。
 
 ### Other Reviewer
@@ -582,8 +587,19 @@ Secondary questions：
 | 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding         |
 | 2026-08-17 | Ronnie 注册账户后接收 GitHub repository 所有权         | 使用官方 transfer 保留完整历史；不建立无历史平行仓库，迁移前先完成 main/release 审计 |
 | 2026-08-17 | 中文论文整体框架进入细节打磨阶段                       | 标题、摘要、结构和主要结论已获内部认可；后续重点转向配套输出、授权和载体适配         |
+| 2026-08-17 | Demo 定位升级为申请人主导的 application film           | 视频既展示项目，也展示 Ronnie 的专业准备、presentation、反思与未来研究方向           |
 
 ## 12. 变更记录
+
+### v1.37 - 2026-08-17
+
+- 保留已认可的 AI-FMS 系统与研究主体，新增 Ronnie 出镜的 opening/closing 和中段实践转场。
+- Opening 依次说明 FMS 七动作与 0-3 screen、Level 1/Level 2 certification、实际评估
+  经历及由实践问题引出 AI-FMS；closing 说明个人角色、反思、收获和大学后研究方向。
+- 正式交付调整为 4:15-4:30 Master、约 3 分钟压缩版和 60 秒 teaser；全程由 Ronnie
+  narration，证书和实践画面进入 rights/privacy 清单。
+- Application copy、project-page copy、claim-control 和 human-input form 同步增加
+  certification 事实与不过度扩展边界。
 
 ### v1.36 - 2026-08-17
 
