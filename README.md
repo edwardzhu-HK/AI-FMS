@@ -242,6 +242,10 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 - Phase I 统一交付索引：`docs/delivery/ai_fms_phase_i_output_index_2026-08-17.md`
 - Application video 素材与拍摄计划：
   `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`
+- 可打印拍摄计划：
+  `output/pdf/ai_fms_application_video_asset_and_shot_plan_print_2026-08-22.pdf`
+- 可打印现场脚本：
+  `output/pdf/ai_fms_application_video_script_print_2026-08-22.pdf`
 - Ronnie GitHub 迁移清单：
   `docs/delivery/ronnie_github_repository_transfer_2026-08-17.md`
 - 统一计划：`docs/plans/ai_fms_4_week_closeout_plan_2026-08-09.md`

@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.38                          |
+| 版本     | v1.39                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-17                     |
+| 最近更新 | 2026-08-22                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -404,6 +404,8 @@ G2 验收证据：
       动机、个人反思和大学阶段研究方向。
 - [x] 建立逐镜头 asset/shot plan，区分 A-roll/FMS 新拍、证书处理、Workbench/Study
       screen recording、frozen-results graphics、research figures、rights gate 和素材交付。
+- [x] 生成可打印 production pack：12 页 A4 横向 asset/shot plan 与 9 页 A4 纵向
+      on-set script；完成逐页视觉、文字提取、页数、表格与旁白分页检查。
 - [ ] 由人工确认 Ronnie 作者名/年级/学校、成人 corresponding contact、贡献声明、
       rights 范围与完整 AI-use disclosure。
 - [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 AI、secondary
@@ -422,7 +424,7 @@ rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方�
 | Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
 | 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧 rights 审计待完成                                                  | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
 | Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                                        | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.0 脚本与逐镜头 production plan 完成；待真人素材、screen/graphics、剪辑和画面审计                            | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.0 脚本、逐镜头 plan 与两份打印版完成；待真人素材、screen/graphics、剪辑和画面审计                           | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
 | Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制           | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
 | Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
 | Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
@@ -593,6 +595,16 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.39 - 2026-08-22
+
+- 从 canonical Markdown 生成两份 print-ready PDF：12 页 A4 landscape 拍摄计划和 9 页
+  A4 portrait 现场脚本。
+- Shot plan 对 18 个 time-coded units 使用可读列宽、重复表头和逐页 section bands；script
+  使用 timecode cards、画面提示与 narration blocks。
+- 通过全页 contact-sheet 与关键页高分辨率检查，修正旁白标签页尾孤行；确认无截断、溢出、
+  黑块或不可读字符。
+- 新增可重复渲染脚本 `scripts/render-ai-fms-video-print-pdfs.mjs`。
 
 ### v1.38 - 2026-08-17
 

@@ -457,6 +457,9 @@ Canonical execution plan:
 - [x] Produce a time-coded asset and shot plan that separates new A-roll/FMS
       filming, certificate processing, Workbench/Study screen recordings,
       frozen-results graphics, research figures, rights gates, and handoff specs.
+- [x] Generate and visually inspect two print-ready PDFs: a 12-page A4 landscape
+      asset/shot plan and a 9-page A4 portrait on-set script with repeating
+      headers, page numbers, readable tables, and non-orphaned narration blocks.
 - [ ] Collect the exact certificate titles/dates, redacted certificate images,
       consented FMS-practice footage, Ronnie A-roll, and final narration audio.
 - [ ] Produce the final technical-report PDF and verify text extraction, page
