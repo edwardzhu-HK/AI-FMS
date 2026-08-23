@@ -2,7 +2,7 @@
 
 状态：ACTIVE - canonical delivery entrypoint
 
-版本：v0.4
+版本：v0.5
 
 更新日期：2026-08-23
 
@@ -17,17 +17,17 @@ review，后续修改以细节、语言、授权和目标载体适配为主。
 
 ## 2. 公开申请输出
 
-| 输出                      | Canonical source                                                           | 当前状态                                      | 主要用途                                         | 下一步                                     |
-| ------------------------- | -------------------------------------------------------------------------- | --------------------------------------------- | ------------------------------------------------ | ------------------------------------------ |
-| Application writing pack  | `docs/ai_fms_phase_i_application_copy_2026-08-09.md`                       | 当前文案已更新                                | Activities、Additional Information、resume、面试 | Ronnie 确认第一人称贡献与学校字数限制      |
-| Claim-control table       | `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md`             | 数字和禁用主张已冻结                          | 所有公开文案的事实检查                           | 每次发布前逐项检查                         |
-| Portfolio project page    | `docs/project_page_copy_ai_fms_v1_5.md`                                    | 当前 copy 已更新，页面待实现                  | 个人网站、补充链接、面试前浏览                   | 完成 rights 审核后制作正式页面             |
-| Demo video                | `docs/demo_walkthrough_script_ai_fms_v1_5.md`                              | A-roll、旁白、证书、七动作与实践素材已收齐    | Portfolio、推荐人 briefing、面试                 | 制作录屏/graphics，随后剪辑 4:30 Master    |
-| Video asset/shot plan     | `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md` | 进入 post-production；rights source lock 完成 | 拍摄执行、素材交接、rights 和技术 QA             | 生成 proxy、S01-S04、G01-G06 与 review cut |
-| Printable production pack | `output/pdf/ai_fms_application_video_*_print_2026-08-22.pdf`               | 12 页横向 shot plan + 9 页纵向 on-set script  | 现场打印、拍摄指导、逐项勾选                     | 拍摄时使用当前日期版本；脚本变更后重新生成 |
-| Interface visual package  | `docs/assets/publication/`                                                 | 3 张界面图已改用当天自采、授权素材            | 论文、项目页、demo、简报                         | 随中文 PDF 做一次最终逐页 QA               |
-| Movement research figures | `docs/assets/phase-i-case-studies/`                                        | 4 张 checksum-pinned 图已完成                 | 论文、项目页、面试                               | 公开前做最后文字与配色复核                 |
-| GitHub project            | `README.md` + source tree                                                  | 私有仓库、17/17 RC；迁移待执行                | 工程证明、技术复现、项目归属                     | 先收口 main，再转移到 Ronnie 账户          |
+| 输出                      | Canonical source                                                           | 当前状态                                       | 主要用途                                         | 下一步                                             |
+| ------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- |
+| Application writing pack  | `docs/ai_fms_phase_i_application_copy_2026-08-09.md`                       | 当前文案已更新                                 | Activities、Additional Information、resume、面试 | Ronnie 确认第一人称贡献与学校字数限制              |
+| Claim-control table       | `docs/ai_fms_phase_i_application_evidence_table_2026-08-09.md`             | 数字和禁用主张已冻结                           | 所有公开文案的事实检查                           | 每次发布前逐项检查                                 |
+| Portfolio project page    | `docs/project_page_copy_ai_fms_v1_5.md`                                    | 当前 copy 已更新，页面待实现                   | 个人网站、补充链接、面试前浏览                   | 完成 rights 审核后制作正式页面                     |
+| Demo video                | `docs/demo_walkthrough_script_ai_fms_v1_5.md`                              | Music-free Master review cut v1 已完成，4:32.4 | Portfolio、推荐人 briefing、面试                 | 人工看片；SRT、lower third、音乐与 4:30 final trim |
+| Video asset/shot plan     | `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md` | S01-S04、G01-G06 与实际 timeline 已完成        | 拍摄执行、素材交接、rights 和技术 QA             | 根据 review 输出 Master v2、3min 与 60s            |
+| Printable production pack | `output/pdf/ai_fms_application_video_*_print_2026-08-22.pdf`               | 12 页横向 shot plan + 9 页纵向 on-set script   | 现场打印、拍摄指导、逐项勾选                     | 拍摄时使用当前日期版本；脚本变更后重新生成         |
+| Interface visual package  | `docs/assets/publication/`                                                 | 3 张界面图已改用当天自采、授权素材             | 论文、项目页、demo、简报                         | 随中文 PDF 做一次最终逐页 QA                       |
+| Movement research figures | `docs/assets/phase-i-case-studies/`                                        | 4 张 checksum-pinned 图已完成                  | 论文、项目页、面试                               | 公开前做最后文字与配色复核                         |
+| GitHub project            | `README.md` + source tree                                                  | 私有仓库、17/17 RC；迁移待执行                 | 工程证明、技术复现、项目归属                     | 先收口 main，再转移到 Ronnie 账户                  |
 
 ## 3. 论文与研究输出
 
@@ -83,9 +83,8 @@ review，后续修改以细节、语言、授权和目标载体适配为主。
 2. **已完成**：证书原件、A-roll、七动作、实践 B-roll、旁白、participant/场地授权与
    `Haoran Zhu` 正式姓名确认；原始文件无需重命名。
 3. **现在并行**：Ronnie 按 NHSJS author-only prose policy 在官方格式 Word 中独立完成
-   英文正文；技术侧按 asset/shot plan 生成 screen recordings、results
-   card、research-figure motion 和 end card；随后实现 project page、剪辑视频并统一
-   technical-report PDF。
+   英文正文；团队 review music-free Master v1，反馈节奏、结尾、字幕和音乐；技术侧据此
+   输出 Master v2、3min 与 60s，并继续实现 project page 和 technical-report PDF。
 4. **发表路径**：发送 NHSJS 询问信，按书面回复准备英文 Word 与 supplement。
 5. **最后收口**：clean rebuild、public manifest、main merge、release、GitHub transfer。
 

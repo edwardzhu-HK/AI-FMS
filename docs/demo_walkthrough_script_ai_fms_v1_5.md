@@ -1,13 +1,17 @@
 # AI-FMS Application Video Script
 
-状态：CURRENT - full application-film structure
+状态：CURRENT - Master review cut v1 ready
 
-版本：v2.1
+版本：v2.2
 
 更新日期：2026-08-23
 
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
+
+制作状态：music-free Master review cut v1 已按本脚本完成，实际时长 4:32.4。为控制时长，
+A03 暂时跳过详细 held-out / additional-reviewer 句，但保留个人角色、responsible AI、
+Human Movement Science 与未来研究方向；是否恢复该句由 review 决定。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。

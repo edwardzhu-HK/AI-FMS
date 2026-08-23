@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.41                          |
+| 版本     | v1.42                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-23                     |
@@ -599,6 +599,23 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.42 - 2026-08-23
+
+- 将已确认的论文 authoring package fast-forward 合并并推送到 `main`，从 main 新建
+  `codex/application-video-postproduction`，使视频与论文后续修改保持独立边界。
+- 使用 whisper.cpp base.en 在本机离线转录 20 个 GarageBand regions、3 个 opening、8 个
+  transition 与 3 个 closing clips；未将私有音频上传到云端服务。
+- 锁定 VO01-VO09 take selection；生成自然语速 selected 层 221.95 秒和 timeline 层
+  204.00 秒，保留全部原始 GarageBand 文件。
+- 通过 Playwright 录制 1080p Workbench S01-S03 master 和 Study Mode S04 master；统一使用
+  2026-08-23 自采 Deep Squat proxy，不暴露 AI/pose/history/source filename 到盲评画面。
+- 生成 5 张 Phase I results cards 与无 URL G06 end card，沿用 4 张 frozen research
+  figures；用 FFmpeg 组装 music-free Master review cut v1。
+- Review cut v1 为 272.4 秒 / 4:32.4、1920x1080、30fps、H.264/AAC 48kHz；综合响度约
+  -17.1 LUFS、true peak -2.8 dBFS，未检出异常黑帧。
+- 下一轮只处理人工看片反馈、2.4 秒精简、lower third/action labels、SRT、可选音乐和
+  A03 monitor/future-work 句取舍，再输出 Master v2、3min 与 60s。
 
 ### v1.41 - 2026-08-23
 

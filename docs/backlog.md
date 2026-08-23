@@ -512,6 +512,18 @@ Canonical execution plan:
       Deep Squat footage; generate aligned MediaPipe pose, a metadata-clean
       1080p proxy, and an anonymous Study Mode frame while keeping raw media
       private.
+- [x] Transcribe all GarageBand narration regions and A-roll locally with
+      whisper.cpp; preserve originals and select nine narration takes with
+      natural-speed and timeline-speed derivatives.
+- [x] Record privacy-safe S01-S03 Workbench and S04 Study Mode video masters
+      from the local app using the owned Deep Squat proxy and real pose.
+- [x] Generate five Phase I results cards and a no-URL end card, then assemble a
+      4:32.4 music-free 1080p/30fps Master review cut with A-roll, seven-movement
+      montage, certificates, practice B-roll, screen recordings, and findings.
+- [ ] Complete human review of Master v1; finalize lower third, action labels,
+      editable SRT, optional licensed music, and a 4:30-or-shorter Master v2.
+- [ ] Derive and review the 3-minute application cut and 60-second teaser from
+      the approved Master.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Ronnie independently writes every English manuscript sentence, verifies
