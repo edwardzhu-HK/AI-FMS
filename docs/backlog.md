@@ -524,7 +524,11 @@ Canonical execution plan:
       course evidence, narration-matched screen actions, dynamic emphasis,
       editable SRT, baked captions, subtle licensed-loop music, and a 4:31.8
       Master review cut v2.
-- [ ] Complete human review of Master v2 and freeze the approved Master before
+- [x] Complete human review of Master v2; produce a 4:37.0 Master review cut v3
+      with a real opening card, lighter captions, complete-course evidence,
+      corrected practice B-roll, an expanded seven-action selector, full-page
+      Study Mode and research figures, restrained annotations, and synced A03.
+- [ ] Complete human review of Master v3 and freeze the approved Master before
       deriving shorter versions.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.

@@ -275,12 +275,26 @@ async function captureWorkbench() {
   await seekVideo(page, ".video-stage", 12.49);
   await page.waitForTimeout(2200);
 
-  // VO04: establish the full workbench, then show the real seven-movement
-  // capability table and the system's explainable/abstention panel.
-  await page.waitForTimeout(2800);
-  const movementSummary = page.locator(".movement-summary");
-  await focusLocator(page, movementSummary, { padding: 12 });
+  // VO04: establish the full workbench, expand the real action selector to
+  // show all seven movements, then move to explainable/abstention evidence.
+  await page.waitForTimeout(2400);
+  const actionSelect = page.locator(".form-card select").nth(1);
+  await focusLocator(page, actionSelect, { padding: 12 });
+  await actionSelect.evaluate((select) => {
+    select.dataset.captureSize = select.getAttribute("size") ?? "";
+    select.setAttribute("size", String(select.options.length));
+    select.style.minHeight = "250px";
+  });
   await page.waitForTimeout(6500);
+  await actionSelect.evaluate((select) => {
+    const originalSize = select.dataset.captureSize;
+    if (originalSize) {
+      select.setAttribute("size", originalSize);
+    } else {
+      select.removeAttribute("size");
+    }
+    select.style.minHeight = "";
+  });
   await clearFocus(page);
   const playerCard = page.locator(".player-card");
   await focusLocator(page, playerCard, { padding: 10 });
@@ -349,7 +363,7 @@ async function captureWorkbench() {
   await page.waitForTimeout(5200);
   await clearFocus(page);
 
-  return finishRecording(context, page, "S01-S03-workbench-master-v2");
+  return finishRecording(context, page, "S01-S03-workbench-master-v3");
 }
 
 async function captureStudyMode() {
@@ -387,6 +401,10 @@ async function captureStudyMode() {
     const video = document.querySelector(".study-video-shell video");
     return video?.readyState >= 1;
   });
+  const studyTitle = page.locator(".study-header > div").first();
+  await focusLocator(page, studyTitle, { padding: 10 });
+  await page.waitForTimeout(4100);
+  await clearFocus(page);
   await page.locator(".study-video-shell video").evaluate(async (video) => {
     video.currentTime = 3.8;
     await video.play();
@@ -425,7 +443,7 @@ async function captureStudyMode() {
   await page.waitForTimeout(3100);
   await clearFocus(page);
   await page.waitForTimeout(1600);
-  return finishRecording(context, page, "S04-study-mode-master-v2");
+  return finishRecording(context, page, "S04-study-mode-master-v3");
 }
 
 try {

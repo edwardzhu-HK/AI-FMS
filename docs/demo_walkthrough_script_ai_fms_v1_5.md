@@ -1,18 +1,18 @@
 # AI-FMS Application Video Script
 
-状态：CURRENT - Master review cut v2 ready for human review
+状态：CURRENT - Master review cut v3 ready for human review
 
-版本：v2.3
+版本：v2.4
 
 更新日期：2026-08-23
 
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
 
-制作状态：Master review cut v2 已根据第一轮三人看片意见完成，实际时长 4:31.8。v2
-加入完整烧录字幕与独立 SRT、七动作名称、FMS 已完成课程画面、旁白同步的 Workbench / Study
-Mode 操作、重点区域动态放大、柔和转场和低电平背景音乐。A03 保留个人角色、responsible AI
-与未来研究方向，删除重复的 college / held-out 展开句，使最终两句恢复自然语速。
+制作状态：Master review cut v3 已根据 V2 看片意见完成，实际时长 4:37.0，符合粗剪阶段
+4:20-4:40 的自然节奏窗口。v3 增加首帧项目页、FMS Level 1 具体课程界面和更完整的七动作
+镜头；字幕降低视觉层级；Workbench 展开真实七动作 selector；Study Mode 先全页说明、后放大
+操作；研究页保持全页静止并用圈线强调；A03 使用原速现场音画并恢复完整转身。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。
