@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.42                          |
+| 版本     | v1.43                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-23                     |
@@ -599,6 +599,22 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.43 - 2026-08-23
+
+- 完成 Master v1 三人逐段看片，将 Edward 与 Ronnie 的意见整理为时间轴修改清单；明确总体
+  节奏不推翻，只修复局部过快、停顿、硬转场、画面与旁白脱节及声音不统一。
+- 从 Ronnie 已登录的 Functional Movement Systems 账号保存课程目录与 Level 1 / Level 2
+  completed-course 画面；成片裁除账号姓名、个人按钮和聊天组件，仅保留学习与认证证据。
+- 重录 Workbench 与 blind Study Mode：真实操作七动作能力、segments、pose features、AI
+  evidence、protocol、reviewer score、confidence、camera view、side 与 review note；重点区域
+  使用鼠标、高亮框和动态放大引导视线。
+- 完成 Master review cut v2：271.8 秒 / 4:31.8、1920x1080、30fps、H.264/AAC 48kHz；
+  加入七动作名称、完整烧录字幕、51 条可编辑 SRT、0.2 秒柔和转场与低电平 Apple Loop
+  `Slow Drift Ambient Synth`。
+- v2 综合响度为 -16.0 LUFS、true peak -1.4 dBFS，未检出异常黑帧；最终 MP4 SHA-256 为
+  `dbd9ea23b614cc48c67988efc355c7d5e48ccc165dda81f0b814322a431ce5cd`。下一步仅进行
+  人工看片、必要的局部修正和 Master 冻结，再派生 3min / 60s。
 
 ### v1.42 - 2026-08-23
 

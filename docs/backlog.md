@@ -520,8 +520,12 @@ Canonical execution plan:
 - [x] Generate five Phase I results cards and a no-URL end card, then assemble a
       4:32.4 music-free 1080p/30fps Master review cut with A-roll, seven-movement
       montage, certificates, practice B-roll, screen recordings, and findings.
-- [ ] Complete human review of Master v1; finalize lower third, action labels,
-      editable SRT, optional licensed music, and a 4:30-or-shorter Master v2.
+- [x] Complete human review of Master v1; add action labels, privacy-cropped FMS
+      course evidence, narration-matched screen actions, dynamic emphasis,
+      editable SRT, baked captions, subtle licensed-loop music, and a 4:31.8
+      Master review cut v2.
+- [ ] Complete human review of Master v2 and freeze the approved Master before
+      deriving shorter versions.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style

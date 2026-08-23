@@ -60,6 +60,21 @@ async function installCaptureStyle(page) {
         transition: left 420ms ease, top 420ms ease, transform 160ms ease;
       }
       #capture-cursor.clicking { transform: scale(1.55); background: rgba(208,122,23,0.9); }
+      #capture-focus {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 0;
+        height: 0;
+        border: 4px solid rgba(208,122,23,0.96);
+        background: rgba(232,180,79,0.08);
+        box-shadow: 0 0 0 9999px rgba(17,27,31,0.12), 0 10px 30px rgba(0,0,0,0.22);
+        z-index: 999998;
+        pointer-events: none;
+        opacity: 0;
+        transition: left 420ms ease, top 420ms ease, width 420ms ease,
+          height 420ms ease, opacity 220ms ease;
+      }
     `,
   });
   await page.evaluate(() => {
@@ -68,6 +83,9 @@ async function installCaptureStyle(page) {
     cursor.style.left = `${window.innerWidth * 0.5}px`;
     cursor.style.top = `${window.innerHeight * 0.5}px`;
     document.body.appendChild(cursor);
+    const focus = document.createElement("div");
+    focus.id = "capture-focus";
+    document.body.appendChild(focus);
   });
 }
 
@@ -99,6 +117,46 @@ async function moveCursor(page, locator, { click = false } = {}) {
       document.querySelector("#capture-cursor")?.classList.remove("clicking"),
     );
   }
+}
+
+async function focusLocator(page, locator, { padding = 18 } = {}) {
+  await locator.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(500);
+  const box = await locator.boundingBox();
+  if (!box) {
+    return;
+  }
+  await moveCursor(page, locator);
+  await page.evaluate(
+    ({ left, top, width, height }) => {
+      const focus = document.querySelector("#capture-focus");
+      if (!focus) {
+        return;
+      }
+      focus.style.left = `${left}px`;
+      focus.style.top = `${top}px`;
+      focus.style.width = `${width}px`;
+      focus.style.height = `${height}px`;
+      focus.style.opacity = "1";
+    },
+    {
+      left: Math.max(10, box.x - padding),
+      top: Math.max(10, box.y - padding),
+      width: Math.min(1900, box.width + padding * 2),
+      height: Math.min(1060, box.height + padding * 2),
+    },
+  );
+  await page.waitForTimeout(500);
+}
+
+async function clearFocus(page) {
+  await page.evaluate(() => {
+    const focus = document.querySelector("#capture-focus");
+    if (focus) {
+      focus.style.opacity = "0";
+    }
+  });
+  await page.waitForTimeout(320);
 }
 
 async function seekVideo(page, selector, second) {
@@ -217,77 +275,81 @@ async function captureWorkbench() {
   await seekVideo(page, ".video-stage", 12.49);
   await page.waitForTimeout(2200);
 
-  await page.evaluate(() => {
-    const scope = document.createElement("section");
-    scope.id = "movement-scope-overlay";
-    scope.innerHTML = `
-      <strong>All seven FMS movements</strong>
-      <span>Deep Squat</span><span>Hurdle Step</span><span>In-Line Lunge</span>
-      <span>Shoulder Mobility</span><span>ASLR</span>
-      <span>Trunk Stability Push-Up</span><span>Rotary Stability</span>`;
-    Object.assign(scope.style, {
-      position: "fixed",
-      right: "48px",
-      bottom: "44px",
-      width: "470px",
-      padding: "24px 26px",
-      background: "rgba(18,32,38,0.96)",
-      color: "#f7f8f6",
-      borderLeft: "7px solid #e8b44f",
-      zIndex: "999990",
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr",
-      gap: "10px 18px",
-      fontFamily: "Arial, sans-serif",
-      fontSize: "19px",
-      lineHeight: "1.25",
-      boxShadow: "0 14px 36px rgba(0,0,0,0.28)",
-    });
-    scope.querySelector("strong").style.gridColumn = "1 / -1";
-    scope.querySelector("strong").style.fontSize = "26px";
-    scope.querySelector("strong").style.marginBottom = "6px";
-    document.body.appendChild(scope);
-  });
-  await page.waitForTimeout(7800);
-  await page.evaluate(() =>
-    document.querySelector("#movement-scope-overlay")?.remove(),
-  );
+  // VO04: establish the full workbench, then show the real seven-movement
+  // capability table and the system's explainable/abstention panel.
   await page.waitForTimeout(2800);
+  const movementSummary = page.locator(".movement-summary");
+  await focusLocator(page, movementSummary, { padding: 12 });
+  await page.waitForTimeout(6500);
+  await clearFocus(page);
+  const playerCard = page.locator(".player-card");
+  await focusLocator(page, playerCard, { padding: 10 });
+  await page.waitForTimeout(3900);
+  await clearFocus(page);
+  const scoreSummary = page.locator(".score-summary");
+  await focusLocator(page, scoreSummary, { padding: 12 });
+  await page.waitForTimeout(4700);
+  await clearFocus(page);
 
+  // VO05: move through complete repetitions, replay the real action video,
+  // then reveal aligned pose and quantitative feature evidence.
+  const segmentList = page.locator(".segment-list");
+  await focusLocator(page, segmentList, { padding: 10 });
   const previousButton = page.getByRole("button", {
     name: "Prev",
     exact: true,
   });
   const nextButton = page.getByRole("button", { name: "Next", exact: true });
   await moveCursor(page, previousButton, { click: true });
+  await page.waitForTimeout(700);
   await moveCursor(page, previousButton, { click: true });
+  await page.waitForTimeout(900);
+  await clearFocus(page);
+  await focusLocator(page, playerCard, { padding: 10 });
   await playVideoFor(page, ".video-stage", 3.8, 4600);
-  await page.waitForTimeout(1600);
+  await page.waitForTimeout(700);
   await moveCursor(page, nextButton, { click: true });
-  await playVideoFor(page, ".video-stage", 7.49, 4600);
-  await page.waitForTimeout(1600);
+  await playVideoFor(page, ".video-stage", 7.49, 3200);
   await moveCursor(page, nextButton, { click: true });
   await seekVideo(page, ".video-stage", 12.49);
-  await page.waitForTimeout(4200);
+  await page.waitForTimeout(900);
 
   const skeletonToggle = page.getByLabel("Show skeleton");
-  await moveCursor(page, skeletonToggle, { click: true });
-  await page.waitForTimeout(1200);
-  await moveCursor(page, skeletonToggle, { click: true });
-  await page.waitForTimeout(2200);
+  if (!(await skeletonToggle.isChecked())) {
+    await moveCursor(page, skeletonToggle, { click: true });
+  } else {
+    await moveCursor(page, skeletonToggle);
+  }
+  await page.waitForTimeout(2300);
+  await clearFocus(page);
 
   const featureCard = page.locator(".deep-squat-features.card");
-  await featureCard.scrollIntoViewIfNeeded();
-  await page.waitForTimeout(3200);
-  const aiPanel = page.locator(".ai-suggestion, .ai-panel").first();
-  if ((await aiPanel.count()) > 0) {
-    await aiPanel.scrollIntoViewIfNeeded();
-  }
-  await page.waitForTimeout(3300);
-  await page.locator(".reviewer-form").first().scrollIntoViewIfNeeded();
-  await page.waitForTimeout(4200);
+  await focusLocator(page, featureCard, { padding: 10 });
+  await page.waitForTimeout(4300);
+  await clearFocus(page);
 
-  return finishRecording(context, page, "S01-S03-workbench-master");
+  // VO06: criteria and uncertainty first, then protocol metadata and the
+  // human reviewer fields that determine the final recorded judgment.
+  await focusLocator(page, scoreSummary, { padding: 12 });
+  await page.waitForTimeout(6100);
+  await clearFocus(page);
+  const segmentEditor = page.locator(".segment-editor");
+  await focusLocator(page, segmentEditor, { padding: 10 });
+  await page.waitForTimeout(4200);
+  await clearFocus(page);
+  const reviewerA = page.locator(".reviewer-form").first();
+  await focusLocator(page, reviewerA, { padding: 10 });
+  await reviewerA.locator("select").selectOption("2");
+  await reviewerA
+    .locator("textarea")
+    .fill(
+      "Human reviewer confirms the final score after checking the evidence.",
+    );
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.waitForTimeout(5200);
+  await clearFocus(page);
+
+  return finishRecording(context, page, "S01-S03-workbench-master-v2");
 }
 
 async function captureStudyMode() {
@@ -335,21 +397,35 @@ async function captureStudyMode() {
     video.currentTime = 12.49;
   });
   await page.waitForTimeout(2200);
-  for (const selector of [
-    ".score-grid button:nth-child(3)",
-    ".confidence-control",
-    ".study-metadata-row",
-    ".quality-flags",
-    ".study-comment",
-  ]) {
-    const locator = page.locator(selector).first();
-    if ((await locator.count()) > 0) {
-      await moveCursor(page, locator);
-      await page.waitForTimeout(1700);
-    }
-  }
-  await page.waitForTimeout(3000);
-  return finishRecording(context, page, "S04-study-mode-master");
+  await focusLocator(page, page.locator(".score-pane"), { padding: 10 });
+  const scoreTwo = page.locator(".score-grid button").nth(2);
+  await moveCursor(page, scoreTwo, { click: true });
+  await page.waitForTimeout(1500);
+  const confidenceHigh = page
+    .locator(".segmented-control button")
+    .filter({ hasText: "高" });
+  await moveCursor(page, confidenceHigh, { click: true });
+  await page.waitForTimeout(1300);
+  const metadataSelects = page.locator(".metadata-grid select");
+  await moveCursor(page, metadataSelects.nth(0));
+  await metadataSelects.nth(0).selectOption("front");
+  await page.waitForTimeout(1000);
+  await moveCursor(page, metadataSelects.nth(1));
+  await metadataSelects.nth(1).selectOption("none");
+  await page.waitForTimeout(1100);
+  const qualityFlag = page.locator(".quality-flags label").first();
+  await moveCursor(page, qualityFlag);
+  await page.waitForTimeout(1100);
+  const reviewNote = page.locator(".score-pane textarea");
+  await moveCursor(page, reviewNote);
+  await reviewNote.fill(
+    "Independent review recorded without AI score visibility.",
+  );
+  await page.evaluate(() => document.activeElement?.blur());
+  await page.waitForTimeout(3100);
+  await clearFocus(page);
+  await page.waitForTimeout(1600);
+  return finishRecording(context, page, "S04-study-mode-master-v2");
 }
 
 try {
