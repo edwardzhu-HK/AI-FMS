@@ -421,7 +421,7 @@
           <div><strong>学生作者：</strong>[Ronnie 正式发表姓名]</div>
           <div><strong>成人通信联系人：</strong>[姓名与 affiliation]</div>
           <div><strong>其他贡献者：</strong>[待按贡献与期刊政策确认]</div>
-          <div><strong>版本：</strong>中文完整初稿 v0.2 · 2026-08-17</div>
+          <div><strong>版本：</strong>中文完整初稿 v0.3 · 2026-08-23</div>
         </div>
         <div class="draft-badge">
           内部整体审阅稿 · 尚未提交期刊 · 不得表述为同行评审论文
@@ -988,9 +988,9 @@
             >Reviewer 只看到 匿名队列、动作视频、RAW
             SCORE、unscorable、confidence、camera view、side、 QA flags 和
             note；正式 Round A/B 不显示 AI suggestion、pose parameters、历史
-            分数、另一 reviewer 答案或源文件名。图中保留 reviewer
-            实际看到的匿名动作
-            视频；该人物帧仅用于内部审阅，正式发表前需确认再发布权利。
+            分数、另一 reviewer 答案或源文件名。图中动作帧来自 2026-08-23
+            项目自采并取得同意的演示视频，只用于说明盲评界面，不进入 Phase I
+            benchmark；raw video 保持私有。
           </div>
         </div>
 
@@ -1062,17 +1062,16 @@
 
         <h3>2.8 伦理、隐私与数据边界</h3>
         <p>
-          Pilot 使用既有本地和公开教学/reference
-          videos，没有前瞻性招募参与者，也没有 收集人口统计、临床诊断或 injury
-          outcome。不同来源的公开与再发布权利尚未完全
-          统一。为准确展示系统，当前内部审阅稿在 Workbench 与 Study Mode
-          图中各保留一张
-          真实动作帧，但不显示源文件名、受试者身份或历史评分；这些截图不因此自动获得
-          对外再发布资格。Raw videos、未选取的可识别帧、raw pose、reviewer
-          comments、 签名 exports 和 SQLite
-          均保持私有。正式投稿前需要逐帧确认所用界面图的 rights，
-          并向目标期刊书面确认 secondary-video research 所需的
-          SRC/IRB/exemption/consent 材料。
+          Phase I pilot 使用既有本地和公开教学/reference videos，没有前瞻性招募
+          研究参与者，也没有收集人口统计、临床诊断或 injury
+          outcome。不同研究来源的
+          公开与再发布权利尚未完全统一。为准确展示系统，Workbench 与 Study Mode
+          图 另使用 2026-08-23
+          项目自采、取得参与者与场地许可的演示视频；该视频不进入 Phase I 数据或
+          benchmark。截图不显示源文件名、身份或历史评分。Raw videos、
+          未选取的可识别帧、raw pose、reviewer comments、签名 exports 和 SQLite
+          均保持 私有。正式投稿前仍需向目标期刊书面确认 secondary-video research
+          所需的 SRC/IRB/exemption/consent 材料。
         </p>
       </section>
 
@@ -1104,7 +1103,9 @@
             >完整三栏界面同时展示视频与pose、AI
             suggestion、人工reviewer、segment metadata、timing evidence、七个
             rep 和 readiness。视频区显示真实动作帧与对齐的 MediaPipe pose
-            overlay；源文件名、score-bearing notes 与具体 reviewer ID 已移除。
+            overlay；动作帧来自 2026-08-23
+            项目自采授权素材，源文件名、score-bearing notes 与具体 reviewer ID
+            已移除。
           </div>
         </div>
 
@@ -1683,9 +1684,10 @@
             来自人工主题编码；正式 Rotary subset 只来自两个视频。
           </li>
           <li>
-            <strong>Ethics and rights：</strong
-            >来源视频的再发布授权不完全一致，当前不能公开 原视频、可识别帧、raw
-            pose 或 reviewer comments。
+            <strong>Ethics and rights：</strong>Phase I
+            来源视频的再发布授权不完全一致，当前不能公开原视频、可识别帧、 raw
+            pose 或 reviewer comments。两张界面图使用另行拍摄并取得同意的演示
+            素材，不改变研究数据的发布边界。
           </li>
         </ol>
 
@@ -1779,10 +1781,10 @@
           Source code、schema、聚合图和 public-safe methods 可在 rights/privacy
           审核后通过 GitHub release 提供。Raw videos、未获授权的可识别帧、raw
           pose landmarks、reviewer comments、signed exports 和本地 SQLite
-          不公开。两张界面 截图中的固定视频帧只有在完成 frame-level rights
-          确认后才进入投稿稿件，否则将由
-          项目自有并取得同意的同类画面替换。Canonical data 与分析输出通过稳定
-          ID、 SHA-256、manifest 和生成脚本保存于 private research archive。
+          不公开。两张界面截图中的固定视频帧已于 2026-08-23 替换为项目自有并取得
+          同意的演示画面；这些截图可以进入投稿稿件，但对应 raw video 与 raw pose
+          继续保持私有。Canonical data 与分析输出通过稳定 ID、 SHA-256、manifest
+          和生成脚本保存于 private research archive。
         </p>
 
         <h3>利益冲突与资金</h3>

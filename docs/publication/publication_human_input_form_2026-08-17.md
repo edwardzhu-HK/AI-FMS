@@ -9,17 +9,17 @@ Use `confirmed`, `not confirmed`, or a short factual answer. Do not guess.
 
 ## 1. Student Author
 
-| Field                                    | Answer                         |
-| ---------------------------------------- | ------------------------------ |
-| Full publication name                    | `[fill in]`                    |
-| Preferred name in correspondence         | `[fill in]`                    |
-| Current grade                            | `[fill in]`                    |
-| School name and location                 | `[fill in]`                    |
-| Student email, if appropriate            | `[fill in]`                    |
-| ORCID, if already available              | `[none / fill in]`             |
-| GitHub username                          | `[fill in after registration]` |
-| Exact Level 1 certificate title and date | `[fill in from certificate]`   |
-| Exact Level 2 certificate title and date | `[fill in from certificate]`   |
+| Field                                    | Answer                                                                                           |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Full publication name                    | `Haoran Zhu`                                                                                     |
+| Preferred name in correspondence         | `Haoran Zhu`                                                                                     |
+| Current grade                            | `[fill in]`                                                                                      |
+| School name and location                 | `[fill in]`                                                                                      |
+| Student email, if appropriate            | `[fill in]`                                                                                      |
+| ORCID, if already available              | `[none / fill in]`                                                                               |
+| GitHub username                          | `[fill in after registration]`                                                                   |
+| Exact Level 1 certificate title and date | Passed the Certification Examination to administer the Functional Movement Screen; July 17, 2025 |
+| Exact Level 2 certificate title and date | FMS Level 2 Certified Professional; August 10, 2025                                              |
 
 ## 2. Adult Corresponding Contact
 
@@ -70,19 +70,19 @@ Proposed disclosure summary:
 
 ## 5. Media, Data, and Rights
 
-| Item                                            | Public permission status        | Notes or evidence |
-| ----------------------------------------------- | ------------------------------- | ----------------- |
-| Four aggregate case-study figures               | `[pending / confirmed]`         | `[fill in]`       |
-| System workflow and lineage diagrams            | `[pending / confirmed]`         | `[fill in]`       |
-| Redacted Level 1 and Level 2 certificate images | `[pending / confirmed]`         | `[fill in]`       |
-| Workbench real-video screenshot                 | `[not public unless confirmed]` | `[fill in]`       |
-| Study Mode real-video screenshot                | `[not public unless confirmed]` | `[fill in]`       |
-| Other source-video frames containing people     | `[not public unless confirmed]` | `[fill in]`       |
-| Raw videos                                      | `[private]`                     | `[fill in]`       |
-| Raw pose landmarks                              | `[private]`                     | `[fill in]`       |
-| Reviewer comments and signed exports            | `[private]`                     | `[fill in]`       |
-| Aggregated numeric tables                       | `[pending / confirmed]`         | `[fill in]`       |
-| Source code                                     | `[pending / confirmed]`         | `[fill in]`       |
+| Item                                            | Public permission status              | Notes or evidence                                                                                            |
+| ----------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Four aggregate case-study figures               | `[pending / confirmed]`               | `[fill in]`                                                                                                  |
+| System workflow and lineage diagrams            | `[pending / confirmed]`               | `[fill in]`                                                                                                  |
+| Redacted Level 1 and Level 2 certificate images | `confirmed for application/portfolio` | Exact PDF titles and dates verified; originals remain private                                                |
+| Workbench real-video screenshot                 | `confirmed for selected frame`        | 2026-08-23 project-owned footage; source name and identifiers removed                                        |
+| Study Mode real-video screenshot                | `confirmed for selected frame`        | Same consented 2026-08-23 footage; blind UI only                                                             |
+| Other source-video frames containing people     | `limited confirmation`                | Selected 2026-08-23 filmed footage approved for application/portfolio; other sources require separate review |
+| Raw videos                                      | `private`                             | Not distributed with the manuscript or public repository                                                     |
+| Raw pose landmarks                              | `private`                             | Not distributed with the manuscript or public repository                                                     |
+| Reviewer comments and signed exports            | `[private]`                           | `[fill in]`                                                                                                  |
+| Aggregated numeric tables                       | `[pending / confirmed]`               | `[fill in]`                                                                                                  |
+| Source code                                     | `[pending / confirmed]`               | `[fill in]`                                                                                                  |
 
 ## 6. Presubmission Approval
 

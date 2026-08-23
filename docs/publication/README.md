@@ -2,7 +2,7 @@
 
 Status: ACTIVE - presubmission clarification
 
-Last updated: 2026-08-17
+Last updated: 2026-08-23
 
 Chinese version: `README.zh-CN.md`
 
@@ -57,21 +57,21 @@ review timeline.
 
 ## Current Readiness
 
-| Component                    | Status                    | Evidence                                                                                        |
-| ---------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------- |
-| Research question and scope  | Ready                     | Four-movement exploratory pilot; seven-movement product scope remains contextual                |
-| Frozen quantitative results  | Ready                     | Phase I release candidate and checksum-protected generated artifacts                            |
-| Human reliability results    | Ready                     | Round A/B signed export closeout                                                                |
-| AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                                        |
-| Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                         |
-| Literature review            | Initial draft             | Eleven starting references included; every source still requires human reading and verification |
-| Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                              |
-| Media and protocol rights    | Pending                   | Internal draft has two real-frame UI captures; external reuse needs frame-level clearance       |
-| AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                              |
-| Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                       |
-| NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                 |
-| Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                 |
-| GitHub ownership             | Pending Ronnie account    | Transfer complete history after main/release and public-boundary audits                         |
+| Component                    | Status                    | Evidence                                                                                                      |
+| ---------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Research question and scope  | Ready                     | Four-movement exploratory pilot; seven-movement product scope remains contextual                              |
+| Frozen quantitative results  | Ready                     | Phase I release candidate and checksum-protected generated artifacts                                          |
+| Human reliability results    | Ready                     | Round A/B signed export closeout                                                                              |
+| AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                                                      |
+| Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                                       |
+| Literature review            | Initial draft             | Eleven starting references included; every source still requires human reading and verification               |
+| Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                                            |
+| Media and protocol rights    | Partially cleared         | Two UI figures now use 2026-08-23 project-owned, consented footage; other source media remain private/pending |
+| AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                                            |
+| Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                                     |
+| NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                               |
+| Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                               |
+| GitHub ownership             | Pending Ronnie account    | Transfer complete history after main/release and public-boundary audits                                       |
 
 ## Publication Claims
 
@@ -102,7 +102,7 @@ submission receipt, or Zenodo preprint.
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
   source for the complete Chinese internal manuscript draft.
 - `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
-  24-page A4 v0.2 internal review PDF with seven numbered figures, twelve numbered
+  24-page A4 v0.3 internal review PDF with seven numbered figures, twelve numbered
   tables, references, and four appendices. The formal English submission will
   move detailed case tables, the Study Mode figure, and appendices into
   supporting material to meet the NHSJS 20-page limit at 12-point type.
@@ -124,15 +124,15 @@ submission receipt, or Zenodo preprint.
 
 Before the inquiry is sent:
 
-1. Confirm Ronnie's current grade, school affiliation, and preferred author name.
+1. Confirm Ronnie's current grade and school affiliation; publication name is `Haoran Zhu`.
 2. Identify the adult advisor/corresponding contact.
 3. Confirm the accurate role of each human contributor using a CRediT-style
    contribution statement.
-4. Confirm which source videos, screenshots, and aggregate figures may be
-   described or published.
+4. Confirm the remaining non-interface source videos and aggregate figures that
+   may be described or published.
 5. Approve the AI-use disclosure without minimizing the role of Codex.
 6. Provide Ronnie's exact GitHub username after account registration.
 
-The two real-frame interface captures are for internal manuscript review until
-the exact frames are cleared for publication. If clearance is unavailable, they
-must be replaced by equivalent project-owned, consented footage.
+The two real-frame interface captures were replaced on 2026-08-23 with selected
+frames from project-owned, consented footage. Raw video, raw pose, and all other
+identifiable source frames remain private unless separately cleared.

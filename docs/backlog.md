@@ -501,6 +501,10 @@ Canonical execution plan:
       captures while removing source file names, score-bearing notes, and
       specific reviewer identifiers; retain frame-level rights clearance as a
       publication gate.
+- [x] Replace the interface figures with 2026-08-23 project-owned, consented
+      Deep Squat footage; generate aligned MediaPipe pose, a metadata-clean
+      1080p proxy, and an anonymous Study Mode frame while keeping raw media
+      private.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Send the NHSJS presubmission inquiry and archive the written response.
@@ -516,8 +520,8 @@ Canonical execution plan:
       reproduction commands.
 - [x] Run release-document preflight for local absolute paths and required
       study/claim boundaries, plus the full test and three-entry build gate.
-- [ ] Complete the human PII, media source-rights, demo visual, and final
-      stale-claim audit after Round B.
+- [ ] Complete the remaining human contribution, author/advisor, PII, music,
+      non-interface media, and final stale-claim audit after Round B.
 - [ ] Rebuild the application and controlled research outputs in a clean
       environment, then generate the final public-safe manifest and closeout index.
 

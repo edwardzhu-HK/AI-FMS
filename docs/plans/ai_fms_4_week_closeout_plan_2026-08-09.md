@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.39                          |
+| 版本     | v1.40                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-22                     |
+| 最近更新 | 2026-08-23                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -382,7 +382,8 @@ G2 验收证据：
 - [ ] 在干净环境重建代码、数据、分析和核心 demo。
 - [x] 完成 release documents 的绝对路径、关键边界措辞、冻结数字漂移自动预检，
       并通过 340 tests 和三入口 production build。
-- [ ] 完成人工 PII、素材授权、demo 画面和最终夸大表述检查。
+- [ ] 完成剩余 contribution/advisor、PII、非界面媒体、音乐和最终夸大表述检查；
+      Workbench/Study Mode 固定人物帧已使用自采授权素材完成该项审核。
 - [x] 标记 `ai-fms-phase-i-rc2-2026-08-11` results-frozen release candidate，并保留
       demo、rights/privacy 与 held-out 工作缓冲时间。
 - [x] 将 peer-reviewed publication 纳入 Phase I 输出路线：主目标为 NHSJS
@@ -390,7 +391,7 @@ G2 验收证据：
 - [x] 核对 NHSJS Research Article 当前格式：200-250 word abstract、20-page limit、
       至少 5 个 figures/tables，以及匿名标准引用版与 online-citation Word 版。
 - [x] 建立 publication track、presubmission inquiry 草稿和 manuscript evidence map。
-- [x] 完成中文论文完整初稿 v0.2：以七动作 AI 辅助人工审核系统开发为主线，以四动作
+- [x] 完成中文论文完整初稿 v0.3：以七动作 AI 辅助人工审核系统开发为主线，以四动作
       Phase I 作为评估范围，并将同分隐藏信息定位为 secondary research contribution；
       生成并逐页检查 24 页 A4 内部审阅 PDF。
 - [x] 通过真实浏览器 workflow 生成 Workbench 总览、quantitative evidence 近景和
@@ -422,14 +423,14 @@ rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方�
 | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | 17/17 RC 已完成；待 main 收口、clean rebuild、final manifest 与 Ronnie 账户 transfer                           | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
 | Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
-| 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧 rights 审计待完成                                                  | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
+| 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧已改用 2026-08-23 自采授权素材                                      | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
 | Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                                        | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.0 脚本、逐镜头 plan 与两份打印版完成；待真人素材、screen/graphics、剪辑和画面审计                           | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.1 脚本、逐镜头 plan、真人/旁白/证书/动作素材完成；待 screen/graphics、剪辑和成片审计                        | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
 | Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制           | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
-| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.2 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
+| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.3 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
 | Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
 | Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                                             | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
-| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | v0.1 canonical output index 已建立；最终 release 时补 checksum 与完成记录                                      | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
+| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | v0.3 canonical output index 已更新；最终 release 时补 checksum 与完成记录                                      | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
 
 ### G4.2 收尾判断
 
@@ -595,6 +596,19 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.40 - 2026-08-23
+
+- 完成 application-video 素材技术审核：44 条 MP4、两份正式证书 PDF、旁白 WAV 与
+  GarageBand raw regions 均可用；原始手机文件名无需人工修改。
+- 确认 applicant 正式英文姓名为 `Haoran Zhu`；participant、家庭场地、证书与当天拍摄
+  素材可用于大学申请/portfolio，A03 Take 3 通过，没有 take 被明确排除。
+- 锁定后续 S01-S04 与论文 Demo 界面图只使用 2026-08-23 项目自采素材，不再使用网络
+  下载视频；生成 160/160 pose-ready 的 MediaPipe landmarks、去 location metadata 的
+  1080p H.264 proxy 与最低点匿名固定帧。
+- 重新生成 Workbench、Study Mode 和 quantitative-feature 三张界面图；raw video 与
+  raw pose 继续保持私有，演示素材不进入 Phase I benchmark。
+- 背景音乐保留为后期可选项，只使用舒缓、无歌词、授权清晰且不遮挡 narration 的音轨。
 
 ### v1.39 - 2026-08-22
 

@@ -150,8 +150,9 @@ side、QA flags 和 note；中心区域显示 reviewer 实际看到的匿名动�
 
 定量证据近景：展示 depth、torso、knee、hip、ankle 等 reviewer-readable features。
 
-当前两张含人物画面的界面图用于内部文稿审阅。正式对外发布前必须确认所用视频帧的
-再发布权利；若无法确认，则替换为项目自采并获得授权的同类动作画面。
+两张含人物画面的界面图已于 2026-08-23 改用项目当天自采并获得授权的 Deep Squat
+画面；截图不显示源文件名、身份、历史评分或 reviewer comments。Raw video 与 raw pose
+仍保存在私有 production archive，不进入公开仓库。
 
 ## 本地运行
 

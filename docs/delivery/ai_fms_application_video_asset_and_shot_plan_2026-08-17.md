@@ -1,10 +1,10 @@
 # AI-FMS Application Video Asset and Shot Plan
 
-状态：READY FOR PREPRODUCTION
+状态：READY FOR POST-PRODUCTION
 
-版本：v1.0
+版本：v1.1
 
-更新日期：2026-08-17
+更新日期：2026-08-23
 
 对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.0
 
@@ -25,6 +25,10 @@
 3. 从已确认权利的证书、照片或项目材料制作的 graphics；
 4. 外部素材只在有明确 license、source log 和必要性时使用。
 
+2026-08-23 source lock：S01-S04、论文 Demo 截图和后续项目展示统一使用当天自采、
+已授权的动作素材；不再使用网络下载的示例视频。原始 4K/HEVC 文件保持私有，录屏使用
+去除 location metadata 的 1080p H.264 proxy，pose 与原时间轴、画幅对齐。
+
 ## 2. Master 素材总表
 
 | ID  | 时间      | 内容                                 | 画面形式                            | 素材来源与制作方法                                                                 | 需要你们完成                                             | 验收要求                                                      |
@@ -36,10 +40,10 @@
 | C02 | 0:52-1:02 | Level 2 certification                | 证书 still + Ronnie 画外音          | 与 C01 使用同一模板和缩放                                                          | 提供高分辨率原件和准确 title/date                        | 两张证书风格一致；不做夸张动画                                |
 | D01 | 1:02-1:24 | FMS 实践与发现问题                   | Evaluator B-roll                    | 新拍 Ronnie 设置 kit、说明动作、观察 participant、记录 score、回看视频             | 安排 consented participant 和 camera operator            | 每个 shot 5-8 秒；不显示健康信息或未经同意人物                |
 | A02 | 1:24-1:30 | “These problems became...”           | Ronnie 中段出镜                     | 与 A01 同场或 FMS 场地新拍，直接对镜头完成转折句                                   | Ronnie 录 3 个短 take                                    | 结尾视线稳定；方便硬切进入 Workbench                          |
-| S01 | 1:30-1:50 | 七动作系统范围                       | Workbench screen recording          | 本地启动 AI-FMS；使用 publication demo；展开 action selector 后回到 Deep Squat     | 无需真人拍摄；由技术侧生成                               | 2560x1440 或 1920x1080；无通知、路径、private ID              |
-| S02 | 1:50-2:18 | Rep、loop、timing、pose              | Workbench screen recording          | 真实横屏 Deep Squat 与真实 pose；播放、暂停最低位、切换相邻 reps                   | 确认使用的视频帧可以公开                                 | Skeleton 对齐；鼠标慢；不出现 filename score cue              |
+| S01 | 1:30-1:50 | 七动作系统范围                       | Workbench screen recording          | 本地启动 AI-FMS；使用 2026-08-23 自采素材；展开 action selector 后回到 Deep Squat  | 由技术侧生成                                             | 2560x1440 或 1920x1080；无通知、路径、private ID              |
+| S02 | 1:50-2:18 | Rep、loop、timing、pose              | Workbench screen recording          | 使用当天正面 Deep Squat proxy 与真实 pose；播放、暂停最低位、切换三个 reps         | 已完成画面授权确认                                       | Skeleton 对齐；鼠标慢；不出现 filename score cue              |
 | S03 | 2:18-2:42 | Features、AI、protocol、human review | Workbench screen recording          | 同一 session 显示 feature panel、AI explanation、protocol condition、reviewer form | 无需真人拍摄；由技术侧生成                               | 不快速滚动；每个信息区至少停 3 秒；generic reviewer ID        |
-| S04 | 2:42-3:02 | Blind Study Mode                     | Study Mode dry-run screen recording | 使用 dry-run manifest 和匿名动作视频；只展示 reviewer 可见控件                     | 确认动作帧公开权利                                       | 不显示 AI、pose、历史分数、source filename 或另一 reviewer    |
+| S04 | 2:42-3:02 | Blind Study Mode                     | Study Mode dry-run screen recording | 使用 dry-run manifest 与当天自采匿名动作视频；只展示 reviewer 可见控件             | 已完成画面授权确认                                       | 不显示 AI、pose、历史分数、source filename 或另一 reviewer    |
 | G01 | 3:02-3:28 | Phase I 核心数字                     | 新制 results card + 轻动画          | 从冻结 release manifest 制作 16:9 graphic；数字逐组出现                            | 人工确认最终数字和措辞                                   | 只用 `110/28`、`32`、`26/26`、`16/25`、`23/25`；不写 accuracy |
 | G02 | 3:28-3:33 | Deep Squat finding                   | Existing SVG 转 16:9                | 使用 `deep-squat-strategy-continuum.svg`，加轻微 pan/zoom                          | 无                                                       | 不改数据、轴或注释；正文可读                                  |
 | G03 | 3:33-3:38 | ASLR finding                         | Existing SVG 转 16:9                | 使用 `aslr-bilateral-repeatability.svg`                                            | 无                                                       | 不把单一来源包装成 general validation                         |
@@ -269,6 +273,9 @@ G01_phase-i-results-card_v01.png
 
 禁止使用 `final-final2.mov`、聊天软件自动文件名或只靠 Finder 缩略图管理版本。
 
+2026-08-23 实际交接保留手机原始文件名，不要求人工批量重命名。技术侧使用 private
+asset summary、logical ID 和 proxy 文件名进行映射，避免改动原件或引入错配。
+
 ## 10. 交付给技术侧前的清单
 
 | 需要你们提供                             | 格式与要求                                                   | 用途                                  |
@@ -295,3 +302,6 @@ G01_phase-i-results-card_v01.png
 7. **Delivery Gate**：4:30 Master、3 分钟版、60 秒版、SRT、thumbnail 和 rights log 齐全。
 
 任何 gate 未通过时只修对应问题，不重新改写已经认可的研究结论。
+
+背景音乐为可选后期项。若使用，只选择无歌词、节奏舒缓、授权依据清楚的音乐，并把人声
+清晰度作为第一优先级；最终 review 同时检查 music-on 与 music-muted 版本。

@@ -59,7 +59,7 @@ try {
       <div style="width:100%; padding:0 17mm; font-size:7.5px; color:#68737d;
                   font-family:Arial, sans-serif; display:flex; justify-content:space-between;">
         <span>AI-FMS Phase I · Chinese Manuscript Draft</span>
-        <span>Internal Review · 2026-08-17</span>
+        <span>Internal Review · 2026-08-23</span>
       </div>`,
     footerTemplate: `
       <div style="width:100%; padding:0 17mm; font-size:7.5px; color:#68737d;

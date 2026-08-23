@@ -2,7 +2,7 @@
 
 状态：WAITING FOR RONNIE ACCOUNT
 
-更新日期：2026-08-17
+更新日期：2026-08-23
 
 ## 1. 决策
 
@@ -18,7 +18,7 @@ issues、pull requests、releases 和现有链接重定向。
 - Default branch：`main`
 - 当前 closeout branch：`codex/rotary-final-ai-benchmark`
 - Git 当前跟踪 338 个文件；不跟踪 `.mp4` 或 `.sqlite`
-- 两张真实视频界面截图已跟踪，但仍需 frame-level rights clearance
+- 两张真实视频界面截图已改用 2026-08-23 项目自采授权素材；raw media 不跟踪
 
 ## 2. Ronnie 需要先完成
 
@@ -39,7 +39,7 @@ issues、pull requests、releases 和现有链接重定向。
 - [ ] `npm run release:phase-i:manifest` 为 17/17，expected evidence matched。
 - [ ] 检查 Git history 和当前 tree 中没有 raw videos、SQLite、review exports、secrets、
       local absolute paths 或 private reviewer comments。
-- [ ] 对真实人物界面截图完成 rights/consent 决定；不能公开时在 public release 前替换。
+- [x] 对 Workbench/Study Mode 固定人物帧完成 rights/consent 决定并替换为自采素材。
 - [ ] 创建明确的 Phase I release tag，并记录 commit SHA、PDF checksum 与 release notes。
 - [ ] 记录当前 remote、visibility、default branch、branches、tags 和 collaborators。
 - [ ] 确认 Ronnie 的账户套餐不会让需要的 private-repository 功能丢失。

@@ -207,10 +207,11 @@ Product Scope 回答“系统做出了什么”；Research Scope 回答“本阶
 
 [打开原图：Quantitative feature detail](../assets/publication/ai-fms-workbench-quantitative-evidence.png)
 
-这些截图通过真实浏览器和现有 Demo workflow 生成。Workbench 同时显示真实动作视频、
+这些截图通过真实浏览器和现有 workflow 生成，并于 2026-08-23 统一替换为项目当天
+自采、已授权的 Deep Squat 画面。Workbench 同时显示真实动作视频、
 pose、timing、features、AI suggestion 和 review controls；Study Mode 显示 reviewer 实际
 看到的匿名动作视频与盲评控件。源文件名、score-bearing notes 和具体 reviewer IDs 已从
-截图中移除。含人物截图当前仅用于内部审阅，正式发表前必须完成 frame-level rights 审核。
+截图中移除。Raw video 与 raw pose 保持私有；公开交付只使用经选择和脱敏的固定界面帧。
 
 ## 4. 数据与研究方法
 

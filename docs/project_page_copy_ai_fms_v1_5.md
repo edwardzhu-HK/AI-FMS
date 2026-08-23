@@ -2,7 +2,7 @@
 
 状态：CURRENT - ready for page implementation
 
-更新日期：2026-08-17
+更新日期：2026-08-23
 
 文件名为兼容早期链接而保留；内容已从 2026-05 的 Deep Squat V1.5 页面升级为当前
 Phase I canonical project-page copy。
@@ -131,8 +131,8 @@ Use a compact five-step sequence:
 - Quantitative feature detail:
   `docs/assets/publication/ai-fms-workbench-quantitative-evidence.png`
 
-The real-video frames are internal-review assets until frame-level rights are
-confirmed. Replace them with project-owned, consented footage if needed.
+The two interface frames were replaced on 2026-08-23 with selected frames from
+project-owned, consented footage. Raw video and raw pose remain private.
 
 ## Product Scope and Research Scope
 

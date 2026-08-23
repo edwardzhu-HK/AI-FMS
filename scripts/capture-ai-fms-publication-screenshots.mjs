@@ -9,6 +9,27 @@ const { chromium } = require("playwright");
 
 const baseUrl = process.argv[2] ?? "http://127.0.0.1:5173";
 const outputDir = path.resolve(process.argv[3] ?? "docs/assets/publication");
+const ownedVideoPath = path.resolve(
+  process.env.AI_FMS_PUBLICATION_VIDEO ??
+    "Ingested-data/application-video-production/04-screen-recordings/proxies/ai-fms-owned-deep-squat-20260823-1080p.mp4",
+);
+const ownedPosePath = path.resolve(
+  process.env.AI_FMS_PUBLICATION_POSE ??
+    "Ingested-data/application-video-production/04-screen-recordings/pose/ai-fms-owned-deep-squat-20260823.pose.json",
+);
+const ownedFramePath = path.resolve(
+  process.env.AI_FMS_PUBLICATION_FRAME ??
+    "Ingested-data/application-video-production/04-screen-recordings/stills/ai-fms-owned-deep-squat-20260823-lowest.jpg",
+);
+const publicationFrameSecond = Number(
+  process.env.AI_FMS_PUBLICATION_FRAME_SECOND ?? 12.49,
+);
+
+for (const sourcePath of [ownedVideoPath, ownedPosePath, ownedFramePath]) {
+  if (!fs.existsSync(sourcePath)) {
+    throw new Error(`Required publication source is missing: ${sourcePath}`);
+  }
+}
 
 fs.mkdirSync(outputDir, { recursive: true });
 
@@ -104,11 +125,20 @@ async function captureWorkbench() {
   });
 
   await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+  await page.locator(".form-card select").nth(1).selectOption("deep_squat");
   await page
-    .locator(".demo-loader select")
-    .selectOption("publication-deep-squat");
-  await page.getByRole("button", { name: "Load Demo" }).click();
-  await page.waitForTimeout(1800);
+    .getByLabel("Upload Video", { exact: true })
+    .setInputFiles(ownedVideoPath);
+  await page
+    .getByLabel("Pose JSON (optional)", { exact: true })
+    .setInputFiles(ownedPosePath);
+  const rangeInputs = page.locator(".form-card .row-inputs input");
+  await rangeInputs.nth(0).fill("0");
+  await rangeInputs.nth(1).fill("15.95");
+  await page.locator('.form-card input[type="number"]').nth(2).fill("3");
+  await page
+    .locator(".form-card textarea")
+    .fill("Three front-view repetitions with complete movement cycles.");
   await page.getByRole("button", { name: "Start Analysis" }).click();
   await page.waitForFunction(
     () => document.body.innerText.includes("3 clips"),
@@ -118,35 +148,30 @@ async function captureWorkbench() {
 
   await page.locator(".segment-item").nth(2).click();
   await page.evaluate(() => {
-    const preset = document.querySelector(".form-card select");
-    if (preset?.selectedOptions?.[0]) {
-      preset.selectedOptions[0].textContent = "Deep Squat demonstration";
+    for (const input of document.querySelectorAll(
+      '.form-card input[type="file"]',
+    )) {
+      input.style.color = "transparent";
     }
     for (const node of document.querySelectorAll(".form-card p")) {
       node.textContent = node.textContent
-        .replace("Video: deep-squat-demo.mp4", "Video: publication demo sample")
-        .replace(
-          "Pose: deep-squat-demo.pose.json",
-          "Pose: MediaPipe landmarks",
-        );
+        .replace(/Video: .*\.mp4/, "Video: rights-cleared project footage")
+        .replace(/Pose: .*\.pose\.json/, "Pose: MediaPipe landmarks");
     }
     for (const node of document.querySelectorAll(".player-card p")) {
-      if (node.textContent.includes("deep-squat-demo.pose.json")) {
+      if (node.textContent.includes("ai-fms-owned-deep-squat-20260823.pose.json")) {
         node.textContent =
           "Real MediaPipe pose overlay aligned to the selected action frame.";
       }
     }
     window.scrollTo(0, 0);
   });
-  await page
-    .locator(".form-card textarea")
-    .fill("Three front-view repetitions with complete movement cycles.");
   const reviewerIds = page.locator(".reviewer-form input");
   await reviewerIds.nth(0).fill("Reviewer_A");
   await reviewerIds.nth(1).fill("Reviewer_B");
   await page.evaluate(() => document.activeElement?.blur());
   await prepareVideoForCapture(page, ".video-stage", { showPose: true });
-  await seekVideoFrame(page, ".video-stage", 15.28);
+  await seekVideoFrame(page, ".video-stage", publicationFrameSecond);
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(200);
 
@@ -177,14 +202,35 @@ async function captureStudyMode() {
     deviceScaleFactor: 1,
   });
 
+  await page.route("**/__publication-owned-demo-frame.jpg", async (route) => {
+    await route.fulfill({
+      path: ownedFramePath,
+      contentType: "image/jpeg",
+    });
+  });
+
   await page.goto(`${baseUrl}/study.html?mode=dry-run`, {
     waitUntil: "networkidle",
   });
   await page.getByRole("button", { name: "Test Reviewer" }).click();
   await page.waitForSelector(".study-video-shell video");
-  await page.locator(".queue-item", { hasText: "Deep Squat" }).click();
+  await page.locator(".queue-item", { hasText: "Deep Squat" }).first().click();
+  await page.locator(".study-video-shell video").evaluate((video) => {
+    const frame = document.createElement("img");
+    frame.src = "/__publication-owned-demo-frame.jpg";
+    frame.alt = "Rights-cleared Deep Squat frame";
+    frame.style.display = "block";
+    frame.style.width = "100%";
+    frame.style.height = "100%";
+    frame.style.objectFit = "contain";
+    frame.style.background = "#071014";
+    video.replaceWith(frame);
+  });
   await prepareVideoForCapture(page, ".study-video-shell", { showPose: false });
-  await seekVideoFrame(page, ".study-video-shell", 14.4);
+  await page.waitForFunction(() => {
+    const frame = document.querySelector(".study-video-shell img");
+    return frame?.complete && frame.naturalWidth > 0;
+  });
 
   await page.screenshot({
     path: path.join(outputDir, "ai-fms-study-mode-blind-review-real-video.png"),
@@ -215,4 +261,19 @@ if (outputs.some((item) => item.bytes < 20_000)) {
   throw new Error(`Screenshot generation failed: ${JSON.stringify(outputs)}`);
 }
 
-console.log(JSON.stringify({ outputDir, outputs }, null, 2));
+console.log(
+  JSON.stringify(
+    {
+      outputDir,
+      source: {
+        video: path.relative(process.cwd(), ownedVideoPath),
+        pose: path.relative(process.cwd(), ownedPosePath),
+        studyFrame: path.relative(process.cwd(), ownedFramePath),
+        frameSecond: publicationFrameSecond,
+      },
+      outputs,
+    },
+    null,
+    2,
+  ),
+);
