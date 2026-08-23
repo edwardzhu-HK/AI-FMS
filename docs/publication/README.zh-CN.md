@@ -7,7 +7,8 @@
 英文原版：`README.md`
 
 内部 review 记录：中文版的整体结构、系统开发主线、标题、摘要方向和主要结论已经认可。
-剩余工作是细节编辑、人工信息确认、rights/ethics 审核和目标格式适配。
+剩余工作是由学生独立完成英文正文、人工信息确认、rights/ethics 审核和目标格式适配。
+AI-assisted 中文稿继续作为内部证据与结构参考，不直接翻译成投稿正文。
 
 ## 发表决定
 
@@ -35,6 +36,11 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
   LaTeX 投稿时需要三个文件；
 - 明确说明研究方法、样本、数据分析、限制和伦理考虑。
 
+NHSJS 当前 AI policy 还要求投稿中的每一句正文由人类作者独立写成。它允许 AI 辅助
+coding、debugging、analysis、interpretation 和 literature search，但禁止 AI 起草、翻译、
+paraphrase、扩写或改写论文正文，即使作者随后逐句修改也不例外。因此当前英文 Word 输出
+是 **authoring manuscript**，不是 AI 写成的投稿初稿。
+
 官方资料：
 
 - 投稿要求：https://nhsjs.com/submission-guidelines/
@@ -47,21 +53,21 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 
 ## 当前准备程度
 
-| 组成部分                    | 状态             | 现有证据或缺口                                                        |
-| --------------------------- | ---------------- | --------------------------------------------------------------------- |
-| 研究问题与范围              | 已准备           | 四动作探索性 pilot；七动作产品范围只作系统背景                        |
-| 冻结的定量结果              | 已准备           | Phase I release candidate 与 checksum-protected 生成证据              |
-| 人工一致性结果              | 已准备           | Round A/B 签名导出和 closeout                                         |
-| AI-human internal benchmark | 已准备           | 最终锁定 prediction package；不是 held-out validation                 |
-| 动作特异性分析              | 已准备           | 四种差异化分析与四张生成图                                            |
-| 文献综述                    | 已有初稿         | 已列入 11 条起始参考文献；仍需人工作者逐篇阅读和核实                  |
-| Ethics/SRC/IRB 判定         | 待确认           | 既有视频二次分析和未来采集均需明确要求                                |
-| 媒体与 protocol 权利        | 部分完成         | 两张界面图已改用 2026-08-23 项目自采授权素材；其他源媒体保持私有/待审 |
-| AI 使用资格                 | 等待期刊回复     | 必须完整披露，不能自行假定符合政策                                    |
-| 作者与成人 advisor          | 待确认           | 目标是 Ronnie 第一作者；需确定成人通信联系人                          |
-| NHSJS Word 两个版本         | 待完成           | 只在资格与论文文字获批后制作                                          |
-| Zenodo 发布                 | 被期刊政策阻断   | 获得书面 preprint 许可前不发布                                        |
-| GitHub 所有权               | 等待 Ronnie 账户 | main/release 与公开边界审计后转移完整 repository                      |
+| 组成部分                    | 状态                  | 现有证据或缺口                                                        |
+| --------------------------- | --------------------- | --------------------------------------------------------------------- |
+| 研究问题与范围              | 已准备                | 四动作探索性 pilot；七动作产品范围只作系统背景                        |
+| 冻结的定量结果              | 已准备                | Phase I release candidate 与 checksum-protected 生成证据              |
+| 人工一致性结果              | 已准备                | Round A/B 签名导出和 closeout                                         |
+| AI-human internal benchmark | 已准备                | 最终锁定 prediction package；不是 held-out validation                 |
+| 动作特异性分析              | 已准备                | 四种差异化分析与四张生成图                                            |
+| 文献综述                    | 起始来源集            | 已排入 12 条参考文献；仍需学生逐篇阅读并核对引用语境                  |
+| Ethics/SRC/IRB 判定         | 待确认                | 既有视频二次分析和未来采集均需明确要求                                |
+| 媒体与 protocol 权利        | 部分完成              | 两张界面图已改用 2026-08-23 项目自采授权素材；其他源媒体保持私有/待审 |
+| AI 使用资格                 | 政策已确认            | 正文只由学生写作；Codex 仅作允许的研究支持并完整披露                  |
+| 作者与成人 advisor          | 待确认                | 目标是 Ronnie 第一作者；需确定成人通信联系人                          |
+| NHSJS Word 两个版本         | Standard 写作稿已完成 | 官方模板 11 页、4 表 6 图；学生正文和 Online 版仍待完成               |
+| Zenodo 发布                 | 被期刊政策阻断        | 获得书面 preprint 许可前不发布                                        |
+| GitHub 所有权               | 等待 Ronnie 账户      | main/release 与公开边界审计后转移完整 repository                      |
 
 ## 对外状态表述
 
@@ -86,6 +92,11 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 - `publication_human_input_form_2026-08-17.zh-CN.md`：人工确认表中文版。
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`：完整中文内部审阅稿的
   可维护源文件。
+- `ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`：逐节证据、字数预算、引用目标、
+  禁用主张与 author-only prose 工作流程。
+- `../../output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`：
+  使用 NHSJS 官方模板的 Standard-citation authoring manuscript；渲染 11 页，内含 4 表
+  6 图，已清除盲审身份 metadata，不包含 AI 起草的叙述性正文。
 - `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`：24 页 A4
   v0.3 中文论文整体审阅 PDF，包含 7 张编号图、12 张编号表、参考文献和 4 个附录。
   正式 NHSJS 英文稿会把详细案例表、Study Mode 图与附录移入 supporting material，
@@ -112,6 +123,7 @@ NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿�
 4. 确认其余非界面源视频和聚合图中哪些可以被描述或公开。
 5. 批准完整的 AI-use disclosure，不淡化 Codex 的作用。
 6. Ronnie 注册账户后提供准确的 GitHub username。
+7. Ronnie 使用自己的英文完成每一句正文，并在形成投稿版前删除全部黄色 author prompt。
 
 两张含真实人物帧的界面图已于 2026-08-23 替换为项目自采并取得同意的固定画面。Raw
 video、raw pose 与其他可识别源帧继续保持私有，除非另行完成授权。

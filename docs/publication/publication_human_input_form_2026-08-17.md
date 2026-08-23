@@ -57,10 +57,13 @@ Proposed disclosure summary:
 
 > MediaPipe Pose Landmarker was used for pose estimation. OpenAI Codex was used
 > as an AI coding agent to assist with software implementation, reproducible data
-> pipelines, analysis scripts, generated research figures, and internal drafting
-> or editing. Human contributors defined the research direction, performed the
-> blinded reviews, checked the evidence and outputs, interpreted the results,
-> and remain responsible for the submitted work. Codex is not an author.
+> pipelines, analysis scripts, research-output figures, and non-submitted
+> internal planning documents. The student author independently composed every
+> sentence of the submitted manuscript; AI-assisted internal drafts were not
+> translated or submitted. Human contributors defined the research direction,
+> performed the blinded reviews, checked the evidence and outputs, interpreted
+> the results, and remain responsible for the submitted work. Codex is not an
+> author.
 
 | Question                                          | Answer                             |
 | ------------------------------------------------- | ---------------------------------- |

@@ -272,6 +272,10 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
 - Phase I 案例组合与申请图：
   `docs/research/phase_i_case_study_portfolio_2026-08-10.md`
 - Publication track、NHSJS 资格门与 Zenodo 边界：`docs/publication/README.md`
+- NHSJS 英文 authoring manuscript：
+  `output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`
+- NHSJS English authoring guide：
+  `docs/publication/ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`
 
 ## Repository Layout
 
@@ -311,8 +315,9 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 2. 完成技术报告 PDF，并统一论文、项目页、demo 和申请材料的最终细节。
 3. 完成公开素材 rights/privacy、PII、贡献声明和最终夸大表述人工审计。
 4. 在干净环境复现代码与受控输出，生成 final public manifest、release tag 和恢复说明。
-5. 先向 NHSJS 确认 AI-use、secondary-video ethics、advisor 和 preprint policy；获得
-   书面许可后完成加急投稿包，Zenodo 继续保持 conditional。
+5. Ronnie 按 NHSJS author-only prose policy 在官方模板 Word 中独立完成英文正文；同时
+   向期刊确认 secondary-video ethics、analysis figures、advisor 和 preprint policy，
+   再生成 Online Citations 版和加急投稿包。Zenodo 继续保持 conditional。
 6. Ronnie 注册 GitHub 并提供 username 后，将收口后的 repository 连同完整历史转移到
    Ronnie 账户，并更新所有公开链接。
 

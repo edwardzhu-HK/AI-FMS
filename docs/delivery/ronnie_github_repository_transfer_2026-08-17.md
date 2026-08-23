@@ -16,7 +16,8 @@ issues、pull requests、releases 和现有链接重定向。
 
 - Visibility：`PRIVATE`
 - Default branch：`main`
-- 当前 closeout branch：`codex/rotary-final-ai-benchmark`
+- Phase I closeout 已 fast-forward 进入 `main`（`6889b7c`）
+- 当前论文 branch：`codex/english-manuscript-submission`
 - Git 当前跟踪 338 个文件；不跟踪 `.mp4` 或 `.sqlite`
 - 两张真实视频界面截图已改用 2026-08-23 项目自采授权素材；raw media 不跟踪
 
@@ -34,7 +35,7 @@ issues、pull requests、releases 和现有链接重定向。
 ## 3. Transfer 前的项目门槛
 
 - [ ] 工作树 clean，所有 closeout 修改已 commit 并 push。
-- [ ] 决定 `codex/rotary-final-ai-benchmark` 如何进入 `main`，并完成最终 merge review。
+- [x] `codex/rotary-final-ai-benchmark` 已以 fast-forward 方式进入 `main` 并推送远端。
 - [ ] `npm run check` 全部通过。
 - [ ] `npm run release:phase-i:manifest` 为 17/17，expected evidence matched。
 - [ ] 检查 Git history 和当前 tree 中没有 raw videos、SQLite、review exports、secrets、
@@ -43,6 +44,8 @@ issues、pull requests、releases 和现有链接重定向。
 - [ ] 创建明确的 Phase I release tag，并记录 commit SHA、PDF checksum 与 release notes。
 - [ ] 记录当前 remote、visibility、default branch、branches、tags 和 collaborators。
 - [ ] 确认 Ronnie 的账户套餐不会让需要的 private-repository 功能丢失。
+- [ ] NHSJS blind review 期间继续保持仓库和同标题项目页 PRIVATE，避免通过项目名称、
+      commit 或公开链接反向识别作者。
 
 ## 4. GitHub 网页操作
 
@@ -90,7 +93,8 @@ git fetch --all --prune
 - 不删除当前仓库后再重新上传。
 - 不在 transfer 前把 private research archive 推入 Git。
 - 不为了让 Ronnie 看起来拥有全部 commits 而修改或伪造历史 author metadata。
-- 不在 public rights audit 前把 repository 改成 PUBLIC。
+- 不在 public rights audit 和 NHSJS blind-review identity gate 完成前把 repository 改成
+  PUBLIC。
 
 ## 7. 完成记录
 

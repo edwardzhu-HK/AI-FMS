@@ -29,19 +29,20 @@ pose 和 timing 质量门。两位人工 reviewer 对平衡选取的 32 个 repe
 以及 AI-human internal concordance benchmark。论文不会声称医疗诊断、伤病预测、
 临床有效性或 held-out model validation。
 
-我们希望完整披露项目中的 AI 使用。MediaPipe Pose Landmarker 被用作 pose-estimation
-方法。OpenAI Codex 作为 AI coding agent，被广泛用于辅助软件实现、数据流程构建、
-可复现分析脚本、研究图生成，以及内部项目文档的起草或编辑。人类参与者确定研究方向、
-完成盲评、检查证据与输出、解释结果，并对任何提交的论文承担责任。Codex 不会被列为
-作者。
+我们已经阅读 NHSJS 当前 AI Usage Policy，并将遵守其中 author-only prose 的要求。
+MediaPipe Pose Landmarker 被用作 pose-estimation 方法。OpenAI Codex 作为 AI coding
+agent，被用于辅助软件实现、数据流程构建、可复现分析脚本、研究输出图表和不提交的内部
+规划文件。学生作者将独立写成英文投稿稿件中的每一句正文；此前 AI-assisted 中文内部稿
+不会被翻译或提交。人类参与者确定研究方向、完成盲评、检查证据与输出、解释结果，并对
+投稿内容承担责任。Codex 不会被列为作者，所有允许范围内的 AI 使用都会完整披露。
 
 在继续准备之前，烦请贵刊帮助澄清以下问题：
 
-1. 如果生成式 AI 曾辅助 coding、分析脚本实现、图表生成和内部文档起草，但所有用途均
-   被完整披露，且投稿中的主张、引用、计算和文字均由人类作者审核并接受，这类论文是否
-   符合投稿资格？
-2. NHSJS 是否对生成式 AI 在论文文字、统计分析、代码、图表或参考文献中的使用有其他
-   限制？
+1. 按照已发布的 AI Usage Policy，如果 Codex 仅用于 code、analysis pipeline、研究输出
+   图表和不提交的内部规划，而学生独立完成全部投稿正文并完整披露，这种使用是否符合
+   投稿资格？
+2. 对于由锁定分析结果确定性生成的 tables 或 figures，除 submission AI-use disclosure
+   和正常的 figure/method 说明外，是否还需要额外标签？
 3. 本 pilot 是对既有本地视频和公开教学视频的二次分析，没有招募参与者，也没有收集
    人口统计或临床结局。对于这类研究，NHSJS 要求提供哪些 SRC、IRB、exemption、
    consent 或 rights 文件？

@@ -33,23 +33,27 @@ AI coverage and abstention, and an internal AI-human concordance benchmark. It
 would not claim medical diagnosis, injury prediction, clinical validity, or
 held-out model validation.
 
-We want to disclose the project's AI use fully. MediaPipe Pose Landmarker was
-used as the pose-estimation method. OpenAI Codex was used extensively as an AI
-coding agent to assist with software implementation, data-pipeline construction,
-reproducible analysis scripts, generated research figures, and drafting or
-editing internal project documentation. Human contributors selected the
-research direction, performed the blinded reviews, checked the evidence and
-outputs, interpreted the results, and remain responsible for any submitted
-manuscript. Codex would not be listed as an author.
+We have reviewed the current NHSJS AI Usage Policy and will follow its
+author-only prose requirement. MediaPipe Pose Landmarker was used as the
+pose-estimation method. OpenAI Codex was used as an AI coding agent to assist
+with software implementation, data-pipeline construction, reproducible analysis
+scripts, research-output figures, and internal planning documents. The student
+author will compose every sentence of the submitted English manuscript
+independently; the earlier AI-assisted Chinese internal draft will not be
+translated or submitted. Human contributors selected the research direction,
+performed the blinded reviews, checked the evidence and outputs, interpreted the
+results, and remain responsible for the submitted work. Codex will not be listed
+as an author, and all permitted AI use will be disclosed.
 
 Before proceeding, could you please clarify the following?
 
-1. Is a manuscript eligible when generative AI assisted coding, analysis-script
-   implementation, figure generation, and internal drafting, provided these uses
-   are fully disclosed and all submitted claims, citations, calculations, and
-   prose are reviewed and accepted by the human authors?
-2. Does NHSJS impose any additional restrictions on generative AI use in the
-   manuscript text, statistical analysis, code, figures, or references?
+1. Under the published AI Usage Policy, is the described use of Codex for code,
+   analysis pipelines, research-output figures, and non-submitted internal
+   planning eligible when the student independently composes all submitted
+   prose and the use is fully disclosed?
+2. Do AI-generated tables or figures that are deterministic presentations of
+   locked analysis outputs require any labeling beyond the submission AI-use
+   disclosure and normal figure/method documentation?
 3. The pilot is a secondary analysis of existing local and publicly available
    instructional videos; it did not recruit participants or collect demographic
    or clinical outcomes. What SRC, IRB, exemption, consent, or rights

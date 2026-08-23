@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.40                          |
+| 版本     | v1.41                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-23                     |
@@ -409,28 +409,31 @@ G2 验收证据：
       on-set script；完成逐页视觉、文字提取、页数、表格与旁白分页检查。
 - [ ] 由人工确认 Ronnie 作者名/年级/学校、成人 corresponding contact、贡献声明、
       rights 范围与完整 AI-use disclosure。
-- [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 AI、secondary
-      video ethics、advisor 与 Zenodo preprint 政策的书面回复。
-- [ ] 在回复允许后完成 NHSJS manuscript、两份 Word 版本、supplement 和投稿清单；
-      再决定是否支付 $280 expedited-review fee 并正式提交。
+- [ ] 向 `submissions@nhsjs.com` 发送 presubmission inquiry，并取得 secondary-video
+      ethics、AI-generated analysis figures、advisor 与 Zenodo preprint 政策的书面回复。
+- [x] 按 NHSJS 当前 AI policy 建立 author-only prose workflow，并使用 2026-07 官方
+      Standard Citations Word 模板生成 11 页英文 authoring manuscript，内含 4 表 6 图、
+      盲审 metadata scrub 和可删除黄色 prompts。
+- [ ] Ronnie 独立写成全部英文正文、验证引用并删除 prompts；随后机械生成 Online
+      Citations 版、supplement 和投稿清单，再决定是否支付 $280 expedited-review fee。
 
 ### G4.1 最终交付物与应用途径
 
 Phase I 最终交付分成公开申请材料、受控研究材料和内部证据三层。公开层只使用通过
 rights/privacy 审计的媒体与聚合数据；私有研究资产不因“方便展示”而进入公开包。
 
-| 交付物                             | 最终形态                                                                                                                     | 当前状态                                                                                                       | 主要应用途径                                                             |
-| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | 17/17 RC 已完成；待 main 收口、clean rebuild、final manifest 与 Ronnie 账户 transfer                           | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
-| Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                          | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
-| 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧已改用 2026-08-23 自采授权素材                                      | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
-| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                                        | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
-| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.1 脚本、逐镜头 plan、真人/旁白/证书/动作素材完成；待 screen/graphics、剪辑和成片审计                        | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
-| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制           | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
-| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.3 24 页整体审阅稿已完成；正式英文版将把详细案例表、Study Mode 图和附录转入 supplement 以满足 20 页限制 | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
-| Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                                        | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
-| Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                                             | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
-| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | v0.3 canonical output index 已更新；最终 release 时补 checksum 与完成记录                                      | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
+| 交付物                             | 最终形态                                                                                                                     | 当前状态                                                                                             | 主要应用途径                                                             |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| 可运行代码与 GitHub release        | 受控源码、README、版本 tag、public-safe sample 和复现命令                                                                    | 17/17 RC 已完成；待 main 收口、clean rebuild、final manifest 与 Ronnie 账户 transfer                 | GitHub 项目主页、技术能力证明、技术面试与后续协作者复现                  |
+| Phase I 技术报告                   | 中文正文、English abstract、图表完整的 PDF 与 Markdown                                                                       | 内容已完成；待排版、PDF 生成和逐页 QA                                                                | 申请补充材料、研究导师/老师审阅、面试深讲、竞赛或研究项目说明            |
+| 研究图与界面视觉包                 | 4 张动作研究图、3 张界面截图和经授权的演示帧                                                                                 | 4 张研究图与 3 张当前界面图完成；两张人物帧已改用 2026-08-23 自采授权素材                            | 技术报告、项目页、demo、演示文稿和面试快速说明                           |
+| Portfolio project page             | 问题、产品、方法、发现、个人角色、限制与链接组成的简洁页面                                                                   | Canonical copy 与 evidence table 已更新；正式页面待制作                                              | 个人网站、学校允许的 supplementary link、面试前快速浏览                  |
+| Demo video                         | 4:15-4:30 application-film Master、3 分钟版、60 秒版和英文字幕                                                               | v2.1 脚本、逐镜头 plan、真人/旁白/证书/动作素材完成；待 screen/graphics、剪辑和成片审计              | Portfolio、补充材料、老师/推荐人了解项目、面试展示                       |
+| Application writing pack           | short description、Activities/Additional Information 素材、resume bullets、60-second answer、contribution/learning statement | 主文案、142/295-character variants 和 claim-control 已更新；待 Ronnie 确认第一人称事实与最终载体限制 | 大学申请表、简历、面试、推荐人 briefing；具体使用以学校允许格式为准      |
+| Journal manuscript and submission  | NHSJS Research Article、匿名标准引用 Word、online-citation Word、supplement 与投稿记录                                       | 中文 v0.3 内部稿完成；官方模板英文 authoring manuscript 为 11 页、4 表 6 图，待 Ronnie 独立完成正文  | 争取正式同行评审、申请研究成果、导师审阅；接受前只使用实际投稿状态       |
+| Dataset / methods / ethics package | Dataset card、methods/limitations/ethics、claim-control table、data dictionary                                               | 内容已完成；待最终 public-safe 人工复核                                                              | 展示研究严谨性、回答数据来源与伦理问题、支持老师或技术 reviewer 深入检查 |
+| Private research evidence archive  | 签名 review exports、SQLite、raw media/pose、17/17 manifest、checksums 与生成日志                                            | Results-frozen RC 已完成；待最终只读快照与恢复说明                                                   | 内部审计、未来 held-out 研究、结果复现和项目交接；不得公开分发           |
+| Final closeout index               | 最终文件清单、公开/私有边界、版本号、checksum 和已知限制                                                                     | v0.3 canonical output index 已更新；最终 release 时补 checksum 与完成记录                            | 防止交付遗漏，为申请、GitHub 与未来研究提供统一入口                      |
 
 ### G4.2 收尾判断
 
@@ -596,6 +599,21 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.41 - 2026-08-23
+
+- 将 `codex/rotary-final-ai-benchmark` 的 17 个已验证提交 fast-forward 合并并推送到
+  `main`；从新 main 建立 `codex/english-manuscript-submission` 作为论文独立工作分支。
+- 核对 NHSJS 2026-08 当前 AI Usage Policy：允许 coding、analysis、interpretation 和
+  literature search，但禁止 AI 起草、翻译、paraphrase、扩写或改写投稿正文，即使作者
+  后续修改也不例外。
+- 放弃直接 AI 翻译中文稿的方案，建立 author-only prose workflow；中文稿只作内部证据和
+  结构参考。
+- 下载并审计 NHSJS 2026-07 官方 Standard Citations Word 模板；生成 11 页 Letter、12 pt、
+  单倍行距英文 authoring manuscript，内含 4 表 6 图、25 个黄色 prose prompts、12 条起始
+  参考文献，且不含作者名、路径、reviewer ID 或 AI-drafted narrative prose。
+- 新增逐节 English authoring guide，定义 4,050-5,050 词预算、冻结事实、引用目标、限制、
+  禁用主张和 Ronnie 后续逐段写作流程。
 
 ### v1.40 - 2026-08-23
 

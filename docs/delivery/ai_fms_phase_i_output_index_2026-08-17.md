@@ -2,7 +2,7 @@
 
 状态：ACTIVE - canonical delivery entrypoint
 
-版本：v0.3
+版本：v0.4
 
 更新日期：2026-08-23
 
@@ -31,16 +31,18 @@ review，后续修改以细节、语言、授权和目标载体适配为主。
 
 ## 3. 论文与研究输出
 
-| 输出                       | Canonical source                                                              | 当前状态                        | 主要用途                           | 下一步                                  |
-| -------------------------- | ----------------------------------------------------------------------------- | ------------------------------- | ---------------------------------- | --------------------------------------- |
-| Chinese manuscript         | `docs/publication/ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html` | 24 页完整内部稿，整体框架已认可 | 内部讨论、英文稿母版               | 细节 polish、作者信息与 rights/ethics   |
-| Chinese manuscript PDF     | `output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`           | 已逐页视觉检查                  | 内部审阅和阶段总结                 | 不作为 submitted/peer-reviewed 成果表述 |
-| NHSJS publication track    | `docs/publication/README.md`                                                  | 路线和询问信已准备              | 期刊资格确认与投稿管理             | 发送 presubmission inquiry              |
-| Presubmission inquiry      | `docs/publication/nhsjs_presubmission_inquiry_2026-08-17.md`                  | 草稿完成                        | 确认 AI、ethics、advisor、preprint | 人工确认后发送并归档回复                |
-| Technical report           | `docs/reports/ai_fms_phase_i_technical_report_2026-08-09.md`                  | Markdown 内容完成               | 老师、研究导师、技术深讲           | 根据论文最终细节统一一次并导出 PDF      |
-| Dataset card               | `docs/research/ai_fms_phase_i_dataset_card_2026-08-09.md`                     | 内容完成                        | 数据范围、标签和发布边界           | rights/privacy 最终审计                 |
-| Methods/limitations/ethics | `docs/research/ai_fms_phase_i_methods_limitations_ethics_2026-08-09.md`       | 内容完成                        | 论文 supplement、技术审阅          | 与期刊书面回复同步                      |
-| Data dictionary            | `docs/research/pilot_v1_data_dictionary.md`                                   | 内容完成                        | 研究复现与交接                     | 随 final release 冻结版本号             |
+| 输出                               | Canonical source                                                                             | 当前状态                                                   | 主要用途                           | 下一步                                       |
+| ---------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------------------- | -------------------------------------------- |
+| Chinese manuscript                 | `docs/publication/ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`                | 24 页完整内部稿，整体框架已认可                            | 内部讨论、英文稿母版               | 细节 polish、作者信息与 rights/ethics        |
+| Chinese manuscript PDF             | `output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`                          | 已逐页视觉检查                                             | 内部审阅和阶段总结                 | 不作为 submitted/peer-reviewed 成果表述      |
+| NHSJS English authoring manuscript | `output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx` | 官方 Standard 模板、11 页、4 表 6 图、盲审 metadata 已清理 | Ronnie 独立英文写作与逐段确认      | 删除黄色 prompts；正文全部由 Ronnie 独立写成 |
+| English authoring guide            | `docs/publication/ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`                        | 字数、证据、引用与禁用主张已映射                           | Ronnie 写作核对与合规控制          | 每段完成后逐项核对                           |
+| NHSJS publication track            | `docs/publication/README.md`                                                                 | 路线和询问信已准备                                         | 期刊资格确认与投稿管理             | 发送 presubmission inquiry                   |
+| Presubmission inquiry              | `docs/publication/nhsjs_presubmission_inquiry_2026-08-17.md`                                 | 草稿完成                                                   | 确认 AI、ethics、advisor、preprint | 人工确认后发送并归档回复                     |
+| Technical report                   | `docs/reports/ai_fms_phase_i_technical_report_2026-08-09.md`                                 | Markdown 内容完成                                          | 老师、研究导师、技术深讲           | 根据论文最终细节统一一次并导出 PDF           |
+| Dataset card                       | `docs/research/ai_fms_phase_i_dataset_card_2026-08-09.md`                                    | 内容完成                                                   | 数据范围、标签和发布边界           | rights/privacy 最终审计                      |
+| Methods/limitations/ethics         | `docs/research/ai_fms_phase_i_methods_limitations_ethics_2026-08-09.md`                      | 内容完成                                                   | 论文 supplement、技术审阅          | 与期刊书面回复同步                           |
+| Data dictionary                    | `docs/research/pilot_v1_data_dictionary.md`                                                  | 内容完成                                                   | 研究复现与交接                     | 随 final release 冻结版本号                  |
 
 ## 4. 私有研究与复现输出
 
@@ -80,7 +82,8 @@ review，后续修改以细节、语言、授权和目标载体适配为主。
 1. **已完成**：统一申请文案、project-page copy、demo script、README、plan 和 backlog。
 2. **已完成**：证书原件、A-roll、七动作、实践 B-roll、旁白、participant/场地授权与
    `Haoran Zhu` 正式姓名确认；原始文件无需重命名。
-3. **现在制作**：按 asset/shot plan 生成 screen recordings、results
+3. **现在并行**：Ronnie 按 NHSJS author-only prose policy 在官方格式 Word 中独立完成
+   英文正文；技术侧按 asset/shot plan 生成 screen recordings、results
    card、research-figure motion 和 end card；随后实现 project page、剪辑视频并统一
    technical-report PDF。
 4. **发表路径**：发送 NHSJS 询问信，按书面回复准备英文 Word 与 supplement。

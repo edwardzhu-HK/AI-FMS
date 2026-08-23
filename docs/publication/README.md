@@ -8,8 +8,10 @@ Chinese version: `README.zh-CN.md`
 
 Internal review note: the Chinese draft's overall structure, system-development
 framing, title, abstract direction, and main conclusions are accepted. Remaining
-work is detailed editing, human confirmation, rights/ethics clearance, and
-target-format adaptation.
+work is student-authored English prose, human confirmation, rights/ethics
+clearance, and target-format adaptation. The AI-assisted Chinese draft remains
+an internal evidence-and-structure reference and will not be translated into the
+submitted prose.
 
 ## Publication Decision
 
@@ -44,6 +46,13 @@ peer/professional review path. Its official requirements include:
 - explicit methods, sample, data analysis, limitations, and ethical
   considerations.
 
+NHSJS's current AI policy also requires every submitted sentence to be composed
+by the human author. It permits AI support for coding, debugging, analysis,
+interpretation, and literature search, but prohibits AI drafting, translation,
+paraphrasing, expansion, or rewriting of manuscript prose, even when the author
+later edits that text. The English Word output is therefore an **authoring
+manuscript**, not an AI-written submission draft.
+
 Official references:
 
 - Submission guidelines: https://nhsjs.com/submission-guidelines/
@@ -64,12 +73,12 @@ review timeline.
 | Human reliability results    | Ready                     | Round A/B signed export closeout                                                                              |
 | AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                                                      |
 | Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                                       |
-| Literature review            | Initial draft             | Eleven starting references included; every source still requires human reading and verification               |
+| Literature review            | Initial source set        | Twelve formatted starting references; every source still requires student reading and contextual verification |
 | Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                                            |
 | Media and protocol rights    | Partially cleared         | Two UI figures now use 2026-08-23 project-owned, consented footage; other source media remain private/pending |
-| AI-use eligibility           | Pending journal reply     | Full disclosure is mandatory; no policy assumption                                                            |
+| AI-use eligibility           | Policy confirmed          | Author-only manuscript prose; Codex limited to permitted research support and fully disclosed                 |
 | Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                                     |
-| NHSJS Word variants          | Pending                   | Created only after eligibility and manuscript text are approved                                               |
+| NHSJS Word variants          | Authoring Standard ready  | Official-template 11-page shell with 4 tables and 6 figures; student prose and Online version remain pending  |
 | Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                               |
 | GitHub ownership             | Pending Ronnie account    | Transfer complete history after main/release and public-boundary audits                                       |
 
@@ -101,6 +110,13 @@ submission receipt, or Zenodo preprint.
   human confirmation form.
 - `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
   source for the complete Chinese internal manuscript draft.
+- `ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`: section-by-section
+  evidence map, word budget, citation targets, prohibited claims, and the
+  author-only prose workflow.
+- `../../output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`:
+  official-template Standard-citation authoring manuscript; 11 rendered pages,
+  four embedded tables, six embedded figures, blind-review metadata scrubbed,
+  and no AI-drafted narrative prose.
 - `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
   24-page A4 v0.3 internal review PDF with seven numbered figures, twelve numbered
   tables, references, and four appendices. The formal English submission will
@@ -132,6 +148,8 @@ Before the inquiry is sent:
    may be described or published.
 5. Approve the AI-use disclosure without minimizing the role of Codex.
 6. Provide Ronnie's exact GitHub username after account registration.
+7. Ronnie writes every English manuscript sentence in his own words and deletes
+   every yellow author prompt before a submission version is created.
 
 The two real-frame interface captures were replaced on 2026-08-23 with selected
 frames from project-owned, consented footage. Raw video, raw pose, and all other

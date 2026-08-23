@@ -488,6 +488,13 @@ Canonical execution plan:
 - [x] Produce a complete Chinese internal manuscript draft with title, abstract,
       introduction, methods, results, discussion, conclusion, declarations,
       references, figures/tables, and four appendices.
+- [x] Recheck the current NHSJS AI Usage Policy and replace the planned
+      AI-translated English draft with an author-only prose workflow.
+- [x] Build an 11-page Standard-citation English authoring manuscript from the
+      official NHSJS Word template, with 4 frozen tables, 6 embedded figures,
+      blind-review metadata scrubbed, and no AI-drafted narrative prose.
+- [x] Create a section-by-section English authoring guide with word budgets,
+      frozen evidence, citation targets, limitations, and prohibited claims.
 - [x] Render and visually inspect the initial 19-page Chinese draft, then rebuild
       v0.2 as a 23-page system-development-first internal review PDF with all
       figures, declarations, references, and appendices retained.
@@ -507,6 +514,11 @@ Canonical execution plan:
       private.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
+- [ ] Ronnie independently writes every English manuscript sentence, verifies
+      every citation, rewrites captions in his own words, and deletes all yellow
+      author prompts.
+- [ ] After the Standard prose is author-complete, generate and verify the NHSJS
+      Online Citations Word version without changing Ronnie's wording.
 - [ ] Send the NHSJS presubmission inquiry and archive the written response.
 - [ ] After eligibility confirmation, prepare the NHSJS anonymous standard-
       citation Word manuscript, online-citation Word manuscript, supplements,
