@@ -540,8 +540,13 @@ Canonical execution plan:
       three direct source-A/V A03 cuts, restrained piano/ambient music, a
       natural 4:32.3 version, and a separately preserved exact 4:30.0 version
       using only 1.008559x global speed.
-- [ ] Complete human review of Master v6 and freeze the approved Master before
-      deriving shorter versions.
+- [x] Complete human review through Master v8; replace A03 with the manually
+      assembled source, eliminate 0.308-second section drift and 0.619-second
+      chained-acrossfade loss using an absolute audio timeline, and freeze the
+      approved exact 4:30 English Master.
+- [x] Derive and verify an exact 4:30 Chinese family/showcase edition with
+      larger Chinese subtitles plus localized generated labels, score guide,
+      and Phase I results animation while retaining the approved English audio.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style

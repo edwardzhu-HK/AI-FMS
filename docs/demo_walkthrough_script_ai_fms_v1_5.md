@@ -1,18 +1,19 @@
 # AI-FMS Application Video Script
 
-状态：CURRENT - Master review cut v6 ready for human review
+状态：FINAL - Master v8 approved; Chinese derivative available
 
-版本：v2.7
+版本：v2.8
 
 更新日期：2026-08-24
 
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
 
-制作状态：Master review cut v6 已根据 V5 看片意见完成。自然速度版为 4:32.3；另保留一份
-整体 `1.008559x` 轻微提速、精确 4:30.0 的候选版。A03 直接从原始 `VID20260823141858.mp4`
-裁出三段完整声画并顺序拼接，不再分别处理或重排音轨；段间仅保留 0.08 秒画面淡转。背景音乐
-改为低亮度钢琴和薄层氛围声，取代偏轻快的节拍与拨弦。两个版本均待最终人工看片确认后冻结。
+制作状态：英文 Master v8 已经人工看片确认并正式冻结，精确时长 4:30.0。A03 完整使用人工
+拼接的 `VID_20260824111908126.mp4`；全片章节音频改为绝对时间线混合，语音波形和逐帧图像均
+验证 A03 偏差为 0.000 秒。背景音乐为 `Aurora Beat + Digital Halo Synth`，保持舒缓的运动与
+科技感。另已生成 4:30.0 中文派生版，保留英文原声，使用放大中文字幕，并翻译后期生成的动作
+标签、评分说明和数字结果动画。中文版服务家庭和中文展示，不替代英文申请 Master。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。

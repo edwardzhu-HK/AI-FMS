@@ -32,34 +32,147 @@ concat_copy = base.concat_copy
 
 FONT_REGULAR = Path("/System/Library/Fonts/Supplemental/Arial.ttf")
 FONT_BOLD = Path("/System/Library/Fonts/Supplemental/Arial Bold.ttf")
+FONT_REGULAR_ZH = Path("/System/Library/Fonts/STHeiti Light.ttc")
+FONT_BOLD_ZH = Path("/System/Library/Fonts/STHeiti Medium.ttc")
 FADE_SECOND = 0.20
 SYSTEM_SPEED = 1.04
 SECTION_TAIL = 0.14
 EXACT_DURATION = 270.0
+OUTPUT_LANGUAGE = "en"
+
+ZH_TEXT = {
+    "Hi, I'm Ronnie. Years of swimming taught me to notice how small differences in movement": "大家好，我是 Ronnie。多年的游泳训练让我开始留意：动作中的细微差异",
+    "can affect control, efficiency, and performance.": "会怎样影响控制、效率和运动表现。",
+    "That curiosity led me to study the Functional Movement Screen, and eventually to build AI-FMS.": "这份好奇心促使我学习功能性动作筛查 FMS，并最终开发了 AI-FMS。",
+    "FMS stands for Functional Movement Screen.": "FMS 的全称是 Functional Movement Screen，即功能性动作筛查。",
+    "It is a standardized screening system that uses seven fundamental movement patterns": "它是一套标准化筛查系统，通过七种基础动作模式，",
+    "to observe how mobility, stability, symmetry, and motor control work together.": "观察灵活性、稳定性、对称性和运动控制如何共同发挥作用。",
+    "Each pattern is scored from zero to three.": "每个动作的评分为 0 到 3 分。",
+    "It is a movement screen, not a medical diagnosis.": "它是动作筛查，而不是医学诊断。",
+    "Before evaluating other people, I wanted to understand": "在为其他人进行评估之前，我希望先以负责任的方式",
+    "the protocol responsibly.": "掌握完整规范。",
+    "I completed FMS Level 1 and Level 2 training and earned both certifications.": "我完成了 FMS 一级和二级培训，并取得了两项认证。",
+    "The training gave me a structured foundation for setting up the seven screens,": "培训为我规范设置七项筛查建立了系统基础，",
+    "applying the scoring rules, and recognizing when a result requires further human attention.": "也让我学会应用评分规则，并识别哪些结果需要进一步人工关注。",
+    "After the training, I began conducting and reviewing FMS assessments.": "完成培训后，我开始实际进行并复核 FMS 评估。",
+    "I saw four practical limitations.": "我发现了四个实际问题。",
+    "Movements pass quickly.": "动作往往一闪而过。",
+    "Remote review makes repetitions slow to find.": "远程复核时，寻找每次动作会很耗时。",
+    "Visual judgment remains qualitative even when angles and trajectories matter,": "即使角度和轨迹很重要，人眼判断仍主要是定性的；",
+    "and the zero-to-three score preserves little of the evidence behind the decision.": "而 0 到 3 分的结果，也很少保留判分背后的证据。",
+    "Those problems became the starting point for AI-FMS.": "这些问题成为 AI-FMS 的出发点。",
+    "AI-FMS is an explainable, human-in-the-loop video-review system.": "AI-FMS 是一套可解释、由人工参与决策的视频评审系统。",
+    "The workbench supports all seven FMS movements, with repetition-level review": "工作台覆盖全部七项 FMS 动作，可逐次复核每个动作，",
+    "and a movement-specific, pose-based first-pass suggestion.": "并针对不同动作提供基于姿态的初步 AI 建议。",
+    "The AI can explain its evidence and abstain when video quality or protocol information is incomplete.": "当视频质量或规范信息不足时，AI 会解释证据，也可以拒绝给分。",
+    "A reviewer can isolate complete repetitions, replay a difficult moment, and correct the timing": "评审者可以分离完整动作、反复回看困难时刻并修正时间边界，",
+    "instead of searching through the full video again. The MediaPipe overlay is aligned to the video,": "不必重新搜索整段视频。MediaPipe 姿态图层与视频逐帧对齐，",
+    "allowing the system to preserve angles, normalized distances, trajectories, and movement events that are hard to record consistently by eye.": "从而保存肉眼难以稳定记录的角度、归一化距离、轨迹和动作事件。",
+    "The AI suggestion supports, rather than replaces, reviewer judgment.": "AI 建议用于辅助，而不是取代评审者的判断。",
+    "It shows which criteria support a score, what remains uncertain,": "它会说明哪些标准支持当前分数、哪些地方仍不确定，",
+    "and whether protocol information is missing.": "以及是否缺少规范信息。",
+    "The reviewer records the final score, confidence, camera view, side, clearing information,": "评审者最终记录分数、信心、机位、侧别、排除性检查信息",
+    "and notes.": "和备注。",
+    "To evaluate the system without leaking AI information, we built a separate Study Mode.": "为了在不泄露 AI 信息的前提下评估系统，我们另建了盲评模式。",
+    "In both blinded rounds, reviewers could not see AI scores, pose parameters, source file names,": "两轮盲评中，评审者都看不到 AI 分数、姿态参数、原始文件名，",
+    "previous answers, or the other reviewer's decisions.": "之前的答案或另一位评审者的判断。",
+    "Reviews were stored as append-only events and exported with checksums.": "所有评审以只追加事件保存，并通过校验和导出。",
+    "Phase I reconstructed 110 repetitions from 28 source videos": "第一阶段从 28 个原始视频中重建了 110 次动作重复，",
+    "and selected 32 across four movements for two blinded rounds.": "并从四个动作中选出 32 次，进行两轮盲评。",
+    "In Round B, the reviewers agreed on scoreability for all 32 items and assigned the same score to all 26 jointly scoreable items.": "在 B 轮中，32 项的可评分性判断全部一致；26 项共同可评分动作也全部同分。",
+    "The locked AI exactly matched human consensus on 16 of 25 comparable items": "在 25 项可比较样本中，锁定版 AI 有 16 项与人工共识完全一致，",
+    "and was within one point on 23. This is an internal benchmark, not held-out clinical validation.": "其中 23 项分差不超过 1 分。这是内部基准，并非独立临床验证。",
+    "The quantitative evidence also revealed what the ordinal score does not show. Deep Squat formed a strategy continuum;": "定量证据还揭示了等级分数看不到的信息：深蹲呈现出动作策略的连续变化；",
+    "ASLR preserved side and repeatability differences;": "主动直腿抬高保留了左右侧和重复稳定性的差异；",
+    "Hurdle Step showed several pathways to the same score;": "跨栏步显示，同一个分数可能由不同动作路径造成；",
+    "and Rotary Stability required a full-cycle view of coordination and event sequence.": "旋转稳定性则需要观察完整周期中的协调与事件顺序。",
+    "My role in this project grew far beyond demonstrating a piece of software.": "我在这个项目中的角色，早已超出单纯展示一款软件。",
+    "I worked through an AI-assisted development process, but the project taught me that responsible technology": "我经历了 AI 辅助的开发过程，但这个项目让我认识到：负责任的技术",
+    "depends on human judgment, data quality, and the willingness to say when the evidence is not enough.": "离不开人的判断、数据质量，以及在证据不足时坦诚说“不”。",
+    "In college, I hope to continue exploring Human Movement Science, biomechanics, and responsible AI.": "进入大学后，我希望继续探索人体运动科学、生物力学和负责任的 AI。",
+    "For me, AI-FMS is not the end of a project.": "对我来说，AI-FMS 不是一个项目的终点，",
+    "It is the beginning of a research direction I want to keep pursuing.": "而是我希望继续研究的一个方向的起点。",
+    "Deep Squat": "深蹲",
+    "Hurdle Step": "跨栏步",
+    "In-Line Lunge": "直线弓箭步",
+    "Shoulder Mobility": "肩部灵活性",
+    "Active Straight Leg Raise": "主动直腿抬高",
+    "Trunk Stability Push-Up": "躯干稳定俯卧撑",
+    "Rotary Stability": "旋转稳定性",
+    "Equipment setup": "器材设置",
+    "Coaching": "动作指导",
+    "Protocol measurement": "规范测量",
+    "Movement measurement": "动作测量",
+    "Reviewing an attempt": "回看一次动作",
+    "Explainable movement review": "可解释的动作评估",
+    "FMS RAW SCORE": "FMS 原始评分",
+    "Performs the movement pattern": "完成标准动作模式",
+    "Completes with compensation": "通过代偿完成动作",
+    "Unable to complete the pattern": "无法完成动作模式",
+    "Pain reported or observed": "出现或报告疼痛",
+    "DATA FOUNDATION": "数据基础",
+    "source videos                 canonical repetitions": "原始视频　　　　　　　标准化动作重复",
+    "BLINDED HUMAN REVIEW": "双盲人工评审",
+    "formal repetitions   ·   4 movements   ·   2 rounds": "正式动作重复　·　4 个动作　·　2 轮评审",
+    "HUMAN RELIABILITY": "人工评审一致性",
+    "exact RAW SCORE agreement among jointly scoreable repetitions": "共同可评分动作的原始分完全一致",
+    "LOCKED AI vs HUMAN CONSENSUS": "锁定版 AI 与人工共识",
+    "exact agreement": "完全一致",
+    "EVIDENCE BOUNDARY": "证据边界",
+    "within one point": "分差不超过 1 分",
+    "AI-FMS PHASE I": "AI-FMS 第一阶段",
+    "From movement video to traceable evidence": "从动作视频到可追溯证据",
+    "INTERNAL BENCHMARK": "内部基准测试",
+    "Not held-out clinical validation": "非独立临床验证",
+}
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    default_work_dir = PRODUCTION / "07-edit-project/rough-cut-v8"
+    default_output = (
+        PRODUCTION / "08-exports/ai-fms-application-film-master-review-v8.mp4"
+    )
+    default_exact_output = (
+        PRODUCTION / "08-exports/ai-fms-application-film-master-4m30-v8.mp4"
+    )
     parser.add_argument(
         "--work-dir",
         type=Path,
-        default=PRODUCTION / "07-edit-project/rough-cut-v8",
+        default=default_work_dir,
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=PRODUCTION
-        / "08-exports/ai-fms-application-film-master-review-v8.mp4",
+        default=default_output,
     )
     parser.add_argument(
         "--exact-output",
         type=Path,
-        default=PRODUCTION
-        / "08-exports/ai-fms-application-film-master-4m30-v8.mp4",
+        default=default_exact_output,
     )
+    parser.add_argument("--language", choices=("en", "zh"), default="en")
     parser.add_argument("--ffmpeg", default="ffmpeg")
     parser.add_argument("--ffprobe", default="ffprobe")
-    return parser.parse_args()
+    args = parser.parse_args()
+    if args.language == "zh":
+        if args.work_dir == default_work_dir:
+            args.work_dir = PRODUCTION / "07-edit-project/rough-cut-v8-zh"
+        if args.output == default_output:
+            args.output = (
+                PRODUCTION
+                / "08-exports/ai-fms-application-film-master-review-v8-zh.mp4"
+            )
+        if args.exact_output == default_exact_output:
+            args.exact_output = (
+                PRODUCTION
+                / "08-exports/ai-fms-application-film-master-4m30-v8-zh.mp4"
+            )
+    return args
+
+
+def localize(text: str) -> str:
+    return ZH_TEXT.get(text, text) if OUTPUT_LANGUAGE == "zh" else text
 
 
 def video_base_filter(speed: float = 1.0) -> str:
@@ -699,7 +812,11 @@ def pad_section_tail(
 
 
 def fit_font(text: str, bold: bool, size: int) -> ImageFont.FreeTypeFont:
-    return ImageFont.truetype(str(FONT_BOLD if bold else FONT_REGULAR), size)
+    if OUTPUT_LANGUAGE == "zh":
+        font_path = FONT_BOLD_ZH if bold else FONT_REGULAR_ZH
+    else:
+        font_path = FONT_BOLD if bold else FONT_REGULAR
+    return ImageFont.truetype(str(font_path), size)
 
 
 def create_title_overlay(path: Path) -> None:
@@ -710,7 +827,7 @@ def create_title_overlay(path: Path) -> None:
     draw.text((112, 78), "AI-FMS", font=fit_font("", True, 46), fill="white")
     draw.text(
         (112, 137),
-        "Explainable movement review",
+        localize("Explainable movement review"),
         font=fit_font("", False, 25),
         fill=(220, 232, 230, 255),
     )
@@ -718,6 +835,7 @@ def create_title_overlay(path: Path) -> None:
 
 
 def create_movement_overlay(path: Path, text: str) -> None:
+    text = localize(text)
     image = Image.new("RGBA", (1920, 1080), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
     font = fit_font(text, True, 34)
@@ -738,12 +856,17 @@ def create_score_scale_overlay(path: Path) -> None:
     draw.rounded_rectangle(
         (x1, y1, x2, y2), radius=10, fill=(15, 30, 35, 230), outline=(232, 180, 79, 255), width=4
     )
-    draw.text((x1 + 28, y1 + 22), "FMS RAW SCORE", font=fit_font("", True, 31), fill="white")
+    draw.text(
+        (x1 + 28, y1 + 22),
+        localize("FMS RAW SCORE"),
+        font=fit_font("", True, 31),
+        fill="white",
+    )
     rows = [
-        ("3", "Performs the movement pattern"),
-        ("2", "Completes with compensation"),
-        ("1", "Unable to complete the pattern"),
-        ("0", "Pain reported or observed"),
+        ("3", localize("Performs the movement pattern")),
+        ("2", localize("Completes with compensation")),
+        ("1", localize("Unable to complete the pattern")),
+        ("0", localize("Pain reported or observed")),
     ]
     for index, (score, meaning) in enumerate(rows):
         y = y1 + 85 + index * 70
@@ -805,8 +928,15 @@ def apply_timed_overlay(
 def create_caption_overlay(path: Path, text: str) -> None:
     image = Image.new("RGBA", (1920, 1080), (0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
-    font = fit_font(text, False, 31)
-    wrapped = textwrap.wrap(text, width=102, break_long_words=False)
+    font_size = 42 if OUTPUT_LANGUAGE == "zh" else 31
+    wrap_width = 27 if OUTPUT_LANGUAGE == "zh" else 102
+    font = fit_font(text, False, font_size)
+    wrapped = textwrap.wrap(
+        text,
+        width=wrap_width,
+        break_long_words=OUTPUT_LANGUAGE == "zh",
+        break_on_hyphens=False,
+    )
     wrapped = wrapped[:2]
     lines = "\n".join(wrapped)
     bbox = draw.multiline_textbbox((0, 0), lines, font=font, spacing=10, align="center")
@@ -968,41 +1098,47 @@ def render_results_animation(
         {
             "start": 0.0,
             "end": 5.45,
-            "title": "DATA FOUNDATION",
+            "title": localize("DATA FOUNDATION"),
             "main": "28  →  110",
-            "detail": "source videos                 canonical repetitions",
+            "detail": localize(
+                "source videos                 canonical repetitions"
+            ),
             "accent": (46, 166, 148),
         },
         {
             "start": 5.45,
             "end": 12.1,
-            "title": "BLINDED HUMAN REVIEW",
+            "title": localize("BLINDED HUMAN REVIEW"),
             "main": "32",
-            "detail": "formal repetitions   ·   4 movements   ·   2 rounds",
+            "detail": localize(
+                "formal repetitions   ·   4 movements   ·   2 rounds"
+            ),
             "accent": (232, 180, 79),
         },
         {
             "start": 12.1,
             "end": 19.8,
-            "title": "HUMAN RELIABILITY",
+            "title": localize("HUMAN RELIABILITY"),
             "main": "26 / 26",
-            "detail": "exact RAW SCORE agreement among jointly scoreable repetitions",
+            "detail": localize(
+                "exact RAW SCORE agreement among jointly scoreable repetitions"
+            ),
             "accent": (46, 166, 148),
         },
         {
             "start": 19.8,
             "end": 26.85,
-            "title": "LOCKED AI vs HUMAN CONSENSUS",
+            "title": localize("LOCKED AI vs HUMAN CONSENSUS"),
             "main": "16 / 25",
-            "detail": "exact agreement",
+            "detail": localize("exact agreement"),
             "accent": (215, 88, 70),
         },
         {
             "start": 26.85,
             "end": duration,
-            "title": "EVIDENCE BOUNDARY",
+            "title": localize("EVIDENCE BOUNDARY"),
             "main": "23 / 25",
-            "detail": "within one point",
+            "detail": localize("within one point"),
             "accent": (232, 180, 79),
         },
     ]
@@ -1068,8 +1204,18 @@ def render_results_animation(
                 draw.line((x, 0, x, height), fill=(21, 43, 49), width=1)
             for y in range(0, height, 120):
                 draw.line((0, y, width, y), fill=(21, 43, 49), width=1)
-            draw.text((82, 58), "AI-FMS PHASE I", font=title_font, fill=(110, 205, 191))
-            draw.text((82, 96), "From movement video to traceable evidence", font=detail_font, fill=(225, 233, 231))
+            draw.text(
+                (82, 58),
+                localize("AI-FMS PHASE I"),
+                font=title_font,
+                fill=(110, 205, 191),
+            )
+            draw.text(
+                (82, 96),
+                localize("From movement video to traceable evidence"),
+                font=detail_font,
+                fill=(225, 233, 231),
+            )
 
             active_index = max(
                 index
@@ -1124,8 +1270,20 @@ def render_results_animation(
                 pulse = 0.78 + 0.22 * math.sin(second * math.pi * 1.4) ** 2
                 badge_color = (*stage["accent"], round(235 * opacity * pulse))
                 layer_draw.rounded_rectangle((650, 802, 1270, 904), radius=8, outline=badge_color, width=5)
-                layer_draw.text((960, 853), "INTERNAL BENCHMARK", font=boundary_font, fill=white, anchor="mm")
-                layer_draw.text((960, 948), "Not held-out clinical validation", font=detail_font, fill=muted, anchor="ma")
+                layer_draw.text(
+                    (960, 853),
+                    localize("INTERNAL BENCHMARK"),
+                    font=boundary_font,
+                    fill=white,
+                    anchor="mm",
+                )
+                layer_draw.text(
+                    (960, 948),
+                    localize("Not held-out clinical validation"),
+                    font=detail_font,
+                    fill=muted,
+                    anchor="ma",
+                )
             image = Image.alpha_composite(image.convert("RGBA"), layer).convert("RGB")
             process.stdin.write(image.tobytes())
     finally:
@@ -1263,6 +1421,8 @@ def srt_time(second: float) -> str:
 
 
 def build(args: argparse.Namespace) -> dict:
+    global OUTPUT_LANGUAGE
+    OUTPUT_LANGUAGE = args.language
     work_dir = args.work_dir.resolve()
     section_dir = work_dir / "sections"
     clip_dir = work_dir / "clips"
@@ -1313,6 +1473,7 @@ def build(args: argparse.Namespace) -> dict:
         source: Path,
         cues: list[tuple[float, float, str]],
     ) -> None:
+        cues = [(start, end, localize(text)) for start, end, text in cues]
         captioned = section_dir / f"{len(sections) + 1:02d}-{label}-captioned.mp4"
         apply_captions(
             ffmpeg=args.ffmpeg,
@@ -1831,8 +1992,13 @@ def build(args: argparse.Namespace) -> dict:
         target_duration=EXACT_DURATION,
     )
     manifest = {
-        "schemaVersion": "ai_fms_application_film_review_cut_v8",
+        "schemaVersion": (
+            "ai_fms_application_film_review_cut_v8_zh"
+            if args.language == "zh"
+            else "ai_fms_application_film_review_cut_v8"
+        ),
         "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "language": args.language,
         "durationSecond": round(probe_duration(args.output.resolve(), args.ffprobe), 3),
         "target": "sync-corrected natural V8 plus a separately preserved exact 4:30 candidate",
         "music": "Apple Loops: Aurora Beat + Digital Halo Synth, mixed as a relaxed sport-tech bed",
@@ -1846,7 +2012,12 @@ def build(args: argparse.Namespace) -> dict:
         "exactDurationSpeedFactor": round(exact_speed, 6),
         "sections": section_rows,
     }
-    (work_dir / "review-cut-v8-manifest.json").write_text(
+    manifest_name = (
+        "review-cut-v8-zh-manifest.json"
+        if args.language == "zh"
+        else "review-cut-v8-manifest.json"
+    )
+    (work_dir / manifest_name).write_text(
         json.dumps(manifest, indent=2), encoding="utf-8"
     )
     return manifest
