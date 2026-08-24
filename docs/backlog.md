@@ -528,7 +528,11 @@ Canonical execution plan:
       with a real opening card, lighter captions, complete-course evidence,
       corrected practice B-roll, an expanded seven-action selector, full-page
       Study Mode and research figures, restrained annotations, and synced A03.
-- [ ] Complete human review of Master v3 and freeze the approved Master before
+- [x] Complete human review of Master v3; produce a 4:34.8 Master review cut v4
+      with a dedicated animated evidence pipeline, sport-tech music, improved
+      live voice, labeled practice footage, score-scale PIP, faster system
+      sections, Hurdle Step Study Mode, refined figure marks, and revised A03.
+- [ ] Complete human review of Master v4 and freeze the approved Master before
       deriving shorter versions.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.

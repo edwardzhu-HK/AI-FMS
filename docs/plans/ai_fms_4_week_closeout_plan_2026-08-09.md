@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.44                          |
+| 版本     | v1.45                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-23                     |
+| 最近更新 | 2026-08-24                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -599,6 +599,30 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.45 - 2026-08-24
+
+- 完成 Master v3 人工看片总结，并按确认修正制作独立 `rough-cut-v4` / `master-review-v4`。
+- 删除 opening 中 `That curiosity...` 后约 0.56 秒停顿；对现场人声增加温和降噪、EQ、压缩和
+  统一响度处理，同时保持现场音画同速。
+- 将背景音乐换为 GarageBand Apple Loop `Ronnie - Future Sounds`，提供更明确的运动节奏和
+  数字科技感，仍以低电平置于旁白之下。
+- 收紧 completed-course 构图、放大并延长 Hurdle Step lesson；在实践 B-roll 左上角加入
+  setup / coaching / measurement / instruction / review 标签；在 zero-to-three 句加入 FMS RAW
+  SCORE 画中画。
+- Workbench 与 Study Mode 的旁白和录屏统一提速 1.04x，不删功能内容；Study Mode 中央示例
+  改为自采 Hurdle Step，并使用 metadata-clean 1080p proxy。
+- 将 Phase I 数字段重做为独立 32.7 秒 evidence-pipeline 动画：`28→110`、`32/4/2`、
+  `26/26`、`16/25`、`23/25`依次计数和推进，最终落在 `Internal benchmark` 边界。
+- 四动作研究图继续保持完整全页，强调图形由普通大圆圈改为统一的路径线、下划线和开放式
+  括线。
+- A03 新顺序为：完整 `My role...`；删除 `I learned...`；保留 `I worked through...`；完整
+  `In college, I hope to continue exploring Human Movement Science, biomechanics, and responsible
+AI.`；最后接 `For me...`。所有出镜段均使用原始现场音频保持口型同步。
+- Master review cut v4 为 274.8 秒 / 4:34.8、1920x1080、30fps、H.264/AAC 48kHz；
+  51 条 SRT 无重叠，综合响度 -16.0 LUFS、true peak -1.4 dBFS，未检出异常黑帧。
+- v4 MP4 SHA-256 为 `6cdb3529d3b555cb7b59f6a3577d090a58006f272c72e21a98c37d51936d3541`；
+  当前仍为 human-review cut，确认后才冻结 Master 并派生 3min / 60s。
 
 ### v1.44 - 2026-08-24
 

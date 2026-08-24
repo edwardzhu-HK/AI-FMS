@@ -22,8 +22,12 @@ const posePath = path.resolve(
   process.env.AI_FMS_RECORDING_POSE ??
     "Ingested-data/application-video-production/04-screen-recordings/pose/ai-fms-owned-deep-squat-20260823.pose.json",
 );
+const studyVideoPath = path.resolve(
+  process.env.AI_FMS_RECORDING_STUDY_VIDEO ??
+    "Ingested-data/application-video-production/04-screen-recordings/proxies/ai-fms-owned-hurdle-step-20260823-1080p.mp4",
+);
 
-for (const sourcePath of [videoPath, posePath]) {
+for (const sourcePath of [videoPath, posePath, studyVideoPath]) {
   if (!fs.existsSync(sourcePath)) {
     throw new Error(`Required recording source is missing: ${sourcePath}`);
   }
@@ -363,7 +367,7 @@ async function captureWorkbench() {
   await page.waitForTimeout(5200);
   await clearFocus(page);
 
-  return finishRecording(context, page, "S01-S03-workbench-master-v3");
+  return finishRecording(context, page, "S01-S03-workbench-master-v4");
 }
 
 async function captureStudyMode() {
@@ -372,8 +376,8 @@ async function captureStudyMode() {
     recordVideo: { dir: temporaryDir, size: { width: 1920, height: 1080 } },
   });
   const page = await context.newPage();
-  await page.route("**/__application-owned-demo.mp4", async (route) => {
-    await route.fulfill({ path: videoPath, contentType: "video/mp4" });
+  await page.route("**/__application-owned-study-demo.mp4", async (route) => {
+    await route.fulfill({ path: studyVideoPath, contentType: "video/mp4" });
   });
   await page.goto(`${baseUrl}/study.html?mode=dry-run`, {
     waitUntil: "networkidle",
@@ -383,14 +387,14 @@ async function captureStudyMode() {
   await page.waitForSelector(".study-video-shell video");
   await moveCursor(
     page,
-    page.locator(".queue-item", { hasText: "Deep Squat" }).first(),
+    page.locator(".queue-item", { hasText: "Hurdle Step" }).first(),
     {
       click: true,
     },
   );
   await page.locator(".study-video-shell video").evaluate((video) => {
     const ownedVideo = video.cloneNode(false);
-    ownedVideo.src = "/__application-owned-demo.mp4";
+    ownedVideo.src = "/__application-owned-study-demo.mp4";
     ownedVideo.muted = true;
     ownedVideo.playsInline = true;
     ownedVideo.preload = "auto";
@@ -443,7 +447,7 @@ async function captureStudyMode() {
   await page.waitForTimeout(3100);
   await clearFocus(page);
   await page.waitForTimeout(1600);
-  return finishRecording(context, page, "S04-study-mode-master-v3");
+  return finishRecording(context, page, "S04-study-mode-master-v4");
 }
 
 try {
@@ -456,6 +460,7 @@ try {
         source: {
           video: path.relative(process.cwd(), videoPath),
           pose: path.relative(process.cwd(), posePath),
+          studyVideo: path.relative(process.cwd(), studyVideoPath),
         },
         outputs: [workbench, studyMode].map((file) => ({
           file: path.relative(process.cwd(), file),
