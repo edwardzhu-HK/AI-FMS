@@ -1,18 +1,18 @@
 # AI-FMS Application Video Script
 
-状态：CURRENT - Master review cut v4 ready for human review
+状态：CURRENT - Master review cut v5 ready for human review
 
-版本：v2.5
+版本：v2.6
 
 更新日期：2026-08-24
 
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
 
-制作状态：Master review cut v4 已根据 V3 看片意见完成，实际时长 4:34.8。v4 将 Phase I
-数字结果重做为独立 evidence-pipeline 动画；更换体育科技风音乐；增强现场人声；压缩 Workbench
-与 Study Mode 节奏，并将 Study Mode 示例换成 Hurdle Step。A03 保留 `My role...`，删除
-`I learned...`，完整保留 `In college...and responsible AI`，再接 `For me...`。
+制作状态：Master review cut v5 已根据 V4 看片意见完成，实际时长 4:35.3。v5 使用 Edward
+提供的完整课程目录截图；逐句保护字幕尾帧；修正 `Movement measurement`；移除四动作图黄色
+标注；以静音尾帧加长章节转场；更换更易感知的旋律节奏音乐。A03 改为单一输入、同步裁切和
+拼接，视频 40.800 秒、音频 40.793 秒，消除结构性口型偏移。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。

@@ -532,7 +532,11 @@ Canonical execution plan:
       with a dedicated animated evidence pipeline, sport-tech music, improved
       live voice, labeled practice footage, score-scale PIP, faster system
       sections, Hurdle Step Study Mode, refined figure marks, and revised A03.
-- [ ] Complete human review of Master v4 and freeze the approved Master before
+- [x] Complete human review of Master v4; produce a 4:35.3 Master review cut v5
+      with the approved full-course screenshot, subtitle-tail protection,
+      corrected measurement label, slower transitions, clean research figures,
+      accessible melodic music, refined live sound, and rebuilt A03 sync.
+- [ ] Complete human review of Master v5 and freeze the approved Master before
       deriving shorter versions.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.

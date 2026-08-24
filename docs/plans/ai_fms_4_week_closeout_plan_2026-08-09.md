@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.45                          |
+| 版本     | v1.46                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-24                     |
@@ -599,6 +599,27 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.46 - 2026-08-24
+
+- 完成 Master v4 人工看片总结，并按确认意见制作独立 `rough-cut-v5` / `master-review-v5`。
+- 使用 Edward 提供的 5944x3136 FMS Level 1 Hurdle Step 完整页面截图，不再裁掉左侧课程目录；
+  图像仍保持在私有 production tree。
+- 字幕正文再次逐句对照正式脚本；每个主要章节增加 0.14 秒静音定格，再进行 0.20 秒视觉
+  crossfade，使字幕和单词结束后才进入下一段，降低 `After` 等边界吞音风险。
+- 将 Shoulder Mobility 两拳距离镜头标题从 `Movement instruction` 改为
+  `Movement measurement`；0-3 score 画中画、实践镜头、Workbench、Study Mode 和数字动画
+  保持已认可状态。
+- 移除 3:25 后四动作研究图的全部黄色路径线和括线，仅显示完整原图。
+- 现场 A-roll 继续使用温和降噪、EQ、压缩和统一响度；A03 单独改用同一原始输入中的同步
+  `trim/atrim` 和一次 concat，不使用 FFT 降噪。中间产物视频为 40.800 秒、音频 40.793 秒，
+  起点均为 0.000 秒。
+- 背景音乐改为同一 GarageBand 组合的 `Dusk Drive Beat + Dusk Drive Pluck`，提供更通俗的
+  节奏与旋律，并提高普通扬声器可感知度。
+- Master review cut v5 为 275.3 秒 / 4:35.3、1920x1080、30fps、H.264/AAC 48kHz；
+  51 条 SRT 无重叠，综合响度 -16.0 LUFS、true peak -1.4 dBFS，未检出异常黑帧。
+- v5 MP4 SHA-256 为 `d8f935127df8eece020e8c70fd0c86d8d2e712e105a7c22ce5508fbc7314ba34`；
+  当前仍为 human-review cut，确认后才冻结 Master 并派生 3min / 60s。
 
 ### v1.45 - 2026-08-24
 

@@ -1,17 +1,17 @@
 # AI-FMS Application Video Asset and Shot Plan
 
-状态：MASTER REVIEW CUT V4 READY FOR HUMAN REVIEW
+状态：MASTER REVIEW CUT V5 READY FOR HUMAN REVIEW
 
-版本：v1.5
+版本：v1.6
 
 更新日期：2026-08-24
 
-对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.5
+对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.6
 
-2026-08-24 post-production checkpoint：Master review cut v4 已完成，时长 4:34.8。V3 看片
-意见已落实：现场音色进一步统一、开场停顿删除、课程构图调整、实践标签、0-3 score 画中画、
-Workbench / Study Mode 节奏压缩、Hurdle Step Study Mode、独立数字动画、研究图标注升级、体育
-科技音乐和新的 A03 句序。下一步为人工看片确认 v4，再冻结 Master 并派生 3min / 60s。
+2026-08-24 post-production checkpoint：Master review cut v5 已完成，时长 4:35.3。V4 看片
+意见已落实：完整 lesson screenshot、字幕逐句复核和转场尾帧、现场声精修、measurement 标签、
+更慢章节转场、无标注研究图、双层 Dusk Drive 音乐，以及单一滤镜链 A03 音画同步。下一步为
+人工看片确认 v5，再冻结 Master 并派生 3min / 60s。
 
 ## 1. 制作原则
 
