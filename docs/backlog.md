@@ -536,7 +536,11 @@ Canonical execution plan:
       with the approved full-course screenshot, subtitle-tail protection,
       corrected measurement label, slower transitions, clean research figures,
       accessible melodic music, refined live sound, and rebuilt A03 sync.
-- [ ] Complete human review of Master v5 and freeze the approved Master before
+- [x] Complete human review of Master v5; produce Master review cut v6 with
+      three direct source-A/V A03 cuts, restrained piano/ambient music, a
+      natural 4:32.3 version, and a separately preserved exact 4:30.0 version
+      using only 1.008559x global speed.
+- [ ] Complete human review of Master v6 and freeze the approved Master before
       deriving shorter versions.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.
