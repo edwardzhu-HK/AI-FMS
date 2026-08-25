@@ -553,21 +553,39 @@ Canonical execution plan:
       audio, body timeline, subtitles, or Chinese derivative.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from
       the approved Master.
+- [x] Replace the NHSJS-first publication route with three complementary,
+      transparently AI-assisted outputs: a Zenodo preprint, an OpenAI Developer
+      Community build story, and an ACM IUI 2027 Demo submission.
+- [x] Build the complete multichannel review package with a shared evidence and
+      claims gate, a 15-page Zenodo DOCX/PDF, a channel-native Community post,
+      and a four-page official-template ACM IUI paper.
+- [x] Add channel-specific metadata, GenAI disclosures, public-rights controls,
+      Chinese publishing instructions, an IUI policy-inquiry email, a live demo
+      runbook, and an IUI-specific video plan.
+- [x] Render and visually inspect both publication DOCX files; verify 15-page
+      and 4-page PDFs with extractable text and zero accessibility findings.
+- [x] Generate a 49-file manifest, SHA-256 checksums, and three channel ZIP
+      archives; checksum and decompression verification passed.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
-- [ ] Ronnie independently writes every English manuscript sentence, verifies
-      every citation, rewrites captions in his own words, and deletes all yellow
-      author prompts.
-- [ ] After the Standard prose is author-complete, generate and verify the NHSJS
-      Online Citations Word version without changing Ronnie's wording.
-- [ ] Send the NHSJS presubmission inquiry and archive the written response.
-- [ ] After eligibility confirmation, prepare the NHSJS anonymous standard-
-      citation Word manuscript, online-citation Word manuscript, supplements,
-      and submission checklist.
-- [ ] Submit through the expedited route only after the package and $280 fee are
-      approved; use the resulting status exactly as received from the journal.
-- [ ] Deposit a Zenodo preprint only after written NHSJS permission and the final
-      public-safe manuscript audit.
+- [ ] Haoran Zhu reviews and rewrites the three English drafts into his final
+      voice, verifies every number/reference, and resolves all yellow prompts.
+- [ ] Complete the public repository transfer, secret/history audit, sanitized
+      demo dataset, stable GitHub URL, and public demo URL.
+- [ ] Send the IUI prior-publication inquiry to `posters2027@iui.acm.org` and
+      archive the written response before publishing the Zenodo record.
+- [ ] Reserve a Zenodo DOI, insert it into the author-approved PDF, rerun the
+      release manifest, and publish only after patent, rights, privacy, and IUI
+      policy gates are closed.
+- [ ] Publish the OpenAI Developer Community article after Zenodo, using the
+      final public-safe images and stable links, then maintain updates in the
+      same topic.
+- [ ] Finalize the IUI-specific demo video, author metadata, CCS, accessibility,
+      related-work disclosure, attendance plan, and PCS submission by
+      2026-11-10 23:59 AoE.
+- [x] Preserve the NHSJS-specific files as historical preparation material;
+      remove its author-only prose and expedited-submission tasks from the
+      active route without deleting prior work.
 - [x] Create a fail-closed Phase I release-candidate manifest that verifies
       17/17 research/application artifacts, checksums 11 documents, and pins
       reproduction commands.

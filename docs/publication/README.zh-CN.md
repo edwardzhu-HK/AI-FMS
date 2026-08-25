@@ -1,129 +1,90 @@
-# AI-FMS Phase I 论文发表路线
+# AI-FMS Phase I 多渠道发表路线
 
-状态：ACTIVE - 投稿前资格确认
+状态：ACTIVE - 三套材料等待作者审核
 
-最近更新：2026-08-23
+最近更新：2026-08-25
 
-英文原版：`README.md`
+英文版：`README.md`
 
-内部 review 记录：中文版的整体结构、系统开发主线、标题、摘要方向和主要结论已经认可。
-剩余工作是由学生独立完成英文正文、人工信息确认、rights/ethics 审核和目标格式适配。
-AI-assisted 中文稿继续作为内部证据与结构参考，不直接翻译成投稿正文。
+## 当前发表决定
 
-## 发表决定
+项目现在同时准备三个定位不同、但证据一致的公开输出：
 
-主路线：
+1. **Zenodo preprint**：完整保存系统开发、Phase I 方法、结果、限制和 Human-AI Collaboration，并获得 DOI。
+2. **OpenAI Developer Community**：用真实工程案例讲 Codex 加速了什么，以及哪些判断必须由人承担。
+3. **ACM IUI 2027 Demo**：以 intelligent interface 为主，提交 4 页论文和不超过 5 分钟的系统演示视频。
 
-1. 为 National High School Journal of Science（NHSJS）准备一篇原创研究论文。
-2. 只有在期刊确认本项目已披露的 AI-assisted workflow、既有视频二次分析以及伦理/授权
-   材料符合投稿资格后，才申请加急审稿。
-3. 只有在 NHSJS 书面确认预印本不会导致稿件失去资格，也不算作既往发表后，才在
-   Zenodo 发布 preprint。
+三份材料使用同一套经过核对的事实，但不复制同一篇文章。以前的 NHSJS 文件继续作为历史准备材料保留，不再作为当前主线，原因是其 author-only prose policy 不适合本项目希望透明呈现的 AI-positive collaboration 故事。
 
-Phase I 的交付目标是形成完整、可以提交的论文包；如果投稿前问题获得解决，则完成正式
-投稿。期刊接受和正式发表的日期由期刊控制，不作为 Phase I 完成条件。
+## 已确认标题
 
-## 为什么选择 NHSJS
+- **Zenodo：** _AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review_
+- **OpenAI Community：** _Building AI-FMS with Codex: What AI Automated and What Human Judgment Had to Own_
+- **ACM IUI 2027 Demo：** _AI-FMS: An Explainable Human-in-the-Loop Interface for Functional Movement Screen Video Review_
 
-NHSJS 接受高中生原创研究，并说明采用同行与专业人员审稿流程。当前官方要求包括：
+## 统一证据和主张边界
 
-- 200-250 词的英文摘要；
-- 按顺序包含 Title、Authors and affiliations、Abstract、Introduction、Methods、
-  Results、Discussion、Acknowledgments 和 References；
-- 全文包括图表不超过 20 页，12 号字体，单倍行距；
-- Research Article 至少包含 5 个 figures 或 tables；
-- 使用 Word 投稿时，需要一份匿名的标准引用版和一份单独的 online-citation 版；使用
-  LaTeX 投稿时需要三个文件；
-- 明确说明研究方法、样本、数据分析、限制和伦理考虑。
-
-NHSJS 当前 AI policy 还要求投稿中的每一句正文由人类作者独立写成。它允许 AI 辅助
-coding、debugging、analysis、interpretation 和 literature search，但禁止 AI 起草、翻译、
-paraphrase、扩写或改写论文正文，即使作者随后逐句修改也不例外。因此当前英文 Word 输出
-是 **authoring manuscript**，不是 AI 写成的投稿初稿。
-
-官方资料：
-
-- 投稿要求：https://nhsjs.com/submission-guidelines/
-- 稿件类型：https://nhsjs.com/submit-your-work/submission-types/
-- 审稿时间：https://nhsjs.com/about/peer-review-process/
-- 联系邮箱：submissions@nhsjs.com
-
-当前加急选项费用为 280 美元，承诺约两周给出首次决定。它不保证接受或正式发表；如果
-需要修改，修改稿仍回到常规审稿周期。
+- 产品范围覆盖全部 7 个 FMS 动作。
+- Phase I 重点研究 Deep Squat、Hurdle Step、ASLR 和 Rotary Stability 四个动作。
+- Corpus：28 个独立源视频、29 条 ingest、110 个 canonical reps。
+- Formal audit：32 reps，每动作 8 条，来自 21 个源视频；2 位 reviewer；2 轮盲评。
+- Round B：两位 reviewer 在本样本中达到 32/32 status agreement 和 26/26 numeric exact agreement。
+- Locked AI：28/32 coverage；4 条 protocol-aware abstention；25 条可比较；exact 16/25；within one 23/25；MAE 0.44；linear weighted kappa 0.4917。
+- 这些是 internal Phase I post-audit feasibility evidence，不是 held-out、external 或 clinical validation。
+- AI-FMS 用于 movement screening 和 human review，不诊断伤病、疼痛或功能障碍，也不替代认证专业人员。
 
 ## 当前准备程度
 
-| 组成部分                    | 状态                  | 现有证据或缺口                                                        |
-| --------------------------- | --------------------- | --------------------------------------------------------------------- |
-| 研究问题与范围              | 已准备                | 四动作探索性 pilot；七动作产品范围只作系统背景                        |
-| 冻结的定量结果              | 已准备                | Phase I release candidate 与 checksum-protected 生成证据              |
-| 人工一致性结果              | 已准备                | Round A/B 签名导出和 closeout                                         |
-| AI-human internal benchmark | 已准备                | 最终锁定 prediction package；不是 held-out validation                 |
-| 动作特异性分析              | 已准备                | 四种差异化分析与四张生成图                                            |
-| 文献综述                    | 起始来源集            | 已排入 12 条参考文献；仍需学生逐篇阅读并核对引用语境                  |
-| Ethics/SRC/IRB 判定         | 待确认                | 既有视频二次分析和未来采集均需明确要求                                |
-| 媒体与 protocol 权利        | 部分完成              | 两张界面图已改用 2026-08-23 项目自采授权素材；其他源媒体保持私有/待审 |
-| AI 使用资格                 | 政策已确认            | 正文只由学生写作；Codex 仅作允许的研究支持并完整披露                  |
-| 作者与成人 advisor          | 待确认                | 目标是 Ronnie 第一作者；需确定成人通信联系人                          |
-| NHSJS Word 两个版本         | Standard 写作稿已完成 | 官方模板 11 页、4 表 6 图；学生正文和 Online 版仍待完成               |
-| Zenodo 发布                 | 被期刊政策阻断        | 获得书面 preprint 许可前不发布                                        |
-| GitHub 所有权               | 等待 Ronnie 账户      | main/release 与公开边界审计后转移完整 repository                      |
+| 组成部分                   | 状态                 | 证据或缺口                                      |
+| -------------------------- | -------------------- | ----------------------------------------------- |
+| 三篇英文稿                 | 等待作者审核         | Zenodo、OpenAI Community、ACM IUI 内容均完整    |
+| Zenodo DOCX/PDF            | 等待作者审核         | 15 页、7 张图、已经完整渲染检查                 |
+| ACM IUI paper              | 等待作者审核         | 官方 ACM Word 模板、总计 4 页                   |
+| OpenAI Community post      | 等待 Ronnie 语气审核 | Markdown、图片、tags、launch copy、操作指引齐全 |
+| 发布指引                   | 已准备               | 每个 folder 内都有中文步骤                      |
+| 文件校验和 ZIP             | 已准备               | 49 文件 manifest、SHA-256 和 3 个测试通过的 ZIP |
+| 作者、单位、ORCID          | 待人工确认           | 稿件中的黄色位置必须填写或删除                  |
+| 图片、视频和隐私权利       | 部分完成             | 界面图使用自采授权素材；其他媒体默认不公开      |
+| GitHub 转移                | 待完成               | 完整审计 history 和公开边界后转给 Haoran Zhu    |
+| Public demo URL            | 待完成               | 使用 sanitized demo data 和授权视频             |
+| Zenodo DOI                 | 待完成               | 建立 draft 后预留，再写入最终 PDF               |
+| IUI 对 preprint 的书面确认 | 待完成               | Zenodo 正式公开前联系 `posters2027@iui.acm.org` |
+| IUI 现场参加和成本         | 待确认               | 录用后至少一位作者需要到 Helsinki               |
+
+## 统一发布包
+
+`../../output/publication/ai-fms-multichannel-release-2026-08-25/`
+
+主要入口：
+
+- `README.md`：三条渠道的关系和发布顺序。
+- `publication-review-order.zh-CN.md`：逐轮审核顺序。
+- `00-release-control/author-rights-and-claims-checklist.md`：发布阻断项。
+- `01-zenodo-preprint/`：完整 preprint、metadata、disclosure、图和操作指引。
+- `02-openai-developer-community/`：开发者文章、图片、launch copy 和操作指引。
+- `03-acm-iui-2027-demo/`：4 页论文、demo runbook、视频方案、PCS metadata、询问信和操作指引。
+- `release-archives/`：每个渠道一个经过解压验证的 ZIP。
+- `release-manifest.json` 与 `SHA256SUMS`：完整性记录。
+
+## 必须人工确认的事项
+
+1. 作者名单、顺序、单位、邮箱、ORCID 和 corresponding contact。
+2. 每一句英文、每张图、每个数字、每条 reference 和 AI-use disclosure。
+3. 每个公开图片、视频、音乐和 GitHub asset 的权利。
+4. Zenodo 公开前判断是否可能申请专利。
+5. 向 IUI chairs 发送 preprint 兼容性询问信并保存书面回复。
+6. 提供 Haoran Zhu 的 GitHub username，批准 repository transfer 和公开发布。
+7. 录用后至少一位作者可以前往 Helsinki。
 
 ## 对外状态表述
 
 只能使用已经真实发生的状态：
 
-- `manuscript in preparation`：论文准备中；
-- `manuscript submitted`：已经提交；
-- `under peer review`：正在同行评审；
-- `accepted for publication`：已经正式接受；
-- `published`：已经正式发表。
+- `draft in author review`
+- `Zenodo preprint`
+- `submitted to ACM IUI 2027 Demos`
+- `under peer review`
+- `accepted`
+- `published in the ACM IUI companion proceedings`
 
-工作稿、投稿回执或 Zenodo preprint 均不能表述为 `peer reviewed`、`accepted` 或
-`published`。
-
-## 文件清单
-
-- `nhsjs_presubmission_inquiry_2026-08-17.md`：英文投稿前询问信草稿。
-- `nhsjs_presubmission_inquiry_2026-08-17.zh-CN.md`：询问信中文对照版。
-- `ai_fms_manuscript_evidence_map_2026-08-17.md`：英文论文证据地图。
-- `ai_fms_manuscript_evidence_map_2026-08-17.zh-CN.md`：论文证据地图中文版。
-- `publication_human_input_form_2026-08-17.md`：英文人工确认表。
-- `publication_human_input_form_2026-08-17.zh-CN.md`：人工确认表中文版。
-- `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`：完整中文内部审阅稿的
-  可维护源文件。
-- `ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`：逐节证据、字数预算、引用目标、
-  禁用主张与 author-only prose 工作流程。
-- `../../output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`：
-  使用 NHSJS 官方模板的 Standard-citation authoring manuscript；渲染 11 页，内含 4 表
-  6 图，已清除盲审身份 metadata，不包含 AI 起草的叙述性正文。
-- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`：24 页 A4
-  v0.3 中文论文整体审阅 PDF，包含 7 张编号图、12 张编号表、参考文献和 4 个附录。
-  正式 NHSJS 英文稿会把详细案例表、Study Mode 图与附录移入 supporting material，
-  以满足 12 号字体、20 页正文限制。
-- `../../scripts/capture-ai-fms-publication-screenshots.mjs`：运行真实 Demo 和 Study Mode
-  dry-run，定位到固定动作帧，移除源文件名与带分数暗示的 metadata，生成三张可复现界面图。
-- `../assets/publication/ai-fms-workbench-overview-real-video.png`：包含真实动作视频与 pose
-  overlay 的完整 Workbench 总览。
-- `../assets/publication/ai-fms-study-mode-blind-review-real-video.png`：显示匿名动作视频的
-  盲评 workflow 图。
-- `../assets/publication/ai-fms-workbench-quantitative-evidence.png`：项目页或 supplement
-  使用的参数近景图。
-- `../delivery/ai_fms_phase_i_output_index_2026-08-17.md`：跨输出的统一状态与交付入口。
-- `../delivery/ronnie_github_repository_transfer_2026-08-17.md`：GitHub 所有权迁移门槛与
-  验证清单。
-
-## 需要人工决定的事项
-
-发送询问信之前需要：
-
-1. 确认 Ronnie 当前年级和学校；正式英文作者姓名已确认为 `Haoran Zhu`。
-2. 确定成人 advisor 或通信联系人。
-3. 使用类似 CRediT 的贡献说明，确认每位人类参与者的真实角色。
-4. 确认其余非界面源视频和聚合图中哪些可以被描述或公开。
-5. 批准完整的 AI-use disclosure，不淡化 Codex 的作用。
-6. Ronnie 注册账户后提供准确的 GitHub username。
-7. Ronnie 使用自己的英文完成每一句正文，并在形成投稿版前删除全部黄色 author prompt。
-
-两张含真实人物帧的界面图已于 2026-08-23 替换为项目自采并取得同意的固定画面。Raw
-video、raw pose 与其他可识别源帧继续保持私有，除非另行完成授权。
+Zenodo 和 Developer Community 都是公开输出，但都不是 peer reviewed。

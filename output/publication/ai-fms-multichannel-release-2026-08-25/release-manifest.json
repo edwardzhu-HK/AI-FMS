@@ -1,0 +1,259 @@
+{
+  "package": "AI-FMS Multichannel Publication Release Package",
+  "status": "draft_for_author_review",
+  "prepared_date": "2026-08-25",
+  "generated_at_utc": "2026-08-25T14:33:08+00:00",
+  "channels": [
+    "01-zenodo-preprint",
+    "02-openai-developer-community",
+    "03-acm-iui-2027-demo"
+  ],
+  "file_count": 49,
+  "files": [
+    {
+      "path": "00-release-control/author-rights-and-claims-checklist.md",
+      "bytes": 3641,
+      "sha256": "2a3b0fe4e2c636ff710ac29d299bcb81c81154275f5bd256450209dce49910e5"
+    },
+    {
+      "path": "00-release-control/cross-channel-differences-and-reuse.md",
+      "bytes": 1969,
+      "sha256": "47b93c02f24379837fe8a16c890fdf2cc4de8a84f3bfa8c255b7a25d088067f0"
+    },
+    {
+      "path": "00-release-control/public-demo-and-repository-release-checklist.md",
+      "bytes": 1475,
+      "sha256": "42d2e313e3260248fa5b50d66de34dad9d81b8a17b5209c027d7b9f432909f27"
+    },
+    {
+      "path": "00-release-control/source-of-truth-evidence.md",
+      "bytes": 3269,
+      "sha256": "713be38d7cae4afac822dbc648f4fa7da7c94c9f473b37fa9f0cbd435cd5344a"
+    },
+    {
+      "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.docx",
+      "bytes": 2040710,
+      "sha256": "00b5920c1a61dacec226a8c14d7cda79479cda053e89c2cd083d0bdd3d5dcfe1"
+    },
+    {
+      "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.md",
+      "bytes": 30247,
+      "sha256": "e8a9c5fd61cb82089a33351c6d6d8a81f216e83eda7d46e0553106286daf3b0a"
+    },
+    {
+      "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf",
+      "bytes": 1058579,
+      "sha256": "e899bd932cd78f8084e72d5d27ad63768fbebc4c3c44ce39caacebcd6bf1ea24"
+    },
+    {
+      "path": "01-zenodo-preprint/CITATION.cff",
+      "bytes": 578,
+      "sha256": "cfdbb23463dbcd3899836a537179ad0c427fcae585ebd79b6d6a395b8bae9173"
+    },
+    {
+      "path": "01-zenodo-preprint/README.md",
+      "bytes": 1393,
+      "sha256": "ac0317bfa273eb0a48cfd11ae12706f167a57822322f7dccc1b5cc1b946f22df"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-01-ai-fms-workflow.png",
+      "bytes": 55534,
+      "sha256": "caf7d63c55bc028258d098e8d5573cd97ad76336e0e604a3da9415c302016de3"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-02-workbench-overview.png",
+      "bytes": 749602,
+      "sha256": "28c21352ba54e3b30a854e2e94fea725e1f8dbd690787a12681caadad62eee13"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-03-study-mode.png",
+      "bytes": 931725,
+      "sha256": "4266ae6c1c4b41b729251c5c6ec3af92ae197cd12d475606161ea73ab076276b"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-04-deep-squat-strategy-continuum.png",
+      "bytes": 71960,
+      "sha256": "25e958aa9e84f14426168b11337bc2010ec7f1ad2b52c6ffc21aa7762a244a65"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-05-aslr-bilateral-repeatability.png",
+      "bytes": 75235,
+      "sha256": "2affb533e867cbc0f3721d3a488c7674cb155a195c52151b293c4565d410846f"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-06-hurdle-score2-pathways.png",
+      "bytes": 77976,
+      "sha256": "c75dc872fd03686c65de574fffd26edabd532eed49e36062ec6e54fe586a8b4b"
+    },
+    {
+      "path": "01-zenodo-preprint/figures/figure-07-rotary-cycle-event-matrix.png",
+      "bytes": 60900,
+      "sha256": "62258ce4d424e368971432c50a226f8466df1ed46b3de2735dbdf73ba4af3f0a"
+    },
+    {
+      "path": "01-zenodo-preprint/genai-use-disclosure.md",
+      "bytes": 1226,
+      "sha256": "b7a67e9c6231d262e194011a5531e415bbe2bca3771bf0f7fe6539d59fbe1f39"
+    },
+    {
+      "path": "01-zenodo-preprint/references.bib",
+      "bytes": 3474,
+      "sha256": "565c65e0c57e9ae7bf40c069d27c69f19983b976735e0fa72e310370948a3880"
+    },
+    {
+      "path": "01-zenodo-preprint/zenodo-metadata-draft.md",
+      "bytes": 2724,
+      "sha256": "7d9958e5c23f2495bfec078427b2a05263895cfdc3658e696e54d75cf2561cf8"
+    },
+    {
+      "path": "01-zenodo-preprint/zenodo-publishing-guide.zh-CN.md",
+      "bytes": 2711,
+      "sha256": "2253beba7129a1438500c9162c142569a97d8ffd3a22aba487f754888dcddff7"
+    },
+    {
+      "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Post.md",
+      "bytes": 11504,
+      "sha256": "47dac56a5385d333710a714131a7dbab9cd05c7e8466e940b949ed8c59ee47e1"
+    },
+    {
+      "path": "02-openai-developer-community/README.md",
+      "bytes": 1219,
+      "sha256": "8b220036710654936259963e96e81fbc8dc373e979c03b617c9ce081b914207c"
+    },
+    {
+      "path": "02-openai-developer-community/community-post-metadata-and-launch-copy.md",
+      "bytes": 1463,
+      "sha256": "9cdd72ba6831abe8cbe83f8dd22542ef557fbc1b75855b37497ed5ce9a537e40"
+    },
+    {
+      "path": "02-openai-developer-community/figures/community-figure-01-workbench.png",
+      "bytes": 749602,
+      "sha256": "28c21352ba54e3b30a854e2e94fea725e1f8dbd690787a12681caadad62eee13"
+    },
+    {
+      "path": "02-openai-developer-community/figures/community-figure-02-study-mode.png",
+      "bytes": 931725,
+      "sha256": "4266ae6c1c4b41b729251c5c6ec3af92ae197cd12d475606161ea73ab076276b"
+    },
+    {
+      "path": "02-openai-developer-community/figures/community-figure-03-phase-i-summary.png",
+      "bytes": 64067,
+      "sha256": "347efb2d8891fe0d333bb041ff930b3b6340ddc222da443052d5e50e16d931fd"
+    },
+    {
+      "path": "02-openai-developer-community/figures/community-figure-04-deep-squat.png",
+      "bytes": 71960,
+      "sha256": "25e958aa9e84f14426168b11337bc2010ec7f1ad2b52c6ffc21aa7762a244a65"
+    },
+    {
+      "path": "02-openai-developer-community/image-and-link-plan.md",
+      "bytes": 1692,
+      "sha256": "a1ed5f6faae718ed0654df4180a50d226eca1f2331d0dd3856cf552915308b34"
+    },
+    {
+      "path": "02-openai-developer-community/openai-community-publishing-guide.zh-CN.md",
+      "bytes": 2123,
+      "sha256": "dbcae2ae38163203b07cd9d99e92ef6093aeb06d9ba36b6068f4e1aea872c281"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.docx",
+      "bytes": 990682,
+      "sha256": "5b1a34a5c7971ab318578c16e3e3ca98b258b10e7e905a8ff206254b44f6f173"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.md",
+      "bytes": 9936,
+      "sha256": "ec51ca2dc27f6bacf05ca1292bb5e42e91a3c40efc7e4c8a003a90de9a07407b"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.pdf",
+      "bytes": 442913,
+      "sha256": "67e6edee27c8350c7f3e58263f87f3774f82826098196ce8f0c37c60d60c918b"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/README.md",
+      "bytes": 1865,
+      "sha256": "9a87de47b617c9395b6bc099e56e4c3bf2da3ef10488b724cec2556bf0a47485"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/demo-runbook.md",
+      "bytes": 2995,
+      "sha256": "e4bac51444082c88af2b18ef27111f1744ea7332e75a7b338af05a3a30db4231"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/demo-video-plan.md",
+      "bytes": 2636,
+      "sha256": "85938e2b6747c4dffcc7a1bf13124b3c6fe4af02e5473bac3281e6e876f77d1e"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/figures/iui-figure-01-workflow.png",
+      "bytes": 54218,
+      "sha256": "b6f8a47256923c95be912ba55d7fa21a193beb636ac803aad0c659bc175c9e5b"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/figures/iui-figure-02-workbench-study-composite.png",
+      "bytes": 681238,
+      "sha256": "8b9eac729268b54bfa946dc3cff0f1eefbf29e7cf2ebdc229d48165a50c3fa78"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/genai-use-disclosure.md",
+      "bytes": 1148,
+      "sha256": "3b676032ef1a6f0397bb3fc3fbaf2d1510f6d99a5db8caf70b634022c53d4842"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/iui-publishing-guide.zh-CN.md",
+      "bytes": 3310,
+      "sha256": "bb88f259d126c3e35e1993352ada94bebf5371e4d28e710f17b1f72b5be3be41"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/prior-publication-policy-inquiry-email.md",
+      "bytes": 1869,
+      "sha256": "aff8b08b20f349b8269444374855c6413262e04f24c863976422a4daa262e0aa"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/references.bib",
+      "bytes": 1959,
+      "sha256": "598f16d4006f390d106029acfeb85ddfc73ba03c27a9e4e15d7b2a60d5c6098f"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/submission-metadata.md",
+      "bytes": 2558,
+      "sha256": "7a3bc8962dbfb1a3c09f18ffe76aa99a7a954d2f523991d43601c839f42d652d"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/templates/README.md",
+      "bytes": 544,
+      "sha256": "b99adc3b66421b8540e7eb8d07a0e9d1acf1b724d20592769b277f43d31c4faa"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/templates/acm_submission_template.docx",
+      "bytes": 315194,
+      "sha256": "05e757a3c93f9cbf9dbca257009d48d141f311b1132f8396b8cdb2fbac9ef0e9"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4414,
+      "sha256": "719b654b699fb62fcc74a001a9365b5b259234da105f6fd04f4e1c5ef41a70f1"
+    },
+    {
+      "path": "publication-review-order.zh-CN.md",
+      "bytes": 1861,
+      "sha256": "7e1217d5932e94397eb4f4801b388e20751adb7221117849434702269c3cee8e"
+    },
+    {
+      "path": "release-archives/01-zenodo-preprint.zip",
+      "bytes": 4927767,
+      "sha256": "c552797cb4cda448c92d4b680a4e06b7c566a794d0b57645a5bb30a1636c1e80"
+    },
+    {
+      "path": "release-archives/02-openai-developer-community.zip",
+      "bytes": 1809065,
+      "sha256": "e288ddad865f6cfbba6c5b62ec846e092438a259d91346783ceab87541036843"
+    },
+    {
+      "path": "release-archives/03-acm-iui-2027-demo.zip",
+      "bytes": 2383623,
+      "sha256": "3355d39d63d45540c47fc6e538d96472afbe9950763beff97a2bfee308d4317e"
+    }
+  ]
+}

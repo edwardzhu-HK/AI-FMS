@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.50                          |
+| 版本     | v1.51                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-25                     |
@@ -50,8 +50,8 @@ AI-FMS 是一个 AI-assisted、human-in-the-loop 的 FMS 视频标注、定量�
 5. Study Mode 支持两轮独立 blind review 和完整 event log；AI 另走隔离 benchmark。
 6. 正式 study 样本量经过 G2 决策门确认，不以早期草案数字代替实际 QA。
 7. 所有分析表格和图能够从冻结数据通过脚本重新生成。
-8. 技术报告、中文摘要、dataset card、README、项目页、演示视频和 NHSJS
-   submission-ready manuscript package 完成。
+8. 技术报告、中文摘要、dataset card、README、项目页、演示视频，以及 Zenodo、
+   OpenAI Developer Community 和 ACM IUI 2027 Demo 三套发布包完成。
 9. 公开包不包含绝对本地路径、个人敏感信息、无授权视频或诊断性表述。
 
 生产数据库不是本轮收尾的硬依赖。Canonical JSON/CSV、schema、manifest、
@@ -62,14 +62,14 @@ checksum 和可复现脚本仍是 Phase I 冻结证据；完整 review export �
 
 ### 3.1 Gate 状态
 
-| Gate                            | 状态        | 当前结论                                                        |
-| ------------------------------- | ----------- | --------------------------------------------------------------- |
-| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成            |
-| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做 |
-| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛     |
-| G2C 双轮独立审核                | COMPLETE    | Round A/B 均完成；四份签名导出已校验并入库                      |
-| G3 定量研究与结果冻结           | COMPLETE    | 双轮人工、locked AI 和历史标签审计结果已冻结                    |
-| G4 报告与申请发布包             | IN PROGRESS | 研究内容已冻结；进入 PDF、项目页、demo、公开审计与最终发布阶段  |
+| Gate                            | 状态        | 当前结论                                                               |
+| ------------------------------- | ----------- | ---------------------------------------------------------------------- |
+| G1 数据可信基线                 | COMPLETE    | 分支整合、去泄漏、canonical 数据和 29/29 pose 已完成                   |
+| G2A Study Mode 基础             | COMPLETE    | 正式 manifest 队列、盲法字段隔离、append-only events 和本地续做        |
+| G2B Blindability 与正式样本冻结 | COMPLETE    | 97/110 可盲审、66/110 feature-ready；正式 32 例均通过双门槛            |
+| G2C 双轮独立审核                | COMPLETE    | Round A/B 均完成；四份签名导出已校验并入库                             |
+| G3 定量研究与结果冻结           | COMPLETE    | 双轮人工、locked AI 和历史标签审计结果已冻结                           |
+| G4 报告与申请发布包             | IN PROGRESS | 申请视频已冻结，三套发表草稿已成包；等待作者、权利、公开链接和实际发布 |
 
 ### 3.2 已验证基线
 
@@ -551,54 +551,77 @@ Secondary questions：
 
 ## 11. 决策记录
 
-| 日期       | 决策                                                   | 原因                                                                                 |
-| ---------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
-| 2026-08-09 | 四周硬截止为 2026-09-06                                | 保证申请输出有明确结束点                                                             |
-| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定       | 样本量应服从 blindability、动作平衡和审核工作量                                      |
-| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                 | 已确认存在 score hint 标签泄漏                                                       |
-| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only             | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                              |
-| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`            | 保持研究界面角色通用，不绑定个人姓名                                                 |
-| 2026-08-09 | 本文件为唯一 canonical 四周计划                        | 避免 Downloads 草案与仓库执行版并行分叉                                              |
-| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个             | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量                        |
-| 2026-08-09 | 正式 32 例必须同时 feature-ready                       | 支持评后定量比较；feature 不在 blind Round B 中展示                                  |
-| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`       | 避免后续事件覆盖或仅凭时间推断轮次                                                   |
-| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                 | 降低短期记忆对第二轮评分的影响                                                       |
-| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable`  | 防止把 protocol 缺失误写成 FMS 分数并污染分析                                        |
-| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                 | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                           |
-| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep                | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                          |
-| 2026-08-09 | G3 可先使用 Round A consensus 启动                     | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测                 |
-| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告         | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels                  |
-| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof        | 样本来自 58 条双门槛候选的 deterministic balanced selection                          |
-| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数    | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                                |
-| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                    | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据            |
-| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段        | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                          |
-| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层   | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查                    |
-| 2026-08-09 | 九条复核不直接用于移动评分阈值                         | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估            |
-| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则               | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                          |
-| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                          | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human                         |
-| 2026-08-10 | Round B 修正为第二次完全盲评                           | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较               |
-| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity              | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence               |
-| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                   | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界                |
-| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                     | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                            |
-| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                  | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark                    |
-| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage      | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                               |
-| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility         | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch                 |
-| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定                | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评                  |
-| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation       | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed           |
-| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                  | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels                   |
-| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果             | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释                        |
-| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”            | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例               |
-| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis   | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype               |
-| 2026-08-15 | 案例方法由动作和数据结构决定，不统一套用 pair template | 分别研究连续谱、双侧重复性、扣分路径和完整周期，充分利用 110-rep pool                |
-| 2026-08-17 | G1-G3 冻结后正式转入 G4 收尾输出                       | 剩余阻断是 demo、rights/privacy、clean rebuild 与 final release，不再重开调参        |
-| 2026-08-17 | 论文主线采用 NHSJS expedited + conditional Zenodo      | 先取得 AI/ethics/preprint 书面许可；投稿完成是目标，期刊接受时间不作 Phase I 门槛    |
-| 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding         |
-| 2026-08-17 | Ronnie 注册账户后接收 GitHub repository 所有权         | 使用官方 transfer 保留完整历史；不建立无历史平行仓库，迁移前先完成 main/release 审计 |
-| 2026-08-17 | 中文论文整体框架进入细节打磨阶段                       | 标题、摘要、结构和主要结论已获内部认可；后续重点转向配套输出、授权和载体适配         |
-| 2026-08-17 | Demo 定位升级为申请人主导的 application film           | 视频既展示项目，也展示 Ronnie 的专业准备、presentation、反思与未来研究方向           |
-| 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
+| 日期       | 决策                                                   | 原因                                                                                         |
+| ---------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 2026-08-09 | 四周硬截止为 2026-09-06                                | 保证申请输出有明确结束点                                                                     |
+| 2026-08-09 | 110 rep 作为完整数据池，正式 study N 在 G2B 决定       | 样本量应服从 blindability、动作平衡和审核工作量                                              |
+| 2026-08-09 | Legacy AI suggestions 不进入准确率分析                 | 已确认存在 score hint 标签泄漏                                                               |
+| 2026-08-09 | Frozen AI v1.0 中 Rotary 保持 feature-only             | 当时证据不足以支持可信 AI RAW SCORE；该基线不被后续改写                                      |
+| 2026-08-09 | 第二 reviewer 在 UI 中使用 `Other Reviewer`            | 保持研究界面角色通用，不绑定个人姓名                                                         |
+| 2026-08-09 | 本文件为唯一 canonical 四周计划                        | 避免 Downloads 草案与仓库执行版并行分叉                                                      |
+| 2026-08-09 | 正式 study 冻结为 Core N=32，四动作各 8 个             | 97 个通过盲法 QA；兼顾动作平衡、源视频分散与 128 次审核工作量                                |
+| 2026-08-09 | 正式 32 例必须同时 feature-ready                       | 支持评后定量比较；feature 不在 blind Round B 中展示                                          |
+| 2026-08-09 | Round A/B 使用独立 namespace 和显式 `studyRound`       | 避免后续事件覆盖或仅凭时间推断轮次                                                           |
+| 2026-08-09 | Round A 与 Round B 间隔至少 48–72 小时                 | 降低短期记忆对第二轮评分的影响                                                               |
+| 2026-08-09 | `0` 仅表示已观察或报告疼痛；条件不足记为 `unscorable`  | 防止把 protocol 缺失误写成 FMS 分数并污染分析                                                |
+| 2026-08-09 | 完整签名导出进入本地 SQLite 研究数据库                 | 保留冻结 JSON 证据，同时提供幂等、不可变和可查询的分析入口                                   |
+| 2026-08-09 | Kappa 仅使用双方都给出 RAW SCORE 的 rep                | `unscorable` 不是数值分数；可评分性和原因一致率必须单独报告                                  |
+| 2026-08-09 | G3 可先使用 Round A consensus 启动                     | 分析输入与 Round B 隔离；先推进 profile 与 case selection 不影响复测                         |
+| 2026-08-09 | 110/66 full pool 与 32/26 gold subset 分层报告         | 既充分利用既有工作，又不把 weak labels 误写成经过验证的 gold labels                          |
+| 2026-08-09 | Formal 32 不表述为对 110 的 simple random proof        | 样本来自 58 条双门槛候选的 deterministic balanced selection                                  |
+| 2026-08-09 | Profile discovery 先无标签冻结、再叠加 Round A 分数    | 防止人工分数反向塑造分组；post-hoc overlay 只用于解释                                        |
+| 2026-08-09 | 采集优先级按独立源视频而不是 rep 数                    | ASLR/Deep Squat 显示明显 source-video signature，同视频重复不等于独立证据                    |
+| 2026-08-09 | Camera view 使用审计层，不覆盖 canonical 原字段        | 45/110 历史机位需校正；保留原值可追踪数据来源并避免静默改写                                  |
+| 2026-08-09 | Round A matrix 冻结保留，另建 audited sensitivity 层   | 审核 lineage 不应被事后覆盖；新证据仍需使用正确机位进行稳健性检查                            |
+| 2026-08-09 | 九条复核不直接用于移动评分阈值                         | 先分离 protocol、pose/timing、机位与动态 feature 缺口；避免同批调参与评估                    |
+| 2026-08-09 | ASLR 先过侧别/峰值证据门，再讨论评分规则               | 3 个 limited 窗口不进入总分比较；重提取结果仅作 sensitivity                                  |
+| 2026-08-10 | AI v1.0 在 Round B 人评前冻结                          | 防止第二轮人工结果反向影响规则；完成后再统一计算 AI-vs-human                                 |
+| 2026-08-10 | Round B 修正为第二次完全盲评                           | Reviewer 不见 AI 分数、pose parameters 或任何上轮结果；AI 只在评后比较                       |
+| 2026-08-10 | ASLR subject-aware 结果只进入 sensitivity              | 受试者 ROI 恢复连续信号，但尚未在独立多人视频验证，不覆盖冻结 evidence                       |
+| 2026-08-10 | 申请案例采用四种作用而非只挑成功案例                   | 同时展示 movement profile、测量 QA、metadata gate 与 fail-closed 边界                        |
+| 2026-08-10 | 技术报告并列呈现产品价值与研究价值                     | 先说明如何辅助人工审核，再说明如何恢复 0-3 分压缩掉的信息                                    |
+| 2026-08-10 | Rotary v1.1 与 blind Round B 严格隔离                  | 防止 post-audit 新规则污染人工复评；新结果只作 internal benchmark                            |
+| 2026-08-10 | Rotary 不通过降低 visibility gate 强行补 coverage      | 正式 score-2 来源关键阶段遮挡；Full 模型重提取也未改善                                       |
+| 2026-08-10 | Rotary v1.1 改用 criterion-specific visibility         | 支撑侧关节遮挡不应让完整 core cycle 整体失效；单项证据不足仍可 watch                         |
+| 2026-08-10 | Final AI v1.1 在 Round B 结果产生前锁定                | 让 28/32 score-bearing predictions 可在评后比较，同时不污染人工盲评                          |
+| 2026-08-11 | Round A 旧导出只允许 checksum-pinned attestation       | 不改写历史 JSON；兼容旧 schema，同时让未知或可能暴露 AI 的文件 fail closed                   |
+| 2026-08-11 | 32-rep 抽检不自动证明全部历史标签有效                  | 仅 18 条 exact stable blind consensus 可升级为 audited weak labels                           |
+| 2026-08-11 | Round B 只回答盲评复测，不回答 AI 辅助效果             | 两轮均未展示 AI/pose evidence；效率或信心变化不作 AI 因果解释                                |
+| 2026-08-15 | 第 6 节四案例统一回答“0-3 分压缩了什么信息”            | 技术失败属于 measurement QA；Deep Squat 为主案例，其余为支持性探索案例                       |
+| 2026-08-15 | 同分案例从参数差异延伸到可检验的 movement hypothesis   | 功能性解释用于指导后续复核，不直接命名为病因、诊断或 validated subtype                       |
+| 2026-08-15 | 案例方法由动作和数据结构决定，不统一套用 pair template | 分别研究连续谱、双侧重复性、扣分路径和完整周期，充分利用 110-rep pool                        |
+| 2026-08-17 | G1-G3 冻结后正式转入 G4 收尾输出                       | 剩余阻断是 demo、rights/privacy、clean rebuild 与 final release，不再重开调参                |
+| 2026-08-17 | 论文主线采用 NHSJS expedited + conditional Zenodo      | 先取得 AI/ethics/preprint 书面许可；投稿完成是目标，期刊接受时间不作 Phase I 门槛            |
+| 2026-08-17 | 论文主线改为七动作系统开发与 Phase I 评估              | 四动作是评估范围，不是产品边界；同分信息恢复是系统完成后的 secondary finding                 |
+| 2026-08-17 | Ronnie 注册账户后接收 GitHub repository 所有权         | 使用官方 transfer 保留完整历史；不建立无历史平行仓库，迁移前先完成 main/release 审计         |
+| 2026-08-17 | 中文论文整体框架进入细节打磨阶段                       | 标题、摘要、结构和主要结论已获内部认可；后续重点转向配套输出、授权和载体适配                 |
+| 2026-08-17 | Demo 定位升级为申请人主导的 application film           | 视频既展示项目，也展示 Ronnie 的专业准备、presentation、反思与未来研究方向                   |
+| 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                        |
+| 2026-08-25 | 发表主线改为 Zenodo + OpenAI Community + ACM IUI Demo  | 用完整研究记录、AI-positive 工程复盘和 intelligent-interface demo 三个不同贡献共同输出       |
+| 2026-08-25 | NHSJS 路线降为历史准备材料                             | 其 author-only prose policy 与本项目透明呈现 Codex 协作的主线不一致，不再作为 active backlog |
+| 2026-08-25 | Zenodo 公开前先向 IUI chairs 书面确认 preprint policy  | ACM 一般政策不替代 venue 判断；IUI 稿中主动披露 Zenodo 和 community post                     |
 
 ## 12. 变更记录
+
+### v1.51 - 2026-08-25
+
+- 将发表路线统一更新为三条互补渠道：Zenodo 完整 preprint、OpenAI Developer Community
+  工程复盘、ACM IUI 2027 Demo interface paper。
+- 建立 `output/publication/ai-fms-multichannel-release-2026-08-25/`，含共同 author/rights/
+  claims gate、逐渠道 README、英文全文、中文操作指引、metadata、disclosure、figures 和
+  发布顺序。
+- Zenodo 稿使用 system-development-first 主线，形成 15 页可检索 DOCX/PDF、7 张图和
+  4123 词正文；明确 7 动作产品范围、4 动作 Phase I、internal post-audit 和 non-clinical
+  boundary。
+- OpenAI Community 稿定位为第一人称 Codex build story，使用 metadata correction、
+  development-label separation、Rotary full-cycle logic 和 blind-review boundary 四个真实
+  工程案例，不复制学术论文。
+- ACM IUI Demo 稿使用官方 single-column Word template，正文、两张 interface figures、
+  benchmark table、demo、limitations、GenAI disclosure 和 references 共 4 页；另附现场
+  runbook、5 分钟视频方案、PCS metadata 和 preprint policy inquiry。
+- 两份 DOCX 均完成逐页 render 检查和 accessibility audit（0 findings）；PDF 均有可提取
+  文字。建立 49-file manifest、SHA-256 清单和三份通过解压测试的 channel ZIP。
+- NHSJS-specific 文件继续保留作历史和证据参考，但不再作为当前 active publication route。
 
 ### v1.50 - 2026-08-25
 

@@ -1,156 +1,90 @@
 # AI-FMS Phase I Publication Track
 
-Status: ACTIVE - presubmission clarification
+Status: ACTIVE - multichannel draft review
 
-Last updated: 2026-08-23
+Last updated: 2026-08-25
 
 Chinese version: `README.zh-CN.md`
 
-Internal review note: the Chinese draft's overall structure, system-development
-framing, title, abstract direction, and main conclusions are accepted. Remaining
-work is student-authored English prose, human confirmation, rights/ethics
-clearance, and target-format adaptation. The AI-assisted Chinese draft remains
-an internal evidence-and-structure reference and will not be translated into the
-submitted prose.
+## Current publication decision
 
-## Publication Decision
+The project is now preparing three related but distinct public outputs:
 
-Primary route:
+1. **Zenodo preprint** - the complete system-development and Phase I research record with a DOI.
+2. **OpenAI Developer Community article** - a non-archival build story about what Codex accelerated and what human judgment had to own.
+3. **ACM IUI 2027 Demo** - a four-page intelligent-interface paper plus a system-focused demonstration video.
 
-1. Prepare an original research manuscript for the National High School Journal
-   of Science (NHSJS).
-2. Request expedited review only after the journal confirms that the project's
-   disclosed AI-assisted workflow, secondary video analysis, and ethics/rights
-   documentation are eligible.
-3. Deposit a Zenodo preprint only after NHSJS confirms in writing that a preprint
-   will not make the manuscript ineligible or count as prior publication.
+The three outputs share one verified evidence base but do not reuse the same narrative. The earlier NHSJS route is retained as historical preparation material and is not the active publication path because its author-only prose policy conflicts with the project's preferred transparent, AI-positive collaboration story.
 
-The Phase I delivery target is a submission-ready manuscript package and, if
-the presubmission questions are resolved, a completed submission. Acceptance
-and publication dates are controlled by the journal and are not Phase I
-completion criteria.
+## Approved titles
 
-## Why NHSJS
+- **Zenodo:** _AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review_
+- **OpenAI Community:** _Building AI-FMS with Codex: What AI Automated and What Human Judgment Had to Own_
+- **ACM IUI 2027 Demo:** _AI-FMS: An Explainable Human-in-the-Loop Interface for Functional Movement Screen Video Review_
 
-NHSJS accepts high-school original research and currently describes a
-peer/professional review path. Its official requirements include:
+## Evidence and claim boundary
 
-- a 200-250 word abstract;
-- Title, Authors and affiliations, Abstract, Introduction, Methods, Results,
-  Discussion, Acknowledgments, and References;
-- no more than 20 pages including figures and tables, 12-point font, single
-  spacing;
-- at least five figures or tables for a Research Article;
-- an anonymized standard-citation manuscript and a separate online-citation
-  manuscript in Word, or three files for a LaTeX submission;
-- explicit methods, sample, data analysis, limitations, and ethical
-  considerations.
+- Product scope: all seven FMS movements.
+- Phase I research focus: Deep Squat, Hurdle Step, Active Straight-Leg Raise, and Rotary Stability.
+- Corpus: 28 unique source videos, 29 ingestion records, and 110 canonical repetitions.
+- Formal audit: 32 repetitions, eight per movement, from 21 source videos; two reviewers; two blind rounds.
+- Round B: 32/32 status agreement and 26/26 exact numeric agreement within this reviewer pair.
+- Locked AI: 28/32 coverage; four protocol-aware abstentions; 25 comparable items; exact 16/25; within one 23/25; MAE 0.44; linear weighted kappa 0.4917.
+- Interpretation: internal Phase I post-audit feasibility evidence, not held-out, external, or clinical validation.
+- AI-FMS supports movement screening and human review. It does not diagnose injury, disease, pain, or impairment and does not replace certified professionals.
 
-NHSJS's current AI policy also requires every submitted sentence to be composed
-by the human author. It permits AI support for coding, debugging, analysis,
-interpretation, and literature search, but prohibits AI drafting, translation,
-paraphrasing, expansion, or rewriting of manuscript prose, even when the author
-later edits that text. The English Word output is therefore an **authoring
-manuscript**, not an AI-written submission draft.
+## Current readiness
 
-Official references:
+| Component                             | Status                     | Evidence or remaining gate                                                                              |
+| ------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Three channel-specific English drafts | Ready for author review    | Complete Zenodo, OpenAI Community, and ACM IUI drafts                                                   |
+| Zenodo DOCX/PDF                       | Ready for author review    | 15-page rendered preprint with seven figures                                                            |
+| ACM IUI paper                         | Ready for author review    | Official ACM Word template; four total rendered pages                                                   |
+| OpenAI Community post                 | Ready for voice review     | Markdown post, images, tags, launch copy, and instructions                                              |
+| Publication instructions              | Ready                      | Chinese step-by-step guides in each package                                                             |
+| Checksums and archives                | Ready                      | 49-file manifest, SHA-256 list, and three verified ZIP archives                                         |
+| Author/affiliation/ORCID              | Pending human confirmation | Yellow placeholders remain in manuscripts                                                               |
+| Media and privacy rights              | Partially cleared          | Public-safe interface figures use consented project video; all other media remain private until cleared |
+| Public GitHub ownership               | Pending                    | Transfer to Haoran Zhu after repository history and public-boundary audit                               |
+| Public demo URL                       | Pending                    | Build from a sanitized demo dataset and permission-cleared video                                        |
+| Zenodo DOI                            | Pending                    | Reserve in draft, then insert into final PDF                                                            |
+| ACM preprint compatibility            | Pending written guidance   | Email `posters2027@iui.acm.org` before Zenodo publication                                               |
+| IUI attendance and cost               | Pending                    | At least one author must attend Helsinki if accepted                                                    |
 
-- Submission guidelines: https://nhsjs.com/submission-guidelines/
-- Submission types: https://nhsjs.com/submit-your-work/submission-types/
-- Review timeline: https://nhsjs.com/about/peer-review-process/
-- Contact: submissions@nhsjs.com
+## Canonical package
 
-The expedited option currently promises a two-week initial decision for $280.
-It does not guarantee acceptance or publication; revisions return to the normal
-review timeline.
+`../../output/publication/ai-fms-multichannel-release-2026-08-25/`
 
-## Current Readiness
+Important entrypoints:
 
-| Component                    | Status                    | Evidence                                                                                                      |
-| ---------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Research question and scope  | Ready                     | Four-movement exploratory pilot; seven-movement product scope remains contextual                              |
-| Frozen quantitative results  | Ready                     | Phase I release candidate and checksum-protected generated artifacts                                          |
-| Human reliability results    | Ready                     | Round A/B signed export closeout                                                                              |
-| AI-human internal benchmark  | Ready                     | Final locked prediction package; not held-out validation                                                      |
-| Movement-specific analyses   | Ready                     | Four differentiated analyses and four generated figures                                                       |
-| Literature review            | Initial source set        | Twelve formatted starting references; every source still requires student reading and contextual verification |
-| Ethics/SRC/IRB determination | Pending                   | Secondary-video status and any future collection must be confirmed                                            |
-| Media and protocol rights    | Partially cleared         | Two UI figures now use 2026-08-23 project-owned, consented footage; other source media remain private/pending |
-| AI-use eligibility           | Policy confirmed          | Author-only manuscript prose; Codex limited to permitted research support and fully disclosed                 |
-| Authorship and adult advisor | Pending                   | Ronnie first-author target; adult corresponding contact must be confirmed                                     |
-| NHSJS Word variants          | Authoring Standard ready  | Official-template 11-page shell with 4 tables and 6 figures; student prose and Online version remain pending  |
-| Zenodo deposit               | Blocked by journal policy | No deposit before written preprint confirmation                                                               |
-| GitHub ownership             | Pending Ronnie account    | Transfer complete history after main/release and public-boundary audits                                       |
+- `README.md`: channel roles and recommended release order.
+- `publication-review-order.zh-CN.md`: human review sequence.
+- `00-release-control/author-rights-and-claims-checklist.md`: publication blockers.
+- `01-zenodo-preprint/`: full preprint, metadata, disclosure, figures, and instructions.
+- `02-openai-developer-community/`: developer article, visuals, launch copy, and instructions.
+- `03-acm-iui-2027-demo/`: four-page paper, demo runbook/video plan, PCS metadata, policy inquiry, and instructions.
+- `release-archives/`: one tested ZIP per channel.
+- `release-manifest.json` and `SHA256SUMS`: integrity record.
 
-## Publication Claims
+## Required human decisions
+
+1. Confirm author list, order, affiliation, email, ORCID, and corresponding contact.
+2. Review every English sentence, figure, number, reference, and AI-use disclosure.
+3. Confirm public rights for every image, video, music track, and repository asset.
+4. Decide whether any patent filing is contemplated before publishing a Zenodo record.
+5. Send and archive the IUI prior-publication inquiry.
+6. Provide Haoran Zhu's GitHub username and approve repository transfer/public release.
+7. Confirm that at least one author can attend IUI 2027 in Helsinki if accepted.
+
+## Status language
 
 Use only the status that has actually occurred:
 
-- `manuscript in preparation`
-- `manuscript submitted`
+- `draft in author review`
+- `preprint published on Zenodo` or `Zenodo preprint`
+- `submitted to ACM IUI 2027 Demos`
 - `under peer review`
-- `accepted for publication`
-- `published`
+- `accepted`
+- `published in the ACM IUI companion proceedings`
 
-Do not use `peer reviewed`, `accepted`, or `published` for a working manuscript,
-submission receipt, or Zenodo preprint.
-
-## Files
-
-- `nhsjs_presubmission_inquiry_2026-08-17.md`: review-ready inquiry draft.
-- `nhsjs_presubmission_inquiry_2026-08-17.zh-CN.md`: Chinese review copy of the
-  inquiry.
-- `ai_fms_manuscript_evidence_map_2026-08-17.md`: paper structure, frozen facts,
-  figure plan, references to verify, and unsupported claims to exclude.
-- `ai_fms_manuscript_evidence_map_2026-08-17.zh-CN.md`: Chinese version of the
-  evidence map.
-- `publication_human_input_form_2026-08-17.md`: short author, contribution,
-  rights, and AI-disclosure confirmation form.
-- `publication_human_input_form_2026-08-17.zh-CN.md`: Chinese version of the
-  human confirmation form.
-- `ai_fms_phase_i_full_manuscript_draft_zh-CN_2026-08-17.html`: maintainable
-  source for the complete Chinese internal manuscript draft.
-- `ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`: section-by-section
-  evidence map, word budget, citation targets, prohibited claims, and the
-  author-only prose workflow.
-- `../../output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`:
-  official-template Standard-citation authoring manuscript; 11 rendered pages,
-  four embedded tables, six embedded figures, blind-review metadata scrubbed,
-  and no AI-drafted narrative prose.
-- `../../output/pdf/ai_fms_phase_i_chinese_manuscript_draft_2026-08-17.pdf`:
-  24-page A4 v0.3 internal review PDF with seven numbered figures, twelve numbered
-  tables, references, and four appendices. The formal English submission will
-  move detailed case tables, the Study Mode figure, and appendices into
-  supporting material to meet the NHSJS 20-page limit at 12-point type.
-- `../../scripts/capture-ai-fms-publication-screenshots.mjs`: reproducibly runs
-  the real Demo and Study Mode dry-run, seeks fixed action frames, removes source
-  names and score-bearing metadata, and generates the three interface assets.
-- `../assets/publication/ai-fms-workbench-overview-real-video.png`: complete
-  Workbench overview with real movement video and pose overlay.
-- `../assets/publication/ai-fms-study-mode-blind-review-real-video.png`: blind
-  review workflow with the anonymous action video visible.
-- `../assets/publication/ai-fms-workbench-quantitative-evidence.png`: compact
-  parameter-detail figure for the project page or supplement.
-- `../delivery/ai_fms_phase_i_output_index_2026-08-17.md`: canonical cross-output
-  status and delivery entrypoint.
-- `../delivery/ronnie_github_repository_transfer_2026-08-17.md`: repository
-  ownership-transfer gates and verification checklist.
-
-## Required Human Decisions
-
-Before the inquiry is sent:
-
-1. Confirm Ronnie's current grade and school affiliation; publication name is `Haoran Zhu`.
-2. Identify the adult advisor/corresponding contact.
-3. Confirm the accurate role of each human contributor using a CRediT-style
-   contribution statement.
-4. Confirm the remaining non-interface source videos and aggregate figures that
-   may be described or published.
-5. Approve the AI-use disclosure without minimizing the role of Codex.
-6. Provide Ronnie's exact GitHub username after account registration.
-7. Ronnie writes every English manuscript sentence in his own words and deletes
-   every yellow author prompt before a submission version is created.
-
-The two real-frame interface captures were replaced on 2026-08-23 with selected
-frames from project-owned, consented footage. Raw video, raw pose, and all other
-identifiable source frames remain private unless separately cleared.
+A Zenodo preprint and a community post are public, but neither is peer reviewed.
