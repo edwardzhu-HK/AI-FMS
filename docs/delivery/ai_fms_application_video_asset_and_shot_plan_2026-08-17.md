@@ -1,18 +1,23 @@
 # AI-FMS Application Video Asset and Shot Plan
 
-状态：MASTER V8 APPROVED AND FROZEN
+状态：ENGLISH MASTER FINAL DELIVERED
 
-版本：v1.8
+版本：v1.9
 
-更新日期：2026-08-24
+更新日期：2026-08-25
 
-对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.8
+对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.9
 
 2026-08-24 post-production checkpoint：英文 Master v8 已人工确认并冻结为精确 4:30.0。
 A03 完整使用人工拼接文件；章节音频由串联 acrossfade 改为与画面共用绝对时间线，消除累计
 声画漂移。音乐为舒缓运动科技方向的 `Aurora Beat + Digital Halo Synth`。另输出 4:30.0
 中文派生版，使用 42px 中文字幕及中文动作标签、评分说明和数字动画。中英文版本均通过
 1080p/30fps、48kHz、字幕、响度、黑帧、逐帧和语音波形检查。下一步派生 3min / 60s。
+
+2026-08-25 final delivery：英文精确 4:30 版首尾卡增加
+`System Development & Phase I Evaluation`，输出为
+`08-exports/ai-fms-application-film-master-final.mp4`。音轨 MD5 与冻结 v8 完全一致；中文
+派生版不变。
 
 ## 1. 制作原则
 

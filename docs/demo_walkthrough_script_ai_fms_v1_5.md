@@ -1,10 +1,10 @@
 # AI-FMS Application Video Script
 
-状态：FINAL - Master v8 approved; Chinese derivative available
+状态：FINAL - English Master delivered; Chinese derivative available
 
-版本：v2.8
+版本：v2.9
 
-更新日期：2026-08-24
+更新日期：2026-08-25
 
 文件名为兼容早期链接而保留。v2.0 在已认可的系统与研究主体前后增加申请人出镜、FMS
 背景、Level 1/Level 2 certification、实践动机、个人反思和大学阶段的后续方向。
@@ -14,6 +14,10 @@
 验证 A03 偏差为 0.000 秒。背景音乐为 `Aurora Beat + Digital Halo Synth`，保持舒缓的运动与
 科技感。另已生成 4:30.0 中文派生版，保留英文原声，使用放大中文字幕，并翻译后期生成的动作
 标签、评分说明和数字结果动画。中文版服务家庭和中文展示，不替代英文申请 Master。
+
+正式英文交付文件为 `ai-fms-application-film-master-final.mp4`。仅在首尾卡的 `AI-FMS`
+下方增加 `System Development & Phase I Evaluation`，主体时间线、音轨、字幕和中文版均未
+改变。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。

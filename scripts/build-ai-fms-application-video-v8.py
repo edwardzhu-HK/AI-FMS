@@ -152,6 +152,11 @@ def parse_args() -> argparse.Namespace:
         default=default_exact_output,
     )
     parser.add_argument("--language", choices=("en", "zh"), default="en")
+    parser.add_argument(
+        "--card",
+        type=Path,
+        help="Optional opening/end card override; defaults to G06-end-card.png.",
+    )
     parser.add_argument("--ffmpeg", default="ffmpeg")
     parser.add_argument("--ffprobe", default="ffprobe")
     args = parser.parse_args()
@@ -1464,6 +1469,11 @@ def build(args: argparse.Namespace) -> dict:
     practice = PRODUCTION / "02-fms-practice"
     screen = PRODUCTION / "04-screen-recordings/final"
     graphics = PRODUCTION / "05-graphics"
+    card = (
+        args.card.resolve()
+        if args.card
+        else graphics / "rendered/G06-end-card.png"
+    )
     figures = REPO_ROOT / "output/publication/nhsjs/figures"
 
     sections: list[dict] = []
@@ -1495,7 +1505,7 @@ def build(args: argparse.Namespace) -> dict:
     opening_card = section_dir / "00-opening-card.mp4"
     render_still(
         ffmpeg=args.ffmpeg,
-        source=graphics / "rendered/G06-end-card.png",
+        source=card,
         output=opening_card,
         duration=1.25,
     )
@@ -1926,7 +1936,7 @@ def build(args: argparse.Namespace) -> dict:
     end_card = section_dir / "13-end-card.mp4"
     render_still(
         ffmpeg=args.ffmpeg,
-        source=graphics / "rendered/G06-end-card.png",
+        source=card,
         output=end_card,
         duration=4.0,
         zoom=1.0,

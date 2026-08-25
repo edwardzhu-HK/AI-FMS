@@ -93,6 +93,13 @@ const baseStyle = `
     color: #f7f8f6;
   }
   .end .brand { font-size: 136px; line-height: 0.95; font-weight: 800; }
+  .end .project-subtitle {
+    margin-top: 24px;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 600;
+    color: #8fd0c6;
+  }
   .end .name { margin-top: 34px; font-size: 48px; }
   .end .end-rule { width: 190px; height: 8px; background: #e8b44f; margin: 54px 0 36px; }
   .end .themes { font-size: 30px; color: #cbd4d6; }
@@ -172,6 +179,17 @@ const slides = [
     body: `
       <div class="frame end">
         <div class="brand">AI-FMS</div>
+        <div class="name">Haoran Zhu</div>
+        <div class="end-rule"></div>
+        <div class="themes">Human Movement Science · Responsible AI · Movement Evidence</div>
+      </div>`,
+  },
+  {
+    name: "G06-end-card-final.png",
+    body: `
+      <div class="frame end">
+        <div class="brand">AI-FMS</div>
+        <div class="project-subtitle">System Development &amp; Phase I Evaluation</div>
         <div class="name">Haoran Zhu</div>
         <div class="end-rule"></div>
         <div class="themes">Human Movement Science · Responsible AI · Movement Evidence</div>
