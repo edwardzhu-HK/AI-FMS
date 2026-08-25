@@ -2,11 +2,11 @@
 
 状态：ENGLISH MASTER FINAL DELIVERED
 
-版本：v1.9
+版本：v1.10
 
 更新日期：2026-08-25
 
-对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.9
+对应脚本：`docs/demo_walkthrough_script_ai_fms_v1_5.md` v2.10
 
 2026-08-24 post-production checkpoint：英文 Master v8 已人工确认并冻结为精确 4:30.0。
 A03 完整使用人工拼接文件；章节音频由串联 acrossfade 改为与画面共用绝对时间线，消除累计
@@ -18,6 +18,9 @@ A03 完整使用人工拼接文件；章节音频由串联 acrossfade 改为与�
 `System Development & Phase I Evaluation`，输出为
 `08-exports/ai-fms-application-film-master-final.mp4`。音轨 MD5 与冻结 v8 完全一致；中文
 派生版不变。
+
+首尾卡最终排版将 44px 白色项目副标题置于 `AI-FMS` 右侧并与其基线对齐；底部主题关键词
+改为浅绿色，姓名与金色横线保持原位。
 
 ## 1. 制作原则
 

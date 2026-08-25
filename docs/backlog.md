@@ -547,8 +547,8 @@ Canonical execution plan:
 - [x] Derive and verify an exact 4:30 Chinese family/showcase edition with
       larger Chinese subtitles plus localized generated labels, score guide,
       and Phase I results animation while retaining the approved English audio.
-- [x] Add `System Development & Phase I Evaluation` to the English opening and
-      closing cards only; deliver the exact 4:30 file as
+- [x] Add `System Development & Phase I Evaluation` to the right of `AI-FMS`
+      on the English opening and closing cards only; deliver the exact 4:30 file as
       `ai-fms-application-film-master-final.mp4` without changing the frozen
       audio, body timeline, subtitles, or Chinese derivative.
 - [ ] Derive and review the 3-minute application cut and 60-second teaser from

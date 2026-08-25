@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.49                          |
+| 版本     | v1.50                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-25                     |
@@ -599,6 +599,20 @@ Secondary questions：
 | 2026-08-17 | 视频人物与 FMS 素材优先重新拍摄                        | 避免外部素材授权与风格问题；系统画面和图表从现有 source-of-truth 生成                |
 
 ## 12. 变更记录
+
+### v1.50 - 2026-08-25
+
+- 用户确认英文首尾卡最终横排方案：`System Development & Phase I Evaluation` 使用 44px
+  白色字体置于 `AI-FMS` 右侧并基线对齐；`Human Movement Science · Responsible AI ·
+Movement Evidence` 使用浅绿色，姓名与金色横线保持原位。
+- 已将新卡片嵌入 `08-exports/ai-fms-application-film-master-final.mp4`。首卡和尾卡抽帧均
+  显示完整，无溢出或转场遮挡。
+- Final 继续保持 1920x1080、30fps、H.264/AAC 48kHz，音视频均为 270.000 秒；音轨 MD5
+  仍为 `4787fe028db686e8888632c55d2f544d`，未检出持续 0.35 秒以上的异常黑帧。
+- 最新 Final MP4 SHA-256 为
+  `0951438d04a600ca281769dff065a24d98e67a8fed222497f9b6b93d30c00451`；SRT SHA-256
+  保持 `3faffae2db1e609e7b7fea8ce2a1368332c8862a997c2744f32c16aa0c17bb96`。
+- 中文派生版与其校验值保持不变。
 
 ### v1.49 - 2026-08-25
 

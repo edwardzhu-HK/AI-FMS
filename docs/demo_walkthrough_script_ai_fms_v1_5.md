@@ -2,7 +2,7 @@
 
 状态：FINAL - English Master delivered; Chinese derivative available
 
-版本：v2.9
+版本：v2.10
 
 更新日期：2026-08-25
 
@@ -15,9 +15,9 @@
 科技感。另已生成 4:30.0 中文派生版，保留英文原声，使用放大中文字幕，并翻译后期生成的动作
 标签、评分说明和数字结果动画。中文版服务家庭和中文展示，不替代英文申请 Master。
 
-正式英文交付文件为 `ai-fms-application-film-master-final.mp4`。仅在首尾卡的 `AI-FMS`
-下方增加 `System Development & Phase I Evaluation`，主体时间线、音轨、字幕和中文版均未
-改变。
+正式英文交付文件为 `ai-fms-application-film-master-final.mp4`。首尾卡将
+`System Development & Phase I Evaluation` 以 44px 白色副标题放在 `AI-FMS` 右侧；底部
+三个主题关键词使用浅绿色。主体时间线、音轨、字幕和中文版均未改变。
 
 逐镜头素材来源、拍摄参数、人员分工和交付要求见：
 `docs/delivery/ai_fms_application_video_asset_and_shot_plan_2026-08-17.md`。
