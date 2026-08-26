@@ -14,6 +14,9 @@
 
 ## 第二轮：Zenodo 完整稿
 
+可以先使用 `01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx`
+理解和讨论全文，再回到英文 canonical manuscript 逐句确认。中文稿是翻译审阅稿，不替代英文原稿。
+
 依次检查：
 
 1. 标题和摘要是否准确代表整个项目；

@@ -5,7 +5,7 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.52                          |
+| 版本     | v1.53                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
 | 最近更新 | 2026-08-26                     |
@@ -602,6 +602,15 @@ Secondary questions：
 | 2026-08-25 | Zenodo 公开前先向 IUI chairs 书面确认 preprint policy  | ACM 一般政策不替代 venue 判断；IUI 稿中主动披露 Zenodo 和 community post                     |
 
 ## 12. 变更记录
+
+### v1.53 - 2026-08-26
+
+- 依据英文 Zenodo preprint 生成完整中文翻译审阅稿，保留相同章节、32/110 数据关系、
+  7 张 figures、evidence table、limitations、ethics 和 GenAI disclosure。
+- 中文稿明确标记为英文 canonical manuscript 的翻译审阅稿，不作为独立验证或第二项研究
+  输出；参考文献保留英文原题，避免引用语义漂移。
+- 新增可维护 Markdown 和排版 Word，使用 A4、中文字体、中文页眉页码和翻译图注；完成
+  render 与 accessibility audit 后，发布 manifest 更新为 52 个被跟踪文件。
 
 ### v1.52 - 2026-08-26
 

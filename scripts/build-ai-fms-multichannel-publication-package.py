@@ -33,6 +33,7 @@ MUTED = "#5F7279"
 PALE = "#EAF4F2"
 CORAL = "#E06C55"
 WHITE = "#FFFFFF"
+CHINESE_FONT = "Arial Unicode MS"
 
 
 def rgb(value: str) -> RGBColor:
@@ -376,7 +377,7 @@ def apply_num(paragraph, num_id: int):
 def add_markdown_runs(paragraph, text: str, font_name: str | None = None, size: float | None = None):
     text = re.sub(r"<sup>(.*?)</sup>", r"\1", text)
     token_re = re.compile(
-        r"(\*\*.*?\*\*|`.*?`|\*.*?\*|_.*?_|\[(?:CONFIRM|RESERVE|ADD|PUBLIC|ZENODO|GITHUB|DEMO|VIDEO)[^\]]*\])"
+        r"(\*\*.*?\*\*|`.*?`|\*.*?\*|_.*?_|\[(?:CONFIRM|RESERVE|ADD|PUBLIC|ZENODO|GITHUB|DEMO|VIDEO|确认|在最终)[^\]]*\])"
     )
     pos = 0
     for match in token_re.finditer(text):
@@ -394,7 +395,18 @@ def add_markdown_runs(paragraph, text: str, font_name: str | None = None, size: 
             run.font.name = "Courier New"
             run.font.color.rgb = rgb(TEAL)
         elif token.startswith(
-            ("[CONFIRM", "[RESERVE", "[ADD", "[PUBLIC", "[ZENODO", "[GITHUB", "[DEMO", "[VIDEO")
+            (
+                "[CONFIRM",
+                "[RESERVE",
+                "[ADD",
+                "[PUBLIC",
+                "[ZENODO",
+                "[GITHUB",
+                "[DEMO",
+                "[VIDEO",
+                "[确认",
+                "[在最终",
+            )
         ):
             run.font.highlight_color = 7
             run.font.color.rgb = rgb("#7A5A00")
@@ -409,6 +421,38 @@ def add_markdown_runs(paragraph, text: str, font_name: str | None = None, size: 
             run.font.name = font_name
         if size:
             run.font.size = Pt(size)
+
+
+def set_east_asia_font(run, name: str):
+    run.font.name = name
+    r_pr = run._element.get_or_add_rPr()
+    r_fonts = r_pr.find(qn("w:rFonts"))
+    if r_fonts is None:
+        r_fonts = OxmlElement("w:rFonts")
+        r_pr.insert(0, r_fonts)
+    r_fonts.set(qn("w:ascii"), name)
+    r_fonts.set(qn("w:hAnsi"), name)
+    r_fonts.set(qn("w:eastAsia"), name)
+
+
+def set_style_east_asia_font(style, name: str):
+    style.font.name = name
+    r_pr = style._element.get_or_add_rPr()
+    r_fonts = r_pr.find(qn("w:rFonts"))
+    if r_fonts is None:
+        r_fonts = OxmlElement("w:rFonts")
+        r_pr.insert(0, r_fonts)
+    r_fonts.set(qn("w:ascii"), name)
+    r_fonts.set(qn("w:hAnsi"), name)
+    r_fonts.set(qn("w:eastAsia"), name)
+
+
+def add_chinese_markdown_runs(paragraph, text: str, size: float | None = None):
+    before = len(paragraph.runs)
+    add_markdown_runs(paragraph, text, CHINESE_FONT, size)
+    for run in paragraph.runs[before:]:
+        if run.font.name != "Courier New":
+            set_east_asia_font(run, CHINESE_FONT)
 
 
 def set_alt_text(shape, title: str, description: str):
@@ -481,6 +525,53 @@ def configure_zenodo_styles(doc: Document):
     ):
         style = doc.styles[name]
         style.font.name = "Arial"
+        style.font.size = Pt(size)
+        style.font.italic = italic
+        style.font.color.rgb = rgb(color)
+        style.paragraph_format.space_before = Pt(3)
+        style.paragraph_format.space_after = Pt(8)
+
+
+def configure_zenodo_chinese_styles(doc: Document):
+    configure_zenodo_styles(doc)
+    section = doc.sections[0]
+    section.page_width = Inches(8.27)
+    section.page_height = Inches(11.69)
+    section.top_margin = Inches(0.82)
+    section.right_margin = Inches(0.88)
+    section.bottom_margin = Inches(0.82)
+    section.left_margin = Inches(0.88)
+
+    normal = doc.styles["Normal"]
+    set_style_east_asia_font(normal, CHINESE_FONT)
+    normal.font.size = Pt(10.5)
+    normal.paragraph_format.space_after = Pt(7)
+    normal.paragraph_format.line_spacing = 1.3
+    normal.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+
+    for style_name, size, color, before, after in (
+        ("Title", 28, DEEP, 0, 8),
+        ("Subtitle", 14, TEAL, 0, 8),
+        ("Heading 1", 16, DEEP, 18, 8),
+        ("Heading 2", 13, TEAL, 12, 6),
+        ("Heading 3", 11.5, DEEP, 9, 4),
+    ):
+        style = doc.styles[style_name]
+        set_style_east_asia_font(style, CHINESE_FONT)
+        style.font.size = Pt(size)
+        style.font.color.rgb = rgb(color)
+        style.font.bold = style_name != "Subtitle"
+        style.paragraph_format.space_before = Pt(before)
+        style.paragraph_format.space_after = Pt(after)
+        style.paragraph_format.keep_with_next = True
+        style.paragraph_format.line_spacing = 1.08
+
+    for name, size, italic, color in (
+        ("Caption", 9, False, MUTED),
+        ("Quote", 10, False, DEEP),
+    ):
+        style = doc.styles[name]
+        set_style_east_asia_font(style, CHINESE_FONT)
         style.font.size = Pt(size)
         style.font.italic = italic
         style.font.color.rgb = rgb(color)
@@ -590,6 +681,34 @@ def set_footer_page_number(section, label: str):
     run._r.append(fld_char2)
 
 
+def set_chinese_footer_page_number(section, label: str):
+    header = section.header.paragraphs[0]
+    header.text = label
+    header.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    for run in header.runs:
+        set_east_asia_font(run, CHINESE_FONT)
+        run.font.size = Pt(8.5)
+        run.font.color.rgb = rgb(MUTED)
+    footer = section.footer.paragraphs[0]
+    footer.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    run = footer.add_run("第 ")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(8.5)
+    fld_char1 = OxmlElement("w:fldChar")
+    fld_char1.set(qn("w:fldCharType"), "begin")
+    instr = OxmlElement("w:instrText")
+    instr.set(qn("xml:space"), "preserve")
+    instr.text = " PAGE "
+    fld_char2 = OxmlElement("w:fldChar")
+    fld_char2.set(qn("w:fldCharType"), "end")
+    run._r.append(fld_char1)
+    run._r.append(instr)
+    run._r.append(fld_char2)
+    tail = footer.add_run(" 页")
+    set_east_asia_font(tail, CHINESE_FONT)
+    tail.font.size = Pt(8.5)
+
+
 FIGURE_ALT = {
     "figure-01-ai-fms-workflow.png": "Six-step AI-FMS workflow from video and protocol through repetition segmentation, pose evidence, suggestion or abstention, human review, and traceable export.",
     "figure-02-workbench-overview.png": "AI-FMS Workbench with a real permission-cleared movement video, repetition controls, reviewer fields, and evidence panels.",
@@ -604,6 +723,16 @@ FIGURE_ALT = {
     "community-figure-02-study-mode.png": "Blind Study Mode used to collect independent human ratings without filenames, AI output, pose evidence, or prior answers.",
     "community-figure-03-phase-i-summary.png": "Phase I summary showing the corpus, formal review set, AI coverage and abstention, exact and within-one agreement, mean absolute error, and weighted kappa.",
     "community-figure-04-deep-squat.png": "Deep Squat continuum showing that repetitions with the same ordinal score can use different movement strategies.",
+}
+
+FIGURE_ALT_ZH = {
+    "figure-01-ai-fms-workflow.png": "AI-FMS 六步工作流程：从视频和协议条件开始，依次经过 rep 分段、pose evidence、建议或 abstention、人工审核和可追溯导出。",
+    "figure-02-workbench-overview.png": "AI-FMS Workbench 展示已获得许可的真实动作视频、rep 控制、pose evidence 和 reviewer 评分字段。",
+    "figure-03-study-mode.png": "Blind Study Mode 使用匿名条目采集人工评分，不显示 filename、AI 分数、pose evidence、prior answers 或另一位 reviewer 的数据。",
+    "figure-04-deep-squat-strategy-continuum.png": "相同有序分数的 Deep Squat repetitions 在 pose-derived movement strategy 连续谱上的不同位置。",
+    "figure-05-aslr-bilateral-repeatability.png": "ASLR 左右侧和重复动作证据，对 active-leg 与 stationary-leg features 进行比较。",
+    "figure-06-hurdle-score2-pathways.png": "获得 2 分的 Hurdle Step repetitions 所呈现的多种完整动作路径。",
+    "figure-07-rotary-cycle-event-matrix.png": "Rotary Stability event matrix，呈现完整周期中的 pattern、side、contact、extension、balance 和 return evidence。",
 }
 
 
@@ -653,6 +782,69 @@ def add_zenodo_cover(doc: Document):
     run = p.add_run("Movement screening • Pose-based evidence • Explainable AI • Human reviewer workflow")
     run.font.name = "Arial"
     run.font.size = Pt(10)
+    run.font.color.rgb = rgb(TEAL)
+    doc.add_page_break()
+
+
+def add_zenodo_chinese_cover(doc: Document):
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(118)
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run("AI-FMS")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(34)
+    run.bold = True
+    run.font.color.rgb = rgb(DEEP)
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_after = Pt(20)
+    run = p.add_run("系统开发、Phase I 评估及\nFMS 视频审核中的人机协作")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(21)
+    run.font.color.rgb = rgb(TEAL)
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_after = Pt(26)
+    run = p.add_run("中文翻译审阅稿 • 预印本 • 未经同行评审")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(11)
+    run.bold = True
+    run.font.color.rgb = rgb(CORAL)
+
+    for text, size, color, bold in (
+        ("Haoran Zhu • [确认其他作者]", 12, INK, True),
+        ("[确认单位和通讯邮箱]", 10, MUTED, False),
+        ("版本 1.0 中文翻译审阅稿 • 2026 年 8 月 26 日", 10, MUTED, False),
+        ("DOI：[在最终 PDF 前于 Zenodo 预留]", 10, MUTED, False),
+    ):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p.paragraph_format.space_after = Pt(7)
+        run = p.add_run(text)
+        set_east_asia_font(run, CHINESE_FONT)
+        run.font.size = Pt(size)
+        run.font.color.rgb = rgb(color)
+        run.bold = bold
+        if "[" in text:
+            run.font.highlight_color = 7
+
+    p = doc.add_paragraph(style="Quote")
+    p.paragraph_format.space_before = Pt(78)
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    set_paragraph_fill_and_border(p, PALE)
+    run = p.add_run("本稿为英文 Zenodo preprint 的中文翻译审阅稿；如有差异，以最终人工确认的英文原稿为准。")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(10.5)
+    run.font.color.rgb = rgb(DEEP)
+
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(55)
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run("Movement screening • Pose-based evidence • Explainable AI • Human reviewer workflow")
+    set_east_asia_font(run, CHINESE_FONT)
+    run.font.size = Pt(9.5)
     run.font.color.rgb = rgb(TEAL)
     doc.add_page_break()
 
@@ -792,6 +984,161 @@ def build_zenodo_docx():
     props.author = "Haoran Zhu; author confirmation required"
     props.subject = "Preprint. Not peer reviewed."
     props.keywords = "FMS, human-in-the-loop AI, movement screening, pose estimation, explainable AI"
+    settings = doc.settings.element
+    update_fields = settings.find(qn("w:updateFields"))
+    if update_fields is None:
+        update_fields = OxmlElement("w:updateFields")
+        settings.append(update_fields)
+    update_fields.set(qn("w:val"), "true")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(output)
+
+
+def build_zenodo_chinese_docx():
+    source = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.md"
+    output = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx"
+    lines = source.read_text(encoding="utf-8").splitlines()
+    doc = Document()
+    configure_zenodo_chinese_styles(doc)
+    set_chinese_footer_page_number(doc.sections[0], "AI-FMS • 系统开发与 Phase I 评估 • 中文翻译审阅稿")
+    add_zenodo_chinese_cover(doc)
+    bullet_num = add_numbering_definition(doc, "bullet")
+
+    started = False
+    last_heading = False
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if not started:
+            if line == "## 摘要":
+                started = True
+            else:
+                i += 1
+                continue
+        if not line:
+            i += 1
+            continue
+        if line.startswith("**图"):
+            caption = line.replace("**", "")
+            j = i + 1
+            while j < len(lines) and not lines[j].strip():
+                j += 1
+            if j < len(lines) and lines[j].strip().startswith("`figures/"):
+                relative = lines[j].strip().strip("`")
+                path = ZENODO / relative
+                width = 6.25 if "workflow" in path.name else 6.0
+                image_p = add_image(doc, path, width, None, FIGURE_ALT_ZH.get(path.name, path.stem))
+                image_p.paragraph_format.keep_with_next = True
+                cap = doc.add_paragraph(style="Caption")
+                cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                add_chinese_markdown_runs(cap, caption, 9)
+                i = j + 1
+                continue
+        if line.startswith("`figures/"):
+            i += 1
+            continue
+        if line.startswith("**表"):
+            cap = doc.add_paragraph(style="Caption")
+            cap.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            cap.paragraph_format.keep_with_next = True
+            add_chinese_markdown_runs(cap, line.replace("**", ""), 9)
+            i += 1
+            continue
+        if line.startswith("#### "):
+            p = doc.add_paragraph(style="Heading 3")
+            add_chinese_markdown_runs(p, line[5:])
+            last_heading = True
+            i += 1
+            continue
+        if line.startswith("### "):
+            p = doc.add_paragraph(style="Heading 2")
+            add_chinese_markdown_runs(p, line[4:])
+            last_heading = True
+            i += 1
+            continue
+        if line.startswith("## "):
+            p = doc.add_paragraph(style="Heading 1")
+            add_chinese_markdown_runs(p, line[3:])
+            last_heading = True
+            i += 1
+            continue
+        if line.startswith("# "):
+            i += 1
+            continue
+        if line.startswith("|"):
+            rows, i = parse_table(lines, i)
+            if rows:
+                cols = max(len(row) for row in rows)
+                table = doc.add_table(rows=len(rows), cols=cols)
+                table.style = "Table Grid"
+                widths = [9360 // cols] * cols
+                widths[-1] += 9360 - sum(widths)
+                set_table_fixed_width(table, widths)
+                set_repeat_table_header(table.rows[0])
+                for row_index, row in enumerate(rows):
+                    for column_index in range(cols):
+                        cell = table.cell(row_index, column_index)
+                        cell.text = ""
+                        p = cell.paragraphs[0]
+                        p.paragraph_format.space_after = Pt(2)
+                        p.paragraph_format.line_spacing = 1.12
+                        value = row[column_index] if column_index < len(row) else ""
+                        if column_index > 0 and len(value) < 16:
+                            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                        add_chinese_markdown_runs(p, value, 8.5)
+                        if row_index == 0:
+                            shade_cell(cell, PALE)
+                            for run in p.runs:
+                                run.bold = True
+                                run.font.color.rgb = rgb(DEEP)
+                spacer = doc.add_paragraph()
+                spacer.paragraph_format.space_after = Pt(2)
+            continue
+        num_match = re.match(r"^(\d+)\.\s+(.*)$", line)
+        if num_match:
+            p = doc.add_paragraph()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.22
+            apply_num(p, add_numbering_definition(doc, "decimal", int(num_match.group(1))))
+            add_chinese_markdown_runs(p, num_match.group(2), 10.5)
+            last_heading = False
+            i += 1
+            continue
+        if line.startswith("- "):
+            p = doc.add_paragraph()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.22
+            apply_num(p, bullet_num)
+            add_chinese_markdown_runs(p, line[2:], 10.5)
+            last_heading = False
+            i += 1
+            continue
+
+        parts = [line]
+        j = i + 1
+        while j < len(lines):
+            nxt = lines[j].strip()
+            if (
+                not nxt
+                or nxt.startswith(("#", "- ", "|", "`figures/", "**图", "**表"))
+                or re.match(r"^\d+\.\s+", nxt)
+            ):
+                break
+            parts.append(nxt)
+            j += 1
+        text = " ".join(parts).replace("  ", " ")
+        p = doc.add_paragraph()
+        if last_heading:
+            p.paragraph_format.keep_with_next = False
+        add_chinese_markdown_runs(p, text, 10.5)
+        last_heading = False
+        i = j
+
+    properties = doc.core_properties
+    properties.title = "AI-FMS：系统开发、Phase I 评估及 FMS 视频审核中的人机协作"
+    properties.author = "Haoran Zhu；其他作者待确认"
+    properties.subject = "英文 Zenodo preprint 中文翻译审阅稿；未经同行评审"
+    properties.keywords = "FMS, human-in-the-loop AI, movement screening, pose estimation, 中文翻译"
     settings = doc.settings.element
     update_fields = settings.find(qn("w:updateFields"))
     if update_fields is None:
@@ -1231,6 +1578,7 @@ def build_iui_docx():
 def main():
     build_figures()
     build_zenodo_docx()
+    build_zenodo_chinese_docx()
     build_community_docx()
     build_iui_docx()
     print(f"Built publication package at {PACKAGE}")

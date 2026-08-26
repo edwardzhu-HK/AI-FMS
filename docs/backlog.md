@@ -566,7 +566,10 @@ Canonical execution plan:
 - [x] Render and visually inspect all three publication DOCX files; verify the
       two submission PDFs and all Word files with extractable content and zero
       accessibility findings.
-- [x] Generate a 50-file manifest, SHA-256 checksums, and three channel ZIP
+- [x] Produce a complete Chinese translation review draft of the Zenodo
+      preprint in maintainable Markdown and polished Word formats while keeping
+      the English manuscript canonical.
+- [x] Generate a 52-file manifest, SHA-256 checksums, and three channel ZIP
       archives; checksum and decompression verification passed.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.

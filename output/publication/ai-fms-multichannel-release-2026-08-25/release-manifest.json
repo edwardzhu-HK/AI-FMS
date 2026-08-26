@@ -2,13 +2,13 @@
   "package": "AI-FMS Multichannel Publication Release Package",
   "status": "draft_for_author_review",
   "prepared_date": "2026-08-25",
-  "generated_at_utc": "2026-08-26T01:03:58+00:00",
+  "generated_at_utc": "2026-08-26T02:01:38+00:00",
   "channels": [
     "01-zenodo-preprint",
     "02-openai-developer-community",
     "03-acm-iui-2027-demo"
   ],
-  "file_count": 50,
+  "file_count": 52,
   "files": [
     {
       "path": "00-release-control/author-rights-and-claims-checklist.md",
@@ -33,7 +33,7 @@
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.docx",
       "bytes": 2040710,
-      "sha256": "864d5aa3f041e662f4a06e9babbd719ef4863a185ee851a14d64a56635b48b6b"
+      "sha256": "2be80a605b2e353dd8e2c3e33c5beb6f8f455568d4546ef3b9f9637d8e44377f"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.md",
@@ -46,14 +46,24 @@
       "sha256": "e899bd932cd78f8084e72d5d27ad63768fbebc4c3c44ce39caacebcd6bf1ea24"
     },
     {
+      "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx",
+      "bytes": 2043011,
+      "sha256": "efdd9bec311e0f9bc8a4658b2281be390e90aa1b8e4d13215af22742318adb2f"
+    },
+    {
+      "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.md",
+      "bytes": 28545,
+      "sha256": "959d2563112aad784004354905c994985714dee3e498996307d5b06e27643140"
+    },
+    {
       "path": "01-zenodo-preprint/CITATION.cff",
       "bytes": 578,
       "sha256": "cfdbb23463dbcd3899836a537179ad0c427fcae585ebd79b6d6a395b8bae9173"
     },
     {
       "path": "01-zenodo-preprint/README.md",
-      "bytes": 1393,
-      "sha256": "ac0317bfa273eb0a48cfd11ae12706f167a57822322f7dccc1b5cc1b946f22df"
+      "bytes": 1945,
+      "sha256": "fee63b06f52e0b010c28f9e28e41c3c08a99aa0be99a00e7612ed9be80138c1d"
     },
     {
       "path": "01-zenodo-preprint/figures/figure-01-ai-fms-workflow.png",
@@ -113,7 +123,7 @@
     {
       "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Article.docx",
       "bytes": 1776169,
-      "sha256": "1e84a15a437a4e4577266a3ef7b9ae98a47c8281315e9fb81bce36fbf8676257"
+      "sha256": "9a164e4f926bd295949e0210ac1dfb792993ec9b86732793bf02582a8b817a24"
     },
     {
       "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Post.md",
@@ -163,7 +173,7 @@
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.docx",
       "bytes": 990682,
-      "sha256": "c61c22403edf418802862c15faf13e49f057bca5ad36a16c59e41ecc1b4a6ca7"
+      "sha256": "ef58604026140846a74e178fb3b7fa6c7352e1387cf7e3555ecbb9672773e41a"
     },
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.md",
@@ -237,28 +247,28 @@
     },
     {
       "path": "README.md",
-      "bytes": 4414,
-      "sha256": "719b654b699fb62fcc74a001a9365b5b259234da105f6fd04f4e1c5ef41a70f1"
+      "bytes": 4608,
+      "sha256": "e4d7c58647e833c57e40c3042bcef947ff7e08db0e48818a4717ae7bda42a08f"
     },
     {
       "path": "publication-review-order.zh-CN.md",
-      "bytes": 1861,
-      "sha256": "7e1217d5932e94397eb4f4801b388e20751adb7221117849434702269c3cee8e"
+      "bytes": 2095,
+      "sha256": "7e7eea3398f53d2dab306ba6bffb7a953e21b06e1c47e4fd6751073411a3653e"
     },
     {
       "path": "release-archives/01-zenodo-preprint.zip",
-      "bytes": 4927767,
-      "sha256": "87db03814ae69d0678c8fb3f8aa2369a6d0f28e3f1354f190e865aa9815c0cf4"
+      "bytes": 6981994,
+      "sha256": "39a6fdbf7bbb2c830544b3ffe8f3adfecf3fdda2b63e9ccf54c463e2a73a88c9"
     },
     {
       "path": "release-archives/02-openai-developer-community.zip",
       "bytes": 3583685,
-      "sha256": "082672d0381998e4c47c2469c08264addc8758e5766f729dd0dc8312e28e4bb4"
+      "sha256": "9eaadb9f28fa38ead426a385c685e1e3a6910b2f31d7a253f4d6f63ff943775d"
     },
     {
       "path": "release-archives/03-acm-iui-2027-demo.zip",
-      "bytes": 2383624,
-      "sha256": "5e532eda479a34d1fe10fc1533964cb2cfaece757f6547a4fe71a377d07b203c"
+      "bytes": 2383623,
+      "sha256": "f386f5ae78b1fafc31547d198dfd2239f92a0275b4e68fc675815d7e8bc38fba"
     }
   ]
 }

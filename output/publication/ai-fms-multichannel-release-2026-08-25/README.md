@@ -12,6 +12,8 @@ This release package presents one project through three deliberately different c
 | `02-openai-developer-community` | A candid development story about what Codex accelerated and what human judgment had to own | Developers building human-in-the-loop AI systems      | Public non-peer-reviewed community post         |
 | `03-acm-iui-2027-demo`          | Explainable interface, reviewer control, abstention, and interactive demonstration         | HCI and intelligent-interface researchers             | Peer-reviewed companion proceedings if accepted |
 
+The Zenodo folder also contains a complete Chinese translation review draft in Markdown and Word. It supports internal review and does not replace the canonical English publication manuscript.
+
 ## Recommended release order
 
 1. Complete the author, rights, privacy, and patent checks in `00-release-control`.
