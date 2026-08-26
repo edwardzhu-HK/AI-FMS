@@ -2,13 +2,13 @@
   "package": "AI-FMS Multichannel Publication Release Package",
   "status": "draft_for_author_review",
   "prepared_date": "2026-08-25",
-  "generated_at_utc": "2026-08-25T14:33:08+00:00",
+  "generated_at_utc": "2026-08-26T01:03:58+00:00",
   "channels": [
     "01-zenodo-preprint",
     "02-openai-developer-community",
     "03-acm-iui-2027-demo"
   ],
-  "file_count": 49,
+  "file_count": 50,
   "files": [
     {
       "path": "00-release-control/author-rights-and-claims-checklist.md",
@@ -33,7 +33,7 @@
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.docx",
       "bytes": 2040710,
-      "sha256": "00b5920c1a61dacec226a8c14d7cda79479cda053e89c2cd083d0bdd3d5dcfe1"
+      "sha256": "864d5aa3f041e662f4a06e9babbd719ef4863a185ee851a14d64a56635b48b6b"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.md",
@@ -111,14 +111,19 @@
       "sha256": "2253beba7129a1438500c9162c142569a97d8ffd3a22aba487f754888dcddff7"
     },
     {
+      "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Article.docx",
+      "bytes": 1776169,
+      "sha256": "1e84a15a437a4e4577266a3ef7b9ae98a47c8281315e9fb81bce36fbf8676257"
+    },
+    {
       "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Post.md",
       "bytes": 11504,
       "sha256": "47dac56a5385d333710a714131a7dbab9cd05c7e8466e940b949ed8c59ee47e1"
     },
     {
       "path": "02-openai-developer-community/README.md",
-      "bytes": 1219,
-      "sha256": "8b220036710654936259963e96e81fbc8dc373e979c03b617c9ce081b914207c"
+      "bytes": 1525,
+      "sha256": "1ea9326649433cfaac1acd27138e7ebd00d945a6a11e45a05ea99764ce5fb7cb"
     },
     {
       "path": "02-openai-developer-community/community-post-metadata-and-launch-copy.md",
@@ -158,7 +163,7 @@
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.docx",
       "bytes": 990682,
-      "sha256": "5b1a34a5c7971ab318578c16e3e3ca98b258b10e7e905a8ff206254b44f6f173"
+      "sha256": "c61c22403edf418802862c15faf13e49f057bca5ad36a16c59e41ecc1b4a6ca7"
     },
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.md",
@@ -243,17 +248,17 @@
     {
       "path": "release-archives/01-zenodo-preprint.zip",
       "bytes": 4927767,
-      "sha256": "c552797cb4cda448c92d4b680a4e06b7c566a794d0b57645a5bb30a1636c1e80"
+      "sha256": "87db03814ae69d0678c8fb3f8aa2369a6d0f28e3f1354f190e865aa9815c0cf4"
     },
     {
       "path": "release-archives/02-openai-developer-community.zip",
-      "bytes": 1809065,
-      "sha256": "e288ddad865f6cfbba6c5b62ec846e092438a259d91346783ceab87541036843"
+      "bytes": 3583685,
+      "sha256": "082672d0381998e4c47c2469c08264addc8758e5766f729dd0dc8312e28e4bb4"
     },
     {
       "path": "release-archives/03-acm-iui-2027-demo.zip",
-      "bytes": 2383623,
-      "sha256": "3355d39d63d45540c47fc6e538d96472afbe9950763beff97a2bfee308d4317e"
+      "bytes": 2383624,
+      "sha256": "5e532eda479a34d1fe10fc1533964cb2cfaece757f6547a4fe71a377d07b203c"
     }
   ]
 }

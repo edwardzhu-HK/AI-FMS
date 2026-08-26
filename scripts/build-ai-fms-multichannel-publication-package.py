@@ -375,7 +375,9 @@ def apply_num(paragraph, num_id: int):
 
 def add_markdown_runs(paragraph, text: str, font_name: str | None = None, size: float | None = None):
     text = re.sub(r"<sup>(.*?)</sup>", r"\1", text)
-    token_re = re.compile(r"(\*\*.*?\*\*|`.*?`|\*.*?\*|_.*?_|\[(?:CONFIRM|RESERVE|ADD|PUBLIC)[^\]]*\])")
+    token_re = re.compile(
+        r"(\*\*.*?\*\*|`.*?`|\*.*?\*|_.*?_|\[(?:CONFIRM|RESERVE|ADD|PUBLIC|ZENODO|GITHUB|DEMO|VIDEO)[^\]]*\])"
+    )
     pos = 0
     for match in token_re.finditer(text):
         if match.start() > pos:
@@ -391,7 +393,9 @@ def add_markdown_runs(paragraph, text: str, font_name: str | None = None, size: 
         if token.startswith("`"):
             run.font.name = "Courier New"
             run.font.color.rgb = rgb(TEAL)
-        elif token.startswith(("[CONFIRM", "[RESERVE", "[ADD", "[PUBLIC")):
+        elif token.startswith(
+            ("[CONFIRM", "[RESERVE", "[ADD", "[PUBLIC", "[ZENODO", "[GITHUB", "[DEMO", "[VIDEO")
+        ):
             run.font.highlight_color = 7
             run.font.color.rgb = rgb("#7A5A00")
         elif font_name:
@@ -484,6 +488,83 @@ def configure_zenodo_styles(doc: Document):
         style.paragraph_format.space_after = Pt(8)
 
 
+def configure_community_styles(doc: Document):
+    section = doc.sections[0]
+    section.page_width = Inches(8.5)
+    section.page_height = Inches(11)
+    section.top_margin = Inches(0.82)
+    section.right_margin = Inches(0.92)
+    section.bottom_margin = Inches(0.82)
+    section.left_margin = Inches(0.92)
+    section.header_distance = Inches(0.38)
+    section.footer_distance = Inches(0.38)
+
+    normal = doc.styles["Normal"]
+    normal.font.name = "Arial"
+    normal.font.size = Pt(10.5)
+    normal.font.color.rgb = rgb(INK)
+    normal.paragraph_format.space_after = Pt(6)
+    normal.paragraph_format.line_spacing = 1.17
+    normal.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
+    for style_name, size, color, before, after in (
+        ("Title", 27, DEEP, 0, 8),
+        ("Subtitle", 13, MUTED, 0, 10),
+        ("Heading 1", 17, DEEP, 20, 8),
+        ("Heading 2", 13, TEAL, 13, 6),
+        ("Heading 3", 11.5, DEEP, 10, 4),
+    ):
+        style = doc.styles[style_name]
+        style.font.name = "Arial"
+        style.font.size = Pt(size)
+        style.font.color.rgb = rgb(color)
+        style.font.bold = style_name != "Subtitle"
+        style.paragraph_format.space_before = Pt(before)
+        style.paragraph_format.space_after = Pt(after)
+        style.paragraph_format.keep_with_next = True
+        style.paragraph_format.line_spacing = 1.05
+
+    caption = doc.styles["Caption"]
+    caption.font.name = "Arial"
+    caption.font.size = Pt(9)
+    caption.font.italic = True
+    caption.font.color.rgb = rgb(MUTED)
+    caption.paragraph_format.space_before = Pt(3)
+    caption.paragraph_format.space_after = Pt(10)
+
+    quote = doc.styles["Quote"]
+    quote.font.name = "Arial"
+    quote.font.size = Pt(12)
+    quote.font.italic = False
+    quote.font.color.rgb = rgb(DEEP)
+    quote.paragraph_format.left_indent = Inches(0.25)
+    quote.paragraph_format.right_indent = Inches(0.25)
+    quote.paragraph_format.space_before = Pt(10)
+    quote.paragraph_format.space_after = Pt(10)
+    quote.paragraph_format.line_spacing = 1.12
+
+    if "Community Kicker" not in doc.styles:
+        kicker = doc.styles.add_style("Community Kicker", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        kicker = doc.styles["Community Kicker"]
+    kicker.font.name = "Arial"
+    kicker.font.size = Pt(9.5)
+    kicker.font.bold = True
+    kicker.font.color.rgb = rgb(TEAL)
+    kicker.paragraph_format.space_after = Pt(8)
+    kicker.paragraph_format.keep_with_next = True
+
+    if "Community Lead" not in doc.styles:
+        lead = doc.styles.add_style("Community Lead", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        lead = doc.styles["Community Lead"]
+    lead.font.name = "Arial"
+    lead.font.size = Pt(13)
+    lead.font.color.rgb = rgb(DEEP)
+    lead.paragraph_format.space_after = Pt(14)
+    lead.paragraph_format.line_spacing = 1.18
+
+
 def set_footer_page_number(section, label: str):
     header = section.header.paragraphs[0]
     header.text = label
@@ -519,6 +600,10 @@ FIGURE_ALT = {
     "figure-07-rotary-cycle-event-matrix.png": "Rotary Stability event matrix showing pattern, side, contact, extension, balance, and return evidence across complete cycles.",
     "iui-figure-01-workflow.png": "Six-step AI-FMS workflow emphasizing evidence, suggestion or abstention, and reviewer control.",
     "iui-figure-02-workbench-study-composite.png": "Side-by-side comparison of the evidence-rich Workbench and blind Study Mode.",
+    "community-figure-01-workbench.png": "AI-FMS Workbench showing a permission-cleared movement video, repetition navigation, quantitative evidence, and reviewer controls.",
+    "community-figure-02-study-mode.png": "Blind Study Mode used to collect independent human ratings without filenames, AI output, pose evidence, or prior answers.",
+    "community-figure-03-phase-i-summary.png": "Phase I summary showing the corpus, formal review set, AI coverage and abstention, exact and within-one agreement, mean absolute error, and weighted kappa.",
+    "community-figure-04-deep-squat.png": "Deep Squat continuum showing that repetitions with the same ordinal score can use different movement strategies.",
 }
 
 
@@ -707,6 +792,229 @@ def build_zenodo_docx():
     props.author = "Haoran Zhu; author confirmation required"
     props.subject = "Preprint. Not peer reviewed."
     props.keywords = "FMS, human-in-the-loop AI, movement screening, pose estimation, explainable AI"
+    settings = doc.settings.element
+    update_fields = settings.find(qn("w:updateFields"))
+    if update_fields is None:
+        update_fields = OxmlElement("w:updateFields")
+        settings.append(update_fields)
+    update_fields.set(qn("w:val"), "true")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    doc.save(output)
+
+
+def set_paragraph_fill_and_border(paragraph, fill: str, border: str = TEAL):
+    p_pr = paragraph._p.get_or_add_pPr()
+    shading = p_pr.find(qn("w:shd"))
+    if shading is None:
+        shading = OxmlElement("w:shd")
+        p_pr.append(shading)
+    shading.set(qn("w:fill"), fill.lstrip("#"))
+
+    borders = p_pr.find(qn("w:pBdr"))
+    if borders is None:
+        borders = OxmlElement("w:pBdr")
+        p_pr.append(borders)
+    left = borders.find(qn("w:left"))
+    if left is None:
+        left = OxmlElement("w:left")
+        borders.append(left)
+    left.set(qn("w:val"), "single")
+    left.set(qn("w:sz"), "18")
+    left.set(qn("w:space"), "10")
+    left.set(qn("w:color"), border.lstrip("#"))
+
+
+def add_community_cover(doc: Document):
+    p = doc.add_paragraph(style="Community Kicker")
+    p.paragraph_format.space_before = Pt(72)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p.add_run("OPENAI DEVELOPER COMMUNITY • BUILD STORY")
+
+    p = doc.add_paragraph(style="Title")
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    add_markdown_runs(p, "Building AI-FMS with Codex")
+
+    p = doc.add_paragraph(style="Subtitle")
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    add_markdown_runs(p, "What AI Automated and What Human Judgment Had to Own")
+
+    rule = doc.add_paragraph()
+    rule.paragraph_format.space_before = Pt(8)
+    rule.paragraph_format.space_after = Pt(24)
+    p_pr = rule._p.get_or_add_pPr()
+    borders = OxmlElement("w:pBdr")
+    bottom = OxmlElement("w:bottom")
+    bottom.set(qn("w:val"), "single")
+    bottom.set(qn("w:sz"), "18")
+    bottom.set(qn("w:space"), "4")
+    bottom.set(qn("w:color"), TEAL.lstrip("#"))
+    borders.append(bottom)
+    p_pr.append(borders)
+
+    p = doc.add_paragraph(style="Community Lead")
+    add_markdown_runs(
+        p,
+        "A candid engineering account of building a seven-movement, human-in-the-loop video-review system with Codex - including the places where technically clean automation still required human correction.",
+    )
+
+    for label, value in (
+        ("Author", "Haoran Zhu"),
+        ("Channel", "OpenAI Developer Community"),
+        ("Status", "Draft for author voice and factual review"),
+        ("Prepared", "26 August 2026"),
+    ):
+        p = doc.add_paragraph()
+        p.paragraph_format.space_after = Pt(5)
+        label_run = p.add_run(f"{label}: ")
+        label_run.font.name = "Arial"
+        label_run.font.size = Pt(10.5)
+        label_run.bold = True
+        label_run.font.color.rgb = rgb(DEEP)
+        value_run = p.add_run(value)
+        value_run.font.name = "Arial"
+        value_run.font.size = Pt(10.5)
+        value_run.font.color.rgb = rgb(MUTED)
+
+    p = doc.add_paragraph(style="Quote")
+    p.paragraph_format.space_before = Pt(48)
+    p.paragraph_format.space_after = Pt(14)
+    set_paragraph_fill_and_border(p, PALE)
+    lead = p.add_run("CORE IDEA\n")
+    lead.bold = True
+    lead.font.name = "Arial"
+    lead.font.size = Pt(9.5)
+    lead.font.color.rgb = rgb(TEAL)
+    body = p.add_run(
+        "AI-FMS was built to help a trained reviewer see, organize, and preserve movement evidence - not to make the reviewer disappear."
+    )
+    body.font.name = "Arial"
+    body.font.size = Pt(13)
+    body.font.color.rgb = rgb(DEEP)
+
+    p = doc.add_paragraph()
+    p.paragraph_format.space_before = Pt(52)
+    p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    run = p.add_run("FMS • Computer Vision • Human-AI Collaboration • Explainable Review")
+    run.font.name = "Arial"
+    run.font.size = Pt(9.5)
+    run.font.color.rgb = rgb(TEAL)
+    doc.add_page_break()
+
+
+def build_community_docx():
+    source = COMMUNITY / "AI-FMS_OpenAI_Developer_Community_Post.md"
+    output = COMMUNITY / "AI-FMS_OpenAI_Developer_Community_Article.docx"
+    lines = source.read_text(encoding="utf-8").splitlines()
+    doc = Document()
+    configure_community_styles(doc)
+    set_footer_page_number(doc.sections[0], "AI-FMS • OpenAI Developer Community Draft")
+    add_community_cover(doc)
+    bullet_num = add_numbering_definition(doc, "bullet")
+    figure_number = 0
+    intro_callout_added = False
+    disclosure_mode = False
+    lead_paragraph_used = False
+
+    i = 1
+    while i < len(lines):
+        line = lines[i].strip()
+        if not line:
+            i += 1
+            continue
+        image_match = re.fullmatch(r"!\[(.*?)\]\((.*?)\)", line)
+        if image_match:
+            alt, relative = image_match.groups()
+            path = COMMUNITY / relative
+            figure_number += 1
+            if "phase-i-summary" in path.name:
+                width = 5.45
+            elif "workbench" in path.name:
+                width = 5.4
+            else:
+                width = 5.9
+            add_image(doc, path, width, None, FIGURE_ALT.get(path.name, alt))
+            cap = doc.add_paragraph(style="Caption")
+            cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            add_markdown_runs(cap, f"Figure {figure_number}. {alt}", "Arial", 9)
+            i += 1
+            continue
+        if line == "---":
+            disclosure_mode = True
+            i += 1
+            continue
+        if line.startswith("### "):
+            p = doc.add_paragraph(style="Heading 2")
+            add_markdown_runs(p, line[4:], "Arial")
+            i += 1
+            continue
+        if line.startswith("## "):
+            p = doc.add_paragraph(style="Heading 1")
+            add_markdown_runs(p, line[3:], "Arial")
+            i += 1
+            continue
+        if line.startswith("# "):
+            i += 1
+            continue
+        if line.startswith("- "):
+            p = doc.add_paragraph()
+            p.paragraph_format.space_after = Pt(4)
+            p.paragraph_format.line_spacing = 1.16
+            apply_num(p, bullet_num)
+            add_markdown_runs(p, line[2:], "Arial", 10.5)
+            i += 1
+            continue
+        num_match = re.match(r"^(\d+)\.\s+(.*)$", line)
+        if num_match:
+            p = doc.add_paragraph()
+            p.paragraph_format.space_after = Pt(6)
+            p.paragraph_format.line_spacing = 1.18
+            apply_num(p, add_numbering_definition(doc, "decimal", int(num_match.group(1))))
+            add_markdown_runs(p, num_match.group(2), "Arial", 10.5)
+            i += 1
+            continue
+
+        parts = [line]
+        j = i + 1
+        while j < len(lines):
+            nxt = lines[j].strip()
+            if (
+                not nxt
+                or nxt.startswith(("#", "- ", "![", "---"))
+                or re.match(r"^\d+\.\s+", nxt)
+            ):
+                break
+            parts.append(nxt)
+            j += 1
+        text = " ".join(parts).replace("  ", " ")
+        style = "Community Lead" if not lead_paragraph_used else None
+        p = doc.add_paragraph(style=style) if style else doc.add_paragraph()
+        if disclosure_mode:
+            p.style = doc.styles["Quote"]
+            set_paragraph_fill_and_border(p, "F5F7F8", CORAL)
+        add_markdown_runs(p, text, "Arial", 10.5 if not style else 13)
+        lead_paragraph_used = True
+        if text.startswith("I used OpenAI Codex throughout the project") and not intro_callout_added:
+            callout = doc.add_paragraph(style="Quote")
+            set_paragraph_fill_and_border(callout, PALE)
+            kicker = callout.add_run("CORE LESSON\n")
+            kicker.bold = True
+            kicker.font.name = "Arial"
+            kicker.font.size = Pt(9.5)
+            kicker.font.color.rgb = rgb(TEAL)
+            message = callout.add_run(
+                "Codex accelerated the work enormously. It also produced results that looked finished before they were trustworthy."
+            )
+            message.font.name = "Arial"
+            message.font.size = Pt(12)
+            message.font.color.rgb = rgb(DEEP)
+            intro_callout_added = True
+        i = j
+
+    props = doc.core_properties
+    props.title = "Building AI-FMS with Codex: What AI Automated and What Human Judgment Had to Own"
+    props.author = "Haoran Zhu"
+    props.subject = "OpenAI Developer Community article draft"
+    props.keywords = "Codex, human-in-the-loop AI, FMS, computer vision, explainable review"
     settings = doc.settings.element
     update_fields = settings.find(qn("w:updateFields"))
     if update_fields is None:
@@ -923,6 +1231,7 @@ def build_iui_docx():
 def main():
     build_figures()
     build_zenodo_docx()
+    build_community_docx()
     build_iui_docx()
     print(f"Built publication package at {PACKAGE}")
 

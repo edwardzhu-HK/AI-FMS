@@ -2,7 +2,7 @@
 
 Status: ACTIVE - multichannel draft review
 
-Last updated: 2026-08-25
+Last updated: 2026-08-26
 
 Chinese version: `README.zh-CN.md`
 
@@ -40,9 +40,9 @@ The three outputs share one verified evidence base but do not reuse the same nar
 | Three channel-specific English drafts | Ready for author review    | Complete Zenodo, OpenAI Community, and ACM IUI drafts                                                   |
 | Zenodo DOCX/PDF                       | Ready for author review    | 15-page rendered preprint with seven figures                                                            |
 | ACM IUI paper                         | Ready for author review    | Official ACM Word template; four total rendered pages                                                   |
-| OpenAI Community post                 | Ready for voice review     | Markdown post, images, tags, launch copy, and instructions                                              |
+| OpenAI Community post                 | Ready for voice review     | Markdown plus polished Word review copy, images, tags, launch copy, and instructions                    |
 | Publication instructions              | Ready                      | Chinese step-by-step guides in each package                                                             |
-| Checksums and archives                | Ready                      | 49-file manifest, SHA-256 list, and three verified ZIP archives                                         |
+| Checksums and archives                | Ready                      | 50-file manifest, SHA-256 list, and three verified ZIP archives                                         |
 | Author/affiliation/ORCID              | Pending human confirmation | Yellow placeholders remain in manuscripts                                                               |
 | Media and privacy rights              | Partially cleared          | Public-safe interface figures use consented project video; all other media remain private until cleared |
 | Public GitHub ownership               | Pending                    | Transfer to Haoran Zhu after repository history and public-boundary audit                               |

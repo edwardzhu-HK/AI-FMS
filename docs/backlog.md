@@ -557,14 +557,16 @@ Canonical execution plan:
       transparently AI-assisted outputs: a Zenodo preprint, an OpenAI Developer
       Community build story, and an ACM IUI 2027 Demo submission.
 - [x] Build the complete multichannel review package with a shared evidence and
-      claims gate, a 15-page Zenodo DOCX/PDF, a channel-native Community post,
-      and a four-page official-template ACM IUI paper.
+      claims gate, a 15-page Zenodo DOCX/PDF, a channel-native Community post
+      plus editorial Word version, and a four-page official-template ACM IUI
+      paper.
 - [x] Add channel-specific metadata, GenAI disclosures, public-rights controls,
       Chinese publishing instructions, an IUI policy-inquiry email, a live demo
       runbook, and an IUI-specific video plan.
-- [x] Render and visually inspect both publication DOCX files; verify 15-page
-      and 4-page PDFs with extractable text and zero accessibility findings.
-- [x] Generate a 49-file manifest, SHA-256 checksums, and three channel ZIP
+- [x] Render and visually inspect all three publication DOCX files; verify the
+      two submission PDFs and all Word files with extractable content and zero
+      accessibility findings.
+- [x] Generate a 50-file manifest, SHA-256 checksums, and three channel ZIP
       archives; checksum and decompression verification passed.
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.

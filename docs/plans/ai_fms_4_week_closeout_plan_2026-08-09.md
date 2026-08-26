@@ -5,10 +5,10 @@
 | 字段     | 当前值                         |
 | -------- | ------------------------------ |
 | 文档状态 | ACTIVE - Canonical Plan        |
-| 版本     | v1.51                          |
+| 版本     | v1.52                          |
 | 执行周期 | 2026-08-09 至 2026-09-06       |
 | 硬截止   | 2026-09-06                     |
-| 最近更新 | 2026-08-25                     |
+| 最近更新 | 2026-08-26                     |
 | 执行清单 | `docs/backlog.md` 的 P8        |
 | 数据证据 | `research/pilot-v1/generated/` |
 
@@ -602,6 +602,15 @@ Secondary questions：
 | 2026-08-25 | Zenodo 公开前先向 IUI chairs 书面确认 preprint policy  | ACM 一般政策不替代 venue 判断；IUI 稿中主动披露 Zenodo 和 community post                     |
 
 ## 12. 变更记录
+
+### v1.52 - 2026-08-26
+
+- 为 OpenAI Developer Community 长文新增独立排版 Word 版本，复用现有 publication
+  builder，采用 editorial cover、三张 public-safe figures、真实列表、页眉与页码。
+- 重新渲染并逐页检查 Zenodo、OpenAI Community 和 ACM IUI 三份 DOCX；三份均通过
+  accessibility audit，未新增 private path 或不合规 claim。
+- 发布 manifest 从 49 个被跟踪文件更新为 50 个，三份 channel ZIP、SHA-256 和
+  decompression verification 同步刷新。
 
 ### v1.51 - 2026-08-25
 

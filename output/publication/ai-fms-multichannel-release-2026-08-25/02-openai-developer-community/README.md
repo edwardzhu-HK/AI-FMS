@@ -13,6 +13,7 @@ This is a developer build story, not a copy of the Zenodo preprint. It should be
 ## Package contents
 
 - `AI-FMS_OpenAI_Developer_Community_Post.md`: complete forum article.
+- `AI-FMS_OpenAI_Developer_Community_Article.docx`: polished editorial review copy with cover, figures, real lists, running header, and page numbers.
 - `community-post-metadata-and-launch-copy.md`: title, excerpt, tags, and reply prompts.
 - `image-and-link-plan.md`: exactly which public-safe visuals and links to use.
 - `openai-community-publishing-guide.zh-CN.md`: step-by-step posting instructions.
@@ -23,3 +24,5 @@ This is a developer build story, not a copy of the Zenodo preprint. It should be
 - Use only sanitized screenshots and public repository links.
 - Do not paste private prompts, local paths, raw logs, participant files, API keys, or reviewer records.
 - Keep the tone collaborative and specific. The point is to share lessons, not advertise a product.
+
+The Word file is for author review, printing, and archival use. Publish the Markdown version in the forum after Haoran Zhu completes the final voice edit.
