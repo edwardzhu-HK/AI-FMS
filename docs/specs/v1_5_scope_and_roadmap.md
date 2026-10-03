@@ -75,6 +75,11 @@ GitHub 已于 2026-10-03 公开；原库及其 PR 保留为私有归档，公开
 ACM 现行政策允许非同行评审预印本；向 IUI chairs 询问可作为额外核实，
 不再作为必须收到回复才能发布 Zenodo 的前置条件。IUI 稿应引用并披露相关预印本。
 
+本轮继续完成公开展示页、独立字幕的系统演示、Community 发布稿与 IUI 投稿包。
+展示页复用现有项目文案与授权截图，部署到现有公开仓库的 GitHub Pages；
+系统视频从已授权自采录屏和既有旁白的无字幕源剪辑生成，不扩大研究范围。
+Community 与 PCS 的账号登录、实际发帖和提交状态分别记录，材料完成不等于已投稿。
+
 ## 2. Inputs Reviewed
 
 - Existing project implementation: React/Vite workbench, mock API, local API

@@ -1,11 +1,9 @@
 # AI-FMS: An Explainable Human-in-the-Loop Interface for Functional Movement Screen Video Review
 
-**Haoran Zhu**
-[CONFIRM AFFILIATION]
-[CONFIRM CITY, COUNTRY]
-[CONFIRM EMAIL]
-
-**[CONFIRM ADDITIONAL HUMAN AUTHOR(S), AFFILIATIONS, AND EMAILS]**
+**Haoran ZHU**
+Kang Chiao International School East China Campus
+China
+13061747546@163.com
 
 ## Abstract
 
@@ -27,7 +25,7 @@ The Functional Movement Screen compresses seven observed movement patterns into 
 
 Markerless pose estimation can extract body landmarks from ordinary video, but two-dimensional measurements are sensitive to camera geometry, occlusion, clothing, and framing [1-3]. An intelligent interface must therefore do more than display a predicted score. It should expose relevant evidence, communicate limitations, support correction, and keep the reviewer in control [4].
 
-AI-FMS is a browser-based interface designed around this distribution of responsibility: AI organizes repetitions, pose evidence, explanations, and first-pass suggestions; the reviewer owns protocol, confidence, unscorable decisions, and the final score. The contribution combines a seven-movement workflow, protocol-aware abstention, a blind rating mode separated from evidence inspection, and traceable adjudication/export. It is an interface and feasibility contribution, not clinical validation.
+AI-FMS is a browser-based interface designed around this distribution of responsibility: AI organizes repetitions, pose evidence, explanations, and first-pass suggestions; the reviewer owns protocol, confidence, unscorable decisions, and the final score. The contribution combines a seven-movement workflow, protocol-aware abstention, a blind rating mode separated from evidence inspection, and traceable adjudication/export. It is an interface and feasibility contribution, not clinical validation. The broader system and Phase I study are documented in an unreviewed Zenodo preprint [6]; this submission focuses on the interaction design and demonstration.
 
 ## 2 Interface Design
 
@@ -80,19 +78,21 @@ The result supports first-pass feasibility while leaving substantive cases for h
 
 ## 4 Demonstration
 
-The four-minute local demo uses permission-cleared video. It moves from ingest, range, segmentation, and looped playback to pose evidence and explanation; the presenter then changes a reviewer-controlled condition, opens an abstention case, switches to blind Study Mode and adjudication/export, and compares same-score movement evidence. One laptop and modern browser are sufficient, and the demo runs offline with preloaded media. No private participant record, proprietary course content, or cloud account is used.
+The local interactive demo uses permission-cleared video; the accompanying system walkthrough is under three minutes. It moves from ingest, range, segmentation, and looped playback to pose evidence and explanation; the presenter then changes a reviewer-controlled condition, opens an abstention case, switches to blind Study Mode and adjudication/export, and compares same-score movement evidence. One laptop and modern browser are sufficient, and the demo runs offline with preloaded media. No private participant record, proprietary course content, or cloud account is used.
 
 ## 5 Limitations and Next Steps
 
-The convenience corpus is small, heterogeneous, and nested by video; the reviewers represent one trained pair; the AI benchmark is internal; and two-dimensional pose remains camera-sensitive. The study did not compare review with and without visible AI. Next work will use permission-cleared held-out video, additional reviewers, and a randomized assistance study measuring time, confidence, corrections, decisions, and appropriate reliance.
+The convenience corpus is small, heterogeneous, and nested by video; the study includes only two reviewers, one of whom (Haoran ZHU) completed FMS Level 1 and Level 2 certification; the AI benchmark is internal; and two-dimensional pose remains camera-sensitive. The study did not compare review with and without visible AI. Next work will use permission-cleared held-out video, additional reviewers, and a randomized assistance study measuring time, confidence, corrections, decisions, and appropriate reliance.
 
 ## 6 Conclusion
 
 AI-FMS converts video into inspectable repetitions and quantitative evidence, offers explainable first-pass suggestions, and abstains when protocol or pose evidence is insufficient. The reviewer retains final control. The demo shows how evidence, abstention, and auditability can support responsible human-AI collaboration in expert video review.
 
-## Acknowledgments and Generative AI Use Disclosure
+## Generative AI Use Disclosure
 
-[CONFIRM HUMAN ACKNOWLEDGMENTS.] OpenAI Codex assisted implementation, tests, data and statistical scripts, figures, editing, and portions of drafting under human direction. Human authors defined the research and FMS protocol, audited scoring, corrected errors, verified results and references, set the claim boundaries, and take full responsibility for the work.
+OpenAI Codex assisted implementation, tests, data and statistical scripts, figures, editing, and portions of drafting under human direction. The human author defined the research and FMS protocol, audited scoring, corrected errors, verified results and references, set the claim boundaries, and takes full responsibility for the work.
+
+No external funding was received. The author declares no competing interests.
 
 ## References
 
@@ -101,3 +101,5 @@ AI-FMS converts video into inspectable repetitions and quantitative evidence, of
 3. Lukasz Kidzinski, Bryan Yang, Jennifer L. Hicks, Apoorva Rajagopal, Scott L. Delp, and Michael H. Schwartz. 2020. Deep neural networks enable quantitative movement analysis using single-camera videos. _Nature Communications_ 11, 4054. https://doi.org/10.1038/s41467-020-17807-z
 4. Saleema Amershi, Dan Weld, Mihaela Vorvoreanu, et al. 2019. Guidelines for human-AI interaction. In _Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems_. ACM, 1-13. https://doi.org/10.1145/3290605.3300233
 5. Jacob Cohen. 1968. Weighted kappa: Nominal scale agreement with provision for scaled disagreement or partial credit. _Psychological Bulletin_ 70, 4, 213-220. https://doi.org/10.1037/h0026256
+
+6. Haoran ZHU. 2026. AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review. Zenodo preprint, version 1.0. https://doi.org/10.5281/zenodo.23118144

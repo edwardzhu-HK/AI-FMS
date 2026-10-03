@@ -10,7 +10,7 @@ The current system covers all seven FMS movements. It can ingest video, define a
 
 I used OpenAI Codex throughout the project. It accelerated the work enormously. It also produced results that looked finished before they were trustworthy. The most useful lesson was learning to separate what AI could automate from what humans still had to own.
 
-![AI-FMS Workbench showing a permission-cleared movement video and quantitative evidence](figures/community-figure-01-workbench.png)
+![AI-FMS Workbench showing a permission-cleared movement video and quantitative evidence](https://raw.githubusercontent.com/edwardzhu-HK/AI-FMS/main/output/publication/ai-fms-multichannel-release-2026-08-25/02-openai-developer-community/figures/community-figure-01-workbench.png)
 
 ## Where Codex helped
 
@@ -66,7 +66,7 @@ At one point, it was easy to describe Round B as an AI-assisted review simply be
 
 That correction changed the claim we could make. We can report reviewer stability and a parallel AI-human comparison. We cannot claim that showing AI evidence improved speed, confidence, or accuracy. That needs a future randomized assistance study.
 
-![Blind Study Mode used to collect independent human ratings](figures/community-figure-02-study-mode.png)
+![Blind Study Mode used to collect independent human ratings](https://raw.githubusercontent.com/edwardzhu-HK/AI-FMS/main/output/publication/ai-fms-multichannel-release-2026-08-25/02-openai-developer-community/figures/community-figure-02-study-mode.png)
 
 ## What the Phase I result actually says
 
@@ -83,7 +83,7 @@ I see this as a useful first result, not a victory lap. The AI often lands close
 
 The more interesting result may be what survives beneath the score. Two Deep Squat repetitions can share a score while showing different depth and trunk-knee-hip strategies. Hurdle Step repetitions can reach a similar peak position through different movement paths. ASLR can preserve bilateral trajectory and stationary-leg evidence. Rotary Stability can show which cycle event is missing even when it refuses a total score.
 
-![Phase I evidence summary: coverage, agreement, and abstention](figures/community-figure-03-phase-i-summary.png)
+![Phase I evidence summary: coverage, agreement, and abstention](https://raw.githubusercontent.com/edwardzhu-HK/AI-FMS/main/output/publication/ai-fms-multichannel-release-2026-08-25/02-openai-developer-community/figures/community-figure-03-phase-i-summary.png)
 
 ## The responsibility map that worked for us
 

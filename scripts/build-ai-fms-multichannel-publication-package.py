@@ -1233,10 +1233,10 @@ def add_community_cover(doc: Document):
     )
 
     for label, value in (
-        ("Author", "Haoran Zhu"),
+        ("Author", "Haoran ZHU"),
         ("Channel", "OpenAI Developer Community"),
-        ("Status", "Draft for author voice and factual review"),
-        ("Prepared", "26 August 2026"),
+        ("Status", "Ready for community posting; not yet published"),
+        ("Prepared", "3 October 2026"),
     ):
         p = doc.add_paragraph()
         p.paragraph_format.space_after = Pt(5)
@@ -1387,7 +1387,7 @@ def build_community_docx():
 
     props = doc.core_properties
     props.title = "Building AI-FMS with Codex: What AI Automated and What Human Judgment Had to Own"
-    props.author = "Haoran Zhu"
+    props.author = "Haoran ZHU"
     props.subject = "OpenAI Developer Community article draft"
     props.keywords = "Codex, human-in-the-loop AI, FMS, computer vision, explainable review"
     settings = doc.settings.element
@@ -1596,7 +1596,7 @@ def build_iui_docx():
 
     props = doc.core_properties
     props.title = title
-    props.author = "Haoran Zhu; author confirmation required"
+    props.author = "Haoran ZHU"
     props.subject = "ACM IUI 2027 Demo submission draft"
     props.keywords = "human-in-the-loop AI, intelligent user interface, pose estimation, movement screening"
     output.parent.mkdir(parents=True, exist_ok=True)

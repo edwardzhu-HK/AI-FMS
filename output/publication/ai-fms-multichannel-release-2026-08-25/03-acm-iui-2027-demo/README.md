@@ -15,19 +15,23 @@
 
 - `AI-FMS_IUI_2027_Demo_Paper.md`: complete paper source.
 - `AI-FMS_IUI_2027_Demo_Paper.docx`: ACM single-column review format draft.
-- `AI-FMS_IUI_2027_Demo_Paper.pdf`: four-page paper plus references.
+- `AI-FMS_IUI_2027_Demo_Paper.pdf`: four pages total, including references.
 - `submission-metadata.md`: PCS copy-ready fields.
 - `demo-runbook.md`: live demonstration setup and sequence.
-- `demo-video-plan.md`: conference-specific five-minute video plan.
+- `demo-video-plan.md`: completed 2:36 system video specification and timeline.
 - `iui-publishing-guide.zh-CN.md`: submission instructions.
 - `prior-publication-policy-inquiry-email.md`: email to the Posters and Demo Chairs.
 - `genai-use-disclosure.md`: ACM disclosure and author verification.
 - `references.bib`: reference library.
+- `video/`: H.264/AAC master and separate English SRT/VTT captions.
 - `figures/`: public-safe figures prepared for the paper and video.
 
-## Important distinction
+## Current status
 
-The current 4:30 application film meets the five-minute limit and can serve as a content backup. It has burned-in captions, so it is not the preferred SIGCHI submission master. The recommended IUI video is a clean-caption, system-focused derivative with a separate SRT/VTT file that spends more time on interaction, explanation, correction, and abstention and less time on personal application context.
+The paper, author metadata, GenAI disclosure, and clean-caption system video are ready.
+The submission has not been sent: PCS login and the author's in-person attendance/fee plan remain pending.
+The 2:36 system demonstration replaces the earlier proposed 4:20–4:50 edit; five minutes is a maximum.
+The separate application film remains unchanged.
 
 ## Preprint relationship
 

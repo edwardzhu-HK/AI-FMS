@@ -73,7 +73,8 @@ def main():
 
     manifest = {
         "package": "AI-FMS Multichannel Publication Release Package",
-        "status": "draft_for_author_review",
+        "status": "zenodo_published_community_and_iui_prepared",
+        "channel_status": {"zenodo": "published", "community": "ready_awaiting_login", "iui": "prepared_awaiting_login_and_attendance_confirmation"},
         "prepared_date": "2026-08-25",
         "generated_at_utc": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
         "channels": list(CHANNELS),

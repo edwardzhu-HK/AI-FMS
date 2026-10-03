@@ -9,6 +9,8 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 公开成果入口
 
+- [公开展示页与 2:36 系统演示](https://edwardzhu-hk.github.io/AI-FMS/)
+
 - [Zenodo 英文预印本 PDF](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf)
 - [中文审阅 Word](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx)
 - [发表路线与当前状态](docs/publication/README.zh-CN.md)
@@ -18,7 +20,7 @@ DOI：[10.5281/zenodo.23118144](https://doi.org/10.5281/zenodo.23118144)。
 该成果未经同行评审；ACM IUI Demo 尚未投稿。
 本仓库公开源代码、文档和已获许可的论文图表。原始视频、pose 文件、人工审核导出和
 研究数据库不随仓库发布。运行界面后可导入自己的授权视频；部分预设研究样本依赖私有
-本地文件，不包含在公开 checkout 中。目前没有托管的在线交互 demo。
+本地文件，不包含在公开 checkout 中。公开展示页提供录播演示、可切换字幕和文字稿；可操作的研究工作台仍需本地运行。
 
 论文及其原创图表采用 CC BY 4.0；该许可不自动覆盖源代码、第三方模板或素材。
 代码尚未另行指定开源许可证。

@@ -703,3 +703,15 @@ remain reusable:
 - The pilot can support movement-quality phenotype hypotheses, but it has no
   external clinical diagnosis, impairment, injury, or outcome labels. It must
   not be presented as evidence of diagnosis or injury-risk prediction.
+
+## 2026-10-03 发表收尾
+
+- [x] Zenodo v1.0 正式发布，DOI 10.5281/zenodo.23118144。
+- [x] 公开仓库与授权图片可访问。
+- [x] 公开展示页、系统演示视频、独立英文字幕和文字稿完成。
+- [x] Community 正文补齐论文、代码和展示页链接；Word 已更新。
+- [x] IUI 四页论文、唯一作者信息、预印本引用和 GenAI disclosure 完成。
+- [x] IUI 2:36 无烧录字幕视频、SRT/VTT 和 PCS metadata 完成。
+- [ ] Community 账号登录后发布并保存实际文章 URL。
+- [ ] 确认 IUI 录用后到场及费用安排。
+- [ ] PCS 登录、填表、上传与最终提交；保存 submission ID 和回执。

@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-08-25
 **Project stage:** System Development and Phase I Evaluation
-**Publication status:** Zenodo preprint version 1.0 published on 3 October 2026: https://doi.org/10.5281/zenodo.23118144. OpenAI Community and ACM IUI materials remain drafts; no conference submission has been completed.
+**Publication status:** Zenodo preprint version 1.0 published on 3 October 2026: https://doi.org/10.5281/zenodo.23118144. The public showcase is live at https://edwardzhu-hk.github.io/AI-FMS/ . Community text and IUI paper/video are prepared; no community post or conference submission has been completed.
 
 This release package presents one project through three deliberately different channels. The three texts share the same verified evidence base, but they do not make the same contribution or reuse the same narrative.
 
@@ -14,16 +14,14 @@ This release package presents one project through three deliberately different c
 
 The Zenodo folder also contains a complete Chinese translation review draft in Markdown and Word. It supports internal review and does not replace the canonical English publication manuscript.
 
-## Recommended release order
+## Current release sequence
 
-1. Complete the author, rights, privacy, and patent checks in `00-release-control`.
-2. Review all three texts for factual accuracy and genuine author voice.
-3. Make the public repository and privacy-safe demo links stable.
-4. Create a Zenodo draft and reserve a DOI, but do not publish yet.
-5. Cite and disclose the preprint in the later IUI submission. The prepared chair inquiry is optional clarification; ACM permits unreviewed preprints.
-6. Add the reserved DOI to the Zenodo PDF, rebuild it, and publish the author-approved record after the current asset and metadata checks.
-7. Publish the OpenAI Developer Community post with links to the Zenodo record, demo video, and public repository.
-8. Submit the ACM IUI 2027 Demo package by November 10, 2026, 11:59 p.m. Anywhere on Earth.
+1. Completed: sole-author metadata and current public media rights confirmed.
+2. Completed: public repository and Zenodo preprint v1.0, DOI 10.5281/zenodo.23118144.
+3. Completed: project showcase and 2:36 system video with separate English captions and transcript.
+4. Ready: Community article with live publication, repository and showcase links; awaiting account login.
+5. Ready: IUI four-page paper, clean-caption video, SRT/VTT and PCS metadata. Login and attendance/cost decision remain pending.
+6. After actual posting/submission, record the Community URL and PCS submission ID. The IUI deadline is November 10, 2026, 23:59 AoE.
 
 ## Canonical evidence boundary
 
@@ -50,6 +48,6 @@ Expected SHA-256:
 
 `0951438d04a600ca281769dff065a24d98e67a8fed222497f9b6b93d30c00451`
 
-The current 4:30 film is suitable as a general project overview and is within the ACM IUI five-minute limit. It is a content backup, not a submission-ready IUI master: the SIGCHI submission version should use a separate timestamped caption file rather than burned-in captions. The IUI package therefore proposes a more interface-focused clean-caption cut that foregrounds interaction rather than the admissions narrative.
+The current 4:30 film is suitable as a general project overview and is within the ACM IUI five-minute limit. It is a content backup, not a submission-ready IUI master: the SIGCHI submission version should use a separate timestamped caption file rather than burned-in captions. The IUI package now includes a separate 2:36 system-focused clean-caption cut in `03-acm-iui-2027-demo/video/`.
 
 Policy rechecked 3 October 2026: [ACM Policy on Authorship](https://www.acm.org/publications/policies/new-acm-policy-on-authorship) permits preprints on arXiv or similar venues without requesting an exception.

@@ -62,7 +62,7 @@ Show one same-score Deep Squat or Hurdle Step comparison. Close with: AI organiz
 
 ## Privacy reset before each session
 
-- Clear browser history and recent-file lists.
+- Use a separate presentation browser profile; preserve personal browser history.
 - Confirm no local paths or subject names are visible.
 - Use only the public demo database.
 - Disable notifications.

@@ -1,14 +1,19 @@
 {
   "package": "AI-FMS Multichannel Publication Release Package",
-  "status": "draft_for_author_review",
+  "status": "zenodo_published_community_and_iui_prepared",
+  "channel_status": {
+    "zenodo": "published",
+    "community": "ready_awaiting_login",
+    "iui": "prepared_awaiting_login_and_attendance_confirmation"
+  },
   "prepared_date": "2026-08-25",
-  "generated_at_utc": "2026-10-03T09:36:21+00:00",
+  "generated_at_utc": "2026-10-03T10:13:46+00:00",
   "channels": [
     "01-zenodo-preprint",
     "02-openai-developer-community",
     "03-acm-iui-2027-demo"
   ],
-  "file_count": 52,
+  "file_count": 56,
   "files": [
     {
       "path": "00-release-control/author-rights-and-claims-checklist.md",
@@ -122,13 +127,18 @@
     },
     {
       "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Article.docx",
-      "bytes": 1776169,
-      "sha256": "9a164e4f926bd295949e0210ac1dfb792993ec9b86732793bf02582a8b817a24"
+      "bytes": 1776147,
+      "sha256": "746c7adc8ccdcbfa42d816d7038bea40e4d75a328b27f5ff68f58184f72cdc4e"
     },
     {
       "path": "02-openai-developer-community/AI-FMS_OpenAI_Developer_Community_Post.md",
-      "bytes": 11504,
-      "sha256": "47dac56a5385d333710a714131a7dbab9cd05c7e8466e940b949ed8c59ee47e1"
+      "bytes": 11621,
+      "sha256": "529ab6e53cacd8527d4a7a3d44e2616c811c47b634a44adb406426697a5c7030"
+    },
+    {
+      "path": "02-openai-developer-community/Post.forum-ready.md",
+      "bytes": 12062,
+      "sha256": "22970b51f248ee294be0a3882c72d19d2e85d3df02f4255a8732b5b4eaef9fde"
     },
     {
       "path": "02-openai-developer-community/README.md",
@@ -137,8 +147,8 @@
     },
     {
       "path": "02-openai-developer-community/community-post-metadata-and-launch-copy.md",
-      "bytes": 1463,
-      "sha256": "9cdd72ba6831abe8cbe83f8dd22542ef557fbc1b75855b37497ed5ce9a537e40"
+      "bytes": 1672,
+      "sha256": "e6b655f66a45baba781cc4deb2ce847aa07a29c9e9056391f6e1d520f0378642"
     },
     {
       "path": "02-openai-developer-community/figures/community-figure-01-workbench.png",
@@ -172,33 +182,33 @@
     },
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.docx",
-      "bytes": 990682,
-      "sha256": "ef58604026140846a74e178fb3b7fa6c7352e1387cf7e3555ecbb9672773e41a"
+      "bytes": 990786,
+      "sha256": "84bc101ab49d1f1dbf03eb6bc59c11b3beff353202d18aad6c5bc3ec2787cb06"
     },
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.md",
-      "bytes": 9936,
-      "sha256": "ec51ca2dc27f6bacf05ca1292bb5e42e91a3c40efc7e4c8a003a90de9a07407b"
+      "bytes": 10390,
+      "sha256": "568c45bf7721241c8a51564e64d9051d3cff6145c4b24f72ef241330423672fd"
     },
     {
       "path": "03-acm-iui-2027-demo/AI-FMS_IUI_2027_Demo_Paper.pdf",
-      "bytes": 442913,
-      "sha256": "67e6edee27c8350c7f3e58263f87f3774f82826098196ce8f0c37c60d60c918b"
+      "bytes": 442599,
+      "sha256": "3ea511fb347c467a10975121a42f7eb9ec10bf0c6f1f724522103630c73db780"
     },
     {
       "path": "03-acm-iui-2027-demo/README.md",
-      "bytes": 2006,
-      "sha256": "4a30f8532f7d3bd6d1a2c433b60663741c2eccc6a9b34db67b88662f5024b6be"
+      "bytes": 2032,
+      "sha256": "7f50dbe26588128a5760a8b54cc0aa6b15a6993b6793751b5a47eff5315fd4b7"
     },
     {
       "path": "03-acm-iui-2027-demo/demo-runbook.md",
-      "bytes": 2995,
-      "sha256": "e4bac51444082c88af2b18ef27111f1744ea7332e75a7b338af05a3a30db4231"
+      "bytes": 3030,
+      "sha256": "eac300fdf166c6b76451981571caab28b50f8241a74c98f1fb33262869c97a02"
     },
     {
       "path": "03-acm-iui-2027-demo/demo-video-plan.md",
-      "bytes": 2636,
-      "sha256": "85938e2b6747c4dffcc7a1bf13124b3c6fe4af02e5473bac3281e6e876f77d1e"
+      "bytes": 1917,
+      "sha256": "b211c5b538d536ce3ee4582567c002cce41d6d216101cd5eead2995fd5ecba32"
     },
     {
       "path": "03-acm-iui-2027-demo/figures/iui-figure-01-workflow.png",
@@ -212,8 +222,8 @@
     },
     {
       "path": "03-acm-iui-2027-demo/genai-use-disclosure.md",
-      "bytes": 1148,
-      "sha256": "3b676032ef1a6f0397bb3fc3fbaf2d1510f6d99a5db8caf70b634022c53d4842"
+      "bytes": 1163,
+      "sha256": "eaa954c9ecd421d90b3ec179a42a1b969998c5d1347947a378002561410c98e5"
     },
     {
       "path": "03-acm-iui-2027-demo/iui-publishing-guide.zh-CN.md",
@@ -227,13 +237,13 @@
     },
     {
       "path": "03-acm-iui-2027-demo/references.bib",
-      "bytes": 1959,
-      "sha256": "598f16d4006f390d106029acfeb85ddfc73ba03c27a9e4e15d7b2a60d5c6098f"
+      "bytes": 2244,
+      "sha256": "d48ca4ce80e890caa4da97ec3632391fe22af94b36eeacca4cc37ca01bf5489d"
     },
     {
       "path": "03-acm-iui-2027-demo/submission-metadata.md",
-      "bytes": 2558,
-      "sha256": "7a3bc8962dbfb1a3c09f18ffe76aa99a7a954d2f523991d43601c839f42d652d"
+      "bytes": 3323,
+      "sha256": "2c192db882254b9239cc21a8833d7c04940f77f87809d45330a1fe9f76377b44"
     },
     {
       "path": "03-acm-iui-2027-demo/templates/README.md",
@@ -246,9 +256,24 @@
       "sha256": "05e757a3c93f9cbf9dbca257009d48d141f311b1132f8396b8cdb2fbac9ef0e9"
     },
     {
+      "path": "03-acm-iui-2027-demo/video/AI-FMS_System_Demo.en.srt",
+      "bytes": 2797,
+      "sha256": "233ce6dbcab4cedceb300f15208e5fa2aae2c9469d3a15a8f909e45781f67743"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/video/AI-FMS_System_Demo.en.vtt",
+      "bytes": 2805,
+      "sha256": "289652d89799b2ba204592282da19d2dc9927a35e8791bbe2e36480c54849883"
+    },
+    {
+      "path": "03-acm-iui-2027-demo/video/AI-FMS_System_Demo.mp4",
+      "bytes": 18788621,
+      "sha256": "d55013c3cb2b0a3164c4c25933da48e54866d851ae6dce54935b6154b31acbd2"
+    },
+    {
       "path": "README.md",
-      "bytes": 4914,
-      "sha256": "3f52a087693c6265af4c55b70f93f3639c4f17c5c78adc1aa785065bbc0b9211"
+      "bytes": 4811,
+      "sha256": "f84d687ef65b8384da0f70763c95f5f9c7d15606e67a669cdedaa696f8ffdc50"
     },
     {
       "path": "publication-review-order.zh-CN.md",
@@ -262,13 +287,13 @@
     },
     {
       "path": "release-archives/02-openai-developer-community.zip",
-      "bytes": 3583685,
-      "sha256": "9eaadb9f28fa38ead426a385c685e1e3a6910b2f31d7a253f4d6f63ff943775d"
+      "bytes": 3589012,
+      "sha256": "5ea000bbab5b9c37d165a56699d0385cad033e184d50ab22fd8f5a748e986066"
     },
     {
       "path": "release-archives/03-acm-iui-2027-demo.zip",
-      "bytes": 2383817,
-      "sha256": "3cee4af90594e673d3acca23e1ec7bc1428f07eda74a63aaf83514c247775247"
+      "bytes": 20801520,
+      "sha256": "aa6741ae3c2568d775665f6aafe63855b9c02931d02cb44a2498cdb04c0cca73"
     }
   ]
 }

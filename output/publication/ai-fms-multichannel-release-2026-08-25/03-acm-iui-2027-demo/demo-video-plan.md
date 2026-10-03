@@ -1,37 +1,35 @@
-# IUI 2027 Demo Video Plan
+# IUI 2027 系统演示视频
 
-## Recommendation
+状态：已制作，2026-10-03。待 PCS 上传；不是投稿成功记录。
 
-Create a 4:20-4:50 system-focused derivative. The existing 4:30 application film is a strong backup and meets the five-minute limit, but its FMS background, certifications, and personal application narrative use time that IUI reviewers would benefit from seeing devoted to interaction.
+复用已获授权的自采工作台／Study Mode 录屏和原有英文旁白，从无字幕源剪辑重新导出。
+未使用申请影片中的课程画面、证书、私人评分记录、背景音乐或个人申请结尾。
 
-## Proposed structure
+- 文件：`video/AI-FMS_System_Demo.mp4`
+- 长度：155.871 秒（约 2:36），符合不超过 5 分钟要求。
+- 规格：1920×1080，30 fps，H.264 / AAC，48 kHz 双声道，fast-start。
+- 字幕：`video/AI-FMS_System_Demo.en.srt`、`.en.vtt`；25 条，与既有旁白匹配。
+- 画面没有烧录字幕；播放器可以切换字幕。
+- 公开播放：https://edwardzhu-hk.github.io/AI-FMS/#demo
+- 文字稿：https://edwardzhu-hk.github.io/AI-FMS/transcript.html
 
-| Time      | Visual                                           | Narration goal                                         |
-| --------- | ------------------------------------------------ | ------------------------------------------------------ |
-| 0:00-0:20 | Title plus one full-screen movement clip         | State the review problem and human-in-the-loop premise |
-| 0:20-0:45 | Seven-movement navigation and traceable workflow | Show product scope without listing every feature       |
-| 0:45-1:30 | Ingest, range, repetition segmentation, loop     | Establish the unit of work                             |
-| 1:30-2:20 | Pose overlay, quantitative evidence, explanation | Show how the AI exposes its basis                      |
-| 2:20-2:55 | Reviewer correction and protocol field change    | Demonstrate control and update behavior                |
-| 2:55-3:30 | Abstention example                               | Show why refusal is a capability                       |
-| 3:30-4:00 | Blind Study Mode and adjudication/export         | Explain evaluation separation and traceability         |
-| 4:00-4:30 | Phase I result animation                         | Present coverage and preliminary agreement honestly    |
-| 4:30-4:45 | Presenter on camera plus demo invitation         | Close with what attendees can try live                 |
+## 实际顺序
 
-## Video requirements
+| 时间      | 内容                                           |
+| --------- | ---------------------------------------------- |
+| 0:00–0:06 | 标题、作者和系统定位                           |
+| 0:06–0:27 | 七动作工作流、解释和协议不足时 abstention      |
+| 0:27–0:50 | rep 回放、边界、真实姿态和定量证据             |
+| 0:50–1:09 | 人工评分、camera view、side、clearing 和 notes |
+| 1:09–1:31 | 独立盲评界面与可追溯导出说明                   |
+| 1:31–2:04 | Phase I 内部结果和结论边界                     |
+| 2:04–2:28 | 四动作的扩展分析价值                           |
+| 2:28–2:36 | 预印本 DOI 和公开代码入口                      |
 
-- Maximum 5:00; target under 4:50.
-- 1920x1080, H.264/AAC, 30 fps is appropriate.
-- A separate, manually verified timestamped SRT or VTT closed-caption file. Do not burn captions into the IUI submission master.
-- Large labels and dynamic zoom for quantitative evidence.
-- No copyrighted course footage, private participant records, or local paths.
-- Use the permission-cleared 2026-08-24 demonstration videos.
+## 校验
 
-## Backup asset
+- SHA-256：`d55013c3cb2b0a3164c4c25933da48e54866d851ae6dce54935b6154b31acbd2`。
+- 大小：18,788,621 bytes。
 
-Current approved English film filename: `ai-fms-application-film-master-final.mp4`.
-
-The internal filesystem location is recorded only in the root release-control README and must not be copied into the public submission. The existing film contains open captions and therefore requires a clean-caption derivative before it can be used as the formal SIGCHI video.
-
-Expected duration: 270.000 seconds.
-Expected SHA-256: `0951438d04a600ca281769dff065a24d98e67a8fed222497f9b6b93d30c00451`.
+原先 4:20–4:50 是剪辑建议，不是会议规定的最低长度。此次使用精简系统版；现场互动
+仍按 `demo-runbook.md` 展示完整操作。原有 4:30 申请影片继续保留，未被覆盖。

@@ -1,6 +1,6 @@
 # AI-FMS Phase I Publication Track
 
-Status: ACTIVE - Zenodo published; Community and IUI in preparation
+Status: ACTIVE - Zenodo published; showcase live; Community and PCS awaiting login
 
 Last updated: 2026-10-03
 
@@ -37,17 +37,17 @@ The three outputs share one verified evidence base but do not reuse the same nar
 
 | Component                            | Status                       | Evidence or remaining gate                                                                              |
 | ------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Channel-specific English manuscripts | Zenodo published; two drafts | Community and IUI remain in preparation                                                                 |
+| Channel-specific English manuscripts | Zenodo published; two drafts | Community text and IUI paper/video prepared; not posted/submitted                                       |
 | Zenodo DOCX/PDF                      | Published                    | Version 1.0; 15-page English PDF with DOI and seven figures                                             |
 | Zenodo Chinese translation           | Ready for internal review    | Complete Chinese Markdown and polished Word translation; English remains canonical                      |
-| ACM IUI paper                        | Ready for author review      | Official ACM Word template; four total rendered pages                                                   |
-| OpenAI Community post                | Ready for voice review       | Markdown plus polished Word review copy, images, tags, launch copy, and instructions                    |
+| ACM IUI paper                        | Prepared                     | Official ACM Word template; four total rendered pages                                                   |
+| OpenAI Community post                | Awaiting account login       | Markdown plus polished Word review copy, images, tags, launch copy, and instructions                    |
 | Publication instructions             | Ready                        | Chinese step-by-step guides in each package                                                             |
-| Checksums and archives               | Ready                        | 52-file manifest, SHA-256 list, and three verified ZIP archives                                         |
-| Author/affiliation/ORCID             | Pending human confirmation   | Yellow placeholders remain in manuscripts                                                               |
+| Checksums and archives               | Ready                        | Current file manifest, SHA-256 list, and three verified ZIP archives                                    |
+| Author/affiliation/ORCID             | Confirmed                    | Haoran ZHU; school and application email filled; no ORCID supplied                                      |
 | Media and privacy rights             | Partially cleared            | Public-safe interface figures use consented project video; all other media remain private until cleared |
 | Public GitHub access                 | Complete                     | Existing URL is public; ownership transfer can be handled separately                                    |
-| Public demo URL                      | Pending                      | Build from a sanitized demo dataset and permission-cleared video                                        |
+| Public showcase                      | Published                    | https://edwardzhu-hk.github.io/AI-FMS/ with a 2:36 recorded demo, SRT/VTT and transcript                |
 | Zenodo DOI                           | Published                    | Version 1.0: 10.5281/zenodo.23118144                                                                    |
 | ACM preprint compatibility           | Policy checked               | Unreviewed preprints are permitted; a chair inquiry is optional clarification                           |
 | IUI attendance and cost              | Pending                      | At least one author must attend Helsinki if accepted                                                    |
@@ -89,3 +89,7 @@ Use only the status that has actually occurred:
 A Zenodo preprint and a community post are public, but neither is peer reviewed.
 
 Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. Zenodo preprint v1.0 was published on 3 October 2026 with DOI 10.5281/zenodo.23118144; it is not peer reviewed. The cleaned project is public at the existing GitHub URL; the original repository and PRs remain in a private archive.
+
+## 3 October closeout update
+
+The IUI paper is four pages including references and cites the published Zenodo DOI. The 155.871-second H.264/AAC video and separate English captions are complete. Community publication needs login; PCS submission needs login and an attendance/cost decision. No post URL or submission receipt exists yet.

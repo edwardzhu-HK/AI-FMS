@@ -1,3 +1,7 @@
+> 2026-10-03 更新：本文件作为展示页文案来源保留。实际页面位于 `docs/showcase/`，
+> 公开入口为 https://edwardzhu-hk.github.io/AI-FMS/ 。Zenodo 已发布，
+> DOI 10.5281/zenodo.23118144；Community 和 IUI 尚未正式发布／投稿。
+
 # AI-FMS Phase I Project Page Copy
 
 状态：CURRENT - ready for page implementation
