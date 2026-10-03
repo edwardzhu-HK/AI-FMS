@@ -44,9 +44,9 @@
 | OpenAI Community post | 等待 Ronnie 语气审核 | Markdown、排版 Word、图片、tags、launch copy、操作指引齐全 |
 | 发布指引              | 已准备               | 每个 folder 内都有中文步骤                                 |
 | 文件校验和 ZIP        | 已准备               | 52 文件 manifest、SHA-256 和 3 个测试通过的 ZIP            |
-| 作者、单位、ORCID     | 待人工确认           | 稿件中的黄色位置必须填写或删除                             |
-| 图片、视频和隐私权利  | 部分完成             | 界面图使用自采授权素材；其他媒体默认不公开                 |
-| GitHub 转移           | 待完成               | 完整审计 history 和公开边界后转给 Haoran Zhu               |
+| 作者、单位、ORCID     | Zenodo 已确认        | Haoran ZHU；学校和邮箱已填；ORCID 省略                     |
+| 图片、视频和隐私权利  | 当前论文图片已确认   | 原始研究媒体保持私有；视频发布另行处理                     |
+| GitHub 公开访问       | 已完成               | 原地址公开；所有权转移可另行处理                           |
 | Public demo URL       | 待完成               | 使用 sanitized demo data 和授权视频                        |
 | Zenodo DOI            | 待完成               | 建立 draft 后预留，再写入最终 PDF                          |
 | ACM preprint 政策     | 已核对               | 允许非同行评审预印本；询问 chairs 为可选核实               |
@@ -95,6 +95,6 @@ Zenodo 和 Developer Community 都是公开输出，但都不是 peer reviewed�
 Zenodo 已确认唯一作者 Haoran ZHU、学校与申请邮箱、无利益冲突、无外部资金、
 删除致谢、当前图片公开授权及 CC BY 4.0 论文许可。方法中已补充其 FMS Level 1
 和 Level 2 认证。DOI 尚未分配，Zenodo 尚未发布。用户已要求开放现有 GitHub，
-正在处理旧媒体历史的公开边界。
+已完成旧媒体历史清理并在原地址公开；旧库及 PR 保留为私有归档。
 
 政策依据：[ACM Policy on Authorship](https://www.acm.org/publications/policies/new-acm-policy-on-authorship)。

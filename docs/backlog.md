@@ -591,8 +591,13 @@ Canonical execution plan:
       written-permission gate for an unreviewed preprint.
 - [x] Add Haoran ZHU's verified FMS Level 1 and Level 2 certifications to the
       Zenodo Methods and record permission for current figures and CC BY 4.0.
-- [ ] Prepare the existing GitHub repository for public access; audit historical
-      media and retain recoverable private backups before changing visibility.
+- [x] Publish the cleaned repository at the existing GitHub address on 2026-10-03,
+      retaining all 146 historical commits and 30 branches, with four withdrawn
+      media blobs excluded. Preserve the original repository and PRs privately.
+- [x] Make tests portable to public checkouts: 327 public tests pass and 14
+      private-data checks explicitly skip; the research workspace passes all 341.
+- [x] Verify anonymous access to the public repository and README, and anonymous
+      denial for the private archive and all four withdrawn media blobs.
 - [ ] Reserve a Zenodo DOI, insert it into the author-approved PDF, rerun the
       release manifest, and publish only after patent, rights, privacy, and IUI
       policy gates are closed.

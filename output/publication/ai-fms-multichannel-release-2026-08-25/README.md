@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-08-25
 **Project stage:** System Development and Phase I Evaluation
-**Publication status:** Draft package for author review. Nothing in this folder has been published or submitted.
+**Publication status:** Public review drafts accompanying the GitHub source release. No Zenodo deposit, DOI, or conference submission has been completed.
 
 This release package presents one project through three deliberately different channels. The three texts share the same verified evidence base, but they do not make the same contribution or reuse the same narrative.
 

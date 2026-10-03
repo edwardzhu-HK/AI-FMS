@@ -46,7 +46,7 @@ The three outputs share one verified evidence base but do not reuse the same nar
 | Checksums and archives                | Ready                      | 52-file manifest, SHA-256 list, and three verified ZIP archives                                         |
 | Author/affiliation/ORCID              | Pending human confirmation | Yellow placeholders remain in manuscripts                                                               |
 | Media and privacy rights              | Partially cleared          | Public-safe interface figures use consented project video; all other media remain private until cleared |
-| Public GitHub ownership               | Pending                    | Transfer to Haoran Zhu after repository history and public-boundary audit                               |
+| Public GitHub access                  | Complete                   | Existing URL is public; ownership transfer can be handled separately                                    |
 | Public demo URL                       | Pending                    | Build from a sanitized demo dataset and permission-cleared video                                        |
 | Zenodo DOI                            | Pending                    | Reserve in draft, then insert into final PDF                                                            |
 | ACM preprint compatibility            | Policy checked             | Unreviewed preprints are permitted; a chair inquiry is optional clarification                           |
@@ -90,4 +90,4 @@ Use only the status that has actually occurred:
 
 A Zenodo preprint and a community post are public, but neither is peer reviewed.
 
-Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. DOI and actual Zenodo publication remain pending. The existing GitHub repository is being prepared for public access.
+Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. DOI and actual Zenodo publication remain pending. The cleaned project is public at the existing GitHub URL; the original repository and PRs remain in a private archive.

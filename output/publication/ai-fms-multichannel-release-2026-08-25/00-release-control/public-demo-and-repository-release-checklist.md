@@ -6,10 +6,10 @@ The Zenodo, OpenAI Community, and ACM IUI packages all benefit from stable publi
 
 - [ ] Optional later step: transfer ownership to Haoran Zhu's GitHub account; not a prerequisite for public access.
 - [ ] Choose the public branch and tag a release.
-- [ ] Run secret scanning and inspect Git history, not only the current files.
+- [x] Inspect Git history and scan 1,423 file versions for common credential patterns; no matches found. Four withdrawn media blobs are removed from the public history.
 - [ ] Remove raw videos, private databases, reviewer exports, source manifests, local paths, and authentication files.
 - [ ] Confirm third-party licenses for all dependencies and copied assets.
-- [ ] Update README with the seven-movement scope, local setup, screenshots, limitations, and citation.
+- [x] Update README with seven-movement scope, local setup, screenshots, limitations, draft-paper links, and public/private asset boundaries.
 - [ ] Add `LICENSE`, `CITATION.cff`, and a release tag.
 - [ ] Confirm that a new user can run the privacy-safe demo from the public instructions.
 
@@ -30,3 +30,5 @@ The Zenodo, OpenAI Community, and ACM IUI packages all benefit from stable publi
 - Zenodo DOI: [ADD]
 - Application film: [ADD OR OMIT]
 - ACM IUI submission/project page: [ADD LATER]
+
+Public access verified on 3 October 2026. Public checkout validation: 327 passed, 14 private-data tests skipped; private research checkout: 341 passed. Code licensing remains separate from the confirmed CC BY 4.0 preprint license.

@@ -86,9 +86,12 @@ Blocked wording unless future evidence supports it:
 
 ## Repository status — 3 October 2026
 
-The existing URL is https://github.com/edwardzhu-HK/AI-FMS. GitHub reports
-`PRIVATE`; `main` points to `5e4bc89c743ae97576676520db650209e4062a79`
-(last updated 23 August 2026). The current Zenodo draft gives the URL but
-explicitly describes code access as restricted. No visibility change or
-public code release has been performed. A public repository claim requires
-a reviewed public release; it is not implied by inclusion of the URL.
+The user approved preserving the old repository as a private archive and
+publishing cleaned history at https://github.com/edwardzhu-HK/AI-FMS.
+The new repository is PUBLIC (GitHub ID 1402719662), with `main` as default.
+The original repository remains PRIVATE and archived (GitHub ID 1253941998).
+All 146 original commit records and 30 branches are retained in cleaned form;
+four withdrawn media blobs are excluded. Anonymous requests verified public
+repository and README access, and returned 404 for the private archive and
+the original commit URLs of all four withdrawn media versions. This is a source/document release, not a
+Zenodo publication or a hosted interactive demo.

@@ -37,7 +37,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | 申请人专业准备       | Ronnie 已完成 FMS Level 1 与 Level 2 certification |
 | 定量案例与图表       | 4 种差异化分析；4 张无人物数据驱动图               |
 | 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
-| 当前等待项           | Zenodo 定稿与 DOI、GitHub 公开准备、IUI Demo 投稿  |
+| 当前等待项           | Zenodo DOI 与正式发布、社区文章、IUI Demo 投稿     |
 
 四个 pilot actions：
 
@@ -330,7 +330,8 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 
 1. Zenodo 中英文稿已完成本轮作者信息、摘要与声明修订；建立草稿并填写 DOI 后，
    完成正式发布。当前仍为预印本草稿，未经同行评审。
-2. 根据用户要求开放现有 GitHub 地址；先处理 Git 历史中的旧媒体，保存完整私有备份。
+2. GitHub 已于 2026-10-03 公开，旧媒体历史已清理，原库和恢复备份保持私有；
+   公开状态与验证结果见 [发布记录](docs/delivery/ai_fms_public_release_2026-10-03.md)。
 3. 英文 4:30 application film 已完成；按申请需要派生 3 分钟版与 60 秒版，
    并为公开演示准备稳定入口。
 4. 以已核准的事实和链接完成 OpenAI Developer Community 文章的作者语气审核与发布。

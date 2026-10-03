@@ -2,7 +2,7 @@
   "package": "AI-FMS Multichannel Publication Release Package",
   "status": "draft_for_author_review",
   "prepared_date": "2026-08-25",
-  "generated_at_utc": "2026-10-03T05:35:38+00:00",
+  "generated_at_utc": "2026-10-03T05:51:09+00:00",
   "channels": [
     "01-zenodo-preprint",
     "02-openai-developer-community",
@@ -12,8 +12,8 @@
   "files": [
     {
       "path": "00-release-control/author-rights-and-claims-checklist.md",
-      "bytes": 5320,
-      "sha256": "2678a0c552a8c77411d3d9ec61f4b834eff4925346c6f26678b8de6d037f125f"
+      "bytes": 5562,
+      "sha256": "de657ac82989a947137450bb40ea32b190d11f632152b57ec5c38713ee5bc7c6"
     },
     {
       "path": "00-release-control/cross-channel-differences-and-reuse.md",
@@ -22,8 +22,8 @@
     },
     {
       "path": "00-release-control/public-demo-and-repository-release-checklist.md",
-      "bytes": 1552,
-      "sha256": "d428f5cd11d7c7ca862128ceb10e94e1840a2583c3ad5b16c647a8c17e9c1635"
+      "bytes": 1912,
+      "sha256": "ccbb1746f0d033cdb28dd5ea49b5723343e0f691c0e2f404791fd0e849578b07"
     },
     {
       "path": "00-release-control/source-of-truth-evidence.md",
@@ -247,8 +247,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4806,
-      "sha256": "e41a12e30594303371f0bd9eaa07cb41a1334e8900730c25deb28da081ec8100"
+      "bytes": 4847,
+      "sha256": "828c56742af02a820821ade8d15c4c5bcdd351e4f1ddaad3f59298d2f322ff0b"
     },
     {
       "path": "publication-review-order.zh-CN.md",
