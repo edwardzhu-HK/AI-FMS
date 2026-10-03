@@ -10,11 +10,11 @@
 - 录用后进入 companion proceedings，并要求至少一位作者到 Helsinki 现场演示。
 - 所有材料遵守 ACM GenAI disclosure、author responsibility 和 accessibility 要求。
 
-## 第一步：先问清 preprint 兼容性
+## 第一步：说明与预印本的关系（询问信为可选）
 
-1. 用 `prior-publication-policy-inquiry-email.md` 发给 `posters2027@iui.acm.org`。
+1. ACM 现行 authorship policy 允许先发布非同行评审预印本，无需为预印本本身申请例外。如需额外核实，可使用 `prior-publication-policy-inquiry-email.md` 联系 chairs。
 2. 发送前填好作者、单位和邮箱。
-3. 保存发送邮件和回复 PDF。
+3. 如发送询问，保存往来记录；不将等待回信设为 Zenodo 发布的强制前置条件。
 4. 无论回复如何，投稿时主动披露 Zenodo 与 OpenAI Community 内容。
 
 ## 第二步：作者和材料确认

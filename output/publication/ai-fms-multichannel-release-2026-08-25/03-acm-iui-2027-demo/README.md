@@ -29,6 +29,6 @@
 
 The current 4:30 application film meets the five-minute limit and can serve as a content backup. It has burned-in captions, so it is not the preferred SIGCHI submission master. The recommended IUI video is a clean-caption, system-focused derivative with a separate SRT/VTT file that spends more time on interaction, explanation, correction, and abstention and less time on personal application context.
 
-## Submission blocker
+## Preprint relationship
 
-Before publicly posting the Zenodo preprint, send the prepared policy inquiry to `posters2027@iui.acm.org` and retain the written reply. The package discloses the planned Zenodo record and OpenAI Community article rather than assuming compatibility.
+ACM permits unreviewed preprints without requesting an exception. The prepared policy inquiry is optional clarification, not a required permission gate before Zenodo publication. Cite and disclose the Zenodo record and explain the interface-focused contribution of the IUI demo paper. Policy checked 3 October 2026: https://www.acm.org/publications/policies/new-acm-policy-on-authorship.

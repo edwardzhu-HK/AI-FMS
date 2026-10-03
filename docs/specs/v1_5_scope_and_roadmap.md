@@ -61,6 +61,18 @@ conditional on written journal permission. New held-out videos, expert-panel
 review, and an evidence-assisted controlled study belong to the next validation
 phase.
 
+## October 2026 Publication Closeout
+
+截至 2026-10-03，当前主线为 Zenodo preprint、OpenAI Developer Community 和
+ACM IUI 2027 Demo；NHSJS 路线作为历史准备保留。用户已确认 Zenodo 唯一作者为
+Haoran ZHU、学校与申请邮箱、无利益冲突、无外部资金支持、当前论文图片公开授权及
+CC BY 4.0 论文许可，并要求将现有 `edwardzhu-HK/AI-FMS` 仓库开放给公众。
+
+GitHub 公开准备正在核对历史中的旧媒体；实际可见性以 GitHub 核验结果为准。
+研究数据与既有 Phase I 结论继续冻结。DOI 尚未分配，Zenodo 尚未发布。
+ACM 现行政策允许非同行评审预印本；向 IUI chairs 询问可作为额外核实，
+不再作为必须收到回复才能发布 Zenodo 的前置条件。IUI 稿应引用并披露相关预印本。
+
 ## 2. Inputs Reviewed
 
 - Existing project implementation: React/Vite workbench, mock API, local API
@@ -647,7 +659,7 @@ Implementation status after the first P2 pass:
     reviewers who want to restore those boundaries after manual edits.
 24. Added a reproducible Deep Squat demo dry-run checklist and generated three
     screenshot assets for the project/application package:
-    `docs/assets/ai-fms-demo-overview.jpg`,
+    `docs/assets/publication/ai-fms-workbench-overview-real-video.png`,
     `docs/assets/ai-fms-demo-side-angle-features.jpg`, and
     `docs/assets/ai-fms-demo-export-evidence.jpg`.
 25. Added README screenshot/demo-path sections and standalone project-page copy

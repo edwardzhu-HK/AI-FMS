@@ -125,67 +125,77 @@ test("evaluateRotaryStabilitySegmentsTiming reports insufficient pose", () => {
   assert.equal(report.items[0].issues[0].code, "insufficient_rotary_frames");
 });
 
-test("evaluateRotaryStabilitySegmentsTiming keeps rotary review demo to full FMS cycles", () => {
-  const posePayload = loadRotaryReviewPayload();
-  const report = evaluateRotaryStabilitySegmentsTiming({
-    posePayload,
-    segments: [
-      {
-        segmentId: "seg_1",
-        repetitionIndex: 1,
-        actionType: "rotary_stability",
-        cameraView: "side",
-        side: "unknown",
-        startSecond: 46,
-        endSecond: 80.5,
-      },
-      {
-        segmentId: "seg_2",
-        repetitionIndex: 2,
-        actionType: "rotary_stability",
-        cameraView: "side",
-        side: "unknown",
-        startSecond: 77.5,
-        endSecond: 112,
-      },
-    ],
-  });
+test(
+  "evaluateRotaryStabilitySegmentsTiming keeps rotary review demo to full FMS cycles",
+  {
+    skip: fs.existsSync(
+      "Eval_Videos/Sample videos/7-rotatory stability/pose/rotary-review.pose.json",
+    )
+      ? false
+      : "Requires private research pose data",
+  },
+  () => {
+    const posePayload = loadRotaryReviewPayload();
+    const report = evaluateRotaryStabilitySegmentsTiming({
+      posePayload,
+      segments: [
+        {
+          segmentId: "seg_1",
+          repetitionIndex: 1,
+          actionType: "rotary_stability",
+          cameraView: "side",
+          side: "unknown",
+          startSecond: 46,
+          endSecond: 80.5,
+        },
+        {
+          segmentId: "seg_2",
+          repetitionIndex: 2,
+          actionType: "rotary_stability",
+          cameraView: "side",
+          side: "unknown",
+          startSecond: 77.5,
+          endSecond: 112,
+        },
+      ],
+    });
 
-  assert.equal(report.status, "good");
-  assert.equal(report.summary.detectedCycles, 2);
-  assert.deepEqual(
-    report.cycles.map((cycle) => [
-      cycle.side,
-      cycle.startSecond,
-      cycle.firstTouchSecond,
-      cycle.bestReachSecond,
-      cycle.secondTouchSecond,
-      cycle.endSecond,
-      cycle.timingSource,
-    ]),
-    [
+    assert.equal(report.status, "good");
+    assert.equal(report.summary.detectedCycles, 2);
+    assert.deepEqual(
+      report.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.firstTouchSecond,
+        cycle.bestReachSecond,
+        cycle.secondTouchSecond,
+        cycle.endSecond,
+        cycle.timingSource,
+      ]),
       [
-        "unknown",
-        48.0,
-        50.0,
-        56.0,
-        62.0,
-        64.5,
-        "curated_fms_full_cycle_timing",
+        [
+          "unknown",
+          48.0,
+          50.0,
+          56.0,
+          62.0,
+          64.5,
+          "curated_fms_full_cycle_timing",
+        ],
+        [
+          "unknown",
+          98.0,
+          99.5,
+          102.5,
+          106.0,
+          110.5,
+          "curated_fms_full_cycle_timing",
+        ],
       ],
-      [
-        "unknown",
-        98.0,
-        99.5,
-        102.5,
-        106.0,
-        110.5,
-        "curated_fms_full_cycle_timing",
-      ],
-    ],
-  );
-  assert.ok(report.items.every((item) => item.metrics.coverageRatio >= 0.99));
-});
+    );
+    assert.ok(report.items.every((item) => item.metrics.coverageRatio >= 0.99));
+  },
+);
 
 test(
   "evaluateRotaryStabilitySegmentsTiming keeps rotary instructions demo to twelve score-3 full cycles",

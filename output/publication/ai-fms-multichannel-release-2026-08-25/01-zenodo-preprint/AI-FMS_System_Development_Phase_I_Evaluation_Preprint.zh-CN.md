@@ -1,21 +1,22 @@
 # AI-FMS：系统开发、Phase I 评估及 FMS 视频审核中的人机协作
 
-**Haoran Zhu**<sup>1</sup>；**[确认其他作者]**
-<sup>1</sup>[确认学校或独立研究者单位]
-通讯作者：[确认姓名和邮箱]
-ORCID：[确认或删除]
+**Haoran ZHU**
+Kang Chiao International School East China Campus
+通讯邮箱：13061747546@163.com
 
 **预印本，未经同行评审。**
-版本 1.0 中文翻译审阅稿，2026 年 8 月 26 日
+版本 1.0 中文翻译审阅稿，修订于 2026 年 10 月 3 日
 DOI：[在最终 PDF 前于 Zenodo 预留]
 
 本稿为英文 Zenodo preprint 的中文翻译审阅稿。如中英文表述存在差异，以最终人工确认的英文原稿为准。
 
 ## 摘要
 
-Functional Movement Screen（FMS，功能性动作筛查）的评估依赖经过训练的人工观察，但在实际视频审核中，审核者常受到动作一闪而过、无法亲临现场、需要反复手动定位、判断主要依靠定性观察，以及动作信息最终被压缩成 0-3 分有序等级评分等限制。为此，我们开发了 AI-FMS：一个覆盖全部 7 个 FMS 动作的 human-in-the-loop 视频审核系统。系统提供视频上传、repetition（rep）分段、循环播放、reviewer 评分、结构化协议字段、pose overlay、定量特征、可解释的 first-pass AI 评分建议、质量警示、abstention（拒绝评分）、adjudication（裁定）和可追溯导出。系统使用二维 pose landmarks 保存关节角度、相对距离、侧别轨迹和完整动作周期事件等运动证据，同时把协议条件、疼痛、clearing 条件和最终评分的决定权保留给人类审核者。
+Functional Movement Screen（FMS，功能性动作筛查）的评估依赖经过训练的人工观察，但在实际视频审核中，审核者常受到动作一闪而过、无法亲临现场、需要反复手动定位、判断主要依靠定性观察，以及动作信息最终被压缩成 0-3 分有序等级评分等限制。为此，我们开发了 AI-FMS：一个覆盖全部 7 个 FMS 动作的 human-in-the-loop 视频审核系统。上述 7 个动作均已实现视频上传、repetition（rep）分段、循环播放、reviewer 评分、结构化协议字段、pose overlay、定量特征、可解释的 first-pass AI 评分建议、质量警示、abstention（拒绝评分）、adjudication（裁定）和可追溯导出。系统使用二维 pose landmarks 保存关节角度、相对距离、侧别轨迹和完整动作周期事件等运动证据，同时把协议条件、疼痛、clearing 条件和最终评分的决定权保留给人类审核者。
 
-Phase I 选择 4 个动作评估该工作流程：Deep Squat、Hurdle Step、Active Straight-Leg Raise 和 Rotary Stability。整理后的 corpus 包含 28 个独立源视频、29 条 ingest 记录和 110 个 canonical reps。从中以确定性、平衡化方式选出 32 个 reps，每个动作 8 条，来自 21 个源视频，并由 2 位 reviewer 完成两轮相互隔离的盲评。Round B 仍对 AI 分数和 pose evidence 保持盲法。两位 reviewer 在两轮中对 26 条双方均给出数值评分的项目全部同分，并在 Round B 对全部 32 条的最终状态达成一致。最终锁定的 AI 对 28 条项目给出输出，并对 4 条涉及分阶段协议的 Deep Squat 项目 abstain。在 25 条可与人工数值评分比较的项目中，AI-human exact agreement 为 16/25，within-one agreement 为 23/25，mean absolute error 为 0.44，linear weighted kappa 为 0.4917。进一步的分析显示，连续 pose evidence 可以区分获得相同有序分数、但采用不同完成策略的动作。这些结果支持系统的可行性和界面价值，而不是临床有效性或伤病预测。AI-FMS 展示了一种可实践的人机协作模式：自动化负责整理证据并提供可检查的建议，合格的人工 reviewer 继续对解释和最终判断负责。
+在七动作系统功能实现的基础上，Phase I 定量研究重点选取 Deep Squat、Hurdle Step、Active Straight-Leg Raise 和 Rotary Stability 四个动作，整理了包含 28 个独立源视频、110 个 canonical reps 的 corpus，并选出每动作 8 条、共 32 条 reps，由 2 位 reviewer 完成两轮独立盲评。两轮均对 AI 分数、pose evidence、既往评分及另一位 reviewer 的结果保持盲法。人工评分一致性与 AI-human 评分比较构成这项研究的一部分；在 25 条可比较项目中，锁定 AI 与人工参考完全同分 16 条，相差不超过 1 分 23 条。这些结果属于内部探索性评估，尚不构成独立外部验证。
+
+系统保留的结构化动作证据还支持进一步分析：Deep Squat 的深度与关节策略连续谱、ASLR 的双侧重复性、Hurdle Step 中相同分数对应的不同控制与扣分路径，以及 Rotary Stability 的完整周期事件结构。这些分析展示了 0-3 分之外的连续差异、左右关系和时间信息，为动作解释、跨 rep 比较及后续研究提供了可追溯依据。AI-FMS 的成果因此涵盖七动作系统实现、Phase I 定量研究，以及基于系统数据的动作分析；自动化负责整理证据和提供可检查的建议，人工 reviewer 保留最终解释与评分权。系统不用于临床诊断或伤病预测。
 
 **关键词：** Functional Movement Screen；human-in-the-loop AI；movement screening；pose estimation；视频审核；explainable AI；human-AI interaction；sports technology
 
@@ -29,12 +30,11 @@ Functional Movement Screen 使用 7 个动作模式构成一套结构化评估�
 
 因此，AI-FMS 围绕两个相互关联的目标设计。第一，使人工视频审核更易用、更可重复、更可追溯；第二，保存 0-3 分结果没有保留的部分定量证据。项目最核心的设计决定，不是用自动化把人排除出去，而是将机器辅助分段、pose evidence、明确的不确定性和 first-pass suggestion，与 reviewer 控制的协议字段、评分、备注和 adjudication 结合起来。
 
-本报告有 4 项主要贡献：
+本报告有 3 项主要贡献：
 
-1. 介绍一个覆盖全部 7 个 FMS 动作的端到端 AI-assisted review 平台。
-2. 记录一个可复现的 Phase I corpus，以及针对 4 个动作的双 reviewer 盲评流程。
-3. 报告内部锁定 AI-human benchmark，并同时报告 coverage 和 abstention，而不是强迫系统为每一项给出分数。
-4. 展示连续 pose-derived features 如何揭示相同有序分数内部的不同动作策略，同时保持非临床主张边界。
+1. 实现覆盖全部 7 个 FMS 动作的端到端 AI-assisted review 系统，整合视频标注、pose evidence、可解释建议、人工审核与可追溯导出。
+2. 开展聚焦 4 个动作的 Phase I 定量研究，建立可复现 corpus 和双 reviewer、双轮盲评流程，并报告人工评分一致性、内部 AI-human benchmark、coverage 和 abstention。
+3. 利用系统保留的结构化动作证据，开展动作特异性的连续策略、双侧重复性、控制与扣分路径及完整周期事件分析，展示有序分数之外的信息价值，同时保持非临床主张边界。
 
 ## 2. 系统目标与设计原则
 
@@ -104,6 +104,8 @@ Formal subset 包含 32 个 reps，每个动作 8 条，来自 21 个源视频�
 
 ### 4.3 人工审核协议
 
+其中一位 reviewer Haoran ZHU 已于 2025 年 7 月 17 日完成 FMS Level 1 认证，并于 2025 年 8 月 10 日获得 FMS Level 2 Certified Professional 认证，均早于 Phase I 人工审核。这些认证为其应用 FMS protocol 和解释动作证据提供了专业准备。
+
 两位 reviewer 在约 51 小时的间隔后分别完成 Round A 和 Round B。两轮中，每位 reviewer 都看不到源 filename、historical labels、AI scores、pose evidence、audio、prior answers 和另一位 reviewer 的回答。展示顺序分别随机化。Reviewer 记录：
 
 - 当 rep 可以独立评分时，记录 numeric FMS score；
@@ -131,7 +133,7 @@ Round B 是第二次 blind review，不是 AI-assisted review。因此，它衡�
 
 在 Round A 中，两位 reviewer 对 31/32 条项目的 status 一致；在双方均判断为 numeric 的 26 条项目中，分数 26/26 完全一致。在 Round B 中，两位 reviewer 对全部 32 条项目的 status 一致，并再次在 26 条双方均给出数值分数的项目上完全同分。Round B 有 6 条项目因协议原因被双方共同判定为无法独立评分。
 
-两轮之间，每位 reviewer 各修改了 1 条 numeric score，而且两处修改都涉及同一条 Hurdle Step rep。这一结果说明该小型、受训 reviewer pair 内部具有较强一致性，但在开展更大规模、多 reviewer 研究之前，不能把该结果推广到其他审核者。样本分数范围有限时，exact agreement 也可能被抬高。
+两轮之间，每位 reviewer 各修改了 1 条 numeric score，而且两处修改都涉及同一条 Hurdle Step rep。这一结果说明该小型 reviewer pair 内部具有较强一致性，但在开展更大规模、多 reviewer 研究之前，不能把该结果推广到其他审核者。样本分数范围有限时，exact agreement 也可能被抬高。
 
 ### 5.2 锁定 AI-human benchmark
 
@@ -152,7 +154,7 @@ Round B 是第二次 blind review，不是 AI-assisted review。因此，它衡�
 | -------------------- | ------------------------------------ | ---------------------------------------------------------- |
 | Corpus               | 28 个独立视频；110 个 canonical reps | 开发与探索性分析 corpus                                    |
 | Formal review        | 32 个 reps；2 位 reviewers；2 轮盲评 | 小型 internal reliability audit                            |
-| Round B 人工 status  | 32/32 一致                           | 该受训 reviewer pair 内的一致性                            |
+| Round B 人工 status  | 32/32 一致                           | 该 reviewer pair 内的一致性                                |
 | Locked AI coverage   | 28/32                                | AI 可以分析大部分 formal items，并对协议未解决项目 abstain |
 | AI-human comparable  | 25 条                                | Internal post-audit benchmark，不是 held-out validation    |
 | Exact / within one   | 16/25 / 23/25                        | 初步有序评分一致性                                         |
@@ -190,7 +192,7 @@ Rotary Stability 无法由单一 peak angle 可靠总结。它的协议依赖 pa
 
 ## 6. 开发过程中的 Human-AI Collaboration
 
-本项目通过 domain-led human review 与 generative-AI-assisted engineering 的反复协作完成。Haoran Zhu 的 FMS 培训和持续评分实践塑造了 protocol logic、movement-specific evidence 和 acceptance criteria。人工 reviewers 定义 rep 何时可以评分，修正 camera 和 side metadata，识别 information leakage，审核每一条 formal item，并决定对外主张边界。
+本项目通过 domain-led human review 与 generative-AI-assisted engineering 的反复协作完成。Haoran ZHU 的 FMS 培训和持续评分实践塑造了 protocol logic、movement-specific evidence 和 acceptance criteria。人工 reviewers 定义 rep 何时可以评分，修正 camera 和 side metadata，识别 information leakage，审核每一条 formal item，并决定对外主张边界。
 
 OpenAI Codex 协助进行 code exploration、implementation、tests、data reconciliation、statistical scripts、figure preparation、document drafting 和 release checks。这些帮助加快了迭代，但没有消除人工纠错的必要。3 个例子尤其重要：
 
@@ -214,7 +216,7 @@ AI-FMS 表明，在自动评分或临床级评分尚未成立之前，intelligen
 
 第一，corpus 属于 convenience sample，规模较小、来源异质，而且不同动作、视频来源、camera views 和 protocol conditions 的分布不均。Repetitions 嵌套于视频和受试者之内，因此 rep-level count 不等于独立样本量。
 
-第二，双 reviewer audit 只包含一组受训 reviewer pair，复评间隔也较短。较高的 exact agreement 还需要在更多 reviewers、更广泛经验水平、更长间隔和正式 adjudication procedure 中复验。
+第二，双 reviewer audit 只包含一组 reviewer pair，复评间隔也较短。较高的 exact agreement 还需要在更多 reviewers、更广泛经验水平、更长间隔和正式 adjudication procedure 中复验。
 
 第三，最终 AI 在 Round A 之后经过改进。虽然在查看 Round B 结果前锁定规则保护了流程的一部分，但这 32 条 formal items 仍参与过开发。因此，报告结果是 internal post-audit benchmark，不是 held-out validation。
 
@@ -251,17 +253,11 @@ AI-FMS 的开发目的是支持人类完成 FMS 视频审核，并保存有序�
 
 ## 数据与代码可用性
 
-在完成 repository rights 和 secret scanning 后，将提供 code 和 privacy-safe demonstration package：[PUBLIC REPOSITORY URL]。由于不同来源的同意和发布权不同，private Phase I corpus、raw video、pose records、reviewer event logs、comments 和 SQLite database 不公开。Aggregate analysis outputs 和 permission-cleared figures 随本 preprint 提供。
+源代码和项目文档可通过 https://github.com/edwardzhu-HK/AI-FMS 公开访问。本次发布不包含托管的在线交互演示。由于不同来源的同意和发布权不同，private Phase I corpus、raw video、pose records、reviewer event logs、comments 和 SQLite database 不公开。Aggregate analysis outputs 和 permission-cleared figures 随本 preprint 提供。
 
 ## 作者贡献
 
-**Haoran Zhu：** Conceptualization；domain protocol；investigation；software testing；human review；validation；visualization review；writing - original draft；writing - review and editing。
-
-**[确认其他人类作者]：** [仅在确认后填写 CRediT roles]。
-
-## 致谢
-
-[确认并填写对人类参与者的致谢。不要把软件列为作者。]
+**Haoran ZHU：** Conceptualization；domain protocol；investigation；software testing；human review；validation；visualization review；writing - original draft；writing - review and editing。
 
 ## Generative AI 使用披露
 
@@ -269,11 +265,11 @@ AI-FMS 的开发目的是支持人类完成 FMS 视频审核，并保存有序�
 
 ## 利益冲突
 
-作者声明：[确认：不存在利益冲突 / 描述任何利益冲突]。
+作者声明不存在利益冲突。
 
 ## 资金支持
 
-[确认：无外部资金支持 / 提供资金说明]。
+本研究未获得外部资金支持。
 
 ## 参考文献
 

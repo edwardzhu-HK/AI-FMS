@@ -412,44 +412,64 @@ test(
   },
 );
 
-test("detectAslrCycles keeps ASLR 4-rep score-2 sample to valid reps only", () => {
-  const result = detectAslrCycles(loadAslrFourRepsScore2Payload());
+test(
+  "detectAslrCycles keeps ASLR 4-rep score-2 sample to valid reps only",
+  {
+    skip: fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/4-reps-score-2.pose.json",
+    )
+      ? false
+      : "Requires private research pose data",
+  },
+  () => {
+    const result = detectAslrCycles(loadAslrFourRepsScore2Payload());
 
-  assert.equal(result.cycles.length, 4);
-  assert.deepEqual(
-    result.cycles.map((cycle) => [
-      cycle.side,
-      cycle.startSecond,
-      cycle.peakSecond,
-      cycle.endSecond,
-      cycle.manualScoreOverride,
-    ]),
-    [
-      ["unknown", 16.5, 21.3, 25.6, 2],
-      ["unknown", 27.2, 30.4, 32.8, 2],
-      ["unknown", 34.0, 36.0, 41.0, 2],
-      ["unknown", 45.8, 49.2, 52.3, 2],
-    ],
-  );
-  assert.ok(result.cycles.every((cycle) => cycle.startSecond >= 16));
-  assert.ok(result.cycles.every((cycle) => cycle.endSecond <= 53));
-});
+    assert.equal(result.cycles.length, 4);
+    assert.deepEqual(
+      result.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.peakSecond,
+        cycle.endSecond,
+        cycle.manualScoreOverride,
+      ]),
+      [
+        ["unknown", 16.5, 21.3, 25.6, 2],
+        ["unknown", 27.2, 30.4, 32.8, 2],
+        ["unknown", 34.0, 36.0, 41.0, 2],
+        ["unknown", 45.8, 49.2, 52.3, 2],
+      ],
+    );
+    assert.ok(result.cycles.every((cycle) => cycle.startSecond >= 16));
+    assert.ok(result.cycles.every((cycle) => cycle.endSecond <= 53));
+  },
+);
 
-test("detectAslrCycles keeps ASLR 1-rep right score-1 sample to one valid rep", () => {
-  const result = detectAslrCycles(loadAslrOneRepScore1RightPayload());
+test(
+  "detectAslrCycles keeps ASLR 1-rep right score-1 sample to one valid rep",
+  {
+    skip: fs.existsSync(
+      "Eval_Videos/Sample videos/5-ASLR/pose/1-rep-score-1-right.pose.json",
+    )
+      ? false
+      : "Requires private research pose data",
+  },
+  () => {
+    const result = detectAslrCycles(loadAslrOneRepScore1RightPayload());
 
-  assert.equal(result.cycles.length, 1);
-  assert.deepEqual(
-    result.cycles.map((cycle) => [
-      cycle.side,
-      cycle.startSecond,
-      cycle.peakSecond,
-      cycle.endSecond,
-      cycle.manualScoreOverride,
-    ]),
-    [["right", 0.0, 3.22, 4.75, 1]],
-  );
-});
+    assert.equal(result.cycles.length, 1);
+    assert.deepEqual(
+      result.cycles.map((cycle) => [
+        cycle.side,
+        cycle.startSecond,
+        cycle.peakSecond,
+        cycle.endSecond,
+        cycle.manualScoreOverride,
+      ]),
+      [["right", 0.0, 3.22, 4.75, 1]],
+    );
+  },
+);
 
 test(
   "detectAslrCycles keeps ASLR 2-rep score-3 second sample to complete reps only",

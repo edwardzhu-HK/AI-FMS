@@ -571,14 +571,28 @@ Canonical execution plan:
       the English manuscript canonical.
 - [x] Generate a 52-file manifest, SHA-256 checksums, and three channel ZIP
       archives; checksum and decompression verification passed.
+- [x] Revise the Zenodo English and Chinese abstracts on 2026-10-03 to balance
+      seven-movement system implementation, four-movement Phase I quantitative
+      research, and movement analyses; describe both review rounds as blinded.
+- [x] Confirm Haoran ZHU as the sole Zenodo author, using Kang Chiao
+      International School East China Campus and the application email; keep
+      the complete numerical results in the manuscript body.
+- [x] Finalize Zenodo no-competing-interests and no-external-funding statements,
+      remove acknowledgments, and replace the repository placeholder with the
+      existing GitHub URL plus its verified restricted-access status (2026-10-03).
 - [ ] Confirm student/author metadata, adult corresponding contact, CRediT-style
       contributions, rights boundaries, and AI-use disclosure.
 - [ ] Haoran Zhu reviews and rewrites the three English drafts into his final
       voice, verifies every number/reference, and resolves all yellow prompts.
 - [ ] Complete the public repository transfer, secret/history audit, sanitized
       demo dataset, stable GitHub URL, and public demo URL.
-- [ ] Send the IUI prior-publication inquiry to `posters2027@iui.acm.org` and
-      archive the written response before publishing the Zenodo record.
+- [x] Clarify DOI reservation versus publication and recheck ACM preprint policy
+      on 2026-10-03; an IUI inquiry is optional clarification, not a mandatory
+      written-permission gate for an unreviewed preprint.
+- [x] Add Haoran ZHU's verified FMS Level 1 and Level 2 certifications to the
+      Zenodo Methods and record permission for current figures and CC BY 4.0.
+- [ ] Prepare the existing GitHub repository for public access; audit historical
+      media and retain recoverable private backups before changing visibility.
 - [ ] Reserve a Zenodo DOI, insert it into the author-approved PDF, rerun the
       release manifest, and publish only after patent, rights, privacy, and IUI
       policy gates are closed.

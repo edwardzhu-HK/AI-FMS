@@ -7,6 +7,20 @@ rep 进行切分、盲法评分、pose evidence 检查、分歧复核和可追�
 项目不进行医疗诊断、伤病风险预测或自动 pain detection，也不替代 certified FMS
 professional。当前 AI 总分是可解释的研究性提示层，不是经过独立验证的自动评分器。
 
+## 公开成果入口
+
+- [Zenodo 英文预印本 PDF 草稿](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf)
+- [中文审阅 Word](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx)
+- [发表路线与当前状态](docs/publication/README.zh-CN.md)
+
+当前论文是未经同行评审的草稿，Zenodo DOI 尚未分配；ACM IUI Demo 尚未投稿。
+本仓库公开源代码、文档和已获许可的论文图表。原始视频、pose 文件、人工审核导出和
+研究数据库不随仓库发布。运行界面后可导入自己的授权视频；部分预设研究样本依赖私有
+本地文件，不包含在公开 checkout 中。目前没有托管的在线交互 demo。
+
+论文及其原创图表采用 CC BY 4.0；该许可不自动覆盖源代码、第三方模板或素材。
+代码尚未另行指定开源许可证。
+
 ## 当前阶段
 
 | 项目                 | 当前状态                                           |
@@ -23,7 +37,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | 申请人专业准备       | Ronnie 已完成 FMS Level 1 与 Level 2 certification |
 | 定量案例与图表       | 4 种差异化分析；4 张无人物数据驱动图               |
 | 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
-| 当前等待项           | 输出制作、公开素材审计、NHSJS 询问与 GitHub 迁移   |
+| 当前等待项           | Zenodo 定稿与 DOI、GitHub 公开准备、IUI Demo 投稿  |
 
 四个 pilot actions：
 
@@ -186,6 +200,10 @@ npm run check
 当前质量基线为 lint、Prettier、自动测试和三个 Vite entry builds；以最近一次
 `npm run check` 输出为准。
 
+公开 checkout 会明确跳过依赖私有研究视频、pose 和冻结研究导出的测试；
+公共代码和界面测试仍正常执行。私有资产齐全的研究工作区会运行完整验证。
+原始研究媒体不作为测试依赖上传到公开仓库。
+
 ## 研究复现
 
 以下命令依赖本机被 Git 忽略的 `Ingested-data/`、视频和 pose assets。原始媒体不会
@@ -271,10 +289,10 @@ npm run study:reviews:db:status -- --pilot-id ai-fms-four-movement-core-2026-08-
   `docs/research/aslr_subject_aware_sensitivity_2026-08-10.md`
 - Phase I 案例组合与申请图：
   `docs/research/phase_i_case_study_portfolio_2026-08-10.md`
-- Publication track、NHSJS 资格门与 Zenodo 边界：`docs/publication/README.md`
-- NHSJS 英文 authoring manuscript：
+- 当前 Zenodo、Community 与 IUI 发表路线：`docs/publication/README.md`
+- 历史 NHSJS 英文 authoring manuscript：
   `output/publication/nhsjs/AI-FMS_NHSJS_English_Authoring_Manuscript_Standard_Citations.docx`
-- NHSJS English authoring guide：
+- 历史 NHSJS English authoring guide：
   `docs/publication/ai_fms_nhsjs_english_authoring_guide_2026-08-23.md`
 
 ## Repository Layout
@@ -310,16 +328,16 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 
 剩余 Phase I 工作：
 
-1. 将已更新的 project-page copy 实现为正式页面，按当前脚本录制 4:15-4:30 英文
-   application-film 母版，再输出 3 分钟版与 60 秒短版。
-2. 完成技术报告 PDF，并统一论文、项目页、demo 和申请材料的最终细节。
-3. 完成公开素材 rights/privacy、PII、贡献声明和最终夸大表述人工审计。
-4. 在干净环境复现代码与受控输出，生成 final public manifest、release tag 和恢复说明。
-5. Ronnie 按 NHSJS author-only prose policy 在官方模板 Word 中独立完成英文正文；同时
-   向期刊确认 secondary-video ethics、analysis figures、advisor 和 preprint policy，
-   再生成 Online Citations 版和加急投稿包。Zenodo 继续保持 conditional。
-6. Ronnie 注册 GitHub 并提供 username 后，将收口后的 repository 连同完整历史转移到
-   Ronnie 账户，并更新所有公开链接。
+1. Zenodo 中英文稿已完成本轮作者信息、摘要与声明修订；建立草稿并填写 DOI 后，
+   完成正式发布。当前仍为预印本草稿，未经同行评审。
+2. 根据用户要求开放现有 GitHub 地址；先处理 Git 历史中的旧媒体，保存完整私有备份。
+3. 英文 4:30 application film 已完成；按申请需要派生 3 分钟版与 60 秒版，
+   并为公开演示准备稳定入口。
+4. 以已核准的事实和链接完成 OpenAI Developer Community 文章的作者语气审核与发布。
+5. 准备 ACM IUI 2027 Demo 专用视频、论文和预印本披露；投稿截止为
+   2026-11-10 23:59 AoE。ACM 允许非同行评审预印本，不以等待 chairs 回信作为
+   Zenodo 发布前置条件。
+6. GitHub 所有权迁移可在 Ronnie 提供账户后另行执行，不作为当前公开访问的前提。
 
 Phase II confirmation 再处理独立 held-out 视频：ASLR 主体/峰值、Hurdle 完整轨迹与
 dowel evidence、Rotary 清晰触踝与回位，以及更多 reviewer 或 expert panel。新数据不

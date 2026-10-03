@@ -20,8 +20,8 @@ The Zenodo folder also contains a complete Chinese translation review draft in M
 2. Review all three texts for factual accuracy and genuine author voice.
 3. Make the public repository and privacy-safe demo links stable.
 4. Create a Zenodo draft and reserve a DOI, but do not publish yet.
-5. Email the ACM IUI Posters and Demo Chairs using the prepared policy inquiry.
-6. Add the reserved DOI to the Zenodo PDF, rebuild it, and publish the Zenodo record after written confirmation or after the authors accept the documented policy risk.
+5. Cite and disclose the preprint in the later IUI submission. The prepared chair inquiry is optional clarification; ACM permits unreviewed preprints.
+6. Add the reserved DOI to the Zenodo PDF, rebuild it, and publish the author-approved record after the current asset and metadata checks.
 7. Publish the OpenAI Developer Community post with links to the Zenodo record, demo video, and public repository.
 8. Submit the ACM IUI 2027 Demo package by November 10, 2026, 11:59 p.m. Anywhere on Earth.
 
@@ -44,10 +44,12 @@ Do not upload raw participant videos, private pose files, reviewer event logs, f
 
 The approved English application film remains outside this tracked package:
 
-`/Volumes/SamsungSSD990-4TB/CodeX-Projects/03-FMS-Calib/Ingested-data/application-video-production/08-exports/ai-fms-application-film-master-final.mp4`
+`Ingested-data/application-video-production/08-exports/ai-fms-application-film-master-final.mp4`
 
 Expected SHA-256:
 
 `0951438d04a600ca281769dff065a24d98e67a8fed222497f9b6b93d30c00451`
 
 The current 4:30 film is suitable as a general project overview and is within the ACM IUI five-minute limit. It is a content backup, not a submission-ready IUI master: the SIGCHI submission version should use a separate timestamped caption file rather than burned-in captions. The IUI package therefore proposes a more interface-focused clean-caption cut that foregrounds interaction rather than the admissions narrative.
+
+Policy rechecked 3 October 2026: [ACM Policy on Authorship](https://www.acm.org/publications/policies/new-acm-policy-on-authorship) permits preprints on arXiv or similar venues without requesting an exception.

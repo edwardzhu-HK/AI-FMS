@@ -141,7 +141,7 @@ draft timing、Reviewer A/B 共识评分、readiness、Ingest、JSON/CSV/package
 
 这些截图是当前 demo dry-run 生成的申请/项目页素材：
 
-![AI-FMS demo overview](assets/ai-fms-demo-overview.jpg)
+![AI-FMS demo overview](assets/publication/ai-fms-workbench-overview-real-video.png)
 
 ![AI-FMS side-view angle features](assets/ai-fms-demo-side-angle-features.jpg)
 
@@ -149,7 +149,7 @@ draft timing、Reviewer A/B 共识评分、readiness、Ingest、JSON/CSV/package
 
 ## 当前截图说明
 
-- `ai-fms-demo-overview.jpg`：展示 workbench 总览、真实 pose overlay、AI suggestion panel。
+- `publication/ai-fms-workbench-overview-real-video.png`：展示 workbench 总览、真实 pose overlay、AI suggestion panel。
 - `ai-fms-demo-side-angle-features.jpg`：展示 Export Evidence、Movement Labels 和 side-view angle evidence。
 - `ai-fms-demo-export-evidence.jpg`：展示 pose evidence、timing edits、features、AI suggestions 和 movement label summary。
 

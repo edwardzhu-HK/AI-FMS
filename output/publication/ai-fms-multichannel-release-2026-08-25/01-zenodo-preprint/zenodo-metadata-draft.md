@@ -11,14 +11,21 @@
 
 ## Creators
 
-1. Zhu, Haoran - [ORCID] - [Affiliation]
-2. [CONFIRM ADDITIONAL CREATOR OR REMOVE]
+1. ZHU, Haoran - Kang Chiao International School East China Campus
+
+**Corresponding email:** 13061747546@163.com
+
+Haoran ZHU is the sole author. ORCID is omitted unless supplied.
 
 Use **contributors**, not creators, for mentors, reviewers, supervisors, or contacts who should not appear in the academic citation.
 
 ## Description / abstract
 
-AI-FMS is a human-in-the-loop video-review system for the seven Functional Movement Screen movements. It combines repetition segmentation, looped playback, reviewer-controlled protocol fields, pose overlays, quantitative movement features, explainable first-pass score suggestions, quality warnings, abstention, adjudication, and traceable export. Phase I focused on four movements and used 28 unique source videos, 110 canonical repetitions, and a 32-repetition two-reviewer blind audit. A final locked AI pass produced 25 human-score-comparable results: exact agreement 16/25, within-one agreement 23/25, mean absolute error 0.44, and linear weighted kappa 0.4917. The results are an internal post-audit feasibility benchmark, not held-out clinical validation. The system supports human movement screening and research workflow; it does not diagnose injury or replace qualified professional judgment.
+Functional Movement Screen (FMS) assessment depends on trained human observation, yet practical video review can be constrained by transient viewing, remote access, repeated manual navigation, qualitative judgments, and the compression of movement into an ordinal 0-3 score. We developed AI-FMS, a human-in-the-loop video-review system with implemented functionality for all seven FMS movements, including upload, repetition segmentation, looped playback, reviewer scoring, structured protocol fields, pose overlays, quantitative features, explainable first-pass score suggestions, quality warnings, abstention, adjudication, and traceable export. The system uses two-dimensional pose landmarks to preserve movement evidence such as joint angles, relative distances, side-specific trajectories, and full-cycle events while retaining human authority over protocol, pain, clearing conditions, and final scores.
+
+Building on the seven-movement system, Phase I quantitative research focused on Deep Squat, Hurdle Step, Active Straight-Leg Raise, and Rotary Stability. The corpus contained 28 unique source videos and 110 canonical repetitions. A balanced subset of 32 repetitions, eight per movement, was reviewed by two reviewers in two independent blinded rounds. Both rounds concealed AI scores, pose evidence, previous ratings, and the other reviewer's results. Human rating consistency and AI-human score comparison formed one part of the study: among 25 comparable items, the locked AI matched the human reference exactly on 16 and was within one point on 23. These are internal exploratory findings, not independent external validation.
+
+The structured movement evidence also enabled further analyses: a Deep Squat depth-and-joint-strategy continuum, ASLR bilateral repeatability, different control and deduction pathways within the same Hurdle Step score, and Rotary Stability full-cycle event structures. These analyses preserve continuous differences, bilateral relationships, and temporal information beyond the 0-3 score, providing traceable evidence for movement explanation, cross-repetition comparison, and future research. AI-FMS thus combines seven-movement system development, Phase I quantitative research, and movement analyses enabled by the system's data. Automation organizes evidence and offers inspectable suggestions while human reviewers retain final interpretation and scoring authority. The system is not intended for clinical diagnosis or injury prediction.
 
 **Required first line:** Preprint. Not peer reviewed.
 
@@ -35,19 +42,24 @@ AI-FMS is a human-in-the-loop video-review system for the seven Functional Movem
 
 ## License
 
-Recommended for the manuscript and original figures: **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
+Confirmed by the user on 3 October 2026 for the manuscript and original figures: **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
 
-Do not select this license until every included figure and media file has passed the third-party rights review. Mixed-license files should declare all applicable licenses or be split into separate records.
+The user confirmed publication permission for the current preprint figures. The license does not cover private source videos, Git history assets, or separately licensed software.
 
 ## Related identifiers
 
-- Public GitHub repository: [ADD URL]
-- Public demo: [ADD URL]
-- Project video: [ADD URL OR OMIT]
-- ACM IUI paper: add after acceptance/publication
+- Public project code repository: https://github.com/edwardzhu-HK/AI-FMS.
+- Public demo and project video: omitted from this record unless a verified public URL is later supplied.
+- ACM IUI paper: omitted until an accepted or published record is available.
 
 Use the appropriate relationship, such as "is supplemented by," "is documented by," or "is a version of," rather than duplicating one DOI across different objects.
 
 ## Notes
 
 This record contains aggregate results and permission-cleared figures. Raw videos, private pose records, reviewer logs, comments, and the local research database are not released because consent and publication rights vary by source.
+
+## Confirmed declarations
+
+- Competing interests: The author declares no competing interests.
+- Funding: This work received no external funding.
+- Acknowledgments: omitted at the author's direction.

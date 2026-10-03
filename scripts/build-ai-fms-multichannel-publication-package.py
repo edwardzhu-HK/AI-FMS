@@ -736,7 +736,28 @@ FIGURE_ALT_ZH = {
 }
 
 
-def add_zenodo_cover(doc: Document):
+def zenodo_front_matter(source: Path) -> dict[str, str]:
+    """Read cover identity and revision details from the manuscript source."""
+    text = source.read_text(encoding="utf-8").split("\n## ", 1)[0]
+    identity = re.search(
+        r"^\*\*([^*\n]+)\*\*\n([^\n]+)\n(?:Corresponding email: |通讯邮箱：)([^\n]+)$",
+        text,
+        re.MULTILINE,
+    )
+    version = re.search(r"^(?:Version |版本 ).+$", text, re.MULTILINE)
+    doi = re.search(r"^DOI[:：].+$", text, re.MULTILINE)
+    if identity is None or version is None or doi is None:
+        raise ValueError(f"Missing Zenodo author, affiliation, email, version, or DOI: {source}")
+    return {
+        "author": identity.group(1),
+        "affiliation": identity.group(2),
+        "email": identity.group(3),
+        "version": version.group(0),
+        "doi": doi.group(0),
+    }
+
+
+def add_zenodo_cover(doc: Document, metadata: dict[str, str]):
     p = doc.add_paragraph()
     p.paragraph_format.space_before = Pt(105)
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -761,10 +782,11 @@ def add_zenodo_cover(doc: Document):
     run.font.size = Pt(11)
     run.font.color.rgb = rgb(CORAL)
     for text, size, color, bold in (
-        ("Haoran Zhu • [CONFIRM ADDITIONAL AUTHOR(S)]", 12, INK, True),
-        ("[CONFIRM AFFILIATION AND CORRESPONDING EMAIL]", 10, MUTED, False),
-        ("Version 1.0 draft • 25 August 2026", 10, MUTED, False),
-        ("DOI: [RESERVE ON ZENODO BEFORE FINAL PDF]", 10, MUTED, False),
+        (metadata["author"], 12, INK, True),
+        (metadata["affiliation"], 10, MUTED, False),
+        (metadata["email"], 10, MUTED, False),
+        (metadata["version"], 10, MUTED, False),
+        (metadata["doi"], 10, MUTED, False),
     ):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -786,7 +808,7 @@ def add_zenodo_cover(doc: Document):
     doc.add_page_break()
 
 
-def add_zenodo_chinese_cover(doc: Document):
+def add_zenodo_chinese_cover(doc: Document, metadata: dict[str, str]):
     p = doc.add_paragraph()
     p.paragraph_format.space_before = Pt(118)
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -814,10 +836,11 @@ def add_zenodo_chinese_cover(doc: Document):
     run.font.color.rgb = rgb(CORAL)
 
     for text, size, color, bold in (
-        ("Haoran Zhu • [确认其他作者]", 12, INK, True),
-        ("[确认单位和通讯邮箱]", 10, MUTED, False),
-        ("版本 1.0 中文翻译审阅稿 • 2026 年 8 月 26 日", 10, MUTED, False),
-        ("DOI：[在最终 PDF 前于 Zenodo 预留]", 10, MUTED, False),
+        (metadata["author"], 12, INK, True),
+        (metadata["affiliation"], 10, MUTED, False),
+        (metadata["email"], 10, MUTED, False),
+        (metadata["version"], 10, MUTED, False),
+        (metadata["doi"], 10, MUTED, False),
     ):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -853,10 +876,11 @@ def build_zenodo_docx():
     source = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.md"
     output = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.docx"
     lines = source.read_text(encoding="utf-8").splitlines()
+    metadata = zenodo_front_matter(source)
     doc = Document()
     configure_zenodo_styles(doc)
     set_footer_page_number(doc.sections[0], "AI-FMS • System Development and Phase I Evaluation")
-    add_zenodo_cover(doc)
+    add_zenodo_cover(doc, metadata)
     bullet_num = add_numbering_definition(doc, "bullet")
 
     started = False
@@ -885,7 +909,10 @@ def build_zenodo_docx():
                 rel = lines[j].strip().strip("`")
                 path = ZENODO / rel
                 width = 6.3 if "workflow" in path.name else 6.0
-                add_image(doc, path, width, None, FIGURE_ALT.get(path.name, path.stem))
+                if path.name == "figure-06-hurdle-score2-pathways.png":
+                    width = 5.6
+                image_p = add_image(doc, path, width, None, FIGURE_ALT.get(path.name, path.stem))
+                image_p.paragraph_format.keep_with_next = True
                 cap = doc.add_paragraph(style="Caption")
                 cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
                 add_markdown_runs(cap, pending_caption, "Arial", 9)
@@ -981,7 +1008,7 @@ def build_zenodo_docx():
 
     props = doc.core_properties
     props.title = "AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review"
-    props.author = "Haoran Zhu; author confirmation required"
+    props.author = metadata["author"]
     props.subject = "Preprint. Not peer reviewed."
     props.keywords = "FMS, human-in-the-loop AI, movement screening, pose estimation, explainable AI"
     settings = doc.settings.element
@@ -998,10 +1025,11 @@ def build_zenodo_chinese_docx():
     source = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.md"
     output = ZENODO / "AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx"
     lines = source.read_text(encoding="utf-8").splitlines()
+    metadata = zenodo_front_matter(source)
     doc = Document()
     configure_zenodo_chinese_styles(doc)
     set_chinese_footer_page_number(doc.sections[0], "AI-FMS • 系统开发与 Phase I 评估 • 中文翻译审阅稿")
-    add_zenodo_chinese_cover(doc)
+    add_zenodo_chinese_cover(doc, metadata)
     bullet_num = add_numbering_definition(doc, "bullet")
 
     started = False
@@ -1136,7 +1164,7 @@ def build_zenodo_chinese_docx():
 
     properties = doc.core_properties
     properties.title = "AI-FMS：系统开发、Phase I 评估及 FMS 视频审核中的人机协作"
-    properties.author = "Haoran Zhu；其他作者待确认"
+    properties.author = metadata["author"]
     properties.subject = "英文 Zenodo preprint 中文翻译审阅稿；未经同行评审"
     properties.keywords = "FMS, human-in-the-loop AI, movement screening, pose estimation, 中文翻译"
     settings = doc.settings.element

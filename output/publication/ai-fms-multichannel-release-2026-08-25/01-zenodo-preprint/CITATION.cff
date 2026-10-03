@@ -3,11 +3,14 @@ message: "If you use this work, please cite the Zenodo record."
 title: "AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review"
 type: article
 authors:
-  - family-names: Zhu
+  - family-names: ZHU
     given-names: Haoran
+    affiliation: Kang Chiao International School East China Campus
+    email: 13061747546@163.com
 abstract: >-
   A human-in-the-loop video-review system for all seven Functional Movement
-  Screen movements, with an internal four-movement Phase I evaluation.
+  Screen movements, with an internal four-movement Phase I quantitative study
+  and movement analyses that preserve information beyond ordinal scores.
 keywords:
   - Functional Movement Screen
   - human-in-the-loop AI

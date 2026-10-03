@@ -19,6 +19,6 @@ The packages are not three submissions of the same paper.
 - Disclose the Zenodo record and community post to ACM IUI during submission, even if the submission form does not explicitly ask.
 - Do not submit the same or substantially similar four-page paper to another peer-reviewed venue at the same time.
 
-## Decision gate before Zenodo publication
+## Preprint policy and optional clarification
 
-ACM's general policy treats informal, unreviewed postings differently from prior refereed publication, but the venue retains interpretive authority. Send the prepared inquiry to the IUI Posters and Demo Chairs and keep the response with the submission records.
+ACM's current authorship policy permits preprints on arXiv or similar venues without requesting an exception. Cite and disclose the Zenodo record in the IUI submission and distinguish the demo's interface contribution. The prepared chair inquiry is optional clarification, not a mandatory written-permission gate. Policy checked 3 October 2026: https://www.acm.org/publications/policies/new-acm-policy-on-authorship.

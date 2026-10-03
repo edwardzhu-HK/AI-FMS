@@ -63,12 +63,6 @@ test("required files exist", () => {
     "scripts/download-pose-landmarker-model.py",
     "src/lib/pose-landmarks.js",
     "server/api-stub.js",
-    "Eval_Videos/01-Deep Squat/Sample-1.mp4",
-    "Eval_Videos/01-Deep Squat/front.mp4",
-    "Eval_Videos/01-Deep Squat/side.mp4",
-    "Eval_Videos/01-Deep Squat/pose/Sample-1.pose.json",
-    "Eval_Videos/01-Deep Squat/pose/front.pose.json",
-    "Eval_Videos/01-Deep Squat/pose/side.pose.json",
     "test-videos/manifest.template.csv",
     "docs/specs/v0.md",
     "docs/specs/pose_landmarks_schema.md",
@@ -89,3 +83,26 @@ test("required files exist", () => {
     assert.equal(exists, true, `${filePath} should exist`);
   }
 });
+
+const privateDemoFiles = [
+  "Eval_Videos/01-Deep Squat/Sample-1.mp4",
+  "Eval_Videos/01-Deep Squat/front.mp4",
+  "Eval_Videos/01-Deep Squat/side.mp4",
+  "Eval_Videos/01-Deep Squat/pose/Sample-1.pose.json",
+  "Eval_Videos/01-Deep Squat/pose/front.pose.json",
+  "Eval_Videos/01-Deep Squat/pose/side.pose.json",
+];
+
+test(
+  "private Deep Squat demo assets are complete when installed",
+  {
+    skip: privateDemoFiles.some((file) => fs.existsSync(file))
+      ? false
+      : "Private video and pose assets are not distributed",
+  },
+  () => {
+    for (const filePath of privateDemoFiles) {
+      assert.equal(fs.existsSync(filePath), true, `${filePath} should exist`);
+    }
+  },
+);

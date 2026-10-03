@@ -176,7 +176,7 @@ AI-FMS helps reviewers segment FMS videos, inspect pose-based movement evidence,
 
 当前已生成的截图素材：
 
-- `docs/assets/ai-fms-demo-overview.jpg`
+- `docs/assets/publication/ai-fms-workbench-overview-real-video.png`
 - `docs/assets/ai-fms-demo-side-angle-features.jpg`
 - `docs/assets/ai-fms-demo-export-evidence.jpg`
 

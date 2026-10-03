@@ -2,7 +2,7 @@
 
 Status: ACTIVE - multichannel draft review
 
-Last updated: 2026-08-26
+Last updated: 2026-10-03
 
 Chinese version: `README.zh-CN.md`
 
@@ -49,7 +49,7 @@ The three outputs share one verified evidence base but do not reuse the same nar
 | Public GitHub ownership               | Pending                    | Transfer to Haoran Zhu after repository history and public-boundary audit                               |
 | Public demo URL                       | Pending                    | Build from a sanitized demo dataset and permission-cleared video                                        |
 | Zenodo DOI                            | Pending                    | Reserve in draft, then insert into final PDF                                                            |
-| ACM preprint compatibility            | Pending written guidance   | Email `posters2027@iui.acm.org` before Zenodo publication                                               |
+| ACM preprint compatibility            | Policy checked             | Unreviewed preprints are permitted; a chair inquiry is optional clarification                           |
 | IUI attendance and cost               | Pending                    | At least one author must attend Helsinki if accepted                                                    |
 
 ## Canonical package
@@ -73,7 +73,7 @@ Important entrypoints:
 2. Review every English sentence, figure, number, reference, and AI-use disclosure.
 3. Confirm public rights for every image, video, music track, and repository asset.
 4. Decide whether any patent filing is contemplated before publishing a Zenodo record.
-5. Send and archive the IUI prior-publication inquiry.
+5. Cite and disclose the Zenodo preprint in the IUI submission. A chair inquiry is optional, not a prerequisite to Zenodo publication.
 6. Provide Haoran Zhu's GitHub username and approve repository transfer/public release.
 7. Confirm that at least one author can attend IUI 2027 in Helsinki if accepted.
 
@@ -89,3 +89,5 @@ Use only the status that has actually occurred:
 - `published in the ACM IUI companion proceedings`
 
 A Zenodo preprint and a community post are public, but neither is peer reviewed.
+
+Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. DOI and actual Zenodo publication remain pending. The existing GitHub repository is being prepared for public access.

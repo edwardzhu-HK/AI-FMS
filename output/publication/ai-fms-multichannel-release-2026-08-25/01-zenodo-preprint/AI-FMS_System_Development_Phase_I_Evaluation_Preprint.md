@@ -1,19 +1,20 @@
 # AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review
 
-**Haoran Zhu**<sup>1</sup>; **[CONFIRM ADDITIONAL AUTHOR(S)]**
-<sup>1</sup>[CONFIRM SCHOOL OR INDEPENDENT RESEARCH AFFILIATION]
-Corresponding author: [CONFIRM NAME AND EMAIL]
-ORCID: [CONFIRM OR REMOVE]
+**Haoran ZHU**
+Kang Chiao International School East China Campus
+Corresponding email: 13061747546@163.com
 
 **Preprint. Not peer reviewed.**
-Version 1.0 draft, 25 August 2026
+Version 1.0 draft, revised 3 October 2026
 DOI: [RESERVE ON ZENODO BEFORE FINAL PDF]
 
 ## Abstract
 
-Functional Movement Screen (FMS) assessment depends on trained human observation, yet practical video review can be constrained by transient viewing, remote access, repeated manual navigation, qualitative judgments, and the compression of movement into an ordinal 0-3 score. We developed AI-FMS, a human-in-the-loop video-review system that supports all seven FMS movements through upload, repetition segmentation, looped playback, reviewer scoring, structured protocol fields, pose overlays, quantitative features, explainable first-pass score suggestions, quality warnings, abstention, adjudication, and traceable export. The system uses two-dimensional pose landmarks to preserve movement evidence such as joint angles, relative distances, side-specific trajectories, and full-cycle events while retaining human authority over protocol, pain, clearing conditions, and final scores.
+Functional Movement Screen (FMS) assessment depends on trained human observation, yet practical video review can be constrained by transient viewing, remote access, repeated manual navigation, qualitative judgments, and the compression of movement into an ordinal 0-3 score. We developed AI-FMS, a human-in-the-loop video-review system with implemented functionality for all seven FMS movements, including upload, repetition segmentation, looped playback, reviewer scoring, structured protocol fields, pose overlays, quantitative features, explainable first-pass score suggestions, quality warnings, abstention, adjudication, and traceable export. The system uses two-dimensional pose landmarks to preserve movement evidence such as joint angles, relative distances, side-specific trajectories, and full-cycle events while retaining human authority over protocol, pain, clearing conditions, and final scores.
 
-Phase I evaluated the workflow on four movements: Deep Squat, Hurdle Step, Active Straight-Leg Raise, and Rotary Stability. The curated corpus contained 28 unique source videos, 29 ingestion records, and 110 canonical repetitions. A deterministic balanced subset of 32 repetitions, eight per movement and drawn from 21 source videos, was reviewed by two reviewers in two mutually blinded rounds. Round B remained blind to AI scores and pose evidence. Reviewers agreed on numeric scores for all 26 mutually numeric items in both rounds and agreed on final status for all 32 items in Round B. A final locked AI pass produced output for 28 items and abstained on four staged-protocol Deep Squat items. Among 25 human-score-comparable items, exact AI-human agreement was 16/25, within-one agreement was 23/25, mean absolute error was 0.44, and linear weighted kappa was 0.4917. Secondary analyses illustrate how continuous pose evidence can distinguish movement strategies that share an ordinal score. These findings support feasibility and interface value, not clinical validity or injury prediction. AI-FMS demonstrates a practical model of human-AI collaboration in which automation organizes evidence and offers inspectable suggestions while qualified reviewers retain responsibility for interpretation.
+Building on the seven-movement system, Phase I quantitative research focused on Deep Squat, Hurdle Step, Active Straight-Leg Raise, and Rotary Stability. The corpus contained 28 unique source videos and 110 canonical repetitions. A balanced subset of 32 repetitions, eight per movement, was reviewed by two reviewers in two independent blinded rounds. Both rounds concealed AI scores, pose evidence, previous ratings, and the other reviewer's results. Human rating consistency and AI-human score comparison formed one part of the study: among 25 comparable items, the locked AI matched the human reference exactly on 16 and was within one point on 23. These are internal exploratory findings, not independent external validation.
+
+The structured movement evidence also enabled further analyses: a Deep Squat depth-and-joint-strategy continuum, ASLR bilateral repeatability, different control and deduction pathways within the same Hurdle Step score, and Rotary Stability full-cycle event structures. These analyses preserve continuous differences, bilateral relationships, and temporal information beyond the 0-3 score, providing traceable evidence for movement explanation, cross-repetition comparison, and future research. AI-FMS thus combines seven-movement system development, Phase I quantitative research, and movement analyses enabled by the system's data. Automation organizes evidence and offers inspectable suggestions while human reviewers retain final interpretation and scoring authority. The system is not intended for clinical diagnosis or injury prediction.
 
 **Keywords:** Functional Movement Screen; human-in-the-loop AI; movement screening; pose estimation; video review; explainable AI; human-AI interaction; sports technology
 
@@ -27,12 +28,11 @@ The ordinal score also performs necessary compression. Two repetitions may both 
 
 AI-FMS was therefore designed around two linked goals. The first was to make human video review more usable, repeatable, and traceable. The second was to preserve selected quantitative evidence that the 0-3 result does not retain. The central design decision was not to automate the human away. Instead, the system combines machine-assisted segmentation, pose evidence, explicit uncertainty, and first-pass suggestions with reviewer-controlled protocol fields, scoring, notes, and adjudication.
 
-This report makes four contributions:
+This report makes three contributions:
 
-1. It describes an end-to-end AI-assisted review platform spanning all seven FMS movements.
-2. It documents a reproducible Phase I corpus and blinded two-reviewer workflow for four movements.
-3. It reports an internal locked AI-human benchmark with coverage and abstention, rather than forcing a score for every item.
-4. It shows how continuous pose-derived features can reveal movement-strategy differences within the same ordinal score while preserving non-clinical claim boundaries.
+1. It implements an end-to-end AI-assisted review system for all seven FMS movements, integrating video annotation, pose evidence, explainable suggestions, human review, and traceable export.
+2. It conducts Phase I quantitative research on four movements, establishing a reproducible corpus and a two-reviewer, two-round blinded workflow, and reporting human rating consistency, an internal AI-human benchmark, coverage, and abstention.
+3. It uses structured movement evidence to analyze movement-specific strategy continua, bilateral repeatability, control and deduction pathways, and full-cycle events, demonstrating information beyond the ordinal score while preserving non-clinical claim boundaries.
 
 ## 2. System Objectives and Design Principles
 
@@ -102,6 +102,8 @@ The formal subset contained 32 repetitions, eight from each movement, drawn from
 
 ### 4.3 Human review protocol
 
+One reviewer, Haoran ZHU, completed FMS Level 1 certification on 17 July 2025 and FMS Level 2 certification on 10 August 2025, before the Phase I reviews. These certifications informed his use of the FMS protocol and interpretation of movement evidence.
+
 Two reviewers completed Round A and Round B approximately 51 hours apart. In both rounds, each reviewer was blind to source filenames, historical labels, AI scores, pose evidence, audio, prior answers, and the other reviewer's responses. The order was independently randomized. Reviewers recorded:
 
 - numeric FMS score when the repetition was independently scorable;
@@ -129,7 +131,7 @@ The full corpus was used to examine whether repetitions with the same human scor
 
 In Round A, the two reviewers agreed on status for 31 of 32 items and assigned exactly the same numeric score to all 26 items that both considered numeric. In Round B, they agreed on status for all 32 items and again matched exactly on all 26 mutually numeric items. Six Round B items were mutually classified as unscorable for protocol-based reasons.
 
-Between rounds, each reviewer changed one numeric score, and both changes concerned the same Hurdle Step repetition. The result suggests strong agreement within this small trained pair, but it should not be generalized to other reviewers without a larger multi-rater study. Exact agreement can also be inflated when a sample contains a limited score range.
+Between rounds, each reviewer changed one numeric score, and both changes concerned the same Hurdle Step repetition. The result suggests strong agreement within this small reviewer pair, but it should not be generalized to other reviewers without a larger multi-rater study. Exact agreement can also be inflated when a sample contains a limited score range.
 
 ### 5.2 Locked AI-human benchmark
 
@@ -150,7 +152,7 @@ These results indicate promising alignment for a first-pass assistance system wh
 | -------------------- | ------------------------------------------- | ------------------------------------------------------------------------- |
 | Corpus               | 28 unique videos; 110 canonical repetitions | Development and exploratory analysis corpus                               |
 | Formal review        | 32 repetitions; 2 reviewers; 2 blind rounds | Small internal reliability audit                                          |
-| Round B human status | 32/32 agreement                             | Agreement within this trained reviewer pair                               |
+| Round B human status | 32/32 agreement                             | Agreement within this reviewer pair                                       |
 | Locked AI coverage   | 28/32                                       | AI can analyze most formal items and abstain on unresolved protocol cases |
 | AI-human comparable  | 25 items                                    | Internal post-audit benchmark, not held-out validation                    |
 | Exact / within one   | 16/25 / 23/25                               | Preliminary ordinal alignment                                             |
@@ -188,7 +190,7 @@ Rotary Stability cannot be summarized reliably by a single peak angle. Its proto
 
 ## 6. Human-AI Collaboration in Development
 
-The project was developed through an iterative collaboration between domain-led human review and generative-AI-assisted engineering. Haoran Zhu's FMS training and repeated scoring work shaped the protocol logic, movement-specific evidence, and acceptance criteria. Human reviewers defined when a repetition was scorable, corrected camera and side metadata, identified information leakage, reviewed every formal item, and determined the claim boundaries.
+The project was developed through an iterative collaboration between domain-led human review and generative-AI-assisted engineering. Haoran ZHU's FMS training and repeated scoring work shaped the protocol logic, movement-specific evidence, and acceptance criteria. Human reviewers defined when a repetition was scorable, corrected camera and side metadata, identified information leakage, reviewed every formal item, and determined the claim boundaries.
 
 OpenAI Codex assisted with code exploration, implementation, tests, data reconciliation, statistical scripts, figure preparation, document drafting, and release checks. This assistance accelerated iteration but did not remove the need for human correction. Three examples were especially important:
 
@@ -196,7 +198,7 @@ OpenAI Codex assisted with code exploration, implementation, tests, data reconci
 2. Camera-view metadata appeared structured but required correction for 45 of 110 canonical repetitions. Human visual review remained necessary.
 3. Rotary Stability could not be responsibly completed by adding one convenient threshold. The implementation had to represent the full movement cycle and allow abstention.
 
-These examples support a broader design lesson: successful human-AI collaboration is not defined by how much content the model produces. It is defined by whether responsibilities, evidence, uncertainty, and correction paths are explicit. The human authors remain fully responsible for this report, its references, permissions, calculations, and conclusions.
+These examples support a broader design lesson: successful human-AI collaboration is not defined by how much content the model produces. It is defined by whether responsibilities, evidence, uncertainty, and correction paths are explicit. The human author remains fully responsible for this report, its references, permissions, calculations, and conclusions.
 
 ## 7. Discussion
 
@@ -212,7 +214,7 @@ The project also illustrates a productive use of generative AI in student-led re
 
 First, the corpus is a convenience sample. It is small, heterogeneous, and uneven across movements, sources, camera views, and protocol conditions. Repetitions are nested within videos and subjects, so repetition-level counts do not equal independent sample size.
 
-Second, the two-reviewer audit involved one trained reviewer pair and a short interval. The strong exact agreement should be tested with more reviewers, broader experience levels, longer intervals, and adjudication procedures.
+Second, the two-reviewer audit involved one reviewer pair and a short interval. The strong exact agreement should be tested with more reviewers, broader experience levels, longer intervals, and adjudication procedures.
 
 Third, the final AI was refined after Round A. Locking it before Round B protected one part of the process, but the 32 formal items were still involved in development. The reported comparison is therefore an internal post-audit benchmark, not held-out validation.
 
@@ -249,28 +251,23 @@ AI-FMS was created to support the human work of FMS video review and to preserve
 
 ## Data and Code Availability
 
-Code and a privacy-safe demonstration package will be linked after repository rights and secret scanning are complete: [PUBLIC REPOSITORY URL]. The private Phase I corpus, raw video, pose records, reviewer event logs, comments, and SQLite database are not publicly released because consent and publication rights vary by source. Aggregate analysis outputs and permission-cleared figures accompany this preprint.
+Source code and project documentation are available at https://github.com/edwardzhu-HK/AI-FMS. A hosted interactive demonstration is not included with this release. The private Phase I corpus, raw video, pose records, reviewer event logs, comments, and SQLite database are not publicly released because consent and publication rights vary by source. Aggregate analysis outputs and permission-cleared figures accompany this preprint.
 
 ## Author Contributions
 
-**Haoran Zhu:** Conceptualization; domain protocol; investigation; software testing; human review; validation; visualization review; writing - original draft; writing - review and editing.
-**[CONFIRM OTHER HUMAN AUTHORS]:** [ASSIGN CRediT ROLES ONLY AFTER APPROVAL].
-
-## Acknowledgments
-
-[CONFIRM AND WRITE HUMAN ACKNOWLEDGMENTS. Do not list software as an author.]
+**Haoran ZHU:** Conceptualization; domain protocol; investigation; software testing; human review; validation; visualization review; writing - original draft; writing - review and editing.
 
 ## Generative AI Use Disclosure
 
-OpenAI Codex was used under human direction to assist code exploration, implementation, test generation, data reconciliation, statistical scripting, figure preparation, document structuring, language editing, and portions of manuscript drafting. Human authors defined the research questions and FMS protocol, reviewed the source evidence, performed and audited the human scoring, corrected model and metadata errors, verified numerical results and references, determined the limitations and claims, and approved the final text. The human authors take full responsibility for the originality, accuracy, permissions, and integrity of this work.
+OpenAI Codex was used under human direction to assist code exploration, implementation, test generation, data reconciliation, statistical scripting, figure preparation, document structuring, language editing, and portions of manuscript drafting. The human author defined the research questions and FMS protocol, reviewed the source evidence, performed and audited the human scoring, corrected model and metadata errors, verified numerical results and references, determined the limitations and claims, and approved the final text. The human author takes full responsibility for the originality, accuracy, permissions, and integrity of this work.
 
 ## Conflicts of Interest
 
-The authors declare [CONFIRM: no competing interests / describe any competing interests].
+The author declares no competing interests.
 
 ## Funding
 
-[CONFIRM: no external funding / provide funding statement].
+This work received no external funding.
 
 ## References
 

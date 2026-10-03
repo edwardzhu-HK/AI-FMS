@@ -2,6 +2,25 @@
 
 Complete this checklist before any public upload. Items marked `REQUIRED` block publication.
 
+## Zenodo identity update — 3 October 2026
+
+The user confirmed **Haoran ZHU** as the sole author of the Zenodo manuscript.
+Affiliation: **Kang Chiao International School East China Campus**, checked
+against the university-application master dated 8 August 2026. Corresponding
+email: **13061747546@163.com**, checked against the application project's
+`config/application_identity.json`. ORCID is omitted because none was supplied.
+The manuscript, cover, document properties, citation, and Zenodo metadata use
+this identity. The user confirmed no competing interests and no external
+funding, and requested omission of the acknowledgments section. Final-text
+approval, contribution review, and final publication checks remain open.
+The user confirmed the current preprint figures for public use and accepted
+the prepared CC BY 4.0 manuscript license. This confirmation covers the current
+preprint assets, not third-party frames recovered from old Git commits.
+Haoran ZHU's Level 1 (17 July 2025) and Level 2 (10 August 2025) certification
+records are now included in Methods; no qualification is asserted for the
+second reviewer.
+The checklist below continues to track the full multichannel release.
+
 ## 1. Authorship and identity
 
 - [ ] `REQUIRED` Confirm the publication name of the first author: **Haoran Zhu**.
@@ -64,3 +83,12 @@ Blocked wording unless future evidence supports it:
 - [ ] `REQUIRED` Preserve the prepared disclosure that OpenAI Codex assisted drafting, code, analysis tooling, figure preparation, and editorial revision under human direction.
 - [ ] `REQUIRED` Authors accept full responsibility for originality, accuracy, permissions, and conclusions.
 - [ ] Save a final human-reviewed PDF and checksum before publication.
+
+## Repository status — 3 October 2026
+
+The existing URL is https://github.com/edwardzhu-HK/AI-FMS. GitHub reports
+`PRIVATE`; `main` points to `5e4bc89c743ae97576676520db650209e4062a79`
+(last updated 23 August 2026). The current Zenodo draft gives the URL but
+explicitly describes code access as restricted. No visibility change or
+public code release has been performed. A public repository claim requires
+a reviewed public release; it is not implied by inclusion of the URL.

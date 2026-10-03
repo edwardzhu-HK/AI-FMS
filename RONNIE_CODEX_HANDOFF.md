@@ -11,7 +11,7 @@ Codex 继续开发。目标不是只运行 demo，而是让 Ronnie 的 Codex 能
 推荐线下拷贝整个项目目录：
 
 ```text
-/Volumes/SamsungSSD990-4TB/CodeX-Projects/03-FMS-Calib
+/path/to/AI-FMS
 ```
 
 拷到 Ronnie 电脑后可以重命名为：

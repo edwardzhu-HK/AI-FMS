@@ -4,7 +4,7 @@ The Zenodo, OpenAI Community, and ACM IUI packages all benefit from stable publi
 
 ## Repository
 
-- [ ] Create or transfer the repository to Haoran Zhu's GitHub account.
+- [ ] Optional later step: transfer ownership to Haoran Zhu's GitHub account; not a prerequisite for public access.
 - [ ] Choose the public branch and tag a release.
 - [ ] Run secret scanning and inspect Git history, not only the current files.
 - [ ] Remove raw videos, private databases, reviewer exports, source manifests, local paths, and authentication files.
@@ -25,7 +25,7 @@ The Zenodo, OpenAI Community, and ACM IUI packages all benefit from stable publi
 
 ## Release URLs
 
-- Public repository: [ADD]
+- Public repository: https://github.com/edwardzhu-HK/AI-FMS
 - Public demo: [ADD]
 - Zenodo DOI: [ADD]
 - Application film: [ADD OR OMIT]
