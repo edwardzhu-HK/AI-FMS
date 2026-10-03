@@ -6,7 +6,7 @@ Kang Chiao International School East China Campus
 
 **预印本，未经同行评审。**
 版本 1.0 中文翻译审阅稿，修订于 2026 年 10 月 3 日
-DOI：[在最终 PDF 前于 Zenodo 预留]
+DOI：10.5281/zenodo.23118144
 
 本稿为英文 Zenodo preprint 的中文翻译审阅稿。如中英文表述存在差异，以最终人工确认的英文原稿为准。
 

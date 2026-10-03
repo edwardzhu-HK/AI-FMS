@@ -1,6 +1,6 @@
 # AI-FMS Phase I Publication Track
 
-Status: ACTIVE - multichannel draft review
+Status: ACTIVE - Zenodo published; Community and IUI in preparation
 
 Last updated: 2026-10-03
 
@@ -8,7 +8,7 @@ Chinese version: `README.zh-CN.md`
 
 ## Current publication decision
 
-The project is now preparing three related but distinct public outputs:
+The project has one published preprint and two related outputs in preparation:
 
 1. **Zenodo preprint** - the complete system-development and Phase I research record with a DOI.
 2. **OpenAI Developer Community article** - a non-archival build story about what Codex accelerated and what human judgment had to own.
@@ -35,22 +35,22 @@ The three outputs share one verified evidence base but do not reuse the same nar
 
 ## Current readiness
 
-| Component                             | Status                     | Evidence or remaining gate                                                                              |
-| ------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| Three channel-specific English drafts | Ready for author review    | Complete Zenodo, OpenAI Community, and ACM IUI drafts                                                   |
-| Zenodo DOCX/PDF                       | Ready for author review    | 15-page rendered preprint with seven figures                                                            |
-| Zenodo Chinese translation            | Ready for internal review  | Complete Chinese Markdown and polished Word translation; English remains canonical                      |
-| ACM IUI paper                         | Ready for author review    | Official ACM Word template; four total rendered pages                                                   |
-| OpenAI Community post                 | Ready for voice review     | Markdown plus polished Word review copy, images, tags, launch copy, and instructions                    |
-| Publication instructions              | Ready                      | Chinese step-by-step guides in each package                                                             |
-| Checksums and archives                | Ready                      | 52-file manifest, SHA-256 list, and three verified ZIP archives                                         |
-| Author/affiliation/ORCID              | Pending human confirmation | Yellow placeholders remain in manuscripts                                                               |
-| Media and privacy rights              | Partially cleared          | Public-safe interface figures use consented project video; all other media remain private until cleared |
-| Public GitHub access                  | Complete                   | Existing URL is public; ownership transfer can be handled separately                                    |
-| Public demo URL                       | Pending                    | Build from a sanitized demo dataset and permission-cleared video                                        |
-| Zenodo DOI                            | Pending                    | Reserve in draft, then insert into final PDF                                                            |
-| ACM preprint compatibility            | Policy checked             | Unreviewed preprints are permitted; a chair inquiry is optional clarification                           |
-| IUI attendance and cost               | Pending                    | At least one author must attend Helsinki if accepted                                                    |
+| Component                            | Status                       | Evidence or remaining gate                                                                              |
+| ------------------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Channel-specific English manuscripts | Zenodo published; two drafts | Community and IUI remain in preparation                                                                 |
+| Zenodo DOCX/PDF                      | Published                    | Version 1.0; 15-page English PDF with DOI and seven figures                                             |
+| Zenodo Chinese translation           | Ready for internal review    | Complete Chinese Markdown and polished Word translation; English remains canonical                      |
+| ACM IUI paper                        | Ready for author review      | Official ACM Word template; four total rendered pages                                                   |
+| OpenAI Community post                | Ready for voice review       | Markdown plus polished Word review copy, images, tags, launch copy, and instructions                    |
+| Publication instructions             | Ready                        | Chinese step-by-step guides in each package                                                             |
+| Checksums and archives               | Ready                        | 52-file manifest, SHA-256 list, and three verified ZIP archives                                         |
+| Author/affiliation/ORCID             | Pending human confirmation   | Yellow placeholders remain in manuscripts                                                               |
+| Media and privacy rights             | Partially cleared            | Public-safe interface figures use consented project video; all other media remain private until cleared |
+| Public GitHub access                 | Complete                     | Existing URL is public; ownership transfer can be handled separately                                    |
+| Public demo URL                      | Pending                      | Build from a sanitized demo dataset and permission-cleared video                                        |
+| Zenodo DOI                           | Published                    | Version 1.0: 10.5281/zenodo.23118144                                                                    |
+| ACM preprint compatibility           | Policy checked               | Unreviewed preprints are permitted; a chair inquiry is optional clarification                           |
+| IUI attendance and cost              | Pending                      | At least one author must attend Helsinki if accepted                                                    |
 
 ## Canonical package
 
@@ -67,15 +67,13 @@ Important entrypoints:
 - `release-archives/`: one tested ZIP per channel.
 - `release-manifest.json` and `SHA256SUMS`: integrity record.
 
-## Required human decisions
+## Remaining work for later channels
 
-1. Confirm author list, order, affiliation, email, ORCID, and corresponding contact.
-2. Review every English sentence, figure, number, reference, and AI-use disclosure.
-3. Confirm public rights for every image, video, music track, and repository asset.
-4. Decide whether any patent filing is contemplated before publishing a Zenodo record.
-5. Cite and disclose the Zenodo preprint in the IUI submission. A chair inquiry is optional, not a prerequisite to Zenodo publication.
-6. Provide Haoran Zhu's GitHub username and approve repository transfer/public release.
-7. Confirm that at least one author can attend IUI 2027 in Helsinki if accepted.
+1. Complete the Community article's author-voice review and publication.
+2. Finalize IUI author metadata, its dedicated demo video, and attendance plan.
+3. Verify rights for any additional media beyond the already approved preprint figures.
+4. Cite and disclose Zenodo DOI 10.5281/zenodo.23118144 in the IUI submission.
+5. Handle any future GitHub ownership transfer separately from public access.
 
 ## Status language
 
@@ -90,4 +88,4 @@ Use only the status that has actually occurred:
 
 A Zenodo preprint and a community post are public, but neither is peer reviewed.
 
-Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. DOI and actual Zenodo publication remain pending. The cleaned project is public at the existing GitHub URL; the original repository and PRs remain in a private archive.
+Zenodo author review update (3 October 2026): sole author Haoran ZHU, affiliation and email, no competing interests, no external funding, omission of acknowledgments, current-figure permissions, and CC BY 4.0 manuscript licensing are confirmed. FMS Level 1 and Level 2 certifications have been added to Methods. Zenodo preprint v1.0 was published on 3 October 2026 with DOI 10.5281/zenodo.23118144; it is not peer reviewed. The cleaned project is public at the existing GitHub URL; the original repository and PRs remain in a private archive.

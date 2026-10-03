@@ -9,11 +9,13 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 公开成果入口
 
-- [Zenodo 英文预印本 PDF 草稿](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf)
+- [Zenodo 英文预印本 PDF](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf)
 - [中文审阅 Word](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx)
 - [发表路线与当前状态](docs/publication/README.zh-CN.md)
 
-当前论文是未经同行评审的草稿，Zenodo DOI 尚未分配；ACM IUI Demo 尚未投稿。
+英文预印本已于 2026-10-03 在 [Zenodo 正式公开](https://zenodo.org/records/23118144)，
+DOI：[10.5281/zenodo.23118144](https://doi.org/10.5281/zenodo.23118144)。
+该成果未经同行评审；ACM IUI Demo 尚未投稿。
 本仓库公开源代码、文档和已获许可的论文图表。原始视频、pose 文件、人工审核导出和
 研究数据库不随仓库发布。运行界面后可导入自己的授权视频；部分预设研究样本依赖私有
 本地文件，不包含在公开 checkout 中。目前没有托管的在线交互 demo。
@@ -37,7 +39,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 | 申请人专业准备       | Ronnie 已完成 FMS Level 1 与 Level 2 certification |
 | 定量案例与图表       | 4 种差异化分析；4 张无人物数据驱动图               |
 | 历史标签审计         | 25 条稳定盲审共识中，18 条确认历史 weak label      |
-| 当前等待项           | Zenodo DOI 与正式发布、社区文章、IUI Demo 投稿     |
+| 当前等待项           | 社区文章发布、IUI Demo 投稿                        |
 
 四个 pilot actions：
 
@@ -328,8 +330,8 @@ benchmark 和四种动作特异性分析均已冻结；Phase I 不再以新增�
 
 剩余 Phase I 工作：
 
-1. Zenodo 中英文稿已完成本轮作者信息、摘要与声明修订；建立草稿并填写 DOI 后，
-   完成正式发布。当前仍为预印本草稿，未经同行评审。
+1. Zenodo 英文预印本已正式公开，版本 1.0、DOI 10.5281/zenodo.23118144；
+   后续修改按版本管理处理，维持未经同行评审的准确表述。
 2. GitHub 已于 2026-10-03 公开，旧媒体历史已清理，原库和恢复备份保持私有；
    公开状态与验证结果见 [发布记录](docs/delivery/ai_fms_public_release_2026-10-03.md)。
 3. 英文 4:30 application film 已完成；按申请需要派生 3 分钟版与 60 秒版，

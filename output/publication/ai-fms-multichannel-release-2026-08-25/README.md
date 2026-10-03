@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-08-25
 **Project stage:** System Development and Phase I Evaluation
-**Publication status:** Public review drafts accompanying the GitHub source release. No Zenodo deposit, DOI, or conference submission has been completed.
+**Publication status:** Zenodo preprint version 1.0 published on 3 October 2026: https://doi.org/10.5281/zenodo.23118144. OpenAI Community and ACM IUI materials remain drafts; no conference submission has been completed.
 
 This release package presents one project through three deliberately different channels. The three texts share the same verified evidence base, but they do not make the same contribution or reuse the same narrative.
 

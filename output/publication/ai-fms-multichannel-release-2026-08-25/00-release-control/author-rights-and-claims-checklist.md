@@ -82,7 +82,7 @@ Blocked wording unless future evidence supports it:
 - [ ] `REQUIRED` Each human author has read and verified the complete final text, tables, figures, references, and numerical claims.
 - [ ] `REQUIRED` Preserve the prepared disclosure that OpenAI Codex assisted drafting, code, analysis tooling, figure preparation, and editorial revision under human direction.
 - [ ] `REQUIRED` Authors accept full responsibility for originality, accuracy, permissions, and conclusions.
-- [ ] Save a final human-reviewed PDF and checksum before publication.
+- [x] Save the approved final PDF and checksum before publication; uploaded PDF MD5 matches the local final file.
 
 ## Repository status — 3 October 2026
 
@@ -93,5 +93,6 @@ The original repository remains PRIVATE and archived (GitHub ID 1253941998).
 All 146 original commit records and 30 branches are retained in cleaned form;
 four withdrawn media blobs are excluded. Anonymous requests verified public
 repository and README access, and returned 404 for the private archive and
-the original commit URLs of all four withdrawn media versions. This is a source/document release, not a
-Zenodo publication or a hosted interactive demo.
+the original commit URLs of all four withdrawn media versions. The GitHub release contains source and documents. Zenodo preprint v1.0 was
+subsequently published on 3 October 2026 with DOI 10.5281/zenodo.23118144.
+A hosted interactive demo is not included.

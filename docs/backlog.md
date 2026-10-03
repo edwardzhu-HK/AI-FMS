@@ -598,9 +598,11 @@ Canonical execution plan:
       private-data checks explicitly skip; the research workspace passes all 341.
 - [x] Verify anonymous access to the public repository and README, and anonymous
       denial for the private archive and all four withdrawn media blobs.
-- [ ] Reserve a Zenodo DOI, insert it into the author-approved PDF, rerun the
-      release manifest, and publish only after patent, rights, privacy, and IUI
-      policy gates are closed.
+- [x] Create Zenodo draft 23118144 and reserve DOI 10.5281/zenodo.23118144
+      on 2026-10-03; insert the identifier into the bilingual manuscript source.
+- [x] Upload and checksum-verify the final 15-page English PDF, inspect the
+      preview, and publish Zenodo preprint v1.0 on 2026-10-03: DOI
+      10.5281/zenodo.23118144; concept DOI 10.5281/zenodo.23118143.
 - [ ] Publish the OpenAI Developer Community article after Zenodo, using the
       final public-safe images and stable links, then maintain updates in the
       same topic.

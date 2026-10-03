@@ -27,7 +27,7 @@ The Zenodo, OpenAI Community, and ACM IUI packages all benefit from stable publi
 
 - Public repository: https://github.com/edwardzhu-HK/AI-FMS
 - Public demo: [ADD]
-- Zenodo DOI: [ADD]
+- Zenodo DOI: https://doi.org/10.5281/zenodo.23118144 (published 3 October 2026)
 - Application film: [ADD OR OMIT]
 - ACM IUI submission/project page: [ADD LATER]
 

@@ -5,8 +5,8 @@ Kang Chiao International School East China Campus
 Corresponding email: 13061747546@163.com
 
 **Preprint. Not peer reviewed.**
-Version 1.0 draft, revised 3 October 2026
-DOI: [RESERVE ON ZENODO BEFORE FINAL PDF]
+Version 1.0, 3 October 2026
+DOI: 10.5281/zenodo.23118144
 
 ## Abstract
 

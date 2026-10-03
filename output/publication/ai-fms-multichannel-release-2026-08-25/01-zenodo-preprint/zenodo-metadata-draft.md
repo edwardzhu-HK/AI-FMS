@@ -1,13 +1,19 @@
-# Zenodo Metadata Draft
+# Zenodo Published Record Metadata
 
 ## Basic information
 
-**Digital Object Identifier:** No existing DOI. Click **Get a DOI now!** and insert the reserved DOI into the final PDF before publication.
+**Digital Object Identifier:** 10.5281/zenodo.23118144
+
+**Concept DOI:** 10.5281/zenodo.23118143
+
+**Public record URL:** https://zenodo.org/records/23118144
+
+**Deposit status:** Published on 3 October 2026, version 1.0. Preprint; not peer reviewed.
 
 **Resource type:** Publication
 **Publication subtype:** Preprint
 **Title:** AI-FMS: System Development, Phase I Evaluation, and Human-AI Collaboration in FMS Video Review
-**Publication date:** [ACTUAL PUBLICATION DATE]
+**Publication date:** 2026-10-03
 
 ## Creators
 

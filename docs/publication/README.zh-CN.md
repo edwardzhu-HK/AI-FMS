@@ -1,6 +1,6 @@
 # AI-FMS Phase I 多渠道发表路线
 
-状态：ACTIVE - 三套材料等待作者审核
+状态：ACTIVE - Zenodo 已发布；Community 与 IUI 待推进
 
 最近更新：2026-10-03
 
@@ -35,22 +35,22 @@
 
 ## 当前准备程度
 
-| 组成部分              | 状态                 | 证据或缺口                                                 |
-| --------------------- | -------------------- | ---------------------------------------------------------- |
-| 三篇英文稿            | 等待作者审核         | Zenodo、OpenAI Community、ACM IUI 内容均完整               |
-| Zenodo DOCX/PDF       | 等待作者审核         | 15 页、7 张图、已经完整渲染检查                            |
-| Zenodo 中文翻译稿     | 等待内部审核         | 完整中文 Markdown 与排版 Word；英文稿仍为 canonical        |
-| ACM IUI paper         | 等待作者审核         | 官方 ACM Word 模板、总计 4 页                              |
-| OpenAI Community post | 等待 Ronnie 语气审核 | Markdown、排版 Word、图片、tags、launch copy、操作指引齐全 |
-| 发布指引              | 已准备               | 每个 folder 内都有中文步骤                                 |
-| 文件校验和 ZIP        | 已准备               | 52 文件 manifest、SHA-256 和 3 个测试通过的 ZIP            |
-| 作者、单位、ORCID     | Zenodo 已确认        | Haoran ZHU；学校和邮箱已填；ORCID 省略                     |
-| 图片、视频和隐私权利  | 当前论文图片已确认   | 原始研究媒体保持私有；视频发布另行处理                     |
-| GitHub 公开访问       | 已完成               | 原地址公开；所有权转移可另行处理                           |
-| Public demo URL       | 待完成               | 使用 sanitized demo data 和授权视频                        |
-| Zenodo DOI            | 待完成               | 建立 draft 后预留，再写入最终 PDF                          |
-| ACM preprint 政策     | 已核对               | 允许非同行评审预印本；询问 chairs 为可选核实               |
-| IUI 现场参加和成本    | 待确认               | 录用后至少一位作者需要到 Helsinki                          |
+| 组成部分              | 状态                      | 证据或缺口                                                 |
+| --------------------- | ------------------------- | ---------------------------------------------------------- |
+| 三篇英文稿            | Zenodo 已发布，其余为草稿 | Community 与 IUI 继续准备                                  |
+| Zenodo DOCX/PDF       | 已发布                    | 版本 1.0；15 页英文 PDF，含 DOI 与 7 张图                  |
+| Zenodo 中文翻译稿     | 等待内部审核              | 完整中文 Markdown 与排版 Word；英文稿仍为 canonical        |
+| ACM IUI paper         | 等待作者审核              | 官方 ACM Word 模板、总计 4 页                              |
+| OpenAI Community post | 等待 Ronnie 语气审核      | Markdown、排版 Word、图片、tags、launch copy、操作指引齐全 |
+| 发布指引              | 已准备                    | 每个 folder 内都有中文步骤                                 |
+| 文件校验和 ZIP        | 已准备                    | 52 文件 manifest、SHA-256 和 3 个测试通过的 ZIP            |
+| 作者、单位、ORCID     | Zenodo 已确认             | Haoran ZHU；学校和邮箱已填；ORCID 省略                     |
+| 图片、视频和隐私权利  | 当前论文图片已确认        | 原始研究媒体保持私有；视频发布另行处理                     |
+| GitHub 公开访问       | 已完成                    | 原地址公开；所有权转移可另行处理                           |
+| Public demo URL       | 待完成                    | 使用 sanitized demo data 和授权视频                        |
+| Zenodo DOI            | 已发布                    | 10.5281/zenodo.23118144；版本 1.0，未经同行评审            |
+| ACM preprint 政策     | 已核对                    | 允许非同行评审预印本；询问 chairs 为可选核实               |
+| IUI 现场参加和成本    | 待确认                    | 录用后至少一位作者需要到 Helsinki                          |
 
 ## 统一发布包
 
@@ -67,15 +67,13 @@
 - `release-archives/`：每个渠道一个经过解压验证的 ZIP。
 - `release-manifest.json` 与 `SHA256SUMS`：完整性记录。
 
-## 必须人工确认的事项
+## 后续渠道的剩余事项
 
-1. 作者名单、顺序、单位、邮箱、ORCID 和 corresponding contact。
-2. 每一句英文、每张图、每个数字、每条 reference 和 AI-use disclosure。
-3. 每个公开图片、视频、音乐和 GitHub asset 的权利。
-4. Zenodo 公开前判断是否可能申请专利。
-5. IUI 稿引用并披露 Zenodo 预印本；询问 chairs 为可选核实，不作为 Zenodo 发布前置条件。
-6. 提供 Haoran Zhu 的 GitHub username，批准 repository transfer 和公开发布。
-7. 录用后至少一位作者可以前往 Helsinki。
+1. 完成 Community 文章的作者语气审核与发布。
+2. 完成 IUI 作者信息、专用演示视频和到场计划。
+3. 对当前论文图片以外的新视频或图片另行核对公开权利。
+4. 在 IUI 稿中引用并披露 Zenodo DOI 10.5281/zenodo.23118144。
+5. GitHub 所有权转移可另行处理，不影响当前公开访问。
 
 ## 对外状态表述
 
@@ -94,7 +92,16 @@ Zenodo 和 Developer Community 都是公开输出，但都不是 peer reviewed�
 
 Zenodo 已确认唯一作者 Haoran ZHU、学校与申请邮箱、无利益冲突、无外部资金、
 删除致谢、当前图片公开授权及 CC BY 4.0 论文许可。方法中已补充其 FMS Level 1
-和 Level 2 认证。DOI 尚未分配，Zenodo 尚未发布。用户已要求开放现有 GitHub，
-已完成旧媒体历史清理并在原地址公开；旧库及 PR 保留为私有归档。
+和 Level 2 认证。Zenodo v1.0 已于 2026-10-03 发布，DOI 为
+[10.5281/zenodo.23118144](https://doi.org/10.5281/zenodo.23118144)。现有 GitHub 已完成旧媒体历史清理并在原地址公开；旧库及 PR 保留为私有归档。
 
 政策依据：[ACM Policy on Authorship](https://www.acm.org/publications/policies/new-acm-policy-on-authorship)。
+
+## Zenodo 正式记录
+
+- 公开页面：https://zenodo.org/records/23118144
+- 版本 DOI：10.5281/zenodo.23118144
+- 总版本 DOI：10.5281/zenodo.23118143
+- 发布日期：2026-10-03
+- 发布文件：最终英文 PDF，15 页，1,219,547 bytes。
+- 状态：Preprint. Not peer reviewed.

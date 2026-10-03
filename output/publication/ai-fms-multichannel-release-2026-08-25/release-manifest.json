@@ -2,7 +2,7 @@
   "package": "AI-FMS Multichannel Publication Release Package",
   "status": "draft_for_author_review",
   "prepared_date": "2026-08-25",
-  "generated_at_utc": "2026-10-03T05:51:09+00:00",
+  "generated_at_utc": "2026-10-03T09:36:21+00:00",
   "channels": [
     "01-zenodo-preprint",
     "02-openai-developer-community",
@@ -12,8 +12,8 @@
   "files": [
     {
       "path": "00-release-control/author-rights-and-claims-checklist.md",
-      "bytes": 5562,
-      "sha256": "de657ac82989a947137450bb40ea32b190d11f632152b57ec5c38713ee5bc7c6"
+      "bytes": 5708,
+      "sha256": "423309d17d09bf2f5fd6be17be4ccc5fad657ccf64f2a089f3fa310cb9924300"
     },
     {
       "path": "00-release-control/cross-channel-differences-and-reuse.md",
@@ -22,8 +22,8 @@
     },
     {
       "path": "00-release-control/public-demo-and-repository-release-checklist.md",
-      "bytes": 1912,
-      "sha256": "ccbb1746f0d033cdb28dd5ea49b5723343e0f691c0e2f404791fd0e849578b07"
+      "bytes": 1973,
+      "sha256": "64748ae38c2cfd846075bca2de22f93b459099aa8e1784acc35f4cc51e6e7708"
     },
     {
       "path": "00-release-control/source-of-truth-evidence.md",
@@ -32,38 +32,38 @@
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.docx",
-      "bytes": 2040643,
-      "sha256": "0a2998800d69a38e088b478b526b90b783b6e0da2bed7c52a66da0d117f9796c"
+      "bytes": 2040601,
+      "sha256": "793c5670aa3b3fcee72fec1186d7210cf91dd99db74f233abe8974761348b354"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.md",
-      "bytes": 30701,
-      "sha256": "f4b4bbfb5ad6eed4541092a6aa9304b83dae4112c7cdbd56831bb026690105a8"
+      "bytes": 30674,
+      "sha256": "c90ed4902ca19dc3eb576ed12be7b41985e0b604e97f9b0146f0753cda3a2325"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf",
-      "bytes": 1220205,
-      "sha256": "dec30a41159932c2a035e8436acee1538991095d4efbfc7f499f8c8c255d78f6"
+      "bytes": 1219547,
+      "sha256": "be7c5a53e74ea8e298811e2f92820d05c2e17e96dfd5b9d6fff5e981417c6da5"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.docx",
-      "bytes": 2043064,
-      "sha256": "b50d608fa5147053f18c93640356fac9852deb434896e782a7944df4894e77e6"
+      "bytes": 2043047,
+      "sha256": "6ee7965e3a08cdbb286343b9426a1eac7fc8db9733f9a653cb0140c6a19794c7"
     },
     {
       "path": "01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.zh-CN.md",
-      "bytes": 28784,
-      "sha256": "edb7f6a5c7c65fca3a3dcecd3538dd1f15abdd657ff6cf47131e167ce8c3921e"
+      "bytes": 28771,
+      "sha256": "51bff9f8f6a60c8f1d7f2f55c23ebbc07d6c913dd8fdc2f5696d7ae75fe29c26"
     },
     {
       "path": "01-zenodo-preprint/CITATION.cff",
-      "bytes": 756,
-      "sha256": "35bafb08b0c8fc35226db8141c689737052333f8a101e10e266be74d0a627553"
+      "bytes": 856,
+      "sha256": "f2f92fa887d9c6aedad7ae2999786ca82ad9f2181bc107f33c6e24e4e897dae9"
     },
     {
       "path": "01-zenodo-preprint/README.md",
-      "bytes": 1945,
-      "sha256": "fee63b06f52e0b010c28f9e28e41c3c08a99aa0be99a00e7612ed9be80138c1d"
+      "bytes": 2259,
+      "sha256": "371843307930a97eef975bc4443decff61c2f3234599385358286b9a436c8f8d"
     },
     {
       "path": "01-zenodo-preprint/figures/figure-01-ai-fms-workflow.png",
@@ -112,8 +112,8 @@
     },
     {
       "path": "01-zenodo-preprint/zenodo-metadata-draft.md",
-      "bytes": 4711,
-      "sha256": "40fe83c45b697fe225eb563b99171e36869969f2e37b4bd0b7d5960049f9038e"
+      "bytes": 4816,
+      "sha256": "7c99157554b736ea9f64eb17d6322ec0d449ad246ccb5155b13f8d34b2b1539d"
     },
     {
       "path": "01-zenodo-preprint/zenodo-publishing-guide.zh-CN.md",
@@ -247,8 +247,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4847,
-      "sha256": "828c56742af02a820821ade8d15c4c5bcdd351e4f1ddaad3f59298d2f322ff0b"
+      "bytes": 4914,
+      "sha256": "3f52a087693c6265af4c55b70f93f3639c4f17c5c78adc1aa785065bbc0b9211"
     },
     {
       "path": "publication-review-order.zh-CN.md",
@@ -257,8 +257,8 @@
     },
     {
       "path": "release-archives/01-zenodo-preprint.zip",
-      "bytes": 7145713,
-      "sha256": "f0428abf82658de049479f2d978013079cc958cf1308764b1dd5949a5197c319"
+      "bytes": 7145126,
+      "sha256": "f92cb709397cb0d0c6156ee5e5ee62d6c916a1e5d8005940921e2cda44ee74aa"
     },
     {
       "path": "release-archives/02-openai-developer-community.zip",
