@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AI-FMS demonstration transcript</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header><a href="index.html">← AI-FMS showcase</a></header>
+    <main>
+      <section>
+        <p class="eyebrow">ENGLISH TRANSCRIPT</p>
+        <h1>System demonstration</h1>
+        <p>
+          <b>00:00:06</b> AI-FMS is an explainable, human-in-the-loop
+          video-review system.
+        </p>
+        <p>
+          <b>00:00:11</b> The workbench supports all seven FMS movements, with
+          repetition- level review
+        </p>
+        <p>
+          <b>00:00:17</b> and a movement-specific, pose-based first-pass
+          suggestion.
+        </p>
+        <p>
+          <b>00:00:20</b> The AI can explain its evidence and abstain when video
+          quality or protocol information is incomplete.
+        </p>
+        <p>
+          <b>00:00:26</b> A reviewer can isolate complete repetitions, replay a
+          difficult moment, and correct the timing
+        </p>
+        <p>
+          <b>00:00:36</b> instead of searching through the full video again. The
+          MediaPipe overlay is aligned to the video,
+        </p>
+        <p>
+          <b>00:00:42</b> allowing the system to preserve angles, normalized
+          distances, trajectories, and movement events that are hard to record
+          consistently by eye.
+        </p>
+        <p>
+          <b>00:00:50</b> The AI suggestion supports, rather than replaces,
+          reviewer judgment.
+        </p>
+        <p>
+          <b>00:00:54</b> It shows which criteria support a score, what remains
+          uncertain,
+        </p>
+        <p><b>00:01:00</b> and whether protocol information is missing.</p>
+        <p>
+          <b>00:01:02</b> The reviewer records the final score, confidence,
+          camera view, side, clearing information,
+        </p>
+        <p><b>00:01:08</b> and notes.</p>
+        <p>
+          <b>00:01:08</b> To evaluate the system without leaking AI information,
+          we built a separate Study Mode.
+        </p>
+        <p>
+          <b>00:01:15</b> In both blinded rounds, reviewers could not see AI
+          scores, pose parameters, source file names,
+        </p>
+        <p>
+          <b>00:01:21</b> previous answers, or the other reviewer&#x27;s
+          decisions.
+        </p>
+        <p>
+          <b>00:01:26</b> Reviews were stored as append-only events and exported
+          with checksums.
+        </p>
+        <p>
+          <b>00:01:31</b> Phase I reconstructed 110 repetitions from 28 source
+          videos
+        </p>
+        <p>
+          <b>00:01:36</b> and selected 32 across four movements for two blinded
+          rounds.
+        </p>
+        <p>
+          <b>00:01:43</b> In Round B, the reviewers agreed on scoreability for
+          all 32 items and assigned the same score to all 26 jointly scoreable
+          items.
+        </p>
+        <p>
+          <b>00:01:50</b> The locked AI exactly matched human consensus on 16 of
+          25 comparable items
+        </p>
+        <p>
+          <b>00:01:58</b> and was within one point on 23. This is an internal
+          benchmark, not held-out clinical validation.
+        </p>
+        <p>
+          <b>00:02:03</b> The quantitative evidence also revealed what the
+          ordinal score does not show. Deep Squat formed a strategy continuum;
+        </p>
+        <p>
+          <b>00:02:09</b> ASLR preserved side and repeatability differences;
+        </p>
+        <p>
+          <b>00:02:15</b> Hurdle Step showed several pathways to the same score;
+        </p>
+        <p>
+          <b>00:02:21</b> and Rotary Stability required a full-cycle view of
+          coordination and event sequence.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="AI-FMS by Haoran ZHU: an explainable seven-movement video review system, with a published Phase I preprint and narrated demonstration."
+    />
+    <title>AI-FMS — Movement evidence and human judgment</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="#">AI-FMS<span>by Haoran ZHU</span></a>
+      <nav aria-label="Main">
+        <a href="#system">System</a><a href="#demo">Demo</a
+        ><a href="#research">Research</a
+        ><a href="https://github.com/edwardzhu-HK/AI-FMS">Code ↗</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">HUMAN MOVEMENT SCIENCE × HUMAN–AI INTERACTION</p>
+        <h1>Movement evidence.<br /><em>Human judgment.</em></h1>
+        <p class="intro">
+          A video-review workspace that makes movement visible, repeatable, and
+          traceable. AI organizes the evidence; the reviewer owns the decision.
+        </p>
+        <p class="zh" lang="zh-CN">
+          从动作视频到可追溯证据，让人工判断有据可查。
+        </p>
+        <div class="actions">
+          <a class="button" href="#demo">Watch the system demo <span>↓</span></a
+          ><a
+            class="button secondary"
+            href="https://zenodo.org/records/23118144"
+            >Read the preprint ↗</a
+          >
+        </div>
+        <figure class="hero-screen">
+          <img
+            src="media/workbench.png"
+            alt="AI-FMS Workbench showing authorized Deep Squat footage, aligned pose landmarks, repetition controls, quantitative evidence, and human scoring."
+          />
+          <figcaption>
+            The real Workbench, using project-owned demonstration footage.
+          </figcaption>
+        </figure>
+      </section>
+      <section id="system">
+        <p class="eyebrow">01 / THE SYSTEM</p>
+        <h2>Seven movements.<br />One review workflow.</h2>
+        <div class="split">
+          <p class="lead">
+            Years of swimming led me to ask how small movement differences
+            affect control and performance. FMS training gave that question a
+            framework. AI-FMS grew from the practical challenge of reviewing
+            fleeting movement on video.
+          </p>
+          <div>
+            <p>
+              The complete workflow supports Deep Squat, Hurdle Step, In-Line
+              Lunge, Shoulder Mobility, Active Straight-Leg Raise, Trunk
+              Stability Push-Up, and Rotary Stability.
+            </p>
+            <p>
+              Upload and define a range; inspect and loop repetitions; examine
+              real MediaPipe pose evidence; accept, correct, or reject an
+              explainable first-pass suggestion; retain the human score and
+              export the review record.
+            </p>
+            <p>
+              When video quality or protocol information is insufficient, AI can
+              abstain. Pain and clearing conditions remain human decisions.
+            </p>
+          </div>
+        </div>
+        <div class="principles">
+          <article>
+            <b>01</b>
+            <h3>Evidence beside the score</h3>
+            <p>
+              Angles, relative distances, trajectories, and cycle events make
+              the reasoning inspectable.
+            </p>
+          </article>
+          <article>
+            <b>02</b>
+            <h3>Reviewer control</h3>
+            <p>
+              Timing, camera view, side, protocol, confidence, and the final
+              score remain editable.
+            </p>
+          </article>
+          <article>
+            <b>03</b>
+            <h3>Independent review</h3>
+            <p>
+              Blind Study Mode hides AI output, pose evidence, prior answers,
+              and identifying filenames.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="demo" class="demo-section">
+        <p class="eyebrow">02 / SEE IT WORK</p>
+        <h2>Follow a review from<br />repetition to evidence.</h2>
+        <p>
+          The narrated walkthrough uses authorized, project-owned footage.
+          English captions can be switched on in the player.
+        </p>
+        <video
+          controls
+          preload="metadata"
+          playsinline
+          poster="media/workbench.png"
+        >
+          <source src="media/AI-FMS_System_Demo.mp4" type="video/mp4" />
+          <track
+            kind="captions"
+            src="media/AI-FMS_System_Demo.en.vtt"
+            srclang="en"
+            label="English"
+          />
+          Your browser does not support video.
+          <a href="media/AI-FMS_System_Demo.mp4">Download the demonstration.</a>
+        </video>
+        <div class="download-links">
+          <a href="media/AI-FMS_System_Demo.mp4" download>Download video</a
+          ><a href="media/AI-FMS_System_Demo.en.srt" download
+            >English subtitles</a
+          ><a href="transcript.html">Read transcript</a>
+        </div>
+        <p class="note">
+          This page presents a recorded system demonstration. To use the review
+          software, follow the repository setup instructions and import your own
+          authorized media. Raw research videos and reviewer records are
+          private.
+        </p>
+      </section>
+      <section id="research">
+        <p class="eyebrow">03 / PHASE I RESEARCH</p>
+        <h2>A full system.<br />A bounded first study.</h2>
+        <p class="lead">
+          The initial quantitative study selected four movements from the
+          seven-movement platform. Its purpose was internal evaluation and
+          exploration of the evidence preserved beneath an ordinal score.
+        </p>
+        <div class="numbers">
+          <div><strong>28</strong><span>unique source videos</span></div>
+          <div><strong>110</strong><span>canonical repetitions</span></div>
+          <div><strong>32</strong><span>formal review items</span></div>
+          <div><strong>2 × 2</strong><span>reviewers × blind rounds</span></div>
+        </div>
+        <div class="split">
+          <div>
+            <h3>Preliminary agreement</h3>
+            <p>
+              The locked AI produced outputs for 28 of 32 items and abstained on
+              four staged-protocol cases. Among 25 comparable items, agreement
+              was 16/25 exact and 23/25 within one point, with mean absolute
+              error 0.44.
+            </p>
+            <p>
+              Both human review rounds were blind to AI and pose evidence. These
+              results do not measure the benefit of showing AI suggestions.
+            </p>
+          </div>
+          <div>
+            <h3>More than an accuracy number</h3>
+            <p>
+              Deep Squat revealed continuous movement strategies; ASLR preserved
+              bilateral and repeatability differences; Hurdle Step exposed
+              different pathways to the same score; Rotary Stability required a
+              full-cycle event view.
+            </p>
+            <p class="note">
+              Internal, post-audit evidence from a small convenience corpus. No
+              held-out or clinical validation, injury prediction, or
+              demonstrated improvement in reviewer accuracy.
+            </p>
+          </div>
+        </div>
+        <figure>
+          <img
+            loading="lazy"
+            src="media/study.png"
+            alt="Blind Study Mode with a demonstration movement video and manual review controls; no AI score or pose overlay is shown."
+          />
+          <figcaption>
+            Independent human ratings are collected in a separate blind
+            interface.
+          </figcaption>
+        </figure>
+        <div class="publication">
+          <p class="eyebrow">PUBLISHED PREPRINT · 3 OCTOBER 2026</p>
+          <h3>
+            AI-FMS: System Development, Phase I Evaluation, and Human-AI
+            Collaboration in FMS Video Review
+          </h3>
+          <p>
+            Haoran ZHU · Zenodo · Version 1.0 · CC BY 4.0 · Not peer reviewed
+          </p>
+          <a href="https://zenodo.org/records/23118144"
+            >Open publication and PDF ↗</a
+          >
+          <p class="doi">DOI 10.5281/zenodo.23118144</p>
+        </div>
+      </section>
+      <section class="about">
+        <p class="eyebrow">ABOUT THE AUTHOR</p>
+        <h2>Haoran ZHU</h2>
+        <p>Kang Chiao International School East China Campus</p>
+        <p>
+          FMS Level 1 completed July 2025; FMS Level 2 Certified Professional,
+          August 2025. Interests include swimming, Human Movement Science,
+          biomechanics, and interpretable AI.
+        </p>
+        <p>
+          OpenAI Codex assisted development, analysis tooling, and writing under
+          human direction. The author is responsible for the claims and
+          interpretation. No external funding or competing interests declared.
+        </p>
+      </section>
+    </main>
+    <footer>
+      <span>AI-FMS · Movement screening and research review</span
+      ><a href="https://github.com/edwardzhu-HK/AI-FMS"
+        >Public source repository ↗</a
+      >
+      <p>
+        Not a medical diagnostic system. Paper and original figures: CC BY 4.0.
+        Source code and demonstration media have no blanket open-source license.
+      </p>
+    </footer>
+  </body>
+</html>
