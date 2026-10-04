@@ -305,3 +305,93 @@ footer p {
     scroll-behavior: auto;
   }
 }
+
+/* Application film: playback appears before research and publication content. */
+.film-first {
+  padding-top: 36px;
+}
+.film-first h1 {
+  font-size: clamp(36px, 5vw, 60px);
+  letter-spacing: -2px;
+  margin-bottom: 16px;
+}
+.film-first .eyebrow {
+  margin-bottom: 16px;
+}
+.film-first .intro {
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+.film-first .actions {
+  margin: 20px 0 24px;
+}
+.film-first .hero-screen {
+  margin-top: 0;
+}
+.film-first video {
+  display: block;
+  margin-top: 0;
+}
+.film-caption {
+  margin: 12px 0 0;
+}
+.film-page header,
+.film-page main,
+.film-page footer {
+  max-width: 960px;
+}
+.film-next {
+  margin-top: 42px;
+  padding-top: 30px;
+  border-top: 1px solid #d3dcda;
+}
+.film-next h2 {
+  font-size: 30px;
+  margin-bottom: 15px;
+  letter-spacing: -0.7px;
+}
+.film-page details {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #d3dcda;
+}
+.film-page summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.film-page summary:focus-visible {
+  outline: 3px solid #a46816;
+  outline-offset: 5px;
+}
+.film-transcript {
+  margin-top: 24px;
+}
+.film-transcript b {
+  color: #276c61;
+  margin-right: 10px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 680px) {
+  .film-first {
+    padding-top: 28px;
+  }
+  .film-first .intro {
+    font-size: 18px;
+  }
+}
+
+.film-page header {
+  padding: 20px 0;
+}
+.film-page .film-first {
+  padding-top: 24px;
+}
+.film-page .film-first h1 {
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.12;
+  letter-spacing: -1.4px;
+}
+.film-page .film-first video {
+  max-width: 840px;
+  margin-inline: auto;
+}

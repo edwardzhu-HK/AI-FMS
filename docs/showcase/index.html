@@ -14,13 +14,13 @@
     <header>
       <a class="brand" href="#">AI-FMS<span>by Haoran ZHU</span></a>
       <nav aria-label="Main">
-        <a href="#system">System</a><a href="#demo">Demo</a
-        ><a href="#research">Research</a
+        <a href="film.html">Project film</a><a href="#system">System</a
+        ><a href="#demo">Demo</a><a href="#research">Research</a
         ><a href="https://github.com/edwardzhu-HK/AI-FMS">Code ↗</a>
       </nav>
     </header>
     <main>
-      <section class="hero">
+      <section class="hero film-first demo-section" id="film">
         <p class="eyebrow">HUMAN MOVEMENT SCIENCE × HUMAN–AI INTERACTION</p>
         <h1>Movement evidence.<br /><em>Human judgment.</em></h1>
         <p class="intro">
@@ -31,22 +31,42 @@
           从动作视频到可追溯证据，让人工判断有据可查。
         </p>
         <div class="actions">
-          <a class="button" href="#demo">Watch the system demo <span>↓</span></a
-          ><a
-            class="button secondary"
-            href="https://zenodo.org/records/23118144"
-            >Read the preprint ↗</a
-          >
+          <a class="button" href="film.html"
+            >Watch Ronnie's project film · 4:30</a
+          ><a class="button secondary" href="#demo">System demo · 2:36</a>
         </div>
         <figure class="hero-screen">
-          <img
-            src="media/workbench.png"
-            alt="AI-FMS Workbench showing authorized Deep Squat footage, aligned pose landmarks, repetition controls, quantitative evidence, and human scoring."
-          />
+          <video
+            controls
+            preload="metadata"
+            playsinline
+            poster="media/ronnie-project-film-poster.jpg"
+            aria-label="Ronnie's AI-FMS project film, 4 minutes 30 seconds"
+          >
+            <source
+              src="media/AI-FMS_Ronnie_Project_Film.mp4"
+              type="video/mp4"
+            />
+            <track
+              kind="captions"
+              src="media/AI-FMS_Ronnie_Project_Film.en.vtt"
+              srclang="en"
+              label="English"
+            />
+            Your browser does not support video.
+            <a href="media/AI-FMS_Ronnie_Project_Film.mp4"
+              >Open the project film.</a
+            >
+          </video>
           <figcaption>
-            The real Workbench, using project-owned demonstration footage.
+            Haoran (Ronnie) Zhu introduces his motivation, work, and
+            reflections. 4:30 · English narration and subtitles.
           </figcaption>
         </figure>
+        <div class="download-links">
+          <a href="film.html">Open the dedicated film page</a
+          ><a href="film.html#transcript">Read film transcript</a>
+        </div>
       </section>
       <section id="system">
         <p class="eyebrow">01 / THE SYSTEM</p>

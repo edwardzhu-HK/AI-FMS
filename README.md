@@ -9,6 +9,7 @@ professional。当前 AI 总分是可解释的研究性提示层，不是经过�
 
 ## 公开成果入口
 
+- [Ronnie 4:30 个人项目影片](https://edwardzhu-hk.github.io/AI-FMS/film.html)
 - [公开展示页与 2:36 系统演示](https://edwardzhu-hk.github.io/AI-FMS/)
 
 - [Zenodo 英文预印本 PDF](output/publication/ai-fms-multichannel-release-2026-08-25/01-zenodo-preprint/AI-FMS_System_Development_Phase_I_Evaluation_Preprint.pdf)
